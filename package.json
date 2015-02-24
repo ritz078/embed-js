@@ -1,43 +1,35 @@
 {
-  "name": "jquery-boilerplate",
-  "version": "3.5.0",
-  "description": "A jump-start for jQuery plugins development.",
+  "name": "emoticons-js",
+  "version": "0.1.0",
+  "description": "A jquery plugin to convert text into emoticons.",
   "keywords": [
     "jquery-plugin",
     "jquery",
-    "boilerplate",
-    "plugins"
+    "emoticons",
+    "plugins",
+    "emoticons-js",
+    "emoticon",
+    "jquery-emoticons"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/jquery-boilerplate/jquery-boilerplate.git"
+    "url": "https://github.com/ritz078/emoticons-js.git"
   },
   "bugs": {
-    "url": "https://github.com/jquery-boilerplate/jquery-boilerplate/issues"
+    "url": "https://github.com/ritz078/emoticons-js/issues"
   },
-  "author": {
-    "name": "Zeno Rocha",
-    "email": "zno.rocha@gmail.com",
-    "url": "https://github.com/zenorocha"
+  "author": [{
+    "name": "Ritesh Kumar",
+    "email": "rkritesh078@gmail.com",
+    "url": "https://github.com/ritz078"
   },
-  "homepage": "http://jqueryboilerplate.com",
-  "contributors": [
-    {
-      "name": "Zeno Rocha",
-      "email": "zno.rocha@gmail.com",
-      "url": "https://github.com/zenorocha"
-    },
-    {
-      "name": "Addy Osmani",
-      "email": "addyosmani@gmail.com",
-      "url": "https://github.com/addyosmani"
-    },
-    {
-      "name": "Helder Santana",
-      "email": "heldr@me.com",
-      "url": "https://github.com/heldr"
-    }
-  ],
+  {
+    "name":"Jagannadh",
+    "email":"",
+    "url":"https://github.com/jagannath93"
+  }],
+  "homepage": "",
+  "contributors": [],
   "license": "MIT",
   "devDependencies": {
     "grunt": "~0.4.5",
