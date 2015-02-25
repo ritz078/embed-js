@@ -1,18 +1,20 @@
 {
-	"name": "jquery-boilerplate",
-	"version": "3.5.0",
-	"homepage": "http://jqueryboilerplate.com",
+	"name": "emoticons-js",
+	"version": "0.1.0",
+	"homepage": "",
 	"authors": [
-		"Zeno Rocha <hi@zenorocha.com>"
+		"Ritesh Kumar <rkritesh078@gmail.com>",
+    "Jagannadh <shanmuk.mir@gmail.com>"
 	],
-	"description": "A jump-start for jQuery plugins development.",
-	"main": "src/jquery.boilerplate.js",
+	"description": "A jquery plugin to convert text into emoticons.",
+	"main": "src/jquery.emoticons.js",
 	"keywords": [
 		"jquery",
 		"plugin",
-		"boilerplate",
-		"jquery-plugin",
-		"jquery-boilerplate"
+		"emoticons",
+		"emoticons-js",
+		"jquery-emoticons",
+    "smiley"
 	],
 	"license": "MIT"
 }
