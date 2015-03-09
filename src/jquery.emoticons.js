@@ -301,7 +301,9 @@
     var pluginName = "emoticons",
         defaultOptions = {
             link      : true,
-            linkTarget: '_self'
+            linkTarget: '_self',
+            videoEmbed: true,
+            ytAuthKey : null
         };
     /* ENDS */
 
@@ -318,7 +320,17 @@
         this.init(this.settings);
     }
 
+    var video = {};
+
     /* UTILITIES - FUNCTIONS */
+
+    String.prototype.trunc =
+        function (n, useWordBoundary) {
+            var toLong = this.length > n,
+                s_ = toLong ? this.substr(0, n - 1) : this;
+            s_ = useWordBoundary && toLong ? s_.substr(0, s_.lastIndexOf(' ')) : s_;
+            return toLong ? s_ + '...' : s_;
+        };
 
     /**
      * FUNCTION insertfontSmiley
@@ -329,6 +341,7 @@
      *
      * @return {string}
      */
+
     function insertfontSmiley(str) {
         var a = str.split(' ');
         icons.forEach(function (icon) {
@@ -376,8 +389,96 @@
         });
     }
 
-    function _driver(_element) {
-        _element.each(function () {
+    var videoTemplate='';
+    function initVideoTemplate() {
+         videoTemplate = '<div class="ejs-video"><div class="ejs-video-preview">' +
+            '        <div class="ejs-video-thumb">' +
+            '            <img src="' + video.thumbnail + '" alt=""/>' +
+            '            <i class="fa fa-play-circle-o"></i>' +
+            '        </div>' +
+            '        <div class="ejs-video-detail">' +
+            '            <div class="ejs-video-title">' +
+            '                <a href="' + video.url + '">' + video.title + '</a>' +
+            '            </div>' +
+            '            <div class="ejs-video-desc">' +
+            video.description +
+            '            </div>' +
+            '            <div class="ejs-video-stats">' +
+            '                <span><i class="fa fa-eye"></i> ' + video.views + '</span>' +
+            '                <span><i class="fa fa-heart"></i> ' + video.likes + '</span>' +
+            '            </div>' +
+            '        </div>' +
+            '    </div></div>';
+    };
+
+    var videoProcess = {
+        embed: function (data, opts) {
+            var ytRegex = /https?:\/\/(?:[0-9A-Z-]+\.)?(?:youtu\.be\/|youtube\.com(?:\/embed\/|\/v\/|\/watch\?v=|\/ytscreeningroom\?v=|\/feeds\/api\/videos\/|\/user\S*[^\w\-\s]|\S*[^\w\-\s]))([\w\-]{11})[?=&+%\w-]*/gi;
+            var vimeoRegex = /https?:\/\/(?:www\.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/([^\/]*)\/videos\/|album\/(\d+)\/video\/|)(\d+)(?:$|\/|\?)*/gi;
+            var deferred = $.Deferred();
+            var returnedData;
+            if (data.match(ytRegex)) {
+                $.getJSON('https://www.googleapis.com/youtube/v3/videos?id=' + RegExp.$1 + '&key=' + opts.ytAuthKey + '&part=snippet,statistics')
+                    .success(function (d) {
+                        var ytData = d.items[0];
+
+                        video.host = 'youtube';
+                        video.title = ytData.snippet.title;
+                        video.thumbnail = ytData.snippet.thumbnails.medium.url;
+                        video.description = (ytData.snippet.description.trunc(250, true)).replace(/\n/g, ' ').replace(/&#10;/g, ' ');
+                        video.rawDescription = video.description;
+                        video.views = ytData.statistics.viewCount;
+                        video.likes = ytData.statistics.likeCount;
+                        video.uploader = ytData.snippet.channelTitle;
+                        video.uploaderPage = 'https://www.youtube.com/channel/' + ytData.snippet.channelId;
+                        video.uploadDate = ytData.snippet.publishedAt;
+                        video.url = "https://www.youtube.com/watch?v=" + ytData.id;
+                        // video.embedSrc = 'https://www.youtube.com/embed/' + scope.video.id + '?autoplay=1';
+                        // video.width = youtubeDimensions.width;
+                        // video.height = youtubeDimensions.height;
+                        initVideoTemplate();
+                        data = data + videoTemplate;
+                        returnedData = data;
+                        deferred.resolve(returnedData);
+
+                    })
+            }
+            else if (data.match(vimeoRegex)) {
+                $.getJSON('https://vimeo.com/api/v2/video/' + RegExp.$3 + '.json')
+                    .success(function (d) {
+                        video.host = 'vimeo';
+                        video.title = d[0].title;
+                        video.rawDescription = (d[0].description).replace(/\n/g, '<br/>').replace(/&#10;/g, '<br/>');
+                        video.description = (d[0].description).replace(/((<|&lt;)br\s*\/*(>|&gt;)\r\n)/g, ' ').trunc(250, true);
+                        video.thumbnail = d[0].thumbnail_medium;
+                        video.views = d[0].stats_number_of_plays;
+                        video.likes = d[0].stats_number_of_likes;
+                        video.uploader = d[0].user_name;
+                        video.uploaderPage = d[0].user_url;
+                        video.uploadDate = d[0].uploadDate;
+                        video.url = d[0].url;
+                        //video.embedSrc = '//player.vimeo.com/video/' + d[0].id + '?title=0&byline=0&portrait=0&autoplay=1';
+                        //video.width = vimeoDimensions.width;
+                        //video.height = vimeoDimensions.height;
+                        initVideoTemplate();
+                        returnedData = data + videoTemplate;
+                        console.log(video);
+                        deferred.resolve(returnedData);
+
+                    });
+            }
+            else {
+                returnedData = data;
+                deferred.resolve(returnedData);
+            }
+
+            return deferred.promise();
+
+        }
+    };
+
+    function _driver(elem) {
+        elem.each(function () {
             var input = $(this).html();
             if (input === undefined || input === null) {
                 return;
@@ -395,10 +496,23 @@
              * _c : emojis inserted
              * _z : fully processed
              */
+
+            var that = this;
             input = insertfontSmiley(input);
             input = (defaultOptions.link) ? urlEmbed(input) : input;
             input = insertEmoji(input);
-            $(this).html(input);
+            $(that).html(input);
+            if (defaultOptions.videoEmbed) {
+                $.when(videoProcess.embed(input, defaultOptions)).then(
+                    function (d) {
+                        console.log(d);
+                        $(that).html(d);
+                        video={};
+                    }
+                );
+
+            }
+
             return;
         })
 
