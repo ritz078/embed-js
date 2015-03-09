@@ -1,24 +1,36 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>jQuery Boilerplate</title>
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
-		<!--script src="../src/jquery.boilerplate.js"></script-->
-        <link rel="stylesheet" href="../src/jquery.emoticons.css"/>
-    <script src="../src/jquery.emoticons.js"></script>
-	</head>
-	<body>
-		<div id="element">
-      <div>jdkfhjk sdhfj hsdfkjdshfkhds :heart: https://channeli.in fgdj</div>
-      <div>fdf gkjfd jedfkdsf https://www.youtube.com/watch?v=yVpbFMhOAwE :p :D</div>
-    </div>
-		<script>
-			$(function() {
-				$("#element").emoticons({
-					link: true,
-          linkTarget: '_blank'
-				});
-			});
-		</script>
-	</body>
+<head>
+    <title>jQuery Boilerplate</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="../src/jquery.emoticons.css"/>
+    <style>
+        body{
+            width : 1000px;
+            margin : 0 auto;
+            font-family: "Calibri";
+            font-size: 16px;
+            }
+
+        a{
+            text-decoration: none;
+            color:cornflowerblue;
+            }
+    </style>
+</head>
+<body>
+<div id="element">
+    <div>http://www.w3schools.com/html/mov_bbb.ogg https://i.imgur.com/yBVxILF.jpg www.ng-conf.org https://www.iitr.ac.in ROTFL!!!! Now this explains :P why Kejriwal & his fans are upset with Yogendra Yadav. Because he had praised Narendra :smile: Modi and Gujarat model in an interview.Check this 1-min clip in which Yogendra Yadav openly praises Modis Gujarat development :https://vimeo.com/119199079"</div>
+    <div>fdf gkjfd jedfkdsf https://www.youtube.com/watch?v=yVpbFMhOAwE :p :D</div>
+</div>
+<script src="../src/jquery.emoticons.js"></script>
+<script>
+    $(function () {
+        $("#element").emoticons({
+            link      : true,
+            linkTarget: '_blank'
+        });
+    });
+</script>
+</body>
 </html>
