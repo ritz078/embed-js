@@ -3,14 +3,19 @@
 	<head>
 		<title>jQuery Boilerplate</title>
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
-		<script src="../src/jquery.boilerplate.js"></script>
+		<!--script src="../src/jquery.boilerplate.js"></script-->
+    <script src="../src/jquery.emoticons.js"></script>
 	</head>
 	<body>
-		<div id="element"></div>
+		<div id="element">
+      <div>jdkfhjk sdhfj hsdfkjdshfkhds https://channeli.in fgdj</div>
+      <div>fdf gkjfd jedfkdsf https://www.youtube.com/watch?v=yVpbFMhOAwE :D :P</div>
+    </div>
 		<script>
 			$(function() {
-				$("#element").defaultPluginName({
-					propertyName: "a custom value"
+				$("#element").emoticons({
+					link: true,
+          linkTarget: '_blank'
 				});
 			});
 		</script>
