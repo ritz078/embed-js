@@ -310,6 +310,7 @@
         defaultOptions = {
             link       : true,
             linkTarget : '_self',
+            pdfEmbed:true,
             videoEmbed : true,
             videoWidth : null,
             videoHeight: null,
@@ -538,6 +539,36 @@
         }
     };
 
+    var pdfProcess={
+        embed:function(str){
+            var p = /((?:https?):\/\/\S*\.(?:pdf|PDF))/gi;
+            if (str.match(p)) {
+                var pdfUrl = RegExp.$1;
+
+                var pdfTemplate='<div class="ejs-pdf">'+
+                   ' <div class="ejs-pdf-preview">'+
+                '<div class="ejs-pdf-icon">'+
+                '<i class="fa fa-file-pdf-o"></i>'+
+                '</div>'+
+                '<div class="ejs-pdf-detail" ><div class="ejs-pdf-title"> <a href="">'+pdfUrl+'</a></div> <div class="ejs-pdf-view"> <button><i class="fa fa-download"></i> <a href="'+pdfUrl+'" target="_blank">Download</a></button> <button class="ejs-pdf-view-active"><i class="fa fa-eye"></i> View PDF</button></div> </div> </div></div>';
+
+                str=str+pdfTemplate;
+
+            }
+            return str;
+        },
+
+        view:function(elem){
+            $(elem).undelegate().on('click','.ejs-pdf-view-active',function(e){
+                var pdfParent=$(this).closest('.ejs-pdf');
+                var pdfUrl=$(pdfParent).find('a')[1].href;
+                var pdfViewTemplate=' <div class="ejs-pdf-viewer"><iframe src="'+pdfUrl+'" frameBorder="0"></iframe></div>';
+                pdfParent.html(pdfViewTemplate);
+                e.stopPropagation();
+            });
+        }
+    };
+
     function _driver(elem) {
         elem.each(function () {
             var input = $(this).html();
@@ -552,6 +583,7 @@
             input = insertfontSmiley(input);
             input = (defaultOptions.link) ? urlEmbed(input) : input;
             input = insertEmoji(input);
+            input=(defaultOptions.pdfEmbed)?pdfProcess.embed(input):input;
             $(that).html(input);
             if (defaultOptions.videoEmbed) {
                 $.when(videoProcess.embed(input, defaultOptions)).then(
@@ -568,6 +600,7 @@
         });
 
         videoProcess.play(elem, defaultOptions);
+        pdfProcess.view(elem);
 
     }
 
