@@ -310,7 +310,7 @@
         defaultOptions = {
             link       : true,
             linkTarget : '_self',
-            pdfEmbed:true,
+            pdfEmbed   : true,
             videoEmbed : true,
             videoWidth : null,
             videoHeight: null,
@@ -330,7 +330,7 @@
         this.settings = $.extend(defaultOptions, options);
         this._defaults = defaultOptions;
         this._name = pluginName;
-        this.init(this.settings,this.element);
+        this.init(this.settings, this.element);
     }
 
     var video = {};
@@ -454,8 +454,9 @@
 
         play : function (elem) {
             $(elem).undelegate('click').on('click', '.ejs-video-thumb', function (e) {
-                var videoInfo = {};
 
+                console.log(this);
+                var videoInfo = {};
                 var videoDetails = $(this).find('img')[0].alt.split('/');
 
                 if (videoDetails[0] == 'vimeo') {
@@ -539,30 +540,30 @@
         }
     };
 
-    var pdfProcess={
-        embed:function(str){
+    var pdfProcess = {
+        embed: function (str) {
             var p = /((?:https?):\/\/\S*\.(?:pdf|PDF))/gi;
             if (str.match(p)) {
                 var pdfUrl = RegExp.$1;
 
-                var pdfTemplate='<div class="ejs-pdf">'+
-                   ' <div class="ejs-pdf-preview">'+
-                '<div class="ejs-pdf-icon">'+
-                '<i class="fa fa-file-pdf-o"></i>'+
-                '</div>'+
-                '<div class="ejs-pdf-detail" ><div class="ejs-pdf-title"> <a href="">'+pdfUrl+'</a></div> <div class="ejs-pdf-view"> <button><i class="fa fa-download"></i> <a href="'+pdfUrl+'" target="_blank">Download</a></button> <button class="ejs-pdf-view-active"><i class="fa fa-eye"></i> View PDF</button></div> </div> </div></div>';
+                var pdfTemplate = '<div class="ejs-pdf">' +
+                    ' <div class="ejs-pdf-preview">' +
+                    '<div class="ejs-pdf-icon">' +
+                    '<i class="fa fa-file-pdf-o"></i>' +
+                    '</div>' +
+                    '<div class="ejs-pdf-detail" ><div class="ejs-pdf-title"> <a href="">' + pdfUrl + '</a></div> <div class="ejs-pdf-view"> <button><i class="fa fa-download"></i> <a href="' + pdfUrl + '" target="_blank">Download</a></button> <button class="ejs-pdf-view-active"><i class="fa fa-eye"></i> View PDF</button></div> </div> </div></div>';
 
-                str=str+pdfTemplate;
+                str = str + pdfTemplate;
 
             }
             return str;
         },
 
-        view:function(elem){
-            $(elem).undelegate().on('click','.ejs-pdf-view-active',function(e){
-                var pdfParent=$(this).closest('.ejs-pdf');
-                var pdfUrl=$(pdfParent).find('a')[1].href;
-                var pdfViewTemplate=' <div class="ejs-pdf-viewer"><iframe src="'+pdfUrl+'" frameBorder="0"></iframe></div>';
+        view: function (elem) {
+            $(elem).on('click', '.ejs-pdf-view-active', function (e) {
+                var pdfParent = $(this).closest('.ejs-pdf');
+                var pdfUrl = $(pdfParent).find('a')[1].href;
+                var pdfViewTemplate = ' <div class="ejs-pdf-viewer"><iframe src="' + pdfUrl + '" frameBorder="0"></iframe></div>';
                 pdfParent.html(pdfViewTemplate);
                 e.stopPropagation();
             });
@@ -583,7 +584,7 @@
             input = insertfontSmiley(input);
             input = (defaultOptions.link) ? urlEmbed(input) : input;
             input = insertEmoji(input);
-            input=(defaultOptions.pdfEmbed)?pdfProcess.embed(input):input;
+            input = (defaultOptions.pdfEmbed) ? pdfProcess.embed(input) : input;
             $(that).html(input);
             if (defaultOptions.videoEmbed) {
                 $.when(videoProcess.embed(input, defaultOptions)).then(
@@ -608,7 +609,7 @@
 
     // Avoid Plugin.prototype conflicts
     $.extend(Plugin.prototype, {
-        init: function (settings,element) {
+        init: function (settings, element) {
             _driver($(element).find('div'));
         }
     });
