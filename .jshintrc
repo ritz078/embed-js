@@ -9,7 +9,7 @@
   "globals": {},
   "laxcomma": true,
   "globalstrict": false,
-  "quotmark": "double",
+  "quotmark": "single",
   "curly": true,
   "indent": 2,
   "undef": true,
