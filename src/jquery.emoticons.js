@@ -623,6 +623,10 @@
                 );
 
             }
+
+            if(defaultOptions.highlightCode){
+                hljs.initHighlightingOnLoad();
+            }
             /**
              * Bing click events on the video play icons.
              */
