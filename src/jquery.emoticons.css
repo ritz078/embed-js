@@ -4,11 +4,11 @@
 
 @font-face {
     font-family : 'emoticons';
-    src         : url('fonts/emoticons.eot?5zh0vu');
-    src         : url('fonts/emoticons.eot?#iefix5zh0vu') format('embedded-opentype'),
-    url('fonts/emoticons.woff?5zh0vu') format('woff'),
-    url('fonts/emoticons.ttf?5zh0vu') format('truetype'),
-    url('fonts/emoticons.svg?5zh0vu#icomoon') format('svg');
+    src         : url('../fonts/emoticons.eot?5zh0vu');
+    src         : url('../fonts/emoticons.eot?#iefix5zh0vu') format('embedded-opentype'),
+    url('../fonts/emoticons.woff?5zh0vu') format('woff'),
+    url('../fonts/emoticons.ttf?5zh0vu') format('truetype'),
+    url('../fonts/emoticons.svg?5zh0vu#icomoon') format('svg');
     font-weight : normal;
     font-style  : normal;
     }
@@ -238,7 +238,7 @@ code.has-numbering {
 
 .ejs-video-player {
     background-color    : #3498DB;
-    background-image    : url('images/loader.svg');
+    background-image    : url('../images/loader.svg');
     background-repeat   : no-repeat;
     background-position : center;
     }
@@ -281,7 +281,7 @@ code.has-numbering {
     margin              : 5px;
     margin-bottom       : 0;
     background-color    : #3498DB;
-    background-image    : url('images/loader.svg');
+    background-image    : url('../images/loader.svg');
     background-repeat   : no-repeat;
     background-position : center;
     height              : 100%;
@@ -327,20 +327,20 @@ code.has-numbering {
 
 @media all and (-webkit-min-device-pixel-ratio : 1), all and (min--moz-device-pixel-ratio : 1), all and (-o-min-device-pixel-ratio : 1), all and (min-device-pixel-ratio : 1), all and (min-resolution : 96dpi) {
     .emoticon {
-        background : transparent url(images/emojis.png) 0 0 no-repeat;
+        background : transparent url(../images/emojis.png) 0 0 no-repeat;
         }
     }
 
 @media all and (-webkit-min-device-pixel-ratio : 1.5), all and (-o-min-device-pixel-ratio : 3/2), all and (min-device-pixel-ratio : 1.5), all and (min-resolution : 144dpi) {
     .emoticon {
-        background      : transparent url(images/emojis@2x.png) 0 0 no-repeat;
+        background      : transparent url(../images/emojis@2x.png) 0 0 no-repeat;
         background-size : 27776px 22px;
         }
     }
 
 @-moz-document url-prefix() {
     .emoticon {
-        background : transparent url(images/emojis.png) 0 0 no-repeat;
+        background : transparent url(../images/emojis.png) 0 0 no-repeat;
         }
     }
 
