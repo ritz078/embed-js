@@ -7,7 +7,7 @@
     "Jagannadh <shanmuk.mir@gmail.com>"
 	],
 	"description": "A jquery plugin to convert text into emoticons.",
-	"main": "src/jquery.emoticons.js",
+	"main": ["./src/jquery.emoticons.js","./src/jquery.emoticons.css","./fonts/*","./images/*"],
 	"keywords": [
 		"jquery",
 		"plugin",
