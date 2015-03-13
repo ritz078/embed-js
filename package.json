@@ -11,7 +11,12 @@
     "emoticon",
     "jquery-emoticons"
   ],
-  "main": ["./src/jquery.emoticons.js","./src/jquery.emoticons.css","./fonts/*","./images/*"],
+  "main": [
+    "./src/jquery.emoticons.js",
+    "./src/jquery.emoticons.css",
+    "./fonts/*",
+    "./images/*"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/ritz078/emoticons-js.git"
@@ -19,29 +24,32 @@
   "bugs": {
     "url": "https://github.com/ritz078/emoticons-js/issues"
   },
-  "author": [{
-    "name": "Ritesh Kumar",
-    "email": "rkritesh078@gmail.com",
-    "url": "https://github.com/ritz078"
-  },
-  {
-    "name":"Jagannadh",
-    "email":"shanmuk.mir@gmail.com",
-    "url":"https://github.com/jagannath93"
-  }],
+  "author": [
+    {
+      "name": "Ritesh Kumar",
+      "email": "rkritesh078@gmail.com",
+      "url": "https://github.com/ritz078"
+    },
+    {
+      "name": "Jagannadh",
+      "email": "shanmuk.mir@gmail.com",
+      "url": "https://github.com/jagannath93"
+    }
+  ],
   "homepage": "",
   "contributors": [],
   "license": "MIT",
   "devDependencies": {
     "grunt": "~0.4.5",
     "grunt-cli": "~0.1.13",
-    "grunt-contrib-coffee": "^0.12.0",
     "grunt-contrib-concat": "^0.5.1",
+    "grunt-contrib-cssmin": "^0.12.2",
     "grunt-contrib-jshint": "^0.11.0",
     "grunt-contrib-uglify": "^0.8.0",
     "grunt-contrib-watch": "^0.6.1"
   },
   "scripts": {
     "test": "grunt travis --verbose"
-  }
+  },
+  "dependencies": {}
 }
