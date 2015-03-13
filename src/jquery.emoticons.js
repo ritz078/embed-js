@@ -306,7 +306,8 @@
             videoEmbed : true,
             videoWidth : null,
             videoHeight: null,
-            ytAuthKey  : null
+            ytAuthKey  : null,
+            highlightCode:true
         };
     /* ENDS */
 
@@ -562,6 +563,41 @@
         }
     };
 
+    var codeProcess={
+        encodeCode: function (c) {
+           // c = c.replace(/\&/gm, '&amp;');
+            c = c.replace(/</gm, '&lt;');
+            c = c.replace(/>/gm, '&gt;');
+            return c;
+        },
+
+        highlight:function(text){
+            if(!window.hljs){
+                throw 'hljs is not defined';
+                return;
+            }
+            var that = this;
+            text = text.replace(/(`+)(\s|[a-z]+)\s*([\s\S]*?[^`])\s*\1(?!`)/gm,
+                function (wholeMatch, m1, m2, m3) {
+                    var c = m3;
+                    c = c.replace(/^([ \t]*)/g, ""); // leading whitespace
+                    c = c.replace(/[ \t]*$/g, ""); // trailing whitespace
+                    c = that.encodeCode(c);
+                   c = c.replace(/:\/\//g, "~P"); // to prevent auto-linking. Not necessary in code
+                                                   // *blocks*, but in code spans. Will be converted
+                                                   // back after the auto-linker runs.
+
+
+                    return '<pre><code class="ejs-code '+m2+'">' + c + '</code></pre>';
+                }
+            );
+            console.log(text);
+            return text;
+        }
+
+
+    };
+
     function _driver(elem) {
         elem.each(function () {
             var input = $(this).html();
@@ -577,6 +613,7 @@
             input = (defaultOptions.link) ? urlEmbed(input) : input;
             input = insertEmoji(input);
             input = (defaultOptions.pdfEmbed) ? pdfProcess.embed(input) : input;
+            input=(defaultOptions.highlightCode)?codeProcess.highlight(input):input;
             $(that).html(input);
             if (defaultOptions.videoEmbed) {
                 $.when(videoProcess.embed(input, defaultOptions)).then(

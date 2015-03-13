@@ -13,9 +13,6 @@
     font-style  : normal;
     }
 
-.ejs-code{
-    display: none;
-    }
 
 .ejs-code {
     font-size   : 14px;
@@ -29,6 +26,7 @@ pre {
     margin-bottom : 24px;
     border-radius : 2px;
     overflow      : hidden;
+    white-space: pre-wrap;
     }
 
 code.has-numbering {
