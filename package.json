@@ -51,5 +51,7 @@
   "scripts": {
     "test": "grunt travis --verbose"
   },
-  "dependencies": {}
+  "dependencies": {
+    "jquery": "^2.1.3"
+  }
 }
