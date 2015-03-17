@@ -19,7 +19,17 @@
      $(function() {
         $(element).emoticons({
           link: true,
-          linkTarget: '_blank'
+          linkTarget: '_blank',
+          pdfEmbed:false,
+          videoEmbed:true,
+          videoWidth   : null,
+          videoHeight  : null,
+          ytAuthKey    : null,
+          highlightCode: true,
+          codeLineNumber   : false,
+          basicVideoEmbed:true,
+          imageEmbed:true
+
         });
       });
 
@@ -29,6 +39,14 @@
 
      'linkTarget' - '_blank' [OPTIONAL] //To make urls open in a new tab
      (default value: '_self')
+
+     'pdfEmbed' - true,false [OPTIONAL] //Instructs the library whether or not to show a preview of pdf links
+     (default value : 'false')
+
+     'videoEmbed' - true,false [OPTIONAL] // Instructs the library whether or not to embed youtube/vimeo videos
+     (default value : 'true')
+
+
      **/
 
     /* UTILITIES - VARIABLE DECLARATIONS */
@@ -295,19 +313,20 @@
         'small_blue_diamond', 'small_orange_diamond', 'small_red_triangle',
         'small_red_triangle_down', 'shipit'
     ];
-    /* ENDS */
 
     /* VARIABLE DECLARATIONS */
     var pluginName = 'emoticons',
         defaultOptions = {
-            link       : true,
-            linkTarget : '_self',
-            pdfEmbed   : true,
-            videoEmbed : true,
-            videoWidth : null,
-            videoHeight: null,
-            ytAuthKey  : null,
-            highlightCode:true
+            link         : true,
+            linkTarget   : '_self',
+            pdfEmbed     : true,
+            audioEmbed   : false,
+            videoEmbed   : true,
+            videoWidth   : null,
+            videoHeight  : null,
+            ytAuthKey    : null,
+            highlightCode: true,
+            lineNumber   : false
         };
     /* ENDS */
 
@@ -563,16 +582,16 @@
         }
     };
 
-    var codeProcess={
+    var codeProcess = {
         encodeCode: function (c) {
-           // c = c.replace(/\&/gm, '&amp;');
+            // c = c.replace(/\&/gm, '&amp;');
             c = c.replace(/</gm, '&lt;');
             c = c.replace(/>/gm, '&gt;');
             return c;
         },
 
-        highlight:function(text){
-            if(!window.hljs){
+        highlight: function (text) {
+            if (!window.hljs) {
                 throw 'hljs is not defined';
                 return;
             }
@@ -583,19 +602,31 @@
                     c = c.replace(/^([ \t]*)/g, ""); // leading whitespace
                     c = c.replace(/[ \t]*$/g, ""); // trailing whitespace
                     c = that.encodeCode(c);
-                   c = c.replace(/:\/\//g, "~P"); // to prevent auto-linking. Not necessary in code
-                                                   // *blocks*, but in code spans. Will be converted
-                                                   // back after the auto-linker runs.
+                    c = c.replace(/:\/\//g, "~P"); // to prevent auto-linking. Not necessary in code
+                    // *blocks*, but in code spans. Will be converted
+                    // back after the auto-linker runs.
 
-
-                    return '<pre><code class="ejs-code '+m2+'">' + c + '</code></pre>';
+                    return '<pre><code class="ejs-code ' + m2 + '">' + c + '</code></pre>';
                 }
             );
             console.log(text);
             return text;
         }
 
+    };
 
+    var audioProcess = {
+        embed: function (str) {
+            var a = /((?:https?):\/\/\S*\.(?:wav|mp3|ogg))/gi;
+            if (str.match(a)) {
+                var audioUrl = RegExp.$1;
+
+                var audioTemplate = '<div class="ejs-audio"><audio src="' + audioUrl + '" controls></audio></div>';
+
+                str = str + audioTemplate;
+            }
+            return str;
+        }
     };
 
     function _driver(elem) {
@@ -613,7 +644,8 @@
             input = (defaultOptions.link) ? urlEmbed(input) : input;
             input = insertEmoji(input);
             input = (defaultOptions.pdfEmbed) ? pdfProcess.embed(input) : input;
-            input=(defaultOptions.highlightCode)?codeProcess.highlight(input):input;
+            input = (defaultOptions.audioEmbed) ? audioProcess.embed(input) : input;
+            input = (defaultOptions.highlightCode) ? codeProcess.highlight(input) : input;
             $(that).html(input);
             if (defaultOptions.videoEmbed) {
                 $.when(videoProcess.embed(input, defaultOptions)).then(
@@ -624,7 +656,7 @@
 
             }
 
-            if(defaultOptions.highlightCode){
+            if (defaultOptions.highlightCode) {
                 hljs.initHighlightingOnLoad();
             }
             /**

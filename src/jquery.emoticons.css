@@ -13,7 +13,6 @@
     font-style  : normal;
     }
 
-
 .ejs-code {
     font-size   : 14px;
     padding     : 20px;
@@ -26,7 +25,7 @@ pre {
     margin-bottom : 24px;
     border-radius : 2px;
     overflow      : hidden;
-    white-space: pre-wrap;
+    white-space   : pre-wrap;
     }
 
 code.has-numbering {
@@ -60,8 +59,8 @@ code.has-numbering {
     margin-top       : -4px;
     }
 
-.pre-numbering li{
-    list-style-type: none;
+.pre-numbering li {
+    list-style-type : none;
     }
 
 .ejs-pdf iframe {
@@ -139,6 +138,7 @@ code.has-numbering {
     background-color : #1D1D1D;
     border-radius    : 2px;
     padding-top      : 6px;
+    margin           : 10px 0;
     }
 
 .ejs-audio audio {
@@ -285,8 +285,6 @@ code.has-numbering {
     height              : 100%;
     overflow            : hidden;
     }
-
-
 
 .emoticons-image-wrapper, .emoticons-image {
     width : 100%;
