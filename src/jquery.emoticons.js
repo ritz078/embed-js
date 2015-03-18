@@ -320,6 +320,7 @@
             link           : true,
             linkTarget     : '_self',
             pdfEmbed       : true,
+            imageEmbed     :true,
             audioEmbed     : false,
             videoEmbed     : true,
             basicVideoEmbed: true,
@@ -487,7 +488,6 @@
             });
         },
         embed: function (data, opts) {
-            console.log(data);
             var ytRegex = /https?:\/\/(?:[0-9A-Z-]+\.)?(?:youtu\.be\/|youtube\.com(?:\/embed\/|\/v\/|\/watch\?v=|\/ytscreeningroom\?v=|\/feeds\/api\/videos\/|\/user\S*[^\w\-\s]|\S*[^\w\-\s]))([\w\-]{11})[?=&+%\w-]*/gi;
             var vimeoRegex = /https?:\/\/(?:www\.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/([^\/]*)\/videos\/|album\/(\d+)\/video\/|)(\d+)(?:$|\/|\?)*/gi;
             var videoDimensions = this.dimensions(opts);
@@ -633,7 +633,6 @@
                     return '<pre><code class="ejs-code ' + m2 + '">' + c + '</code></pre>';
                 }
             );
-            console.log(text);
             return text;
         }
 
@@ -653,6 +652,27 @@
         }
     };
 
+    var imageProcess = {
+        template: function (url) {
+            var t = '<div class="ejs-image">' +
+                '    <div class="ne-image-wrapper">' +
+                '        <img src="' + url + '"/>' +
+                '    </div>' +
+                '</div>';
+
+            return t;
+
+        },
+        embed   : function (str) {
+            var i = /((?:https?):\/\/\S*\.(?:gif|jpg|jpeg|tiff|png|svg|webp))/gi;
+            if (str.match(i)) {
+                var template = this.template(RegExp.$1);
+                str=str+template;
+            }
+            return str;
+        }
+    }
+
     function _driver(elem) {
         elem.each(function () {
             var input = $(this).html();
@@ -671,6 +691,7 @@
             input = (defaultOptions.audioEmbed) ? audioProcess.embed(input) : input;
             input = (defaultOptions.highlightCode) ? codeProcess.highlight(input) : input;
             input = (defaultOptions.basicVideoEmbed) ? videoProcess.embedBasic(input) : input;
+            input = (defaultOptions.imageEmbed) ? imageProcess.embed(input) : input;
             $(that).html(input);
             if (defaultOptions.videoEmbed) {
                 $.when(videoProcess.embed(input, defaultOptions)).then(

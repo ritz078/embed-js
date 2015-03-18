@@ -249,24 +249,11 @@ code.has-numbering {
     width              : 100%;
     border-radius      : 2px;
     border             : 1px solid #e4e4e4;
-    min-height         : 250px;
-    max-height         : 250px;
     overflow           : hidden;
     cursor             : pointer;
-    padding-bottom     : 5px;
-    -webkit-transition : all 0.5s linear;
-    -o-transition      : all 0.5s linear;
-    -moz-transition    : all 0.5s linear;
-    -ms-transition     : all 0.5s linear;
-    -kthtml-transition : all 0.5s linear;
-    transition         : all 0.5s linear;
     box-shadow         : 0px 1px 1px 0 rgba(0, 0, 0, 0.26);
-    border-bottom      : 5px solid #ffffff;
     margin             : 10px 0;
-    }
-
-.ejs-image-long {
-    max-height : 800px;
+    padding : 5px;
     }
 
 .ejs-image img, .ejs-image-long img {
