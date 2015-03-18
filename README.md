@@ -21,6 +21,12 @@ Dependencies
 Getting started
 ---------------
 
+**bower**
+```bower install --save emoticons-js```
+
+**npm**
+```npm install --save emoticons-js```
+
 Load css file
 ```html
 <link rel="stylesheet" href="path/to/jquery.emoticons.css"/>
