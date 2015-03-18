@@ -327,8 +327,7 @@
             videoWidth     : null,
             videoHeight    : null,
             ytAuthKey      : null,
-            highlightCode  : true,
-            lineNumber     : false
+            highlightCode  : true
         };
     /* ENDS */
 
@@ -391,7 +390,7 @@
      * @return {string}
      */
     function urlEmbed(str) {
-        var urlRegex = new RegExp(/[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi);
+        var urlRegex = /((href|src)=["']|)(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
         var strReplaced = str.replace(urlRegex, function (match) {
                 return '<a href="' + match + '" target="' + defaultOptions.linkTarget + '">' + match + '</a>';
             }
@@ -684,8 +683,8 @@
             }
 
             var that = this;
-            input = insertfontSmiley(input);
             input = (defaultOptions.link) ? urlEmbed(input) : input;
+            input = insertfontSmiley(input);
             input = insertEmoji(input);
             input = (defaultOptions.pdfEmbed) ? pdfProcess.embed(input) : input;
             input = (defaultOptions.audioEmbed) ? audioProcess.embed(input) : input;
