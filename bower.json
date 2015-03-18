@@ -1,7 +1,11 @@
 {
   "name": "emoticons-js",
   "version": "0.1.0",
-  "homepage": "",
+  "homepage": "http://rkritesh.in/emoticons-js",
+  "ignore": [
+    ".jshintrc",
+    "**/*.txt"
+  ],
   "authors": [
     "Ritesh Kumar <rkritesh078@gmail.com>",
     "Jagannadh <shanmuk.mir@gmail.com>"
