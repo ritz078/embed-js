@@ -1,0 +1,7 @@
+{
+  "name": "emoticons-js",
+  "private": true,
+  "dependencies": {
+    "jquery": "~1.11.1"
+  }
+}
