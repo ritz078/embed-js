@@ -317,16 +317,17 @@
     /* VARIABLE DECLARATIONS */
     var pluginName = 'emoticons',
         defaultOptions = {
-            link         : true,
-            linkTarget   : '_self',
-            pdfEmbed     : true,
-            audioEmbed   : false,
-            videoEmbed   : true,
-            videoWidth   : null,
-            videoHeight  : null,
-            ytAuthKey    : null,
-            highlightCode: true,
-            lineNumber   : false
+            link           : true,
+            linkTarget     : '_self',
+            pdfEmbed       : true,
+            audioEmbed     : false,
+            videoEmbed     : true,
+            basicVideoEmbed: true,
+            videoWidth     : null,
+            videoHeight    : null,
+            ytAuthKey      : null,
+            highlightCode  : true,
+            lineNumber     : false
         };
     /* ENDS */
 
@@ -486,6 +487,7 @@
             });
         },
         embed: function (data, opts) {
+            console.log(data);
             var ytRegex = /https?:\/\/(?:[0-9A-Z-]+\.)?(?:youtu\.be\/|youtube\.com(?:\/embed\/|\/v\/|\/watch\?v=|\/ytscreeningroom\?v=|\/feeds\/api\/videos\/|\/user\S*[^\w\-\s]|\S*[^\w\-\s]))([\w\-]{11})[?=&+%\w-]*/gi;
             var vimeoRegex = /https?:\/\/(?:www\.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/([^\/]*)\/videos\/|album\/(\d+)\/video\/|)(\d+)(?:$|\/|\?)*/gi;
             var videoDimensions = this.dimensions(opts);
@@ -549,6 +551,28 @@
 
             return deferred.promise();
 
+        },
+
+        basicVideoTemplate: function (url) {
+            var template = '<div class="ejs-video">' +
+                '    <div class="ejs-video-player">' +
+                '        <div class="player">' +
+                '            <video src="' + url + '" controls></video>' +
+                '        </div>' +
+                '    </div>' +
+                '</div>';
+
+            return template;
+        },
+
+        embedBasic: function (str) {
+            var basicVideoRegex = /((?:https?):\/\/\S*\.(?:ogv|webm|mp4))/gi;
+
+            if (str.match(basicVideoRegex)) {
+                var template = this.basicVideoTemplate(RegExp.$1);
+                str = str + template;
+            }
+            return str;
         }
     };
 
@@ -646,6 +670,7 @@
             input = (defaultOptions.pdfEmbed) ? pdfProcess.embed(input) : input;
             input = (defaultOptions.audioEmbed) ? audioProcess.embed(input) : input;
             input = (defaultOptions.highlightCode) ? codeProcess.highlight(input) : input;
+            input = (defaultOptions.basicVideoEmbed) ? videoProcess.embedBasic(input) : input;
             $(that).html(input);
             if (defaultOptions.videoEmbed) {
                 $.when(videoProcess.embed(input, defaultOptions)).then(
