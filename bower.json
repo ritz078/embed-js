@@ -2,6 +2,7 @@
   "name": "emoticons-js",
   "private": true,
   "dependencies": {
-    "jquery": "~1.11.1"
+    "jquery": "~1.11.1",
+    "emoticons-js": "https://github.com/ritz078/emoticons-js"
   }
 }
