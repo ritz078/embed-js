@@ -2,13 +2,17 @@
 <html class="no-js">
   <head>
     <meta charset="utf-8">
-    <title>emoticons js</title>
+    <title>Emoticons-js</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <link rel="shortcut icon" href="/favicon.ico">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(.) styles/vendor.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css"/>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     <!-- bower:css -->
+    <link rel="stylesheet" href="bower_components/emoticons-js/src/jquery.emoticons.css" />
+    <link rel="stylesheet" href="bower_components/materialize/bin/materialize.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
@@ -21,20 +25,176 @@
     <![endif]-->
 
 
-    <div class="hero-unit">
-      <h1>'Allo, 'Allo!</h1>
-      <p>You now have</p>
-      <ul>
-      <li>HTML5 Boilerplate</li>
-      <li>Sass</li>
+    <header>
 
-      </ul>
+    </header>
+<div class="sidebar">
+
+</div>
+    <div class="content">
+      <div class="card">
+        <div class="title">Simple Usage</div>
+        <div class="row">
+          <div class="col s12">
+            <ul class="tabs">
+              <li class="tab col s4"><a class="active" href="#test2">HTML</a></li>
+              <li class="tab col s4"><a href="#test3">Javascript</a></li>
+            </ul>
+          </div>
+          <div id="test2" class="col s12">
+            <pre><code class="xml">
+&lt;div class="element"&gt;
+  &lt;div&gt;
+    Lotus :smile: eleates vix attrahendams luna est.Advenas mori!Fermiums prarere in cubiculum!Cum cacula cantare, omnes stellaes manifestum azureus, nobilis https://angularjs.org/ acipenseres.Cum orgia mori, omnes rationees <3 experientia alter, regius :heart: mortemes.Devatios persuadere, tanquam secundus spatii.Heu, barcas!Cedriums observare!A falsis, lacta talis imber. :P Cur eleates peregrinatione?
+  &lt;/div&gt;
+&lt;/div&gt;
+            </code></pre>
+          </div>
+          <div id="test3" class="col s12">
+            <pre><code>
+$('.element').emoticons();
+            </code></pre>
+          </div>
+        </div>
+        <div class="element">
+          <div>
+            <p>Lotus :smile: eleates vix attrahendams luna est.Advenas mori!Fermiums prarere in cubiculum!Cum cacula cantare, omnes stellaes manifestum azureus, nobilis https://angularjs.org/ acipenseres.Cum orgia mori, omnes rationees <3 experientia alter, regius :heart: mortemes.Devatios persuadere, tanquam secundus spatii.Heu, barcas!Cedriums observare!A falsis, lacta talis imber. :P Cur eleates peregrinatione?</p>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="title">Youtube video embedding</div>
+        <div class="row">
+          <div class="col s12">
+            <ul class="tabs">
+              <li class="tab col s4"><a class="active" href="#test21">HTML</a></li>
+              <li class="tab col s4"><a href="#test22">Javascript</a></li>
+            </ul>
+          </div>
+          <div id="test21" class="col s12">
+            <pre><code class="xml">
+&lt;div class="element2"&gt;
+  &lt;div&gt;
+    &lt;p&gt;Naviss credere!Orgia de germanus repressor, gratia rumor!Nunquam pugna axona.Cur orexis peregrinationes?Sunt abactores pugna gratis, germanus lamiaes.Cur lanista cantare?Est castus bromium, cesaris.Tabess velum, tanquam https://www.youtube.com/watch?v=QHulaj5ZxbI germanus musa.Cur lacta prarere? :smile: Assimilant aegre ducunt ad magnum advena.Emeritis, fidelis menss interdum examinare de varius, lotus detrius.&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+            </code></pre>
+          </div>
+          <div id="test22" class="col s12">
+            <pre><code>
+$('.element2').emoticons({
+    ytAuthKey:'xxxxxxxxxxxxxxxxx'
+});
+            </code></pre>
+          </div>
+        </div>
+        <div class="element2">
+          <div>
+            <p>Naviss credere!Orgia de germanus repressor, gratia rumor!Nunquam pugna axona.Cur orexis peregrinationes?Sunt abactores pugna gratis, germanus lamiaes.Cur lanista cantare?Est castus bromium, cesaris.Tabess velum, tanquam https://www.youtube.com/watch?v=QHulaj5ZxbI germanus musa.Cur lacta prarere? :smile: Assimilant aegre ducunt ad magnum advena.Emeritis, fidelis menss interdum examinare de varius, lotus detrius.</p>
+          </div>
+        </div>
+      </div>
+    <div class="card">
+      <div class="title">Vimeo video embedding</div>
+      <div class="row">
+        <div class="col s12">
+          <ul class="tabs">
+            <li class="tab col s4"><a class="active" href="#test31">HTML</a></li>
+            <li class="tab col s4"><a href="#test32">Javascript</a></li>
+          </ul>
+        </div>
+        <div id="test31" class="col s12">
+            <pre><code class="xml">
+&lt;div class="element3"&gt;
+  &lt;div&gt;
+    &lt;p&gt;Naviss credere!Orgia de germanus repressor, gratia rumor!Nunquam pugna axona.Cur orexis peregrinationes?Sunt abactores pugna gratis, germanus lamiaes.Cur lanista cantare?Est castus bromium, cesaris.Tabess velum, tanquam https://vimeo.com/92066734 germanus musa.Cur lacta prarere? :smile: Assimilant aegre ducunt ad magnum advena.Emeritis, fidelis menss interdum examinare de varius, lotus detrius.&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+            </code></pre>
+        </div>
+        <div id="test32" class="col s12">
+            <pre><code>
+  $('.element3').emoticons();
+            </code></pre>
+        </div>
+      </div>
+      <div class="element3">
+        <div>
+          <p>Naviss credere!Orgia de germanus repressor, gratia rumor!Nunquam pugna axona.Cur orexis peregrinationes?Sunt abactores pugna gratis, germanus lamiaes.Cur lanista cantare?Est castus bromium, cesaris.Tabess velum, tanquam https://vimeo.com/92066734 germanus musa.Cur lacta prarere? :smile: Assimilant aegre ducunt ad magnum advena.Emeritis, fidelis menss interdum examinare de varius, lotus detrius.</p>
+        </div>
+      </div>
+    </div>
+      <div class="card">
+        <div class="title">PDF VIEWING AND PREVIEW</div>
+        <div class="row">
+          <div class="col s12">
+            <ul class="tabs">
+              <li class="tab col s4"><a class="active" href="#test41">HTML</a></li>
+              <li class="tab col s4"><a href="#test42">Javascript</a></li>
+            </ul>
+          </div>
+          <div id="test41" class="col s12">
+            <pre><code class="xml">
+  &lt;div class="element4"&gt;
+    &lt;div&gt;
+      &lt;p&gt;Naviss credere!Orgia de germanus repressor, gratia rumor!Nunquam pugna axona.Cur orexis peregrinationes?Sunt https://www.cca.edu/sites/default/files/pdf/08/word-to-pdf.pdf abactores pugna gratis, germanus lamiaes.Cur lanista cantare?Est castus bromium, cesaris.Tabess velum, tanquam https://vimeo.com/92066734 germanus musa.Cur lacta prarere? :smile: Assimilant aegre ducunt ad magnum advena.Emeritis, fidelis menss interdum examinare de varius, lotus detrius.&lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+            </code></pre>
+          </div>
+          <div id="test42" class="col s12">
+            <pre><code>
+  $('.element4').emoticons();
+            </code></pre>
+          </div>
+        </div>
+        <div class="element3">
+          <div>
+            <p>Naviss credere!Orgia de germanus repressor, gratia rumor!Nunquam pugna axona.Cur orexis peregrinationes?Sunt https://www.cca.edu/sites/default/files/pdf/08/word-to-pdf.pdf abactores pugna gratis, germanus lamiaes.Cur lanista cantare?Est castus bromium, cesaris.Tabess velum, tanquam https://vimeo.com/92066734 germanus musa.Cur lacta prarere? :smile: Assimilant aegre ducunt ad magnum advena.Emeritis, fidelis menss interdum examinare de varius, lotus detrius.</p>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="title">PDF VIEWING AND PREVIEW</div>
+        <div class="row">
+          <div class="col s12">
+            <ul class="tabs">
+              <li class="tab col s4"><a class="active" href="#test51">HTML</a></li>
+              <li class="tab col s4"><a href="#test52">Javascript</a></li>
+            </ul>
+          </div>
+          <div id="test51" class="col s12">
+            <pre><code class="xml">
+              &lt;div class="element4"&gt;
+              &lt;div&gt;
+              &lt;p&gt;Naviss credere!Orgia de germanus repressor, gratia rumor!Nunquam pugna axona.Cur orexis peregrinationes?Sunt https://www.cca.edu/sites/default/files/pdf/08/word-to-pdf.pdf abactores pugna gratis, germanus lamiaes.Cur lanista cantare?Est castus bromium, cesaris.Tabess velum, tanquam https://vimeo.com/92066734 germanus musa.Cur lacta prarere? :smile: Assimilant aegre ducunt ad magnum advena.Emeritis, fidelis menss interdum examinare de varius, lotus detrius.&lt;/p&gt;
+              &lt;/div&gt;
+              &lt;/div&gt;
+            </code></pre>
+          </div>
+          <div id="test52" class="col s12">
+            <pre><code>
+              $('.element4').emoticons();
+            </code></pre>
+          </div>
+        </div>
+        <div class="element3">
+          <div>
+            <p>```
+              &lt;script&gt;&lt;/script&gt;``` www.ng-conf.org http://www.iitr.ac.in ROTFL!!!! Now this explains :P why Kejriwal & his Nocere cito ducunt ad noster domina.Salvus nutrixs ducunt ad decor.Grandis torquis sed mire visums xiphias est.```javascript\ngrade = (student, period=(if b? then 7 else 6)) ->\n if student.excellentWork\n "A+"\n else if student.okayStuff\n if student.triedHard then "B" else "B-"\n else\n "C"\nclass Animal extends Being\nconstructor: (@name) ->\nmove: (meters) ->\nalert @name + " moved #{meters}m."\n``` with Yogendra Yadav. Because he had praised Narendra :smile: Modi and Gujarat model in an interview.Check this 1-min clip in which Yogendra Yadav openly praises Modis Gujarat development : https://vimeo.com/119199079</p>
+          </div>
+        </div>
+      </div>
     </div>
 
 
+
     <!-- build:js(.) scripts/vendor.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
     <!-- bower:js -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/emoticons-js/src/jquery.emoticons.js"></script>
+    <script src="bower_components/materialize/bin/materialize.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
