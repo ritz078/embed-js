@@ -55,6 +55,24 @@ Simple Usage
 ```javascript
 $('#element').emoticons();
 ```
+Advanced Usage
+--------------
+
+```javascript
+$('#element').emoticons({
+  link           : true,
+  linkTarget     : '_blank',
+  pdfEmbed       : true,
+  imageEmbed     :true,
+  audioEmbed     : false,
+  videoEmbed     : true,
+  basicVideoEmbed: true,
+  videoWidth     : null,
+  videoHeight    : null,
+  ytAuthKey      : xxxxxxxxxxxxxxxxxxxxx,
+  highlightCode  : true
+});
+```
 
 Options
 -------
@@ -72,24 +90,7 @@ audioEmbed|false|Instructs the library whether or not to embed audio
 basicVideoEmbed|false|Instructs the library whether or not to show basic video files like mp4 etc. (supported by html5 player)
 highlightCode|true|Instructs the library whether or not to highlight code syntaxes.
 
-Advanced Usage
---------------
 
-```javascript
-$('#element').emoticons({
-  link           : true,
-  linkTarget     : '_self',
-  pdfEmbed       : true,
-  imageEmbed     :true,
-  audioEmbed     : false,
-  videoEmbed     : true,
-  basicVideoEmbed: true,
-  videoWidth     : null,
-  videoHeight    : null,
-  ytAuthKey      : null,
-  highlightCode  : true
-});
-```
 License
 -------
 The MIT License (MIT)
