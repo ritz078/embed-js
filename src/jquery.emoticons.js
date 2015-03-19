@@ -692,6 +692,17 @@
             input = (defaultOptions.basicVideoEmbed) ? videoProcess.embedBasic(input) : input;
             input = (defaultOptions.imageEmbed) ? imageProcess.embed(input) : input;
             $(that).html(input);
+            if (defaultOptions.highlightCode) {
+                if(!window.hljs){
+                    throw 'hljs is not defined';
+                }
+                else {
+                    $(that).find('.ejs-code').each(function () {
+                        hljs.highlightBlock(this);
+                    });
+                    input=$(that).html();
+                }
+            }
             if (defaultOptions.videoEmbed) {
                 $.when(videoProcess.embed(input, defaultOptions)).then(
                     function (d) {
@@ -701,16 +712,7 @@
 
             }
 
-            if (defaultOptions.highlightCode) {
-                if(!window.hljs){
-                    throw 'hljs is not defined';
-                }
-                else {
-                    $(that).find('pre').each(function () {
-                        hljs.highlightBlock(this);
-                    });
-                }
-            }
+
 
         });
 
