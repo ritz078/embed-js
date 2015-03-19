@@ -702,11 +702,15 @@
             }
 
             if (defaultOptions.highlightCode) {
-                hljs.initHighlightingOnLoad();
+                if(!window.hljs){
+                    throw 'hljs is not defined';
+                }
+                else {
+                    $(that).find('pre').each(function () {
+                        hljs.highlightBlock(this);
+                    });
+                }
             }
-            /**
-             * Bing click events on the video play icons.
-             */
 
         });
 
