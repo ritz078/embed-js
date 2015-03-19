@@ -1,6 +1,6 @@
 {
   "name": "emoticons-js",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "homepage": "http://rkritesh.in/emoticons-js",
   "ignore": [
     ".jshintrc",

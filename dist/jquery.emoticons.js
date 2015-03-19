@@ -1,5 +1,5 @@
 /*
- *  emoticons-js - v0.1.0
+ *  emoticons-js - v1.0.0
  *  A jquery plugin to convert text into emoticons.
  *  
  *
@@ -27,7 +27,17 @@
      $(function() {
         $(element).emoticons({
           link: true,
-          linkTarget: '_blank'
+          linkTarget: '_blank',
+          pdfEmbed:false,
+          videoEmbed:true,
+          videoWidth   : null,
+          videoHeight  : null,
+          ytAuthKey    : null,
+          highlightCode: true,
+          codeLineNumber   : false,
+          basicVideoEmbed:true,
+          imageEmbed:true
+
         });
       });
 
@@ -37,6 +47,14 @@
 
      'linkTarget' - '_blank' [OPTIONAL] //To make urls open in a new tab
      (default value: '_self')
+
+     'pdfEmbed' - true,false [OPTIONAL] //Instructs the library whether or not to show a preview of pdf links
+     (default value : 'false')
+
+     'videoEmbed' - true,false [OPTIONAL] // Instructs the library whether or not to embed youtube/vimeo videos
+     (default value : 'true')
+
+
      **/
 
     /* UTILITIES - VARIABLE DECLARATIONS */
@@ -303,18 +321,21 @@
         'small_blue_diamond', 'small_orange_diamond', 'small_red_triangle',
         'small_red_triangle_down', 'shipit'
     ];
-    /* ENDS */
 
     /* VARIABLE DECLARATIONS */
     var pluginName = 'emoticons',
         defaultOptions = {
-            link       : true,
-            linkTarget : '_self',
-            pdfEmbed   : true,
-            videoEmbed : true,
-            videoWidth : null,
-            videoHeight: null,
-            ytAuthKey  : null
+            link           : true,
+            linkTarget     : '_self',
+            pdfEmbed       : true,
+            imageEmbed     :true,
+            audioEmbed     : false,
+            videoEmbed     : true,
+            basicVideoEmbed: true,
+            videoWidth     : null,
+            videoHeight    : null,
+            ytAuthKey      : null,
+            highlightCode  : true
         };
     /* ENDS */
 
@@ -377,7 +398,7 @@
      * @return {string}
      */
     function urlEmbed(str) {
-        var urlRegex = new RegExp(/[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi);
+        var urlRegex = /((href|src)=["']|)(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
         var strReplaced = str.replace(urlRegex, function (match) {
                 return '<a href="' + match + '" target="' + defaultOptions.linkTarget + '">' + match + '</a>';
             }
@@ -537,6 +558,28 @@
 
             return deferred.promise();
 
+        },
+
+        basicVideoTemplate: function (url) {
+            var template = '<div class="ejs-video">' +
+                '    <div class="ejs-video-player">' +
+                '        <div class="player">' +
+                '            <video src="' + url + '" controls></video>' +
+                '        </div>' +
+                '    </div>' +
+                '</div>';
+
+            return template;
+        },
+
+        embedBasic: function (str) {
+            var basicVideoRegex = /((?:https?):\/\/\S*\.(?:ogv|webm|mp4))/gi;
+
+            if (str.match(basicVideoRegex)) {
+                var template = this.basicVideoTemplate(RegExp.$1);
+                str = str + template;
+            }
+            return str;
         }
     };
 
@@ -570,6 +613,73 @@
         }
     };
 
+    var codeProcess = {
+        encodeCode: function (c) {
+            // c = c.replace(/\&/gm, '&amp;');
+            c = c.replace(/</gm, '&lt;');
+            c = c.replace(/>/gm, '&gt;');
+            return c;
+        },
+
+        highlight: function (text) {
+            if (!window.hljs) {
+                throw 'hljs is not defined';
+                return;
+            }
+            var that = this;
+            text = text.replace(/(`+)(\s|[a-z]+)\s*([\s\S]*?[^`])\s*\1(?!`)/gm,
+                function (wholeMatch, m1, m2, m3) {
+                    var c = m3;
+                    c = c.replace(/^([ \t]*)/g, ""); // leading whitespace
+                    c = c.replace(/[ \t]*$/g, ""); // trailing whitespace
+                    c = that.encodeCode(c);
+                    c = c.replace(/:\/\//g, "~P"); // to prevent auto-linking. Not necessary in code
+                    // *blocks*, but in code spans. Will be converted
+                    // back after the auto-linker runs.
+
+                    return '<pre><code class="ejs-code ' + m2 + '">' + c + '</code></pre>';
+                }
+            );
+            return text;
+        }
+
+    };
+
+    var audioProcess = {
+        embed: function (str) {
+            var a = /((?:https?):\/\/\S*\.(?:wav|mp3|ogg))/gi;
+            if (str.match(a)) {
+                var audioUrl = RegExp.$1;
+
+                var audioTemplate = '<div class="ejs-audio"><audio src="' + audioUrl + '" controls></audio></div>';
+
+                str = str + audioTemplate;
+            }
+            return str;
+        }
+    };
+
+    var imageProcess = {
+        template: function (url) {
+            var t = '<div class="ejs-image">' +
+                '    <div class="ne-image-wrapper">' +
+                '        <img src="' + url + '"/>' +
+                '    </div>' +
+                '</div>';
+
+            return t;
+
+        },
+        embed   : function (str) {
+            var i = /((?:https?):\/\/\S*\.(?:gif|jpg|jpeg|tiff|png|svg|webp))/gi;
+            if (str.match(i)) {
+                var template = this.template(RegExp.$1);
+                str=str+template;
+            }
+            return str;
+        }
+    }
+
     function _driver(elem) {
         elem.each(function () {
             var input = $(this).html();
@@ -581,11 +691,26 @@
             }
 
             var that = this;
-            input = insertfontSmiley(input);
             input = (defaultOptions.link) ? urlEmbed(input) : input;
+            input = insertfontSmiley(input);
             input = insertEmoji(input);
             input = (defaultOptions.pdfEmbed) ? pdfProcess.embed(input) : input;
+            input = (defaultOptions.audioEmbed) ? audioProcess.embed(input) : input;
+            input = (defaultOptions.highlightCode) ? codeProcess.highlight(input) : input;
+            input = (defaultOptions.basicVideoEmbed) ? videoProcess.embedBasic(input) : input;
+            input = (defaultOptions.imageEmbed) ? imageProcess.embed(input) : input;
             $(that).html(input);
+            if (defaultOptions.highlightCode) {
+                if(!window.hljs){
+                    throw 'hljs is not defined';
+                }
+                else {
+                    $(that).find('.ejs-code').each(function () {
+                        hljs.highlightBlock(this);
+                    });
+                    input=$(that).html();
+                }
+            }
             if (defaultOptions.videoEmbed) {
                 $.when(videoProcess.embed(input, defaultOptions)).then(
                     function (d) {
@@ -594,9 +719,8 @@
                 );
 
             }
-            /**
-             * Bing click events on the video play icons.
-             */
+
+
 
         });
 
