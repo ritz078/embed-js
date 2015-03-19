@@ -21,6 +21,16 @@ header {
   position         : fixed;
   background-color : #fff;
   z-index          : 999;
+  a{
+    color:#000;
+    .fa{
+      font-size: 28px;
+      padding: 10px;
+      float:right;
+      margin-right : 10px;
+      }
+    }
+
   }
 
 .sidebar {
@@ -31,7 +41,26 @@ header {
   background-color : #333;
   font-size        : 14px;
   line-height      : 1.5;
-
+  iframe{
+    position: fixed;
+    bottom: 50px;
+    left: 64px;
+    }
+  ul {
+    margin-top   : 50px;
+    color        : #e4e4e4;
+    padding-left : 27px;
+    padding-top  : 20px;
+    a{
+      color: #ededed;
+      }
+    li {
+      margin-top : 10px;
+      &:hover{
+        color:#fff;
+        }
+      }
+    }
   }
 
 .content {
@@ -42,8 +71,8 @@ header {
   margin-left : 250px;
   pre {
     white-space : pre;
-    code{
-      font-family: Consolas,Menlo,Monaco,monospace;
+    code {
+      font-family : Consolas, Menlo, Monaco, monospace;
       }
     }
   .card {
