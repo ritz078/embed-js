@@ -3,7 +3,7 @@
   "private": true,
   "dependencies": {
     "jquery": "~1.11.1",
-    "emoticons-js": "*",
-    "materialize": "~0.95.3"
+    "materialize": "~0.95.3",
+    "emoticons-js": "canary"
   }
 }
