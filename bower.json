@@ -26,7 +26,7 @@
     "smiley"
   ],
   "dependencies": {
-    "jquery": "~2.1.3"
+    "jquery": ">1.2.x"
   },
   "license": "MIT"
 }
