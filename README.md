@@ -53,7 +53,9 @@ HTML Structure
 Simple Usage
 ------------
 ```javascript
-$('#element').emoticons();
+$('#element').emoticons({
+    ytAuthKey : 'xxxxxxxx'
+});
 ```
 Advanced Usage
 --------------
