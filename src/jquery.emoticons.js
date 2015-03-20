@@ -1,55 +1,29 @@
-// the semi-colon before function invocation is a safety net against concatenated
-// scripts and/or other plugins which may not be closed properly.
+//The MIT License (MIT)
+//Copyright (c) 2014 Ritesh Kumar
+//
+//Permission is hereby granted, free of charge, to any person obtaining a copy
+//of this software and associated documentation files (the "Software"), to deal
+//in the Software without restriction, including without limitation the rights
+//to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//copies of the Software, and to permit persons to whom the Software is
+//furnished to do so, subject to the following conditions:
+//
+//    The above copyright notice and this permission notice shall be included in all
+//copies or substantial portions of the Software.
+//
+//    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+//SOFTWARE.
 
 (function ($, window, document, undefined) {
 
     'use strict';
 
-    // undefined is used here as the undefined global variable in ECMAScript 3 is
-    // mutable (ie. it can be changed by someone else). undefined isn't really being
-    // passed in so we can ensure the value of it is truly undefined. In ES5, undefined
-    // can no longer be modified.
 
-    // window and document are passed through as local variable rather than global
-    // as this (slightly) quickens the resolution process and can be more efficiently
-    // minified (especially when both are regularly referenced in your plugin).
-
-    /**
-     EXAMPLE USAGE:
-     $(function() {
-        $(element).emoticons({
-          link: true,
-          linkTarget: '_blank',
-          pdfEmbed:false,
-          videoEmbed:true,
-          videoWidth   : null,
-          videoHeight  : null,
-          ytAuthKey    : null,
-          highlightCode: true,
-          codeLineNumber   : false,
-          basicVideoEmbed:true,
-          imageEmbed:true
-
-        });
-      });
-
-     OPTIONS:
-     'link' - true, false  [OPTIONAL] //Instructs the library whether or not to embed urls
-     (default value: true)
-
-     'linkTarget' - '_blank' [OPTIONAL] //To make urls open in a new tab
-     (default value: '_self')
-
-     'pdfEmbed' - true,false [OPTIONAL] //Instructs the library whether or not to show a preview of pdf links
-     (default value : 'false')
-
-     'videoEmbed' - true,false [OPTIONAL] // Instructs the library whether or not to embed youtube/vimeo videos
-     (default value : 'true')
-
-
-     **/
-
-    /* UTILITIES - VARIABLE DECLARATIONS */
     var icons = [{
         'text' : ':)',
         'class': 'smiley',
