@@ -6,58 +6,31 @@
  *  Made by 
  *  Under MIT License
  */
-// the semi-colon before function invocation is a safety net against concatenated
-// scripts and/or other plugins which may not be closed properly.
+//The MIT License (MIT)
+//Copyright (c) 2014 Ritesh Kumar
+//
+//Permission is hereby granted, free of charge, to any person obtaining a copy
+//of this software and associated documentation files (the "Software"), to deal
+//in the Software without restriction, including without limitation the rights
+//to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//copies of the Software, and to permit persons to whom the Software is
+//furnished to do so, subject to the following conditions:
+//
+//    The above copyright notice and this permission notice shall be included in all
+//copies or substantial portions of the Software.
+//
+//    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+//SOFTWARE.
 
 (function ($, window, document, undefined) {
 
     'use strict';
 
-    // undefined is used here as the undefined global variable in ECMAScript 3 is
-    // mutable (ie. it can be changed by someone else). undefined isn't really being
-    // passed in so we can ensure the value of it is truly undefined. In ES5, undefined
-    // can no longer be modified.
-
-    // window and document are passed through as local variable rather than global
-    // as this (slightly) quickens the resolution process and can be more efficiently
-    // minified (especially when both are regularly referenced in your plugin).
-
-    /**
-     EXAMPLE USAGE:
-     $(function() {
-        $(element).emoticons({
-          link: true,
-          linkTarget: '_blank',
-          pdfEmbed:false,
-          videoEmbed:true,
-          videoWidth   : null,
-          videoHeight  : null,
-          ytAuthKey    : null,
-          highlightCode: true,
-          codeLineNumber   : false,
-          basicVideoEmbed:true,
-          imageEmbed:true
-
-        });
-      });
-
-     OPTIONS:
-     'link' - true, false  [OPTIONAL] //Instructs the library whether or not to embed urls
-     (default value: true)
-
-     'linkTarget' - '_blank' [OPTIONAL] //To make urls open in a new tab
-     (default value: '_self')
-
-     'pdfEmbed' - true,false [OPTIONAL] //Instructs the library whether or not to show a preview of pdf links
-     (default value : 'false')
-
-     'videoEmbed' - true,false [OPTIONAL] // Instructs the library whether or not to embed youtube/vimeo videos
-     (default value : 'true')
-
-
-     **/
-
-    /* UTILITIES - VARIABLE DECLARATIONS */
     var icons = [{
         'text' : ':)',
         'class': 'smiley',
@@ -324,11 +297,12 @@
 
     /* VARIABLE DECLARATIONS */
     var pluginName = 'emoticons',
-        defaultOptions = {
+        options = {
             link           : true,
             linkTarget     : '_self',
+            linkExclude    : [],
             pdfEmbed       : true,
-            imageEmbed     :true,
+            imageEmbed     : true,
             audioEmbed     : false,
             videoEmbed     : true,
             basicVideoEmbed: true,
@@ -342,14 +316,14 @@
     //Global Variables
 
     // The actual plugin constructor
-    function Plugin(element, options) {
+    function Plugin(element, setOptions) {
         this.element = element;
         // jQuery has an extend method which merges the contents of two or
         // more objects, storing the result in the first object. The first object
         // is generally empty as we don't want to alter the default options for
         // future instances of the plugin
-        this.settings = $.extend(defaultOptions, options);
-        this._defaults = defaultOptions;
+        this.settings = $.extend(options, setOptions);
+        this._defaults = options;
         this._name = pluginName;
         this.init(this.settings, this.element);
     }
@@ -365,6 +339,31 @@
             s_ = useWordBoundary && toLong ? s_.substr(0, s_.lastIndexOf(' ')) : s_;
             return toLong ? s_ + '...' : s_;
         };
+
+    //Workaround for using indexOf function in browsers < IE8
+    //to use as a fallback for indexOf in older browsers.
+
+    var indexOf = function (arrayProp) {
+        if (typeof Array.prototype.indexOf === 'function') {
+            indexOf = Array.prototype.indexOf;
+        }
+        else {
+            indexOf = function (arrayProp) {
+                var i = -1, index = -1;
+
+                for (i = 0; i < this.length; i++) {
+                    if (this[i] === arrayProp) {
+                        index = i;
+                        break;
+                    }
+                }
+
+                return index;
+            };
+        }
+
+        return indexOf.call(this, arrayProp);
+    };
 
     /**
      * FUNCTION insertfontSmiley
@@ -397,10 +396,16 @@
      *
      * @return {string}
      */
+
+
     function urlEmbed(str) {
         var urlRegex = /((href|src)=["']|)(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
         var strReplaced = str.replace(urlRegex, function (match) {
-                return '<a href="' + match + '" target="' + defaultOptions.linkTarget + '">' + match + '</a>';
+                var extension = match.split('.')[match.split('.').length - 1];
+                if (!((indexOf.call(options.linkExclude, extension) > -1))) {
+                    return '<a href="' + match + '" target="' + options.linkTarget + '">' + match + '</a>';
+                }
+                return match;
             }
         );
         return strReplaced;
@@ -674,7 +679,7 @@
             var i = /((?:https?):\/\/\S*\.(?:gif|jpg|jpeg|tiff|png|svg|webp))/gi;
             if (str.match(i)) {
                 var template = this.template(RegExp.$1);
-                str=str+template;
+                str = str + template;
             }
             return str;
         }
@@ -691,28 +696,28 @@
             }
 
             var that = this;
-            input = (defaultOptions.link) ? urlEmbed(input) : input;
+            input = (options.link) ? urlEmbed(input) : input;
             input = insertfontSmiley(input);
             input = insertEmoji(input);
-            input = (defaultOptions.pdfEmbed) ? pdfProcess.embed(input) : input;
-            input = (defaultOptions.audioEmbed) ? audioProcess.embed(input) : input;
-            input = (defaultOptions.highlightCode) ? codeProcess.highlight(input) : input;
-            input = (defaultOptions.basicVideoEmbed) ? videoProcess.embedBasic(input) : input;
-            input = (defaultOptions.imageEmbed) ? imageProcess.embed(input) : input;
+            input = (options.pdfEmbed) ? pdfProcess.embed(input) : input;
+            input = (options.audioEmbed) ? audioProcess.embed(input) : input;
+            input = (options.highlightCode) ? codeProcess.highlight(input) : input;
+            input = (options.basicVideoEmbed) ? videoProcess.embedBasic(input) : input;
+            input = (options.imageEmbed) ? imageProcess.embed(input) : input;
             $(that).html(input);
-            if (defaultOptions.highlightCode) {
-                if(!window.hljs){
+            if (options.highlightCode) {
+                if (!window.hljs) {
                     throw 'hljs is not defined';
                 }
                 else {
                     $(that).find('.ejs-code').each(function () {
                         hljs.highlightBlock(this);
                     });
-                    input=$(that).html();
+                    input = $(that).html();
                 }
             }
-            if (defaultOptions.videoEmbed) {
-                $.when(videoProcess.embed(input, defaultOptions)).then(
+            if (options.videoEmbed) {
+                $.when(videoProcess.embed(input, options)).then(
                     function (d) {
                         $(that).html(d);
                     }
@@ -720,11 +725,9 @@
 
             }
 
-
-
         });
 
-        videoProcess.play(elem, defaultOptions);
+        videoProcess.play(elem, options);
         pdfProcess.view(elem);
 
     }

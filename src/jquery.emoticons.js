@@ -23,7 +23,6 @@
 
     'use strict';
 
-
     var icons = [{
         'text' : ':)',
         'class': 'smiley',
@@ -290,11 +289,12 @@
 
     /* VARIABLE DECLARATIONS */
     var pluginName = 'emoticons',
-        defaultOptions = {
+        options = {
             link           : true,
             linkTarget     : '_self',
+            linkExclude    : [],
             pdfEmbed       : true,
-            imageEmbed     :true,
+            imageEmbed     : true,
             audioEmbed     : false,
             videoEmbed     : true,
             basicVideoEmbed: true,
@@ -308,14 +308,14 @@
     //Global Variables
 
     // The actual plugin constructor
-    function Plugin(element, options) {
+    function Plugin(element, setOptions) {
         this.element = element;
         // jQuery has an extend method which merges the contents of two or
         // more objects, storing the result in the first object. The first object
         // is generally empty as we don't want to alter the default options for
         // future instances of the plugin
-        this.settings = $.extend(defaultOptions, options);
-        this._defaults = defaultOptions;
+        this.settings = $.extend(options, setOptions);
+        this._defaults = options;
         this._name = pluginName;
         this.init(this.settings, this.element);
     }
@@ -331,6 +331,31 @@
             s_ = useWordBoundary && toLong ? s_.substr(0, s_.lastIndexOf(' ')) : s_;
             return toLong ? s_ + '...' : s_;
         };
+
+    //Workaround for using indexOf function in browsers < IE8
+    //to use as a fallback for indexOf in older browsers.
+
+    var indexOf = function (arrayProp) {
+        if (typeof Array.prototype.indexOf === 'function') {
+            indexOf = Array.prototype.indexOf;
+        }
+        else {
+            indexOf = function (arrayProp) {
+                var i = -1, index = -1;
+
+                for (i = 0; i < this.length; i++) {
+                    if (this[i] === arrayProp) {
+                        index = i;
+                        break;
+                    }
+                }
+
+                return index;
+            };
+        }
+
+        return indexOf.call(this, arrayProp);
+    };
 
     /**
      * FUNCTION insertfontSmiley
@@ -363,10 +388,16 @@
      *
      * @return {string}
      */
+
+
     function urlEmbed(str) {
         var urlRegex = /((href|src)=["']|)(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
         var strReplaced = str.replace(urlRegex, function (match) {
-                return '<a href="' + match + '" target="' + defaultOptions.linkTarget + '">' + match + '</a>';
+                var extension = match.split('.')[match.split('.').length - 1];
+                if (!((indexOf.call(options.linkExclude, extension) > -1))) {
+                    return '<a href="' + match + '" target="' + options.linkTarget + '">' + match + '</a>';
+                }
+                return match;
             }
         );
         return strReplaced;
@@ -640,7 +671,7 @@
             var i = /((?:https?):\/\/\S*\.(?:gif|jpg|jpeg|tiff|png|svg|webp))/gi;
             if (str.match(i)) {
                 var template = this.template(RegExp.$1);
-                str=str+template;
+                str = str + template;
             }
             return str;
         }
@@ -657,28 +688,28 @@
             }
 
             var that = this;
-            input = (defaultOptions.link) ? urlEmbed(input) : input;
+            input = (options.link) ? urlEmbed(input) : input;
             input = insertfontSmiley(input);
             input = insertEmoji(input);
-            input = (defaultOptions.pdfEmbed) ? pdfProcess.embed(input) : input;
-            input = (defaultOptions.audioEmbed) ? audioProcess.embed(input) : input;
-            input = (defaultOptions.highlightCode) ? codeProcess.highlight(input) : input;
-            input = (defaultOptions.basicVideoEmbed) ? videoProcess.embedBasic(input) : input;
-            input = (defaultOptions.imageEmbed) ? imageProcess.embed(input) : input;
+            input = (options.pdfEmbed) ? pdfProcess.embed(input) : input;
+            input = (options.audioEmbed) ? audioProcess.embed(input) : input;
+            input = (options.highlightCode) ? codeProcess.highlight(input) : input;
+            input = (options.basicVideoEmbed) ? videoProcess.embedBasic(input) : input;
+            input = (options.imageEmbed) ? imageProcess.embed(input) : input;
             $(that).html(input);
-            if (defaultOptions.highlightCode) {
-                if(!window.hljs){
+            if (options.highlightCode) {
+                if (!window.hljs) {
                     throw 'hljs is not defined';
                 }
                 else {
                     $(that).find('.ejs-code').each(function () {
                         hljs.highlightBlock(this);
                     });
-                    input=$(that).html();
+                    input = $(that).html();
                 }
             }
-            if (defaultOptions.videoEmbed) {
-                $.when(videoProcess.embed(input, defaultOptions)).then(
+            if (options.videoEmbed) {
+                $.when(videoProcess.embed(input, options)).then(
                     function (d) {
                         $(that).html(d);
                     }
@@ -686,11 +717,9 @@
 
             }
 
-
-
         });
 
-        videoProcess.play(elem, defaultOptions);
+        videoProcess.play(elem, options);
         pdfProcess.view(elem);
 
     }
