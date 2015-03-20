@@ -69,12 +69,14 @@ $('#element').emoticons({
   audioEmbed     : false,       //Instructs the library whether or not to embed audio
   videoEmbed     : true,        //Instructs the library whether or not to show a preview of youtube/vimeo videos with details
   basicVideoEmbed: true,        //Instructs the library whether or not to show basic video files like mp4 etc. (supported by html5 player)
-  videoWidth     : null,        //width of the video frame
-  videoHeight    : null,        //height of the video frame
-  ytAuthKey      : 'xxxxxxx',   //(**Mandatory**) The authorization key obtained from google's developer console for using youtube data api
+  videoWidth     : 640,        //width of the video frame (in pixels)
+  videoHeight    : 390,        //height of the video frame (in pixels)
+  ytAuthKey      : 'xxxxxxx',   //( Mandatory ) The authorization key obtained from google's developer console for using youtube data api
   highlightCode  : true         //Instructs the library whether or not to highlight code syntaxes.
 });
 ```
+If you specify either one of **videoWidth** or **videoHeight** , the other option will be automatically set in the aspected ratio.
+
 
 Contributing
 ------------
