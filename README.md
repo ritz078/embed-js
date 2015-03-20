@@ -60,36 +60,31 @@ Advanced Usage
 
 ```javascript
 $('#element').emoticons({
-  link           : true,
-  linkTarget     : '_blank',
-  pdfEmbed       : true,
-  imageEmbed     :true,
-  audioEmbed     : false,
-  videoEmbed     : true,
-  basicVideoEmbed: true,
-  videoWidth     : null,
-  videoHeight    : null,
-  ytAuthKey      : 'xxxxxxxxxxxxxxxxxxxxx',
-  highlightCode  : true
+  link           : true,        //Instructs the library whether or not to embed urls
+  linkTarget     : '_blank',    //same as the target attribute in html anchor tag . supports all html supported target values.
+  pdfEmbed       : true,        //Instructs the library whether or not to show a preview of pdf links
+  imageEmbed     :true,         //Instructs the library whether or not to embed images
+  audioEmbed     : false,       //Instructs the library whether or not to embed audio
+  videoEmbed     : true,        //Instructs the library whether or not to show a preview of youtube/vimeo videos with details
+  basicVideoEmbed: true,        //Instructs the library whether or not to show basic video files like mp4 etc. (supported by html5 player)
+  videoWidth     : null,        //width of the video frame
+  videoHeight    : null,        //height of the video frame
+  ytAuthKey      : 'xxxxxxx',   //(**Mandatory**) The authorization key obtained from google's developer console for using youtube data api
+  highlightCode  : true         //Instructs the library whether or not to highlight code syntaxes.
 });
 ```
 
-Options
--------
-property|Default value|Description
---------|-------------|-----------
-link|true|Instructs the library whether or not to embed urls
-linkTarget|'_blank'|same as the target attribute in html anchor tag . supports all html supported target values.
-pdfEmbed|false|Instructs the library whether or not to show a preview of pdf links
-videoEmbed|true|Instructs the library whether or not to show a preview of youtube/vimeo videos with details
-videoWidth|null|width of the video frame
-videoHeight|null|height of the video frame
-ytAuthKey|null|(**Mandatory**) The authorization key obtained from google's developer console for using youtube data api
-imageEmbed|true|Instructs the library whether or not to embed images
-audioEmbed|false|Instructs the library whether or not to embed audio
-basicVideoEmbed|false|Instructs the library whether or not to show basic video files like mp4 etc. (supported by html5 player)
-highlightCode|true|Instructs the library whether or not to highlight code syntaxes.
+Contributing
+------------
 
+Before sending a pull request remember to follow [jQuery Core Style Guide](http://contribute.jquery.org/style-guide/js/).
+
+1. Fork it!
+2. Create your feature branch: `git checkout -b my-new-feature`
+3. Make your changes on the `src` folder, never on the `dist` folder.
+4. Commit your changes: `git commit -m 'Add some feature'`
+5. Push to the branch: `git push origin my-new-feature`
+6. Submit a pull request :smile:
 
 License
 -------
