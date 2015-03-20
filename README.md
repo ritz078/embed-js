@@ -66,7 +66,7 @@ $('#element').emoticons({
   //Instructs the library whether or not to embed urls
   linkTarget     : '_blank',
   //same as the target attribute in html anchor tag . supports all html supported target values.
-  linkExclude    :['jpg','pdf']
+  linkExclude    :['jpg','pdf'],
   //Array of extensions to be excluded from converting into links
   pdfEmbed       : true,
   //Instructs the library whether or not to show a preview of pdf links
