@@ -62,30 +62,18 @@ Advanced Usage
 
 ```javascript
 $('#element').emoticons({
-  link           : true,
-  //Instructs the library whether or not to embed urls
-  linkTarget     : '_blank',
-  //same as the target attribute in html anchor tag . supports all html supported target values.
-  linkExclude    :['jpg','pdf'],
-  //Array of extensions to be excluded from converting into links
-  pdfEmbed       : true,
-  //Instructs the library whether or not to show a preview of pdf links
-  imageEmbed     :true,
-  //Instructs the library whether or not to embed images
-  audioEmbed     : false,
-  //Instructs the library whether or not to embed audio
-  videoEmbed     : true,
-  //Instructs the library whether or not to show a preview of youtube/vimeo videos with details
-  basicVideoEmbed: true,
-  //Instructs the library whether or not to show basic video files like mp4 etc. (supported by html5 player)
-  videoWidth     : 640,
-  //width of the video frame (in pixels)
-  videoHeight    : 390,
-  //height of the video frame (in pixels)
-  ytAuthKey      : 'xxxxxxx',
-  //( Mandatory ) The authorization key obtained from google's developer console for using youtube data api
-  highlightCode  : true
-  //Instructs the library whether or not to highlight code syntaxes.
+  link           : true,            //Instructs the library whether or not to embed urls
+  linkTarget     : '_blank',        //same as the target attribute in html anchor tag . supports all html supported target values.
+  linkExclude    :['jpg','pdf'],    //Array of extensions to be excluded from converting into links
+  pdfEmbed       : true,            //set true to show a preview of pdf links
+  imageEmbed     :true,             //set true to embed images
+  audioEmbed     : false,           //set true to embed audio
+  videoEmbed     : true,            //set true to show a preview of youtube/vimeo videos with details
+  basicVideoEmbed: true,            //set true to show basic video files like mp4 etc. (supported by html5 player)
+  videoWidth     : 640,             //width of the video frame (in pixels)
+  videoHeight    : 390,             //height of the video frame (in pixels)
+  ytAuthKey      : 'xxxxxxx',       //( Mandatory ) The authorization key obtained from google's developer console for using youtube data api
+  highlightCode  : true             //Instructs the library whether or not to highlight code syntax.
 });
 ```
 If you specify either one of **videoWidth** or **videoHeight** , the other option will be automatically set in the aspected ratio.
