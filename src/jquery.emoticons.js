@@ -289,21 +289,25 @@
 
     /* VARIABLE DECLARATIONS */
     var pluginName = 'emoticons', options = {
-        link           : true,
-        linkTarget     : '_self',
-        linkExclude    : [],
-        pdfEmbed       : true,
-        imageEmbed     : true,
-        audioEmbed     : false,
-        videoEmbed     : true,
-        basicVideoEmbed: true,
-        videoWidth     : null,
-        videoHeight    : null,
-        ytAuthKey      : null,
-        highlightCode  : true,
+        link            : true,
+        linkTarget      : '_self',
+        linkExclude     : [],
+        pdfEmbed        : true,
+        imageEmbed      : true,
+        audioEmbed      : false,
+        videoEmbed      : true,
+        basicVideoEmbed : true,
+        videoWidth      : null,
+        videoHeight     : null,
+        ytAuthKey       : null,
+        highlightCode   : true,
         beforePdfPreview: function () {
         },
         afterPdfPreview : function () {
+        },
+        onVideoShow : function () {
+        },
+        onVideoLoad  : function () {
         }
     };
     /* ENDS */
@@ -467,10 +471,9 @@
             }
         },
 
-        play : function (elem) {
+        play : function (elem, settings) {
             $(elem).undelegate('click').on('click', '.ejs-video-thumb', function (e) {
-
-                console.log(this);
+                var self=this;
                 var videoInfo = {};
                 var videoDetails = $(this).find('img')[0].alt.split('/');
 
@@ -482,8 +485,14 @@
                 }
 
                 var videoPlayerTemplate = '<div class="ejs-video-player"><iframe src="' + videoInfo.url + '" frameBorder="0" width="' + video.width + '" height="' + video.height + '" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe></div>';
+                var wrapper=$(self).parent();
+                $(wrapper).html(videoPlayerTemplate);
+                settings.onVideoShow();
 
-                $(this).parent().html(videoPlayerTemplate);
+                // Callback after the video iframe is loaded
+                $(wrapper).find('iframe').load(function(){
+                    settings.onVideoLoad();
+                });
                 e.stopPropagation();
 
             });
@@ -505,11 +514,7 @@
                         video.rawDescription = ytData.snippet.description;
                         video.views = ytData.statistics.viewCount;
                         video.likes = ytData.statistics.likeCount;
-                        video.uploader = ytData.snippet.channelTitle;
-                        video.uploaderPage = 'https://www.youtube.com/channel/' + ytData.snippet.channelId;
-                        video.uploadDate = ytData.snippet.publishedAt;
                         video.url = 'https://www.youtube.com/watch?v=' + RegExp.$1;
-                        video.embedSrc = 'https://www.youtube.com/embed/' + RegExp.$1 + '?autoplay=1';
                         video.width = videoDimensions.width;
                         video.height = videoDimensions.height;
                         video.id = ytData.id;
@@ -531,11 +536,7 @@
                         video.thumbnail = d[0].thumbnail_medium;
                         video.views = d[0].stats_number_of_plays;
                         video.likes = d[0].stats_number_of_likes;
-                        video.uploader = d[0].user_name;
-                        video.uploaderPage = d[0].user_url;
-                        video.uploadDate = d[0].uploadDate;
                         video.url = d[0].url;
-                        video.embedSrc = '//player.vimeo.com/video/' + RegExp.$3 + '?title=0&byline=0&portrait=0&autoplay=1';
                         video.width = videoDimensions.width;
                         video.height = videoDimensions.height;
                         video.id = d[0].id;
@@ -602,7 +603,7 @@
 
                 settings.beforePdfPreview();
 
-                var self=this;
+                var self = this;
 
                 var pdfParent = $(self).closest('.ejs-pdf');
                 var pdfUrl = $(pdfParent).find('a')[1].href;

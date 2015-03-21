@@ -52,10 +52,12 @@ HTML Structure
 
 Simple Usage
 ------------
-```javascript
+```html
+<script>
 $('#element').emoticons({
     ytAuthKey : 'xxxxxxxx'
 });
+</script>
 ```
 Advanced Usage
 --------------
@@ -86,11 +88,15 @@ $('#element').emoticons({
       //( Mandatory ) The authorization key obtained from google's developer console for using youtube data api
       ytAuthKey         : 'xxxxxxx',
       //Instructs the library whether or not to highlight code syntax.
-      highlightCode     : true
+      highlightCode     : true,
       //callback before pdf preview
       beforePdfPreview  : function(){},
       //callback after pdf preview
-      afterPdfPreview   : function(){}
+      afterPdfPreview   : function(){},
+      // callback on video frame view
+      onVideoShow:function(){},
+      //callback on video load (youtube/vimeo)
+      onVideoLoad:function(){}
 
 });
 </script>
