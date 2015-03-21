@@ -46,7 +46,79 @@
 
 
     <div class="content">
+      <div class="card about">
+        <h5 class="title">emoticons-js</h5>
+        <div style="display: table;margin: 10px auto;">
+          <iframe src="https://ghbtns.com/github-btn.html?user=ritz078&repo=emoticons-js&type=star&count=true&size=large" frameborder="0" scrolling="0" width="160px" height="30px"></iframe>
+          <iframe src="https://ghbtns.com/github-btn.html?user=ritz078&type=follow&count=true&size=large" frameborder="0" scrolling="0" width="220px" height="30px"></iframe>
+
+        </div>
+        <p>A jQuery plugin for converting text emojis into image-based emoticons, also supporting an automatic media embedding system for multimedia URLs</p>
+        <p>A demo is included with the download package.</p>
+        <p>An <a href="http://rkritesh.in/ngEmoticons">AngularJS version</a> of Emoticons-js is also available.</p>
+
+        <p>Some <a href="#a" class="demo"><b>Demo examples</b></a> with their source code are given below.</p>
+
+        </div>
+
+      <div class="card">
+        <h5 class="title">Features</h5>
+        <ol>
+          <li><p>Emoticons-js has apparently evolved from a simple text emoticon to image emoji conversion system into a fully-blown text beautification toolkit.</p></li>
+          <li> <p>Besides taking emoticons expressed using a text form and converting them to icon font-based or image-based emojis, this plugin can also do some other stuff too.</p></li>
+          <li><p>This includes parsing the text for links pointing to multimedia assets, and automatically embedding those assets inside the text.</p></li>
+          <li> <p>YouTube & Vimeo videos, PDF files, images, audio, and video files can all be retrieved and embedded inside the text, allowing users to view their content without having to navigate away to another browser page.</p></li>
+          <li><p> <b>Emoticons-js can also highlight source code embedded on the page as well, but this requires you to load Highlight.js.</b></p></li>
+        </ol>
+
+
+
+
+
+
+      </div>
+      <div class="card">
+        <h5 class="title">Documentation</h5>
+        <pre><code>
+    $('#element').emoticons({
+        //Instructs the library whether or not to embed urls
+        link              : true,
+        //same as the target attribute in html anchor tag . supports all html supported target values.
+        linkTarget        : '_blank',
+        //Array of extensions to be excluded from converting into links
+        linkExclude       : ['jpg','pdf'],
+        //set true to show a preview of pdf links
+        pdfEmbed          : true,
+        //set true to embed images
+        imageEmbed        : true,
+        //set true to embed audio
+        audioEmbed        : false,
+        //set true to show a preview of youtube/vimeo videos with details
+        videoEmbed        : true,
+        //set true to show basic video files like mp4 etc. (supported by html5 player)
+        basicVideoEmbed   : true,
+        //width of the video frame (in pixels)
+        videoWidth        : 640,
+        //height of the video frame (in pixels)
+        videoHeight       : 390,
+        //( Mandatory ) The authorization key obtained from google's developer console for using youtube data api
+        ytAuthKey         : 'xxxxxxx',
+        //Instructs the library whether or not to highlight code syntax.
+        highlightCode     : true,
+        //callback before pdf preview
+        beforePdfPreview  : function(){},
+        //callback after pdf preview
+        afterPdfPreview   : function(){},
+        // callback on video frame view
+        onVideoShow:function(){},
+        //callback on video load (youtube/vimeo)
+        onVideoLoad:function(){}
+
+    });
+        </code></pre>
+      </div>
       <div class="card" id="a">
+        <h5 class="title">Examples</h5>
         <div class="title">Simple Usage</div>
         <div class="row">
           <div class="col s12">

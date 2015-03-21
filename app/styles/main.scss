@@ -63,6 +63,7 @@ header {
       }
     li {
       margin-top : 10px;
+      -webkit-font-smoothing: antialiased;
       &:hover{
         color:#fff;
         }
@@ -76,6 +77,9 @@ header {
   padding     : 20px;
   margin-top  : 50px;
   margin-left : 250px;
+  ol{
+    padding-left : 40px;
+    }
   pre {
     white-space : pre;
     code {
