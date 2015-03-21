@@ -46,7 +46,11 @@ header {
   iframe{
     position: fixed;
     bottom: 50px;
-    left: 64px;
+    left: 44px;
+    &:first-of-type{
+      bottom:90px;
+      left:64px;
+      }
     }
   ul {
     margin-top   : 50px;
