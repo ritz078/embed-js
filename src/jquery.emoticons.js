@@ -301,13 +301,15 @@
         videoHeight     : null,
         ytAuthKey       : null,
         highlightCode   : true,
+        tweetsEmbed     : true,
+        tweetMaxWidth   : 500,
         beforePdfPreview: function () {
         },
         afterPdfPreview : function () {
         },
-        onVideoShow : function () {
+        onVideoShow     : function () {
         },
-        onVideoLoad  : function () {
+        onVideoLoad     : function () {
         }
     };
     /* ENDS */
@@ -356,6 +358,23 @@
         }
 
         return indexOf.call(this, arrayProp);
+    };
+
+    /**
+     * Retures a new array with unique values
+     *
+     * @returns {Array}
+     */
+    Array.prototype.getUnique = function () {
+        var u = {}, a = [];
+        for (var i = 0, l = this.length; i < l; ++i) {
+            if (u.hasOwnProperty(this[i])) {
+                continue;
+            }
+            a.push(this[i]);
+            u[this[i]] = 1;
+        }
+        return a;
     };
 
     /**
@@ -473,7 +492,7 @@
 
         play : function (elem, settings) {
             $(elem).undelegate('click').on('click', '.ejs-video-thumb', function (e) {
-                var self=this;
+                var self = this;
                 var videoInfo = {};
                 var videoDetails = $(this).find('img')[0].alt.split('/');
 
@@ -485,12 +504,12 @@
                 }
 
                 var videoPlayerTemplate = '<div class="ejs-video-player"><iframe src="' + videoInfo.url + '" frameBorder="0" width="' + video.width + '" height="' + video.height + '" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe></div>';
-                var wrapper=$(self).parent();
+                var wrapper = $(self).parent();
                 $(wrapper).html(videoPlayerTemplate);
                 settings.onVideoShow();
 
                 // Callback after the video iframe is loaded
-                $(wrapper).find('iframe').load(function(){
+                $(wrapper).find('iframe').load(function () {
                     settings.onVideoLoad();
                 });
                 e.stopPropagation();
@@ -498,59 +517,62 @@
             });
         },
         embed: function (data, opts) {
-            var ytRegex = /https?:\/\/(?:[0-9A-Z-]+\.)?(?:youtu\.be\/|youtube\.com(?:\/embed\/|\/v\/|\/watch\?v=|\/ytscreeningroom\?v=|\/feeds\/api\/videos\/|\/user\S*[^\w\-\s]|\S*[^\w\-\s]))([\w\-]{11})[?=&+%\w-]*/gi;
-            var vimeoRegex = /https?:\/\/(?:www\.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/([^\/]*)\/videos\/|album\/(\d+)\/video\/|)(\d+)(?:$|\/|\?)*/gi;
-            var videoDimensions = this.dimensions(opts);
             var deferred = $.Deferred();
-            var returnedData;
-            if (data.match(ytRegex)) {
-                $.getJSON('https://www.googleapis.com/youtube/v3/videos?id=' + RegExp.$1 + '&key=' + opts.ytAuthKey + '&part=snippet,statistics')
-                    .success(function (d) {
-                        var ytData = d.items[0];
-                        video.host = 'youtube';
-                        video.title = ytData.snippet.title;
-                        video.thumbnail = ytData.snippet.thumbnails.medium.url;
-                        video.description = (ytData.snippet.description.trunc(250, true)).replace(/\n/g, ' ').replace(/&#10;/g, ' ');
-                        video.rawDescription = ytData.snippet.description;
-                        video.views = ytData.statistics.viewCount;
-                        video.likes = ytData.statistics.likeCount;
-                        video.url = 'https://www.youtube.com/watch?v=' + RegExp.$1;
-                        video.width = videoDimensions.width;
-                        video.height = videoDimensions.height;
-                        video.id = ytData.id;
-                        initVideoTemplate();
-                        data = data + videoTemplate;
-                        returnedData = data;
-                        deferred.resolve(returnedData);
+            if(opts.videoEmbed) {
+                var ytRegex = /https?:\/\/(?:[0-9A-Z-]+\.)?(?:youtu\.be\/|youtube\.com(?:\/embed\/|\/v\/|\/watch\?v=|\/ytscreeningroom\?v=|\/feeds\/api\/videos\/|\/user\S*[^\w\-\s]|\S*[^\w\-\s]))([\w\-]{11})[?=&+%\w-]*/gi;
+                var vimeoRegex = /https?:\/\/(?:www\.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/([^\/]*)\/videos\/|album\/(\d+)\/video\/|)(\d+)(?:$|\/|\?)*/gi;
+                var videoDimensions = this.dimensions(opts);
+                var returnedData;
+                if (data.match(ytRegex)) {
+                    $.getJSON('https://www.googleapis.com/youtube/v3/videos?id=' + RegExp.$1 + '&key=' + opts.ytAuthKey + '&part=snippet,statistics')
+                        .success(function (d) {
+                            var ytData = d.items[0];
+                            video.host = 'youtube';
+                            video.title = ytData.snippet.title;
+                            video.thumbnail = ytData.snippet.thumbnails.medium.url;
+                            video.description = (ytData.snippet.description.trunc(250, true)).replace(/\n/g, ' ').replace(/&#10;/g, ' ');
+                            video.rawDescription = ytData.snippet.description;
+                            video.views = ytData.statistics.viewCount;
+                            video.likes = ytData.statistics.likeCount;
+                            video.url = 'https://www.youtube.com/watch?v=' + RegExp.$1;
+                            video.width = videoDimensions.width;
+                            video.height = videoDimensions.height;
+                            video.id = ytData.id;
+                            initVideoTemplate();
+                            data = data + videoTemplate;
+                            returnedData = data;
+                            deferred.resolve(returnedData);
 
-                    });
+                        });
+                }
+                else if (data.match(vimeoRegex)) {
+                    $.getJSON('https://vimeo.com/api/v2/video/' + RegExp.$3 + '.json')
+                        .success(function (d) {
+
+                            video.host = 'vimeo';
+                            video.title = d[0].title;
+                            video.rawDescription = (d[0].description).replace(/\n/g, '<br/>').replace(/&#10;/g, '<br/>');
+                            video.description = (d[0].description).replace(/((<|&lt;)br\s*\/*(>|&gt;)\r\n)/g, ' ').trunc(250, true);
+                            video.thumbnail = d[0].thumbnail_medium;
+                            video.views = d[0].stats_number_of_plays;
+                            video.likes = d[0].stats_number_of_likes;
+                            video.url = d[0].url;
+                            video.width = videoDimensions.width;
+                            video.height = videoDimensions.height;
+                            video.id = d[0].id;
+                            initVideoTemplate();
+                            returnedData = data + videoTemplate;
+                            deferred.resolve(returnedData);
+
+                        });
+                }
+                else {
+                    deferred.resolve(data);
+                }
             }
-            else if (data.match(vimeoRegex)) {
-                $.getJSON('https://vimeo.com/api/v2/video/' + RegExp.$3 + '.json')
-                    .success(function (d) {
-
-                        video.host = 'vimeo';
-                        video.title = d[0].title;
-                        video.rawDescription = (d[0].description).replace(/\n/g, '<br/>').replace(/&#10;/g, '<br/>');
-                        video.description = (d[0].description).replace(/((<|&lt;)br\s*\/*(>|&gt;)\r\n)/g, ' ').trunc(250, true);
-                        video.thumbnail = d[0].thumbnail_medium;
-                        video.views = d[0].stats_number_of_plays;
-                        video.likes = d[0].stats_number_of_likes;
-                        video.url = d[0].url;
-                        video.width = videoDimensions.width;
-                        video.height = videoDimensions.height;
-                        video.id = d[0].id;
-                        initVideoTemplate();
-                        returnedData = data + videoTemplate;
-                        deferred.resolve(returnedData);
-
-                    });
+            else{
+                deferred.resolve(data);
             }
-            else {
-                returnedData = data;
-                deferred.resolve(returnedData);
-            }
-
             return deferred.promise();
 
         },
@@ -685,6 +707,80 @@
         }
     }
 
+    var tweetProcess = {
+
+        service: function (url) {
+
+            /**
+             * To get around cross-domain issue we are using JSONP
+             * to get the data from twitter.
+             *
+             * We are using the v1 api instead of v1.1 api as the later is
+             * not properly documented
+             */
+            var deferred = $.Deferred();
+
+            $.ajax({
+                dataType: 'jsonp',
+                url     : 'https://api.twitter.com/1/statuses/oembed.json?omit_script=true&url=' + url + '&maxwidth=' + options.tweetMaxWidth,
+                success : function (data) {
+                    deferred.resolve(data.html);
+                },
+                error:function(data){
+                    deferred.resolve(data.status);
+                }
+            });
+            return deferred.promise();
+        },
+
+        /**
+         * A method that returns the array of matching urls to twitter posts
+         * @param str
+         * @returns {Array}
+         */
+
+        getMatches: function (str) {
+            var tweetRegex = /https:\/\/twitter\.com\/\w+\/\w+\/\d+/gi;
+            var matches = str.match(tweetRegex) ? (str.match(tweetRegex)).getUnique() : null;
+            return matches;
+
+        },
+
+        embed: function (str, matches,opts) {
+
+            function serviceLoop(str, matches) {
+                if (matches) {
+                    that.service(matches[matches.length - 1]).then(function (data) {
+                        tweets.push(data);
+                        if (matches.length > 1) {
+                            matches.splice(-1, 1);
+                            serviceLoop(str, matches);
+                        }
+                        else {
+                            tweets.reverse();
+                            var resultStr = str + tweets.join('');
+                            deferred.resolve(resultStr);
+                        }
+                    });
+                }
+            }
+
+            if (opts.tweetsEmbed) {
+
+                var deferred = $.Deferred();
+                var that = this;
+                var tweets = [];
+                serviceLoop(str, matches);
+
+            }
+            else{
+                deferred.resolve(data);
+            }
+            return deferred.promise();
+        }
+
+    };
+
     function _driver(elem, settings) {
         elem.each(function () {
             var input = $(this).html();
@@ -696,6 +792,7 @@
             }
 
             var that = this;
+
             input = (settings.link) ? urlEmbed(input) : input;
             input = insertfontSmiley(input);
             input = insertEmoji(input);
@@ -704,7 +801,26 @@
             input = (settings.highlightCode) ? codeProcess.highlight(input) : input;
             input = (settings.basicVideoEmbed) ? videoProcess.embedBasic(input) : input;
             input = (settings.imageEmbed) ? imageProcess.embed(input) : input;
-            $(that).html(input);
+            //$(that).html(input);
+
+                videoProcess.embed(input, settings).then(
+                    function (d) {
+                        if(tweetProcess.getMatches(d)){
+                            tweetProcess.embed(d, tweetProcess.getMatches(input),settings).then(function(data){
+                                console.log(data);
+                                $(that).html(data);
+                                $(that).css('display','block');
+                                twttr.widgets.load();
+                            });
+                        }
+                        else{
+                            $(that).html(d);
+                            $(that).css('display','block');
+                        }
+                    }
+                );
+
+
             if (settings.highlightCode) {
                 if (!window.hljs) {
                     throw 'hljs is not defined';
@@ -713,17 +829,10 @@
                     $(that).find('.ejs-code').each(function () {
                         hljs.highlightBlock(this);
                     });
-                    input = $(that).html();
                 }
             }
-            if (settings.videoEmbed) {
-                $.when(videoProcess.embed(input, settings)).then(
-                    function (d) {
-                        $(that).html(d);
-                    }
-                );
 
-            }
+
 
         });
 
