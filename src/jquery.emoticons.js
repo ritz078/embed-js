@@ -288,21 +288,24 @@
     ];
 
     /* VARIABLE DECLARATIONS */
-    var pluginName = 'emoticons',
-        options = {
-            link           : true,
-            linkTarget     : '_self',
-            linkExclude    : [],
-            pdfEmbed       : true,
-            imageEmbed     : true,
-            audioEmbed     : false,
-            videoEmbed     : true,
-            basicVideoEmbed: true,
-            videoWidth     : null,
-            videoHeight    : null,
-            ytAuthKey      : null,
-            highlightCode  : true
-        };
+    var pluginName = 'emoticons', options = {
+        link           : true,
+        linkTarget     : '_self',
+        linkExclude    : [],
+        pdfEmbed       : true,
+        imageEmbed     : true,
+        audioEmbed     : false,
+        videoEmbed     : true,
+        basicVideoEmbed: true,
+        videoWidth     : null,
+        videoHeight    : null,
+        ytAuthKey      : null,
+        highlightCode  : true,
+        beforePdfPreview: function () {
+        },
+        afterPdfPreview : function () {
+        }
+    };
     /* ENDS */
 
     //Global Variables
@@ -310,13 +313,7 @@
     // The actual plugin constructor
     function Plugin(element, setOptions) {
         this.element = element;
-        // jQuery has an extend method which merges the contents of two or
-        // more objects, storing the result in the first object. The first object
-        // is generally empty as we don't want to alter the default options for
-        // future instances of the plugin
-        this.settings = $.extend(options, setOptions);
-        this._defaults = options;
-        this._name = pluginName;
+        this.settings = $.extend({}, options, setOptions);
         this.init(this.settings, this.element);
     }
 
@@ -599,12 +596,22 @@
             return str;
         },
 
-        view: function (elem) {
+        view: function (elem, settings) {
             $(elem).on('click', '.ejs-pdf-view-active', function (e) {
-                var pdfParent = $(this).closest('.ejs-pdf');
+                //calling the function before pdf is shown
+
+                settings.beforePdfPreview();
+
+                var self=this;
+
+                var pdfParent = $(self).closest('.ejs-pdf');
                 var pdfUrl = $(pdfParent).find('a')[1].href;
                 var pdfViewTemplate = ' <div class="ejs-pdf-viewer"><iframe src="' + pdfUrl + '" frameBorder="0"></iframe></div>';
                 pdfParent.html(pdfViewTemplate);
+
+                //calling the function after the pdf is shown.
+
+                settings.afterPdfPreview();
                 e.stopPropagation();
             });
         }
@@ -677,7 +684,7 @@
         }
     }
 
-    function _driver(elem) {
+    function _driver(elem, settings) {
         elem.each(function () {
             var input = $(this).html();
             if (input === undefined || input === null) {
@@ -688,16 +695,16 @@
             }
 
             var that = this;
-            input = (options.link) ? urlEmbed(input) : input;
+            input = (settings.link) ? urlEmbed(input) : input;
             input = insertfontSmiley(input);
             input = insertEmoji(input);
-            input = (options.pdfEmbed) ? pdfProcess.embed(input) : input;
-            input = (options.audioEmbed) ? audioProcess.embed(input) : input;
-            input = (options.highlightCode) ? codeProcess.highlight(input) : input;
-            input = (options.basicVideoEmbed) ? videoProcess.embedBasic(input) : input;
-            input = (options.imageEmbed) ? imageProcess.embed(input) : input;
+            input = (settings.pdfEmbed) ? pdfProcess.embed(input) : input;
+            input = (settings.audioEmbed) ? audioProcess.embed(input) : input;
+            input = (settings.highlightCode) ? codeProcess.highlight(input) : input;
+            input = (settings.basicVideoEmbed) ? videoProcess.embedBasic(input) : input;
+            input = (settings.imageEmbed) ? imageProcess.embed(input) : input;
             $(that).html(input);
-            if (options.highlightCode) {
+            if (settings.highlightCode) {
                 if (!window.hljs) {
                     throw 'hljs is not defined';
                 }
@@ -708,8 +715,8 @@
                     input = $(that).html();
                 }
             }
-            if (options.videoEmbed) {
-                $.when(videoProcess.embed(input, options)).then(
+            if (settings.videoEmbed) {
+                $.when(videoProcess.embed(input, settings)).then(
                     function (d) {
                         $(that).html(d);
                     }
@@ -719,8 +726,8 @@
 
         });
 
-        videoProcess.play(elem, options);
-        pdfProcess.view(elem);
+        videoProcess.play(elem, settings);
+        pdfProcess.view(elem, settings);
 
     }
 
@@ -729,7 +736,7 @@
     // Avoid Plugin.prototype conflicts
     $.extend(Plugin.prototype, {
         init: function (settings, element) {
-            _driver($(element).find('div'));
+            _driver($(element).find('div'), settings);
         }
     });
 
