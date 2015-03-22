@@ -642,9 +642,9 @@
 
     var codeProcess = {
         encodeCode: function (c) {
-            // c = c.replace(/\&/gm, '&amp;');
-            c = c.replace(/</gm, '&lt;');
-            c = c.replace(/>/gm, '&gt;');
+            c = c.replace(/&amp;/gm, '');
+            c = c.replace(/&lt;/g, '<');
+            c = c.replace(/&gt;/g, '>');
             return c;
         },
 
@@ -664,7 +664,19 @@
                     // *blocks*, but in code spans. Will be converted
                     // back after the auto-linker runs.
 
-                    return '<pre><code class="ejs-code ' + m2 + '">' + c + '</code></pre>';
+                    var lang=m2.split('\n')[0];
+                    var languageArray = [];
+                    var highlightedCode;
+                    if(lang){
+                        languageArray.push(lang);
+                        highlightedCode=hljs.highlightAuto(c,languageArray);
+                    }
+                    else{
+                        highlightedCode=hljs.highlightAuto(c);
+                        lang=highlightedCode.language;
+                    }
+
+                    return '<pre><code class="ejs-code hljs ' + lang + '">' + highlightedCode.value + '</code></pre>';
                 }
             );
             return text;
@@ -807,7 +819,6 @@
                     function (d) {
                         if(tweetProcess.getMatches(d)){
                             tweetProcess.embed(d, tweetProcess.getMatches(input),settings).then(function(data){
-                                console.log(data);
                                 $(that).html(data);
                                 $(that).css('display','block');
                                 twttr.widgets.load();
@@ -821,16 +832,16 @@
                 );
 
 
-            if (settings.highlightCode) {
-                if (!window.hljs) {
-                    throw 'hljs is not defined';
-                }
-                else {
-                    $(that).find('.ejs-code').each(function () {
-                        hljs.highlightBlock(this);
-                    });
-                }
-            }
+            //if (settings.highlightCode) {
+            //    if (!window.hljs) {
+            //        throw 'hljs is not defined';
+            //    }
+            //    else {
+            //        $(that).find('.ejs-code').each(function () {
+            //            hljs.highlightBlock(this);
+            //        });
+            //    }
+            //}
 
 
 
