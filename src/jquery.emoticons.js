@@ -289,27 +289,31 @@
 
     /* VARIABLE DECLARATIONS */
     var pluginName = 'emoticons', options = {
-        link            : true,
-        linkTarget      : '_self',
-        linkExclude     : [],
-        pdfEmbed        : true,
-        imageEmbed      : true,
-        audioEmbed      : false,
-        videoEmbed      : true,
-        basicVideoEmbed : true,
-        videoWidth      : null,
-        videoHeight     : null,
-        ytAuthKey       : null,
-        highlightCode   : true,
-        tweetsEmbed     : true,
-        tweetMaxWidth   : 500,
-        beforePdfPreview: function () {
+        link            : true,           //Instructs the library whether or not to embed urls
+        linkTarget      : '_self',        //same as the target attribute in html anchor tag . supports all html supported target values.
+        linkExclude     : [],             //Array of extensions to be excluded from converting into links
+        pdfEmbed        : true,           //set true to show a preview of pdf links
+        imageEmbed      : true,           //set true to embed images
+        audioEmbed      : false,          //set true to embed audio
+        videoEmbed      : true,           //set true to show a preview of youtube/vimeo videos with details
+        basicVideoEmbed : true,           //set true to show basic video files like mp4 etc. (supported by html5 player)
+        videoWidth      : null,           //width of the video frame (in pixels)
+        videoHeight     : null,           //height of the video frame (in pixels)
+        ytAuthKey       : null,           //( Mandatory ) The authorization key obtained from google's developer console for using youtube data api
+        highlightCode   : true,           //Instructs the library whether or not to highlight code syntax.
+        tweetsEmbed     : true,           //Instructs the library whether or not embed the tweets
+        tweetMaxWidth   : 550,            //The maximum width of a rendered Tweet in whole pixels. This value must be between 220 and 550 inclusive.
+        tweetHideMedia  : false,          //When set to true or 1 links in a Tweet are not expanded to photo, video, or link previews.
+        tweetHideThread : false,          //When set to true or 1 a collapsed version of the previous Tweet in a conversation thread will not be displayed when the requested Tweet is in reply to another Tweet.
+        tweetAlign      : 'none',         //Specifies whether the embedded Tweet should be floated left, right, or center in the page relative to the parent element. Valid values are left, right, center, and none. Defaults to none, meaning no alignment styles are specified for the Tweet.
+        tweetLang       : 'en',           //Request returned HTML and a rendered Tweet in the specified (https://dev.twitter.com/web/overview/languages)
+        beforePdfPreview: function () {   //callback before pdf preview
         },
-        afterPdfPreview : function () {
+        afterPdfPreview : function () {   //callback after pdf preview
         },
-        onVideoShow     : function () {
+        onVideoShow     : function () {   // callback on video frame view
         },
-        onVideoLoad     : function () {
+        onVideoLoad     : function () {   //callback on video load (youtube/vimeo)
         }
     };
     /* ENDS */
@@ -518,7 +522,7 @@
         },
         embed: function (data, opts) {
             var deferred = $.Deferred();
-            if(opts.videoEmbed) {
+            if (opts.videoEmbed) {
                 var ytRegex = /https?:\/\/(?:[0-9A-Z-]+\.)?(?:youtu\.be\/|youtube\.com(?:\/embed\/|\/v\/|\/watch\?v=|\/ytscreeningroom\?v=|\/feeds\/api\/videos\/|\/user\S*[^\w\-\s]|\S*[^\w\-\s]))([\w\-]{11})[?=&+%\w-]*/gi;
                 var vimeoRegex = /https?:\/\/(?:www\.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/([^\/]*)\/videos\/|album\/(\d+)\/video\/|)(\d+)(?:$|\/|\?)*/gi;
                 var videoDimensions = this.dimensions(opts);
@@ -570,7 +574,7 @@
                     deferred.resolve(data);
                 }
             }
-            else{
+            else {
                 deferred.resolve(data);
             }
             return deferred.promise();
@@ -606,12 +610,7 @@
             if (str.match(p)) {
                 var pdfUrl = RegExp.$1;
 
-                var pdfTemplate = '<div class="ejs-pdf">' +
-                    ' <div class="ejs-pdf-preview">' +
-                    '<div class="ejs-pdf-icon">' +
-                    '<i class="fa fa-file-pdf-o"></i>' +
-                    '</div>' +
-                    '<div class="ejs-pdf-detail" ><div class="ejs-pdf-title"> <a href="">' + pdfUrl + '</a></div> <div class="ejs-pdf-view"> <button><i class="fa fa-download"></i> <a href="' + pdfUrl + '" target="_blank">Download</a></button> <button class="ejs-pdf-view-active"><i class="fa fa-eye"></i> View PDF</button></div> </div> </div></div>';
+                var pdfTemplate = '<div class="ejs-pdf"><div class="ejs-pdf-preview"><div class="ejs-pdf-icon"><i class="fa fa-file-pdf-o"></i></div><div class="ejs-pdf-detail" ><div class="ejs-pdf-title"> <a href="">' + pdfUrl + '</a></div> <div class="ejs-pdf-view"> <button><i class="fa fa-download"></i> <a href="' + pdfUrl + '" target="_blank">Download</a></button> <button class="ejs-pdf-view-active"><i class="fa fa-eye"></i> View PDF</button></div> </div> </div></div>';
 
                 str = str + pdfTemplate;
 
@@ -664,16 +663,16 @@
                     // *blocks*, but in code spans. Will be converted
                     // back after the auto-linker runs.
 
-                    var lang=m2.split('\n')[0];
+                    var lang = m2.split('\n')[0];
                     var languageArray = [];
                     var highlightedCode;
-                    if(lang){
+                    if (lang) {
                         languageArray.push(lang);
-                        highlightedCode=hljs.highlightAuto(c,languageArray);
+                        highlightedCode = hljs.highlightAuto(c, languageArray);
                     }
-                    else{
-                        highlightedCode=hljs.highlightAuto(c);
-                        lang=highlightedCode.language;
+                    else {
+                        highlightedCode = hljs.highlightAuto(c);
+                        lang = highlightedCode.language;
                     }
 
                     return '<pre><code class="ejs-code hljs ' + lang + '">' + highlightedCode.value + '</code></pre>';
@@ -721,7 +720,7 @@
 
     var tweetProcess = {
 
-        service: function (url) {
+        service: function (url,opts) {
 
             /**
              * To get around cross-domain issue we are using JSONP
@@ -734,11 +733,11 @@
 
             $.ajax({
                 dataType: 'jsonp',
-                url     : 'https://api.twitter.com/1/statuses/oembed.json?omit_script=true&url=' + url + '&maxwidth=' + options.tweetMaxWidth,
+                url     : 'https://api.twitter.com/1/statuses/oembed.json?omit_script=true&url=' + url + '&maxwidth=' + opts.tweetMaxWidth + '&hide_media=' + opts.tweetHideMedia + '&hide_thread=' + opts.tweetHideThread + '&align=' + opts.tweetAlign+'&lang='+opts.tweetLang,
                 success : function (data) {
                     deferred.resolve(data.html);
                 },
-                error:function(data){
+                error   : function (data) {
                     deferred.resolve(data.status);
                 }
             });
@@ -758,11 +757,14 @@
 
         },
 
-        embed: function (str, matches,opts) {
+        embed: function (str, matches, opts) {
+            var deferred = $.Deferred();
+            var that = this;
+            var tweets = [];
 
             function serviceLoop(str, matches) {
                 if (matches) {
-                    that.service(matches[matches.length - 1]).then(function (data) {
+                    that.service(matches[matches.length - 1],opts).then(function (data) {
                         tweets.push(data);
                         if (matches.length > 1) {
                             matches.splice(-1, 1);
@@ -778,15 +780,14 @@
             }
 
             if (opts.tweetsEmbed) {
-
-                var deferred = $.Deferred();
-                var that = this;
-                var tweets = [];
+                console.log(window);
+                if (!window.twttr) {
+                    throw new ReferenceError('twttr is not defined. Load twitter widget javascript file from http://platform.twitter.com/widgets.js');
+                }
                 serviceLoop(str, matches);
-
             }
-            else{
-                deferred.resolve(data);
+            else {
+                deferred.resolve(str);
             }
             return deferred.promise();
         }
@@ -815,22 +816,21 @@
             input = (settings.imageEmbed) ? imageProcess.embed(input) : input;
             //$(that).html(input);
 
-                videoProcess.embed(input, settings).then(
-                    function (d) {
-                        if(tweetProcess.getMatches(d)){
-                            tweetProcess.embed(d, tweetProcess.getMatches(input),settings).then(function(data){
-                                $(that).html(data);
-                                $(that).css('display','block');
-                                twttr.widgets.load();
-                            });
-                        }
-                        else{
-                            $(that).html(d);
-                            $(that).css('display','block');
-                        }
+            videoProcess.embed(input, settings).then(
+                function (d) {
+                    if (tweetProcess.getMatches(d)) {
+                        tweetProcess.embed(d, tweetProcess.getMatches(input), settings).then(function (data) {
+                            $(that).html(data);
+                            $(that).css('display', 'block');
+                            if (settings.tweetsEmbed)twttr.widgets.load();
+                        });
                     }
-                );
-
+                    else {
+                        $(that).html(d);
+                        $(that).css('display', 'block');
+                    }
+                }
+            );
 
             //if (settings.highlightCode) {
             //    if (!window.hljs) {
@@ -842,8 +842,6 @@
             //        });
             //    }
             //}
-
-
 
         });
 

@@ -89,6 +89,19 @@ $('#element').emoticons({
       ytAuthKey         : 'xxxxxxx',
       //Instructs the library whether or not to highlight code syntax.
       highlightCode     : true,
+      //Instructs the library whether or not embed the tweets
+      tweetsEmbed     : true,
+      //The maximum width of a rendered Tweet in whole pixels. This value must be between 220 and 550 inclusive.
+      tweetMaxWidth   : 550,
+      //When set to true or 1 links in a Tweet are not expanded to photo, video, or link previews.
+      tweetHideMedia  : false,
+      //When set to true or 1 a collapsed version of the previous Tweet in a conversation thread will not be displayed when the requested Tweet is in reply to another Tweet.
+      tweetHideThread : false,
+      //Specifies whether the embedded Tweet should be floated left, right, or center in the page relative to the parent element.
+      //Valid values are left, right, center, and none. Defaults to none, meaning no alignment styles are specified for the Tweet.
+      tweetAlign      : 'none',
+      //Request returned HTML and a rendered Tweet in the specified. Supported Languages listed here (https://dev.twitter.com/web/overview/languages)
+      tweetLang       : 'en',
       //callback before pdf preview
       beforePdfPreview  : function(){},
       //callback after pdf preview
