@@ -302,11 +302,13 @@
         ytAuthKey       : null,           //( Mandatory ) The authorization key obtained from google's developer console for using youtube data api
         highlightCode   : true,           //Instructs the library whether or not to highlight code syntax.
         tweetsEmbed     : true,           //Instructs the library whether or not embed the tweets
-        tweetMaxWidth   : 550,            //The maximum width of a rendered Tweet in whole pixels. This value must be between 220 and 550 inclusive.
-        tweetHideMedia  : false,          //When set to true or 1 links in a Tweet are not expanded to photo, video, or link previews.
-        tweetHideThread : false,          //When set to true or 1 a collapsed version of the previous Tweet in a conversation thread will not be displayed when the requested Tweet is in reply to another Tweet.
-        tweetAlign      : 'none',         //Specifies whether the embedded Tweet should be floated left, right, or center in the page relative to the parent element. Valid values are left, right, center, and none. Defaults to none, meaning no alignment styles are specified for the Tweet.
-        tweetLang       : 'en',           //Request returned HTML and a rendered Tweet in the specified (https://dev.twitter.com/web/overview/languages)
+        tweetOptions:{
+            maxWidth   : 550,            //The maximum width of a rendered Tweet in whole pixels. This value must be between 220 and 550 inclusive.
+            hideMedia  : false,          //When set to true or 1 links in a Tweet are not expanded to photo, video, or link previews.
+            hideThread : false,          //When set to true or 1 a collapsed version of the previous Tweet in a conversation thread will not be displayed when the requested Tweet is in reply to another Tweet.
+            align      : 'none',         //Specifies whether the embedded Tweet should be floated left, right, or center in the page relative to the parent element. Valid values are left, right, center, and none. Defaults to none, meaning no alignment styles are specified for the Tweet.
+            lang       : 'en'           //Request returned HTML and a rendered Tweet in the specified (https://dev.twitter.com/web/overview/languages)
+        },
         beforePdfPreview: function () {   //callback before pdf preview
         },
         afterPdfPreview : function () {   //callback after pdf preview
@@ -323,7 +325,7 @@
     // The actual plugin constructor
     function Plugin(element, setOptions) {
         this.element = element;
-        this.settings = $.extend({}, options, setOptions);
+        this.settings = $.extend(true,{}, options, setOptions);
         this.init(this.settings, this.element);
     }
 
@@ -733,7 +735,7 @@
 
             $.ajax({
                 dataType: 'jsonp',
-                url     : 'https://api.twitter.com/1/statuses/oembed.json?omit_script=true&url=' + url + '&maxwidth=' + opts.tweetMaxWidth + '&hide_media=' + opts.tweetHideMedia + '&hide_thread=' + opts.tweetHideThread + '&align=' + opts.tweetAlign+'&lang='+opts.tweetLang,
+                url     : 'https://api.twitter.com/1/statuses/oembed.json?omit_script=true&url=' + url + '&maxwidth=' + opts.tweetOptions.maxWidth + '&hide_media=' + opts.tweetOptions.hideMedia + '&hide_thread=' + opts.tweetOptions.hideThread + '&align=' + opts.tweetOptions.align+'&lang='+opts.tweetOptions.lang,
                 success : function (data) {
                     deferred.resolve(data.html);
                 },
