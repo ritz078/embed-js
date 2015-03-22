@@ -298,7 +298,8 @@
     /* VARIABLE DECLARATIONS */
     var pluginName = 'emoticons', options = {
         link            : true,           //Instructs the library whether or not to embed urls
-        linkTarget      : '_self',        //same as the target attribute in html anchor tag . supports all html supported target values.
+        linkTarget      : '_self',        //same as the target attribute in html anchor tag . supports all html
+                                          // supported target values.
         linkExclude     : [],             //Array of extensions to be excluded from converting into links
         pdfEmbed        : true,           //set true to show a preview of pdf links
         imageEmbed      : true,           //set true to embed images
@@ -307,14 +308,27 @@
         basicVideoEmbed : true,           //set true to show basic video files like mp4 etc. (supported by html5 player)
         videoWidth      : null,           //width of the video frame (in pixels)
         videoHeight     : null,           //height of the video frame (in pixels)
-        ytAuthKey       : null,           //( Mandatory ) The authorization key obtained from google's developer console for using youtube data api
+        ytAuthKey       : null,           //( Mandatory ) The authorization key obtained from google's developer
+                                          // console for using youtube data api
         highlightCode   : true,           //Instructs the library whether or not to highlight code syntax.
         tweetsEmbed     : true,           //Instructs the library whether or not embed the tweets
-        tweetMaxWidth   : 550,            //The maximum width of a rendered Tweet in whole pixels. This value must be between 220 and 550 inclusive.
-        tweetHideMedia  : false,          //When set to true or 1 links in a Tweet are not expanded to photo, video, or link previews.
-        tweetHideThread : false,          //When set to true or 1 a collapsed version of the previous Tweet in a conversation thread will not be displayed when the requested Tweet is in reply to another Tweet.
-        tweetAlign      : 'none',         //Specifies whether the embedded Tweet should be floated left, right, or center in the page relative to the parent element. Valid values are left, right, center, and none. Defaults to none, meaning no alignment styles are specified for the Tweet.
-        tweetLang       : 'en',           //Request returned HTML and a rendered Tweet in the specified (https://dev.twitter.com/web/overview/languages)
+        tweetOptions    : {
+            maxWidth  : 550,            //The maximum width of a rendered Tweet in whole pixels. This value must be
+                                        // between 220 and 550 inclusive.
+            hideMedia : false,          //When set to true or 1 links in a Tweet are not expanded to photo, video, or
+                                        // link previews.
+            hideThread: false,          //When set to true or 1 a collapsed version of the previous Tweet in a
+                                        // conversation thread will not be displayed when the requested Tweet is in
+                                        // reply to another Tweet.
+            align     : 'none',         //Specifies whether the embedded Tweet should be floated left, right, or center
+                                        // in the page relative to the parent element. Valid values are left, right,
+                                        // center, and none. Defaults to none, meaning no alignment styles are
+                                        // specified for the Tweet.
+            lang      : 'en'           //Request returned HTML and a rendered Tweet in the specified
+                                       // (https://dev.twitter.com/web/overview/languages)
+        },
+        codepenEmbed    : true,
+        codepenHeight   : 268,
         beforePdfPreview: function () {   //callback before pdf preview
         },
         afterPdfPreview : function () {   //callback after pdf preview
@@ -331,7 +345,7 @@
     // The actual plugin constructor
     function Plugin(element, setOptions) {
         this.element = element;
-        this.settings = $.extend({}, options, setOptions);
+        this.settings = $.extend(true, {}, options, setOptions);
         this.init(this.settings, this.element);
     }
 
@@ -724,11 +738,11 @@
             }
             return str;
         }
-    }
+    };
 
     var tweetProcess = {
 
-        service: function (url,opts) {
+        service: function (url, opts) {
 
             /**
              * To get around cross-domain issue we are using JSONP
@@ -741,7 +755,7 @@
 
             $.ajax({
                 dataType: 'jsonp',
-                url     : 'https://api.twitter.com/1/statuses/oembed.json?omit_script=true&url=' + url + '&maxwidth=' + opts.tweetMaxWidth + '&hide_media=' + opts.tweetHideMedia + '&hide_thread=' + opts.tweetHideThread + '&align=' + opts.tweetAlign+'&lang='+opts.tweetLang,
+                url     : 'https://api.twitter.com/1/statuses/oembed.json?omit_script=true&url=' + url + '&maxwidth=' + opts.tweetOptions.maxWidth + '&hide_media=' + opts.tweetOptions.hideMedia + '&hide_thread=' + opts.tweetOptions.hideThread + '&align=' + opts.tweetOptions.align + '&lang=' + opts.tweetOptions.lang,
                 success : function (data) {
                     deferred.resolve(data.html);
                 },
@@ -772,7 +786,7 @@
 
             function serviceLoop(str, matches) {
                 if (matches) {
-                    that.service(matches[matches.length - 1],opts).then(function (data) {
+                    that.service(matches[matches.length - 1], opts).then(function (data) {
                         tweets.push(data);
                         if (matches.length > 1) {
                             matches.splice(-1, 1);
@@ -801,6 +815,21 @@
 
     };
 
+    var codepenProcess = {
+        embed: function (str, opts) {
+            var codepenRegex = /http:\/\/codepen.io\/([A-Za-z0-9_]+)\/pen\/([A-Za-z0-9_]+)/gi;
+            var matches = str.match(codepenRegex) ? str.match(codepenRegex).getUnique() : null;
+            if (matches) {
+                var i = 0;
+                while (i < matches.length) {
+                    str = str + '<div class="ejs-codepen"><iframe scrolling="no" height="' + opts.codepenHeight + '" src="' + matches[i].replace(/\/pen\//, '/embed/') + '/?height=' + opts.codepenHeight + '" frameborder="no" allowtransparency="true" allowfullscreen="true"></iframe></div>';
+                    i++;
+                }
+            }
+            return str;
+        }
+    };
+
     function _driver(elem, settings) {
         elem.each(function () {
             var input = $(this).html();
@@ -821,6 +850,7 @@
             input = (settings.highlightCode) ? codeProcess.highlight(input) : input;
             input = (settings.basicVideoEmbed) ? videoProcess.embedBasic(input) : input;
             input = (settings.imageEmbed) ? imageProcess.embed(input) : input;
+            input = (settings.codepenEmbed) ? codepenProcess.embed(input, settings) : input;
             //$(that).html(input);
 
             videoProcess.embed(input, settings).then(

@@ -12,6 +12,8 @@ Features
 * HTML5 player supported media embedding (mp3,mp4,ogg)
 * PDF viewing with preview and then the actual pdf in a frame.
 * Inline Code Syntax highlighting (uses highlight.js)
+* Twitter tweet embedding enabled
+* Codepen embed supported
 
 Dependencies
 ------------
@@ -107,6 +109,10 @@ $('#element').emoticons({
             //Supported Languages listed here (https://dev.twitter.com/web/overview/languages)
             lang       : 'en'
       },
+      //set to true to embed codepen
+      codepenEmbed      :true,
+      //codepen height (width can be adjusted by css)
+      codepenHeight     :268,
       //callback before pdf preview
       beforePdfPreview  : function(){},
       //callback after pdf preview
