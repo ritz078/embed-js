@@ -819,8 +819,8 @@
 
     };
 
-    var codepenProcess = {
-        embed: function (str, opts) {
+    var codeEmbedProcess = {
+        codepenEmbed: function (str, opts) {
             var codepenRegex = /http:\/\/codepen.io\/([A-Za-z0-9_]+)\/pen\/([A-Za-z0-9_]+)/gi;
             var matches = str.match(codepenRegex) ? str.match(codepenRegex).getUnique() : null;
             if (matches) {
@@ -831,11 +831,9 @@
                 }
             }
             return str;
-        }
-    };
+        },
 
-    var jsfiddleProcess = {
-        embed: function (str, opts) {
+        jsfiddleEmbed:function (str, opts) {
             var jsfiddleRegex = /jsfiddle.net\/[a-zA-Z0-9_]+\/[a-zA-Z0-9_]+/gi;
             var matches = str.match(jsfiddleRegex) ? str.match(jsfiddleRegex).getUnique() : null;
             if (matches) {
@@ -846,11 +844,9 @@
                 }
             }
             return str;
-        }
-    };
+        },
 
-    var jsbinProcess = {
-        embed: function (str, opts) {
+        jsbinEmbed: function (str, opts) {
             var jsbinRegex = /jsbin.com\/[a-zA-Z0-9_]+\/[0-9_]+/gi;
             var matches = str.match(jsbinRegex) ? str.match(jsbinRegex).getUnique() : null;
             if (matches) {
@@ -862,7 +858,7 @@
             }
             return str;
         }
-    }
+    };
 
     function _driver(elem, settings) {
         elem.each(function () {
@@ -884,9 +880,9 @@
             input = (settings.highlightCode) ? codeProcess.highlight(input) : input;
             input = (settings.basicVideoEmbed) ? videoProcess.embedBasic(input) : input;
             input = (settings.imageEmbed) ? imageProcess.embed(input) : input;
-            input = (settings.codepenEmbed) ? codepenProcess.embed(input, settings) : input;
-            input = (settings.jsfiddleEmbed) ? jsfiddleProcess.embed(input, settings) : input;
-            input = (settings.jsbinEmbed) ? jsbinProcess.embed(input, settings) : input;
+            input = (settings.codepenEmbed) ? codeEmbedProcess.codepenEmbed(input, settings) : input;
+            input = (settings.jsfiddleEmbed) ? codeEmbedProcess.jsfiddleEmbed(input, settings) : input;
+            input = (settings.jsbinEmbed) ? codeEmbedProcess.jsbinEmbed(input, settings) : input;
             //$(that).html(input);
 
             videoProcess.embed(input, settings).then(
