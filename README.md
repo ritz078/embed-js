@@ -112,7 +112,11 @@ $('#element').emoticons({
       //set to true to embed codepen
       codepenEmbed      :true,
       //codepen height (width can be adjusted by css)
-      codepenHeight     :268,
+      codepenHeight     :270,
+      //set to true to embed jsfiddle
+      jsfiddleEmbed     :true,
+      //jsfiddle height (width can be adjusted by css)
+      jsfiddleHeight    :270,
       //callback before pdf preview
       beforePdfPreview  : function(){},
       //callback after pdf preview

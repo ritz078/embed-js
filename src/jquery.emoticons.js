@@ -321,6 +321,8 @@
         },
         codepenEmbed    : true,
         codepenHeight   : 268,
+        jsfiddleEmbed   : true,
+        jsfiddleHeight  : 268,
         beforePdfPreview: function () {   //callback before pdf preview
         },
         afterPdfPreview : function () {   //callback after pdf preview
@@ -814,13 +816,28 @@
             if (matches) {
                 var i = 0;
                 while (i < matches.length) {
-                    str = str + '<div class="ejs-codepen"><iframe scrolling="no" height="' + opts.codepenHeight + '" src="' + matches[i].replace(/\/pen\//, '/embed/') + '/?height=' + opts.codepenHeight + '" frameborder="no" allowtransparency="true" allowfullscreen="true"></iframe></div>';
+                    str = str + '<div class="ejs-embed ejs-codepen"><iframe scrolling="no" height="' + opts.codepenHeight + '" src="' + matches[i].replace(/\/pen\//, '/embed/') + '/?height=' + opts.codepenHeight + '" frameborder="no" allowtransparency="true" allowfullscreen="true"></iframe></div>';
                     i++;
                 }
             }
             return str;
         }
     };
+
+    var jsfiddleProcess = {
+        embed: function (str, opts) {
+            var jsfiddleRegex = /jsfiddle.net\/[a-zA-Z0-9_]+\/[a-zA-Z0-9_]+/gi;
+            var matches = str.match(jsfiddleRegex) ? str.match(jsfiddleRegex).getUnique() : null;
+            if (matches) {
+                var i = 0;
+                while (i < matches.length) {
+                    str = str + '<div class="ejs-embed ejs-jsfiddle"><iframe height="' + opts.jsfiddleHeight + '" src="http://' + matches[i] + '/embedded"></iframe></div>';
+                    i++;
+                }
+            }
+            return str;
+        }
+    }
 
     function _driver(elem, settings) {
         elem.each(function () {
@@ -843,6 +860,7 @@
             input = (settings.basicVideoEmbed) ? videoProcess.embedBasic(input) : input;
             input = (settings.imageEmbed) ? imageProcess.embed(input) : input;
             input = (settings.codepenEmbed) ? codepenProcess.embed(input, settings) : input;
+            input = (settings.jsfiddleEmbed) ? jsfiddleProcess.embed(input, settings) : input;
             //$(that).html(input);
 
             videoProcess.embed(input, settings).then(

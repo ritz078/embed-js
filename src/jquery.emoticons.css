@@ -15,13 +15,11 @@
 
 .ejs-code {
     font-size   : 14px;
-    padding     : 20px;
     font-family : Consolas, Menlo, Monaco, monospace;
-    padding     : 1.5em;
+    padding     : 1.5em !important;
     }
 
-.ejs-codepen {
-    border        : 0;
+.ejs-embed {
     width         : 100%;
     padding       : 5px;
     border        : 1px solid #e4e4e4;
@@ -31,7 +29,8 @@
     border-bottom : 0;
     }
 
-.ejs-codepen iframe {
+.ejs-embed iframe {
+    border        : 0;
     background-color    : #3498DB;
     background-image    : url('../images/loader.svg');
     background-repeat   : no-repeat;
