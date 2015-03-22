@@ -12,22 +12,27 @@ Features
 * HTML5 player supported media embedding (mp3,mp4,ogg)
 * PDF viewing with preview and then the actual pdf in a frame.
 * Inline Code Syntax highlighting (uses highlight.js)
-* Twitter tweet embedding enabled
-* Codepen embed supported
+* Twitter tweet embedding supported
+* Codepen,jsbin,jsfiddle embed supported
 
 Dependencies
 ------------
-* Jquery
+* Jquery >= 1.2
 * [Highlight.js](https://highlightjs.org/) (Optional if code syntax highlighting is needed)
+* [Twitter widgets.js](http://platform.twitter.com/widgets.js) (Optional if tweet embed support is set to true needed)
 
 Getting started
 ---------------
 
-**bower**
-```bower install --save emoticons-js```
+Bower
+```
+bower install --save emoticons-js
+```
 
-**npm**
-```npm install --save emoticons-js```
+npm
+```
+npm install --save emoticons-js
+```
 
 Load css file
 ```html
@@ -112,11 +117,15 @@ $('#element').emoticons({
       //set to true to embed codepen
       codepenEmbed      :true,
       //codepen height (width can be adjusted by css)
-      codepenHeight     :270,
+      codepenHeight     :300,
       //set to true to embed jsfiddle
       jsfiddleEmbed     :true,
       //jsfiddle height (width can be adjusted by css)
-      jsfiddleHeight    :270,
+      jsfiddleHeight    :300,
+      //set to true to embed jsbin
+      jsbinEmbed        :true,
+      //jsbin height (width can be adjusted by css)
+      jsbinHeight       :300,
       //callback before pdf preview
       beforePdfPreview  : function(){},
       //callback after pdf preview

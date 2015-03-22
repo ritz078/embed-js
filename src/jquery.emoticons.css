@@ -27,6 +27,7 @@
     margin        : 20px 0;
     box-shadow    : 0px 1px 1px 0 rgba(0, 0, 0, 0.26);
     border-bottom : 0;
+    padding-bottom : 1px;
     }
 
 .ejs-embed iframe {
@@ -36,6 +37,10 @@
     background-repeat   : no-repeat;
     background-position : center;
     width               : 100%;
+    }
+
+.ejs-jsbin iframe{
+    border: 1px solid rgb(170, 170, 170);
     }
 
 pre {

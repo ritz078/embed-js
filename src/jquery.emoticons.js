@@ -320,9 +320,11 @@
                                        // (https://dev.twitter.com/web/overview/languages)
         },
         codepenEmbed    : true,
-        codepenHeight   : 268,
+        codepenHeight   : 300,
         jsfiddleEmbed   : true,
-        jsfiddleHeight  : 268,
+        jsfiddleHeight  : 300,
+        jsbinEmbed      : true,
+        jsbinHeight     : 300,
         beforePdfPreview: function () {   //callback before pdf preview
         },
         afterPdfPreview : function () {   //callback after pdf preview
@@ -837,6 +839,21 @@
             }
             return str;
         }
+    };
+
+    var jsbinProcess = {
+        embed: function (str, opts) {
+            var jsbinRegex = /jsbin.com\/[a-zA-Z0-9_]+\/[0-9_]+/gi;
+            var matches = str.match(jsbinRegex) ? str.match(jsbinRegex).getUnique() : null;
+            if (matches) {
+                var i = 0;
+                while (i < matches.length) {
+                    str = str + '<div class="ejs-jsbin ejs-embed"><iframe height="' + opts.jsbinHeight + '" class="jsbin-embed foo" src="http://' + matches[i] + '/embed?html,js,output">Simple Animation Tests</iframe></div>';
+                    i++;
+                }
+            }
+            return str;
+        }
     }
 
     function _driver(elem, settings) {
@@ -861,6 +878,7 @@
             input = (settings.imageEmbed) ? imageProcess.embed(input) : input;
             input = (settings.codepenEmbed) ? codepenProcess.embed(input, settings) : input;
             input = (settings.jsfiddleEmbed) ? jsfiddleProcess.embed(input, settings) : input;
+            input = (settings.jsbinEmbed) ? jsbinProcess.embed(input, settings) : input;
             //$(that).html(input);
 
             videoProcess.embed(input, settings).then(
