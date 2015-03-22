@@ -649,7 +649,7 @@
 
         highlight: function (text) {
             if (!window.hljs) {
-                throw 'hljs is not defined';
+                throw new ReferenceError('hljs is not defined. HighlightJS library is needed to highlight code. Visit https://highlightjs.org/');
                 return;
             }
             var that = this;
@@ -780,7 +780,6 @@
             }
 
             if (opts.tweetsEmbed) {
-                console.log(window);
                 if (!window.twttr) {
                     throw new ReferenceError('twttr is not defined. Load twitter widget javascript file from http://platform.twitter.com/widgets.js');
                 }
@@ -831,17 +830,6 @@
                     }
                 }
             );
-
-            //if (settings.highlightCode) {
-            //    if (!window.hljs) {
-            //        throw 'hljs is not defined';
-            //    }
-            //    else {
-            //        $(that).find('.ejs-code').each(function () {
-            //            hljs.highlightBlock(this);
-            //        });
-            //    }
-            //}
 
         });
 
