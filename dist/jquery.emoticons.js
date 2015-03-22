@@ -297,22 +297,23 @@
 
     /* VARIABLE DECLARATIONS */
     var pluginName = 'emoticons', options = {
-        link            : true,           //Instructs the library whether or not to embed urls
-        linkTarget      : '_self',        //same as the target attribute in html anchor tag . supports all html
-                                          // supported target values.
-        linkExclude     : [],             //Array of extensions to be excluded from converting into links
-        pdfEmbed        : true,           //set true to show a preview of pdf links
-        imageEmbed      : true,           //set true to embed images
-        audioEmbed      : false,          //set true to embed audio
-        videoEmbed      : true,           //set true to show a preview of youtube/vimeo videos with details
-        basicVideoEmbed : true,           //set true to show basic video files like mp4 etc. (supported by html5 player)
-        videoWidth      : null,           //width of the video frame (in pixels)
-        videoHeight     : null,           //height of the video frame (in pixels)
-        ytAuthKey       : null,           //( Mandatory ) The authorization key obtained from google's developer
-                                          // console for using youtube data api
-        highlightCode   : true,           //Instructs the library whether or not to highlight code syntax.
-        tweetsEmbed     : true,           //Instructs the library whether or not embed the tweets
-        tweetOptions    : {
+        link             : true,           //Instructs the library whether or not to embed urls
+        linkTarget       : '_self',        //same as the target attribute in html anchor tag . supports all html
+                                           // supported target values.
+        linkExclude      : [],             //Array of extensions to be excluded from converting into links
+        pdfEmbed         : true,           //set true to show a preview of pdf links
+        imageEmbed       : true,           //set true to embed images
+        audioEmbed       : false,          //set true to embed audio
+        videoEmbed       : true,           //set true to show a preview of youtube/vimeo videos with details
+        basicVideoEmbed  : true,           //set true to show basic video files like mp4 etc. (supported by html5
+                                           // player)
+        videoWidth       : null,           //width of the video frame (in pixels)
+        videoHeight      : null,           //height of the video frame (in pixels)
+        ytAuthKey        : null,           //( Mandatory ) The authorization key obtained from google's developer
+                                           // console for using youtube data api
+        highlightCode    : true,           //Instructs the library whether or not to highlight code syntax.
+        tweetsEmbed      : true,           //Instructs the library whether or not embed the tweets
+        tweetOptions     : {
             maxWidth  : 550,            //The maximum width of a rendered Tweet in whole pixels. This value must be
                                         // between 220 and 550 inclusive.
             hideMedia : false,          //When set to true or 1 links in a Tweet are not expanded to photo, video, or
@@ -327,19 +328,31 @@
             lang      : 'en'           //Request returned HTML and a rendered Tweet in the specified
                                        // (https://dev.twitter.com/web/overview/languages)
         },
-        codepenEmbed    : true,
-        codepenHeight   : 300,
-        jsfiddleEmbed   : true,
-        jsfiddleHeight  : 300,
-        jsbinEmbed      : true,
-        jsbinHeight     : 300,
-        beforePdfPreview: function () {   //callback before pdf preview
+        codepenEmbed     : true,
+        codepenHeight    : 300,
+        jsfiddleEmbed    : true,
+        jsfiddleHeight   : 300,
+        jsbinEmbed       : true,
+        jsbinHeight      : 300,
+        soundCloudEmbed  : true,
+        soundCloudOptions: {
+            height      : 160,
+            themeColor  : 'f50000',   //Hex Code of the player theme color
+            autoPlay    : false,
+            hideRelated : false,
+            showComments: true,
+            showUser    : true,          //Show or hide the uploader name, useful e.g. in tiny players to save space)
+            showReposts : false,
+            visual      : false,         //Show/hide the big preview image
+            download    : false          //Show/Hide download buttons
         },
-        afterPdfPreview : function () {   //callback after pdf preview
+        beforePdfPreview : function () {   //callback before pdf preview
         },
-        onVideoShow     : function () {   // callback on video frame view
+        afterPdfPreview  : function () {   //callback after pdf preview
         },
-        onVideoLoad     : function () {   //callback on video load (youtube/vimeo)
+        onVideoShow      : function () {   // callback on video frame view
+        },
+        onVideoLoad      : function () {   //callback on video load (youtube/vimeo)
         }
     };
     /* ENDS */
@@ -710,7 +723,7 @@
     };
 
     var audioProcess = {
-        embed: function (str) {
+        basicEmbed: function (str) {
             var a = /((?:https?):\/\/\S*\.(?:wav|mp3|ogg))/gi;
             if (str.match(a)) {
                 var audioUrl = RegExp.$1;
@@ -718,6 +731,31 @@
                 var audioTemplate = '<div class="ejs-audio"><audio src="' + audioUrl + '" controls></audio></div>';
 
                 str = str + audioTemplate;
+            }
+            return str;
+        },
+
+        soundCloudEmbed: function (str, opts) {
+            var scRegex = /soundcloud.com\/[a-zA-Z0-9-_]+\/[a-zA-Z0-9-_]+/gi;
+            var matches = str.match(scRegex) ? str.match(scRegex).getUnique() : null;
+            if (matches) {
+                var i = 0;
+                while (i < matches.length) {
+                    var scTemplate = '<div class="ejs-embed"><iframe height="160" scrolling="no" ' +
+                        'src="https://w.soundcloud.com/player/?url=https://' + matches[i] +
+                        '&auto_play=' + opts.soundCloudOptions.autoPlay +
+                        '&hide_related=' + opts.soundCloudOptions.hideRelated +
+                        '&show_comments=' + opts.soundCloudOptions.showComments +
+                        '&show_user=' + opts.soundCloudOptions.showUser +
+                        '&show_reposts=' + opts.soundCloudOptions.showReposts +
+                        '&visual=' + opts.soundCloudOptions.visual +
+                        '&download=' + opts.soundCloudOptions.download +
+                        '&color=' + opts.soundCloudOptions.themeColor +
+                        '&theme_color=' + opts.soundCloudOptions.themeColor +
+                        '"></iframe></div>';
+                    str = str + scTemplate;
+                    i++;
+                }
             }
             return str;
         }
@@ -833,7 +871,7 @@
             return str;
         },
 
-        jsfiddleEmbed:function (str, opts) {
+        jsfiddleEmbed: function (str, opts) {
             var jsfiddleRegex = /jsfiddle.net\/[a-zA-Z0-9_]+\/[a-zA-Z0-9_]+/gi;
             var matches = str.match(jsfiddleRegex) ? str.match(jsfiddleRegex).getUnique() : null;
             if (matches) {
@@ -876,13 +914,14 @@
             input = insertfontSmiley(input);
             input = insertEmoji(input);
             input = (settings.pdfEmbed) ? pdfProcess.embed(input) : input;
-            input = (settings.audioEmbed) ? audioProcess.embed(input) : input;
+            input = (settings.audioEmbed) ? audioProcess.basicEmbed(input) : input;
             input = (settings.highlightCode) ? codeProcess.highlight(input) : input;
             input = (settings.basicVideoEmbed) ? videoProcess.embedBasic(input) : input;
             input = (settings.imageEmbed) ? imageProcess.embed(input) : input;
             input = (settings.codepenEmbed) ? codeEmbedProcess.codepenEmbed(input, settings) : input;
             input = (settings.jsfiddleEmbed) ? codeEmbedProcess.jsfiddleEmbed(input, settings) : input;
             input = (settings.jsbinEmbed) ? codeEmbedProcess.jsbinEmbed(input, settings) : input;
+            input = (settings.soundCloudEmbed) ? audioProcess.soundCloudEmbed(input, settings) : input;
             //$(that).html(input);
 
             videoProcess.embed(input, settings).then(

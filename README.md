@@ -14,6 +14,7 @@ Features
 * Inline Code Syntax highlighting (uses highlight.js)
 * Twitter tweet embedding supported
 * Codepen,jsbin,jsfiddle embed supported
+* soundcloud support
 
 Dependencies
 ------------
@@ -126,6 +127,19 @@ $('#element').emoticons({
       jsbinEmbed        :true,
       //jsbin height (width can be adjusted by css)
       jsbinHeight       :300,
+      //set to true to embed soundcloud
+      soundCloudEmbed  : true,
+      soundCloudOptions: {
+          height      : 160,
+          themeColor  : 'f50000',    //Hex Code of the player theme color
+          autoPlay    : false,
+          hideRelated : false,
+          showComments: true,
+          showUser    : true,        //Show or hide the uploader name, useful e.g. in tiny players to save space)
+          showReposts : false,
+          visual      : false,       //Show/hide the big preview image
+          download    : false        //Show/Hide download buttons
+              },
       //callback before pdf preview
       beforePdfPreview  : function(){},
       //callback after pdf preview
