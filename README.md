@@ -13,8 +13,9 @@ Features
 * PDF viewing with preview and then the actual pdf in a frame.
 * Inline Code Syntax highlighting (uses highlight.js)
 * Twitter tweet embedding supported
-* Codepen,jsbin,jsfiddle embed supported
+* Codepen, jsbin, jsfiddle embed supported
 * soundcloud support
+* Twitch tv, dotSub support
 
 Dependencies
 ------------
@@ -141,6 +142,7 @@ $('#element').emoticons({
           download    : false        //Show/Hide download buttons
               },
       twitchtvEmbed     :true,
+      dotsubEmbed       :true,
       //callback before pdf preview
       beforePdfPreview  : function(){},
       //callback after pdf preview

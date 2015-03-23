@@ -43,7 +43,10 @@ module.exports = function(grunt) {
 				dest: "dist/jquery.emoticons.min.js"
 			},
 			options: {
-				banner: "<%= meta.banner %>"
+				banner: "<%= meta.banner %>",
+                compress:{
+                    drop_console:true
+                }
 			}
 		},
 
@@ -57,6 +60,9 @@ module.exports = function(grunt) {
 
         // minify css files
         cssmin:{
+            options:{
+              report:'gzip'
+            },
            target:{
                files:[{
                    expand:true,
