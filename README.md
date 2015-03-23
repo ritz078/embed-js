@@ -15,7 +15,7 @@ Features
 * Twitter tweet embedding supported
 * Codepen, jsbin, jsfiddle embed supported
 * soundcloud support
-* Twitch tv, dotSub support
+* Twitch tv, dotSub, dailymotion support
 
 Dependencies
 ------------
@@ -143,6 +143,7 @@ $('#element').emoticons({
               },
       twitchtvEmbed     :true,
       dotsubEmbed       :true,
+      dailymotionEmbed  :true,
       //callback before pdf preview
       beforePdfPreview  : function(){},
       //callback after pdf preview

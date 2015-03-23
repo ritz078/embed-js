@@ -128,6 +128,7 @@
         },
         twitchtvEmbed    : true,
         dotsubEmbed      : true,
+        dailymotionEmbed : true,
         beforePdfPreview : function () {   //callback before pdf preview
         },
         afterPdfPreview  : function () {   //callback after pdf preview
@@ -382,6 +383,20 @@
                 var i = 0;
                 while (i < matches.length) {
                     str = str + '<div class="ejs-video"><iframe src="https://dotsub.com/media/' + matches[i].split('/')[2] + '/embed/" width="' + videoDimensions.width + '" height="' + videoDimensions.height + '"></iframe></div>'
+                    i++;
+                }
+            }
+            return str;
+        },
+
+        dailymotionEmbed: function (rawStr, str, opts) {
+            var dmRegex = /dailymotion.com\/video\/[a-zA-Z0-9-_]+/gi;
+            var matches = rawStr.match(dmRegex) ? rawStr.match(dmRegex).getUnique() : null;
+            var videoDimensions = this.dimensions(opts);
+            if (matches) {
+                var i = 0;
+                while (i < matches.length) {
+                    str = str + '<div class="ejs-video"><iframe src="http://www.dailymotion.com/embed/video/' + matches[i].split('/')[2] + '" height="'+videoDimensions.height+'" width="'+videoDimensions.width+'"></iframe></div>'
                     i++;
                 }
             }
@@ -644,6 +659,7 @@
             input = (settings.soundCloudEmbed) ? audioProcess.soundCloudEmbed(rawInput, input, settings) : input;
             input = (settings.twitchtvEmbed) ? videoProcess.twitchtvEmbed(rawInput, input, settings) : input;
             input = (settings.dotsubEmbed) ? videoProcess.dotsubEmbed(rawInput, input, settings) : input;
+            input = (settings.dailymotionEmbed) ? videoProcess.dailymotionEmbed(rawInput, input, settings) : input;
 
             videoProcess.embed(input, settings).then(function (d) {
                 if (tweetProcess.getMatches(d)) {
