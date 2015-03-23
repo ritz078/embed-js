@@ -16,6 +16,7 @@ Features
 * Codepen, jsbin, jsfiddle embed supported
 * soundcloud and spotify support
 * Twitch tv, dotSub, dailymotion, vine,TED and liveLeak support.
+* Google map location embed
 
 Dependencies
 ------------
@@ -94,8 +95,12 @@ $('#element').emoticons({
       videoWidth        : 640,
       //height of the video frame (in pixels)
       videoHeight       : 390,
-      //(Mandatory) The authorization key obtained from google's developer console for using youtube data api
-      ytAuthKey         : 'xxxxxxx',
+      //( Mandatory ) The authorization key obtained from google's developer console for
+      //using youtube data api and map embed api
+      gdevAuthKey         : 'xxxxxxx',
+      //Set google map location embed
+      // Use @(place-name) to use this feature . Eg: @(Sydney)
+      locationEmbed       :true,
       //Instructs the library whether or not to highlight code syntax.
       highlightCode     : true,
       //Instructs the library whether or not embed the tweets

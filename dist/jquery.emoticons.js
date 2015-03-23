@@ -122,8 +122,9 @@
                                            // player)
         videoWidth       : null,           //width of the video frame (in pixels)
         videoHeight      : null,           //height of the video frame (in pixels)
-        ytAuthKey        : null,           //( Mandatory ) The authorization key obtained from google's developer
-                                           // console for using youtube data api
+        gdevAuthKey      : null,           //( Mandatory ) The authorization key obtained from google's developer
+                                           // console for using youtube data api and map embed api
+        locationEmbed:true,
         highlightCode    : true,           //Instructs the library whether or not to highlight code syntax.
         tweetsEmbed      : true,           //Instructs the library whether or not embed the tweets
         tweetOptions     : {
@@ -340,7 +341,7 @@
                 var videoDimensions = this.dimensions(opts);
                 var returnedData;
                 if (data.match(ytRegex)) {
-                    $.getJSON('https://www.googleapis.com/youtube/v3/videos?id=' + RegExp.$1 + '&key=' + opts.ytAuthKey + '&part=snippet,statistics').success(function (d) {
+                    $.getJSON('https://www.googleapis.com/youtube/v3/videos?id=' + RegExp.$1 + '&key=' + opts.gdevAuthKey + '&part=snippet,statistics').success(function (d) {
                         var ytData = d.items[0];
                         video.host = 'youtube';
                         video.title = ytData.snippet.title;
@@ -726,6 +727,21 @@
         }
     };
 
+    var mapProcess={
+        locationEmbed:function(rawStr,str,opts){
+            var locationRegex=/@\((.+)\)/gi;
+            var matches=rawStr.match(locationRegex)?rawStr.match(locationRegex).getUnique():null;
+            if(matches){
+                var i=0;
+                while(i<matches.length){
+                    str=str+'<div class="ejs-map ejs-embed"><iframe width="600" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?key='+opts.gdevAuthKey+ '&q='+matches[i].split('(')[1].split(')')[0]+'"></iframe></div>';
+                    i++;
+                }
+            }
+            return str;
+        }
+    }
+
     function _driver(elem, settings) {
         elem.each(function () {
             var input = $(this).html();
@@ -759,6 +775,7 @@
             input = (settings.tedEmbed) ? videoProcess.tedEmbed(rawInput, input, settings) : input;
             input = (settings.liveleakEmbed) ? videoProcess.liveleakEmbed(rawInput, input, settings) : input;
             input = (settings.spotifyEmbed) ? audioProcess.spotifyEmbed(rawInput, input, settings) : input;
+            input=(settings.locationEmbed)?mapProcess.locationEmbed(rawInput,input,settings):input;
 
             videoProcess.embed(input, settings).then(function (d) {
                 if (tweetProcess.getMatches(d)) {
