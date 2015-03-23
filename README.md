@@ -31,12 +31,12 @@ Getting started
 
 Bower
 ```
-bower install --save emoticons-js
+bower install --save embed-js
 ```
 
 npm
 ```
-npm install --save emoticons-js
+npm install --save embed-js
 ```
 
 Load css file
