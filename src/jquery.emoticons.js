@@ -132,6 +132,7 @@
         vineEmbed        : true,
         vineWidth        : 500,
         vineType         : 'postcard',   //'postcard' or 'simple' embedding
+        tedEmbed         : true,
         beforePdfPreview : function () {   //callback before pdf preview
         },
         afterPdfPreview  : function () {   //callback after pdf preview
@@ -412,7 +413,21 @@
             if (matches) {
                 var i = 0;
                 while (i < matches.length) {
-                    str = str + '<div class="ejs-vine"><iframe src="https://vine.co/v/' + matches[i].split('/')[2] + '/embed/'+opts.vineType+'" height="' + (opts.vineType=='postcard'?(opts.vineWidth + 158):opts.vineWidth) + '" width="' + opts.vineWidth + '"></iframe></div>'
+                    str = str + '<div class="ejs-vine"><iframe src="https://vine.co/v/' + matches[i].split('/')[2] + '/embed/' + opts.vineType + '" height="' + (opts.vineType == 'postcard' ? (opts.vineWidth + 158) : opts.vineWidth) + '" width="' + opts.vineWidth + '"></iframe></div>'
+                    i++;
+                }
+            }
+            return str;
+        },
+
+        tedEmbed: function (rawStr, str, opts) {
+            var tedRegex=/ted.com\/talks\/[a-zA-Z0-9_]+/gi;
+            var matches=rawStr.match(tedRegex)?rawStr.match(tedRegex).getUnique():null;
+            var videoDimensions=this.dimensions(opts);
+            if(matches){
+                var i=0;
+                while(i<matches.length){
+                    str=str+'<div class="ejs-embed"><iframe src="http://embed.ted.com/talks/'+matches[i].split('/')[2]+'.html" height="' + videoDimensions.height + '" width="' + videoDimensions.width + '"></iframe></div>'
                     i++;
                 }
             }
@@ -677,6 +692,7 @@
             input = (settings.dotsubEmbed) ? videoProcess.dotsubEmbed(rawInput, input, settings) : input;
             input = (settings.dailymotionEmbed) ? videoProcess.dailymotionEmbed(rawInput, input, settings) : input;
             input = (settings.vineEmbed) ? videoProcess.vineEmbed(rawInput, input, settings) : input;
+            input = (settings.tedEmbed) ? videoProcess.tedEmbed(rawInput, input, settings) : input;
 
             videoProcess.embed(input, settings).then(function (d) {
                 if (tweetProcess.getMatches(d)) {
