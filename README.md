@@ -41,7 +41,7 @@ npm install --save embed-js
 
 Load css file
 ```html
-<link rel="stylesheet" href="path/to/jquery.emoticons.css"/>
+<link rel="stylesheet" href="path/to/jquery.embed.css"/>
 ```
 
 Load Scripts
@@ -51,7 +51,7 @@ Load Scripts
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
 <script src="http://platform.twitter.com/widgets.js"></script>
 <!--===================-->
-<script src="path/to/jquery.emoticons.js"></script>
+<script src="path/to/jquery.embed.js"></script>
 ```
 
 HTML Structure
