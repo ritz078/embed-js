@@ -1,6 +1,6 @@
 {
   "name": "embed-js",
-  "version": "2.0.0",
+  "version": "2.0.0-rc.1",
   "description": "A jQuery plugin for converting text emojis into image-based emoticons, also supporting an automatic media embedding system for multimedia URLs",
   "keywords": [
     "jquery-plugin",
