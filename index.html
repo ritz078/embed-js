@@ -2,7 +2,7 @@
 <html class="no-js">
   <head>
     <meta charset="utf-8">
-    <title>Emoticons-js | Plugin to convert text into image-based emoticons,supports automatic embedding for media URL</title>
+    <title>Embed-js | Plugin to convert text into image-based emoticons,supports automatic embedding for media URL</title>
     <meta name="description" content="A jQuery plugin for converting text emojis into image-based emoticons, also supporting an automatic media embedding system for multimedia URLs">
     <meta name="viewport" content="width=device-width">
     <link rel="shortcut icon" href="/6df2b309.favicon.ico">
@@ -19,7 +19,7 @@
 
 
     <header>
-      emoticons-js
+      embed-js
       <a href="https://github.com/ritz078/emoticons-js"><i class="fa fa-github"></i></a>
     </header>
 <div class="sidebar">
@@ -40,15 +40,15 @@
 
     <div class="content">
       <div class="card about">
-        <h5 class="title">emoticons-js</h5>
+        <h5 class="title">embed-js</h5>
         <div style="display: table;margin: 10px auto;">
-          <iframe src="https://ghbtns.com/github-btn.html?user=ritz078&repo=emoticons-js&type=star&count=true&size=large" frameborder="0" scrolling="0" width="160px" height="30px"></iframe>
+          <iframe src="https://ghbtns.com/github-btn.html?user=ritz078&repo=embed-js&type=star&count=true&size=large" frameborder="0" scrolling="0" width="160px" height="30px"></iframe>
           <iframe src="https://ghbtns.com/github-btn.html?user=ritz078&type=follow&count=true&size=large" frameborder="0" scrolling="0" width="220px" height="30px"></iframe>
 
         </div>
         <p>A jQuery plugin for converting text emojis into image-based emoticons, also supporting an automatic media embedding system for multimedia URLs</p>
         <p>A demo is included with the download package.</p>
-        <p>An <a href="http://rkritesh.in/ngEmoticons">AngularJS version</a> of Emoticons-js is also available.</p>
+        <p>An <a href="http://rkritesh.in/ngEmoticons">AngularJS version</a> of Embed-js is also available.</p>
 
         <p>Some <a href="#a" class="demo"><b>Demo examples</b></a> with their source code are given below.</p>
 
@@ -57,58 +57,118 @@
       <div class="card">
         <h5 class="title">Features</h5>
         <ol>
-          <li><p>Emoticons-js has apparently evolved from a simple text emoticon to image emoji conversion system into a fully-blown text beautification toolkit.</p></li>
-          <li> <p>Besides taking emoticons expressed using a text form and converting them to icon font-based or image-based emojis, this plugin can also do some other stuff too.</p></li>
-          <li><p>This includes parsing the text for links pointing to multimedia assets, and automatically embedding those assets inside the text.</p></li>
-          <li> <p>YouTube & Vimeo videos, PDF files, images, audio, and video files can all be retrieved and embedded inside the text, allowing users to view their content without having to navigate away to another browser page.</p></li>
-          <li><p> <b>Emoticons-js can also highlight source code embedded on the page as well, but this requires you to load Highlight.js.</b></p></li>
+          <li><p>Converts emoticon text codes into emoticons :smile: , :heart:</p></li>
+          <li><p>Finds links in text input and turns them into html links.</p></li>
+          <li><p>Youtube and Vimeo video embedding with video details fetched from the api.</p></li>
+          <li><p>HTML5 player supported media embedding (mp3,mp4,ogg)</p></li>
+          <li><p>PDF viewing with preview and then the actual pdf in a frame.</p></li>
+          <li><p>Inline Code Syntax highlighting (uses highlight.js)</p></li>
+          <li><p>Twitter tweet embedding supported</p></li>
+          <li><p>Codepen, jsbin, jsfiddle embed supported<p></li>
+          <li><p>soundcloud and spotify support</p></li>
+          <li><p>Twitch tv, dotSub, dailymotion, vine,TED and liveLeak support.</p></li>
+          <li><p>Google map location embed</p></li>
         </ol>
-
-
-
-
-
-
       </div>
       <div class="card">
         <h5 class="title">Documentation</h5>
         <pre><code>
-    $('#element').emoticons({
-        //Instructs the library whether or not to embed urls
-        link              : true,
-        //same as the target attribute in html anchor tag . supports all html supported target values.
-        linkTarget        : '_blank',
-        //Array of extensions to be excluded from converting into links
-        linkExclude       : ['jpg','pdf'],
-        //set true to show a preview of pdf links
-        pdfEmbed          : true,
-        //set true to embed images
-        imageEmbed        : true,
-        //set true to embed audio
-        audioEmbed        : false,
-        //set true to show a preview of youtube/vimeo videos with details
-        videoEmbed        : true,
-        //set true to show basic video files like mp4 etc. (supported by html5 player)
-        basicVideoEmbed   : true,
-        //width of the video frame (in pixels)
-        videoWidth        : 640,
-        //height of the video frame (in pixels)
-        videoHeight       : 390,
-        //( Mandatory ) The authorization key obtained from google's developer console for using youtube data api
-        ytAuthKey         : 'xxxxxxx',
-        //Instructs the library whether or not to highlight code syntax.
-        highlightCode     : true,
-        //callback before pdf preview
-        beforePdfPreview  : function(){},
-        //callback after pdf preview
-        afterPdfPreview   : function(){},
-        // callback on video frame view
-        onVideoShow:function(){},
-        //callback on video load (youtube/vimeo)
-        onVideoLoad:function(){}
 
-    });
-        </code></pre>
+            $('#element').emoticons({
+              //Instructs the library whether or not to embed urls
+              link              : true,
+              //same as the target attribute in html anchor tag . supports all html supported target values.
+              linkTarget        : '_blank',
+              //Array of extensions to be excluded from converting into links
+              linkExclude       : ['jpg','pdf'],
+              //set true to show a preview of pdf links
+              pdfEmbed          : true,
+              //set true to embed images
+              imageEmbed        : true,
+              //set true to embed audio
+              audioEmbed        : false,
+              //set true to show a preview of youtube/vimeo videos with details
+              videoEmbed        : true,
+              //set true to show basic video files like mp4 etc. (supported by html5 player)
+              basicVideoEmbed   : true,
+              //width of the video frame (in pixels)
+              videoWidth        : 640,
+              //height of the video frame (in pixels)
+              videoHeight       : 390,
+              //( Mandatory ) The authorization key obtained from google's developer console for
+              //using youtube data api and map embed api
+              gdevAuthKey         : 'xxxxxxx',
+              //Set google map location embed
+              // Use @(place-name) to use this feature . Eg: @(Sydney)
+              locationEmbed       :true,
+              //Instructs the library whether or not to highlight code syntax.
+              highlightCode     : true,
+              //Instructs the library whether or not embed the tweets
+              tweetsEmbed     : true,
+              tweetOptions:{
+                //The maximum width of a rendered Tweet in whole pixels. Must be between 220 and 550 inclusive.
+                maxWidth   : 550,
+                //When set to true or 1 links in a Tweet are not expanded to photo, video, or link previews.
+                hideMedia  : false,
+                //When set to true or 1 a collapsed version of the previous Tweet in a conversation thread
+                //will not be displayed when the requested Tweet is in reply to another Tweet.
+                hideThread : false,
+                //Specifies whether the embedded Tweet should be floated left, right, or center in
+                //the page relative to the parent element.Valid values are left, right, center, and none.
+                //Defaults to none, meaning no alignment styles are specified for the Tweet.
+                align      : 'none',
+                //Request returned HTML and a rendered Tweet in the specified.
+                //Supported Languages listed here (https://dev.twitter.com/web/overview/languages)
+                lang       : 'en'
+              },
+              //set to true to embed codepen
+              codepenEmbed      :true,
+              //codepen height (width can be adjusted by css)
+              codepenHeight     :300,
+              //set to true to embed jsfiddle
+              jsfiddleEmbed     :true,
+              //jsfiddle height (width can be adjusted by css)
+              jsfiddleHeight    :300,
+              //set to true to embed jsbin
+              jsbinEmbed        :true,
+              //jsbin height (width can be adjusted by css)
+              jsbinHeight       :300,
+              //set to true to embed soundcloud
+              spotifyEmbed     :true,
+              soundCloudEmbed  : true,
+              soundCloudOptions: {
+                height      : 160,
+                themeColor  : 'f50000',    //Hex Code of the player theme color
+                autoPlay    : false,
+                hideRelated : false,
+                showComments: true,
+                showUser    : true,        //Show or hide the uploader name, useful e.g. in tiny players to save space)
+                showReposts : false,
+                visual      : false,       //Show/hide the big preview image
+                download    : false        //Show/Hide download buttons
+              },
+              twitchtvEmbed     :true,
+              dotsubEmbed       :true,
+              dailymotionEmbed  :true,
+              vineEmbed        : true,
+              vineOptions:{
+                width:500,
+                type:'postcard'         //'postcard' or 'simple' embedding
+              },
+              tedEmbed         :true,
+              liveleakEmbed     :true,
+              //callback before pdf preview
+              beforePdfPreview  : function(){},
+              //callback after pdf preview
+              afterPdfPreview   : function(){},
+              // callback on video frame view
+              onVideoShow:function(){},
+              //callback on video load (youtube/vimeo)
+              onVideoLoad:function(){}
+
+            });
+
+            </code></pre>
       </div>
       <div class="card" id="a">
         <h5 class="title">Examples</h5>
