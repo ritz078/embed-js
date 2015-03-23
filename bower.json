@@ -1,7 +1,7 @@
 {
   "name": "embed-js",
   "version": "2.0.0",
-  "homepage": "http://rkritesh.in/emoticons-js",
+  "homepage": "http://rkritesh.in/embed-js",
   "ignore": [
     ".jshintrc",
     "**/*.txt"
@@ -12,17 +12,17 @@
   ],
   "description": "A jQuery plugin for converting text emojis into image-based emoticons, also supporting an automatic media embedding system for multimedia URLs",
   "main": [
-    "./src/jquery.emoticons.js",
-    "./src/jquery.emoticons.css",
+    "./src/jquery.embed.js",
+    "./src/jquery.embed.css",
     "./fonts/*",
     "./images/*"
   ],
   "keywords": [
     "jquery",
     "plugin",
-    "emoticons",
-    "emoticons-js",
-    "jquery-emoticons",
+    "embed",
+    "embed-js",
+    "jquery-embed",
     "smiley"
   ],
   "dependencies": {
