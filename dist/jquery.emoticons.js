@@ -123,6 +123,7 @@
         jsfiddleHeight   : 300,
         jsbinEmbed       : true,
         jsbinHeight      : 300,
+        spotifyEmbed     : true,
         soundCloudEmbed  : true,
         soundCloudOptions: {
             height      : 160, themeColor: 'f50000',   //Hex Code of the player theme color
@@ -138,9 +139,9 @@
         dotsubEmbed      : true,
         dailymotionEmbed : true,
         vineEmbed        : true,
-        vineOptions:{
-            width:500,
-            type:'postcard'         //'postcard' or 'simple' embedding
+        vineOptions      : {
+            width: 500,
+            type : 'postcard'         //'postcard' or 'simple' embedding
         },
         tedEmbed         : true,
         liveleakEmbed    : true,
@@ -448,7 +449,7 @@
         liveleakEmbed: function (rawStr, str, opts) {
             var liveleakRegex = /liveleak.com\/view\?i=[a-zA-Z0-9_]+/gi;
             var matches = rawStr.match(liveleakRegex) ? rawStr.match(liveleakRegex) : null;
-            var videoDimensions=this.dimensions(opts);
+            var videoDimensions = this.dimensions(opts);
             if (matches) {
                 var i = 0;
                 while (i < matches.length) {
@@ -557,7 +558,21 @@
                 }
             }
             return str;
+        },
+
+        spotifyEmbed: function (rawStr, str, opts) {
+            var spotifyRegex = /spotify.com\/track\/[a-zA-Z0-9_]+/gi;
+            var matches = rawStr.match(spotifyRegex) ? rawStr.match(spotifyRegex).getUnique() : null;
+            if (matches) {
+                var i = 0;
+                while (i < matches.length) {
+                    str = str + '<div class="ejs-embed"><iframe src="https://embed.spotify.com/?uri=spotify:track:' + matches[i].split('/')[2] + '" height="80"></iframe></div>';
+                    i++;
+                }
+            }
+            return str;
         }
+
     };
 
     var imageProcess = {
@@ -719,6 +734,7 @@
             input = (settings.vineEmbed) ? videoProcess.vineEmbed(rawInput, input, settings) : input;
             input = (settings.tedEmbed) ? videoProcess.tedEmbed(rawInput, input, settings) : input;
             input = (settings.liveleakEmbed) ? videoProcess.liveleakEmbed(rawInput, input, settings) : input;
+            input = (settings.spotifyEmbed) ? audioProcess.spotifyEmbed(rawInput, input, settings) : input;
 
             videoProcess.embed(input, settings).then(function (d) {
                 if (tweetProcess.getMatches(d)) {

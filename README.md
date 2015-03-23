@@ -14,7 +14,7 @@ Features
 * Inline Code Syntax highlighting (uses highlight.js)
 * Twitter tweet embedding supported
 * Codepen, jsbin, jsfiddle embed supported
-* soundcloud support
+* soundcloud and spotify support
 * Twitch tv, dotSub, dailymotion, vine,TED and liveLeak support.
 
 Dependencies
@@ -129,6 +129,7 @@ $('#element').emoticons({
       //jsbin height (width can be adjusted by css)
       jsbinHeight       :300,
       //set to true to embed soundcloud
+      spotifyEmbed     :true,
       soundCloudEmbed  : true,
       soundCloudOptions: {
           height      : 160,
