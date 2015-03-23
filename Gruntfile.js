@@ -23,14 +23,14 @@ module.exports = function(grunt) {
 				banner: "<%= meta.banner %>"
 			},
 			dist: {
-				src: ["src/jquery.emoticons.js"],
-				dest: "dist/jquery.emoticons.js"
+				src: ["src/jquery.embed.js"],
+				dest: "dist/jquery.embed.js"
 			}
 		},
 
 		// Lint definitions
 		jshint: {
-			files: ["src/jquery.emoticons.js"],
+			files: ["src/jquery.embed.js"],
 			options: {
 				jshintrc: ".jshintrc"
 			}
@@ -39,8 +39,8 @@ module.exports = function(grunt) {
 		// Minify definitions
 		uglify: {
 			my_target: {
-				src: ["dist/jquery.emoticons.js"],
-				dest: "dist/jquery.emoticons.min.js"
+				src: ["dist/jquery.embed.js"],
+				dest: "dist/jquery.embed.min.js"
 			},
 			options: {
 				banner: "<%= meta.banner %>",
@@ -69,7 +69,7 @@ module.exports = function(grunt) {
                    cwd:'src',
                    src:['*.css'],
                    dest:'dist',
-                   ext:'.emoticons.min.css'
+                   ext:'.embed.min.css'
                }]
            }
         }

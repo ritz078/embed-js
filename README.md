@@ -69,7 +69,7 @@ Simple Usage
 ------------
 ```html
 <script>
-$('#element').emoticons({
+$('#element').embedJS({
     gdevAuthKey : 'xxxxxxxx'
 });
 </script>
@@ -79,7 +79,7 @@ Advanced Usage
 
 ```html
 <script>
-$('#element').emoticons({
+$('#element').embedJS({
       //Instructs the library whether or not to embed urls
       link              : true,
       //same as the target attribute in html anchor tag . supports all html supported target values.
