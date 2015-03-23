@@ -74,99 +74,99 @@
         <h5 class="title">Documentation</h5>
         <pre><code>
 
-            $('#element').emoticons({
-              //Instructs the library whether or not to embed urls
-              link              : true,
-              //same as the target attribute in html anchor tag . supports all html supported target values.
-              linkTarget        : '_blank',
-              //Array of extensions to be excluded from converting into links
-              linkExclude       : ['jpg','pdf'],
-              //set true to show a preview of pdf links
-              pdfEmbed          : true,
-              //set true to embed images
-              imageEmbed        : true,
-              //set true to embed audio
-              audioEmbed        : false,
-              //set true to show a preview of youtube/vimeo videos with details
-              videoEmbed        : true,
-              //set true to show basic video files like mp4 etc. (supported by html5 player)
-              basicVideoEmbed   : true,
-              //width of the video frame (in pixels)
-              videoWidth        : 640,
-              //height of the video frame (in pixels)
-              videoHeight       : 390,
-              //( Mandatory ) The authorization key obtained from google's developer console for
-              //using youtube data api and map embed api
-              gdevAuthKey         : 'xxxxxxx',
-              //Set google map location embed
-              // Use @(place-name) to use this feature . Eg: @(Sydney)
-              locationEmbed       :true,
-              //Instructs the library whether or not to highlight code syntax.
-              highlightCode     : true,
-              //Instructs the library whether or not embed the tweets
-              tweetsEmbed     : true,
-              tweetOptions:{
-                //The maximum width of a rendered Tweet in whole pixels. Must be between 220 and 550 inclusive.
-                maxWidth   : 550,
-                //When set to true or 1 links in a Tweet are not expanded to photo, video, or link previews.
-                hideMedia  : false,
-                //When set to true or 1 a collapsed version of the previous Tweet in a conversation thread
-                //will not be displayed when the requested Tweet is in reply to another Tweet.
-                hideThread : false,
-                //Specifies whether the embedded Tweet should be floated left, right, or center in
-                //the page relative to the parent element.Valid values are left, right, center, and none.
-                //Defaults to none, meaning no alignment styles are specified for the Tweet.
-                align      : 'none',
-                //Request returned HTML and a rendered Tweet in the specified.
-                //Supported Languages listed here (https://dev.twitter.com/web/overview/languages)
-                lang       : 'en'
-              },
-              //set to true to embed codepen
-              codepenEmbed      :true,
-              //codepen height (width can be adjusted by css)
-              codepenHeight     :300,
-              //set to true to embed jsfiddle
-              jsfiddleEmbed     :true,
-              //jsfiddle height (width can be adjusted by css)
-              jsfiddleHeight    :300,
-              //set to true to embed jsbin
-              jsbinEmbed        :true,
-              //jsbin height (width can be adjusted by css)
-              jsbinHeight       :300,
-              //set to true to embed soundcloud
-              spotifyEmbed     :true,
-              soundCloudEmbed  : true,
-              soundCloudOptions: {
-                height      : 160,
-                themeColor  : 'f50000',    //Hex Code of the player theme color
-                autoPlay    : false,
-                hideRelated : false,
-                showComments: true,
-                showUser    : true,        //Show or hide the uploader name, useful e.g. in tiny players to save space)
-                showReposts : false,
-                visual      : false,       //Show/hide the big preview image
-                download    : false        //Show/Hide download buttons
-              },
-              twitchtvEmbed     :true,
-              dotsubEmbed       :true,
-              dailymotionEmbed  :true,
-              vineEmbed        : true,
-              vineOptions:{
-                width:500,
-                type:'postcard'         //'postcard' or 'simple' embedding
-              },
-              tedEmbed         :true,
-              liveleakEmbed     :true,
-              //callback before pdf preview
-              beforePdfPreview  : function(){},
-              //callback after pdf preview
-              afterPdfPreview   : function(){},
-              // callback on video frame view
-              onVideoShow:function(){},
-              //callback on video load (youtube/vimeo)
-              onVideoLoad:function(){}
+  $('#element').embed({
+    //Instructs the library whether or not to embed urls
+    link              : true,
+    //same as the target attribute in html anchor tag . supports all html supported target values.
+    linkTarget        : '_blank',
+    //Array of extensions to be excluded from converting into links
+    linkExclude       : ['jpg','pdf'],
+    //set true to show a preview of pdf links
+    pdfEmbed          : true,
+    //set true to embed images
+    imageEmbed        : true,
+    //set true to embed audio
+    audioEmbed        : false,
+    //set true to show a preview of youtube/vimeo videos with details
+    videoEmbed        : true,
+    //set true to show basic video files like mp4 etc. (supported by html5 player)
+    basicVideoEmbed   : true,
+    //width of the video frame (in pixels)
+    videoWidth        : 640,
+    //height of the video frame (in pixels)
+    videoHeight       : 390,
+    //( Mandatory ) The authorization key obtained from google's developer console for
+    //using youtube data api and map embed api
+    gdevAuthKey         : 'xxxxxxx',
+    //Set google map location embed
+    // Use @(place-name) to use this feature . Eg: @(Sydney)
+    locationEmbed       :true,
+    //Instructs the library whether or not to highlight code syntax.
+    highlightCode     : true,
+    //Instructs the library whether or not embed the tweets
+    tweetsEmbed     : true,
+    tweetOptions:{
+      //The maximum width of a rendered Tweet in whole pixels. Must be between 220 and 550 inclusive.
+      maxWidth   : 550,
+      //When set to true or 1 links in a Tweet are not expanded to photo, video, or link previews.
+      hideMedia  : false,
+      //When set to true or 1 a collapsed version of the previous Tweet in a conversation thread
+      //will not be displayed when the requested Tweet is in reply to another Tweet.
+      hideThread : false,
+      //Specifies whether the embedded Tweet should be floated left, right, or center in
+      //the page relative to the parent element.Valid values are left, right, center, and none.
+      //Defaults to none, meaning no alignment styles are specified for the Tweet.
+      align      : 'none',
+      //Request returned HTML and a rendered Tweet in the specified.
+      //Supported Languages listed here (https://dev.twitter.com/web/overview/languages)
+      lang       : 'en'
+    },
+    //set to true to embed codepen
+    codepenEmbed      :true,
+    //codepen height (width can be adjusted by css)
+    codepenHeight     :300,
+    //set to true to embed jsfiddle
+    jsfiddleEmbed     :true,
+    //jsfiddle height (width can be adjusted by css)
+    jsfiddleHeight    :300,
+    //set to true to embed jsbin
+    jsbinEmbed        :true,
+    //jsbin height (width can be adjusted by css)
+    jsbinHeight       :300,
+    //set to true to embed soundcloud
+    spotifyEmbed     :true,
+    soundCloudEmbed  : true,
+    soundCloudOptions: {
+      height      : 160,
+      themeColor  : 'f50000',    //Hex Code of the player theme color
+      autoPlay    : false,
+      hideRelated : false,
+      showComments: true,
+      showUser    : true,        //Show or hide the uploader name, useful e.g. in tiny players to save space)
+      showReposts : false,
+      visual      : false,       //Show/hide the big preview image
+      download    : false        //Show/Hide download buttons
+    },
+    twitchtvEmbed     :true,
+    dotsubEmbed       :true,
+    dailymotionEmbed  :true,
+    vineEmbed        : true,
+    vineOptions:{
+      width:500,
+      type:'postcard'         //'postcard' or 'simple' embedding
+    },
+    tedEmbed         :true,
+    liveleakEmbed     :true,
+    //callback before pdf preview
+    beforePdfPreview  : function(){},
+    //callback after pdf preview
+    afterPdfPreview   : function(){},
+    // callback on video frame view
+    onVideoShow:function(){},
+    //callback on video load (youtube/vimeo)
+    onVideoLoad:function(){}
 
-            });
+  });
 
             </code></pre>
       </div>
@@ -191,7 +191,7 @@
           </div>
           <div id="test3" class="col s12">
             <pre><code>
-$('.element').emoticons();
+$('.element').embedJS();
             </code></pre>
           </div>
         </div>
@@ -221,7 +221,7 @@ $('.element').emoticons();
           </div>
           <div id="test22" class="col s12">
             <pre><code>
-$('.element2').emoticons({
+$('.element2').embedJS({
     ytAuthKey:'xxxxxxxxxxxxxxxxx'
 });
             </code></pre>
@@ -253,7 +253,7 @@ $('.element2').emoticons({
         </div>
         <div id="test32" class="col s12">
             <pre><code>
-  $('.element3').emoticons();
+  $('.element3').embedJS();
             </code></pre>
         </div>
       </div>
@@ -283,7 +283,7 @@ $('.element2').emoticons({
           </div>
           <div id="test42" class="col s12">
             <pre><code>
-  $('.element4').emoticons();
+  $('.element4').embedJS();
             </code></pre>
           </div>
         </div>
@@ -313,7 +313,7 @@ $('.element2').emoticons({
           </div>
           <div id="test52" class="col s12">
             <pre><code>
-$('.element4').emoticons();
+$('.element4').embedJS();
             </code></pre>
           </div>
         </div>
@@ -355,7 +355,7 @@ class Animal extends Being
           </div>
           <div id="test62" class="col s12">
             <pre><code>
-$('.element5').emoticons({
+$('.element5').embedJS({
   audioEmbed:true
 });
             </code></pre>
