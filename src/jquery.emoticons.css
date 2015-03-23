@@ -43,6 +43,11 @@
     border: 1px solid #eee;
     }
 
+.ejs-vine iframe{
+    border:0;
+    margin: 10px 0;
+}
+
 pre {
     position      : relative;
     margin-bottom : 24px;

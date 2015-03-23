@@ -117,18 +117,21 @@
         jsbinHeight      : 300,
         soundCloudEmbed  : true,
         soundCloudOptions: {
-            height     : 160, themeColor: 'f50000',   //Hex Code of the player theme color
-            autoPlay   : false, hideRelated: false, showComments: true, showUser: true,          //Show or hide the
-                                                                                                 // uploader name,
-                                                                                                 // useful e.g. in tiny
-                                                                                                 // players to save
-                                                                                                 // space)
-            showReposts: false, visual: false,         //Show/hide the big preview image
-            download   : false          //Show/Hide download buttons
+            height      : 160, themeColor: 'f50000',   //Hex Code of the player theme color
+            autoPlay    : false,
+            hideRelated : false,
+            showComments: true,
+            showUser    : true,
+            showReposts : false,
+            visual      : false,         //Show/hide the big preview image
+            download    : false          //Show/Hide download buttons
         },
         twitchtvEmbed    : true,
         dotsubEmbed      : true,
         dailymotionEmbed : true,
+        vineEmbed        : true,
+        vineWidth        : 500,
+        vineType         : 'postcard',   //'postcard' or 'simple' embedding
         beforePdfPreview : function () {   //callback before pdf preview
         },
         afterPdfPreview  : function () {   //callback after pdf preview
@@ -396,7 +399,20 @@
             if (matches) {
                 var i = 0;
                 while (i < matches.length) {
-                    str = str + '<div class="ejs-video"><iframe src="http://www.dailymotion.com/embed/video/' + matches[i].split('/')[2] + '" height="'+videoDimensions.height+'" width="'+videoDimensions.width+'"></iframe></div>'
+                    str = str + '<div class="ejs-video"><iframe src="http://www.dailymotion.com/embed/video/' + matches[i].split('/')[2] + '" height="' + videoDimensions.height + '" width="' + videoDimensions.width + '"></iframe></div>'
+                    i++;
+                }
+            }
+            return str;
+        },
+
+        vineEmbed: function (rawStr, str, opts) {
+            var vineRegex = /vine.co\/v\/[a-zA-Z0-9]+/gi;
+            var matches = rawStr.match(vineRegex) ? rawStr.match(vineRegex).getUnique() : null;
+            if (matches) {
+                var i = 0;
+                while (i < matches.length) {
+                    str = str + '<div class="ejs-vine"><iframe src="https://vine.co/v/' + matches[i].split('/')[2] + '/embed/'+opts.vineType+'" height="' + (opts.vineType=='postcard'?(opts.vineWidth + 158):opts.vineWidth) + '" width="' + opts.vineWidth + '"></iframe></div>'
                     i++;
                 }
             }
@@ -660,6 +676,7 @@
             input = (settings.twitchtvEmbed) ? videoProcess.twitchtvEmbed(rawInput, input, settings) : input;
             input = (settings.dotsubEmbed) ? videoProcess.dotsubEmbed(rawInput, input, settings) : input;
             input = (settings.dailymotionEmbed) ? videoProcess.dailymotionEmbed(rawInput, input, settings) : input;
+            input = (settings.vineEmbed) ? videoProcess.vineEmbed(rawInput, input, settings) : input;
 
             videoProcess.embed(input, settings).then(function (d) {
                 if (tweetProcess.getMatches(d)) {

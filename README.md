@@ -15,7 +15,7 @@ Features
 * Twitter tweet embedding supported
 * Codepen, jsbin, jsfiddle embed supported
 * soundcloud support
-* Twitch tv, dotSub, dailymotion support
+* Twitch tv, dotSub, dailymotion, vine support.
 
 Dependencies
 ------------
@@ -144,6 +144,9 @@ $('#element').emoticons({
       twitchtvEmbed     :true,
       dotsubEmbed       :true,
       dailymotionEmbed  :true,
+      vineEmbed        : true,
+      vineWidth        : 500,
+      vineType         : 'postcard',   //'postcard' or 'simple' embedding
       //callback before pdf preview
       beforePdfPreview  : function(){},
       //callback after pdf preview
