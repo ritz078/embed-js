@@ -4,6 +4,6 @@
   "dependencies": {
     "jquery": "~1.11.1",
     "materialize": "~0.95.3",
-    "embed-js": "canary"
+    "embed-js": "~2.0.0"
   }
 }

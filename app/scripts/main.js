@@ -1,12 +1,12 @@
-$('.element').emoticons();
+$('.element').embedJS();
 
-$('.element2').emoticons({
-  ytAuthKey:'AIzaSyCqFouT8h5DKAbxlrTZmjXEmNBjC69f0ts'
+$('.element2').embedJS({
+  gdevAuthKey:'AIzaSyCqFouT8h5DKAbxlrTZmjXEmNBjC69f0ts'
 });
 
-$('.element3').emoticons();
+$('.element3').embedJS();
 
-$('.element5').emoticons({
+$('.element5').embedJS({
   audioEmbed:true
 });
 hljs.initHighlightingOnLoad();
