@@ -612,23 +612,11 @@
 
         },
 
-        basicVideoTemplate: function (url) {
-            var template = '<div class="ejs-video">' +
-                '    <div class="ejs-video-player">' +
-                '        <div class="player">' +
-                '            <video src="' + url + '" controls></video>' +
-                '        </div>' +
-                '    </div>' +
-                '</div>';
-
-            return template;
-        },
-
-        embedBasic: function (str) {
+        embedBasic: function (rawStr,str) {
             var basicVideoRegex = /((?:https?):\/\/\S*\.(?:ogv|webm|mp4))/gi;
 
-            if (str.match(basicVideoRegex)) {
-                var template = this.basicVideoTemplate(RegExp.$1);
+            if (rawStr.match(basicVideoRegex)) {
+                var template = '<div class="ejs-video"><div class="ejs-video-player"><div class="player"><video src="' + RegExp.$1 + '" controls></video></div></div></div>';
                 str = str + template;
             }
             return str;
@@ -636,13 +624,11 @@
     };
 
     var pdfProcess = {
-        embed: function (str) {
+        embed: function (rawStr,str) {
             var p = /((?:https?):\/\/\S*\.(?:pdf|PDF))/gi;
-            if (str.match(p)) {
+            if (rawStr.match(p)) {
                 var pdfUrl = RegExp.$1;
-
                 var pdfTemplate = '<div class="ejs-pdf"><div class="ejs-pdf-preview"><div class="ejs-pdf-icon"><i class="fa fa-file-pdf-o"></i></div><div class="ejs-pdf-detail" ><div class="ejs-pdf-title"> <a href="">' + pdfUrl + '</a></div> <div class="ejs-pdf-view"> <button><i class="fa fa-download"></i> <a href="' + pdfUrl + '" target="_blank">Download</a></button> <button class="ejs-pdf-view-active"><i class="fa fa-eye"></i> View PDF</button></div> </div> </div></div>';
-
                 str = str + pdfTemplate;
 
             }
@@ -715,21 +701,18 @@
     };
 
     var audioProcess = {
-        basicEmbed: function (str) {
+        basicEmbed: function (rawStr,str) {
             var a = /((?:https?):\/\/\S*\.(?:wav|mp3|ogg))/gi;
-            if (str.match(a)) {
-                var audioUrl = RegExp.$1;
-
-                var audioTemplate = '<div class="ejs-audio"><audio src="' + audioUrl + '" controls></audio></div>';
-
+            if (rawStr.match(a)) {
+                var audioTemplate = '<div class="ejs-audio"><audio src="' + RegExp.$1 + '" controls></audio></div>';
                 str = str + audioTemplate;
             }
             return str;
         },
 
-        soundCloudEmbed: function (str, opts) {
+        soundCloudEmbed: function (rawStr,str, opts) {
             var scRegex = /soundcloud.com\/[a-zA-Z0-9-_]+\/[a-zA-Z0-9-_]+/gi;
-            var matches = str.match(scRegex) ? str.match(scRegex).getUnique() : null;
+            var matches = rawStr.match(scRegex) ? rawStr.match(scRegex).getUnique() : null;
             if (matches) {
                 var i = 0;
                 while (i < matches.length) {
@@ -754,20 +737,10 @@
     };
 
     var imageProcess = {
-        template: function (url) {
-            var t = '<div class="ejs-image">' +
-                '    <div class="ne-image-wrapper">' +
-                '        <img src="' + url + '"/>' +
-                '    </div>' +
-                '</div>';
-
-            return t;
-
-        },
-        embed   : function (str) {
+        embed   : function (rawStr,str) {
             var i = /((?:https?):\/\/\S*\.(?:gif|jpg|jpeg|tiff|png|svg|webp))/gi;
-            if (str.match(i)) {
-                var template = this.template(RegExp.$1);
+            if (rawStr.match(i)) {
+                var template = '<div class="ejs-image"><div class="ne-image-wrapper"><img src="' + RegExp.$1 + '"/></div></div>';
                 str = str + template;
             }
             return str;
@@ -850,9 +823,9 @@
     };
 
     var codeEmbedProcess = {
-        codepenEmbed: function (str, opts) {
+        codepenEmbed: function (rawStr,str, opts) {
             var codepenRegex = /http:\/\/codepen.io\/([A-Za-z0-9_]+)\/pen\/([A-Za-z0-9_]+)/gi;
-            var matches = str.match(codepenRegex) ? str.match(codepenRegex).getUnique() : null;
+            var matches = rawStr.match(codepenRegex) ? rawStr.match(codepenRegex).getUnique() : null;
             if (matches) {
                 var i = 0;
                 while (i < matches.length) {
@@ -863,9 +836,9 @@
             return str;
         },
 
-        jsfiddleEmbed: function (str, opts) {
+        jsfiddleEmbed: function (rawStr,str, opts) {
             var jsfiddleRegex = /jsfiddle.net\/[a-zA-Z0-9_]+\/[a-zA-Z0-9_]+/gi;
-            var matches = str.match(jsfiddleRegex) ? str.match(jsfiddleRegex).getUnique() : null;
+            var matches = rawStr.match(jsfiddleRegex) ? rawStr.match(jsfiddleRegex).getUnique() : null;
             if (matches) {
                 var i = 0;
                 while (i < matches.length) {
@@ -876,9 +849,9 @@
             return str;
         },
 
-        jsbinEmbed: function (str, opts) {
+        jsbinEmbed: function (rawStr,str, opts) {
             var jsbinRegex = /jsbin.com\/[a-zA-Z0-9_]+\/[0-9_]+/gi;
-            var matches = str.match(jsbinRegex) ? str.match(jsbinRegex).getUnique() : null;
+            var matches = rawStr.match(jsbinRegex) ? rawStr.match(jsbinRegex).getUnique() : null;
             if (matches) {
                 var i = 0;
                 while (i < matches.length) {
@@ -902,19 +875,20 @@
 
             var that = this;
 
+            var rawInput=input;
+
             input = (settings.link) ? urlEmbed(input) : input;
             input = insertfontSmiley(input);
             input = insertEmoji(input);
-            input = (settings.pdfEmbed) ? pdfProcess.embed(input) : input;
-            input = (settings.audioEmbed) ? audioProcess.basicEmbed(input) : input;
+            input = (settings.pdfEmbed) ? pdfProcess.embed(rawInput,input) : input;
+            input = (settings.audioEmbed) ? audioProcess.basicEmbed(rawInput,input) : input;
             input = (settings.highlightCode) ? codeProcess.highlight(input) : input;
-            input = (settings.basicVideoEmbed) ? videoProcess.embedBasic(input) : input;
-            input = (settings.imageEmbed) ? imageProcess.embed(input) : input;
-            input = (settings.codepenEmbed) ? codeEmbedProcess.codepenEmbed(input, settings) : input;
-            input = (settings.jsfiddleEmbed) ? codeEmbedProcess.jsfiddleEmbed(input, settings) : input;
-            input = (settings.jsbinEmbed) ? codeEmbedProcess.jsbinEmbed(input, settings) : input;
-            input = (settings.soundCloudEmbed) ? audioProcess.soundCloudEmbed(input, settings) : input;
-            //$(that).html(input);
+            input = (settings.basicVideoEmbed) ? videoProcess.embedBasic(rawInput,input) : input;
+            input = (settings.imageEmbed) ? imageProcess.embed(rawInput,input) : input;
+            input = (settings.codepenEmbed) ? codeEmbedProcess.codepenEmbed(rawInput,input, settings) : input;
+            input = (settings.jsfiddleEmbed) ? codeEmbedProcess.jsfiddleEmbed(rawInput,input, settings) : input;
+            input = (settings.jsbinEmbed) ? codeEmbedProcess.jsbinEmbed(rawInput,input, settings) : input;
+            input = (settings.soundCloudEmbed) ? audioProcess.soundCloudEmbed(rawInput,input, settings) : input;
 
             videoProcess.embed(input, settings).then(
                 function (d) {
