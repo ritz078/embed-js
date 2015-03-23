@@ -726,7 +726,7 @@
             if(matches){
                 var i=0;
                 while(i<matches.length){
-                    str=str+'<div class="ejs-map ejs-embed"><iframe width="600" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?key='+opts.gdevAuthKey+ '&q='+matches[i].split('(')[1].split(')')[0]+'"></iframe></div>';
+                    str=str+'<div class="ejs-map ejs-embed"><iframe width="600" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?key='+opts.gdevAuthKey + '&q='+matches[i].split('(')[1].split(')')[0]+'"></iframe></div>';
                     i++;
                 }
             }

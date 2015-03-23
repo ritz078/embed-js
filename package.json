@@ -1,7 +1,7 @@
 {
   "name": "emoticons-js",
-  "version": "1.0.0",
-  "description": "A jquery plugin to convert text into emoticons.",
+  "version": "2.0.0",
+  "description": "A jQuery plugin for converting text emojis into image-based emoticons, also supporting an automatic media embedding system for multimedia URLs",
   "keywords": [
     "jquery-plugin",
     "jquery",

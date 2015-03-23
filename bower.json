@@ -1,6 +1,6 @@
 {
   "name": "emoticons-js",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "homepage": "http://rkritesh.in/emoticons-js",
   "ignore": [
     ".jshintrc",
@@ -10,7 +10,7 @@
     "Ritesh Kumar <rkritesh078@gmail.com>",
     "Jagannadh <shanmuk.mir@gmail.com>"
   ],
-  "description": "A jquery plugin to convert text into emoticons.",
+  "description": "A jQuery plugin for converting text emojis into image-based emoticons, also supporting an automatic media embedding system for multimedia URLs",
   "main": [
     "./src/jquery.emoticons.js",
     "./src/jquery.emoticons.css",

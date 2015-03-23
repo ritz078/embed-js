@@ -45,7 +45,10 @@ Load css file
 Load Scripts
 ```html
 <script src="path/to/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script> <!--==== Optional =====-->
+<!--==== Optional =====-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+<script src="http://platform.twitter.com/widgets.js"></script>
+<!--===================-->
 <script src="path/to/jquery.emoticons.js"></script>
 ```
 
@@ -65,7 +68,7 @@ Simple Usage
 ```html
 <script>
 $('#element').emoticons({
-    ytAuthKey : 'xxxxxxxx'
+    gdevAuthKey : 'xxxxxxxx'
 });
 </script>
 ```
