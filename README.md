@@ -140,6 +140,7 @@ $('#element').emoticons({
           visual      : false,       //Show/hide the big preview image
           download    : false        //Show/Hide download buttons
               },
+      twitchtvEmbed     :true,
       //callback before pdf preview
       beforePdfPreview  : function(){},
       //callback after pdf preview

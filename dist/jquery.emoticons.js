@@ -346,6 +346,7 @@
             visual      : false,         //Show/hide the big preview image
             download    : false          //Show/Hide download buttons
         },
+        twitchtvEmbed:true,
         beforePdfPreview : function () {   //callback before pdf preview
         },
         afterPdfPreview  : function () {   //callback after pdf preview
@@ -420,38 +421,26 @@
         return a;
     };
 
-    /**
-     * FUNCTION insertfontSmiley
-     * @description
-     * Coverts the text into font emoticons
-     *
-     * @param  {string} str
-     *
-     * @return {string}
-     */
-
-    function insertfontSmiley(str) {
-        var a = str.split(' ');
-        icons.forEach(function (icon) {
-            for (var i = 0; i < a.length; i++) {
-                if (a[i] === icon.text) {
-                    a[i] = '<span class="icon-emoticon" title="' + icon.text + '">' + '&#x' + icon.code + '</span>';
+    var emoticonProcess={
+        insertfontSmiley:function(str){
+            var a = str.split(' ');
+            icons.forEach(function (icon) {
+                for (var i = 0; i < a.length; i++) {
+                    if (a[i] === icon.text) {
+                        a[i] = '<span class="icon-emoticon" title="' + icon.text + '">' + '&#x' + icon.code + '</span>';
+                    }
                 }
-            }
-        });
-        return a.join(' ');
-    }
+            });
+            return a.join(' ');
+        },
 
-    /**
-     * FUNCTION UrlEmbed
-     * @description
-     * Converts normal links written in the text into html anchor tags.
-     *
-     * @param  {string} text
-     *
-     * @return {string}
-     */
-
+        insertEmoji:function(str){
+            var emojiRegex = new RegExp(':(' + emojiList.join('|') + '):', 'g');
+            return str.replace(emojiRegex, function (match, text) {
+                return '<span class="emoticon emoticon-' + text + '" title=":' + text + ':"></span>';
+            });
+        }
+    };
 
     function urlEmbed(str) {
         var urlRegex = /((href|src)=["']|)(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
@@ -464,23 +453,6 @@
             }
         );
         return strReplaced;
-    }
-
-    /**
-     * FUNCTION insertEmoji
-     *
-     * @description
-     * Converts text into emojis
-     *
-     * @param  {string} str
-     *
-     * @return {string}
-     */
-    function insertEmoji(str) {
-        var emojiRegex = new RegExp(':(' + emojiList.join('|') + '):', 'g');
-        return str.replace(emojiRegex, function (match, text) {
-            return '<span class="emoticon emoticon-' + text + '" title=":' + text + ':"></span>';
-        });
     }
 
     var videoTemplate = '';
@@ -626,6 +598,28 @@
             if (rawStr.match(basicVideoRegex)) {
                 var template = '<div class="ejs-video"><div class="ejs-video-player"><div class="player"><video src="' + RegExp.$1 + '" controls></video></div></div></div>';
                 str = str + template;
+            }
+            return str;
+        },
+
+        twitchEmbed:function(rawStr,str,opts){
+          var twitchRegex=/www.twitch.tv\/([a-zA_Z0-9_]+)/gi;
+            var matches=rawStr.match(twitchRegex)?rawStr.match(twitchRegex).getUnique():null;
+            var videoDimensions=this.dimensions(opts);
+            if(matches){
+                console.log(matches);
+                console.log(RegExp.$1);
+                var i=0;
+                while(i<matches.length){
+                    str=str+'<div class="ejs-video"><object bgcolor="#000000" data="//www-cdn.jtvnw.net/swflibs/TwitchPlayer.swf" height="'+videoDimensions.height+'" id="clip_embed_player_flash" type="application/x-shockwave-flash" width="'+videoDimensions.width+'">'+
+                    '<param name="movie" value="http://www-cdn.jtvnw.net/swflibs/TwitchPlayer.swf" />'+
+                    '<param name="allowScriptAccess" value="always" />'+
+                    '<param name="allowNetworking" value="all" />'+
+                    '<param name="allowFullScreen" value="true" />'+
+                    '<param name="flashvars" value="channel='+matches[i].split('/')[1]+'&auto_play=false" />'+
+                    '</object></div>';
+                    i++;
+                }
             }
             return str;
         }
@@ -886,8 +880,8 @@
             var rawInput=input;
 
             input = (settings.link) ? urlEmbed(input) : input;
-            input = insertfontSmiley(input);
-            input = insertEmoji(input);
+            input = emoticonProcess.insertfontSmiley(input);
+            input = emoticonProcess.insertEmoji(input);
             input = (settings.pdfEmbed) ? pdfProcess.embed(rawInput,input) : input;
             input = (settings.audioEmbed) ? audioProcess.basicEmbed(rawInput,input) : input;
             input = (settings.highlightCode) ? codeProcess.highlight(input) : input;
@@ -897,6 +891,7 @@
             input = (settings.jsfiddleEmbed) ? codeEmbedProcess.jsfiddleEmbed(rawInput,input, settings) : input;
             input = (settings.jsbinEmbed) ? codeEmbedProcess.jsbinEmbed(rawInput,input, settings) : input;
             input = (settings.soundCloudEmbed) ? audioProcess.soundCloudEmbed(rawInput,input, settings) : input;
+            input=(settings.twitchtvEmbed)?videoProcess.twitchEmbed(rawInput,input,settings):input;
 
             videoProcess.embed(input, settings).then(
                 function (d) {

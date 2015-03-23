@@ -184,6 +184,11 @@ code.has-numbering {
     transition         : all 0.5s linear;
     }
 
+.ejs-video iframe ,.ejs-video object{
+    width : 100%;
+    border: 0;
+    }
+
 .ejs-video video {
     width : 100%;
     }
