@@ -8,14 +8,14 @@ Features
 
 * Converts emoticon text codes into emoticons :smile: , :heart:
 * Finds links in text input and turns them into html links.
-* Youtube and Vimeo video embedding
+* Youtube and Vimeo video embedding with video details fetched from the api.
 * HTML5 player supported media embedding (mp3,mp4,ogg)
 * PDF viewing with preview and then the actual pdf in a frame.
 * Inline Code Syntax highlighting (uses highlight.js)
 * Twitter tweet embedding supported
 * Codepen, jsbin, jsfiddle embed supported
 * soundcloud support
-* Twitch tv, dotSub, dailymotion, vine,TED support.
+* Twitch tv, dotSub, dailymotion, vine,TED and liveLeak support.
 
 Dependencies
 ------------
@@ -148,6 +148,7 @@ $('#element').emoticons({
       vineWidth        : 500,
       vineType         : 'postcard',   //'postcard' or 'simple' embedding
       tedEmbed         :true,
+      liveleakEmbed     :true,
       //callback before pdf preview
       beforePdfPreview  : function(){},
       //callback after pdf preview

@@ -133,6 +133,7 @@
         vineWidth        : 500,
         vineType         : 'postcard',   //'postcard' or 'simple' embedding
         tedEmbed         : true,
+        liveleakEmbed    : true,
         beforePdfPreview : function () {   //callback before pdf preview
         },
         afterPdfPreview  : function () {   //callback after pdf preview
@@ -420,14 +421,28 @@
             return str;
         },
 
-        tedEmbed: function (rawStr, str, opts) {
-            var tedRegex=/ted.com\/talks\/[a-zA-Z0-9_]+/gi;
-            var matches=rawStr.match(tedRegex)?rawStr.match(tedRegex).getUnique():null;
+        tedEmbed     : function (rawStr, str, opts) {
+            var tedRegex = /ted.com\/talks\/[a-zA-Z0-9_]+/gi;
+            var matches = rawStr.match(tedRegex) ? rawStr.match(tedRegex).getUnique() : null;
+            var videoDimensions = this.dimensions(opts);
+            if (matches) {
+                var i = 0;
+                while (i < matches.length) {
+                    str = str + '<div class="ejs-embed"><iframe src="http://embed.ted.com/talks/' + matches[i].split('/')[2] + '.html" ' +
+                    'height="' + videoDimensions.height + '" width="' + videoDimensions.width + '"></iframe></div>';
+                    i++;
+                }
+            }
+            return str;
+        },
+        liveleakEmbed: function (rawStr, str, opts) {
+            var liveleakRegex = /liveleak.com\/view\?i=[a-zA-Z0-9_]+/gi;
+            var matches = rawStr.match(liveleakRegex) ? rawStr.match(liveleakRegex) : null;
             var videoDimensions=this.dimensions(opts);
-            if(matches){
-                var i=0;
-                while(i<matches.length){
-                    str=str+'<div class="ejs-embed"><iframe src="http://embed.ted.com/talks/'+matches[i].split('/')[2]+'.html" height="' + videoDimensions.height + '" width="' + videoDimensions.width + '"></iframe></div>'
+            if (matches) {
+                var i = 0;
+                while (i < matches.length) {
+                    str = str + '<div class="ejs-video"><iframe src="http://www.liveleak.com/e/' + matches[i].split('=')[1] + '" height="' + videoDimensions.height + '" width="' + videoDimensions.width + '"></iframe></div>';
                     i++;
                 }
             }
@@ -693,6 +708,7 @@
             input = (settings.dailymotionEmbed) ? videoProcess.dailymotionEmbed(rawInput, input, settings) : input;
             input = (settings.vineEmbed) ? videoProcess.vineEmbed(rawInput, input, settings) : input;
             input = (settings.tedEmbed) ? videoProcess.tedEmbed(rawInput, input, settings) : input;
+            input = (settings.liveleakEmbed) ? videoProcess.liveleakEmbed(rawInput, input, settings) : input;
 
             videoProcess.embed(input, settings).then(function (d) {
                 if (tweetProcess.getMatches(d)) {
