@@ -1,7 +1,9 @@
-Emoticons-js
+Embed-js
 ============
 
-A jquery plugin to insert emojis, font smileys, embed videos (youtube/vimeo), media files,pdf and highlight code syntax.
+Emoticons-js has apparently evolved from a simple text emoticon to image emoji conversion system into a fully-blown text beautification toolkit.
+
+Besides taking emoticons expressed using a text form and converting them to icon font-based or image-based emojis, this plugin can also do some other stuff too..
 
 Features
 --------
