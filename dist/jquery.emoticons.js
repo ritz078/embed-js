@@ -138,8 +138,10 @@
         dotsubEmbed      : true,
         dailymotionEmbed : true,
         vineEmbed        : true,
-        vineWidth        : 500,
-        vineType         : 'postcard',   //'postcard' or 'simple' embedding
+        vineOptions:{
+            width:500,
+            type:'postcard'         //'postcard' or 'simple' embedding
+        },
         tedEmbed         : true,
         liveleakEmbed    : true,
         beforePdfPreview : function () {   //callback before pdf preview
@@ -422,7 +424,7 @@
             if (matches) {
                 var i = 0;
                 while (i < matches.length) {
-                    str = str + '<div class="ejs-vine"><iframe src="https://vine.co/v/' + matches[i].split('/')[2] + '/embed/' + opts.vineType + '" height="' + (opts.vineType == 'postcard' ? (opts.vineWidth + 158) : opts.vineWidth) + '" width="' + opts.vineWidth + '"></iframe></div>'
+                    str = str + '<div class="ejs-vine"><iframe src="https://vine.co/v/' + matches[i].split('/')[2] + '/embed/' + opts.vineOptions.type + '" height="' + (opts.vineOptions.type == 'postcard' ? (opts.vineOptions.width + 158) : opts.vineOptions.width) + '" width="' + opts.vineOptions.width + '"></iframe></div>'
                     i++;
                 }
             }

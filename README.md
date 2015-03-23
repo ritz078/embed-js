@@ -145,8 +145,10 @@ $('#element').emoticons({
       dotsubEmbed       :true,
       dailymotionEmbed  :true,
       vineEmbed        : true,
-      vineWidth        : 500,
-      vineType         : 'postcard',   //'postcard' or 'simple' embedding
+      vineOptions:{
+            width:500,
+            type:'postcard'         //'postcard' or 'simple' embedding
+      },
       tedEmbed         :true,
       liveleakEmbed     :true,
       //callback before pdf preview
