@@ -44,6 +44,53 @@ header {
   background-color : #333;
   font-size        : 14px;
   line-height      : 1.5;
+  .collapsible{
+    margin: 0;
+    height: 100%;
+    padding-left: 0;
+    margin-top: 50px;
+    color:#666;
+    padding-top: 0;
+    border: 0;
+    &:hover{
+      color:#444;
+    }
+    li{
+      margin-top: 0;
+      a{
+        color:#d0d0d0;
+        &:hover{
+          color:#eee;
+        }
+        .collapsible-header{
+          background-color: #333;
+          border-bottom: 1px solid #272727;
+        }
+      }
+      &:hover{
+        color:#444;
+      }
+      .collapsible-header{
+        border-bottom: 1px solid #272727;
+        background-color: #333;
+        color: #d0d0d0;
+        &:hover{
+          color:#eee;
+        }
+      }
+    }
+  }
+  .collapsible-body{
+    border-bottom: 0;
+    background-color: #222;
+    p{
+      margin: 0;
+      padding: 7px 27px;
+      border-bottom: 1px solid #2a2a2a;
+
+    }
+
+  }
   iframe{
     position: fixed;
     bottom: 50px;
@@ -123,3 +170,26 @@ header {
   color      : #000;
   padding    : 0.2em 0;
   }
+.nano{
+  width: 248px;
+  height: 300px;
+}
+
+.nano > .nano-pane > .nano-slider {
+  background: rgba(255, 255, 255, 0.5);
+}
+.raw{
+  background-color: #eee;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+h6{
+  text-align: center;
+  background-color: #00B6F9;
+  padding: 10px;
+  border-radius: 2px;
+  color: #fff;
+  font-weight: 300;
+  font-size: 20px;
+  margin-bottom: 20px;
+}
