@@ -5,6 +5,8 @@ Emoticons-js has apparently evolved from a simple text emoticon to image emoji c
 
 Besides taking emoticons expressed using a text form and converting them to icon font-based or image-based emojis, this plugin can also do some other stuff too..
 
+The demo examples are given [here](http://rkritesh.in/embed-js)
+
 Features
 --------
 
@@ -176,6 +178,10 @@ $('#element').embedJS({
 ```
 If you specify either one of **videoWidth** or **videoHeight** , the other option will be automatically set in the aspected ratio.
 
+Examples
+--------
+
+Visit (http://rkritesh.in/embed-js)[http://rkritesh.in/embed-js]
 
 Contributing
 ------------
