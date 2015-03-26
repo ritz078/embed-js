@@ -181,7 +181,7 @@ If you specify either one of **videoWidth** or **videoHeight** , the other optio
 Examples
 --------
 
-Visit (http://rkritesh.in/embed-js)[http://rkritesh.in/embed-js]
+Visit [http://rkritesh.in/embed-js](http://rkritesh.in/embed-js)
 
 Contributing
 ------------
