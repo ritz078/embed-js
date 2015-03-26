@@ -7,6 +7,8 @@ Besides taking emoticons expressed using a text form and converting them to icon
 
 The demo examples are given [here](http://rkritesh.in/embed-js)
 
+**The angular version of this plugin is [ngEmbed](http://github.com/ritz078/ngEmbed)**
+
 Features
 --------
 
