@@ -144,27 +144,11 @@ $('#element').embedJS({
             //Supported Languages listed here (https://dev.twitter.com/web/overview/languages)
             lang       : 'en'
       },
-      //set false to embed codepen
-      codepenEmbed      :true,
-      //codepen height (width can be adjusted by css)
-      codepenHeight     :300,
-      //set false to embed jsfiddle
-      jsfiddleEmbed     :true,
-      //jsfiddle height (width can be adjusted by css)
-      jsfiddleHeight    :300,
-      //set false to embed jsbin
-      jsbinEmbed        :true,
-      //jsbin height (width can be adjusted by css)
-      jsbinHeight       :300,
-      //set false to embed ideone
-      ideoneEmbed       :true,
-      //ideone height (width can be adjusted by css)
-      ideoneHeight      :300,
-      plunkerEmbed      :true,
-      plunkerHeight     :300,
-      spotifyEmbed     :true,
-      //set false to embed soundcloud
-      soundCloudEmbed  : true,
+      //An array of services excluded from embedding...
+      //Options : codePen/jdFiddle/jsBin/ideone/plunker/soundcloud/twitchTv/dotSub/dailymotion/vine/ted/liveleak/spotify
+      excludeEmbed     :['twitchTv'],
+      //Height of jsfiddle/codepen/jsbin/ideone/plunker
+      codeEmbedHeight  :300,
       soundCloudOptions: {
           height      : 160,
           themeColor  : 'f50000',    //Hex Code of the player theme color
@@ -176,16 +160,10 @@ $('#element').embedJS({
           visual      : false,       //Show/hide the big preview image
           download    : false        //Show/Hide download buttons
               },
-      twitchtvEmbed     :true,
-      dotsubEmbed       :true,
-      dailymotionEmbed  :true,
-      vineEmbed        : true,
       vineOptions:{
             width:500,
             type:'postcard'         //'postcard' or 'simple' embedding
       },
-      tedEmbed         :true,
-      liveleakEmbed     :true,
       //callback before pdf preview
       beforePdfPreview  : function(){},
       //callback after pdf preview
@@ -204,6 +182,10 @@ Examples
 --------
 
 Visit [http://rkritesh.in/embed-js](http://rkritesh.in/embed-js)
+
+Version 2.0.3
+-------------
+* Better options structure
 
 Version 2.0.2
 -------------

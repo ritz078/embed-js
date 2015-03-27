@@ -1,5 +1,5 @@
 /*
- *  embed-js - v2.0.1
+ *  embed-js - v2.0.2
  *  A jQuery plugin for converting text emojis into image-based emoticons, also supporting an automatic media embedding system for multimedia URLs
  *  
  *
@@ -142,18 +142,8 @@
             lang      : 'en'           //Request returned HTML and a rendered Tweet in the specified
                                        // (https://dev.twitter.com/web/overview/languages)
         },
-        codepenEmbed     : true,
-        codepenHeight    : 300,
-        jsfiddleEmbed    : true,
-        jsfiddleHeight   : 300,
-        jsbinEmbed       : true,
-        jsbinHeight      : 300,
-        ideoneEmbed      : true,
-        ideoneHeight     : 300,
-        plunkerEmbed     : true,
-        plunkerHeight    : 300,
-        spotifyEmbed     : true,
-        soundCloudEmbed  : true,
+        excludeEmbed     :['twitchTv'],
+        codeEmbedHeight  :300,
         soundCloudOptions: {
             height      : 160, themeColor: 'f50000',   //Hex Code of the player theme color
             autoPlay    : false,
@@ -164,16 +154,10 @@
             visual      : false,         //Show/hide the big preview image
             download    : false          //Show/Hide download buttons
         },
-        twitchtvEmbed    : true,
-        dotsubEmbed      : true,
-        dailymotionEmbed : true,
-        vineEmbed        : true,
         vineOptions      : {
             width: 500,
             type : 'postcard'         //'postcard' or 'simple' embedding
         },
-        tedEmbed         : true,
-        liveleakEmbed    : true,
         beforePdfPreview : function () {   //callback before pdf preview
         },
         afterPdfPreview  : function () {   //callback after pdf preview
@@ -697,7 +681,7 @@
             if (matches) {
                 var i = 0;
                 while (i < matches.length) {
-                    str = str + '<div class="ejs-embed ejs-codepen"><iframe scrolling="no" height="' + opts.codepenHeight + '" src="' + matches[i].replace(/\/pen\//, '/embed/') + '/?height=' + opts.codepenHeight + '" frameborder="no" allowtransparency="true" allowfullscreen="true"></iframe></div>';
+                    str = str + '<div class="ejs-embed ejs-codepen"><iframe scrolling="no" height="' + opts.codeEmbedHeight + '" src="' + matches[i].replace(/\/pen\//, '/embed/') + '/?height=' + opts.codepenHeight + '" frameborder="no" allowtransparency="true" allowfullscreen="true"></iframe></div>';
                     i++;
                 }
             }
@@ -710,7 +694,7 @@
             if (matches) {
                 var i = 0;
                 while (i < matches.length) {
-                    str = str + '<div class="ejs-embed ejs-jsfiddle"><iframe height="' + opts.jsfiddleHeight + '" src="http://' + matches[i] + '/embedded"></iframe></div>';
+                    str = str + '<div class="ejs-embed ejs-jsfiddle"><iframe height="' + opts.codeEmbedHeight + '" src="http://' + matches[i] + '/embedded"></iframe></div>';
                     i++;
                 }
             }
@@ -723,7 +707,7 @@
             if (matches) {
                 var i = 0;
                 while (i < matches.length) {
-                    str = str + '<div class="ejs-jsbin ejs-embed"><iframe height="' + opts.jsbinHeight + '" class="jsbin-embed foo" src="http://' + matches[i] + '/embed?html,js,output">Simple Animation Tests</iframe></div>';
+                    str = str + '<div class="ejs-jsbin ejs-embed"><iframe height="' + opts.codeEmbedHeight + '" class="jsbin-embed foo" src="http://' + matches[i] + '/embed?html,js,output">Simple Animation Tests</iframe></div>';
                     i++;
                 }
             }
@@ -736,8 +720,7 @@
             if (matches) {
                 var i = 0;
                 while (i < matches.length) {
-                    console.log(matches[i]);
-                    str = str + '<div class="ejs-ideone ejs-embed"><iframe src="http://ideone.com/embed/' + matches[i].split('/')[1] + '" frameborder="0" height="' + opts.ideoneHeight + '"></iframe></div>';
+                    str = str + '<div class="ejs-ideone ejs-embed"><iframe src="http://ideone.com/embed/' + matches[i].split('/')[1] + '" frameborder="0" height="' + opts.codeEmbedHeight + '"></iframe></div>';
                     i++;
                 }
             }
@@ -751,7 +734,7 @@
                 var i = 0;
                 while (i < matches.length) {
                     var idMatch = (matches[i].indexOf('?') === -1) ? (matches[i].split('/')[2]) : (matches[i].split('/')[2].split('?')[0]);
-                    str = str + '<div class="ejs-embed ejs-plunker"><iframe class="ne-plunker" src="http://embed.plnkr.co/' + idMatch + '" height="' + opts.plunkerHeight + '"></iframe></div>';
+                    str = str + '<div class="ejs-embed ejs-plunker"><iframe class="ne-plunker" src="http://embed.plnkr.co/' + idMatch + '" height="' + opts.codeEmbedHeight + '"></iframe></div>';
                     i++;
                 }
             }
@@ -788,6 +771,11 @@
 
             var rawInput = input;
 
+            var ifEmbed = function(serviceName){
+                return ($.inArray(serviceName,settings.excludeEmbed)==-1);
+            };
+
+
             input = (settings.link) ? urlEmbed(input) : input;
             input = emoticonProcess.insertfontSmiley(input);
             input = emoticonProcess.insertEmoji(input);
@@ -796,19 +784,19 @@
             input = (settings.highlightCode) ? codeProcess.highlight(input) : input;
             input = (settings.basicVideoEmbed) ? videoProcess.embedBasic(rawInput, input) : input;
             input = (settings.imageEmbed) ? imageProcess.embed(rawInput, input) : input;
-            input = (settings.codepenEmbed) ? codeEmbedProcess.codepenEmbed(rawInput, input, settings) : input;
-            input = (settings.jsfiddleEmbed) ? codeEmbedProcess.jsfiddleEmbed(rawInput, input, settings) : input;
-            input = (settings.jsbinEmbed) ? codeEmbedProcess.jsbinEmbed(rawInput, input, settings) : input;
-            input = (settings.ideoneEmbed) ? codeEmbedProcess.ideoneEmbed(rawInput, input, options) : input;
-            input = (settings.plunkerEmbed) ? codeEmbedProcess.plunkerEmbed(rawInput, input, options) : input;
-            input = (settings.soundCloudEmbed) ? audioProcess.soundCloudEmbed(rawInput, input, settings) : input;
-            input = (settings.twitchtvEmbed) ? videoProcess.twitchtvEmbed(rawInput, input, settings) : input;
-            input = (settings.dotsubEmbed) ? videoProcess.dotsubEmbed(rawInput, input, settings) : input;
-            input = (settings.dailymotionEmbed) ? videoProcess.dailymotionEmbed(rawInput, input, settings) : input;
-            input = (settings.vineEmbed) ? videoProcess.vineEmbed(rawInput, input, settings) : input;
-            input = (settings.tedEmbed) ? videoProcess.tedEmbed(rawInput, input, settings) : input;
-            input = (settings.liveleakEmbed) ? videoProcess.liveleakEmbed(rawInput, input, settings) : input;
-            input = (settings.spotifyEmbed) ? audioProcess.spotifyEmbed(rawInput, input, settings) : input;
+            input = (ifEmbed('codePen')) ? codeEmbedProcess.codepenEmbed(rawInput, input, settings) : input;
+            input = (ifEmbed('jsFiddle')) ? codeEmbedProcess.jsfiddleEmbed(rawInput, input, settings) : input;
+            input = (ifEmbed('jsbin')) ? codeEmbedProcess.jsbinEmbed(rawInput, input, settings) : input;
+            input = (ifEmbed('ideone')) ? codeEmbedProcess.ideoneEmbed(rawInput, input, options) : input;
+            input = (ifEmbed('plunker')) ? codeEmbedProcess.plunkerEmbed(rawInput, input, options) : input;
+            input = (ifEmbed('soundcloud')) ? audioProcess.soundCloudEmbed(rawInput, input, settings) : input;
+            input = (ifEmbed('twitchTv')) ? videoProcess.twitchtvEmbed(rawInput, input, settings) : input;
+            input = (ifEmbed('dotSub')) ? videoProcess.dotsubEmbed(rawInput, input, settings) : input;
+            input = (ifEmbed('dailymotion')) ? videoProcess.dailymotionEmbed(rawInput, input, settings) : input;
+            input = (ifEmbed('vine')) ? videoProcess.vineEmbed(rawInput, input, settings) : input;
+            input = (ifEmbed('ted')) ? videoProcess.tedEmbed(rawInput, input, settings) : input;
+            input = (ifEmbed('liveLeak')) ? videoProcess.liveleakEmbed(rawInput, input, settings) : input;
+            input = (ifEmbed('spotify')) ? audioProcess.spotifyEmbed(rawInput, input, settings) : input;
             input = (settings.locationEmbed) ? mapProcess.locationEmbed(rawInput, input, settings) : input;
 
             videoProcess.embed(input, settings).then(function (d) {
