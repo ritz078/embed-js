@@ -116,7 +116,7 @@
         videoHeight      : null,           //height of the video frame (in pixels)
         gdevAuthKey      : null,           //( Mandatory ) The authorization key obtained from google's developer
                                            // console for using youtube data api and map embed api
-        locationEmbed:true,
+        locationEmbed    : true,
         highlightCode    : true,           //Instructs the library whether or not to highlight code syntax.
         tweetsEmbed      : true,           //Instructs the library whether or not embed the tweets
         tweetOptions     : {
@@ -140,6 +140,8 @@
         jsfiddleHeight   : 300,
         jsbinEmbed       : true,
         jsbinHeight      : 300,
+        ideoneEmbed      : true,
+        ideoneHeight     : 300,
         spotifyEmbed     : true,
         soundCloudEmbed  : true,
         soundCloudOptions: {
@@ -270,7 +272,7 @@
     var videoTemplate = '';
 
     function initVideoTemplate() {
-        videoTemplate = '<div class="ejs-video"><div class="ejs-video-preview">' + '        <div class="ejs-video-thumb">' + '            <img src="' + video.thumbnail + '" alt="' + video.host + '/' + video.id + '"/>' + '            <i class="fa fa-play-circle-o"></i>' + '        </div>' + '        <div class="ejs-video-detail">' + '            <div class="ejs-video-title">' + '                <a href="' + video.url + '">' + video.title + '</a>' + '            </div>' + '            <div class="ejs-video-desc">' + video.description + '            </div>' + '            <div class="ejs-video-stats">' + '                <span><i class="fa fa-eye"></i> ' + video.views + '</span>' + '                <span><i class="fa fa-heart"></i> ' + video.likes + '</span>' + '            </div>' + '        </div>' + '    </div></div>';
+        videoTemplate = '<div class="ejs-video"><div class="ejs-video-preview">' + '<div class="ejs-video-thumb">' + '<img src="' + video.thumbnail + '" alt="' + video.host + '/' + video.id + '"/>' + '<i class="fa fa-play-circle-o"></i>' + '</div>' + '<div class="ejs-video-detail">' + '<div class="ejs-video-title">' + '<a href="' + video.url + '">' + video.title + '</a>' + '</div>' + '<div class="ejs-video-desc">' + video.description + '</div>' + '<div class="ejs-video-stats">' + '<span><i class="fa fa-eye"></i> ' + video.views + '</span>' + '<span><i class="fa fa-heart"></i> ' + video.likes + '</span>' + '</div>' + '</div>' + '</div></div>';
     }
 
     var videoProcess = {
@@ -716,17 +718,31 @@
                 }
             }
             return str;
+        },
+
+        ideoneEmbed: function (rawStr, str, opts) {
+            var ideoneRegex = /ideone.com\/[a-zA-Z0-9]{6}/gi;
+            var matches = rawStr.match(ideoneRegex) ? rawStr.match(ideoneRegex).getUnique() : null;
+            if (matches) {
+                var i = 0;
+                while (i < matches.length) {
+                    console.log(matches[i]);
+                    str = str + '<div class="ejs-ideone ejs-embed"><iframe src="http://ideone.com/embed/' + matches[i].split('/')[1] + '" frameborder="0" height="' + opts.ideoneHeight + '"></iframe></div>';
+                    i++;
+                }
+            }
+            return str;
         }
     };
 
-    var mapProcess={
-        locationEmbed:function(rawStr,str,opts){
-            var locationRegex=/@\((.+)\)/gi;
-            var matches=rawStr.match(locationRegex)?rawStr.match(locationRegex).getUnique():null;
-            if(matches){
-                var i=0;
-                while(i<matches.length){
-                    str=str+'<div class="ejs-map ejs-embed"><iframe width="600" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?key='+opts.gdevAuthKey + '&q='+matches[i].split('(')[1].split(')')[0]+'"></iframe></div>';
+    var mapProcess = {
+        locationEmbed: function (rawStr, str, opts) {
+            var locationRegex = /@\((.+)\)/gi;
+            var matches = rawStr.match(locationRegex) ? rawStr.match(locationRegex).getUnique() : null;
+            if (matches) {
+                var i = 0;
+                while (i < matches.length) {
+                    str = str + '<div class="ejs-map ejs-embed"><iframe width="600" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?key=' + opts.gdevAuthKey + '&q=' + matches[i].split('(')[1].split(')')[0] + '"></iframe></div>';
                     i++;
                 }
             }
@@ -759,6 +775,7 @@
             input = (settings.codepenEmbed) ? codeEmbedProcess.codepenEmbed(rawInput, input, settings) : input;
             input = (settings.jsfiddleEmbed) ? codeEmbedProcess.jsfiddleEmbed(rawInput, input, settings) : input;
             input = (settings.jsbinEmbed) ? codeEmbedProcess.jsbinEmbed(rawInput, input, settings) : input;
+            input = (settings.ideoneEmbed) ? codeEmbedProcess.ideoneEmbed(rawInput, input, options) : input;
             input = (settings.soundCloudEmbed) ? audioProcess.soundCloudEmbed(rawInput, input, settings) : input;
             input = (settings.twitchtvEmbed) ? videoProcess.twitchtvEmbed(rawInput, input, settings) : input;
             input = (settings.dotsubEmbed) ? videoProcess.dotsubEmbed(rawInput, input, settings) : input;
@@ -767,7 +784,7 @@
             input = (settings.tedEmbed) ? videoProcess.tedEmbed(rawInput, input, settings) : input;
             input = (settings.liveleakEmbed) ? videoProcess.liveleakEmbed(rawInput, input, settings) : input;
             input = (settings.spotifyEmbed) ? audioProcess.spotifyEmbed(rawInput, input, settings) : input;
-            input=(settings.locationEmbed)?mapProcess.locationEmbed(rawInput,input,settings):input;
+            input = (settings.locationEmbed) ? mapProcess.locationEmbed(rawInput, input, settings) : input;
 
             videoProcess.embed(input, settings).then(function (d) {
                 if (tweetProcess.getMatches(d)) {
