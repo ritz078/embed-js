@@ -1,7 +1,7 @@
 Embed-js
 ============
 
-Emoticons-js has apparently evolved from a simple text emoticon to image emoji conversion system into a fully-blown text beautification toolkit.
+Embed-js has evolved from a simple text emoticon to image emoji conversion system into a fully-blown text beautification toolkit.
 
 Besides taking emoticons expressed using a text form and converting them to icon font-based or image-based emojis, this plugin can also do some other stuff too..
 
