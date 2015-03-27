@@ -191,6 +191,12 @@ Examples
 
 Visit [http://rkritesh.in/embed-js](http://rkritesh.in/embed-js)
 
+Version 2.0.2
+-------------
+* Ideone and plunker support added
+* Code comments added
+
+
 Contributing
 ------------
 
