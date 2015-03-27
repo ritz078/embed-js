@@ -88,7 +88,7 @@ $('#element').embedJS({
 });
 </script>
 ```
-This is the minimal setup in which all features will will work in their default configuration.If you want to disable any feature or change any default setting see below.
+This is the minimal setup in which all features will work in their default configuration.If you want to disable any feature or change any default setting see below.
 Advanced Usage
 --------------
 Only **gdevAuth** option is mandatory. Other options provide you additional control on the plugin.
