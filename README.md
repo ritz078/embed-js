@@ -88,8 +88,11 @@ $('#element').embedJS({
 });
 </script>
 ```
+This is the minimal setup in which all features will will work in their default configuration.If you want to disable any feature or change any default setting see below.
 Advanced Usage
 --------------
+Only **gdevAuth** option is mandatory. Other options provide you additional control on the plugin.
+The below setting shows all the default values.
 
 ```html
 <script>
@@ -100,15 +103,15 @@ $('#element').embedJS({
       linkTarget        : '_blank',
       //Array of extensions to be excluded from converting into links
       linkExclude       : ['jpg','pdf'],
-      //set true to show a preview of pdf links
+      //set false to show a preview of pdf links
       pdfEmbed          : true,
-      //set true to embed images
+      //set false to embed images
       imageEmbed        : true,
-      //set true to embed audio
+      //set false to embed audio
       audioEmbed        : false,
-      //set true to show a preview of youtube/vimeo videos with details
+      //set false to show a preview of youtube/vimeo videos with details
       videoEmbed        : true,
-      //set true to show basic video files like mp4 etc. (supported by html5 player)
+      //set false to show basic video files like mp4 etc. (supported by html5 player)
       basicVideoEmbed   : true,
       //width of the video frame (in pixels)
       videoWidth        : 640,
@@ -140,26 +143,26 @@ $('#element').embedJS({
             //Supported Languages listed here (https://dev.twitter.com/web/overview/languages)
             lang       : 'en'
       },
-      //set to true to embed codepen
+      //set false to embed codepen
       codepenEmbed      :true,
       //codepen height (width can be adjusted by css)
       codepenHeight     :300,
-      //set to true to embed jsfiddle
+      //set false to embed jsfiddle
       jsfiddleEmbed     :true,
       //jsfiddle height (width can be adjusted by css)
       jsfiddleHeight    :300,
-      //set to true to embed jsbin
+      //set false to embed jsbin
       jsbinEmbed        :true,
       //jsbin height (width can be adjusted by css)
       jsbinHeight       :300,
-      //set to true to embed ideone
+      //set false to embed ideone
       ideoneEmbed       :true,
       //ideone height (width can be adjusted by css)
       ideoneHeight      :300,
       plunkerEmbed      :true,
       plunkerHeight     :300,
       spotifyEmbed     :true,
-      //set to true to embed soundcloud
+      //set false to embed soundcloud
       soundCloudEmbed  : true,
       soundCloudOptions: {
           height      : 160,
