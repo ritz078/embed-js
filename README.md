@@ -9,6 +9,16 @@ The demo examples are given [here](http://rkritesh.in/embed-js)
 
 **The angular version of this plugin is [ngEmbed](http://github.com/ritz078/ngEmbed)**
 
+Contents
+--------
+* [Features](#features)
+* [Dependencies](#dependencies)
+* [Getting Started](#getting-started)
+* [HTML Structure](#html-structure)
+* [Simple Usage](#simple-usage)
+* [Advanced Usage](#advanced-usage)
+* [Examples](http://rkritesh.in/embed-js)
+
 Features
 --------
 
