@@ -19,7 +19,7 @@ Features
 * PDF viewing with preview and then the actual pdf in a frame.
 * Inline Code Syntax highlighting (uses highlight.js)
 * Twitter tweet embedding supported
-* Codepen, jsbin,ideone, jsfiddle embed supported
+* Codepen, jsbin,ideone, jsfiddle and plunker embed supported
 * soundcloud and spotify support
 * Twitch tv, dotSub, dailymotion, vine,TED and liveLeak support.
 * Google map location embed
@@ -146,8 +146,10 @@ $('#element').embedJS({
       ideoneEmbed       :true,
       //ideone height (width can be adjusted by css)
       ideoneHeight      :300,
-      //set to true to embed soundcloud
+      plunkerEmbed      :true,
+      plunkerHeight     :300,
       spotifyEmbed     :true,
+      //set to true to embed soundcloud
       soundCloudEmbed  : true,
       soundCloudOptions: {
           height      : 160,

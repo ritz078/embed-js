@@ -39,6 +39,10 @@
     width               : 100%;
     }
 
+.ejs-plunker iframe{
+    background-color: #fff;
+}
+
 .ejs-jsbin iframe{
     border: 1px solid #eee;
     }

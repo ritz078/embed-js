@@ -150,6 +150,8 @@
         jsbinHeight      : 300,
         ideoneEmbed      : true,
         ideoneHeight     : 300,
+        plunkerEmbed     : true,
+        plunkerHeight    : 300,
         spotifyEmbed     : true,
         soundCloudEmbed  : true,
         soundCloudOptions: {
@@ -740,6 +742,20 @@
                 }
             }
             return str;
+        },
+
+        plunkerEmbed: function (rawStr, str, opts) {
+            var plnkrRegex = /plnkr.co\/edit\/[a-zA-Z0-9\?=]+/gi;
+            var matches = str.match(plnkrRegex) ? str.match(plnkrRegex).getUnique() : null;
+            if (matches) {
+                var i = 0;
+                while (i < matches.length) {
+                    var idMatch = (matches[i].indexOf('?') === -1) ? (matches[i].split('/')[2]) : (matches[i].split('/')[2].split('?')[0]);
+                    str = str + '<div class="ejs-embed ejs-plunker"><iframe class="ne-plunker" src="http://embed.plnkr.co/' + idMatch + '" height="' + opts.plunkerHeight + '"></iframe></div>';
+                    i++;
+                }
+            }
+            return str;
         }
     };
 
@@ -784,6 +800,7 @@
             input = (settings.jsfiddleEmbed) ? codeEmbedProcess.jsfiddleEmbed(rawInput, input, settings) : input;
             input = (settings.jsbinEmbed) ? codeEmbedProcess.jsbinEmbed(rawInput, input, settings) : input;
             input = (settings.ideoneEmbed) ? codeEmbedProcess.ideoneEmbed(rawInput, input, options) : input;
+            input = (settings.plunkerEmbed) ? codeEmbedProcess.plunkerEmbed(rawInput, input, options) : input;
             input = (settings.soundCloudEmbed) ? audioProcess.soundCloudEmbed(rawInput, input, settings) : input;
             input = (settings.twitchtvEmbed) ? videoProcess.twitchtvEmbed(rawInput, input, settings) : input;
             input = (settings.dotsubEmbed) ? videoProcess.dotsubEmbed(rawInput, input, settings) : input;
