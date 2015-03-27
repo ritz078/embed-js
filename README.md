@@ -15,8 +15,8 @@ Contents
 * [Dependencies](#dependencies)
 * [Getting Started](#getting-started)
 * [HTML Structure](#html-structure)
-* [Simple Usage](#simple-usage)
-* [Advanced Usage](#advanced-usage)
+* [Usage Example](#usage-example)
+* [Advanced Options](#advanced-options)
 * [Examples](http://rkritesh.in/embed-js)
 
 Features
