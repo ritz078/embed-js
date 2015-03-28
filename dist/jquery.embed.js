@@ -110,6 +110,7 @@
 
     /* VARIABLE DECLARATIONS */
     var pluginName = 'embedJS', options = {
+        embedSelector    : 'div',          //Refers to the selector inside #element that is to be processed
         link             : true,           //Instructs the library whether or not to embed urls
         linkTarget       : '_self',        //same as the target attribute in html anchor tag . supports all html
                                            // supported target values.
@@ -142,8 +143,8 @@
             lang      : 'en'           //Request returned HTML and a rendered Tweet in the specified
                                        // (https://dev.twitter.com/web/overview/languages)
         },
-        excludeEmbed     :['twitchTv'],
-        codeEmbedHeight  :300,
+        excludeEmbed     : ['twitchTv'],
+        codeEmbedHeight  : 300,
         soundCloudOptions: {
             height      : 160, themeColor: 'f50000',   //Hex Code of the player theme color
             autoPlay    : false,
@@ -771,10 +772,9 @@
 
             var rawInput = input;
 
-            var ifEmbed = function(serviceName){
-                return (($.inArray(serviceName,settings.excludeEmbed)==-1) && (settings.excludeEmbed!=='all'));
+            var ifEmbed = function (serviceName) {
+                return (($.inArray(serviceName, settings.excludeEmbed) == -1) && (settings.excludeEmbed !== 'all'));
             };
-
 
             input = (settings.link) ? urlEmbed(input) : input;
             input = emoticonProcess.insertfontSmiley(input);
@@ -825,7 +825,7 @@
     // Avoid Plugin.prototype conflicts
     $.extend(Plugin.prototype, {
         init: function (settings, element) {
-            _driver($(element).find('div'), settings);
+            _driver($(element).find(settings.embedSelector), settings);
         }
     });
 

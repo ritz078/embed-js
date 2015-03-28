@@ -98,6 +98,8 @@ The below setting shows all the default values.
 ```html
 <script>
 $('#element').embedJS({
+      //The selector(id/class/tagName) inside #element that needs to be processed
+      embedSelector   :'div',
       //Instructs the library whether or not to embed urls
       link              : true,
       //same as the target attribute in html anchor tag . supports all html supported target values.
