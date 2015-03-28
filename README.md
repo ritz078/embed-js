@@ -5,7 +5,7 @@ Embed-js has evolved from a simple text emoticon to image emoji conversion syste
 
 Besides taking emoticons expressed using a text form and converting them to icon font-based or image-based emojis, this plugin can also do some other stuff too..
 
-The demo examples are given [here](http://rkritesh.in/embed-js)
+The demo examples are given [here](http://rkritesh.in/embed.js)
 
 **The angular version of this plugin is [ngEmbed](http://github.com/ritz078/ngEmbed)**
 
