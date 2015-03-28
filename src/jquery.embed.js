@@ -764,7 +764,7 @@
             var rawInput = input;
 
             var ifEmbed = function(serviceName){
-                return ($.inArray(serviceName,settings.excludeEmbed)==-1);
+                return (($.inArray(serviceName,settings.excludeEmbed)==-1) && (settings.excludeEmbed!=='all'));
             };
 
 

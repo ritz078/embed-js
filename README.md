@@ -1,11 +1,11 @@
-Embed-js
+embed.js
 ============
 
-Embed-js has evolved from a simple text emoticon to image emoji conversion system into a fully-blown text beautification toolkit.
+embed.js has evolved from a simple text emoticon to image emoji conversion system into a fully-blown text beautification toolkit.
 
 Besides taking emoticons expressed using a text form and converting them to icon font-based or image-based emojis, this plugin can also do some other stuff too..
 
-The demo examples are given [here](http://rkritesh.in/embed-js)
+The demo examples are given [here](http://rkritesh.in/embed.js)
 
 **The angular version of this plugin is [ngEmbed](http://github.com/ritz078/ngEmbed)**
 
@@ -17,7 +17,7 @@ Contents
 * [HTML Structure](#html-structure)
 * [Usage Example](#usage-example)
 * [Advanced Options](#advanced-options)
-* [Examples](http://rkritesh.in/embed-js)
+* [Examples](http://rkritesh.in/embed.js)
 
 Features
 --------
@@ -45,12 +45,12 @@ Getting started
 
 Bower
 ```
-bower install --save embed-js
+bower install --save embed.js
 ```
 
 npm
 ```
-npm install --save embed-js
+npm install --save embed.js
 ```
 
 Load css file
@@ -146,6 +146,7 @@ $('#element').embedJS({
       },
       //An array of services excluded from embedding...
       //Options : codePen/jdFiddle/jsBin/ideone/plunker/soundcloud/twitchTv/dotSub/dailymotion/vine/ted/liveleak/spotify
+      //Can exclude all options by setting it to 'all'
       excludeEmbed     :['twitchTv'],
       //Height of jsfiddle/codepen/jsbin/ideone/plunker
       codeEmbedHeight  :300,
@@ -181,11 +182,12 @@ If you specify either one of **videoWidth** or **videoHeight** , the other optio
 Examples
 --------
 
-Visit [http://rkritesh.in/embed-js](http://rkritesh.in/embed-js)
+Visit [http://rkritesh.in/embed.js](http://rkritesh.in/embed.js)
 
 Version 2.0.3
 -------------
 * Better options structure
+* can exclude all embed services at once
 
 Version 2.0.2
 -------------
