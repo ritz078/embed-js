@@ -325,7 +325,8 @@ module.exports = function (grunt) {
             'styles/fonts/{,*/}*.*',
             'fonts/*',
             'font/roboto/*',
-            'font/material-design-icons/*'
+            'font/material-design-icons/*',
+            '_config.yml'
           ]
         }, {
           src: 'node_modules/apache-server-configs/dist/.htaccess',
