@@ -1,2 +1,6 @@
 gems:
   - jekyll-redirect-from
+
+redirect_from:
+   - "/embed-js"
+
