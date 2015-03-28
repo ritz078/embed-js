@@ -17,7 +17,7 @@ Contents
 * [HTML Structure](#html-structure)
 * [Usage Example](#usage-example)
 * [Advanced Options](#advanced-options)
-* [Examples](http://rkritesh.in/embed-js)
+* [Examples](http://rkritesh.in/embed.js)
 
 Features
 --------
@@ -203,7 +203,7 @@ If you specify either one of **videoWidth** or **videoHeight** , the other optio
 Examples
 --------
 
-Visit [http://rkritesh.in/embed-js](http://rkritesh.in/embed-js)
+Visit [http://rkritesh.in/embed.js](http://rkritesh.in/embed.js)
 
 Version 2.0.2
 -------------
