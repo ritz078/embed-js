@@ -326,7 +326,8 @@ module.exports = function (grunt) {
             'fonts/*',
             'font/roboto/*',
             'font/material-design-icons/*',
-            '_config.yml'
+            '_config.yml',
+            'Gemfile'
           ]
         }, {
           src: 'node_modules/apache-server-configs/dist/.htaccess',
