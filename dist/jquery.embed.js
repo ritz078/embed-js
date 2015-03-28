@@ -143,7 +143,7 @@
             lang      : 'en'           //Request returned HTML and a rendered Tweet in the specified
                                        // (https://dev.twitter.com/web/overview/languages)
         },
-        excludeEmbed     : ['twitchTv'],
+        excludeEmbed     : [],
         codeEmbedHeight  : 300,
         soundCloudOptions: {
             height      : 160, themeColor: 'f50000',   //Hex Code of the player theme color
@@ -189,31 +189,6 @@
         return toLong ? s_ + '...' : s_;
     };
 
-    //Workaround for using indexOf function in browsers < IE8
-    //to use as a fallback for indexOf in older browsers.
-
-    var indexOf = function (arrayProp) {
-        if (typeof Array.prototype.indexOf === 'function') {
-            indexOf = Array.prototype.indexOf;
-        }
-        else {
-            indexOf = function (arrayProp) {
-                var i = -1, index = -1;
-
-                for (i = 0; i < this.length; i++) {
-                    if (this[i] === arrayProp) {
-                        index = i;
-                        break;
-                    }
-                }
-
-                return index;
-            };
-        }
-
-        return indexOf.call(this, arrayProp);
-    };
-
     /**
      * Retures a new array with unique values
      *
@@ -252,16 +227,15 @@
         }
     };
 
-    function urlEmbed(str) {
+    function urlEmbed(str,opts) {
         var urlRegex = /((href|src)=["']|)(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
-        var strReplaced = str.replace(urlRegex, function (match) {
+        return str.replace(urlRegex, function (match) {
             var extension = match.split('.')[match.split('.').length - 1];
-            if (!((indexOf.call(options.linkExclude, extension) > -1))) {
+            if (($.inArray(extension,opts.linkExclude) === -1)) {
                 return '<a href="' + match + '" target="' + options.linkTarget + '">' + match + '</a>';
             }
             return match;
         });
-        return strReplaced;
     }
 
     var videoTemplate = '';
@@ -776,7 +750,7 @@
                 return (($.inArray(serviceName, settings.excludeEmbed) == -1) && (settings.excludeEmbed !== 'all'));
             };
 
-            input = (settings.link) ? urlEmbed(input) : input;
+            input = (settings.link) ? urlEmbed(input,settings) : input;
             input = emoticonProcess.insertfontSmiley(input);
             input = emoticonProcess.insertEmoji(input);
             input = (settings.pdfEmbed) ? pdfProcess.embed(rawInput, input) : input;
