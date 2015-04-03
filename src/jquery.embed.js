@@ -120,6 +120,7 @@
         locationEmbed     : true,
         highlightCode     : true,           //Instructs the library whether or not to highlight code syntax.
         tweetsEmbed       : true,           //Instructs the library whether or not embed the tweets
+        twitterScriptUrl  : '//platform.twitter.com/widgets.js',
         tweetOptions      : {
             maxWidth  : 550,            //The maximum width of a rendered Tweet in whole pixels. This value must be
                                         // between 220 and 550 inclusive.
@@ -614,8 +615,6 @@
 
         embed: function (str, matches, opts) {
             var deferred = $.Deferred();
-            var that = this;
-            var tweets = [];
 
             function serviceLoop(str, matches) {
                 if (matches) {
@@ -634,11 +633,11 @@
                 }
             }
 
-            if (opts.tweetsEmbed) {
-                if (!window.twttr) {
-                    throw new ReferenceError('twttr is not defined. Load twitter widget javascript file from http://platform.twitter.com/widgets.js');
-                }
+            if (this.getMatches(str)) {
+                var that = this;
+                var tweets = [];
                 serviceLoop(str, matches);
+
             }
             else {
                 deferred.resolve(str);
@@ -734,8 +733,8 @@
     function _driver(elem, settings) {
         var len = elem.length;
         var deferred = $.Deferred();
+
         elem.each(function (i) {
-            console.log(i);
             var input = $(this).html();
             if (input === undefined || input === null) {
                 return;
@@ -780,16 +779,10 @@
                     tweetProcess.embed(d, tweetProcess.getMatches(input), settings).then(function (data) {
                         $(that).html(data);
                         $(that).css('display', 'block');
-                        twttr.widgets.load();
-                        twttr.events.bind(
-                            'rendered',
-                            function () {
-                                settings.onTwitterShow();
-                                if (i == len - 1) {
-                                    deferred.resolve();
-                                }
-                            }
-                        );
+                        twttr.widgets.load(that);
+                        if (i == len - 1) {
+                            deferred.resolve();
+                        }
                     });
                 }
                 else {
@@ -819,6 +812,15 @@
             settings.beforeEmbedJSApply();
 
             _driver($(element).find(settings.embedSelector), settings).then(function () {
+                if (settings.tweetsEmbed) {
+                    twttr.events.bind(
+                        'loaded',
+                        function () {
+                            settings.onTwitterShow();
+                        }
+                    );
+                }
+
                 settings.afterEmbedJSLApply();
             });
 

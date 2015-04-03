@@ -178,7 +178,7 @@ $('#element').embedJS({
       beforeEmbedJSApply: function () {},
       //callback after embedJS is applied
       afterEmbedJSLApply: function () {},
-      //callback after the twitter widgets of a block are loaded.
+      //callback after the twitter widgets of a BLOCK are loaded.
       onTwitterShow     : function () {}
 
 });
