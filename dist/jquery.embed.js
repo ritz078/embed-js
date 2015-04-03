@@ -110,25 +110,25 @@
 
     /* VARIABLE DECLARATIONS */
     var pluginName = 'embedJS', options = {
-        embedSelector    : 'div',          //Refers to the selector inside #element that is to be processed
-        link             : true,           //Instructs the library whether or not to embed urls
-        linkTarget       : '_self',        //same as the target attribute in html anchor tag . supports all html
-                                           // supported target values.
-        linkExclude      : [],             //Array of extensions to be excluded from converting into links
-        pdfEmbed         : true,           //set true to show a preview of pdf links
-        imageEmbed       : true,           //set true to embed images
-        audioEmbed       : false,          //set true to embed audio
-        videoEmbed       : true,           //set true to show a preview of youtube/vimeo videos with details
-        basicVideoEmbed  : true,           //set true to show basic video files like mp4 etc. (supported by html5
-                                           // player)
-        videoWidth       : null,           //width of the video frame (in pixels)
-        videoHeight      : null,           //height of the video frame (in pixels)
-        gdevAuthKey      : null,           //( Mandatory ) The authorization key obtained from google's developer
-                                           // console for using youtube data api and map embed api
-        locationEmbed    : true,
-        highlightCode    : true,           //Instructs the library whether or not to highlight code syntax.
-        tweetsEmbed      : true,           //Instructs the library whether or not embed the tweets
-        tweetOptions     : {
+        embedSelector     : 'div',          //Refers to the selector inside #element that is to be processed
+        link              : true,           //Instructs the library whether or not to embed urls
+        linkTarget        : '_self',        //same as the target attribute in html anchor tag . supports all html
+                                            // supported target values.
+        linkExclude       : [],             //Array of extensions to be excluded from converting into links
+        pdfEmbed          : true,           //set true to show a preview of pdf links
+        imageEmbed        : true,           //set true to embed images
+        audioEmbed        : false,          //set true to embed audio
+        videoEmbed        : true,           //set true to show a preview of youtube/vimeo videos with details
+        basicVideoEmbed   : true,           //set true to show basic video files like mp4 etc. (supported by html5
+                                            // player)
+        videoWidth        : null,           //width of the video frame (in pixels)
+        videoHeight       : null,           //height of the video frame (in pixels)
+        gdevAuthKey       : null,           //( Mandatory ) The authorization key obtained from google's developer
+                                            // console for using youtube data api and map embed api
+        locationEmbed     : true,
+        highlightCode     : true,           //Instructs the library whether or not to highlight code syntax.
+        tweetsEmbed       : true,           //Instructs the library whether or not embed the tweets
+        tweetOptions      : {
             maxWidth  : 550,            //The maximum width of a rendered Tweet in whole pixels. This value must be
                                         // between 220 and 550 inclusive.
             hideMedia : false,          //When set to true or 1 links in a Tweet are not expanded to photo, video, or
@@ -143,10 +143,11 @@
             lang      : 'en'           //Request returned HTML and a rendered Tweet in the specified
                                        // (https://dev.twitter.com/web/overview/languages)
         },
-        excludeEmbed     : [],
-        codeEmbedHeight  : 300,
-        soundCloudOptions: {
-            height      : 160, themeColor: 'f50000',   //Hex Code of the player theme color
+        excludeEmbed      : [],
+        codeEmbedHeight   : 300,
+        soundCloudOptions : {
+            height      : 160,
+            themeColor  : 'f50000',   //Hex Code of the player theme color
             autoPlay    : false,
             hideRelated : false,
             showComments: true,
@@ -155,18 +156,25 @@
             visual      : false,         //Show/hide the big preview image
             download    : false          //Show/Hide download buttons
         },
-        vineOptions      : {
+        vineOptions       : {
             width: 500,
             type : 'postcard'         //'postcard' or 'simple' embedding
         },
-        beforePdfPreview : function () {   //callback before pdf preview
+        beforePdfPreview  : function () {   //callback before pdf preview
         },
-        afterPdfPreview  : function () {   //callback after pdf preview
+        afterPdfPreview   : function () {   //callback after pdf preview
         },
-        onVideoShow      : function () {   // callback on video frame view
+        onVideoShow       : function () {   // callback on video frame view
         },
-        onVideoLoad      : function () {   //callback on video load (youtube/vimeo)
+        onVideoLoad       : function () {   //callback on video load (youtube/vimeo)
+        },
+        beforeEmbedJSApply: function () {   //function to execute before embedding services
+        },
+        afterEmbedJSLApply: function () {   //callback after embedJS is applied
+        },
+        onTwitterShow     : function () {   //callback after all the twitter widgets are loaded.
         }
+
     };
     /* ENDS */
 
@@ -227,11 +235,11 @@
         }
     };
 
-    function urlEmbed(str,opts) {
+    function urlEmbed(str, opts) {
         var urlRegex = /((href|src)=["']|)(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
         return str.replace(urlRegex, function (match) {
             var extension = match.split('.')[match.split('.').length - 1];
-            if (($.inArray(extension,opts.linkExclude) === -1)) {
+            if (($.inArray(extension, opts.linkExclude) === -1)) {
                 return '<a href="' + match + '" target="' + options.linkTarget + '">' + match + '</a>';
             }
             return match;
@@ -386,7 +394,7 @@
             if (matches) {
                 var i = 0;
                 while (i < matches.length) {
-                    str = str + '<div class="ejs-video"><iframe src="https://dotsub.com/media/' + matches[i].split('/')[2] + '/embed/" width="' + videoDimensions.width + '" height="' + videoDimensions.height + '"></iframe></div>'
+                    str = str + '<div class="ejs-video"><iframe src="https://dotsub.com/media/' + matches[i].split('/')[2] + '/embed/" width="' + videoDimensions.width + '" height="' + videoDimensions.height + '"></iframe></div>';
                     i++;
                 }
             }
@@ -400,7 +408,7 @@
             if (matches) {
                 var i = 0;
                 while (i < matches.length) {
-                    str = str + '<div class="ejs-video"><iframe src="http://www.dailymotion.com/embed/video/' + matches[i].split('/')[2] + '" height="' + videoDimensions.height + '" width="' + videoDimensions.width + '"></iframe></div>'
+                    str = str + '<div class="ejs-video"><iframe src="http://www.dailymotion.com/embed/video/' + matches[i].split('/')[2] + '" height="' + videoDimensions.height + '" width="' + videoDimensions.width + '"></iframe></div>';
                     i++;
                 }
             }
@@ -413,7 +421,7 @@
             if (matches) {
                 var i = 0;
                 while (i < matches.length) {
-                    str = str + '<div class="ejs-vine"><iframe src="https://vine.co/v/' + matches[i].split('/')[2] + '/embed/' + opts.vineOptions.type + '" height="' + (opts.vineOptions.type == 'postcard' ? (opts.vineOptions.width + 158) : opts.vineOptions.width) + '" width="' + opts.vineOptions.width + '"></iframe></div>'
+                    str = str + '<div class="ejs-vine"><iframe src="https://vine.co/v/' + matches[i].split('/')[2] + '/embed/' + opts.vineOptions.type + '" height="' + (opts.vineOptions.type == 'postcard' ? (opts.vineOptions.width + 158) : opts.vineOptions.width) + '" width="' + opts.vineOptions.width + '"></iframe></div>';
                     i++;
                 }
             }
@@ -493,15 +501,14 @@
         highlight: function (text) {
             if (!window.hljs) {
                 throw new ReferenceError('hljs is not defined. HighlightJS library is needed to highlight code. Visit https://highlightjs.org/');
-                return;
             }
             var that = this;
             text = text.replace(/(`+)(\s|[a-z]+)\s*([\s\S]*?[^`])\s*\1(?!`)/gm, function (wholeMatch, m1, m2, m3) {
                 var c = m3;
-                c = c.replace(/^([ \t]*)/g, ""); // leading whitespace
-                c = c.replace(/[ \t]*$/g, ""); // trailing whitespace
+                c = c.replace(/^([ \t]*)/g, ''); // leading whitespace
+                c = c.replace(/[ \t]*$/g, ''); // trailing whitespace
                 c = that.encodeCode(c);
-                c = c.replace(/:\/\//g, "~P"); // to prevent auto-linking. Not necessary in code
+                c = c.replace(/:\/\//g, '~P'); // to prevent auto-linking. Not necessary in code
                 // *blocks*, but in code spans. Will be converted
                 // back after the auto-linker runs.
 
@@ -548,7 +555,7 @@
             return str;
         },
 
-        spotifyEmbed: function (rawStr, str, opts) {
+        spotifyEmbed: function (rawStr, str) {
             var spotifyRegex = /spotify.com\/track\/[a-zA-Z0-9_]+/gi;
             var matches = rawStr.match(spotifyRegex) ? rawStr.match(spotifyRegex).getUnique() : null;
             if (matches) {
@@ -730,10 +737,13 @@
             }
             return str;
         }
-    }
+    };
 
     function _driver(elem, settings) {
-        elem.each(function () {
+        var len = elem.length;
+        var deferred = $.Deferred();
+        elem.each(function (i) {
+            console.log(i);
             var input = $(this).html();
             if (input === undefined || input === null) {
                 return;
@@ -750,7 +760,7 @@
                 return (($.inArray(serviceName, settings.excludeEmbed) == -1) && (settings.excludeEmbed !== 'all'));
             };
 
-            input = (settings.link) ? urlEmbed(input,settings) : input;
+            input = (settings.link) ? urlEmbed(input, settings) : input;
             input = emoticonProcess.insertfontSmiley(input);
             input = emoticonProcess.insertEmoji(input);
             input = (settings.pdfEmbed) ? pdfProcess.embed(rawInput, input) : input;
@@ -770,20 +780,32 @@
             input = (ifEmbed('vine')) ? videoProcess.vineEmbed(rawInput, input, settings) : input;
             input = (ifEmbed('ted')) ? videoProcess.tedEmbed(rawInput, input, settings) : input;
             input = (ifEmbed('liveLeak')) ? videoProcess.liveleakEmbed(rawInput, input, settings) : input;
-            input = (ifEmbed('spotify')) ? audioProcess.spotifyEmbed(rawInput, input, settings) : input;
+            input = (ifEmbed('spotify')) ? audioProcess.spotifyEmbed(rawInput, input) : input;
             input = (settings.locationEmbed) ? mapProcess.locationEmbed(rawInput, input, settings) : input;
 
             videoProcess.embed(input, settings).then(function (d) {
-                if (tweetProcess.getMatches(d)) {
+                if (settings.tweetsEmbed && tweetProcess.getMatches(d)) {
                     tweetProcess.embed(d, tweetProcess.getMatches(input), settings).then(function (data) {
                         $(that).html(data);
                         $(that).css('display', 'block');
-                        if (settings.tweetsEmbed)twttr.widgets.load();
+                        twttr.widgets.load();
+                        twttr.events.bind(
+                            'rendered',
+                            function () {
+                                settings.onTwitterShow();
+                                if (i == len - 1) {
+                                    deferred.resolve();
+                                }
+                            }
+                        );
                     });
                 }
                 else {
                     $(that).html(d);
                     $(that).css('display', 'block');
+                    if (i == len - 1) {
+                        deferred.resolve();
+                    }
                 }
             });
 
@@ -792,6 +814,8 @@
         videoProcess.play(elem, settings);
         pdfProcess.view(elem, settings);
 
+        return deferred.promise();
+
     }
 
     /* ENDS */
@@ -799,7 +823,13 @@
     // Avoid Plugin.prototype conflicts
     $.extend(Plugin.prototype, {
         init: function (settings, element) {
-            _driver($(element).find(settings.embedSelector), settings);
+            //call beforeEmbedJSApply function
+            settings.beforeEmbedJSApply();
+
+            _driver($(element).find(settings.embedSelector), settings).then(function () {
+                settings.afterEmbedJSLApply();
+            });
+
         }
     });
 

@@ -212,7 +212,10 @@
             gdevAuthKey: 'AIzaSyCqFouT8h5DKAbxlrTZmjXEmNBjC69f0ts',
             videoWidth : 800,
             audioEmbed : true,
-            excludeEmbed:['twitchTv']
+            excludeEmbed:['twitchTv','spotify'],
+            onEmbedJSLoad:function(){
+                alert('a');
+            }
         });
     });
 </script>

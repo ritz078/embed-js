@@ -93,7 +93,6 @@ This is the minimal setup in which all features will work in their default confi
 Advanced Options
 ----------------
 Only **gdevAuth** option is mandatory. Other options provide you additional control on the plugin.
-The below setting shows all the default values.
 
 ```html
 <script>
@@ -175,6 +174,12 @@ $('#element').embedJS({
       onVideoShow:function(){},
       //callback on video load (youtube/vimeo)
       onVideoLoad:function(){}
+      //function to execute before embedding services
+      beforeEmbedJSApply: function () {},
+      //callback after embedJS is applied
+      afterEmbedJSLApply: function () {},
+      //callback after all the twitter widgets are loaded.
+      onTwitterShow     : function () {}
 
 });
 </script>
