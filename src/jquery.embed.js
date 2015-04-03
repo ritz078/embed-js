@@ -808,6 +808,9 @@
     // Avoid Plugin.prototype conflicts
     $.extend(Plugin.prototype, {
         init: function (settings, element) {
+            //add ejs class to the element
+            $(element).addClass('ejs');
+
             //call beforeEmbedJSApply function
             settings.beforeEmbedJSApply();
 
