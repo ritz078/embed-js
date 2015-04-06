@@ -23,7 +23,7 @@ Features
 --------
 
 * Converts emoticon text codes into emoticons :smile: , :heart:
-* Finds links in text input and turns them into html links.
+* Finds links in text input and turns them into html links (shortened urls like goo.gl,ow.ly,bit.ly etc supported)
 * Youtube and Vimeo video embedding with video details fetched from the api.
 * HTML5 player supported media embedding (mp3,mp4,ogg)
 * PDF viewing with preview and then the actual pdf in a frame.
@@ -195,6 +195,8 @@ Version 2.0.3
 -------------
 * Better options structure
 * can exclude all embed services at once
+* Callback functions beforeEmbedJSApply, afterEmbedJSApply and onTwitterShow added
+* text to url conversion for a lot of shortened urls like goo.gl, ow.ly, bit.ly etc added
 
 Version 2.0.2
 -------------
