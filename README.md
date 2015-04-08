@@ -1,9 +1,7 @@
 embed.js
 ============
 
-embed.js has evolved from a simple text emoticon to image emoji conversion system into a fully-blown text beautification toolkit.
-
-Besides taking emoticons expressed using a text form and converting them to icon font-based or image-based emojis, this plugin can also do some other stuff too..
+A jQuery plugin to embed emoticons, media and services.
 
 The demo examples are given [here](http://rkritesh.in/embed.js)
 
@@ -229,39 +227,11 @@ Version 2.0.2
 Contributing
 ------------
 
-Before sending a pull request remember to follow [jQuery Core Style Guide](http://contribute.jquery.org/style-guide/js/).
-
-1. Fork it!
-2. Create your feature branch: `git checkout -b my-new-feature`
-3. Make your changes on the `src` folder, never on the `dist` folder.
-4. Commit your changes: `git commit -m 'Add some feature'`
-5. Push to the branch: `git push origin my-new-feature`
-6. Submit a pull request :smile:
+View [this](contributing.md)
 
 License
 -------
 
-```
-The MIT License (MIT)
-Copyright (c) 2014 Ritesh Kumar
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-```
+MIT © Ritesh Kumar
 
 
