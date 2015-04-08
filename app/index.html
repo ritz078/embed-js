@@ -134,15 +134,14 @@
     <h5 class="title">Features</h5>
     <ol>
       <li><p>Converts <a href="#emoticons">emoticon</a> text codes into emoticons :smile: , :heart:</p></li>
-      <li><p>Finds <a href="#emoticons">links</a> in text input and turns them into html links.</p></li>
+      <li><p>Finds <a href="#emoticons">links</a> in text input and turns them into html links.(shortened urls like goo.gl,ow.ly,bit.ly etc supported)</p></li>
       <li><p><a href="#youtube">Youtube</a> and <a href="#vimeo">Vimeo</a> video embedding with video details fetched
         from the api.</p></li>
       <li><p>HTML5 player supported <a href="#media">media</a> embedding (mp3,mp4,ogg,.webm,.ogv)</p></li>
       <li><p><a href="#pdf">PDF</a> viewing with preview and then the actual pdf in a frame.</p></li>
       <li><p>Inline <a href="#codehighlight">Code Syntax highlighting</a> (uses highlight.js)</p></li>
       <li><p><a href="#twitter">Twitter</a> tweet embedding supported</p></li>
-      <li><p><a href="#codepen">Codepen</a>, <a href="#jsbin">jsbin</a>, <a href="#jsfiddle">jsfiddle</a> embed
-        supported</p></li>
+      <li><p>Codepen, jsbin,ideone, jsfiddle and plunker embed supported</li>
       <li><p><a href="#soundcloud">soundcloud</a> and <a href="#spotify">spotify</a> support</p></li>
       <li><p><a href="#twitchtv">Twitch tv</a>, <a href="#dotsub">dotSub</a>, <a href="#dailymotion">dailymotion</a>, <a
         href="#vine">vine</a>,<a href="#ted">TED</a> and <a href="#liveleak">liveLeak</a> support.</p></li>
@@ -154,96 +153,87 @@
 <pre>
 <code class="javascript">
 $('#element').embedJS({
-    //Instructs the library whether or not to embed urls
-    link : true,
-    //same as the target attribute in html anchor tag . supports all html supported target values.
-    linkTarget : '_blank',
-    //Array of extensions to be excluded from converting into links
-    linkExclude : ['jpg','pdf'],
-    //set true to show a preview of pdf links
-    pdfEmbed : true,
-    //set true to embed images
-    imageEmbed : true,
-    //set true to embed audio
-    audioEmbed : false,
-    //set true to show a preview of youtube/vimeo videos with details
-    videoEmbed : true,
-    //set true to show basic video files like mp4 etc. (supported by html5 player)
-    basicVideoEmbed : true,
-    //width of the video frame (in pixels)
-    videoWidth : 640,
-    //height of the video frame (in pixels)
-    videoHeight : 390,
-    //( Mandatory ) The authorization key obtained from google's developer console for
-    //using youtube data api and map embed api
-    gdevAuthKey : 'xxxxxxx',
-    //Set google map location embed
-    // Use @(place-name) to use this feature . Eg: @(Sydney)
-    locationEmbed :true,
-    //Instructs the library whether or not to highlight code syntax.
-    highlightCode : true,
-    //Instructs the library whether or not embed the tweets
-    tweetsEmbed : true,
-    tweetOptions:{
-        //The maximum width of a rendered Tweet in whole pixels. Must be between 220 and 550 inclusive.
-        maxWidth : 550,
-        //When set to true or 1 links in a Tweet are not expanded to photo, video, or link previews.
-        hideMedia : false,
-        //When set to true or 1 a collapsed version of the previous Tweet in a conversation thread
-        //will not be displayed when the requested Tweet is in reply to another Tweet.
-        hideThread : false,
-        //Specifies whether the embedded Tweet should be floated left, right, or center in
-        //the page relative to the parent element.Valid values are left, right, center, and none.
-        //Defaults to none, meaning no alignment styles are specified for the Tweet.
-        align : 'none',
-        //Request returned HTML and a rendered Tweet in the specified.
-        //Supported Languages listed here (https://dev.twitter.com/web/overview/languages)
-        lang : 'en'
-    },
-    //set to true to embed codepen
-    codepenEmbed :true,
-    //codepen height (width can be adjusted by css)
-    codepenHeight :300,
-    //set to true to embed jsfiddle
-    jsfiddleEmbed :true,
-    //jsfiddle height (width can be adjusted by css)
-    jsfiddleHeight :300,
-    //set to true to embed jsbin
-    jsbinEmbed :true,
-    //jsbin height (width can be adjusted by css)
-    jsbinHeight :300,
-    //set to true to embed soundcloud
-    spotifyEmbed :true,
-    soundCloudEmbed : true,
-    soundCloudOptions: {
-        height : 160,
-        themeColor : 'f50000', //Hex Code of the player theme color
-        autoPlay : false,
-        hideRelated : false,
-        showComments: true,
-        showUser : true, //Show or hide the uploader name, useful e.g. in tiny players to save space)
-        showReposts : false,
-        visual : false, //Show/hide the big preview image
-        download : false //Show/Hide download buttons
-    },
-    twitchtvEmbed :true,
-    dotsubEmbed :true,
-    dailymotionEmbed :true,
-    vineEmbed : true,
-    vineOptions:{
-        width:500,
-        type:'postcard' //'postcard' or 'simple' embedding
-    },
-    tedEmbed :true,
-    liveleakEmbed :true,
-    //callback before pdf preview
-    beforePdfPreview : function(){},
-    //callback after pdf preview
-    afterPdfPreview : function(){},
-    // callback on video frame view
-    onVideoShow:function(){},
-    //callback on video load (youtube/vimeo)
-    onVideoLoad:function(){}
+  //Instructs the library whether or not to embed urls
+  link: true,
+  //same as the target attribute in html anchor tag . supports all html supported target values.
+  linkTarget: '_blank',
+  //Array of extensions to be excluded from converting into links
+  linkExclude: ['jpg', 'pdf'],
+  //set false to show a preview of pdf links
+  pdfEmbed: true,
+  //set false to embed images
+  imageEmbed: true,
+  //set false to embed audio
+  audioEmbed: false,
+  //set false to show a preview of youtube/vimeo videos with details
+  videoEmbed: true,
+  //set false to show basic video files like mp4 etc. (supported by html5 player)
+  basicVideoEmbed: true,
+  //width of the video frame (in pixels)
+  videoWidth: 640,
+  //height of the video frame (in pixels)
+  videoHeight: 390,
+  //( Mandatory ) The authorization key obtained from google's developer console for
+  //using youtube data api and map embed api
+  gdevAuthKey: 'xxxxxxx',
+  //Set google map location embed
+  // Use @(place-name) to use this feature . Eg: @(Sydney)
+  locationEmbed: true,
+  //Instructs the library whether or not to highlight code syntax.
+  highlightCode: true,
+  //Instructs the library whether or not embed the tweets
+  tweetsEmbed: true,
+  tweetOptions: {
+      //The maximum width of a rendered Tweet in whole pixels. Must be between 220 and 550 inclusive.
+      maxWidth: 550,
+      //When set to true or 1 links in a Tweet are not expanded to photo, video, or link previews.
+      hideMedia: false,
+      //When set to true or 1 a collapsed version of the previous Tweet in a conversation thread
+      //will not be displayed when the requested Tweet is in reply to another Tweet.
+      hideThread: false,
+      //Specifies whether the embedded Tweet should be floated left, right, or center in
+      //the page relative to the parent element.Valid values are left, right, center, and none.
+      //Defaults to none, meaning no alignment styles are specified for the Tweet.
+      align: 'none',
+      //Request returned HTML and a rendered Tweet in the specified.
+      //Supported Languages listed here (https://dev.twitter.com/web/overview/languages)
+      lang: 'en'
+  },
+  //An array of services excluded from embedding...
+  //Options : codePen/jdFiddle/jsBin/ideone/plunker/soundcloud/twitchTv/dotSub/dailymotion/vine/ted/liveleak/spotify
+  //Can exclude all options by setting it to 'all'
+  excludeEmbed: ['twitchTv'],
+  //Height of jsfiddle/codepen/jsbin/ideone/plunker
+  codeEmbedHeight: 300,
+  soundCloudOptions: {
+      height: 160,
+      themeColor: 'f50000', //Hex Code of the player theme color
+      autoPlay: false,
+      hideRelated: false,
+      showComments: true,
+      showUser: true, //Show or hide the uploader name, useful e.g. in tiny players to save space)
+      showReposts: false,
+      visual: false, //Show/hide the big preview image
+      download: false //Show/Hide download buttons
+  },
+  vineOptions: {
+      width: 500,
+      type: 'postcard' //'postcard' or 'simple' embedding
+  },
+  //callback before pdf preview
+  beforePdfPreview: function() {},
+  //callback after pdf preview
+  afterPdfPreview: function() {},
+  // callback on video frame view
+  onVideoShow: function() {},
+  //callback on video load (youtube/vimeo)
+  onVideoLoad: function() {}
+  //function to execute before embedding services
+  beforeEmbedJSApply: function() {},
+  //callback after embedJS is applied
+  afterEmbedJSLApply: function() {},
+  //callback after the twitter widgets of a BLOCK are loaded.
+  onTwitterShow: function() {}
 });
 </code>
 </pre>
