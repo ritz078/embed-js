@@ -227,7 +227,7 @@ Version 2.0.2
 Contributing
 ------------
 
-View [this](contributing.md)
+View [this](CONTRIBUTING.md)
 
 License
 -------
