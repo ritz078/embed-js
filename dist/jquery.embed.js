@@ -128,7 +128,6 @@
         locationEmbed     : true,
         highlightCode     : true,           //Instructs the library whether or not to highlight code syntax.
         tweetsEmbed       : true,           //Instructs the library whether or not embed the tweets
-        twitterScriptUrl  : '//platform.twitter.com/widgets.js',
         tweetOptions      : {
             maxWidth  : 550,            //The maximum width of a rendered Tweet in whole pixels. This value must be
                                         // between 220 and 550 inclusive.
