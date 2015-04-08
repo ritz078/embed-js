@@ -70,6 +70,9 @@ Load Scripts
 
 HTML Structure
 --------------
+
+**Default**
+
 ```html
 <div id="element">
   <div> Some content here </div>
@@ -78,6 +81,24 @@ HTML Structure
   ...
 </div>
 ```
+
+**Custom**
+
+```html
+<div id="element">
+    <span> Some content here </span>
+    <span> Some content here </span>
+</div>
+<script>
+$('#element').embedJS({
+    embedSelector : 'span',
+    gdevAuthKey   : 'xxxxxxxx'
+});
+</script>
+```
+
+
+
 
 Usage Example
 -------------
@@ -194,6 +215,7 @@ Visit [http://rkritesh.in/embed.js](http://rkritesh.in/embed.js)
 Version 2.0.3
 -------------
 * Better options structure
+* Configurable HTML Structure
 * can exclude all embed services at once
 * Callback functions beforeEmbedJSApply, afterEmbedJSApply and onTwitterShow added
 * text to url conversion for a lot of shortened urls like goo.gl, ow.ly, bit.ly etc added
