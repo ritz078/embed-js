@@ -1,5 +1,4 @@
-#
-Contributing
+#Contributing
 
 ## Important notes
 Please don 't edit files in the `dist` subdirectory as they are generated via Grunt. You'
