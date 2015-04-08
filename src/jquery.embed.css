@@ -103,6 +103,7 @@ code.has-numbering {
     height       : 150px;
     float        : left;
     border-right : 1px solid #EEE;
+    box-sizing: border-box;
 }
 
 .ejs-pdf-icon i {

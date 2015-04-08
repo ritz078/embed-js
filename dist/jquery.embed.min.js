@@ -1,6 +1,6 @@
 /*
- *  embed-js - v2.0.2
- *  A jQuery plugin for converting text emojis into image-based emoticons, also supporting an automatic media embedding system for multimedia URLs
+ *  embed-js - v2.0.3
+ *  A jQuery plugin to embed emoticons, media and services.
  *  
  *
  *  Made by 
