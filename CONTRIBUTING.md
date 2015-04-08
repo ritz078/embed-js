@@ -8,7 +8,8 @@ ll find source code in the` src` subdirectory!
 ###Code style
 Regarding code style like indentation and whitespace, * * follow the conventions you see used in the source already.* *
 
-##Modifying the code First, ensure that you have the latest[Node.js](http: //nodejs.org/) and [npm](http://npmjs.org/) installed.
+##Modifying the code 
+First, ensure that you have the latest[Node.js](http: //nodejs.org/) and [npm](http://npmjs.org/) installed.
 
 Test that Grunt 's CLI and Bower are installed by running `grunt --version` and `bower --version`.  If the commands aren't found, run` npm install - g grunt - cli bower`.For more information about installing the tools, see the[getting started with Grunt guide](http: //gruntjs.com/getting-started) or [bower.io](http://bower.io/) respectively.
 
