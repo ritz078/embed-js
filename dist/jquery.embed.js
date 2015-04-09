@@ -3,7 +3,7 @@
  *  A jQuery plugin to embed emoticons, media and services.
  *  
  *
- *  Made by 
+ *  Made by Ritesh Kumar
  *  Under MIT License
  */
 //The MIT License (MIT)

@@ -24,18 +24,11 @@
   "bugs": {
     "url": "https://github.com/ritz078/embed-js/issues"
   },
-  "author": [
-    {
-      "name": "Ritesh Kumar",
-      "email": "rkritesh078@gmail.com",
-      "url": "https://github.com/ritz078"
-    },
-    {
-      "name": "Jagannadh",
-      "email": "shanmuk.mir@gmail.com",
-      "url": "https://github.com/jagannath93"
-    }
-  ],
+  "author": {
+    "name": "Ritesh Kumar",
+    "email": "rkritesh078@gmail.com",
+    "url": "https://github.com/ritz078"
+  },
   "homepage": "",
   "contributors": [],
   "license": "MIT",
