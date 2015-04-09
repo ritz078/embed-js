@@ -43,12 +43,12 @@ Getting started
 
 Bower
 ```
-bower install --save embed.js
+bower install --save embed-js
 ```
 
 npm
 ```
-npm install --save embed.js
+npm install --save embed-js
 ```
 
 Load css file
