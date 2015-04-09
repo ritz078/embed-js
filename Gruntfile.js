@@ -72,7 +72,14 @@ module.exports = function(grunt) {
                    ext:'.embed.min.css'
                }]
            }
-        }
+        },
+
+		copy:{
+			main:{
+				src:'src/jquery.embed.css',
+				dest:'dist/jquery.embed.css'
+			}
+		}
 
 	});
 
@@ -81,8 +88,9 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks("grunt-contrib-uglify");
 	grunt.loadNpmTasks("grunt-contrib-watch");
     grunt.loadNpmTasks("grunt-contrib-cssmin");
+	grunt.loadNpmTasks("grunt-contrib-copy");
 
-	grunt.registerTask("build", ["concat", "uglify","cssmin"]);
+	grunt.registerTask("build", ["concat", "uglify","cssmin","copy"]);
 	grunt.registerTask("default", ["jshint", "build"]);
 
 };
