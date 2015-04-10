@@ -453,7 +453,7 @@
         },
         liveleakEmbed: function (rawStr, str, opts) {
             var liveleakRegex = /liveleak.com\/view\?i=[a-zA-Z0-9_]+/gi;
-            var matches = rawStr.match(liveleakRegex) ? rawStr.match(liveleakRegex) : null;
+            var matches = rawStr.match(liveleakRegex) ? rawStr.match(liveleakRegex).getUnique() : null;
             var videoDimensions = this.dimensions(opts);
             if (matches) {
                 var i = 0;
