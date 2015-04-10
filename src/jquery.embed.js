@@ -727,6 +727,9 @@
         locationEmbed: function (rawStr, str, opts) {
             var locationRegex = /@\((.+)\)/gi;
             var matches = rawStr.match(locationRegex) ? rawStr.match(locationRegex).getUnique() : null;
+            str=str.replace(locationRegex, function (match) {
+                return '<span class="ejs-location">'+match.split('(')[1].split(')')[0]+'</span>';
+            });
             if (matches) {
                 var i = 0;
                 while (i < matches.length) {
