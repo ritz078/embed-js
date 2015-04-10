@@ -241,7 +241,7 @@
                 matchUrl=match;
             }
             if (($.inArray(extension, opts.linkExclude) === -1)) {
-                return '<a href="' + matchUrl + '" target="' + options.linkTarget + '">' + match + '</a>';
+                return '<a href="' + matchUrl + '" target="' + opts.linkTarget + '">' + match + '</a>';
             }
             return match;
         });
