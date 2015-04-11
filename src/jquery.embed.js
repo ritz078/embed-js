@@ -318,7 +318,7 @@
                         video.host = 'youtube';
                         video.title = ytData.snippet.title;
                         video.thumbnail = ytData.snippet.thumbnails.medium.url;
-                        video.description = (ytData.snippet.description.trunc(250, true)).replace(/\n/g, ' ').replace(/&#10;/g, ' ');
+                        video.description = (ytData.snippet.description.trunc(150, true)).replace(/\n/g, ' ').replace(/&#10;/g, ' ');
                         video.rawDescription = ytData.snippet.description;
                         video.views = ytData.statistics.viewCount;
                         video.likes = ytData.statistics.likeCount;
@@ -339,7 +339,7 @@
                         video.host = 'vimeo';
                         video.title = d[0].title;
                         video.rawDescription = (d[0].description).replace(/\n/g, '<br/>').replace(/&#10;/g, '<br/>');
-                        video.description = (d[0].description).replace(/((<|&lt;)br\s*\/*(>|&gt;)\r\n)/g, ' ').trunc(250, true);
+                        video.description = (d[0].description).replace(/((<|&lt;)br\s*\/*(>|&gt;)\r\n)/g, ' ').trunc(150, true);
                         video.thumbnail = d[0].thumbnail_medium;
                         video.views = d[0].stats_number_of_plays;
                         video.likes = d[0].stats_number_of_likes;
@@ -422,7 +422,7 @@
             if (matches) {
                 var i = 0;
                 while (i < matches.length) {
-                    str = str + '<div class="ejs-vine"><iframe src="https://vine.co/v/' + matches[i].split('/')[2] + '/embed/' + opts.vineOptions.type + '" height="' + (opts.vineOptions.type == 'postcard' ? (opts.vineOptions.width + 158) : opts.vineOptions.width) + '" width="' + opts.vineOptions.width + '"></iframe></div>';
+                    str = str + '<div class="ejs-vine"><iframe src="https://vine.co/v/' + matches[i].split('/')[2] + '/embed/' + opts.vineOptions.type + '" height="' + (opts.vineOptions.type == 'postcard' ? (opts.vineOptions.width + 160) : opts.vineOptions.width) + '" width="' + opts.vineOptions.width + '"></iframe></div>';
                     i++;
                 }
             }
