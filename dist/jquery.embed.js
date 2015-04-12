@@ -471,7 +471,7 @@
             var p = /((?:https?):\/\/\S*\.(?:pdf|PDF))/gi;
             if (rawStr.match(p)) {
                 var pdfUrl = RegExp.$1;
-                var pdfTemplate = '<div class="ejs-pdf"><div class="ejs-pdf-preview"><div class="ejs-pdf-icon"><i class="fa fa-file-pdf-o"></i></div><div class="ejs-pdf-detail" ><div class="ejs-pdf-title"> <a href="">' + pdfUrl + '</a></div> <div class="ejs-pdf-view"> <button><i class="fa fa-download"></i> <a href="' + pdfUrl + '" target="_blank">Download</a></button> <button class="ejs-pdf-view-active"><i class="fa fa-eye"></i> View PDF</button></div> </div> </div></div>';
+                var pdfTemplate = '<div class="ejs-pdf"><div class="ejs-pdf-preview"><div class="ejs-pdf-icon"><i class="fa fa-file-pdf-o"></i></div><div class="ejs-pdf-detail" ><div class="ejs-pdf-title"> <a href="">' + pdfUrl + '</a></div> <div class="ejs-pdf-view"> <a href="' + pdfUrl + '" target="_blank">g<button><i class="fa fa-download"></i> Download</button></a> <button class="ejs-pdf-view-active"><i class="fa fa-eye"></i> View PDF</button></div> </div> </div></div>';
                 str = str + pdfTemplate;
 
             }
