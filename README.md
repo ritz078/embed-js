@@ -182,7 +182,7 @@ $('#element').embedJS({
           download    : false        //Show/Hide download buttons
               },
       vineOptions:{
-            width:500,
+            maxWidth:500,
             type:'postcard',         //'postcard' or 'simple' embedding
             responsive:false         // whether to make the vine embed responsive
       },

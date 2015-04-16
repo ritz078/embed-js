@@ -149,7 +149,7 @@
             download    : false          //Show/Hide download buttons
         },
         vineOptions       : {
-            width     : 500,
+            maxWidth  : null,
             type      : 'postcard',         //'postcard' or 'simple' embedding
             responsive: false
         },
@@ -417,13 +417,22 @@
             return str;
         },
 
-        vineEmbed: function (rawStr, str, opts) {
+        vineEmbed: function (rawStr, str, opts,element) {
             var vineRegex = /vine.co\/v\/[a-zA-Z0-9]+/gi;
+            var _width=function(){
+                if((opts.vineOptions.maxWidth>$(element).width() && opts.vineOptions.responsive) || !opts.vineOptions.maxWidth){
+                    return $(element).width();
+                }
+                else{
+                    return opts.vineOptions.maxWidth;
+                }
+            };
+            console.log(_width());
             var matches = rawStr.match(vineRegex) ? rawStr.match(vineRegex).getUnique() : null;
             if (matches) {
                 var i = 0;
                 while (i < matches.length) {
-                    str = str + '<div class="ejs-vine"><iframe class="ejs-vine-iframe" src="https://vine.co/v/' + matches[i].split('/')[2] + '/embed/' + opts.vineOptions.type + '" height="' + (opts.vineOptions.type == 'postcard' ? (opts.vineOptions.width + 160) : opts.vineOptions.width) + '" width="' + opts.vineOptions.width + '"></iframe></div>';
+                    str = str + '<div class="ejs-vine"><iframe class="ejs-vine-iframe" src="https://vine.co/v/' + matches[i].split('/')[2] + '/embed/' + opts.vineOptions.type + '" height="' + (opts.vineOptions.type == 'postcard' ? (_width() + 160) : _width()) + '" width="' + _width() + '"></iframe></div>';
                     i++;
                 }
             }
@@ -780,7 +789,7 @@
             input = (ifEmbed('twitchTv')) ? videoProcess.twitchtvEmbed(rawInput, input, settings) : input;
             input = (ifEmbed('dotSub')) ? videoProcess.dotsubEmbed(rawInput, input, settings) : input;
             input = (ifEmbed('dailymotion')) ? videoProcess.dailymotionEmbed(rawInput, input, settings) : input;
-            input = (ifEmbed('vine')) ? videoProcess.vineEmbed(rawInput, input, settings) : input;
+            input = (ifEmbed('vine')) ? videoProcess.vineEmbed(rawInput, input, settings,elem) : input;
             input = (ifEmbed('ted')) ? videoProcess.tedEmbed(rawInput, input, settings) : input;
             input = (ifEmbed('liveLeak')) ? videoProcess.liveleakEmbed(rawInput, input, settings) : input;
             input = (ifEmbed('spotify')) ? audioProcess.spotifyEmbed(rawInput, input) : input;
@@ -841,19 +850,24 @@
                  */
 
                 if ($('.ejs-vine-iframe') && settings.vineOptions.responsive) {
-                    console.log(settings.vineOptions.width, $(element).width());
+                    var vineResize = function () {
+                        $(element).find('.ejs-vine-iframe').each(function () {
+
+                            var $width = $(element).width() - 2;
+                            var $height = (settings.vineOptions.type == 'postcard' ? ($width + 160) : $width);
+                            var source = $(this).attr('src');
+                            var frame = '<iframe class="ejs-vine-iframe" src="' + source + '" height="' + $height + '" width="' + $width + '"></iframe>';
+                            $(this).replaceWith(frame);
+
+                        });
+                    };
+
                     $(window).resize(function () {
-                    if (settings.vineOptions.width > $(element).width()) {
-
-                            $(element).find('.ejs-vine-iframe').each(function () {
-
-                                var $width = $(element).width() - 2;
-                                var $height = (settings.vineOptions.type == 'postcard' ? ($width + 160) : $width);
-                                var source = $(this).attr('src');
-                                var frame = '<iframe class="ejs-vine-iframe" src="' + source + '" height="' + $height + '" width="' + $width + '"></iframe>';
-                                $(this).replaceWith(frame);
-
-                            });
+                        if (settings.vineOptions.maxWidth > $(element).width()) {
+                            vineResize();
+                        }
+                        else if (!settings.vineOptions.maxWidth) {
+                            vineResize();
                         }
 
                     });
