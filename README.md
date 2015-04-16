@@ -126,6 +126,10 @@ $('#element').embedJS({
       linkExclude       : ['jpg','pdf'],
       //set false to show a preview of pdf links
       pdfEmbed          : true,
+      pdfOptions        : {
+              viewText    : '<i class="fa fa-eye"></i> View PDF',
+              downloadText: '<i class="fa fa-download"></i> DOWNLOAD'
+      },
       //set false to embed images
       imageEmbed        : true,
       //set false to embed audio

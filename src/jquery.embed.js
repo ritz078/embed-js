@@ -108,6 +108,10 @@
                                             // supported target values.
         linkExclude       : [],             //Array of extensions to be excluded from converting into links
         pdfEmbed          : true,           //set true to show a preview of pdf links
+        pdfOptions        : {
+            viewText    : '<i class="fa fa-eye"></i> View PDF',
+            downloadText: '<i class="fa fa-download"></i> DOWNLOAD'
+        },
         imageEmbed        : true,           //set true to embed images
         audioEmbed        : false,          //set true to embed audio
         videoEmbed        : true,           //set true to show a preview of youtube/vimeo videos with details
@@ -417,13 +421,13 @@
             return str;
         },
 
-        vineEmbed: function (rawStr, str, opts,element) {
+        vineEmbed: function (rawStr, str, opts, element) {
             var vineRegex = /vine.co\/v\/[a-zA-Z0-9]+/gi;
-            var _width=function(){
-                if((opts.vineOptions.maxWidth>$(element).width() && opts.vineOptions.responsive) || !opts.vineOptions.maxWidth){
+            var _width = function () {
+                if ((opts.vineOptions.maxWidth > $(element).width() && opts.vineOptions.responsive) || !opts.vineOptions.maxWidth) {
                     return $(element).width();
                 }
-                else{
+                else {
                     return opts.vineOptions.maxWidth;
                 }
             };
@@ -469,11 +473,11 @@
     };
 
     var pdfProcess = {
-        embed: function (rawStr, str) {
+        embed: function (rawStr, str,opts) {
             var p = /((?:https?):\/\/\S*\.(?:pdf|PDF))/gi;
             if (rawStr.match(p)) {
                 var pdfUrl = RegExp.$1;
-                var pdfTemplate = '<div class="ejs-pdf"><div class="ejs-pdf-preview"><div class="ejs-pdf-icon"><i class="fa fa-file-pdf-o"></i></div><div class="ejs-pdf-detail" ><div class="ejs-pdf-title"> <a href="">' + pdfUrl + '</a></div> <div class="ejs-pdf-view"> <a href="' + pdfUrl + '" target="_blank">g<button><i class="fa fa-download"></i> Download</button></a> <button class="ejs-pdf-view-active"><i class="fa fa-eye"></i> View PDF</button></div> </div> </div></div>';
+                var pdfTemplate = '<div class="ejs-pdf"><div class="ejs-pdf-preview"><div class="ejs-pdf-icon"><i class="fa fa-file-pdf-o"></i></div><div class="ejs-pdf-detail" ><div class="ejs-pdf-title"> <a href="">' + pdfUrl + '</a></div> <div class="ejs-pdf-view"> <a href="' + pdfUrl + '" target="_blank">g<button>'+opts.pdfOptions.downloadText+'</button></a> <button class="ejs-pdf-view-active">'+opts.pdfOptions.viewText+'</button></div> </div> </div></div>';
                 str = str + pdfTemplate;
 
             }
@@ -775,7 +779,7 @@
             input = (settings.link) ? urlEmbed(input, settings) : input;
             input = emoticonProcess.insertfontSmiley(input);
             input = emoticonProcess.insertEmoji(input);
-            input = (settings.pdfEmbed) ? pdfProcess.embed(rawInput, input) : input;
+            input = (settings.pdfEmbed) ? pdfProcess.embed(rawInput, input,settings) : input;
             input = (settings.audioEmbed) ? audioProcess.basicEmbed(rawInput, input) : input;
             input = (settings.highlightCode) ? codeProcess.highlight(input) : input;
             input = (settings.basicVideoEmbed) ? videoProcess.embedBasic(rawInput, input) : input;
@@ -789,7 +793,7 @@
             input = (ifEmbed('twitchTv')) ? videoProcess.twitchtvEmbed(rawInput, input, settings) : input;
             input = (ifEmbed('dotSub')) ? videoProcess.dotsubEmbed(rawInput, input, settings) : input;
             input = (ifEmbed('dailymotion')) ? videoProcess.dailymotionEmbed(rawInput, input, settings) : input;
-            input = (ifEmbed('vine')) ? videoProcess.vineEmbed(rawInput, input, settings,elem) : input;
+            input = (ifEmbed('vine')) ? videoProcess.vineEmbed(rawInput, input, settings, elem) : input;
             input = (ifEmbed('ted')) ? videoProcess.tedEmbed(rawInput, input, settings) : input;
             input = (ifEmbed('liveLeak')) ? videoProcess.liveleakEmbed(rawInput, input, settings) : input;
             input = (ifEmbed('spotify')) ? audioProcess.spotifyEmbed(rawInput, input) : input;
