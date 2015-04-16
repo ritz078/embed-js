@@ -243,10 +243,10 @@
             var extension = match.split('.')[match.split('.').length - 1];
             var matchUrl;
             //This makes sure that '//' is added before the url if it is absent
-            if(match.indexOf('//')==-1){
-                matchUrl='//'+match;
-            }else{
-                matchUrl=match;
+            if (match.indexOf('//') == -1) {
+                matchUrl = '//' + match;
+            } else {
+                matchUrl = match;
             }
             if (($.inArray(extension, opts.linkExclude) === -1)) {
                 return '<a href="' + matchUrl + '" target="' + opts.linkTarget + '">' + match + '</a>';
@@ -430,7 +430,7 @@
             if (matches) {
                 var i = 0;
                 while (i < matches.length) {
-                    str = str + '<div class="ejs-vine"><iframe src="https://vine.co/v/' + matches[i].split('/')[2] + '/embed/' + opts.vineOptions.type + '" height="' + (opts.vineOptions.type == 'postcard' ? (opts.vineOptions.width + 160) : opts.vineOptions.width) + '" width="' + opts.vineOptions.width + '"></iframe></div>';
+                    str = str + '<div class="ejs-vine"><iframe class="ejs-vine-iframe" src="https://vine.co/v/' + matches[i].split('/')[2] + '/embed/' + opts.vineOptions.type + '" height="' + (opts.vineOptions.type == 'postcard' ? (opts.vineOptions.width + 160) : opts.vineOptions.width) + '" width="' + opts.vineOptions.width + '"></iframe></div>';
                     i++;
                 }
             }
@@ -735,8 +735,8 @@
         locationEmbed: function (rawStr, str, opts) {
             var locationRegex = /@\((.+)\)/gi;
             var matches = rawStr.match(locationRegex) ? rawStr.match(locationRegex).getUnique() : null;
-            str=str.replace(locationRegex, function (match) {
-                return '<span class="ejs-location">'+match.split('(')[1].split(')')[0]+'</span>';
+            str = str.replace(locationRegex, function (match) {
+                return '<span class="ejs-location">' + match.split('(')[1].split(')')[0] + '</span>';
             });
             if (matches) {
                 var i = 0;
