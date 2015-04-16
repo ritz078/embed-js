@@ -149,8 +149,9 @@
             download    : false          //Show/Hide download buttons
         },
         vineOptions       : {
-            width: 500,
-            type : 'postcard'         //'postcard' or 'simple' embedding
+            width     : 500,
+            type      : 'postcard',         //'postcard' or 'simple' embedding
+            responsive: false
         },
         beforePdfPreview  : function () {   //callback before pdf preview
         },
@@ -833,6 +834,30 @@
                             settings.onTwitterShow();
                         }
                     );
+                }
+
+                /**
+                 * To make the vine embedding responsive
+                 */
+
+                if ($('.ejs-vine-iframe') && settings.vineOptions.responsive) {
+                    console.log(settings.vineOptions.width, $(element).width());
+                    $(window).resize(function () {
+                    if (settings.vineOptions.width > $(element).width()) {
+
+                            $(element).find('.ejs-vine-iframe').each(function () {
+
+                                var $width = $(element).width() - 2;
+                                var $height = (settings.vineOptions.type == 'postcard' ? ($width + 160) : $width);
+                                var source = $(this).attr('src');
+                                var frame = '<iframe class="ejs-vine-iframe" src="' + source + '" height="' + $height + '" width="' + $width + '"></iframe>';
+                                $(this).replaceWith(frame);
+
+                            });
+                        }
+
+                    });
+
                 }
 
                 settings.afterEmbedJSLApply();

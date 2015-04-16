@@ -183,7 +183,8 @@ $('#element').embedJS({
               },
       vineOptions:{
             width:500,
-            type:'postcard'         //'postcard' or 'simple' embedding
+            type:'postcard',         //'postcard' or 'simple' embedding
+            responsive:false         // whether to make the vine embed responsive
       },
       //callback before pdf preview
       beforePdfPreview  : function(){},
