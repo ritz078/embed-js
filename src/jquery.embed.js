@@ -107,9 +107,9 @@
         linkTarget        : '_self',        //same as the target attribute in html anchor tag . supports all html
                                             // supported target values.
         linkExclude       : [],             //Array of extensions to be excluded from converting into links
-        pdfEmbed          : true,           //set true to show a preview of pdf links
-        pdfOptions        : {
-            viewText    : '<i class="fa fa-eye"></i> View PDF',
+        docEmbed          : true,           //set true to show a preview of pdf links
+        docOptions        : {
+            viewText    : '<i class="fa fa-eye"></i> View Doc',
             downloadText: '<i class="fa fa-download"></i> DOWNLOAD'
         },
         imageEmbed        : true,           //set true to embed images
@@ -157,9 +157,9 @@
             type      : 'postcard',         //'postcard' or 'simple' embedding
             responsive: false
         },
-        beforePdfPreview  : function () {   //callback before pdf preview
+        beforeDocPreview  : function () {   //callback before pdf preview
         },
-        afterPdfPreview   : function () {   //callback after pdf preview
+        afterDocPreview   : function () {   //callback after pdf preview
         },
         onVideoShow       : function () {   // callback on video frame view
         },
@@ -472,34 +472,37 @@
         }
     };
 
-    var pdfProcess = {
+    var docProcess = {
         embed: function (rawStr, str,opts) {
-            var p = /((?:https?):\/\/\S*\.(?:pdf|PDF))/gi;
-            if (rawStr.match(p)) {
-                var pdfUrl = RegExp.$1;
-                var pdfTemplate = '<div class="ejs-pdf"><div class="ejs-pdf-preview"><div class="ejs-pdf-icon"><i class="fa fa-file-pdf-o"></i></div><div class="ejs-pdf-detail" ><div class="ejs-pdf-title"> <a href="">' + pdfUrl + '</a></div> <div class="ejs-pdf-view"> <a href="' + pdfUrl + '" target="_blank">g<button>'+opts.pdfOptions.downloadText+'</button></a> <button class="ejs-pdf-view-active">'+opts.pdfOptions.viewText+'</button></div> </div> </div></div>';
-                str = str + pdfTemplate;
-
+            var p = /((?:https?):\/\/\S*\.(?:pdf|doc|docx|xls|xlsx|ppt|pptx))/gi;
+            var matches=rawStr.match(p)?rawStr.match(p).getUnique():null;
+            if (matches) {
+                var i=0;
+                while(i<matches.length){
+                    var docTemplate = '<div class="ejs-doc"><div class="ejs-doc-preview"><div class="ejs-doc-icon"><i class="fa fa-file-pdf-o"></i></div><div class="ejs-doc-detail" ><div class="ejs-doc-title"> <a href="">' + matches[i] + '</a></div> <div class="ejs-doc-view"> <a href="' +matches[i] + '" target="_blank"><button>'+opts.docOptions.downloadText+'</button></a> <button class="ejs-doc-view-active">'+opts.docOptions.viewText+'</button></div> </div> </div></div>';
+                    str = str + docTemplate;
+                    i++;
+                }
             }
             return str;
         },
 
         view: function (elem, settings) {
-            $(elem).on('click', '.ejs-pdf-view-active', function (e) {
+            $(elem).on('click', '.ejs-doc-view-active', function (e) {
                 //calling the function before pdf is shown
 
-                settings.beforePdfPreview();
+                settings.beforeDocPreview();
 
                 var self = this;
 
-                var pdfParent = $(self).closest('.ejs-pdf');
-                var pdfUrl = $(pdfParent).find('a')[1].href;
-                var pdfViewTemplate = ' <div class="ejs-pdf-viewer"><iframe src="' + pdfUrl + '" frameBorder="0"></iframe></div>';
-                pdfParent.html(pdfViewTemplate);
+                var docParent = $(self).closest('.ejs-doc');
+                var docUrl = $(docParent).find('a')[1].href;
+                var docViewTemplate = ' <div class="ejs-doc-viewer"><iframe src="http://docs.google.com/viewer?embedded=true&url=' + docUrl + '" frameBorder="0" style="border: none;margin : 0 auto; display : block;"></iframe></div>';
+                docParent.html(docViewTemplate);
 
                 //calling the function after the pdf is shown.
 
-                settings.afterPdfPreview();
+                settings.afterDocPreview();
                 e.stopPropagation();
             });
         }
@@ -779,7 +782,7 @@
             input = (settings.link) ? urlEmbed(input, settings) : input;
             input = emoticonProcess.insertfontSmiley(input);
             input = emoticonProcess.insertEmoji(input);
-            input = (settings.pdfEmbed) ? pdfProcess.embed(rawInput, input,settings) : input;
+            input = (settings.docEmbed) ? docProcess.embed(rawInput, input,settings) : input;
             input = (settings.audioEmbed) ? audioProcess.basicEmbed(rawInput, input) : input;
             input = (settings.highlightCode) ? codeProcess.highlight(input) : input;
             input = (settings.basicVideoEmbed) ? videoProcess.embedBasic(rawInput, input) : input;
@@ -822,7 +825,7 @@
         });
 
         videoProcess.play(elem, settings);
-        pdfProcess.view(elem, settings);
+        docProcess.view(elem, settings);
 
         return deferred.promise();
 

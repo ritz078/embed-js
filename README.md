@@ -125,8 +125,8 @@ $('#element').embedJS({
       //Array of extensions to be excluded from converting into links
       linkExclude       : ['jpg','pdf'],
       //set false to show a preview of pdf links
-      pdfEmbed          : true,
-      pdfOptions        : {
+      docEmbed          : true,
+      docOptions        : {
               viewText    : '<i class="fa fa-eye"></i> View PDF',
               downloadText: '<i class="fa fa-download"></i> DOWNLOAD'
       },
@@ -191,9 +191,9 @@ $('#element').embedJS({
             responsive:false         // whether to make the vine embed responsive
       },
       //callback before pdf preview
-      beforePdfPreview  : function(){},
+      beforeDocPreview  : function(){},
       //callback after pdf preview
-      afterPdfPreview   : function(){},
+      afterDocPreview   : function(){},
       // callback on video frame view
       onVideoShow:function(){},
       //callback on video load (youtube/vimeo)
@@ -214,6 +214,12 @@ Examples
 --------
 
 Visit [http://rkritesh.in/embed.js](http://rkritesh.in/embed.js)
+
+Version 2.0.4
+-------------
+
+* Vine embed is now responsive
+* Support for xls,xlsx,doc,docx,ppt added
 
 Version 2.0.3
 -------------
