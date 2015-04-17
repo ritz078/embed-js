@@ -24,7 +24,7 @@ Features
 * Finds links in text input and turns them into html links (shortened urls like goo.gl,ow.ly,bit.ly etc supported)
 * Youtube and Vimeo video embedding with video details fetched from the api.
 * HTML5 player supported media embedding (mp3,mp4,ogg)
-* PDF viewing with preview and then the actual pdf in a frame.
+* PDF,DOC,DOCX,XLS,XLSX,PPT viewing with preview and then the actual documents in a frame.
 * Inline Code Syntax highlighting (uses highlight.js)
 * Twitter tweet embedding supported
 * Codepen, jsbin,ideone, jsfiddle and plunker embed supported
@@ -124,7 +124,7 @@ $('#element').embedJS({
       linkTarget        : '_blank',
       //Array of extensions to be excluded from converting into links
       linkExclude       : ['jpg','pdf'],
-      //set false to show a preview of pdf links
+      //set false to show a preview of document(pdf,xls,xlsx,doc,docx,ppt) links
       docEmbed          : true,
       docOptions        : {
               viewText    : '<i class="fa fa-eye"></i> View PDF',
@@ -190,9 +190,9 @@ $('#element').embedJS({
             type:'postcard',         //'postcard' or 'simple' embedding
             responsive:false         // whether to make the vine embed responsive
       },
-      //callback before pdf preview
+      //callback before doc preview
       beforeDocPreview  : function(){},
-      //callback after pdf preview
+      //callback after doc preview
       afterDocPreview   : function(){},
       // callback on video frame view
       onVideoShow:function(){},
