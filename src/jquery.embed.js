@@ -504,7 +504,6 @@
             if (matches) {
                 var i = 0;
                 while (i < matches.length) {
-                    console.log(matches[i]);
                     var docTemplate = '<div class="ejs-doc"><div class="ejs-doc-preview"><div class="ejs-doc-icon"><i class="fa fa-file-o"></i></div><div class="ejs-doc-detail" ><div class="ejs-doc-title"> <a href="">' + matches[i].toUrl() + '</a></div> <div class="ejs-doc-view"> <a href="' + matches[i].toUrl() + '" target="_blank"><button>' + opts.docOptions.downloadText + '</button></a> <button class="ejs-doc-view-active">' + opts.docOptions.viewText + '</button></div> </div> </div></div>';
                     str = str + docTemplate;
                     i++;
@@ -616,10 +615,16 @@
 
     var imageProcess = {
         embed: function (rawStr, str) {
-            var i = /((?:https?):\/\/\S*\.(?:gif|jpg|jpeg|tiff|png|svg|webp))/gi;
-            if (rawStr.match(i)) {
-                var template = '<div class="ejs-image"><div class="ne-image-wrapper"><img src="' + RegExp.$1 + '"/></div></div>';
-                str = str + template;
+            var imgRegex = /((?:https?):\/\/\S*\.(?:gif|jpg|jpeg|tiff|png|svg|webp))/gi;
+            var matches=rawStr.match(imgRegex)?rawStr.match(imgRegex).getUnique():null;
+            if (matches) {
+                var i=0;
+                while(i<matches.length){
+                    var template = '<div class="ejs-image"><div class="ne-image-wrapper"><img src="' + matches[i] + '"/></div></div>';
+                    str = str + template;
+                    i++;
+                }
+
             }
             return str;
         }
