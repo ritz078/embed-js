@@ -148,6 +148,10 @@ $('#element').embedJS({
       //Set google map location embed
       // Use @(place-name) to use this feature . Eg: @(Sydney)
       locationEmbed       :true,
+      mapOptions        : {
+            //'place' or 'streetview' or 'view'
+            mode: 'place'                   
+      },
       //Instructs the library whether or not to highlight code syntax.
       highlightCode     : true,
       //Instructs the library whether or not embed the tweets
@@ -221,6 +225,7 @@ Version 2.0.4
 * Vine embed is now responsive
 * Support for xls,xlsx,doc,docx,ppt added
 * ustream support added.
+* streetview and view support added for maps
 
 Version 2.0.3
 -------------
