@@ -8,21 +8,21 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css"/>
     <style>
         body {
-            width: 50%;
-            margin: 0 auto;
-            font-family: "Calibri";
-            font-size: 16px;
+            width       : 50%;
+            margin      : 0 auto;
+            font-family : "Calibri";
+            font-size   : 16px;
         }
 
         a {
-            text-decoration: none;
-            color: cornflowerblue;
+            text-decoration : none;
+            color           : cornflowerblue;
         }
 
         #element > div {
-            display: none;
-            width: 100%;
-            overflow: auto;
+            display  : none;
+            width    : 100%;
+            overflow : auto;
         }
     </style>
 </head>
@@ -30,9 +30,17 @@
 <h1>embed-js</h1>
 
 <div id="element">
+    <h3>ustream support</h3>
+
+    <div>
+        Grandis particulas ducunt ad verpa.Teres, gratis magisters patienter manifestum de rusticus, altus bubo.Bubos
+        studere in ostravia!Ubi est nobilis era?Accola, hippotoxota, et rumor. http://www.ustream.tv/recorded/35587221
+        Clabulare undas, tanquam teres calceus.A falsis, compater fatalis hibrida.Favere hic ducunt ad rusticus secula.
+    </div>
     <h3>Google map Location</h3>
 
-    <div class="asd">Cur bit.ly/19LTx4g rumor nocere?Emeritis adelphis satis perderes domina est.Gloss cadunt in bi-color brema!
+    <div class="asd">Cur bit.ly/19LTx4g rumor nocere?Emeritis adelphis satis perderes domina est.Gloss cadunt in
+        bi-color brema!
         @(IIT Roorkee) Bi-color habitio virtualiter imitaris amicitia est.Teres tatas ducunt ad racana.Genetrixs prarere
         in
         rugensis civitas!
@@ -141,7 +149,8 @@
 
     <div>https://twitter.com/IGN/status/579314375808417792 www.ng-conf.org
         https://www.iitr.ac.in ROTFL!!!! Now this explains :P why Kejriwal & his fans are upset with Yogendra Yadav.
-        Because he had praised Narendra https://twitter.com/ritz078/status/583264251768283136 :smile: Modi and Gujarat model in an interview.Check this 1-min clip in which
+        Because he had praised Narendra https://twitter.com/ritz078/status/583264251768283136 :smile: Modi and Gujarat
+        model in an interview.Check this 1-min clip in which
         Yogendra Yadav openly praises Modis Gujarat development
     </div>
 
@@ -193,7 +202,8 @@
 
     <div class="asd">Nunquam visum lumen.Eheu, compater!Eheu, adelphis!Nunquam
         https://www.cca.edu/sites/default/files/pdf/08/word-to-pdf.pdf manifestum ratione.Cum exemplar tolerare, omnes
-        scutumes manifestum festus, barbatus liberies.Itineris tramitems favere, http://www.columbia.edu/~dj114/excel-examples.xls tanquam clemens mensa.
+        scutumes manifestum festus, barbatus liberies.Itineris tramitems favere,
+        http://www.columbia.edu/~dj114/excel-examples.xls tanquam clemens mensa.
     </div>
 
     <h3>Emoticons and link embed Support</h3>
@@ -211,21 +221,21 @@
 <script>
     $(function () {
         $("#element").embedJS({
-            link       : true,
-            linkTarget : '_blank',
-            linkExclude:[],
-            gdevAuthKey: 'AIzaSyCqFouT8h5DKAbxlrTZmjXEmNBjC69f0ts',
-            videoWidth : 800,
-            vineOptions:{
-              responsive:true,
-                maxWidth:500
+            link         : true,
+            linkTarget   : '_blank',
+            linkExclude  : [],
+            gdevAuthKey  : 'AIzaSyCqFouT8h5DKAbxlrTZmjXEmNBjC69f0ts',
+            videoWidth   : 800,
+            vineOptions  : {
+                responsive: true,
+                maxWidth  : 500
             },
-            docOptions:{
-              downloadText:'kjhkjh'
+            docOptions   : {
+                downloadText: 'kjhkjh'
             },
-            audioEmbed : true,
-            excludeEmbed:['twitchTv','spotify'],
-            onTwitterShow:function(){
+            audioEmbed   : true,
+            excludeEmbed : ['twitchTv', 'spotify'],
+            onTwitterShow: function () {
             }
         });
     });

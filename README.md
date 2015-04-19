@@ -29,7 +29,7 @@ Features
 * Twitter tweet embedding supported
 * Codepen, jsbin,ideone, jsfiddle and plunker embed supported
 * soundcloud and spotify support
-* Twitch tv, dotSub, dailymotion, vine,TED and liveLeak support.
+* Twitch tv, dotSub, dailymotion, vine,TED, ustream and liveLeak support.
 * Google map location embed
 
 Dependencies
@@ -169,7 +169,7 @@ $('#element').embedJS({
             lang       : 'en'
       },
       //An array of services excluded from embedding...
-      //Options : codePen/jdFiddle/jsBin/ideone/plunker/soundcloud/twitchTv/dotSub/dailymotion/vine/ted/liveleak/spotify
+      //Options : codePen/jdFiddle/jsBin/ideone/plunker/soundcloud/twitchTv/dotSub/dailymotion/vine/ted/liveleak/spotify/ustream
       //Can exclude all options by setting it to 'all'
       excludeEmbed     :['twitchTv'],
       //Height of jsfiddle/codepen/jsbin/ideone/plunker
@@ -220,6 +220,7 @@ Version 2.0.4
 
 * Vine embed is now responsive
 * Support for xls,xlsx,doc,docx,ppt added
+* ustream support added.
 
 Version 2.0.3
 -------------
