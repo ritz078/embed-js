@@ -523,7 +523,7 @@
 
         view: function (elem, settings) {
             $(elem).on('click', '.ejs-doc-view-active', function (e) {
-                //calling the function before pdf is shown
+                //calling the function before document is shown
 
                 settings.beforeDocPreview();
 
@@ -534,7 +534,7 @@
                 var docViewTemplate = ' <div class="ejs-doc-viewer"><iframe src="http://docs.google.com/viewer?embedded=true&url=' + docUrl.toUrl() + '" frameBorder="0" style="border: none;margin : 0 auto; display : block;"></iframe></div>';
                 docParent.html(docViewTemplate);
 
-                //calling the function after the pdf is shown.
+                //calling the function after the document is shown.
 
                 settings.afterDocPreview();
                 e.stopPropagation();
