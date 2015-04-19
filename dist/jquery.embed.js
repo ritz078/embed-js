@@ -509,7 +509,7 @@
             if (matches) {
                 var i = 0;
                 while (i < matches.length) {
-                    var docTemplate = '<div class="ejs-doc"><div class="ejs-doc-preview"><div class="ejs-doc-icon"><i class="fa fa-file-pdf-o"></i></div><div class="ejs-doc-detail" ><div class="ejs-doc-title"> <a href="">' + matches[i].toUrl() + '</a></div> <div class="ejs-doc-view"> <a href="' + matches[i].toUrl() + '" target="_blank"><button>' + opts.docOptions.downloadText + '</button></a> <button class="ejs-doc-view-active">' + opts.docOptions.viewText + '</button></div> </div> </div></div>';
+                    var docTemplate = '<div class="ejs-doc"><div class="ejs-doc-preview"><div class="ejs-doc-icon"><i class="fa fa-file-o"></i></div><div class="ejs-doc-detail" ><div class="ejs-doc-title"> <a href="">' + matches[i].toUrl() + '</a></div> <div class="ejs-doc-view"> <a href="' + matches[i].toUrl() + '" target="_blank"><button>' + opts.docOptions.downloadText + '</button></a> <button class="ejs-doc-view-active">' + opts.docOptions.viewText + '</button></div> </div> </div></div>';
                     str = str + docTemplate;
                     i++;
                 }
