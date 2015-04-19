@@ -324,7 +324,6 @@ code.has-numbering {
 
 .icon-emoticon {
     font-family             : 'emoticons';
-    speak                   : none;
     font-style              : normal;
     font-weight             : normal;
     font-variant            : normal;
@@ -3860,4 +3859,175 @@ code.has-numbering {
     background-position : -27749px 0;
 }
 
+@media only screen and (min-width : 480px) and (max-width : 767px) {
+    .ejs-doc-icon {
+        border-right : 0 solid #EEE;
+        height       : 110px;
+        width        : 200px;
+    }
+
+    .ejs-doc-icon i {
+        margin : 15px 148px;
+    }
+
+    .ejs-doc-view {
+        height     : 65px;
+        width      : 366px;
+        text-align : center;
+    }
+
+    .ejs-doc-view button {
+        float   : none;
+        margin  : 10px 10px 0;
+        padding : 6px 15px;
+    }
+
+    .ejs-doc-viewer {
+        height : 320px;
+    }
+
+    .ejs-doc-title {
+        display : none;
+    }
+
+    .ejs-doc-detail {
+        padding-left : 0;
+        width        : 180px;
+    }
+
+    .ejs-doc {
+        margin   : 20px 0;
+        overflow : auto;
+    }
+
+    .ejs-video-detail {
+        display : none;
+    }
+
+    .ejs-video-title {
+        display : none;
+    }
+
+    .ejs-video-desc {
+        display : none;
+    }
+
+    .ejs-stats {
+        display : none;
+    }
+
+    .ejs-video-stats span {
+        display : none;
+    }
+
+    .ejs-video-stats span i {
+        display : none;
+    }
+
+    .ejs-video-preview img {
+        height : 224px;
+        width  : 348px;
+    }
+
+    .ejs-video-thumb {
+        float : none;
+        width : 348px;
+    }
+
+    .ejs-video-thumb i {
+        margin-left : 160px;
+        margin-top  : -128px;
+    }
+
+}
+
+@media only screen and (max-width : 479px) {
+    .ejs-doc-icon {
+        border-right : 0 solid #EEE;
+        height       : 110px;
+        width        : 228px;
+    }
+
+    .ejs-doc-icon i {
+        margin : 15px 78px;
+    }
+
+    .ejs-doc-view {
+        height     : 100px;
+        width      : 228px;
+        text-align : center;
+    }
+
+    .ejs-doc-view button {
+        float   : none;
+        margin  : 10px 10px 0;
+        padding : 6px 15px;
+    }
+
+    .ejs-doc-viewer {
+        height : 320px;
+    }
+
+    .ejs-doc-title {
+        display : none;
+    }
+
+    .ejs-doc-detail {
+        padding-left : 0;
+        width        : 180px;
+    }
+
+    .ejs-doc {
+        margin   : 20px 0;
+        overflow : auto;
+        /*
+        overflow-y:hidden;
+        overflow-x:hidden;
+        */
+    }
+
+    .ejs-video-detail {
+        display : none;
+    }
+
+    .ejs-video-title {
+        display;
+        none;
+    }
+
+    .ejs-video-desc {
+        display : none;
+    }
+
+    .ejs-stats {
+        display : none;
+    }
+
+    .ejs-video-stats span {
+        display : none;
+    }
+
+    .ejs-video-stats span i {
+        display : none;
+    }
+
+    .ejs-video-player {
+        width    : 208px;
+        overflow : auto;
+    }
+
+    .ejs-video-player iframe {
+        width : 208px;
+    }
+
+    .ejs-video-preview img {
+        height : 138px;
+        width  : 208px;
+    }
+
+    .ejs-video-thumb {
+        float : none;
+        width : 208px;
+    }
+}
 
