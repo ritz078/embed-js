@@ -963,9 +963,7 @@
         options.block = true;
 
         return this.each(function () {
-            if (!$.data(this, 'plugin_' + pluginBlockName)) {
                 $.data(this, 'plugin_' + pluginBlockName, new Plugin(this, options));
-            }
         });
     };
 

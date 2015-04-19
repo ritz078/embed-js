@@ -4,3 +4,4 @@ bower_components/
 .sass-cache/
 .tmp/
 local-test/
+demo/index2.html
