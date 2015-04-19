@@ -227,6 +227,7 @@ $('#block').embedBlock({
     gdevAuthKey : 'xxxxxxxx'
 });
 </script>
+```
 
 All other options of the block are same as given above **except** the **embedSelector** option.
 
