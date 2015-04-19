@@ -15,6 +15,7 @@ Contents
 * [HTML Structure](#html-structure)
 * [Usage Example](#usage-example)
 * [Advanced Options](#advanced-options)
+* [Load plugin in a block](#loading-plugin-in-a-block)
 * [Examples](http://rkritesh.in/embed.js)
 
 Features
@@ -214,6 +215,21 @@ $('#element').embedJS({
 ```
 If you specify either one of **videoWidth** or **videoHeight** , the other option will be automatically set in the aspected ratio.
 
+Loading plugin in a block
+--------------------------
+```html
+<div id="block">
+    Some content
+</div>
+
+<script>
+$('#block').embedBlock({
+    gdevAuthKey : 'xxxxxxxx'
+});
+</script>
+
+All other options of the block are same as given above **except** the **embedSelector** option.
+
 Examples
 --------
 
@@ -225,7 +241,8 @@ Version 2.0.4
 * Vine embed is now responsive
 * Support for xls,xlsx,doc,docx,ppt added
 * ustream support added.
-* streetview and view support added for maps
+* streetview and view support added for maps.
+* function to load the plugin in a single block added.
 
 Version 2.0.3
 -------------
