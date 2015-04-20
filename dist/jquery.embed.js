@@ -623,7 +623,7 @@
 
     var imageProcess = {
         embed: function (rawStr, str) {
-            var imgRegex = /((?:https?):\/\/\S*\.(?:gif|jpg|jpeg|tiff|png|svg|webp))/gi;
+            var imgRegex = /((?:https?):\/\/\S[^<|\n|\r]*\.(?:gif|jpg|jpeg|tiff|png|svg|webp))/gi;
             var matches=rawStr.match(imgRegex)?rawStr.match(imgRegex).getUnique():null;
             if (matches) {
                 var i=0;
