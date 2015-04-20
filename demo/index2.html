@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+        <link rel="stylesheet" href="../src/jquery.embed.css"/></link>
+</head>
+<body>
+<button type="button" id="prevClick">preview</button>
+<br>
+1e: click preview button (update works)<br>
+2e: type something in the box<br>
+3e: click preview button again (there is no update..)<br>
+<textarea id="comment" rows="8" cols="100">
+@(IIT Roorkee)
+same:
+http://static1.ad.nl/static/photo/2015/10/14/5/20150419232616/media_l_2922875.jpg
+http://static1.ad.nl/static/photo/2015/10/14/5/20150419232616/media_l_2922875.jpg
+new:
+http://static2.ad.nl/static/photo/2015/16/13/2/20150419223816/media_l_2923622.jpg
+</textarea>
+<br>
+<div id="preview" style="border:1px;"></div>
+</body>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+<script src="//platform.twitter.com/widgets.js"></script>
+<script src="../src/jquery.embed.js"></script>
+<script>
+    $('#prevClick').click(function(){
+
+        $("#preview").empty();
+
+        // convert linebreaks
+        var div = $("#preview")[0];
+        var lines = $("#comment").val().replace(/\r\n/g, "\n ").split("\n");
+        for (var i = 0, len = lines.length; i < len; ++i) {
+            if (i) div.appendChild(document.createElement("br"));
+            div.appendChild(document.createTextNode(lines[i]));
+        }
+        console.log($('#preview').html());
+        $('#preview').embedBlock({
+            //embedSelector     :'p',
+            link              : true,
+            linkTarget        : '_blank',
+            linkExclude       : ['jpg','pdf','png','tif','tiff','gif','bmp','jpeg'],
+            imageEmbed        : true,
+            audioEmbed        : true,
+            videoEmbed        : false,
+            basicVideoEmbed   : false,
+            videoWidth        : 500,
+            //videoHeight       : 390,
+            gdevAuthKey       : 'AIzaSyCqFouT8h5DKAbxlrTZmjXEmNBjC69f0ts',
+            locationEmbed       :true,
+            mapOptions        : {
+                mode: 'place' //'place' or 'streetview' or 'view'
+            },
+            highlightCode     : true,
+            tweetsEmbed       : true,
+            tweetOptions:{
+                maxWidth   : 550,
+                hideMedia  : false,
+                hideThread : false,
+                align      : 'none',
+                lang       : 'nl'
+            },
+            //excludeEmbed     :['twitchTv'],
+            //excludeEmbed:'all',
+            codeEmbedHeight  :300,
+            excludeEmbed:['spotify'],
+            soundCloudOptions: {
+                height      : 160,
+                themeColor  : 'f50000',    //Hex Code of the player theme color
+                autoPlay    : false,
+                hideRelated : false,
+                showComments: true,
+                showUser    : true,        //Show or hide the uploader name, useful e.g. in tiny players to save space)
+                showReposts : false,
+                visual      : false,       //Show/hide the big preview image
+                download    : false        //Show/Hide download buttons
+            },
+            vineOptions:{
+                maxWidth: 500,
+                type:'postcard',         //'postcard' or 'simple' embedding
+                responsive: true
+            },
+            docEmbed          : true,
+            docOptions        : {
+                viewText    : '<i class="fa fa-eye"></i> Bekijken',
+                downloadText: '<i class="fa fa-download"></i> Download'
+            },
+            beforeDocPreview  : function(){
+            },
+            afterDocPreview   : function(){
+            },
+            onVideoShow:function(){
+            },
+            onVideoLoad:function(){
+            },
+            beforeEmbedJSApply: function () {
+            },
+            afterEmbedJSLApply: function () {
+            },
+            onTwitterShow     : function () {
+            }
+        });
+
+    });
+</script>
+</html>

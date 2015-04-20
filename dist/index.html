@@ -10,7 +10,7 @@
   <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css"/>
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-  <link rel="stylesheet" href="styles/b7778a50.vendor.css">
+  <link rel="stylesheet" href="styles/14ebed67.vendor.css">
   <link rel="stylesheet" href="styles/90431d78.main.css">
   <style>
     .element > div {
@@ -102,7 +102,7 @@
 
 <div class="content">
   <div class="card about">
-    <h5 class="title">embed.js</h5>
+    <h5 class="title">embed.js v2.0.4</h5>
 
     <div style="display: table;margin: 10px auto;">
       <iframe src="https://ghbtns.com/github-btn.html?user=ritz078&repo=embed.js&type=star&count=true&size=large"
@@ -130,14 +130,14 @@
       <li><p><a href="#youtube">Youtube</a> and <a href="#vimeo">Vimeo</a> video embedding with video details fetched
         from the api.</p></li>
       <li><p>HTML5 player supported <a href="#media">media</a> embedding (mp3,mp4,ogg,.webm,.ogv)</p></li>
-      <li><p><a href="#pdf">PDF</a> viewing with preview and then the actual pdf in a frame.</p></li>
+      <li><p>PDF,DOC,DOCX,XLS,XLSX,PPT viewing with preview and then the actual documents in a frame.</li>
       <li><p>Inline <a href="#codehighlight">Code Syntax highlighting</a> (uses highlight.js)</p></li>
       <li><p><a href="#twitter">Twitter</a> tweet embedding supported</p></li>
       <li><p>Codepen, jsbin,ideone, jsfiddle and plunker embed supported</li>
       <li><p><a href="#soundcloud">soundcloud</a> and <a href="#spotify">spotify</a> support</p></li>
       <li><p><a href="#twitchtv">Twitch tv</a>, <a href="#dotsub">dotSub</a>, <a href="#dailymotion">dailymotion</a>, <a
-        href="#vine">vine</a>,<a href="#ted">TED</a> and <a href="#liveleak">liveLeak</a> support.</p></li>
-      <li><p><a href="#maplocation">Google map location</a> embed</p></li>
+        href="#vine">vine</a>,<a href="#ted">TED</a>, ustream and <a href="#liveleak">liveLeak</a> support.</p></li>
+      <li><p><a href="#maplocation">Google map location</a> embed (streetview, view and place)</p></li>
     </ol>
   </div>
   <div class="card" id="documentation">
@@ -145,87 +145,98 @@
 <pre>
 <code class="javascript">
 $('#element').embedJS({
+  //The selector(id/class/tagName) inside #element that needs to be processed
+  embedSelector   :'div',
   //Instructs the library whether or not to embed urls
-  link: true,
+  link              : true,
   //same as the target attribute in html anchor tag . supports all html supported target values.
-  linkTarget: '_blank',
+  linkTarget        : '_blank',
   //Array of extensions to be excluded from converting into links
-  linkExclude: ['jpg', 'pdf'],
-  //set false to show a preview of pdf links
-  pdfEmbed: true,
+  linkExclude       : ['jpg','pdf'],
+  //set false to show a preview of document(pdf,xls,xlsx,doc,docx,ppt) links
+  docEmbed          : true,
+  docOptions        : {
+      viewText    : '&lt;i class="fa fa-eye">&lt;/i> View PDF',
+      downloadText: '&lt;i class="fa fa-download">&lt;/i> DOWNLOAD'
+  },
   //set false to embed images
-  imageEmbed: true,
+  imageEmbed        : true,
   //set false to embed audio
-  audioEmbed: false,
+  audioEmbed        : false,
   //set false to show a preview of youtube/vimeo videos with details
-  videoEmbed: true,
+  videoEmbed        : true,
   //set false to show basic video files like mp4 etc. (supported by html5 player)
-  basicVideoEmbed: true,
+  basicVideoEmbed   : true,
   //width of the video frame (in pixels)
-  videoWidth: 640,
+  videoWidth        : 640,
   //height of the video frame (in pixels)
-  videoHeight: 390,
+  videoHeight       : 390,
   //( Mandatory ) The authorization key obtained from google's developer console for
   //using youtube data api and map embed api
-  gdevAuthKey: 'xxxxxxx',
+  gdevAuthKey         : 'xxxxxxx',
   //Set google map location embed
   // Use @(place-name) to use this feature . Eg: @(Sydney)
-  locationEmbed: true,
+  locationEmbed       :true,
+  mapOptions        : {
+      //'place' or 'streetview' or 'view'
+      mode: 'place'
+  },
   //Instructs the library whether or not to highlight code syntax.
-  highlightCode: true,
+  highlightCode     : true,
   //Instructs the library whether or not embed the tweets
-  tweetsEmbed: true,
-  tweetOptions: {
-      //The maximum width of a rendered Tweet in whole pixels. Must be between 220 and 550 inclusive.
-      maxWidth: 550,
-      //When set to true or 1 links in a Tweet are not expanded to photo, video, or link previews.
-      hideMedia: false,
-      //When set to true or 1 a collapsed version of the previous Tweet in a conversation thread
-      //will not be displayed when the requested Tweet is in reply to another Tweet.
-      hideThread: false,
-      //Specifies whether the embedded Tweet should be floated left, right, or center in
-      //the page relative to the parent element.Valid values are left, right, center, and none.
-      //Defaults to none, meaning no alignment styles are specified for the Tweet.
-      align: 'none',
-      //Request returned HTML and a rendered Tweet in the specified.
-      //Supported Languages listed here (https://dev.twitter.com/web/overview/languages)
-      lang: 'en'
+  tweetsEmbed     : true,
+  tweetOptions:{
+  //The maximum width of a rendered Tweet in whole pixels. Must be between 220 and 550 inclusive.
+  maxWidth   : 550,
+  //When set to true or 1 links in a Tweet are not expanded to photo, video, or link previews.
+  hideMedia  : false,
+  //When set to true or 1 a collapsed version of the previous Tweet in a conversation thread
+  //will not be displayed when the requested Tweet is in reply to another Tweet.
+  hideThread : false,
+  //Specifies whether the embedded Tweet should be floated left, right, or center in
+  //the page relative to the parent element.Valid values are left, right, center, and none.
+  //Defaults to none, meaning no alignment styles are specified for the Tweet.
+  align      : 'none',
+  //Request returned HTML and a rendered Tweet in the specified.
+  //Supported Languages listed here (https://dev.twitter.com/web/overview/languages)
+  lang       : 'en'
   },
   //An array of services excluded from embedding...
-  //Options : codePen/jdFiddle/jsBin/ideone/plunker/soundcloud/twitchTv/dotSub/dailymotion/vine/ted/liveleak/spotify
+  //Options : codePen/jdFiddle/jsBin/ideone/plunker/soundcloud/twitchTv/dotSub/dailymotion/vine/ted/liveleak/spotify/ustream
   //Can exclude all options by setting it to 'all'
-  excludeEmbed: ['twitchTv'],
+  excludeEmbed     :['twitchTv'],
   //Height of jsfiddle/codepen/jsbin/ideone/plunker
-  codeEmbedHeight: 300,
+  codeEmbedHeight  :300,
   soundCloudOptions: {
-      height: 160,
-      themeColor: 'f50000', //Hex Code of the player theme color
-      autoPlay: false,
-      hideRelated: false,
+      height      : 160,
+      themeColor  : 'f50000',    //Hex Code of the player theme color
+      autoPlay    : false,
+      hideRelated : false,
       showComments: true,
-      showUser: true, //Show or hide the uploader name, useful e.g. in tiny players to save space)
-      showReposts: false,
-      visual: false, //Show/hide the big preview image
-      download: false //Show/Hide download buttons
+      showUser    : true,        //Show or hide the uploader name, useful e.g. in tiny players to save space)
+      showReposts : false,
+      visual      : false,       //Show/hide the big preview image
+      download    : false        //Show/Hide download buttons
   },
-  vineOptions: {
-      width: 500,
-      type: 'postcard' //'postcard' or 'simple' embedding
+  vineOptions:{
+      maxWidth:null,
+      type:'postcard',         //'postcard' or 'simple' embedding
+      responsive:false         // whether to make the vine embed responsive
   },
-  //callback before pdf preview
-  beforePdfPreview: function() {},
-  //callback after pdf preview
-  afterPdfPreview: function() {},
+  //callback before doc preview
+  beforeDocPreview  : function(){},
+  //callback after doc preview
+  afterDocPreview   : function(){},
   // callback on video frame view
-  onVideoShow: function() {},
+  onVideoShow:function(){},
   //callback on video load (youtube/vimeo)
-  onVideoLoad: function() {}
+  onVideoLoad:function(){}
   //function to execute before embedding services
-  beforeEmbedJSApply: function() {},
+  beforeEmbedJSApply: function () {},
   //callback after embedJS is applied
-  afterEmbedJSLApply: function() {},
+  afterEmbedJSLApply: function () {},
   //callback after the twitter widgets of a BLOCK are loaded.
-  onTwitterShow: function() {}
+  onTwitterShow     : function () {}
 });
 </code>
 </pre>
@@ -635,7 +646,7 @@ $('#element').embedJS({
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
 <script src="//platform.twitter.com/widgets.js"></script>
-<script src="scripts/42acdc68.vendor.js"></script>
+<script src="scripts/cd24a6a2.vendor.js"></script>
 
 <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
 <script>
