@@ -200,7 +200,7 @@ code.has-numbering {
     width : 100%;
 }
 
-.ejs-video:hover, .ejs-image:hover {
+.ejs-video:hover {
     box-shadow : 0px 2px 2px 0 rgba(0, 0, 0, 0.26);
 }
 
@@ -282,21 +282,20 @@ code.has-numbering {
 }
 
 .ejs-image {
-    width         : 100%;
+    max-width     : 100%;
     border-radius : 2px;
     border        : 1px solid #E4E4E4;
     overflow      : hidden;
-    cursor        : pointer;
     box-shadow    : 0px 1px 1px 0 rgba(0, 0, 0, 0.26);
     margin        : 10px 0;
     padding       : 5px;
     box-sizing    : border-box;
+    display       : inline-block;
 }
 
-.ejs-image img, .ejs-image-long img {
-    width      : 100%;
-    display    : block;
-    min-height : 250px;
+.ejs-image img {
+    max-width : 100%;
+    display   : block;
 }
 
 .ejs-image-wrapper {
@@ -308,10 +307,6 @@ code.has-numbering {
     background-position : center;
     height              : 100%;
     overflow            : hidden;
-}
-
-.emoticons-image-wrapper, .emoticons-image {
-    width : 100%;
 }
 
 .emoticons-image {
