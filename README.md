@@ -1,11 +1,13 @@
 embed.js
 ============
 
-A jQuery plugin to embed emoticons, media and services.
+A jQuery plugin to embed emojis, media, maps, tweets, code and services.
 
 The demo examples are given [here](http://rkritesh.in/embed.js)
 
 **The angular version of this plugin is [ngEmbed](http://github.com/ritz078/ngEmbed)**
+
+![image](demo/screen.jpg)
 
 Contents
 --------
@@ -25,6 +27,7 @@ Features
 * Finds links in text input and turns them into html links (shortened urls like goo.gl,ow.ly,bit.ly etc supported)
 * Youtube and Vimeo video embedding with video details fetched from the api.
 * HTML5 player supported media embedding (mp3,mp4,ogg)
+* Flickr support
 * PDF,DOC,DOCX,XLS,XLSX,PPT viewing with preview and then the actual documents in a frame.
 * Inline Code Syntax highlighting (uses highlight.js)
 * Twitter tweet embedding supported
@@ -235,6 +238,11 @@ Examples
 --------
 
 Visit [http://rkritesh.in/embed.js](http://rkritesh.in/embed.js)
+
+Version 2.0.5
+-------------
+* flickr support added
+* bugs-fixed : #28 , #29 
 
 Version 2.0.4
 -------------
