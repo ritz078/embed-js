@@ -5,6 +5,7 @@
     "jquery": "~1.11.1",
     "materialize": "~0.95.3",
     "embed-js": "~2.0.0",
-    "nanoscroller": "~0.8.5"
+    "nanoscroller": "~0.8.5",
+    "social-share-js": "~1.0.1"
   }
 }
