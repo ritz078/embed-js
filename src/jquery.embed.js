@@ -616,15 +616,31 @@
     var imageProcess = {
         embed: function (rawStr, str) {
             var imgRegex = /((?:https?):\/\/\S[^<|\n|\r]*\.(?:gif|jpg|jpeg|tiff|png|svg|webp))/gi;
-            var matches=rawStr.match(imgRegex)?rawStr.match(imgRegex).getUnique():null;
+            var matches = rawStr.match(imgRegex) ? rawStr.match(imgRegex).getUnique() : null;
             if (matches) {
-                var i=0;
-                while(i<matches.length){
+                var i = 0;
+                while (i < matches.length) {
                     var template = '<div class="ejs-image"><div class="ne-image-wrapper"><img src="' + matches[i] + '"/></div></div>';
                     str = str + template;
                     i++;
                 }
 
+            }
+            return str;
+        },
+
+        flickrEmbed: function (rawStr, str,opts) {
+            var flickrRegex = /flickr.com\/[a-z]+\/[a-zA-Z\d]+\/[\d]+/gi;
+            var matches = rawStr.match(flickrRegex) ? rawStr.match(flickrRegex).getUnique() : null;
+            var dimensions=videoProcess.dimensions(opts);
+            if (matches) {
+                var i = 0;
+                while (i < matches.length) {
+
+                    var template = '<div class="ejs-embed"><div class="ne-image-wrapper"><iframe src="' + matches[i].toUrl() + '/player/" width="'+dimensions.width+'" height="'+dimensions.height+'"></iframe></div></div>';
+                    str = str + template;
+                    i++;
+                }
             }
             return str;
         }
@@ -844,6 +860,7 @@
             input = (settings.highlightCode) ? codeProcess.highlight(input) : input;
             input = (settings.basicVideoEmbed) ? videoProcess.embedBasic(rawInput, input) : input;
             input = (settings.imageEmbed) ? imageProcess.embed(rawInput, input) : input;
+            input = (ifEmbed('flickr')) ? imageProcess.flickrEmbed(rawInput, input,settings) : input;
             input = (ifEmbed('codePen')) ? codeEmbedProcess.codepenEmbed(rawInput, input, settings) : input;
             input = (ifEmbed('jsFiddle')) ? codeEmbedProcess.jsfiddleEmbed(rawInput, input, settings) : input;
             input = (ifEmbed('jsbin')) ? codeEmbedProcess.jsbinEmbed(rawInput, input, settings) : input;
@@ -969,7 +986,7 @@
         options.block = true;
 
         return this.each(function () {
-                $.data(this, 'plugin_' + pluginBlockName, new Plugin(this, options));
+            $.data(this, 'plugin_' + pluginBlockName, new Plugin(this, options));
         });
     };
 
