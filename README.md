@@ -9,7 +9,7 @@ A jQuery plugin that analyses the text and then
  * embeds the video or audio , urls to which are present in text form.
  * embeds the tweets
  * embeds the services like codepen, soundcloud ,youtube, vimeo and [many more](#features).
- * shows the mentioned location (in form of **@(location)** on google map.
+ * shows the mentioned location (written in form of **@(location)**) on google map.
  
 All the features are listed [here](#features)
 The demo examples are given [here](http://rkritesh.in/embed.js)
