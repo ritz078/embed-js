@@ -1,16 +1,23 @@
 embed.js
 ============
 
-A jQuery plugin to embed emojis, media, maps, tweets, code and services.
-
+A jQuery plugin that analyses the text and then
+ * converts emoji codes into emojis.
+ * converts inline code (written in Github flavoured markdown) into properly formatted code.
+ * converts urls into html anchor tags.
+ * previews the [supported](#features) documents in the browser.
+ * embeds the video or audio , urls to which are present in text form.
+ * embeds the tweets
+ * embeds the services like codepen, soundcloud ,youtube, vimeo and [many more](#features).
+ * shows the mentioned location (in form of **@(location)** on google map.
+ 
+All the features are listed [here](#features)
 The demo examples are given [here](http://rkritesh.in/embed.js)
-
 **The angular version of this plugin is [ngEmbed](http://github.com/ritz078/ngEmbed)**
-
-![image](demo/screen.jpg)
 
 Contents
 --------
+* [Screenshot](#screenshot)
 * [Features](#features)
 * [Dependencies](#dependencies)
 * [Getting Started](#getting-started)
@@ -19,6 +26,10 @@ Contents
 * [Advanced Options](#advanced-options)
 * [Load plugin in a block](#loading-plugin-in-a-block)
 * [Examples](http://rkritesh.in/embed.js)
+
+Screenshot
+----------
+![image](demo/screen.jpg)
 
 Features
 --------
