@@ -734,7 +734,7 @@
             if (matches) {
                 var i = 0;
                 while (i < matches.length) {
-                    str = str + '<div class="ejs-embed ejs-codepen"><iframe scrolling="no" height="' + opts.codeEmbedHeight + '" src="' + matches[i].replace(/\/pen\//, '/embed/') + '/?height=' + opts.codepenHeight + '" frameborder="no" allowtransparency="true" allowfullscreen="true"></iframe></div>';
+                    str = str + '<div class="ejs-embed ejs-codepen"><iframe scrolling="no" height="' + opts.codeEmbedHeight + '" src="' + matches[i].replace(/\/pen\//, '/embed/') + '/?height=' + opts.codeEmbedHeight + '" frameborder="no" allowtransparency="true" allowfullscreen="true"></iframe></div>';
                     i++;
                 }
             }
