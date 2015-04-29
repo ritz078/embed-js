@@ -11,8 +11,10 @@ A jQuery plugin that analyses the text and then
  * embeds the services like codepen, soundcloud ,youtube, vimeo and [many more](#features).
  * shows the mentioned location (written in form of **@(location)**) on google map.
  
-All the features are listed [here](#features)
-The demo examples are given [here](http://rkritesh.in/embed.js)
+ [Demo](http://codepen.io/ritz078/full/WvvNGe/)
+ 
+All the features are listed [here](#features).
+The demo examples are given [here](http://rkritesh.in/embed.js).
 **The angular version of this plugin is [ngEmbed](http://github.com/ritz078/ngEmbed)**
 
 Contents
@@ -188,7 +190,7 @@ $('#element').embedJS({
             lang       : 'en'
       },
       //An array of services excluded from embedding...
-      //Options : codePen/jdFiddle/jsBin/ideone/plunker/soundcloud/twitchTv/dotSub/dailymotion/vine/ted/liveleak/spotify/ustream
+      //Options : codePen/jdFiddle/jsBin/ideone/plunker/soundcloud/twitchTv/dotSub/dailymotion/vine/ted/liveleak/spotify/ustream/flickr
       //Can exclude all options by setting it to 'all'
       excludeEmbed     :['twitchTv'],
       //Height of jsfiddle/codepen/jsbin/ideone/plunker
@@ -244,6 +246,8 @@ $('#block').embedBlock({
 ```
 
 All other options of the block are same as given above **except** the **embedSelector** option.
+
+[Demo Example](http://codepen.io/ritz078/full/WvvNGe/)
 
 Examples
 --------
