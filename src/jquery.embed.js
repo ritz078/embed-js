@@ -499,7 +499,7 @@
 
     var docProcess = {
         embed: function (rawStr, str, opts) {
-            var p = /((?:https?):\/\/\S[^<|\n|\r]*\.(?:pdf|doc|docx|xls|xlsx|ppt|pptx))/gi;
+            var p = /((?:https?):\/\/\S*\.(?:pdf|doc|docx|xls|xlsx|ppt|pptx))/gi;
             var matches = rawStr.match(p) ? rawStr.match(p).getUnique() : null;
             if (matches) {
                 var i = 0;
