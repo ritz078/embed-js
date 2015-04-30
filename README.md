@@ -254,6 +254,19 @@ Examples
 
 Visit [http://rkritesh.in/embed.js](http://rkritesh.in/embed.js)
 
+Browserify
+----------
+This library is [UMD](https://github.com/umdjs/umd) compatible, so you can use it in this way:
+
+```javascript
+var jquery = require('jquery');
+require('ember-js');
+
+jquery('#element').embedJS({
+    gdevAuthKey : 'xxxxxxxx'
+});
+```
+
 Version 2.0.5
 -------------
 * flickr support added
