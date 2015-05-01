@@ -5,3 +5,4 @@ bower_components/
 .tmp/
 local-test/
 demo/index2.html
+npm-debug.log
