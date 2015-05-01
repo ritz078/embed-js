@@ -13,9 +13,7 @@
   "description": "A jQuery plugin to embed emoticons, media, maps and services.",
   "main": [
     "./src/jquery.embed.js",
-    "./src/jquery.embed.css",
-    "./fonts/*",
-    "./images/*"
+    "./src/jquery.embed.css"
   ],
   "keywords": [
     "jquery",

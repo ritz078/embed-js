@@ -11,7 +11,10 @@
     "emoticon",
     "jquery-embed"
   ],
-  "main": "./src/jquery.embed.js",
+  "main": [
+    "./src/jquery.embed.js",
+    "./src/jquery.embed.css"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/ritz078/embed-js.git"
@@ -24,7 +27,7 @@
     "email": "rkritesh078@gmail.com",
     "url": "https://github.com/ritz078"
   },
-  "homepage": "",
+  "homepage": "http://rkritesh.in/embed.js",
   "contributors": [],
   "license": "MIT",
   "devDependencies": {

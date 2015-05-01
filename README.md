@@ -1,17 +1,11 @@
 embed.js
 ============
 
-A jQuery plugin that analyses the text and then
- * converts emoji codes into emojis.
- * converts inline code (written in Github flavoured markdown) into properly formatted code.
- * converts urls into html anchor tags.
- * previews the [supported](#features) documents in the browser.
- * embeds the video or audio , urls to which are present in text form.
- * embeds the tweets
- * embeds the services like codepen, soundcloud ,youtube, vimeo and [many more](#features).
- * shows the mentioned location (written in form of **@(location)**) on google map.
+>A jQuery plugin that analyses the string and automatically embeds the supported emojis, media, maps, tweets, code and services.
+
+![screen](demo/demo.gif)
  
- [Demo](http://codepen.io/ritz078/full/WvvNGe/)
+[Codepen Example](http://codepen.io/ritz078/full/WvvNGe/)
  
 All the features are listed [here](#features).
 The demo examples are given [here](http://rkritesh.in/embed.js).
@@ -27,6 +21,7 @@ Contents
 * [Usage Example](#usage-example)
 * [Advanced Options](#advanced-options)
 * [Load plugin in a block](#loading-plugin-in-a-block)
+* [Use with browserify](#browserify)
 * [Examples](http://rkritesh.in/embed.js)
 
 Screenshot
@@ -247,29 +242,31 @@ $('#block').embedBlock({
 
 All other options of the block are same as given above **except** the **embedSelector** option.
 
-[Demo Example](http://codepen.io/ritz078/full/WvvNGe/)
-
-Examples
---------
-Visit [http://rkritesh.in/embed.js](http://rkritesh.in/embed.js)
-
 Browserify
 ----------
 This library is [UMD](https://github.com/umdjs/umd) compatible, so you can use it in this way:
 
 ```javascript
 var jquery = require('jquery');
-require('ember-js');
+require('embed-js');
 
 jquery('#element').embedJS({
     gdevAuthKey : 'xxxxxxxx'
 });
 ```
 
+[Demo Example](http://codepen.io/ritz078/full/WvvNGe/)
+
+Examples
+--------
+Visit [http://rkritesh.in/embed.js](http://rkritesh.in/embed.js)
+
+
 Version 2.0.5
 -------------
 * flickr support added
 * bugs-fixed : #28 , #29
+* UMD support added
 
 Version 2.0.4
 -------------
