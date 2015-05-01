@@ -28,7 +28,11 @@
     "url": "https://github.com/ritz078"
   },
   "homepage": "http://rkritesh.in/embed.js",
-  "contributors": ["Jesús Pérez <jesusprubio@gmail.com> (http://www.jesusprubio.name/)"],
+  "contributors": [{
+    "name":"Jesús Pérez",
+    "email":"jesusprubio@gmail.com",
+    "url":"https://github.com/jesusprubio"
+  }],
   "license": "MIT",
   "devDependencies": {
     "grunt": "~0.4.5",
