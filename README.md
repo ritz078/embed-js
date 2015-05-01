@@ -23,6 +23,7 @@ Contents
 * [Load plugin in a block](#loading-plugin-in-a-block)
 * [Use with browserify](#browserify)
 * [Examples](http://rkritesh.in/embed.js)
+* [Contributing](#contributing)
 
 Features
 --------
@@ -291,7 +292,12 @@ Version 2.0.2
 Contributing
 ------------
 
-View [this](CONTRIBUTING.md)
+1. Fork and clone the repo.
+1. Run` npm install` to install all build dependencies(including Grunt).
+1. Create a **new branch**, please DON'T work in your `master` branch directly.
+1. Fix stuff.
+1. Update the documentation to reflect any changes.
+1. Push to your fork and submit a pull request.
 
 Contributors
 ------------
