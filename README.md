@@ -13,7 +13,6 @@ The demo examples are given [here](http://rkritesh.in/embed.js).
 
 Contents
 --------
-* [Screenshot](#screenshot)
 * [Features](#features)
 * [Dependencies](#dependencies)
 * [Getting Started](#getting-started)
@@ -23,10 +22,6 @@ Contents
 * [Load plugin in a block](#loading-plugin-in-a-block)
 * [Use with browserify](#browserify)
 * [Examples](http://rkritesh.in/embed.js)
-
-Screenshot
-----------
-![image](demo/screen.jpg)
 
 Features
 --------
@@ -295,6 +290,10 @@ Contributing
 ------------
 
 View [this](CONTRIBUTING.md)
+
+Contributors
+------------
+[Jesús Pérez](https://github.com/jesusprubio)
 
 License
 -------

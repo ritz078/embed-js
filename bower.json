@@ -1,6 +1,6 @@
 {
   "name": "embed-js",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "homepage": "http://rkritesh.in/embed-js",
   "ignore": [
     ".jshintrc",
@@ -10,7 +10,7 @@
     "Ritesh Kumar <rkritesh078@gmail.com>",
     "Jagannadh <shanmuk.mir@gmail.com>"
   ],
-  "description": "A jQuery plugin to embed emoticons, media, maps and services.",
+  "description": "A jQuery plugin that analyses the string and automatically embeds the supported emojis, media, maps, tweets, code and services.",
   "main": [
     "./src/jquery.embed.js",
     "./src/jquery.embed.css"
