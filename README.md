@@ -251,13 +251,25 @@ All other options of the block are same as given above **except** the **embedSel
 
 Examples
 --------
-
 Visit [http://rkritesh.in/embed.js](http://rkritesh.in/embed.js)
+
+Browserify
+----------
+This library is [UMD](https://github.com/umdjs/umd) compatible, so you can use it in this way:
+
+```javascript
+var jquery = require('jquery');
+require('ember-js');
+
+jquery('#element').embedJS({
+    gdevAuthKey : 'xxxxxxxx'
+});
+```
 
 Version 2.0.5
 -------------
 * flickr support added
-* bugs-fixed : #28 , #29 
+* bugs-fixed : #28 , #29
 
 Version 2.0.4
 -------------
