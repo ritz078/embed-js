@@ -235,6 +235,8 @@ $('#block').embedBlock({
 </script>
 ```
 
+[Demo Example](http://codepen.io/ritz078/full/WvvNGe/)
+
 All other options of the block are same as given above **except** the **embedSelector** option.
 
 Browserify
@@ -250,7 +252,6 @@ jquery('#element').embedJS({
 });
 ```
 
-[Demo Example](http://codepen.io/ritz078/full/WvvNGe/)
 
 Examples
 --------
