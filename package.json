@@ -11,12 +11,7 @@
     "emoticon",
     "jquery-embed"
   ],
-  "main": [
-    "./src/jquery.embed.js",
-    "./src/jquery.embed.css",
-    "./fonts/*",
-    "./images/*"
-  ],
+  "main": "./src/jquery.embed.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/ritz078/embed-js.git"

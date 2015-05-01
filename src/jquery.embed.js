@@ -19,7 +19,18 @@
 //    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //SOFTWARE.
 
-(function ($, window, document, undefined) {
+(function (factory) {
+    if (typeof define === 'function' && define.amd) {
+        // AMD. Register as an anonymous module.
+        define(['jquery'], factory, window, document);
+    } else if (typeof exports === 'object') {
+        // Node/CommonJS
+        module.exports = factory(require('jquery'), window, document);
+    } else {
+        // Browser globals
+        factory(jQuery, window, document);
+    }
+}(function ($, window, document, undefined) {
 
     'use strict';
 
@@ -990,4 +1001,4 @@
         });
     };
 
-})(jQuery, window, document);
+}));
