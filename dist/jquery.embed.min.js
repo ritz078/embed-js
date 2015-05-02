@@ -1,7 +1,7 @@
 /*
- *  embed-js - v2.0.4
- *  A jQuery plugin to embed emoticons, media, maps and services.
- *  
+ *  embed-js - v2.0.5
+ *  A jQuery plugin that analyses the string and automatically embeds the supported emojis, media, maps, tweets, code and services.
+ *  http://rkritesh.in/embed.js
  *
  *  Made by Ritesh Kumar
  *  Under MIT License
