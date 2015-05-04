@@ -118,6 +118,8 @@ $('#element').embedJS({
 ```
 This is the minimal setup in which all features will work in their default configuration.If you want to disable any feature or change any default setting see below.
 
+**Note** : The steps of obtaining the **gdevAuthKey** are mentioned [here](https://developers.google.com/api-client-library/python/guide/aaa_apikeys)
+
 Advanced Options
 ----------------
 Only **gdevAuth** option is mandatory. Other options provide you additional control on the plugin.
