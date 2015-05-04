@@ -399,10 +399,11 @@
         },
 
         embedBasic: function (rawStr, str) {
-            var basicVideoRegex = /((?:https?):\/\/\S*\.(?:ogv|webm|mp4))/gi;
-
-            if (rawStr.match(basicVideoRegex)) {
-                var template = '<div class="ejs-video"><div class="ejs-video-player"><div class="player"><video src="' + RegExp.$1 + '" controls></video></div></div></div>';
+            var basicVideoRegex = /(?:https?):\/\/\S*\.(?:ogv|webm|mp4)/gi;
+            var matches;
+            while ((matches = basicVideoRegex.exec(rawStr)) !== null) {
+                console.log(matches);
+                var template = '<div class="ejs-video"><div class="ejs-video-player"><div class="player"><video src="' + matches[0] + '" controls></video></div></div></div>';
                 str = str + template;
             }
             return str;
@@ -410,42 +411,36 @@
 
         twitchtvEmbed: function (rawStr, str, opts) {
             var twitchRegex = /www.twitch.tv\/[a-zA_Z0-9_]+/gi;
-            var matches = rawStr.match(twitchRegex) ? rawStr.match(twitchRegex).getUnique() : null;
             var videoDimensions = this.dimensions(opts);
-            if (matches) {
-                var i = 0;
-                while (i < matches.length) {
-                    str = str + '<div class="ejs-video"><object bgcolor="#000000" data="//www-cdn.jtvnw.net/swflibs/TwitchPlayer.swf" height="' + videoDimensions.height + '" id="clip_embed_player_flash" type="application/x-shockwave-flash" width="' + videoDimensions.width + '">' + '<param name="movie" value="http://www-cdn.jtvnw.net/swflibs/TwitchPlayer.swf" />' + '<param name="allowScriptAccess" value="always" />' + '<param name="allowNetworking" value="all" />' + '<param name="allowFullScreen" value="true" />' + '<param name="flashvars" value="channel=' + matches[i].split('/')[1] + '&auto_play=false" />' + '</object></div>';
-                    i++;
-                }
+            var matches;
+            while ((matches = twitchRegex.exec(rawStr)) !== null) {
+                console.log(matches);
+                var template = '<div class="ejs-video"><object bgcolor="#000000" data="//www-cdn.jtvnw.net/swflibs/TwitchPlayer.swf" height="' + videoDimensions.height + '" id="clip_embed_player_flash" type="application/x-shockwave-flash" width="' + videoDimensions.width + '">' + '<param name="movie" value="http://www-cdn.jtvnw.net/swflibs/TwitchPlayer.swf" />' + '<param name="allowScriptAccess" value="always" />' + '<param name="allowNetworking" value="all" />' + '<param name="allowFullScreen" value="true" />' + '<param name="flashvars" value="channel=' + matches[0].split('/')[1] + '&auto_play=false" />' + '</object></div>';
+                str = str + template;
             }
             return str;
         },
 
         dotsubEmbed: function (rawStr, str, opts) {
             var dotsubRegex = /dotsub.com\/view\/[a-zA-Z0-9-]+/gi;
-            var matches = rawStr.match(dotsubRegex) ? rawStr.match(dotsubRegex).getUnique() : null;
             var videoDimensions = this.dimensions(opts);
-            if (matches) {
-                var i = 0;
-                while (i < matches.length) {
-                    str = str + '<div class="ejs-video"><iframe src="https://dotsub.com/media/' + matches[i].split('/')[2] + '/embed/" width="' + videoDimensions.width + '" height="' + videoDimensions.height + '"></iframe></div>';
-                    i++;
-                }
+            var matches;
+            while ((matches = dotsubRegex.exec(rawStr)) !== null) {
+                console.log(matches);
+                var template = '<div class="ejs-video"><iframe src="https://dotsub.com/media/' + matches[0].split('/')[2] + '/embed/" width="' + videoDimensions.width + '" height="' + videoDimensions.height + '"></iframe></div>';
+                str = str + template;
             }
             return str;
         },
 
         dailymotionEmbed: function (rawStr, str, opts) {
             var dmRegex = /dailymotion.com\/video\/[a-zA-Z0-9-_]+/gi;
-            var matches = rawStr.match(dmRegex) ? rawStr.match(dmRegex).getUnique() : null;
             var videoDimensions = this.dimensions(opts);
-            if (matches) {
-                var i = 0;
-                while (i < matches.length) {
-                    str = str + '<div class="ejs-video"><iframe src="http://www.dailymotion.com/embed/video/' + matches[i].split('/')[2] + '" height="' + videoDimensions.height + '" width="' + videoDimensions.width + '"></iframe></div>';
-                    i++;
-                }
+            var matches;
+            while ((matches = dmRegex.exec(rawStr)) !== null) {
+                console.log(matches);
+                var template = '<div class="ejs-video"><iframe src="http://www.dailymotion.com/embed/video/' + matches[0].split('/')[2] + '" height="' + videoDimensions.height + '" width="' + videoDimensions.width + '"></iframe></div>';
+                str = str + template;
             }
             return str;
         },
@@ -460,57 +455,49 @@
                     return opts.vineOptions.maxWidth;
                 }
             };
-            var matches = rawStr.match(vineRegex) ? rawStr.match(vineRegex).getUnique() : null;
-            if (matches) {
-                var i = 0;
-                while (i < matches.length) {
-                    str = str + '<div class="ejs-vine"><iframe class="ejs-vine-iframe" src="https://vine.co/v/' + matches[i].split('/')[2] + '/embed/' + opts.vineOptions.type + '" height="' + (opts.vineOptions.type == 'postcard' ? (_width() + 160) : _width()) + '" width="' + _width() + '"></iframe></div>';
-                    i++;
-                }
+            var matches;
+            while ((matches = vineRegex.exec(rawStr)) !== null) {
+                console.log(matches);
+                var template = '<div class="ejs-vine"><iframe class="ejs-vine-iframe" src="https://vine.co/v/' + matches[0].split('/')[2] + '/embed/' + opts.vineOptions.type + '" height="' + (opts.vineOptions.type == 'postcard' ? (_width() + 160) : _width()) + '" width="' + _width() + '"></iframe></div>';
+                str = str + template;
             }
             return str;
         },
 
         ustreamEmbed: function (rawStr, str, opts) {
             var ustreamRegex = /ustream.tv\/[a-z\/0-9]*/gi;
-            var matches = rawStr.match(ustreamRegex) ? rawStr.match(ustreamRegex).getUnique() : null;
             var videoDimensions = this.dimensions(opts);
-            if (matches) {
-                var i = 0;
-                while (i < matches.length) {
-                    var embedCode = matches[i].split('/');
-                    embedCode.splice(1, 0, 'embed');
-                    str = str + '<div class="ejs-embed"><iframe src="//www.' + embedCode.join('/') + '" height="' + videoDimensions.height + '" width="' + videoDimensions.width + '"></iframe></div> ';
-                    i++;
-                }
+            var matches;
+            while ((matches = ustreamRegex.exec(rawStr)) !== null) {
+                console.log(matches);
+                var embedCode = matches[0].split('/');
+                embedCode.splice(1, 0, 'embed');
+                var template = '<div class="ejs-embed"><iframe src="//www.' + embedCode.join('/') + '" height="' + videoDimensions.height + '" width="' + videoDimensions.width + '"></iframe></div> ';
+                str = str + template;
             }
             return str;
         },
 
         tedEmbed     : function (rawStr, str, opts) {
             var tedRegex = /ted.com\/talks\/[a-zA-Z0-9_]+/gi;
-            var matches = rawStr.match(tedRegex) ? rawStr.match(tedRegex).getUnique() : null;
             var videoDimensions = this.dimensions(opts);
-            if (matches) {
-                var i = 0;
-                while (i < matches.length) {
-                    str = str + '<div class="ejs-embed"><iframe src="http://embed.ted.com/talks/' + matches[i].split('/')[2] + '.html" ' +
-                        'height="' + videoDimensions.height + '" width="' + videoDimensions.width + '"></iframe></div>';
-                    i++;
-                }
+            var matches;
+            while ((matches = tedRegex.exec(rawStr)) !== null) {
+                console.log(matches);
+                var template = '<div class="ejs-embed"><iframe src="http://embed.ted.com/talks/' + matches[0].split('/')[2] + '.html" ' +
+                    'height="' + videoDimensions.height + '" width="' + videoDimensions.width + '"></iframe></div>';
+                str = str + template;
             }
             return str;
         },
         liveleakEmbed: function (rawStr, str, opts) {
             var liveleakRegex = /liveleak.com\/view\?i=[a-zA-Z0-9_]+/gi;
-            var matches = rawStr.match(liveleakRegex) ? rawStr.match(liveleakRegex).getUnique() : null;
             var videoDimensions = this.dimensions(opts);
-            if (matches) {
-                var i = 0;
-                while (i < matches.length) {
-                    str = str + '<div class="ejs-video"><iframe src="http://www.liveleak.com/e/' + matches[i].split('=')[1] + '" height="' + videoDimensions.height + '" width="' + videoDimensions.width + '"></iframe></div>';
-                    i++;
-                }
+            var matches;
+            while ((matches = liveleakRegex.exec(rawStr)) !== null) {
+                console.log(matches);
+                var template = '<div class="ejs-video"><iframe src="http://www.liveleak.com/e/' + matches[0].split('=')[1] + '" height="' + videoDimensions.height + '" width="' + videoDimensions.width + '"></iframe></div>';
+                str = str + template;
             }
             return str;
         }
@@ -518,15 +505,12 @@
 
     var docProcess = {
         embed: function (rawStr, str, opts) {
-            var p = /((?:https?):\/\/\S*\.(?:pdf|doc|docx|xls|xlsx|ppt|pptx))/gi;
-            var matches = rawStr.match(p) ? rawStr.match(p).getUnique() : null;
-            if (matches) {
-                var i = 0;
-                while (i < matches.length) {
-                    var docTemplate = '<div class="ejs-doc"><div class="ejs-doc-preview"><div class="ejs-doc-icon"><i class="fa fa-file-o"></i></div><div class="ejs-doc-detail" ><div class="ejs-doc-title"> <a href="">' + matches[i].toUrl() + '</a></div> <div class="ejs-doc-view"> <a href="' + matches[i].toUrl() + '" target="_blank"><button>' + opts.docOptions.downloadText + '</button></a> <button class="ejs-doc-view-active">' + opts.docOptions.viewText + '</button></div> </div> </div></div>';
-                    str = str + docTemplate;
-                    i++;
-                }
+            var docRegex = /((?:https?):\/\/\S*\.(?:pdf|doc|docx|xls|xlsx|ppt|pptx))/gi;
+            var matches;
+            while ((matches = docRegex.exec(rawStr)) !== null) {
+                console.log(matches);
+                var template = '<div class="ejs-doc"><div class="ejs-doc-preview"><div class="ejs-doc-icon"><i class="fa fa-file-o"></i></div><div class="ejs-doc-detail" ><div class="ejs-doc-title"> <a href="">' + matches[0].toUrl() + '</a></div> <div class="ejs-doc-view"> <a href="' + matches[0].toUrl() + '" target="_blank"><button>' + opts.docOptions.downloadText + '</button></a> <button class="ejs-doc-view-active">' + opts.docOptions.viewText + '</button></div> </div> </div></div>';
+                str = str + template;
             }
             return str;
         },
@@ -595,37 +579,34 @@
 
     var audioProcess = {
         basicEmbed: function (rawStr, str) {
-            var a = /((?:https?):\/\/\S*\.(?:wav|mp3|ogg))/gi;
-            if (rawStr.match(a)) {
-                var audioTemplate = '<div class="ejs-audio"><audio src="' + RegExp.$1 + '" controls></audio></div>';
-                str = str + audioTemplate;
+            var audioRegex = /((?:https?):\/\/\S*\.(?:wav|mp3|ogg))/gi;
+            var matches;
+            while ((matches = audioRegex.exec(rawStr)) !== null) {
+                console.log(matches);
+                var template = '<div class="ejs-audio"><audio src="' + matches[0] + '" controls></audio></div>';
+                str = str + template;
             }
             return str;
         },
 
         soundCloudEmbed: function (rawStr, str, opts) {
             var scRegex = /soundcloud.com\/[a-zA-Z0-9-_]+\/[a-zA-Z0-9-_]+/gi;
-            var matches = rawStr.match(scRegex) ? rawStr.match(scRegex).getUnique() : null;
-            if (matches) {
-                var i = 0;
-                while (i < matches.length) {
-                    var scTemplate = '<div class="ejs-embed"><iframe height="160" scrolling="no" ' + 'src="https://w.soundcloud.com/player/?url=https://' + matches[i] + '&auto_play=' + opts.soundCloudOptions.autoPlay + '&hide_related=' + opts.soundCloudOptions.hideRelated + '&show_comments=' + opts.soundCloudOptions.showComments + '&show_user=' + opts.soundCloudOptions.showUser + '&show_reposts=' + opts.soundCloudOptions.showReposts + '&visual=' + opts.soundCloudOptions.visual + '&download=' + opts.soundCloudOptions.download + '&color=' + opts.soundCloudOptions.themeColor + '&theme_color=' + opts.soundCloudOptions.themeColor + '"></iframe></div>';
-                    str = str + scTemplate;
-                    i++;
-                }
+            var matches;
+            while ((matches = scRegex.exec(rawStr)) !== null) {
+                console.log(matches);
+                var template = '<div class="ejs-embed"><iframe height="160" scrolling="no" ' + 'src="https://w.soundcloud.com/player/?url=https://' + matches[0] + '&auto_play=' + opts.soundCloudOptions.autoPlay + '&hide_related=' + opts.soundCloudOptions.hideRelated + '&show_comments=' + opts.soundCloudOptions.showComments + '&show_user=' + opts.soundCloudOptions.showUser + '&show_reposts=' + opts.soundCloudOptions.showReposts + '&visual=' + opts.soundCloudOptions.visual + '&download=' + opts.soundCloudOptions.download + '&color=' + opts.soundCloudOptions.themeColor + '&theme_color=' + opts.soundCloudOptions.themeColor + '"></iframe></div>';
+                str = str + template;
             }
             return str;
         },
 
         spotifyEmbed: function (rawStr, str) {
             var spotifyRegex = /spotify.com\/track\/[a-zA-Z0-9_]+/gi;
-            var matches = rawStr.match(spotifyRegex) ? rawStr.match(spotifyRegex).getUnique() : null;
-            if (matches) {
-                var i = 0;
-                while (i < matches.length) {
-                    str = str + '<div class="ejs-embed"><iframe src="https://embed.spotify.com/?uri=spotify:track:' + matches[i].split('/')[2] + '" height="80"></iframe></div>';
-                    i++;
-                }
+            var matches;
+            while ((matches = spotifyRegex.exec(rawStr)) !== null) {
+                console.log(matches);
+                var template = '<div class="ejs-embed"><iframe src="https://embed.spotify.com/?uri=spotify:track:' + matches[0].split('/')[2] + '" height="80"></iframe></div>';
+                str = str + template;
             }
             return str;
         }
@@ -634,32 +615,24 @@
 
     var imageProcess = {
         embed: function (rawStr, str) {
-            var imgRegex = /((?:https?):\/\/\S[^<|\n|\r]*\.(?:gif|jpg|jpeg|tiff|png|svg|webp))/gi;
-            var matches = rawStr.match(imgRegex) ? rawStr.match(imgRegex).getUnique() : null;
-            if (matches) {
-                var i = 0;
-                while (i < matches.length) {
-                    var template = '<div class="ejs-image"><div class="ne-image-wrapper"><img src="' + matches[i] + '"/></div></div>';
-                    str = str + template;
-                    i++;
-                }
-
+            var imgRegex = /(?:https?):\/\/\S[^<|\n|\r]*\.(?:gif|jpg|jpeg|tiff|png|svg|webp)/gi;
+            var matches;
+            while ((matches = imgRegex.exec(rawStr)) !== null) {
+                console.log(matches);
+                var template = '<div class="ejs-image"><div class="ne-image-wrapper"><img src="' + matches[0] + '"/></div></div>';
+                str = str + template;
             }
             return str;
         },
 
-        flickrEmbed: function (rawStr, str,opts) {
+        flickrEmbed: function (rawStr, str, opts) {
             var flickrRegex = /flickr.com\/[a-z]+\/[a-zA-Z\d]+\/[\d]+/gi;
-            var matches = rawStr.match(flickrRegex) ? rawStr.match(flickrRegex).getUnique() : null;
-            var dimensions=videoProcess.dimensions(opts);
-            if (matches) {
-                var i = 0;
-                while (i < matches.length) {
-
-                    var template = '<div class="ejs-embed"><div class="ne-image-wrapper"><iframe src="' + matches[i].toUrl() + '/player/" width="'+dimensions.width+'" height="'+dimensions.height+'"></iframe></div></div>';
-                    str = str + template;
-                    i++;
-                }
+            var dimensions = videoProcess.dimensions(opts);
+            var matches;
+            while ((matches = flickrRegex.exec(rawStr)) !== null) {
+                console.log(matches);
+                var template = '<div class="ejs-embed"><div class="ne-image-wrapper"><iframe src="' + matches[0].toUrl() + '/player/" width="' + dimensions.width + '" height="' + dimensions.height + '"></iframe></div></div>';
+                str = str + template;
             }
             return str;
         }
@@ -741,66 +714,56 @@
     var codeEmbedProcess = {
         codepenEmbed: function (rawStr, str, opts) {
             var codepenRegex = /http:\/\/codepen.io\/([A-Za-z0-9_]+)\/pen\/([A-Za-z0-9_]+)/gi;
-            var matches = rawStr.match(codepenRegex) ? rawStr.match(codepenRegex).getUnique() : null;
-            if (matches) {
-                var i = 0;
-                while (i < matches.length) {
-                    str = str + '<div class="ejs-embed ejs-codepen"><iframe scrolling="no" height="' + opts.codeEmbedHeight + '" src="' + matches[i].replace(/\/pen\//, '/embed/') + '/?height=' + opts.codeEmbedHeight + '" frameborder="no" allowtransparency="true" allowfullscreen="true"></iframe></div>';
-                    i++;
-                }
+            var matches;
+            while ((matches = codepenRegex.exec(rawStr)) !== null) {
+                console.log(matches);
+                var template = '<div class="ejs-embed ejs-codepen"><iframe scrolling="no" height="' + opts.codeEmbedHeight + '" src="' + matches[0].replace(/\/pen\//, '/embed/') + '/?height=' + opts.codeEmbedHeight + '"></iframe></div>';
+                str = str + template;
             }
             return str;
         },
 
         jsfiddleEmbed: function (rawStr, str, opts) {
             var jsfiddleRegex = /jsfiddle.net\/[a-zA-Z0-9_]+\/[a-zA-Z0-9_]+/gi;
-            var matches = rawStr.match(jsfiddleRegex) ? rawStr.match(jsfiddleRegex).getUnique() : null;
-            if (matches) {
-                var i = 0;
-                while (i < matches.length) {
-                    str = str + '<div class="ejs-embed ejs-jsfiddle"><iframe height="' + opts.codeEmbedHeight + '" src="http://' + matches[i] + '/embedded"></iframe></div>';
-                    i++;
-                }
+            var matches;
+            while ((matches = jsfiddleRegex.exec(rawStr)) !== null) {
+                console.log(matches);
+                var template = '<div class="ejs-embed ejs-jsfiddle"><iframe height="' + opts.codeEmbedHeight + '" src="http://' + matches[0] + '/embedded"></iframe></div>';
+                str = str + template;
             }
             return str;
         },
 
         jsbinEmbed: function (rawStr, str, opts) {
             var jsbinRegex = /jsbin.com\/[a-zA-Z0-9_]+\/[0-9_]+/gi;
-            var matches = rawStr.match(jsbinRegex) ? rawStr.match(jsbinRegex).getUnique() : null;
-            if (matches) {
-                var i = 0;
-                while (i < matches.length) {
-                    str = str + '<div class="ejs-jsbin ejs-embed"><iframe height="' + opts.codeEmbedHeight + '" class="jsbin-embed foo" src="http://' + matches[i] + '/embed?html,js,output">Simple Animation Tests</iframe></div>';
-                    i++;
-                }
+            var matches;
+            while ((matches = jsbinRegex.exec(rawStr)) !== null) {
+                console.log(matches);
+                var template = '<div class="ejs-jsbin ejs-embed"><iframe height="' + opts.codeEmbedHeight + '" class="jsbin-embed foo" src="http://' + matches[0] + '/embed?html,js,output">Simple Animation Tests</iframe></div>';
+                str = str + template;
             }
             return str;
         },
 
         ideoneEmbed: function (rawStr, str, opts) {
             var ideoneRegex = /ideone.com\/[a-zA-Z0-9]{6}/gi;
-            var matches = rawStr.match(ideoneRegex) ? rawStr.match(ideoneRegex).getUnique() : null;
-            if (matches) {
-                var i = 0;
-                while (i < matches.length) {
-                    str = str + '<div class="ejs-ideone ejs-embed"><iframe src="http://ideone.com/embed/' + matches[i].split('/')[1] + '" frameborder="0" height="' + opts.codeEmbedHeight + '"></iframe></div>';
-                    i++;
-                }
+            var matches;
+            while ((matches = ideoneRegex.exec(rawStr)) !== null) {
+                console.log(matches);
+                var template = '<div class="ejs-ideone ejs-embed"><iframe src="http://ideone.com/embed/' + matches[0].split('/')[1] + '" frameborder="0" height="' + opts.codeEmbedHeight + '"></iframe></div>';
+                str = str + template;
             }
             return str;
         },
 
         plunkerEmbed: function (rawStr, str, opts) {
             var plnkrRegex = /plnkr.co\/edit\/[a-zA-Z0-9\?=]+/gi;
-            var matches = str.match(plnkrRegex) ? str.match(plnkrRegex).getUnique() : null;
-            if (matches) {
-                var i = 0;
-                while (i < matches.length) {
-                    var idMatch = (matches[i].indexOf('?') === -1) ? (matches[i].split('/')[2]) : (matches[i].split('/')[2].split('?')[0]);
-                    str = str + '<div class="ejs-embed ejs-plunker"><iframe class="ne-plunker" src="http://embed.plnkr.co/' + idMatch + '" height="' + opts.codeEmbedHeight + '"></iframe></div>';
-                    i++;
-                }
+            var matches;
+            while ((matches = plnkrRegex.exec(rawStr)) !== null) {
+                console.log(matches);
+                var idMatch = (matches[0].indexOf('?') === -1) ? (matches[0].split('/')[2]) : (matches[0].split('/')[2].split('?')[0]);
+                var template = '<div class="ejs-embed ejs-plunker"><iframe class="ne-plunker" src="http://embed.plnkr.co/' + idMatch + '" height="' + opts.codeEmbedHeight + '"></iframe></div>';
+                str = str + template;
             }
             return str;
         }
@@ -879,7 +842,7 @@
             input = (settings.highlightCode) ? codeProcess.highlight(input) : input;
             input = (settings.basicVideoEmbed) ? videoProcess.embedBasic(rawInput, input) : input;
             input = (settings.imageEmbed) ? imageProcess.embed(rawInput, input) : input;
-            input = (ifEmbed('flickr')) ? imageProcess.flickrEmbed(rawInput, input,settings) : input;
+            input = (ifEmbed('flickr')) ? imageProcess.flickrEmbed(rawInput, input, settings) : input;
             input = (ifEmbed('codePen')) ? codeEmbedProcess.codepenEmbed(rawInput, input, settings) : input;
             input = (ifEmbed('jsFiddle')) ? codeEmbedProcess.jsfiddleEmbed(rawInput, input, settings) : input;
             input = (ifEmbed('jsbin')) ? codeEmbedProcess.jsbinEmbed(rawInput, input, settings) : input;
