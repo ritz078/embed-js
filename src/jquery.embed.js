@@ -780,37 +780,55 @@
 
             var deferred = $.Deferred();
             var locationRegex = /@\((.+)\)/gi;
-            var matches = rawStr.match(locationRegex) ? rawStr.match(locationRegex).getUnique() : null;
+
+            var match = str.match(locationRegex) ? (str.match(locationRegex)) : null;
+
+            var matches;
+
             var addr;
-            if (opts.locationEmbed && matches) {
-                str = str.replace(locationRegex, function (match) {
+            if (opts.locationEmbed && match) {
+
+                var str1;
+                str1 = str.replace(locationRegex, function (match) {
                     addr = match.split('(')[1].split(')')[0];
                     return '<span class="ejs-location">' + match.split('(')[1].split(')')[0] + '</span>';
                 });
 
-                if (opts.mapOptions.mode === 'place') {
-                    str = str + '<div class="ejs-map ejs-embed"><iframe width="600" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?key=' + opts.gdevAuthKey + '&q=' + addr + '"></iframe></div>';
-                    deferred.resolve(str);
+                while ((matches = locationRegex.exec(rawStr)) !== null) {
+
+                    var _matches=matches;
+
+                    var template = '';
+
+                    if (opts.mapOptions.mode === 'place') {
+                        template = '<div class="ejs-map ejs-embed"><iframe width="600" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?key=' + opts.gdevAuthKey + '&q=' + addr + '"></iframe></div>';
+                        embedArray.push(createObject(_matches.index, template));
+
+                        deferred.resolve(str1);
+                    }
+                    else if (opts.mapOptions.mode === 'streetview' || opts.mapOptions.mode === 'view') {
+                        $.getJSON('http://maps.googleapis.com/maps/api/geocode/json?address=' + addr + '&sensor=false', function (d) {
+
+                            var lat = d.results[0].geometry.location.lat;
+                            var long = d.results[0].geometry.location.lng;
+
+                            if (opts.mapOptions.mode === 'streetview') {
+                                template = '<div class="ejs-map ejs-embed"><iframe width="600" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/streetview?key=' + opts.gdevAuthKey + '&location=' + lat + ',' + long + '&heading=210&pitch=10&fov=35"></iframe></div>';
+                            }
+
+                            else {
+                                template = '<div class="ejs-map ejs-embed"><iframe width="600" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/view?key=' + opts.gdevAuthKey + '&center=' + lat + ',' + long + '&zoom=18&maptype=satellite"></iframe></div>';
+                            }
+
+                            embedArray.push(createObject(_matches.index, template));
+
+                            console.log(embedArray);
+
+                            deferred.resolve(str1);
+
+                        });
+                    }
                 }
-                else if (opts.mapOptions.mode === 'streetview' || opts.mapOptions.mode === 'view') {
-                    $.getJSON('http://maps.googleapis.com/maps/api/geocode/json?address=' + addr + '&sensor=false', function (d) {
-
-                        var lat = d.results[0].geometry.location.lat;
-                        var long = d.results[0].geometry.location.lng;
-
-                        if (opts.mapOptions.mode === 'streetview') {
-                            str = str + '<div class="ejs-map ejs-embed"><iframe width="600" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/streetview?key=' + opts.gdevAuthKey + '&location=' + lat + ',' + long + '&heading=210&pitch=10&fov=35"></iframe></div>';
-                        }
-
-                        else {
-                            str = str + '<div class="ejs-map ejs-embed"><iframe width="600" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/view?key=' + opts.gdevAuthKey + '&center=' + lat + ',' + long + '&zoom=18&maptype=satellite"></iframe></div>';
-                        }
-
-                        deferred.resolve(str);
-
-                    });
-                }
-
             }
             else {
                 deferred.resolve(str);
@@ -904,20 +922,17 @@
                 audioProcess.spotifyEmbed(rawInput);
             }
 
-            embedArray.sort(function (a, b) {
-                return a.index - b.index;
-            });
 
-            $.each(embedArray, function (index, value) {
-                embedCodeArray.push(value.embedCode);
-            });
-
-            console.log(embedCodeArray);
-
-            input = input + embedCodeArray.getUnique().join(' ');
 
             mapProcess.locationEmbed(rawInput, input, settings).then(function (res) {
-                input = res;
+                embedArray.sort(function (a, b) {
+                    return a.index - b.index;
+                });
+
+                $.each(embedArray, function (index, value) {
+                    embedCodeArray.push(value.embedCode);
+                });
+                input = res + embedCodeArray.getUnique().join(' ');
                 videoProcess.embed(input, settings).then(function (d) {
                     if (settings.tweetsEmbed && tweetProcess.getMatches(d)) {
                         tweetProcess.embed(d, tweetProcess.getMatches(input), settings).then(function (data) {
