@@ -246,6 +246,22 @@
         return url;
     };
 
+    var createObject = function (a, b) {
+        var object = {
+            'index'    : a,
+            'embedCode': b
+        };
+        return object;
+    };
+
+    /**
+     * Variable Declarations
+     */
+
+    var videoTemplate = '';
+    var embedArray = [];
+    var embedCodeArray = [];
+
     var emoticonProcess = {
         insertfontSmiley: function (str) {
             var a = str.split(' ');
@@ -281,8 +297,6 @@
         });
     }
 
-    var videoTemplate = '';
-
     function initVideoTemplate() {
         videoTemplate = '<div class="ejs-video"><div class="ejs-video-preview">' + '<div class="ejs-video-thumb">' + '<img src="' + video.thumbnail + '" alt="' + video.host + '/' + video.id + '"/>' + '<i class="fa fa-play-circle-o"></i>' + '</div>' + '<div class="ejs-video-detail">' + '<div class="ejs-video-title">' + '<a href="' + video.url + '">' + video.title + '</a>' + '</div>' + '<div class="ejs-video-desc">' + video.description + '</div>' + '<div class="ejs-video-stats">' + '<span><i class="fa fa-eye"></i> ' + video.views + '</span>' + '<span><i class="fa fa-heart"></i> ' + video.likes + '</span>' + '</div>' + '</div>' + '</div></div>';
     }
@@ -314,7 +328,7 @@
             }
         },
 
-        play    : function (elem, settings) {
+        play: function (elem, settings) {
             $(elem).undelegate('click').on('click', '.ejs-video-thumb', function (e) {
                 var self = this;
                 var videoInfo = {};
@@ -339,7 +353,9 @@
                 e.stopPropagation();
 
             });
-        }, embed: function (data, opts) {
+        },
+
+        embed: function (data, opts) {
             var deferred = $.Deferred();
             if (opts.videoEmbed) {
                 var ytRegex = /https?:\/\/(?:[0-9A-Z-]+\.)?(?:youtu\.be\/|youtube\.com(?:\/embed\/|\/v\/|\/watch\?v=|\/ytscreeningroom\?v=|\/feeds\/api\/videos\/|\/user\S*[^\w\-\s]|\S*[^\w\-\s]))([\w\-]{11})[?=&+%\w-]*/gi;
@@ -398,54 +414,54 @@
 
         },
 
-        embedBasic: function (rawStr, str) {
+        embedBasic: function (rawStr) {
             var basicVideoRegex = /(?:https?):\/\/\S*\.(?:ogv|webm|mp4)/gi;
             var matches;
             while ((matches = basicVideoRegex.exec(rawStr)) !== null) {
-                console.log(matches);
+
                 var template = '<div class="ejs-video"><div class="ejs-video-player"><div class="player"><video src="' + matches[0] + '" controls></video></div></div></div>';
-                str = str + template;
+                embedArray.push(createObject(matches.index, template));
+
             }
-            return str;
         },
 
-        twitchtvEmbed: function (rawStr, str, opts) {
+        twitchtvEmbed: function (rawStr, opts) {
             var twitchRegex = /www.twitch.tv\/[a-zA_Z0-9_]+/gi;
             var videoDimensions = this.dimensions(opts);
             var matches;
             while ((matches = twitchRegex.exec(rawStr)) !== null) {
-                console.log(matches);
+
                 var template = '<div class="ejs-video"><object bgcolor="#000000" data="//www-cdn.jtvnw.net/swflibs/TwitchPlayer.swf" height="' + videoDimensions.height + '" id="clip_embed_player_flash" type="application/x-shockwave-flash" width="' + videoDimensions.width + '">' + '<param name="movie" value="http://www-cdn.jtvnw.net/swflibs/TwitchPlayer.swf" />' + '<param name="allowScriptAccess" value="always" />' + '<param name="allowNetworking" value="all" />' + '<param name="allowFullScreen" value="true" />' + '<param name="flashvars" value="channel=' + matches[0].split('/')[1] + '&auto_play=false" />' + '</object></div>';
-                str = str + template;
+                embedArray.push(createObject(matches.index, template));
+
             }
-            return str;
         },
 
-        dotsubEmbed: function (rawStr, str, opts) {
+        dotsubEmbed: function (rawStr, opts) {
             var dotsubRegex = /dotsub.com\/view\/[a-zA-Z0-9-]+/gi;
             var videoDimensions = this.dimensions(opts);
             var matches;
             while ((matches = dotsubRegex.exec(rawStr)) !== null) {
-                console.log(matches);
+
                 var template = '<div class="ejs-video"><iframe src="https://dotsub.com/media/' + matches[0].split('/')[2] + '/embed/" width="' + videoDimensions.width + '" height="' + videoDimensions.height + '"></iframe></div>';
-                str = str + template;
+                embedArray.push(createObject(matches.index, template));
+
             }
-            return str;
         },
 
-        dailymotionEmbed: function (rawStr, str, opts) {
+        dailymotionEmbed: function (rawStr, opts) {
             var dmRegex = /dailymotion.com\/video\/[a-zA-Z0-9-_]+/gi;
             var videoDimensions = this.dimensions(opts);
             var matches;
             while ((matches = dmRegex.exec(rawStr)) !== null) {
-                console.log(matches);
+
                 var template = '<div class="ejs-video"><iframe src="http://www.dailymotion.com/embed/video/' + matches[0].split('/')[2] + '" height="' + videoDimensions.height + '" width="' + videoDimensions.width + '"></iframe></div>';
-                str = str + template;
+                embedArray.push(createObject(matches.index, template));
+
             }
-            return str;
         },
 
-        vineEmbed: function (rawStr, str, opts, element) {
+        vineEmbed: function (rawStr, opts, element) {
             var vineRegex = /vine.co\/v\/[a-zA-Z0-9]+/gi;
             var _width = function () {
                 if ((opts.vineOptions.maxWidth > $(element).width() && opts.vineOptions.responsive) || !opts.vineOptions.maxWidth) {
@@ -457,62 +473,62 @@
             };
             var matches;
             while ((matches = vineRegex.exec(rawStr)) !== null) {
-                console.log(matches);
+
                 var template = '<div class="ejs-vine"><iframe class="ejs-vine-iframe" src="https://vine.co/v/' + matches[0].split('/')[2] + '/embed/' + opts.vineOptions.type + '" height="' + (opts.vineOptions.type == 'postcard' ? (_width() + 160) : _width()) + '" width="' + _width() + '"></iframe></div>';
-                str = str + template;
+                embedArray.push(createObject(matches.index, template));
+
             }
-            return str;
         },
 
-        ustreamEmbed: function (rawStr, str, opts) {
+        ustreamEmbed: function (rawStr, opts) {
             var ustreamRegex = /ustream.tv\/[a-z\/0-9]*/gi;
             var videoDimensions = this.dimensions(opts);
             var matches;
             while ((matches = ustreamRegex.exec(rawStr)) !== null) {
-                console.log(matches);
+
                 var embedCode = matches[0].split('/');
                 embedCode.splice(1, 0, 'embed');
                 var template = '<div class="ejs-embed"><iframe src="//www.' + embedCode.join('/') + '" height="' + videoDimensions.height + '" width="' + videoDimensions.width + '"></iframe></div> ';
-                str = str + template;
+                embedArray.push(createObject(matches.index, template));
+
             }
-            return str;
         },
 
-        tedEmbed     : function (rawStr, str, opts) {
+        tedEmbed     : function (rawStr, opts) {
             var tedRegex = /ted.com\/talks\/[a-zA-Z0-9_]+/gi;
             var videoDimensions = this.dimensions(opts);
             var matches;
             while ((matches = tedRegex.exec(rawStr)) !== null) {
-                console.log(matches);
+
                 var template = '<div class="ejs-embed"><iframe src="http://embed.ted.com/talks/' + matches[0].split('/')[2] + '.html" ' +
                     'height="' + videoDimensions.height + '" width="' + videoDimensions.width + '"></iframe></div>';
-                str = str + template;
+                embedArray.push(createObject(matches.index, template));
+
             }
-            return str;
         },
-        liveleakEmbed: function (rawStr, str, opts) {
+        liveleakEmbed: function (rawStr, opts) {
             var liveleakRegex = /liveleak.com\/view\?i=[a-zA-Z0-9_]+/gi;
             var videoDimensions = this.dimensions(opts);
             var matches;
             while ((matches = liveleakRegex.exec(rawStr)) !== null) {
-                console.log(matches);
+
                 var template = '<div class="ejs-video"><iframe src="http://www.liveleak.com/e/' + matches[0].split('=')[1] + '" height="' + videoDimensions.height + '" width="' + videoDimensions.width + '"></iframe></div>';
-                str = str + template;
+                embedArray.push(createObject(matches.index, template));
+
             }
-            return str;
         }
     };
 
     var docProcess = {
-        embed: function (rawStr, str, opts) {
+        embed: function (rawStr, opts) {
             var docRegex = /((?:https?):\/\/\S*\.(?:pdf|doc|docx|xls|xlsx|ppt|pptx))/gi;
             var matches;
             while ((matches = docRegex.exec(rawStr)) !== null) {
-                console.log(matches);
+
                 var template = '<div class="ejs-doc"><div class="ejs-doc-preview"><div class="ejs-doc-icon"><i class="fa fa-file-o"></i></div><div class="ejs-doc-detail" ><div class="ejs-doc-title"> <a href="">' + matches[0].toUrl() + '</a></div> <div class="ejs-doc-view"> <a href="' + matches[0].toUrl() + '" target="_blank"><button>' + opts.docOptions.downloadText + '</button></a> <button class="ejs-doc-view-active">' + opts.docOptions.viewText + '</button></div> </div> </div></div>';
-                str = str + template;
+                embedArray.push(createObject(matches.index, template));
+
             }
-            return str;
         },
 
         view: function (elem, settings) {
@@ -578,63 +594,62 @@
     };
 
     var audioProcess = {
-        basicEmbed: function (rawStr, str) {
+        basicEmbed: function (rawStr) {
             var audioRegex = /((?:https?):\/\/\S*\.(?:wav|mp3|ogg))/gi;
             var matches;
             while ((matches = audioRegex.exec(rawStr)) !== null) {
-                console.log(matches);
+
                 var template = '<div class="ejs-audio"><audio src="' + matches[0] + '" controls></audio></div>';
-                str = str + template;
+                embedArray.push(createObject(matches.index, template));
             }
-            return str;
         },
 
-        soundCloudEmbed: function (rawStr, str, opts) {
+        soundCloudEmbed: function (rawStr, opts) {
             var scRegex = /soundcloud.com\/[a-zA-Z0-9-_]+\/[a-zA-Z0-9-_]+/gi;
             var matches;
             while ((matches = scRegex.exec(rawStr)) !== null) {
-                console.log(matches);
+
                 var template = '<div class="ejs-embed"><iframe height="160" scrolling="no" ' + 'src="https://w.soundcloud.com/player/?url=https://' + matches[0] + '&auto_play=' + opts.soundCloudOptions.autoPlay + '&hide_related=' + opts.soundCloudOptions.hideRelated + '&show_comments=' + opts.soundCloudOptions.showComments + '&show_user=' + opts.soundCloudOptions.showUser + '&show_reposts=' + opts.soundCloudOptions.showReposts + '&visual=' + opts.soundCloudOptions.visual + '&download=' + opts.soundCloudOptions.download + '&color=' + opts.soundCloudOptions.themeColor + '&theme_color=' + opts.soundCloudOptions.themeColor + '"></iframe></div>';
-                str = str + template;
+                embedArray.push(createObject(matches.index, template));
+
             }
-            return str;
         },
 
-        spotifyEmbed: function (rawStr, str) {
+        spotifyEmbed: function (rawStr) {
             var spotifyRegex = /spotify.com\/track\/[a-zA-Z0-9_]+/gi;
             var matches;
             while ((matches = spotifyRegex.exec(rawStr)) !== null) {
-                console.log(matches);
+
                 var template = '<div class="ejs-embed"><iframe src="https://embed.spotify.com/?uri=spotify:track:' + matches[0].split('/')[2] + '" height="80"></iframe></div>';
-                str = str + template;
+                embedArray.push(createObject(matches.index, template));
+
             }
-            return str;
         }
 
     };
 
     var imageProcess = {
-        embed: function (rawStr, str) {
+        embed: function (rawStr) {
             var imgRegex = /(?:https?):\/\/\S[^<|\n|\r]*\.(?:gif|jpg|jpeg|tiff|png|svg|webp)/gi;
             var matches;
             while ((matches = imgRegex.exec(rawStr)) !== null) {
-                console.log(matches);
+
                 var template = '<div class="ejs-image"><div class="ne-image-wrapper"><img src="' + matches[0] + '"/></div></div>';
-                str = str + template;
+                embedArray.push(createObject(matches.index, template));
+
             }
-            return str;
         },
 
-        flickrEmbed: function (rawStr, str, opts) {
+        flickrEmbed: function (rawStr, opts) {
             var flickrRegex = /flickr.com\/[a-z]+\/[a-zA-Z\d]+\/[\d]+/gi;
             var dimensions = videoProcess.dimensions(opts);
             var matches;
             while ((matches = flickrRegex.exec(rawStr)) !== null) {
-                console.log(matches);
+
                 var template = '<div class="ejs-embed"><div class="ne-image-wrapper"><iframe src="' + matches[0].toUrl() + '/player/" width="' + dimensions.width + '" height="' + dimensions.height + '"></iframe></div></div>';
-                str = str + template;
+                embedArray.push(createObject(matches.index, template));
+
             }
-            return str;
         }
     };
 
@@ -712,60 +727,59 @@
     };
 
     var codeEmbedProcess = {
-        codepenEmbed: function (rawStr, str, opts) {
+        codepenEmbed: function (rawStr, opts) {
             var codepenRegex = /http:\/\/codepen.io\/([A-Za-z0-9_]+)\/pen\/([A-Za-z0-9_]+)/gi;
             var matches;
             while ((matches = codepenRegex.exec(rawStr)) !== null) {
-                console.log(matches);
+
                 var template = '<div class="ejs-embed ejs-codepen"><iframe scrolling="no" height="' + opts.codeEmbedHeight + '" src="' + matches[0].replace(/\/pen\//, '/embed/') + '/?height=' + opts.codeEmbedHeight + '"></iframe></div>';
-                str = str + template;
+                embedArray.push(createObject(matches.index, template));
             }
-            return str;
         },
 
-        jsfiddleEmbed: function (rawStr, str, opts) {
+        jsfiddleEmbed: function (rawStr, opts) {
             var jsfiddleRegex = /jsfiddle.net\/[a-zA-Z0-9_]+\/[a-zA-Z0-9_]+/gi;
             var matches;
             while ((matches = jsfiddleRegex.exec(rawStr)) !== null) {
-                console.log(matches);
+
                 var template = '<div class="ejs-embed ejs-jsfiddle"><iframe height="' + opts.codeEmbedHeight + '" src="http://' + matches[0] + '/embedded"></iframe></div>';
-                str = str + template;
+                embedArray.push(createObject(matches.index, template));
+
             }
-            return str;
         },
 
-        jsbinEmbed: function (rawStr, str, opts) {
+        jsbinEmbed: function (rawStr, opts) {
             var jsbinRegex = /jsbin.com\/[a-zA-Z0-9_]+\/[0-9_]+/gi;
             var matches;
             while ((matches = jsbinRegex.exec(rawStr)) !== null) {
-                console.log(matches);
+
                 var template = '<div class="ejs-jsbin ejs-embed"><iframe height="' + opts.codeEmbedHeight + '" class="jsbin-embed foo" src="http://' + matches[0] + '/embed?html,js,output">Simple Animation Tests</iframe></div>';
-                str = str + template;
+                embedArray.push(createObject(matches.index, template));
+
             }
-            return str;
         },
 
-        ideoneEmbed: function (rawStr, str, opts) {
+        ideoneEmbed: function (rawStr, opts) {
             var ideoneRegex = /ideone.com\/[a-zA-Z0-9]{6}/gi;
             var matches;
             while ((matches = ideoneRegex.exec(rawStr)) !== null) {
-                console.log(matches);
+
                 var template = '<div class="ejs-ideone ejs-embed"><iframe src="http://ideone.com/embed/' + matches[0].split('/')[1] + '" frameborder="0" height="' + opts.codeEmbedHeight + '"></iframe></div>';
-                str = str + template;
+                embedArray.push(createObject(matches.index, template));
+
             }
-            return str;
         },
 
-        plunkerEmbed: function (rawStr, str, opts) {
+        plunkerEmbed: function (rawStr, opts) {
             var plnkrRegex = /plnkr.co\/edit\/[a-zA-Z0-9\?=]+/gi;
             var matches;
             while ((matches = plnkrRegex.exec(rawStr)) !== null) {
-                console.log(matches);
+
                 var idMatch = (matches[0].indexOf('?') === -1) ? (matches[0].split('/')[2]) : (matches[0].split('/')[2].split('?')[0]);
                 var template = '<div class="ejs-embed ejs-plunker"><iframe class="ne-plunker" src="http://embed.plnkr.co/' + idMatch + '" height="' + opts.codeEmbedHeight + '"></iframe></div>';
-                str = str + template;
+                embedArray.push(createObject(matches.index, template));
+
             }
-            return str;
         }
     };
 
@@ -818,6 +832,8 @@
         var deferred = $.Deferred();
 
         elem.each(function (i) {
+            embedArray = [];
+            embedCodeArray = [];
             var input = $(this).html();
             if (input === undefined || input === null) {
                 return;
@@ -837,26 +853,77 @@
             input = (settings.link) ? urlEmbed(input, settings) : input;
             input = emoticonProcess.insertfontSmiley(input);
             input = emoticonProcess.insertEmoji(input);
-            input = (settings.docEmbed) ? docProcess.embed(rawInput, input, settings) : input;
-            input = (settings.audioEmbed) ? audioProcess.basicEmbed(rawInput, input) : input;
             input = (settings.highlightCode) ? codeProcess.highlight(input) : input;
-            input = (settings.basicVideoEmbed) ? videoProcess.embedBasic(rawInput, input) : input;
-            input = (settings.imageEmbed) ? imageProcess.embed(rawInput, input) : input;
-            input = (ifEmbed('flickr')) ? imageProcess.flickrEmbed(rawInput, input, settings) : input;
-            input = (ifEmbed('codePen')) ? codeEmbedProcess.codepenEmbed(rawInput, input, settings) : input;
-            input = (ifEmbed('jsFiddle')) ? codeEmbedProcess.jsfiddleEmbed(rawInput, input, settings) : input;
-            input = (ifEmbed('jsbin')) ? codeEmbedProcess.jsbinEmbed(rawInput, input, settings) : input;
-            input = (ifEmbed('ideone')) ? codeEmbedProcess.ideoneEmbed(rawInput, input, options) : input;
-            input = (ifEmbed('plunker')) ? codeEmbedProcess.plunkerEmbed(rawInput, input, options) : input;
-            input = (ifEmbed('soundcloud')) ? audioProcess.soundCloudEmbed(rawInput, input, settings) : input;
-            input = (ifEmbed('twitchTv')) ? videoProcess.twitchtvEmbed(rawInput, input, settings) : input;
-            input = (ifEmbed('dotSub')) ? videoProcess.dotsubEmbed(rawInput, input, settings) : input;
-            input = (ifEmbed('dailymotion')) ? videoProcess.dailymotionEmbed(rawInput, input, settings) : input;
-            input = (ifEmbed('vine')) ? videoProcess.vineEmbed(rawInput, input, settings, elem) : input;
-            input = (ifEmbed('ted')) ? videoProcess.tedEmbed(rawInput, input, settings) : input;
-            input = (ifEmbed('ustream')) ? videoProcess.ustreamEmbed(rawInput, input, settings) : input;
-            input = (ifEmbed('liveLeak')) ? videoProcess.liveleakEmbed(rawInput, input, settings) : input;
-            input = (ifEmbed('spotify')) ? audioProcess.spotifyEmbed(rawInput, input) : input;
+            if (settings.docEmbed) {
+                docProcess.embed(rawInput, settings);
+            }
+            if (settings.audioEmbed) {
+                audioProcess.basicEmbed(rawInput);
+            }
+            if (settings.basicVideoEmbed) {
+                videoProcess.embedBasic(rawInput);
+            }
+            if (settings.imageEmbed) {
+                imageProcess.embed(rawInput);
+            }
+            if (ifEmbed('flickr')) {
+                imageProcess.flickrEmbed(rawInput, settings);
+            }
+            if (ifEmbed('codePen')) {
+                codeEmbedProcess.codepenEmbed(rawInput, settings);
+            }
+            if (ifEmbed('jsFiddle')) {
+                codeEmbedProcess.jsfiddleEmbed(rawInput, settings);
+            }
+            if (ifEmbed('jsbin')) {
+                codeEmbedProcess.jsbinEmbed(rawInput, settings);
+            }
+            if (ifEmbed('ideone')) {
+                codeEmbedProcess.ideoneEmbed(rawInput, options);
+            }
+            if (ifEmbed('plunker')) {
+                codeEmbedProcess.plunkerEmbed(rawInput, options);
+            }
+            if (ifEmbed('soundcloud')) {
+                audioProcess.soundCloudEmbed(rawInput, settings);
+            }
+            if (ifEmbed('twitchTv')) {
+                videoProcess.twitchtvEmbed(rawInput, settings);
+            }
+            if (ifEmbed('dotSub')) {
+                videoProcess.dotsubEmbed(rawInput, settings);
+            }
+            if (ifEmbed('dailymotion')) {
+                videoProcess.dailymotionEmbed(rawInput, settings);
+            }
+            if (ifEmbed('vine')) {
+                videoProcess.vineEmbed(rawInput, settings, elem);
+            }
+            if (ifEmbed('ted')) {
+                videoProcess.tedEmbed(rawInput, settings);
+            }
+            if (ifEmbed('ustream')) {
+                videoProcess.ustreamEmbed(rawInput, settings);
+            }
+            if (ifEmbed('liveLeak')) {
+                videoProcess.liveleakEmbed(rawInput, settings);
+            }
+            if (ifEmbed('spotify')) {
+                audioProcess.spotifyEmbed(rawInput);
+            }
+
+            embedArray.sort(function (a, b) {
+                return a.index - b.index;
+            });
+
+            $.each(embedArray, function (index, value) {
+                embedCodeArray.push(value.embedCode);
+            });
+
+            console.log(embedCodeArray);
+
+            input = input + embedCodeArray.getUnique().join(' ');
+
             mapProcess.locationEmbed(rawInput, input, settings).then(function (res) {
                 input = res;
                 videoProcess.embed(input, settings).then(function (d) {
