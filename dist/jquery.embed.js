@@ -791,8 +791,6 @@
 
             var match = str.match(locationRegex) ? (str.match(locationRegex)) : null;
 
-            var matches;
-
             var addr;
             if (opts.locationEmbed && match) {
 
@@ -802,7 +800,7 @@
                     return '<span class="ejs-location">' + match.split('(')[1].split(')')[0] + '</span>';
                 });
 
-                while ((matches = locationRegex.exec(rawStr)) !== null) {
+                var matches = locationRegex.exec(rawStr);
 
                     var _matches=matches;
 
@@ -815,6 +813,7 @@
                         deferred.resolve(str1);
                     }
                     else if (opts.mapOptions.mode === 'streetview' || opts.mapOptions.mode === 'view') {
+
                         $.getJSON('http://maps.googleapis.com/maps/api/geocode/json?address=' + addr + '&sensor=false', function (d) {
 
                             var lat = d.results[0].geometry.location.lat;
@@ -836,7 +835,6 @@
 
                         });
                     }
-                }
             }
             else {
                 deferred.resolve(str);
@@ -849,9 +847,22 @@
         var len = elem.length;
         var deferred = $.Deferred();
 
-        elem.each(function (i) {
+
+        function renderText(str){
+            embedArray.sort(function (a, b) {
+                return a.index - b.index;
+            });
+
+            $.each(embedArray, function (index, value) {
+                embedCodeArray.push(value.embedCode);
+            });
+            str = str + embedCodeArray.getUnique().join(' ');
             embedArray = [];
             embedCodeArray = [];
+            return str;
+        }
+
+        elem.each(function (i) {
             var input = $(this).html();
             if (input === undefined || input === null) {
                 return;
@@ -933,14 +944,9 @@
 
 
             mapProcess.locationEmbed(rawInput, input, settings).then(function (res) {
-                embedArray.sort(function (a, b) {
-                    return a.index - b.index;
-                });
 
-                $.each(embedArray, function (index, value) {
-                    embedCodeArray.push(value.embedCode);
-                });
-                input = res + embedCodeArray.getUnique().join(' ');
+                input=renderText(res);
+
                 videoProcess.embed(input, settings).then(function (d) {
                     if (settings.tweetsEmbed && tweetProcess.getMatches(d)) {
                         tweetProcess.embed(d, tweetProcess.getMatches(input), settings).then(function (data) {
