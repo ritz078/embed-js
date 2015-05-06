@@ -347,60 +347,106 @@
             });
         },
 
-        embed: function (data, opts) {
+        ytRegex   : /https?:\/\/(?:[0-9A-Z-]+\.)?(?:youtu\.be\/|youtube\.com(?:\/embed\/|\/v\/|\/watch\?v=|\/ytscreeningroom\?v=|\/feeds\/api\/videos\/|\/user\S*[^\w\-\s]|\S*[^\w\-\s]))([\w\-]{11})[?=&+%\w-]*/gi,
+        vimeoRegex: /https?:\/\/(?:www\.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/([^\/]*)\/videos\/|album\/(\d+)\/video\/|)(\d+)(?:$|\/|\?)*/gi,
+
+        /**
+         *
+         *
+         *
+         */
+        getVideoData: function (url, opts) {
             var deferred = $.Deferred();
-            if (opts.videoEmbed) {
-                var ytRegex = /https?:\/\/(?:[0-9A-Z-]+\.)?(?:youtu\.be\/|youtube\.com(?:\/embed\/|\/v\/|\/watch\?v=|\/ytscreeningroom\?v=|\/feeds\/api\/videos\/|\/user\S*[^\w\-\s]|\S*[^\w\-\s]))([\w\-]{11})[?=&+%\w-]*/gi;
-                var vimeoRegex = /https?:\/\/(?:www\.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/([^\/]*)\/videos\/|album\/(\d+)\/video\/|)(\d+)(?:$|\/|\?)*/gi;
-                var videoDimensions = this.dimensions(opts);
-                var returnedData;
-                if (data.match(ytRegex)) {
-                    $.getJSON('https://www.googleapis.com/youtube/v3/videos?id=' + RegExp.$1 + '&key=' + opts.gdevAuthKey + '&part=snippet,statistics').success(function (d) {
-                        var ytData = d.items[0];
-                        video.host = 'youtube';
-                        video.title = ytData.snippet.title;
-                        video.thumbnail = ytData.snippet.thumbnails.medium.url;
-                        video.description = (ytData.snippet.description.trunc(150, true)).replace(/\n/g, ' ').replace(/&#10;/g, ' ');
-                        video.rawDescription = ytData.snippet.description;
-                        video.views = ytData.statistics.viewCount;
-                        video.likes = ytData.statistics.likeCount;
-                        video.url = 'https://www.youtube.com/watch?v=' + RegExp.$1;
-                        video.width = videoDimensions.width;
-                        video.height = videoDimensions.height;
-                        video.id = ytData.id;
-                        initVideoTemplate();
-                        data = data + videoTemplate;
-                        returnedData = data;
-                        deferred.resolve(returnedData);
+            var returnedData;
+            var videoDimensions = this.dimensions(opts);
+            if (url.match(this.ytRegex)) {
+                $.getJSON('https://www.googleapis.com/youtube/v3/videos?id=' + RegExp.$1 + '&key=' + opts.gdevAuthKey + '&part=snippet,statistics').success(function (d) {
+                    var ytData = d.items[0];
+                    video.host = 'youtube';
+                    video.title = ytData.snippet.title;
+                    video.thumbnail = ytData.snippet.thumbnails.medium.url;
+                    video.description = (ytData.snippet.description.trunc(150, true)).replace(/\n/g, ' ').replace(/&#10;/g, ' ');
+                    video.rawDescription = ytData.snippet.description;
+                    video.views = ytData.statistics.viewCount;
+                    video.likes = ytData.statistics.likeCount;
+                    video.url = 'https://www.youtube.com/watch?v=' + RegExp.$1;
+                    video.width = videoDimensions.width;
+                    video.height = videoDimensions.height;
+                    video.id = ytData.id;
+                    initVideoTemplate();
+                    returnedData = videoTemplate;
+                    deferred.resolve(returnedData);
+                });
+            }
+            else if (url.match(this.vimeoRegex)) {
+                $.getJSON('https://vimeo.com/api/v2/video/' + RegExp.$3 + '.json').success(function (d) {
 
-                    });
-                }
-                else if (data.match(vimeoRegex)) {
-                    $.getJSON('https://vimeo.com/api/v2/video/' + RegExp.$3 + '.json').success(function (d) {
+                    video.host = 'vimeo';
+                    video.title = d[0].title;
+                    video.rawDescription = (d[0].description).replace(/\n/g, '<br/>').replace(/&#10;/g, '<br/>');
+                    video.description = (d[0].description).replace(/((<|&lt;)br\s*\/*(>|&gt;)\r\n)/g, ' ').trunc(150, true);
+                    video.thumbnail = d[0].thumbnail_medium;
+                    video.views = d[0].stats_number_of_plays;
+                    video.likes = d[0].stats_number_of_likes;
+                    video.url = d[0].url;
+                    video.width = videoDimensions.width;
+                    video.height = videoDimensions.height;
+                    video.id = d[0].id;
+                    initVideoTemplate();
+                    returnedData = videoTemplate;
+                    deferred.resolve(returnedData);
 
-                        video.host = 'vimeo';
-                        video.title = d[0].title;
-                        video.rawDescription = (d[0].description).replace(/\n/g, '<br/>').replace(/&#10;/g, '<br/>');
-                        video.description = (d[0].description).replace(/((<|&lt;)br\s*\/*(>|&gt;)\r\n)/g, ' ').trunc(150, true);
-                        video.thumbnail = d[0].thumbnail_medium;
-                        video.views = d[0].stats_number_of_plays;
-                        video.likes = d[0].stats_number_of_likes;
-                        video.url = d[0].url;
-                        video.width = videoDimensions.width;
-                        video.height = videoDimensions.height;
-                        video.id = d[0].id;
-                        initVideoTemplate();
-                        returnedData = data + videoTemplate;
-                        deferred.resolve(returnedData);
+                });
+            }
 
-                    });
+            return deferred.promise();
+        }
+        ,
+
+        embed: function (rawStr, opts) {
+            var deferred = $.Deferred();
+            var youtubeVimeoRegex = new RegExp(this.ytRegex.source + '|' + this.vimeoRegex.source, 'gi');
+
+            var resultStr;
+
+            function serviceLoop() {
+                _this.getVideoData(matchArray[i], opts).then(function (d) {
+                    returnedData.push(d);
+                    i++;
+                    if (i < matchArray.length) {
+                        serviceLoop();
+                    }
+                    else if (returnedData.length === matchArray.length) {
+                        resultStr=rawStr+returnedData.join(' ');
+                        deferred.resolve(resultStr);
+                    }
+                });
+            }
+
+            if (opts.videoEmbed && rawStr.match(youtubeVimeoRegex)) {
+
+                var matchArray = [];
+                var matches;
+
+                while ((matches = youtubeVimeoRegex.exec(rawStr)) !== null) {
+                    matchArray.push(matches[0]);
                 }
-                else {
-                    deferred.resolve(data);
-                }
+
+                //Remove duplicate urls and save to the variable removedDuplicates
+
+                matchArray=matchArray.getUnique();
+
+                var _this = this;
+
+                var i = 0;
+                var returnedData = [];
+
+                serviceLoop();
+
             }
             else {
-                deferred.resolve(data);
+                resultStr=rawStr;
+                deferred.resolve(resultStr);
             }
             return deferred.promise();
 
@@ -821,7 +867,6 @@
 
                             embedArray.push(createObject(_matches.index, template));
 
-                            console.log(embedArray);
 
                             deferred.resolve(str1);
 
@@ -941,7 +986,7 @@
 
                 videoProcess.embed(input, settings).then(function (d) {
                     if (settings.tweetsEmbed && tweetProcess.getMatches(d)) {
-                        tweetProcess.embed(d, tweetProcess.getMatches(input), settings).then(function (data) {
+                        tweetProcess.embed(d, tweetProcess.getMatches(d), settings).then(function (data) {
                             $(that).html(data);
                             $(that).css('display', 'block');
                             twttr.widgets.load(that);
