@@ -143,6 +143,8 @@ $('#element').embedJS({
       },
       //set false to embed images
       imageEmbed        : true,
+      //set true to enable lightboxes for images
+      imageLightbox     : true,
       //set false to embed audio
       audioEmbed        : false,
       //set false to show a preview of youtube/vimeo videos with details

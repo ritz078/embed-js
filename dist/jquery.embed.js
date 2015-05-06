@@ -135,6 +135,7 @@
                 downloadText: '<i class="fa fa-download"></i> DOWNLOAD'
             },
             imageEmbed        : true,           //set true to embed images
+            imageLightbox     : true,           //set true to enable lightboxes for images
             audioEmbed        : false,          //set true to embed audio
             videoEmbed        : true,           //set true to show a preview of youtube/vimeo videos with details
             basicVideoEmbed   : true,           //set true to show basic video files like mp4 etc. (supported by html5
@@ -425,7 +426,7 @@
                         serviceLoop();
                     }
                     else if (returnedData.length === matchArray.length) {
-                        resultStr=rawStr+returnedData.join(' ');
+                        resultStr = rawStr + returnedData.join(' ');
                         deferred.resolve(resultStr);
                     }
                 });
@@ -442,7 +443,7 @@
 
                 //Remove duplicate urls and save to the variable removedDuplicates
 
-                matchArray=matchArray.getUnique();
+                matchArray = matchArray.getUnique();
 
                 var _this = this;
 
@@ -453,7 +454,7 @@
 
             }
             else {
-                resultStr=rawStr;
+                resultStr = rawStr;
                 deferred.resolve(resultStr);
             }
             return deferred.promise();
@@ -696,6 +697,42 @@
                 embedArray.push(createObject(matches.index, template));
 
             }
+        },
+
+        /**
+         * The function to handle image lightboxes
+         * @param elem
+         */
+
+        lightbox: function (elem, opts) {
+
+            if (opts.imageLightbox) {
+
+                $(elem).find('.ejs-image').each(function () {
+                    $(this).click(function () {
+                        console.log($(this).find('img'));
+                        var imgElement = $(this).find('img')[0].outerHTML;
+                        var template = '<div class="ejs-lightbox"><div class="ejs-lightbox-wrapper">' + imgElement + '</div><i class="fa fa-remove"></i></div>';
+                        console.log(template);
+                        $('body').append(template);
+
+                        $('.ejs-lightbox>i').click(function () {
+                            $(this).parent().remove();
+                        });
+
+                        $(document).keyup(function (e) {
+                            if (e.keyCode === 27) {
+                                var _lightbox = $('.ejs-lightbox');
+                                if (_lightbox) {
+                                    $(_lightbox).remove();
+                                }
+                            }
+                        });
+
+                    });
+                });
+            }
+
         }
     };
 
@@ -848,38 +885,37 @@
 
                 var matches = locationRegex.exec(rawStr);
 
-                    var _matches=matches;
+                var _matches = matches;
 
-                    var template = '';
+                var template = '';
 
-                    if (opts.mapOptions.mode === 'place') {
-                        template = '<div class="ejs-map ejs-embed"><iframe width="600" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?key=' + opts.gdevAuthKey + '&q=' + addr + '"></iframe></div>';
+                if (opts.mapOptions.mode === 'place') {
+                    template = '<div class="ejs-map ejs-embed"><iframe width="600" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?key=' + opts.gdevAuthKey + '&q=' + addr + '"></iframe></div>';
+                    embedArray.push(createObject(_matches.index, template));
+
+                    deferred.resolve(str1);
+                }
+                else if (opts.mapOptions.mode === 'streetview' || opts.mapOptions.mode === 'view') {
+
+                    $.getJSON('http://maps.googleapis.com/maps/api/geocode/json?address=' + addr + '&sensor=false', function (d) {
+
+                        var lat = d.results[0].geometry.location.lat;
+                        var long = d.results[0].geometry.location.lng;
+
+                        if (opts.mapOptions.mode === 'streetview') {
+                            template = '<div class="ejs-map ejs-embed"><iframe width="600" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/streetview?key=' + opts.gdevAuthKey + '&location=' + lat + ',' + long + '&heading=210&pitch=10&fov=35"></iframe></div>';
+                        }
+
+                        else {
+                            template = '<div class="ejs-map ejs-embed"><iframe width="600" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/view?key=' + opts.gdevAuthKey + '&center=' + lat + ',' + long + '&zoom=18&maptype=satellite"></iframe></div>';
+                        }
+
                         embedArray.push(createObject(_matches.index, template));
 
                         deferred.resolve(str1);
-                    }
-                    else if (opts.mapOptions.mode === 'streetview' || opts.mapOptions.mode === 'view') {
 
-                        $.getJSON('http://maps.googleapis.com/maps/api/geocode/json?address=' + addr + '&sensor=false', function (d) {
-
-                            var lat = d.results[0].geometry.location.lat;
-                            var long = d.results[0].geometry.location.lng;
-
-                            if (opts.mapOptions.mode === 'streetview') {
-                                template = '<div class="ejs-map ejs-embed"><iframe width="600" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/streetview?key=' + opts.gdevAuthKey + '&location=' + lat + ',' + long + '&heading=210&pitch=10&fov=35"></iframe></div>';
-                            }
-
-                            else {
-                                template = '<div class="ejs-map ejs-embed"><iframe width="600" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/view?key=' + opts.gdevAuthKey + '&center=' + lat + ',' + long + '&zoom=18&maptype=satellite"></iframe></div>';
-                            }
-
-                            embedArray.push(createObject(_matches.index, template));
-
-
-                            deferred.resolve(str1);
-
-                        });
-                    }
+                    });
+                }
             }
             else {
                 deferred.resolve(str);
@@ -892,8 +928,7 @@
         var len = elem.length;
         var deferred = $.Deferred();
 
-
-        function renderText(str){
+        function renderText(str) {
             embedArray.sort(function (a, b) {
                 return a.index - b.index;
             });
@@ -986,11 +1021,9 @@
                 audioProcess.spotifyEmbed(rawInput);
             }
 
-
-
             mapProcess.locationEmbed(rawInput, input, settings).then(function (res) {
 
-                input=renderText(res);
+                input = renderText(res);
 
                 videoProcess.embed(input, settings).then(function (d) {
                     if (settings.tweetsEmbed && tweetProcess.getMatches(d)) {
@@ -1017,6 +1050,7 @@
 
         videoProcess.play(elem, settings);
         docProcess.view(elem, settings);
+        imageProcess.lightbox(elem, settings);
 
         return deferred.promise();
 
