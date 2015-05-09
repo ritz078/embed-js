@@ -873,27 +873,23 @@
                     var m = matches;
                     var match = 'https:' + matches[0].toUrl();
                     var url = 'https://noembed.com/embed?nowrap=on&url=' + match;
-                    var template='<div class="ejs-embed ejs-github-gist" data-url="'+url+'"></div>';
-                    embedArray.push(createObject(m.index,template));
+                    var template = '<div class="ejs-embed ejs-github-gist" data-url="' + url + '"></div>';
+                    embedArray.push(createObject(m.index, template));
 
                 }
             }
         },
 
-        githubGistRender:function(elem){
-            var gists=$('.ejs-github-gist');
-            console.log($(elem));
-            if($(elem).find(gists)) {
-                $(elem).find(gists).each(function () {
-                    var url = $(this).data('url');
-                    var _this = this;
-                    $.getJSON(url, function (d) {
-                        console.log(d);
-                        var template = d.html;
-                        $(_this).html(template);
-                    });
+        githubGistRender: function (elem) {
+            var gists = $('.ejs-github-gist');
+            $(elem).find(gists).each(function () {
+                var url = $(this).data('url');
+                var _this = this;
+                $.getJSON(url, function (d) {
+                    var template = d.html;
+                    $(_this).html(template);
                 });
-            }
+            });
         }
     };
 
@@ -917,26 +913,6 @@
                         embedArray.push(createObject(matches.index, template));
                     }
                     else if (opts.mapOptions.mode === 'streetview' || opts.mapOptions.mode === 'view') {
-
-                        //$.getJSON('http://maps.googleapis.com/maps/api/geocode/json?address=' + addr + '&sensor=false', function (d) {
-                        //
-                        //    var lat = d.results[0].geometry.location.lat;
-                        //    var long = d.results[0].geometry.location.lng;
-                        //
-                        //    if (opts.mapOptions.mode === 'streetview') {
-                        //        template = '<div class="ejs-map ejs-embed"><iframe width="600" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/streetview?key=' + opts.gdevAuthKey + '&location=' + lat + ',' + long + '&heading=210&pitch=10&fov=35"></iframe></div>';
-                        //    }
-                        //
-                        //    else {
-                        //        template = '<div class="ejs-map ejs-embed"><iframe width="600" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/view?key=' + opts.gdevAuthKey + '&center=' + lat + ',' + long + '&zoom=18&maptype=satellite"></iframe></div>';
-                        //    }
-                        //
-                        //    embedArray.push(createObject(_matches.index, template));
-                        //
-                        //    deferred.resolve(str1);
-                        //
-                        //});
-
                         var template = '<div class="ejs-embed ejs-streetview" data-location="' + matches[0].split('(')[1].split(')')[0] + '"></div>';
                         embedArray.push(createObject(matches.index, template));
 
@@ -945,6 +921,30 @@
             }
 
             return str;
+        },
+
+        mapRender: function (elem, opts) {
+            $(elem).find('.ejs-streetview').each(function () {
+                var location = $(this).data('location');
+                var _this = this;
+
+                $.getJSON('http://maps.googleapis.com/maps/api/geocode/json?address=' + location + '&sensor=false', function (d) {
+                    var template;
+
+                    var lat = d.results[0].geometry.location.lat;
+                    var long = d.results[0].geometry.location.lng;
+
+                    if (opts.mapOptions.mode === 'streetview') {
+                        template = '<iframe width="600" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/streetview?key=' + opts.gdevAuthKey + '&location=' + lat + ',' + long + '&heading=210&pitch=10&fov=35"></iframe>';
+                    }
+
+                    else {
+                        template = '<iframe width="600" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/view?key=' + opts.gdevAuthKey + '&center=' + lat + ',' + long + '&zoom=18&maptype=satellite"></iframe>';
+                    }
+                    $(_this).html(template);
+
+                });
+            });
         }
     };
 
@@ -1044,38 +1044,35 @@
             if (ifEmbed('spotify')) {
                 audioProcess.spotifyEmbed(rawInput);
             }
-            if(ifEmbed('githubGist')){
-                codeEmbedProcess.githubGistEmbed(rawInput,settings);
+            if (ifEmbed('githubGist')) {
+                codeEmbedProcess.githubGistEmbed(rawInput, settings);
             }
             if (settings.locationEmbed) {
-                mapProcess.locationEmbed(rawInput,input,settings);
+                mapProcess.locationEmbed(rawInput, input, settings);
             }
-                    input = renderText(input);
+            input = renderText(input);
 
-                    videoProcess.embed(input, settings).then(function (d) {
-                        if (settings.tweetsEmbed && tweetProcess.getMatches(d)) {
-                            tweetProcess.embed(d, tweetProcess.getMatches(d), settings).then(function (data) {
-                                $(that).html(data);
-                                $(that).css('display', 'block');
-                                twttr.widgets.load(that);
-                                if (i == len - 1) {
-                                    deferred.resolve();
-                                }
-                            });
-                        }
-                        else {
-                            $(that).html(d);
-                            $(that).css('display', 'block');
-                            if (i == len - 1) {
-                                deferred.resolve();
-                            }
+            videoProcess.embed(input, settings).then(function (d) {
+                if (settings.tweetsEmbed && tweetProcess.getMatches(d)) {
+                    tweetProcess.embed(d, tweetProcess.getMatches(d), settings).then(function (data) {
+                        $(that).html(data);
+                        $(that).css('display', 'block');
+                        twttr.widgets.load(that);
+                        if (i == len - 1) {
+                            deferred.resolve();
                         }
                     });
-
-
+                }
+                else {
+                    $(that).html(d);
+                    $(that).css('display', 'block');
+                    if (i == len - 1) {
+                        deferred.resolve();
+                    }
+                }
+            });
 
         });
-
 
         //mapProcess.streetview(elem, settings);
 
@@ -1097,7 +1094,7 @@
             if (!settings.block) {
                 selector = $(element).find(settings.embedSelector);
             } else {
-                selector=$(element);
+                selector = $(element);
             }
 
             _driver(selector, settings).then(function () {
@@ -1105,7 +1102,8 @@
                 videoProcess.play(selector, settings);
                 docProcess.view(selector, settings);
                 imageProcess.lightbox(selector, settings);
-                codeEmbedProcess.githubGistRender(selector,settings);
+                codeEmbedProcess.githubGistRender(selector, settings);
+                mapProcess.mapRender(selector,settings);
 
                 if (settings.tweetsEmbed) {
                     twttr.events.bind(
