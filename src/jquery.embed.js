@@ -855,64 +855,88 @@
                 embedArray.push(createObject(matches.index, template));
 
             }
+        },
+
+        githubGistEmbed: function (rawStr) {
+            var ggRegex = /gist.github.com\/[a-zA-Z0-9_-]+\/([a-zA-Z0-9]+)/g;
+            var matches;
+            if (rawStr.match(ggRegex)) {
+                while ((matches = ggRegex.exec(rawStr)) !== null) {
+                    var m = matches;
+                    var match = 'https:' + matches[0].toUrl();
+                    var url = 'https://noembed.com/embed?nowrap=on&url=' + match;
+                    var template='<div class="ejs-embed ejs-github-gist" data-url="'+url+'"></div>';
+                    embedArray.push(createObject(m.index,template));
+
+                }
+            }
+        },
+
+        githubGistRender:function(elem){
+            var gists=$('.ejs-github-gist');
+            console.log($(elem));
+            if($(elem).find(gists)) {
+                $(elem).find(gists).each(function () {
+                    var url = $(this).data('url');
+                    var _this = this;
+                    $.getJSON(url, function (d) {
+                        console.log(d);
+                        var template = d.html;
+                        $(_this).html(template);
+                    });
+                });
+            }
         }
     };
 
     var mapProcess = {
         locationEmbed: function (rawStr, str, opts) {
-
-            var deferred = $.Deferred();
             var locationRegex = /@\((.+)\)/gi;
 
-            var match = str.match(locationRegex) ? (str.match(locationRegex)) : null;
+            var match = rawStr.match(locationRegex) ? (rawStr.match(locationRegex)) : null;
 
-            var addr;
             if (opts.locationEmbed && match) {
 
-                var str1;
-                str1 = str.replace(locationRegex, function (match) {
-                    addr = match.split('(')[1].split(')')[0];
+                str = str.replace(locationRegex, function (match) {
                     return '<span class="ejs-location">' + match.split('(')[1].split(')')[0] + '</span>';
                 });
 
-                var matches = locationRegex.exec(rawStr);
+                var matches;
 
-                var _matches = matches;
+                while ((matches = locationRegex.exec(rawStr)) !== null) {
+                    if (opts.mapOptions.mode === 'place') {
+                        template = '<div class="ejs-map ejs-embed"><iframe width="600" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?key=' + opts.gdevAuthKey + '&q=' + matches[0].split('(')[1].split(')')[0] + '"></iframe></div>';
+                        embedArray.push(createObject(matches.index, template));
+                    }
+                    else if (opts.mapOptions.mode === 'streetview' || opts.mapOptions.mode === 'view') {
 
-                var template = '';
+                        //$.getJSON('http://maps.googleapis.com/maps/api/geocode/json?address=' + addr + '&sensor=false', function (d) {
+                        //
+                        //    var lat = d.results[0].geometry.location.lat;
+                        //    var long = d.results[0].geometry.location.lng;
+                        //
+                        //    if (opts.mapOptions.mode === 'streetview') {
+                        //        template = '<div class="ejs-map ejs-embed"><iframe width="600" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/streetview?key=' + opts.gdevAuthKey + '&location=' + lat + ',' + long + '&heading=210&pitch=10&fov=35"></iframe></div>';
+                        //    }
+                        //
+                        //    else {
+                        //        template = '<div class="ejs-map ejs-embed"><iframe width="600" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/view?key=' + opts.gdevAuthKey + '&center=' + lat + ',' + long + '&zoom=18&maptype=satellite"></iframe></div>';
+                        //    }
+                        //
+                        //    embedArray.push(createObject(_matches.index, template));
+                        //
+                        //    deferred.resolve(str1);
+                        //
+                        //});
 
-                if (opts.mapOptions.mode === 'place') {
-                    template = '<div class="ejs-map ejs-embed"><iframe width="600" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?key=' + opts.gdevAuthKey + '&q=' + addr + '"></iframe></div>';
-                    embedArray.push(createObject(_matches.index, template));
+                        var template = '<div class="ejs-embed ejs-streetview" data-location="' + matches[0].split('(')[1].split(')')[0] + '"></div>';
+                        embedArray.push(createObject(matches.index, template));
 
-                    deferred.resolve(str1);
-                }
-                else if (opts.mapOptions.mode === 'streetview' || opts.mapOptions.mode === 'view') {
-
-                    $.getJSON('http://maps.googleapis.com/maps/api/geocode/json?address=' + addr + '&sensor=false', function (d) {
-
-                        var lat = d.results[0].geometry.location.lat;
-                        var long = d.results[0].geometry.location.lng;
-
-                        if (opts.mapOptions.mode === 'streetview') {
-                            template = '<div class="ejs-map ejs-embed"><iframe width="600" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/streetview?key=' + opts.gdevAuthKey + '&location=' + lat + ',' + long + '&heading=210&pitch=10&fov=35"></iframe></div>';
-                        }
-
-                        else {
-                            template = '<div class="ejs-map ejs-embed"><iframe width="600" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/view?key=' + opts.gdevAuthKey + '&center=' + lat + ',' + long + '&zoom=18&maptype=satellite"></iframe></div>';
-                        }
-
-                        embedArray.push(createObject(_matches.index, template));
-
-                        deferred.resolve(str1);
-
-                    });
+                    }
                 }
             }
-            else {
-                deferred.resolve(str);
-            }
-            return deferred.promise();
+
+            return str;
         }
     };
 
@@ -1012,37 +1036,40 @@
             if (ifEmbed('spotify')) {
                 audioProcess.spotifyEmbed(rawInput);
             }
+            if(ifEmbed('githubGist')){
+                codeEmbedProcess.githubGistEmbed(rawInput,settings);
+            }
+            if (settings.locationEmbed) {
+                mapProcess.locationEmbed(rawInput,input,settings);
+            }
+                    input = renderText(input);
 
-            mapProcess.locationEmbed(rawInput, input, settings).then(function (res) {
-
-                input = renderText(res);
-
-                videoProcess.embed(input, settings).then(function (d) {
-                    if (settings.tweetsEmbed && tweetProcess.getMatches(d)) {
-                        tweetProcess.embed(d, tweetProcess.getMatches(d), settings).then(function (data) {
-                            $(that).html(data);
+                    videoProcess.embed(input, settings).then(function (d) {
+                        if (settings.tweetsEmbed && tweetProcess.getMatches(d)) {
+                            tweetProcess.embed(d, tweetProcess.getMatches(d), settings).then(function (data) {
+                                $(that).html(data);
+                                $(that).css('display', 'block');
+                                twttr.widgets.load(that);
+                                if (i == len - 1) {
+                                    deferred.resolve();
+                                }
+                            });
+                        }
+                        else {
+                            $(that).html(d);
                             $(that).css('display', 'block');
-                            twttr.widgets.load(that);
                             if (i == len - 1) {
                                 deferred.resolve();
                             }
-                        });
-                    }
-                    else {
-                        $(that).html(d);
-                        $(that).css('display', 'block');
-                        if (i == len - 1) {
-                            deferred.resolve();
                         }
-                    }
-                });
-            });
+                    });
+
+
 
         });
 
-        videoProcess.play(elem, settings);
-        docProcess.view(elem, settings);
-        imageProcess.lightbox(elem, settings);
+
+        //mapProcess.streetview(elem, settings);
 
         return deferred.promise();
 
@@ -1054,21 +1081,24 @@
     $.extend(Plugin.prototype, {
         init: function (settings, element) {
 
-            //add ejs class to the element
-            $(element).addClass('ejs');
-
             //call beforeEmbedJSApply function
             settings.beforeEmbedJSApply();
 
-            var selector = [];
+            var selector;
 
             if (!settings.block) {
                 selector = $(element).find(settings.embedSelector);
             } else {
-                selector = $(element);
+                selector=$(element);
             }
 
             _driver(selector, settings).then(function () {
+
+                videoProcess.play(selector, settings);
+                docProcess.view(selector, settings);
+                imageProcess.lightbox(selector, settings);
+                codeEmbedProcess.githubGistRender(selector,settings);
+
                 if (settings.tweetsEmbed) {
                     twttr.events.bind(
                         'loaded',
