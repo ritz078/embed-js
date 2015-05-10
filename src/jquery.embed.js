@@ -691,6 +691,18 @@
             }
         },
 
+        instagramEmbed:function(rawStr,opts){
+          var instagramRegex=/instagram.com\/p\/[a-zA-Z0-9]+/gi;
+            var dimensions = videoProcess.dimensions(opts);
+            var matches;
+            while ((matches = instagramRegex.exec(rawStr)) !== null) {
+
+                var template = '<div class="ejs-embed"><iframe src="' + matches[0].toUrl() + '/embed/" width="' + dimensions.width + '" height="' + dimensions.height + '"></iframe></div>';
+                embedArray.push(createObject(matches.index, template));
+
+            }
+        },
+
         /**
          * The function to handle image lightboxes
          * @param elem
@@ -1041,6 +1053,9 @@
             }
             if (settings.locationEmbed) {
                 mapProcess.locationEmbed(rawInput, input, settings);
+            }
+            if(ifEmbed('instagram')){
+                imageProcess.instagramEmbed(rawInput,settings);
             }
             input = renderText(input);
 
