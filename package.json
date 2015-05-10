@@ -1,7 +1,7 @@
 {
   "name": "embed-js",
-  "version": "2.0.5",
-  "description": "A jQuery plugin that analyses the string and automatically embeds the supported emojis, media, maps, tweets, code and services.",
+  "version": "2.0.6",
+  "description": "A jQuery plugin that analyses the string and automatically embeds emojis, media, maps, tweets, code and services.",
   "keywords": [
     "jquery-plugin",
     "jquery",
