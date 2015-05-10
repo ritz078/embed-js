@@ -186,7 +186,8 @@ $('#element').embedJS({
             lang       : 'en'
       },
       //An array of services excluded from embedding...
-      //Options : codePen/jdFiddle/jsBin/ideone/plunker/soundcloud/twitchTv/dotSub/dailymotion/vine/ted/liveleak/spotify/ustream/flickr
+      //Options : codePen/jdFiddle/jsBin/ideone/plunker/soundcloud/twitchTv/dotSub/dailymotion/vine/ted/liveleak/spotify/ustream
+      //          /flickr/instagram
       //Can exclude all options by setting it to 'all'
       excludeEmbed     :['twitchTv'],
       //Height of jsfiddle/codepen/jsbin/ideone/plunker
@@ -263,6 +264,12 @@ Examples
 --------
 Visit [http://rkritesh.in/embed.js](http://rkritesh.in/embed.js)
 
+Version 2.0.6
+-------------
+* Instagram support added
+* Github gist support added
+* Embed order fixed
+* Image lightbox added
 
 Version 2.0.5
 -------------
