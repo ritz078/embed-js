@@ -6,3 +6,5 @@ bower_components/
 local-test/
 demo/index2.html
 npm-debug.log
+build/
+modules/

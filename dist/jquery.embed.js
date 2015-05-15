@@ -1,6 +1,6 @@
 /*
- *  embed-js - v2.0.5
- *  A jQuery plugin that analyses the string and automatically embeds the supported emojis, media, maps, tweets, code and services.
+ *  embed-js - v2.0.6
+ *  A jQuery plugin that analyses the string and automatically embeds emojis, media, maps, tweets, code and services.
  *  http://rkritesh.in/embed.js
  *
  *  Made by Ritesh Kumar
@@ -688,7 +688,7 @@
         },
 
         flickrEmbed: function (rawStr, opts) {
-            var flickrRegex = /flickr.com\/[a-z]+\/[a-zA-Z\d]+\/[\d]+/gi;
+            var flickrRegex = /flickr.com\/[a-z]+\/[a-zA-Z@_$!\d]+\/[\d]+/gi;
             var dimensions = videoProcess.dimensions(opts);
             var matches;
             while ((matches = flickrRegex.exec(rawStr)) !== null) {

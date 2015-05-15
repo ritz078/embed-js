@@ -680,7 +680,7 @@
         },
 
         flickrEmbed: function (rawStr, opts) {
-            var flickrRegex = /flickr.com\/[a-z]+\/[a-zA-Z\d]+\/[\d]+/gi;
+            var flickrRegex = /flickr.com\/[a-z]+\/[a-zA-Z@_$!\d]+\/[\d]+/gi;
             var dimensions = videoProcess.dimensions(opts);
             var matches;
             while ((matches = flickrRegex.exec(rawStr)) !== null) {
