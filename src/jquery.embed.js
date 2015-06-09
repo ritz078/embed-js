@@ -206,8 +206,10 @@
 
     /* UTILITIES - FUNCTIONS */
 
-    String.prototype.trunc = function (n, useWordBoundary) {
-        var toLong = this.length > n, s_ = toLong ? this.substr(0, n - 1) : this;
+    var utils = {};
+
+    utils.trunc = function (string, n, useWordBoundary) {
+        var toLong = string.length > n, s_ = toLong ? string.substr(0, n - 1) : string;
         s_ = useWordBoundary && toLong ? s_.substr(0, s_.lastIndexOf(' ')) : s_;
         return toLong ? s_ + '...' : s_;
     };
@@ -217,24 +219,24 @@
      *
      * @returns {Array}
      */
-    Array.prototype.getUnique = function () {
+    utils.getUnique = function (array) {
         var u = {}, a = [];
-        for (var i = 0, l = this.length; i < l; ++i) {
-            if (u.hasOwnProperty(this[i])) {
+        for (var i = 0, l = array.length; i < l; ++i) {
+            if (u.hasOwnProperty(array[i])) {
                 continue;
             }
-            a.push(this[i]);
-            u[this[i]] = 1;
+            a.push(array[i]);
+            u[array[i]] = 1;
         }
         return a;
     };
 
-    String.prototype.toUrl = function () {
+    utils.toUrl = function (string) {
         var url;
-        if (this.indexOf('//') == -1) {
-            url = '//' + this;
+        if (string.indexOf('//') == -1) {
+            url = '//' + string;
         } else {
-            url = this;
+            url = string;
         }
         return url;
     };
@@ -284,7 +286,7 @@
         return str.replace(urlRegex, function (match) {
             var extension = match.split('.')[match.split('.').length - 1];
             if (($.inArray(extension, opts.linkExclude) === -1)) {
-                return '<a href="' + match.toUrl() + '" target="' + opts.linkTarget + '">' + match + '</a>';
+                return '<a href="' + utils.toUrl(match) + '" target="' + opts.linkTarget + '">' + match + '</a>';
             }
             return match;
         });
@@ -366,7 +368,7 @@
                     video.host = 'youtube';
                     video.title = ytData.snippet.title;
                     video.thumbnail = ytData.snippet.thumbnails.medium.url;
-                    video.description = (ytData.snippet.description.trunc(150, true)).replace(/\n/g, ' ').replace(/&#10;/g, ' ');
+                    video.description = (utils.trunc(ytData.snippet.description, 150, true)).replace(/\n/g, ' ').replace(/&#10;/g, ' ');
                     video.rawDescription = ytData.snippet.description;
                     video.views = ytData.statistics.viewCount;
                     video.likes = ytData.statistics.likeCount;
@@ -385,7 +387,7 @@
                     video.host = 'vimeo';
                     video.title = d[0].title;
                     video.rawDescription = (d[0].description).replace(/\n/g, '<br/>').replace(/&#10;/g, '<br/>');
-                    video.description = (d[0].description).replace(/((<|&lt;)br\s*\/*(>|&gt;)\r\n)/g, ' ').trunc(150, true);
+                    video.description = utils.trunc((d[0].description).replace(/((<|&lt;)br\s*\/*(>|&gt;)\r\n)/g, ' '), 150, true);
                     video.thumbnail = d[0].thumbnail_medium;
                     video.views = d[0].stats_number_of_plays;
                     video.likes = d[0].stats_number_of_likes;
@@ -435,7 +437,7 @@
 
                 //Remove duplicate urls and save to the variable removedDuplicates
 
-                matchArray = matchArray.getUnique();
+                matchArray = utils.getUnique(matchArray);
 
                 var _this = this;
 
@@ -564,7 +566,7 @@
             var matches;
             while ((matches = docRegex.exec(rawStr)) !== null) {
 
-                var template = '<div class="ejs-doc"><div class="ejs-doc-preview"><div class="ejs-doc-icon"><i class="fa fa-file-o"></i></div><div class="ejs-doc-detail" ><div class="ejs-doc-title"> <a href="">' + matches[0].toUrl() + '</a></div> <div class="ejs-doc-view"> <a href="' + matches[0].toUrl() + '" target="_blank"><button>' + opts.docOptions.downloadText + '</button></a> <button class="ejs-doc-view-active">' + opts.docOptions.viewText + '</button></div> </div> </div></div>';
+                var template = '<div class="ejs-doc"><div class="ejs-doc-preview"><div class="ejs-doc-icon"><i class="fa fa-file-o"></i></div><div class="ejs-doc-detail" ><div class="ejs-doc-title"> <a href="">' + utils.toUrl(matches[0]) + '</a></div> <div class="ejs-doc-view"> <a href="' + utils.toUrl(matches[0]) + '" target="_blank"><button>' + opts.docOptions.downloadText + '</button></a> <button class="ejs-doc-view-active">' + opts.docOptions.viewText + '</button></div> </div> </div></div>';
                 embedArray.push(createObject(matches.index, template));
 
             }
@@ -580,7 +582,7 @@
 
                 var docParent = $(self).closest('.ejs-doc');
                 var docUrl = $(docParent).find('a')[1].href;
-                var docViewTemplate = ' <div class="ejs-doc-viewer"><iframe src="http://docs.google.com/viewer?embedded=true&url=' + docUrl.toUrl() + '" frameBorder="0" style="border: none;margin : 0 auto; display : block;"></iframe></div>';
+                var docViewTemplate = ' <div class="ejs-doc-viewer"><iframe src="http://docs.google.com/viewer?embedded=true&url=' + utils.toUrl(docUrl) + '" frameBorder="0" style="border: none;margin : 0 auto; display : block;"></iframe></div>';
                 docParent.html(docViewTemplate);
 
                 //calling the function after the document is shown.
@@ -685,7 +687,7 @@
             var matches;
             while ((matches = flickrRegex.exec(rawStr)) !== null) {
 
-                var template = '<div class="ejs-embed"><div class="ne-image-wrapper"><iframe src="' + matches[0].toUrl() + '/player/" width="' + dimensions.width + '" height="' + dimensions.height + '"></iframe></div></div>';
+                var template = '<div class="ejs-embed"><div class="ne-image-wrapper"><iframe src="' + utils.toUrl(matches[0]) + '/player/" width="' + dimensions.width + '" height="' + dimensions.height + '"></iframe></div></div>';
                 embedArray.push(createObject(matches.index, template));
 
             }
@@ -697,7 +699,7 @@
             var matches;
             while ((matches = instagramRegex.exec(rawStr)) !== null) {
 
-                var template = '<div class="ejs-embed"><iframe src="' + matches[0].toUrl() + '/embed/" width="' + dimensions.width + '" height="' + dimensions.height + '"></iframe></div>';
+                var template = '<div class="ejs-embed"><iframe src="' + utils.toUrl(matches[0]) + '/embed/" width="' + dimensions.width + '" height="' + dimensions.height + '"></iframe></div>';
                 embedArray.push(createObject(matches.index, template));
 
             }
@@ -774,7 +776,7 @@
 
         getMatches: function (str) {
             var tweetRegex = /https:\/\/twitter\.com\/\w+\/\w+\/\d+/gi;
-            var matches = str.match(tweetRegex) ? (str.match(tweetRegex)).getUnique() : null;
+            var matches = str.match(tweetRegex) ? utils.getUnique(str.match(tweetRegex)) : null;
             return matches;
 
         },
@@ -875,7 +877,7 @@
             if (rawStr.match(ggRegex)) {
                 while ((matches = ggRegex.exec(rawStr)) !== null) {
                     var m = matches;
-                    var match = 'https:' + matches[0].toUrl();
+                    var match = 'https:' + utils.toUrl(matches[0]);
                     var url = 'https://noembed.com/embed?nowrap=on&url=' + match;
                     var template = '<div class="ejs-embed ejs-github-gist" data-url="' + url + '"></div>';
                     embedArray.push(createObject(m.index, template));
@@ -964,7 +966,7 @@
             $.each(embedArray, function (index, value) {
                 embedCodeArray.push(value.embedCode);
             });
-            str = str + embedCodeArray.getUnique().join(' ');
+            str = str + utils.getUnique(embedCodeArray).join(' ');
             embedArray = [];
             embedCodeArray = [];
             return str;
