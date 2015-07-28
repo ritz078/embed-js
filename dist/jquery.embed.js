@@ -301,7 +301,26 @@
     }
 
     function initVideoTemplate() {
-        videoTemplate = '<div class="ejs-video"><div class="ejs-video-preview">' + '<div class="ejs-video-thumb">' + '<img src="' + video.thumbnail + '" alt="' + video.host + '/' + video.id + '"/>' + '<i class="fa fa-play-circle-o"></i>' + '</div>' + '<div class="ejs-video-detail">' + '<div class="ejs-video-title">' + '<a href="' + video.url + '">' + video.title + '</a>' + '</div>' + '<div class="ejs-video-desc">' + video.description + '</div>' + '<div class="ejs-video-stats">' + '<span><i class="fa fa-eye"></i> ' + video.views + '</span>' + '<span><i class="fa fa-heart"></i> ' + video.likes + '</span>' + '</div>' + '</div>' + '</div></div>';
+        videoTemplate = [
+            '<div class="ejs-video">',
+                '<div class="ejs-video-preview">',
+                    '<div class="ejs-video-thumb">',
+                        '<img src="' + video.thumbnail + '" alt="' + video.host + '/' + video.id + '"/>',
+                        '<i class="fa fa-play-circle-o"></i>',
+                    '</div>',
+                    '<div class="ejs-video-detail">',
+                        '<div class="ejs-video-title">',
+                            '<a href="' + video.url + '">' + video.title + '</a>',
+                        '</div>',
+                        '<div class="ejs-video-desc">' + video.description + '</div>',
+                        '<div class="ejs-video-stats">',
+                            '<span><i class="fa fa-eye"></i> ' + video.views + '</span>',
+                            '<span><i class="fa fa-heart"></i> ' + video.likes + '</span>',
+                        '</div>',
+                    '</div>',
+                '</div>',
+            '</div>'
+        ].join('');
     }
 
     var videoProcess = {
@@ -344,7 +363,11 @@
                     videoInfo.url = 'https://www.youtube.com/embed/' + videoDetails[1] + '?autoplay=1&rel=0';
                 }
 
-                var videoPlayerTemplate = '<div class="ejs-video-player"><iframe src="' + videoInfo.url + '" frameBorder="0" width="' + video.width + '" height="' + video.height + '" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe></div>';
+                var videoPlayerTemplate = [
+                    '<div class="ejs-video-player">',
+                        '<iframe src="' + videoInfo.url + '" frameBorder="0" width="' + video.width + '" height="' + video.height + '" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>',
+                    '</div>'
+                ].join('');
                 var wrapper = $(self).parent();
                 $(wrapper).html(videoPlayerTemplate);
                 settings.onVideoShow();
@@ -468,7 +491,15 @@
             var matches;
             while ((matches = basicVideoRegex.exec(rawStr)) !== null) {
 
-                var template = '<div class="ejs-video"><div class="ejs-video-player"><div class="player"><video src="' + matches[0] + '" controls></video></div></div></div>';
+                var template = [
+                    '<div class="ejs-video">',
+                        '<div class="ejs-video-player">',
+                            '<div class="player">',
+                                '<video src="' + matches[0] + '" controls></video>',
+                            '</div>',
+                        '</div>',
+                    '</div>'
+                ].join('');
                 embedArray.push(createObject(matches.index, template));
 
             }
@@ -480,9 +511,18 @@
             var matches;
             while ((matches = twitchRegex.exec(rawStr)) !== null) {
 
-                var template = '<div class="ejs-video"><object bgcolor="#000000" data="//www-cdn.jtvnw.net/swflibs/TwitchPlayer.swf" height="' + videoDimensions.height + '" id="clip_embed_player_flash" type="application/x-shockwave-flash" width="' + videoDimensions.width + '">' + '<param name="movie" value="http://www-cdn.jtvnw.net/swflibs/TwitchPlayer.swf" />' + '<param name="allowScriptAccess" value="always" />' + '<param name="allowNetworking" value="all" />' + '<param name="allowFullScreen" value="true" />' + '<param name="flashvars" value="channel=' + matches[0].split('/')[1] + '&auto_play=false" />' + '</object></div>';
+                var template = [
+                    '<div class="ejs-video">',
+                        '<object bgcolor="#000000" data="//www-cdn.jtvnw.net/swflibs/TwitchPlayer.swf" height="' + videoDimensions.height + '" id="clip_embed_player_flash" type="application/x-shockwave-flash" width="' + videoDimensions.width + '">',
+                            '<param name="movie" value="http://www-cdn.jtvnw.net/swflibs/TwitchPlayer.swf" />',
+                            '<param name="allowScriptAccess" value="always" />',
+                            '<param name="allowNetworking" value="all" />',
+                            '<param name="allowFullScreen" value="true" />',
+                            '<param name="flashvars" value="channel=' + matches[0].split('/')[1] + '&auto_play=false" />',
+                        '</object>',
+                    '</div>'
+                ].join('');
                 embedArray.push(createObject(matches.index, template));
-
             }
         },
 
@@ -492,7 +532,11 @@
             var matches;
             while ((matches = dotsubRegex.exec(rawStr)) !== null) {
 
-                var template = '<div class="ejs-video"><iframe src="https://dotsub.com/media/' + matches[0].split('/')[2] + '/embed/" width="' + videoDimensions.width + '" height="' + videoDimensions.height + '"></iframe></div>';
+                var template = [
+                    '<div class="ejs-video">',
+                        '<iframe src="https://dotsub.com/media/' + matches[0].split('/')[2] + '/embed/" width="' + videoDimensions.width + '" height="' + videoDimensions.height + '"></iframe>',
+                    '</div>'
+                ].join('');
                 embedArray.push(createObject(matches.index, template));
 
             }
@@ -504,7 +548,11 @@
             var matches;
             while ((matches = dmRegex.exec(rawStr)) !== null) {
 
-                var template = '<div class="ejs-video"><iframe src="http://www.dailymotion.com/embed/video/' + matches[0].split('/')[2] + '" height="' + videoDimensions.height + '" width="' + videoDimensions.width + '"></iframe></div>';
+                var template = [
+                    '<div class="ejs-video">',
+                        '<iframe src="http://www.dailymotion.com/embed/video/' + matches[0].split('/')[2] + '" height="' + videoDimensions.height + '" width="' + videoDimensions.width + '"></iframe>',
+                    '</div>'
+                ].join('');
                 embedArray.push(createObject(matches.index, template));
 
             }
@@ -523,7 +571,11 @@
             var matches;
             while ((matches = vineRegex.exec(rawStr)) !== null) {
 
-                var template = '<div class="ejs-vine"><iframe class="ejs-vine-iframe" src="https://vine.co/v/' + matches[0].split('/')[2] + '/embed/' + opts.vineOptions.type + '" height="' + (opts.vineOptions.type == 'postcard' ? (_width() + 160) : _width()) + '" width="' + _width() + '"></iframe></div>';
+                var template = [
+                    '<div class="ejs-vine">',
+                        '<iframe class="ejs-vine-iframe" src="https://vine.co/v/' + matches[0].split('/')[2] + '/embed/' + opts.vineOptions.type + '" height="' + (opts.vineOptions.type == 'postcard' ? (_width() + 160) : _width()) + '" width="' + _width() + '"></iframe>',
+                    '</div>'
+                ].join('');
                 embedArray.push(createObject(matches.index, template));
 
             }
@@ -537,7 +589,11 @@
 
                 var embedCode = matches[0].split('/');
                 embedCode.splice(1, 0, 'embed');
-                var template = '<div class="ejs-embed"><iframe src="//www.' + embedCode.join('/') + '" height="' + videoDimensions.height + '" width="' + videoDimensions.width + '"></iframe></div> ';
+                var template = [
+                    '<div class="ejs-embed">',
+                        '<iframe src="//www.' + embedCode.join('/') + '" height="' + videoDimensions.height + '" width="' + videoDimensions.width + '"></iframe>',
+                    '</div>'
+                ].join(''); 
                 embedArray.push(createObject(matches.index, template));
 
             }
@@ -549,8 +605,11 @@
             var matches;
             while ((matches = tedRegex.exec(rawStr)) !== null) {
 
-                var template = '<div class="ejs-embed"><iframe src="http://embed.ted.com/talks/' + matches[0].split('/')[2] + '.html" ' +
-                    'height="' + videoDimensions.height + '" width="' + videoDimensions.width + '"></iframe></div>';
+                var template = [
+                    '<div class="ejs-embed">',
+                        '<iframe src="http://embed.ted.com/talks/' + matches[0].split('/')[2] + '.html" ' + 'height="' + videoDimensions.height + '" width="' + videoDimensions.width + '"></iframe>',
+                    '</div>'
+                ].join('');
                 embedArray.push(createObject(matches.index, template));
 
             }
@@ -561,7 +620,11 @@
             var matches;
             while ((matches = liveleakRegex.exec(rawStr)) !== null) {
 
-                var template = '<div class="ejs-video"><iframe src="http://www.liveleak.com/e/' + matches[0].split('=')[1] + '" height="' + videoDimensions.height + '" width="' + videoDimensions.width + '"></iframe></div>';
+                var template = [
+                    '<div class="ejs-video">',
+                        '<iframe src="http://www.liveleak.com/e/' + matches[0].split('=')[1] + '" height="' + videoDimensions.height + '" width="' + videoDimensions.width + '"></iframe>',
+                    '</div>'
+                ].join('');
                 embedArray.push(createObject(matches.index, template));
 
             }
@@ -574,7 +637,26 @@
             var matches;
             while ((matches = docRegex.exec(rawStr)) !== null) {
 
-                var template = '<div class="ejs-doc"><div class="ejs-doc-preview"><div class="ejs-doc-icon"><i class="fa fa-file-o"></i></div><div class="ejs-doc-detail" ><div class="ejs-doc-title"> <a href="">' + utils.toUrl(matches[0]) + '</a></div> <div class="ejs-doc-view"> <a href="' + utils.toUrl(matches[0]) + '" target="_blank"><button>' + opts.docOptions.downloadText + '</button></a> <button class="ejs-doc-view-active">' + opts.docOptions.viewText + '</button></div> </div> </div></div>';
+                var template = [
+                    '<div class="ejs-doc">',
+                        '<div class="ejs-doc-preview">',
+                            '<div class="ejs-doc-icon">',
+                                '<i class="fa fa-file-o"></i>',
+                            '</div>',
+                            '<div class="ejs-doc-detail" >',
+                                '<div class="ejs-doc-title">',
+                                    '<a href="">' + utils.toUrl(matches[0]) + '</a>',
+                                '</div>',
+                                '<div class="ejs-doc-view">',
+                                    '<a href="' + utils.toUrl(matches[0]) + '" target="_blank">',
+                                        '<button>' + opts.docOptions.downloadText + '</button>',
+                                    '</a>',
+                                    '<button class="ejs-doc-view-active">' + opts.docOptions.viewText + '</button>',
+                                '</div>',
+                            '</div>',
+                        '</div>',
+                    '</div>'
+                ].join('');
                 embedArray.push(createObject(matches.index, template));
 
             }
@@ -590,7 +672,11 @@
 
                 var docParent = $(self).closest('.ejs-doc');
                 var docUrl = $(docParent).find('a')[1].href;
-                var docViewTemplate = ' <div class="ejs-doc-viewer"><iframe src="http://docs.google.com/viewer?embedded=true&url=' + utils.toUrl(docUrl) + '" frameBorder="0" style="border: none;margin : 0 auto; display : block;"></iframe></div>';
+                var docViewTemplate = [
+                    '<div class="ejs-doc-viewer">',
+                        '<iframe src="http://docs.google.com/viewer?embedded=true&url=' + utils.toUrl(docUrl) + '" frameBorder="0" style="border: none;margin : 0 auto; display : block;"></iframe>',
+                    '</div>'
+                ].join('');
                 docParent.html(docViewTemplate);
 
                 //calling the function after the document is shown.
@@ -635,7 +721,11 @@
                     lang = highlightedCode.language;
                 }
 
-                return '<pre><code class="ejs-code hljs ' + lang + '">' + highlightedCode.value + '</code></pre>';
+                return [
+                    '<pre>',
+                        '<code class="ejs-code hljs ' + lang + '">' + highlightedCode.value + '</code>',
+                    '</pre>'
+                ].join('');
             });
             return text;
         }
@@ -648,7 +738,11 @@
             var matches;
             while ((matches = audioRegex.exec(rawStr)) !== null) {
 
-                var template = '<div class="ejs-audio"><audio src="' + matches[0] + '" controls></audio></div>';
+                var template = [
+                    '<div class="ejs-audio">',
+                        '<audio src="' + matches[0] + '" controls></audio>',
+                    '</div>'
+                ].join('');
                 embedArray.push(createObject(matches.index, template));
             }
         },
@@ -658,7 +752,11 @@
             var matches;
             while ((matches = scRegex.exec(rawStr)) !== null) {
 
-                var template = '<div class="ejs-embed"><iframe height="160" scrolling="no" ' + 'src="https://w.soundcloud.com/player/?url=https://' + matches[0] + '&auto_play=' + opts.soundCloudOptions.autoPlay + '&hide_related=' + opts.soundCloudOptions.hideRelated + '&show_comments=' + opts.soundCloudOptions.showComments + '&show_user=' + opts.soundCloudOptions.showUser + '&show_reposts=' + opts.soundCloudOptions.showReposts + '&visual=' + opts.soundCloudOptions.visual + '&download=' + opts.soundCloudOptions.download + '&color=' + opts.soundCloudOptions.themeColor + '&theme_color=' + opts.soundCloudOptions.themeColor + '"></iframe></div>';
+                var template = [
+                    '<div class="ejs-embed">',
+                        '<iframe height="160" scrolling="no" ' + 'src="https://w.soundcloud.com/player/?url=https://' + matches[0] + '&auto_play=' + opts.soundCloudOptions.autoPlay + '&hide_related=' + opts.soundCloudOptions.hideRelated + '&show_comments=' + opts.soundCloudOptions.showComments + '&show_user=' + opts.soundCloudOptions.showUser + '&show_reposts=' + opts.soundCloudOptions.showReposts + '&visual=' + opts.soundCloudOptions.visual + '&download=' + opts.soundCloudOptions.download + '&color=' + opts.soundCloudOptions.themeColor + '&theme_color=' + opts.soundCloudOptions.themeColor + '"></iframe>',
+                    '</div>'
+                ].join('');
                 embedArray.push(createObject(matches.index, template));
 
             }
@@ -669,7 +767,11 @@
             var matches;
             while ((matches = spotifyRegex.exec(rawStr)) !== null) {
 
-                var template = '<div class="ejs-embed"><iframe src="https://embed.spotify.com/?uri=spotify:track:' + matches[0].split('/')[2] + '" height="80"></iframe></div>';
+                var template = [
+                    '<div class="ejs-embed">',
+                        '<iframe src="https://embed.spotify.com/?uri=spotify:track:' + matches[0].split('/')[2] + '" height="80"></iframe>',
+                    '</div>'
+                ].join('');
                 embedArray.push(createObject(matches.index, template));
 
             }
@@ -683,7 +785,13 @@
             var matches;
             while ((matches = imgRegex.exec(rawStr)) !== null) {
 
-                var template = '<div class="ejs-image"><div class="ne-image-wrapper"><img src="' + matches[0] + '"/></div></div>';
+                var template = [
+                    '<div class="ejs-image">',
+                        '<div class="ne-image-wrapper">',
+                            '<img src="' + matches[0] + '"/>',
+                        '</div>',
+                    '</div>'
+                ].join('');
                 embedArray.push(createObject(matches.index, template));
 
             }
@@ -695,7 +803,13 @@
             var matches;
             while ((matches = flickrRegex.exec(rawStr)) !== null) {
 
-                var template = '<div class="ejs-embed"><div class="ne-image-wrapper"><iframe src="' + utils.toUrl(matches[0]) + '/player/" width="' + dimensions.width + '" height="' + dimensions.height + '"></iframe></div></div>';
+                var template = [
+                    '<div class="ejs-embed">',
+                        '<div class="ne-image-wrapper">',
+                            '<iframe src="' + utils.toUrl(matches[0]) + '/player/" width="' + dimensions.width + '" height="' + dimensions.height + '"></iframe>',
+                        '</div>',
+                    '</div>'
+                ].join('');
                 embedArray.push(createObject(matches.index, template));
 
             }
@@ -707,7 +821,11 @@
             var matches;
             while ((matches = instagramRegex.exec(rawStr)) !== null) {
 
-                var template = '<div class="ejs-embed"><iframe src="' + utils.toUrl(matches[0]) + '/embed/" width="' + dimensions.width + '" height="' + dimensions.height + '"></iframe></div>';
+                var template = [
+                    '<div class="ejs-embed">',
+                        '<iframe src="' + utils.toUrl(matches[0]) + '/embed/" width="' + dimensions.width + '" height="' + dimensions.height + '"></iframe>',
+                    '</div>'
+                ].join('');
                 embedArray.push(createObject(matches.index, template));
 
             }
@@ -726,7 +844,12 @@
                     $(this).click(function () {
                         console.log($(this).find('img'));
                         var imgElement = $(this).find('img')[0].outerHTML;
-                        var template = '<div class="ejs-lightbox"><div class="ejs-lightbox-wrapper">' + imgElement + '</div><i class="fa fa-remove"></i></div>';
+                        var template = [
+                            '<div class="ejs-lightbox">',
+                                '<div class="ejs-lightbox-wrapper">' + imgElement + '</div>',
+                                '<i class="fa fa-remove"></i>',
+                            '</div>'
+                        ].join('');
                         console.log(template);
                         $('body').append(template);
 
@@ -829,7 +952,11 @@
             var matches;
             while ((matches = codepenRegex.exec(rawStr)) !== null) {
 
-                var template = '<div class="ejs-embed ejs-codepen"><iframe scrolling="no" height="' + opts.codeEmbedHeight + '" src="' + matches[0].replace(/\/pen\//, '/embed/') + '/?height=' + opts.codeEmbedHeight + '"></iframe></div>';
+                var template = [
+                    '<div class="ejs-embed ejs-codepen">',
+                        '<iframe scrolling="no" height="' + opts.codeEmbedHeight + '" src="' + matches[0].replace(/\/pen\//, '/embed/') + '/?height=' + opts.codeEmbedHeight + '"></iframe>',
+                    '</div>'
+                ].join('');
                 embedArray.push(createObject(matches.index, template));
             }
         },
@@ -839,7 +966,11 @@
             var matches;
             while ((matches = jsfiddleRegex.exec(rawStr)) !== null) {
 
-                var template = '<div class="ejs-embed ejs-jsfiddle"><iframe height="' + opts.codeEmbedHeight + '" src="http://' + matches[0] + '/embedded"></iframe></div>';
+                var template = [
+                    '<div class="ejs-embed ejs-jsfiddle">',
+                        '<iframe height="' + opts.codeEmbedHeight + '" src="http://' + matches[0] + '/embedded"></iframe>',
+                    '</div>'
+                ].join('');
                 embedArray.push(createObject(matches.index, template));
 
             }
@@ -850,7 +981,11 @@
             var matches;
             while ((matches = jsbinRegex.exec(rawStr)) !== null) {
 
-                var template = '<div class="ejs-jsbin ejs-embed"><iframe height="' + opts.codeEmbedHeight + '" class="jsbin-embed foo" src="http://' + matches[0] + '/embed?html,js,output">Simple Animation Tests</iframe></div>';
+                var template = [
+                    '<div class="ejs-jsbin ejs-embed">',
+                        '<iframe height="' + opts.codeEmbedHeight + '" class="jsbin-embed foo" src="http://' + matches[0] + '/embed?html,js,output">Simple Animation Tests</iframe>',
+                    '</div>'
+                ].join('');
                 embedArray.push(createObject(matches.index, template));
 
             }
@@ -861,7 +996,11 @@
             var matches;
             while ((matches = ideoneRegex.exec(rawStr)) !== null) {
 
-                var template = '<div class="ejs-ideone ejs-embed"><iframe src="http://ideone.com/embed/' + matches[0].split('/')[1] + '" frameborder="0" height="' + opts.codeEmbedHeight + '"></iframe></div>';
+                var template = [
+                    '<div class="ejs-ideone ejs-embed">',
+                        '<iframe src="http://ideone.com/embed/' + matches[0].split('/')[1] + '" frameborder="0" height="' + opts.codeEmbedHeight + '"></iframe>',
+                    '</div>'
+                ].join('');
                 embedArray.push(createObject(matches.index, template));
 
             }
@@ -873,7 +1012,11 @@
             while ((matches = plnkrRegex.exec(rawStr)) !== null) {
 
                 var idMatch = (matches[0].indexOf('?') === -1) ? (matches[0].split('/')[2]) : (matches[0].split('/')[2].split('?')[0]);
-                var template = '<div class="ejs-embed ejs-plunker"><iframe class="ne-plunker" src="http://embed.plnkr.co/' + idMatch + '" height="' + opts.codeEmbedHeight + '"></iframe></div>';
+                var template = [
+                    '<div class="ejs-embed ejs-plunker">',
+                        '<iframe class="ne-plunker" src="http://embed.plnkr.co/' + idMatch + '" height="' + opts.codeEmbedHeight + '"></iframe>',
+                    '</div>'
+                ].join('');
                 embedArray.push(createObject(matches.index, template));
 
             }
@@ -923,7 +1066,11 @@
 
                 while ((matches = locationRegex.exec(rawStr)) !== null) {
                     if (opts.mapOptions.mode === 'place') {
-                        template = '<div class="ejs-map ejs-embed"><iframe width="600" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?key=' + opts.gdevAuthKey + '&q=' + matches[0].split('(')[1].split(')')[0] + '"></iframe></div>';
+                        template = [
+                            '<div class="ejs-map ejs-embed">',
+                                '<iframe width="600" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?key=' + opts.gdevAuthKey + '&q=' + matches[0].split('(')[1].split(')')[0] + '"></iframe>',
+                            '</div>'
+                        ].join('');
                         embedArray.push(createObject(matches.index, template));
                     }
                     else if (opts.mapOptions.mode === 'streetview' || opts.mapOptions.mode === 'view') {
