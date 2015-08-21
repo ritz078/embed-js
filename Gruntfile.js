@@ -79,6 +79,15 @@ module.exports = function(grunt) {
 				src:'src/jquery.embed.css',
 				dest:'dist/jquery.embed.css'
 			}
+		},
+
+		babel:{
+			options:{
+				sourceMap:true
+			},
+			dist:{
+				'dist/jquery.embed.js':'src/jquery.embed.es6'
+			}
 		}
 
 	});
@@ -89,6 +98,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks("grunt-contrib-watch");
     grunt.loadNpmTasks("grunt-contrib-cssmin");
 	grunt.loadNpmTasks("grunt-contrib-copy");
+	grunt.loadNpmTasks("grunt-babel");
 
 	grunt.registerTask("build", ["concat", "uglify","cssmin","copy"]);
 	grunt.registerTask("default", ["jshint", "build"]);

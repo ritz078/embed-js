@@ -2,7 +2,7 @@
   "browser": true,
   "jquery": true,
   "node": true,
-  "esnext": false,
+  "esnext": true,
   "globals": {
     "hljs":true,
     "twttr":true
@@ -14,6 +14,5 @@
   "indent": 2,
   "undef": true,
   "unused": true,
-
   "predef": ["define"]
 }
