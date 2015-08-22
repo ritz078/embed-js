@@ -17,17 +17,6 @@ module.exports = function(grunt) {
 				" */\n"
 		},
 
-		// Concat definitions
-		concat: {
-			options: {
-				banner: "<%= meta.banner %>"
-			},
-			dist: {
-				src: ["src/jquery.embed.js"],
-				dest: "dist/jquery.embed.js"
-			}
-		},
-
 		// Lint definitions
 		jshint: {
 			files: ["src/embed.es6"],
@@ -97,7 +86,6 @@ module.exports = function(grunt) {
 
 	});
 
-	grunt.loadNpmTasks("grunt-contrib-concat");
 	grunt.loadNpmTasks("grunt-contrib-jshint");
 	grunt.loadNpmTasks("grunt-contrib-uglify");
 	grunt.loadNpmTasks("grunt-contrib-watch");
@@ -105,7 +93,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks("grunt-contrib-copy");
 	grunt.loadNpmTasks("grunt-browserify");
 
-	grunt.registerTask("build", ["concat","browserify", "uglify","cssmin","copy"]);
+	grunt.registerTask("build", ["browserify", "uglify","cssmin","copy"]);
 	grunt.registerTask("default", ["jshint", "build"]);
 
 };
