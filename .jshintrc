@@ -15,5 +15,6 @@
   "undef": true,
   "unused": true,
   "predef": ["define"],
-  "debug":true
+  "debug":true,
+  "trailing":true
 }
