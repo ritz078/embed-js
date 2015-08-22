@@ -30,7 +30,7 @@ module.exports = function(grunt) {
 
 		// Lint definitions
 		jshint: {
-			files: ["src/jquery.embed.js"],
+			files: ["src/embed.es6"],
 			options: {
 				jshintrc: ".jshintrc"
 			}
@@ -39,8 +39,8 @@ module.exports = function(grunt) {
 		// Minify definitions
 		uglify: {
 			my_target: {
-				src: ["dist/jquery.embed.js"],
-				dest: "dist/jquery.embed.min.js"
+				src: ["dist/embed.js"],
+				dest: "dist/embed.min.js"
 			},
 			options: {
 				banner: "<%= meta.banner %>",
@@ -81,14 +81,19 @@ module.exports = function(grunt) {
 			}
 		},
 
-		babel:{
-			options:{
-				sourceMap:true
-			},
+		browserify:{
 			dist:{
-				'dist/jquery.embed.js':'src/jquery.embed.es6'
+				files:{
+					'dist/embed.js':['src/embed.es6']
+				},
+				options:{
+					transform:[["babelify", {
+						loose: "all"
+					}]]
+				}
 			}
 		}
+
 
 	});
 
@@ -98,9 +103,9 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks("grunt-contrib-watch");
     grunt.loadNpmTasks("grunt-contrib-cssmin");
 	grunt.loadNpmTasks("grunt-contrib-copy");
-	grunt.loadNpmTasks("grunt-babel");
+	grunt.loadNpmTasks("grunt-browserify");
 
-	grunt.registerTask("build", ["concat", "uglify","cssmin","copy"]);
+	grunt.registerTask("build", ["concat","browserify", "uglify","cssmin","copy"]);
 	grunt.registerTask("default", ["jshint", "build"]);
 
 };
