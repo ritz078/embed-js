@@ -58,15 +58,15 @@ module.exports = function(grunt) {
                    cwd:'src',
                    src:['*.css'],
                    dest:'dist',
-                   ext:'.embed.min.css'
+                   ext:'.min.css'
                }]
            }
         },
 
 		copy:{
 			main:{
-				src:'src/jquery.embed.css',
-				dest:'dist/jquery.embed.css'
+				src:'src/embed.css',
+				dest:'dist/embed.css'
 			}
 		},
 
@@ -76,12 +76,26 @@ module.exports = function(grunt) {
 					'dist/embed.js':['src/embed.es6']
 				},
 				options:{
-					transform:[["babelify", {
-						loose: "all"
-					}]]
+					transform:["babelify"]
 				}
 			}
-		}
+		},
+
+		postcss: {
+			options: {
+				map: false,
+				processors: [
+					require('autoprefixer-core')({browsers: 'last 2 versions'}), // add vendor prefixes
+					require('cssnano')() // minify the result
+				]
+			},
+			dist: {
+				src: 'src/*.css',
+				dest: 'dist/embed.min.css'
+			}
+		},
+
+		clean:["dist"]
 
 
 	});
@@ -92,8 +106,10 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks("grunt-contrib-cssmin");
 	grunt.loadNpmTasks("grunt-contrib-copy");
 	grunt.loadNpmTasks("grunt-browserify");
+	grunt.loadNpmTasks("grunt-postcss");
+	grunt.loadNpmTasks("grunt-contrib-clean");
 
-	grunt.registerTask("build", ["browserify", "uglify","cssmin","copy"]);
-	grunt.registerTask("default", ["jshint", "build"]);
+	grunt.registerTask("build", ["clean","browserify", "uglify","postcss","copy"]);
+	grunt.registerTask("default", ["jshint", "build","watch"]);
 
 };

@@ -1,6 +1,6 @@
 {
   "name": "embed-js",
-  "version": "2.0.6",
+  "version": "3.0.0",
   "description": "A jQuery plugin that analyses the string and automatically embeds emojis, media, maps, tweets, code and services.",
   "keywords": [
     "jquery-plugin",
@@ -34,18 +34,26 @@
   ],
   "license": "MIT",
   "devDependencies": {
+    "autoprefixer-core": "^5.2.1",
+    "babel": "^5.8.23",
     "babelify": "^6.2.0",
+    "chai": "^3.2.0",
+    "cssnano": "^2.6.1",
     "grunt": "~0.4.5",
     "grunt-browserify": "^4.0.0",
     "grunt-cli": "~0.1.13",
+    "grunt-contrib-clean": "^0.6.0",
     "grunt-contrib-copy": "^0.8.0",
+    "grunt-contrib-csslint": "^0.5.0",
     "grunt-contrib-cssmin": "^0.12.2",
     "grunt-contrib-jshint": "^0.11.0",
     "grunt-contrib-uglify": "^0.8.0",
-    "grunt-contrib-watch": "^0.6.1"
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-postcss": "^0.5.5",
+    "mocha": "^2.2.5"
   },
   "scripts": {
-    "test": "grunt travis --verbose"
+    "test": "mocha --compilers js:babel/register"
   },
   "dependencies": {
     "jquery": "^2.1.4"
