@@ -43,7 +43,7 @@ module.exports = function(grunt) {
 		// Better than calling grunt a million times
 		// (call 'grunt watch')
 		watch: {
-		    files: ['src/*'],
+		    files: ['src/**/*'],
 		    tasks: ['default']
 		},
 
@@ -108,6 +108,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks("grunt-browserify");
 	grunt.loadNpmTasks("grunt-postcss");
 	grunt.loadNpmTasks("grunt-contrib-clean");
+	grunt.loadNpmTasks("grunt-mocha");
 
 	grunt.registerTask("build", ["clean","browserify", "uglify","postcss","copy"]);
 	grunt.registerTask("default", ["jshint", "build","watch"]);
