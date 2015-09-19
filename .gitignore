@@ -7,4 +7,4 @@ local-test/
 demo/index2.html
 npm-debug.log
 build/
-modules/
+.DS_Store
