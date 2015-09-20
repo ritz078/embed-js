@@ -1,5 +1,4 @@
 var utils = require('../../src/modules/utils.es6');
-var mocha = require('mocha');
 var expect = require('chai').expect;
 
 describe('toUrl() method',function(){
