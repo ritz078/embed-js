@@ -38,7 +38,9 @@
     "babel": "^5.8.23",
     "babelify": "^6.2.0",
     "chai": "^3.2.0",
+    "commitizen": "^1.0.4",
     "cssnano": "^2.6.1",
+    "cz-conventional-changelog": "^1.1.0",
     "grunt": "~0.4.5",
     "grunt-browserify": "^4.0.0",
     "grunt-cli": "~0.1.13",
@@ -54,9 +56,13 @@
     "mocha": "^2.2.5"
   },
   "scripts": {
+    "commit":"git-cz",
     "test": "mocha --compilers js:babel/register"
   },
   "dependencies": {
     "jquery": "^2.1.4"
+  },
+  "czConfig":{
+    "path":"node_modules/cz-conventional-changelog"
   }
 }
