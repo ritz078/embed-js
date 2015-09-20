@@ -20,22 +20,22 @@
 //SOFTWARE.
 
 (function (factory) {
-    if (typeof define === 'function' && define.amd) {
-        // AMD. Register as an anonymous module.
-        define(factory, window, document);
-    } else if (typeof exports === 'object') {
-        // Node/CommonJS
-        module.exports = factory(require(window, document));
-    } else {
-        // Browser globals
-        factory(window, document);
-    }
+	if (typeof define === 'function' && define.amd) {
+		// AMD. Register as an anonymous module.
+		define(factory, window, document);
+	} else if (typeof exports === 'object') {
+		// Node/CommonJS
+		module.exports = factory(require(window, document));
+	} else {
+		// Browser globals
+		factory(window, document);
+	}
 
 }(function () {
 	const utils = require('./modules/utils.es6');
-    const Emoji = require('./modules/emoticons/emoji.es6');
+	const Emoji = require('./modules/emoticons/emoji.es6');
 	const Smiley = require('./modules/emoticons/smiley.es6');
 	const Url = require('./modules/url.es6');
 
-    console.log(Emoji, utils, Smiley, Url);
+	console.log(Emoji, utils, Smiley, Url);
 }));

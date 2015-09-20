@@ -1,6 +1,6 @@
 class Emoji {
 
-    constructor(input) {
+	constructor(input) {
 		this.input = input;
 
 		this.emojiList = [
@@ -878,10 +878,10 @@ class Emoji {
 			'shipit'
 		];
 		this.emojiRegex = new RegExp(':(' + this.emojiList.join('|') + '):', 'g');
-    }
+	}
 
-	process(){
-		return this.input.replace(this.emojiRegex, (match, text)=>{
+	process() {
+		return this.input.replace(this.emojiRegex, (match, text)=> {
 			return `<span class="emoticon emoticon-${text}" title=":${text}:"></span>`;
 		});
 	}
