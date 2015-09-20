@@ -1,6 +1,5 @@
 {
   "name": "embed-js",
-  "version": "3.0.0",
   "description": "A jQuery plugin that analyses the string and automatically embeds emojis, media, maps, tweets, code and services.",
   "keywords": [
     "jquery-plugin",
@@ -14,10 +13,10 @@
   "main": "./src/jquery.embed.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ritz078/embed-js.git"
+    "url": "https://github.com/ritz078/embed.js.git"
   },
   "bugs": {
-    "url": "https://github.com/ritz078/embed-js/issues"
+    "url": "https://github.com/ritz078/embed.js/issues"
   },
   "author": {
     "name": "Ritesh Kumar",
@@ -53,16 +52,15 @@
     "grunt-contrib-watch": "^0.6.1",
     "grunt-mocha": "^0.4.13",
     "grunt-postcss": "^0.5.5",
-    "mocha": "^2.2.5"
+    "mocha": "^2.2.5",
+    "semantic-release": "^4.3.5"
   },
   "scripts": {
-    "commit":"git-cz",
-    "test": "mocha --compilers js:babel/register"
+    "commit": "git-cz",
+    "test": "mocha --compilers js:babel/register test/index.js",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
-  "dependencies": {
-    "jquery": "^2.1.4"
-  },
-  "czConfig":{
-    "path":"node_modules/cz-conventional-changelog"
+  "czConfig": {
+    "path": "node_modules/cz-conventional-changelog"
   }
 }
