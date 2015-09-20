@@ -76,4 +76,15 @@ describe('deepExtend() method',function(){
 	it('should return an object', function(){
 		expect(utils.deepExtend(opts, defaults)).to.be.a('object');
 	});
+
+});
+
+
+describe('escapeRegExp() method', function(){
+	"use strict";
+	var x = ':):/';
+	it('should return a valid regex pattern', function(){
+		var reg = new RegExp(utils.escapeRegExp(x),'g');
+		expect(x).to.match(reg);
+	});
 });
