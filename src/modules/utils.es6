@@ -39,7 +39,25 @@ var utils = {
             url = string;
         }
         return url;
-    }
+    },
+
+	/**
+	 * Extends an Object
+	 * @param destination
+	 * @param source
+	 * @returns {*}
+     */
+	deepExtend: function(destination, source){
+		for (let property in source) {
+			if (source[property] && source[property].constructor === Object) {
+				destination[property] = destination[property] || {};
+				arguments.callee(destination[property], source[property]);
+			} else {
+				destination[property] = source[property];
+			}
+		}
+		return destination;
+	}
 
 };
 
