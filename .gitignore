@@ -1,10 +1,5 @@
 node_modules/
 .idea/
-bower_components/
-.sass-cache/
 .tmp/
-local-test/
-demo/index2.html
 npm-debug.log
-build/
 .DS_Store
