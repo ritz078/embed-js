@@ -129,7 +129,7 @@ var utils = {
         for (var property in source) {
             if (source[property] && source[property].constructor === Object) {
                 destination[property] = destination[property] || {};
-                arguments.callee(destination[property], source[property]);
+                this.deepExtend(destination[property], source[property]);
             } else {
                 destination[property] = source[property];
             }

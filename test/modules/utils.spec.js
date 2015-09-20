@@ -41,3 +41,40 @@ describe('getUnique() method', function(){
 		expect(utils.getUnique([1,3,'a','a',1,5])).to.eql([1,3,'a',5]);
 	})
 });
+
+
+describe('deepExtend() method',function(){
+	"use strict";
+	var defaults = {
+		a:1,
+		b:'hello',
+		c:{
+			d:2,
+			e:true
+		}
+	};
+
+	var opts = {
+		a:3,
+		c:{
+			e:false
+		}
+	};
+
+	var expected = {
+		a:3,
+		b:'hello',
+		c:{
+			d:2,
+			e:false
+		}
+	};
+
+	it('should extend the object', function(){
+		expect(utils.deepExtend(defaults,opts)).to.eql(expected)
+	});
+
+	it('should return an object', function(){
+		expect(utils.deepExtend(opts, defaults)).to.be.a('object');
+	});
+});
