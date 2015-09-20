@@ -47,22 +47,6 @@ module.exports = function(grunt) {
 		    tasks: ['default']
 		},
 
-        // minify css files
-        cssmin:{
-            options:{
-              report:'gzip'
-            },
-           target:{
-               files:[{
-                   expand:true,
-                   cwd:'src',
-                   src:['*.css'],
-                   dest:'dist',
-                   ext:'.min.css'
-               }]
-           }
-        },
-
 		copy:{
 			main:{
 				src:'src/embed.css',
@@ -103,12 +87,10 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks("grunt-contrib-jshint");
 	grunt.loadNpmTasks("grunt-contrib-uglify");
 	grunt.loadNpmTasks("grunt-contrib-watch");
-    grunt.loadNpmTasks("grunt-contrib-cssmin");
 	grunt.loadNpmTasks("grunt-contrib-copy");
 	grunt.loadNpmTasks("grunt-browserify");
 	grunt.loadNpmTasks("grunt-postcss");
 	grunt.loadNpmTasks("grunt-contrib-clean");
-	grunt.loadNpmTasks("grunt-mocha");
 
 	grunt.registerTask("build", ["clean","browserify", "uglify","postcss","copy"]);
 	grunt.registerTask("default", ["jshint", "build","watch"]);
