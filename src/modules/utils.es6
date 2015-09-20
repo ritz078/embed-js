@@ -57,8 +57,11 @@ var utils = {
 			}
 		}
 		return destination;
-	}
+	},
 
+	escapeRegExp: function(str) {
+		return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+	}
 };
 
 module.exports = utils;
