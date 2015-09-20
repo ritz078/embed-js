@@ -1,13 +1,13 @@
-embed.js
+embed.js [![Build Status](https://travis-ci.org/ritz078/embed.js.svg?branch=es6)](https://travis-ci.org/ritz078/embed.js)
 ============
 
 >A jQuery plugin that analyses the string and automatically embeds the supported emojis, media, maps, tweets, code and services.
 
 
 ![screen](demo/demo.gif)
- 
+
 [Codepen Example](http://codepen.io/ritz078/full/WvvNGe/)
- 
+
 All the features are listed [here](#features).
 The demo examples are given [here](http://rkritesh.in/embed.js).
 **The angular version of this plugin is [ngEmbed](http://github.com/ritz078/ngEmbed)**
@@ -163,7 +163,7 @@ $('#element').embedJS({
       locationEmbed       :true,
       mapOptions        : {
             //'place' or 'streetview' or 'view'
-            mode: 'place'                   
+            mode: 'place'
       },
       //Instructs the library whether or not to highlight code syntax.
       highlightCode     : true,
