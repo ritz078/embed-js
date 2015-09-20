@@ -34,6 +34,7 @@
 }(function () {
     import utils from './modules/utils.es6';
     import Emoji from './modules/emoticons/emoji.es6';
+	import Smiley from './modules/emoticons/smiley.es6';
 
-    console.log(Emoji, utils);
+    console.log(Emoji, utils, Smiley);
 }));
