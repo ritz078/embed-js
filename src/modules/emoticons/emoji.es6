@@ -1,7 +1,7 @@
 class Emoji {
 
-    constructor() {
-		this.input = string;
+    constructor(input) {
+		this.input = input;
 
 		this.emojiList = [
 			'bowtie',
@@ -880,7 +880,7 @@ class Emoji {
 		this.emojiRegex = new RegExp(':(' + this.emojiList.join('|') + '):', 'g');
     }
 
-	insert(){
+	process(){
 		return this.input.replace(this.emojiRegex, (match, text)=>{
 			return `<span class="emoticon emoticon-${text}" title=":${text}:"></span>`;
 		});

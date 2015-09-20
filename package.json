@@ -58,7 +58,7 @@
   },
   "scripts": {
     "commit": "git-cz",
-    "test": "mocha --compilers js:babel/register test/index.js",
+    "test": "mocha --compilers js:babel/register test/index.test.js",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "czConfig": {
