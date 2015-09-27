@@ -32,10 +32,10 @@
 	}
 
 }(function () {
-	const utils = require('./modules/utils.es6');
-	const Emoji = require('./modules/emoticons/emoji.es6');
-	const Smiley = require('./modules/emoticons/smiley.es6');
-	const Url = require('./modules/url.es6');
+	import utils from './modules/utils.es6';
+	import Emoji from './modules/emoticons/emoji.es6';
+	import Smiley from './modules/emoticons/smiley.es6';
+	import Url from './modules/url.es6';
 
 	console.log(Emoji, utils, Smiley, Url);
 }));

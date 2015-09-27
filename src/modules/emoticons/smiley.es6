@@ -112,7 +112,7 @@ class Smiley {
 			let index = this.EscapedSymbols.indexOf(utils.escapeRegExp(text));
 			let code = this.icons[index].code;
 			return `<span class="icon-emoticon" title="${text}">&#x${code}</span>`;
-		})
+		});
 	}
 
 }

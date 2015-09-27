@@ -14,7 +14,7 @@ class Url{
 				return `<a href="${utils.toUrl(match)}" target="${this.options.linkTarget}">${match}</a>`;
 			}
 			return match;
-		})
+		});
 	}
 }
 
