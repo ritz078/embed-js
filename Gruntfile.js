@@ -20,20 +20,6 @@ module.exports = function(grunt) {
                 " */\n"
         },
 
-        // Minify definitions
-        uglify: {
-            my_target: {
-                src: ["dist/embed.js"],
-                dest: "dist/embed.min.js"
-            },
-            options: {
-                banner: "<%= meta.banner %>",
-                compress: {
-                    drop_console: true
-                }
-            }
-        },
-
         // watch for changes to source
         // Better than calling grunt a million times
         // (call 'grunt watch')
@@ -75,14 +61,13 @@ module.exports = function(grunt) {
         }
     });
 
-    grunt.loadNpmTasks("grunt-contrib-uglify");
     grunt.loadNpmTasks("grunt-contrib-watch");
     grunt.loadNpmTasks("grunt-contrib-copy");
     grunt.loadNpmTasks("grunt-postcss");
     grunt.loadNpmTasks("grunt-contrib-clean");
-    grunt.loadNpmTasks("grunt-webpack")
+    grunt.loadNpmTasks("grunt-webpack");
 
-    grunt.registerTask("dev",["clean","webpack:build-dev","copy"])
-    grunt.registerTask("build", ["clean", "webpack:build-dev", "uglify","postcss", "copy"]);
+    grunt.registerTask("dev",["clean","webpack:build-dev","copy"]);
+    grunt.registerTask("build", ["clean", "webpack:build-dev","postcss", "copy"]);
     grunt.registerTask("default", ["dev", "watch"]);
 };
