@@ -14,7 +14,7 @@
   "indent": 2,
   "undef": true,
   "unused": true,
-  "predef": ["define"],
+  "predef": ["define","await"],
   "debug":true,
   "trailing":true
 }

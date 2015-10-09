@@ -1,5 +1,4 @@
 {
-    "stage":2,
-    "loose":"all",
-    "modules":"common"
+    "stage":0,
+    "optional":['runtime']
 }
