@@ -19,23 +19,38 @@
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //SOFTWARE.
 
-(function (factory) {
-	if (typeof define === 'function' && define.amd) {
-		// AMD. Register as an anonymous module.
-		define(factory, window, document);
-	} else if (typeof exports === 'object') {
-		// Node/CommonJS
-		module.exports = factory(require(window, document));
-	} else {
-		// Browser globals
-		factory(window, document);
+import utils from './modules/utils.es6';
+import Emoji from './modules/emoticons/emoji.es6';
+import Smiley from './modules/emoticons/smiley.es6';
+import Url from './modules/url.es6';
+
+(function () {
+
+	var defaultOptions = {
+		link        : true,
+		linkTarget  : 'self',
+		linkExclude : ['pdf'],
+		emoji       : true,
+		fontIcons   : true
+	};
+
+	class EmbedJS {
+		constructor(options) {
+			this.options = utils.deepExtend(defaultOptions,options);
+			this.element = this.options.element;
+			this.input = this.element.innerHTML;
+			this.process();
+		}
+
+		async process(){
+			let input   = this.input;
+			let options = this.options;
+			input = options.link      ? await (new Url(input,    options).process()) : input;
+			input = options.emoji     ? await (new Emoji(input,  options).process()) : input;
+			input = options.fontIcons ? await (new Smiley(input, options).process()) : input;
+			console.log(input);
+		}
 	}
 
-}(function () {
-	import utils from './modules/utils.es6';
-	import Emoji from './modules/emoticons/emoji.es6';
-	import Smiley from './modules/emoticons/smiley.es6';
-	import Url from './modules/url.es6';
-
-	console.log(Emoji, utils, Smiley, Url);
-}));
+	window.EmbedJS = EmbedJS;
+})();
