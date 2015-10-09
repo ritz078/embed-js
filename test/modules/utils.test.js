@@ -79,7 +79,6 @@ describe('deepExtend() method',function(){
 
 });
 
-
 describe('escapeRegExp() method', function(){
 	"use strict";
 	var x = ':):/';
