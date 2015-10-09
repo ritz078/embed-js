@@ -19,10 +19,10 @@
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //SOFTWARE.
 
-import utils from './modules/utils.es6';
-import Emoji from './modules/emoticons/emoji.es6';
+import utils  from './modules/utils.es6';
+import Emoji  from './modules/emoticons/emoji.es6';
 import Smiley from './modules/emoticons/smiley.es6';
-import Url from './modules/url.es6';
+import Url    from './modules/url.es6';
 
 (function () {
 
@@ -48,7 +48,8 @@ import Url from './modules/url.es6';
 			input = options.link      ? await (new Url(input,    options).process()) : input;
 			input = options.emoji     ? await (new Emoji(input,  options).process()) : input;
 			input = options.fontIcons ? await (new Smiley(input, options).process()) : input;
-			console.log(input);
+
+			options.element.innerHTML = input;
 		}
 	}
 
