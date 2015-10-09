@@ -25,7 +25,7 @@ module.exports = function(grunt) {
         // (call 'grunt watch')
         watch: {
             files: ['src/**/*'],
-            tasks: ['dev']
+            tasks: ['webpack:build-dev', 'copy']
         },
 
         copy: {
@@ -55,8 +55,37 @@ module.exports = function(grunt) {
 
         webpack: {
             options: webpackConfig,
+            "build": {
+                debug: true,
+                plugins: webpackConfig.plugins.concat(
+                    new webpack.optimize.UglifyJsPlugin({
+                        compress: {
+                            drop_console: true
+                        },
+                        sourceMap: true
+                    }),
+                    new webpack.BannerPlugin("<%= meta.banner %>", {
+                        raw: true
+                    })
+                )
+            },
             "build-dev": {
+                devtool: "sourcemap",
                 debug: true
+            }
+        },
+
+        'webpack-dev-server': {
+            options: {
+                webpack: webpackConfig,
+                publicPath: '/' + webpackConfig.output.publicPath
+            },
+            start: {
+                keepAlive: true,
+                webpack: {
+                    devtool: "sourcemap",
+                    debug: true
+                }
             }
         }
     });
@@ -67,7 +96,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks("grunt-contrib-clean");
     grunt.loadNpmTasks("grunt-webpack");
 
-    grunt.registerTask("dev",["clean","webpack:build-dev","copy"]);
-    grunt.registerTask("build", ["clean", "webpack:build-dev","postcss", "copy"]);
-    grunt.registerTask("default", ["dev", "watch"]);
+    grunt.registerTask("serve", ["webpack-dev-server:start"])
+    grunt.registerTask("default", ["clean", "webpack:build-dev", "copy","watch"]);
+    grunt.registerTask("build", ["clean", "webpack:build-dev", "postcss", "copy"]);
 };
