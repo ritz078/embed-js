@@ -23,15 +23,17 @@ import utils  from './modules/utils.es6';
 import Emoji  from './modules/emoticons/emoji.es6';
 import Smiley from './modules/emoticons/smiley.es6';
 import Url    from './modules/url.es6';
+import Code   from './modules/code.es6';
 
 (function () {
 
 	var defaultOptions = {
-		link        : true,
-		linkTarget  : 'self',
-		linkExclude : ['pdf'],
-		emoji       : true,
-		fontIcons   : true
+		link          : true,
+		linkTarget    : 'self',
+		linkExclude   : ['pdf'],
+		emoji         : true,
+		fontIcons     : true,
+		highlightCode : true
 	};
 
 	class EmbedJS {
@@ -45,9 +47,10 @@ import Url    from './modules/url.es6';
 		async process(){
 			let input   = this.input;
 			let options = this.options;
-			input = options.link      ? await (new Url(input,    options).process()) : input;
-			input = options.emoji     ? await (new Emoji(input,  options).process()) : input;
-			input = options.fontIcons ? await (new Smiley(input, options).process()) : input;
+			input = options.link          ? await (new Url(input,    options).process())   : input;
+			input = options.emoji         ? await (new Emoji(input,  options).process())   : input;
+			input = options.fontIcons     ? await (new Smiley(input, options).process())   : input;
+			input = options.highlightCode ? await (new Code(input,   options).process())   : input;
 
 			options.element.innerHTML = input;
 		}
