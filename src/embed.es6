@@ -19,42 +19,56 @@
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //SOFTWARE.
 
-import utils  from './modules/utils.es6';
-import Emoji  from './modules/emoticons/emoji.es6';
-import Smiley from './modules/emoticons/smiley.es6';
-import Url    from './modules/url.es6';
-import Code   from './modules/code.es6';
+import utils   from './modules/utils.es6';
+import Emoji   from './modules/emoticons/emoji.es6';
+import Smiley  from './modules/emoticons/smiley.es6';
+import Url     from './modules/url.es6';
+import Code    from './modules/code.es6';
+import Twitter from './modules/twitter.es6';
 
-(function () {
+(function() {
 
-	var defaultOptions = {
-		link          : true,
-		linkTarget    : 'self',
-		linkExclude   : ['pdf'],
-		emoji         : true,
-		fontIcons     : true,
-		highlightCode : true
-	};
+    var defaultOptions = {
+        link          : true,
+        linkTarget    : 'self',
+        linkExclude   : ['pdf'],
+        emoji         : true,
+        fontIcons     : true,
+        highlightCode : true,
+        tweetsEmbed   : true,
+        tweetOptions: {
+            maxWidth   : 550,
+            hideMedia  : false,
+            hideThread : false,
+            align      : 'none',
+            lang       : 'en'
+        }
+    };
 
-	class EmbedJS {
-		constructor(options) {
-			this.options = utils.deepExtend(defaultOptions,options);
-			this.element = this.options.element;
-			this.input = this.element.innerHTML;
-			this.process();
-		}
+    class EmbedJS {
+        constructor(options) {
+            this.options = utils.deepExtend(defaultOptions, options);
+            this.element = this.options.element;
+            this.input   = this.element.innerHTML;
+            this.process();
+        }
 
-		async process(){
-			let input   = this.input;
-			let options = this.options;
-			input = options.link          ? await (new Url(input,    options).process())   : input;
-			input = options.emoji         ? await (new Emoji(input,  options).process())   : input;
-			input = options.fontIcons     ? await (new Smiley(input, options).process())   : input;
-			input = options.highlightCode ? await (new Code(input,   options).process())   : input;
+        async process() {
+            let input = this.input;
+            let options = this.options;
+            input = options.link          ? await (new Url(input,     options).process()) : input;
+            input = options.emoji         ? await (new Emoji(input,   options).process()) : input;
+            input = options.fontIcons     ? await (new Smiley(input,  options).process()) : input;
+            input = options.highlightCode ? await (new Code(input,    options).process()) : input;
+            if (options.tweetsEmbed){
+            	var twitter = new Twitter(input, options);
+            	input = options.tweetsEmbed   ? await (twitter.process()) : input;
+            }
 
-			options.element.innerHTML = input;
-		}
-	}
+            options.element.innerHTML = input;
+            twitter.load();
+        }
+    }
 
-	window.EmbedJS = EmbedJS;
+    window.EmbedJS = EmbedJS;
 })();
