@@ -19,12 +19,12 @@
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //SOFTWARE.
 
-import utils from './modules/utils.es6';
-import Emoji from './modules/emoticons/emoji.es6';
-import Smiley from './modules/emoticons/smiley.es6';
-import Url from './modules/url.es6';
-import Code from './modules/code/code.es6';
-import Twitter from './modules/twitter.es6';
+import utils     from './modules/utils.es6';
+import Emoji     from './modules/emoticons/emoji.es6';
+import Smiley    from './modules/emoticons/smiley.es6';
+import Url       from './modules/url.es6';
+import CodeEmbed from './modules/code/codeEmbed.es6';
+import Twitter   from './modules/twitter.es6';
 
 (function() {
 
@@ -64,7 +64,8 @@ import Twitter from './modules/twitter.es6';
             let output       = options.link ? await (new Url(input, options).process()) : output;
             output           = options.emoji ? await (new Emoji(output, options).process()) : output;
             output           = options.fontIcons ? await (new Smiley(output, options).process()) : output;
-            [output, embeds] = await (new Code(input, output, options, embeds).process());
+            [output, embeds] = await (new CodeEmbed(input, output, options, embeds).process());
+
             if (options.tweetsEmbed) {
                 let twitter = new Twitter(input, options, embeds);
                 embeds = options.tweetsEmbed ? await (twitter.process()) : output;
