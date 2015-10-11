@@ -63,9 +63,7 @@ import Twitter from './modules/twitter.es6';
             let output       = options.link ? await (new Url(input, options).process()) : output;
             output           = options.emoji ? await (new Emoji(output, options).process()) : output;
             output           = options.fontIcons ? await (new Smiley(output, options).process()) : output;
-            let codeResponse = await (new Code(input, output, options, embeds).process());
-            output = codeResponse.output;
-            embeds = codeResponse.embeds;
+            [output, embeds] = await (new Code(input, output, options, embeds).process());
             if (options.tweetsEmbed) {
                 let twitter = new Twitter(input, options, embeds);
                 embeds = options.tweetsEmbed ? await (twitter.process()) : output;
