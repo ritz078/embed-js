@@ -8,10 +8,11 @@ class Url{
 	}
 
 	process(){
+		var config = this.options.linkOptions;
 		return this.input.replace(this.urlRegex,(match)=>{
 			let extension = match.split('.')[match.split('.').length - 1];
-			if(this.options.linkExclude.indexOf(extension) === -1){
-				return `<a href="${utils.toUrl(match)}" target="${this.options.linkTarget}">${match}</a>`;
+			if(config.exclude.indexOf(extension) === -1){
+				return `<a href="${utils.toUrl(match)}" target="${config.target}">${match}</a>`;
 			}
 			return match;
 		});

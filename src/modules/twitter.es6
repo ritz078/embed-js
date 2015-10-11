@@ -1,12 +1,16 @@
-import utils from './utils.es6';
-
 class Twitter {
-    constructor(input, options) {
+    constructor(input,options, embeds) {
         this.input = input;
         this.options = options;
+        this.embeds = embeds;
         this.regex = /https:\/\/twitter\.com\/\w+\/\w+\/\d+/gi;
     }
 
+    /**
+     * Fetches the data from twitter's oEmbed API
+     * @param  {string} url URL of the tweet
+     * @return {object}     data containing the tweet info
+     */
     async tweetData(url) {
         let config = this.options.tweetOptions;
         let apiUrl = `https://api.twitter.com/1/statuses/oembed.json?omit_script=true&url=${url}&maxwidth=${config.maxWidth}&hide_media=${config.hideMedia}&hide_thread=${config.hideThread}&align=${config.align}&lang=${config.lang}`;
@@ -17,23 +21,33 @@ class Twitter {
         return data;
     }
 
+    /**
+     * Returns an array of the matching links
+     * @return {Array}
+     */
     matches() {
         let x;
-        return (x = this.input.match(this.regex)) ? x : null;
+        return (x = this.regex.exec(this.input)) ? x : null;
     }
 
+    /**
+     * Load twitter widgets
+     * @return {}
+     */
     load() {
         twttr.widgets.load(this.options.element);
     }
 
     async process() {
-        var result = this.input;
-        let matches = utils.getUnique(this.matches());
-        for (let match of matches) {
-            let data = await this.tweetData(match);
-            result += data.html;
+        let match;
+        while ((match = this.matches()) !== null) {
+            let data = await this.tweetData(match[0]);
+            this.embeds.push({
+                text : data.html,
+                index : match.index
+            })
         }
-        return result;
+        return this.embeds;
     }
 }
 

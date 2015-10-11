@@ -61,7 +61,24 @@ var utils = {
 
 	escapeRegExp: function(str) {
 		return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
-	}
+	},
+
+    /**
+     * Sort an array of objects based on the index value
+     * @param  {Array} arr Array to be sorted
+     * @return {Array}     Sorted array
+     */
+    sortObject: function(arr){
+        return arr.sort((a,b)=>(a.index - b.index));
+    },
+
+    createText: function(str, embeds){
+        let sortedEmbeds = this.sortObject(embeds);
+        for(let embed of sortedEmbeds){
+            str += ` ${embed.text}`;
+        }
+        return str;
+    }
 };
 
 module.exports = utils;
