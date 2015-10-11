@@ -24,6 +24,7 @@ import Emoji     from './modules/emoticons/emoji.es6';
 import Smiley    from './modules/emoticons/smiley.es6';
 import Url       from './modules/url.es6';
 import CodeEmbed from './modules/code/codeEmbed.es6';
+import VideoEmbed from './modules/video/videoEmbed.es6';
 import Twitter   from './modules/twitter.es6';
 
 (function() {
@@ -46,7 +47,9 @@ import Twitter   from './modules/twitter.es6';
             lang       : 'en'
         },
         excludeEmbed : [],
-        codeEmbedHeight : 500
+        codeEmbedHeight : 500,
+        videoHeight : null,
+        videoWidth : null,
     };
 
     class EmbedJS {
@@ -65,6 +68,7 @@ import Twitter   from './modules/twitter.es6';
             output           = options.emoji ? await (new Emoji(output, options).process()) : output;
             output           = options.fontIcons ? await (new Smiley(output, options).process()) : output;
             [output, embeds] = await (new CodeEmbed(input, output, options, embeds).process());
+            [output, embeds] = await (new VideoEmbed(input, output, options, embeds).process());
 
             if (options.tweetsEmbed) {
                 let twitter = new Twitter(input, options, embeds);

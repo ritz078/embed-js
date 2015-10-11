@@ -7,7 +7,7 @@ class Video {
         this.embeds = embeds;
     }
 
-    get dimensions() {
+    dimensions() {
         let options = this.options;
         let dimensions = {
             width: options.videoWidth,
