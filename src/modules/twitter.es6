@@ -1,7 +1,7 @@
 import utils from './utils.es6';
 
 class Twitter {
-    constructor(input,options, embeds) {
+    constructor(input, options, embeds) {
         this.input = input;
         this.options = options;
         this.embeds = embeds;
@@ -32,15 +32,20 @@ class Twitter {
     }
 
     async process() {
-        let match;
-        while ((match = utils.matches(this.regex, this.input)) !== null) {
-            let data = await this.tweetData(match[0]);
-            this.embeds.push({
-                text : data.html,
-                index : match.index
-            })
+        try {
+            let match;
+            while ((match = utils.matches(this.regex, this.input)) !== null) {
+                let data = await this.tweetData(match[0]);
+                this.embeds.push({
+                    text: data.html,
+                    index: match.index
+                })
+            }
+            return this.embeds;
+
+        } catch (error) {
+            console.log(error);
         }
-        return this.embeds;
     }
 }
 

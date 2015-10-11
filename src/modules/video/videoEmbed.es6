@@ -5,6 +5,7 @@ import Dailymotion from './dailymotion.es6';
 import Ustream     from './ustream.es6';
 import LiveLeak    from './liveleak.es6';
 import Vine        from './vine.es6';
+import Youtube     from './youtube.es6';
 
 class VideoEmbed {
     constructor(input, output, options, embeds) {
@@ -24,6 +25,7 @@ class VideoEmbed {
             embeds = utils.ifEmbed(this.options, 'ustream') ? await (new Ustream(input, this.options, embeds).process()) : output;
             embeds = utils.ifEmbed(this.options, 'liveleak') ? await (new LiveLeak(input, this.options, embeds).process()) : output;
             embeds = utils.ifEmbed(this.options, 'vine') ? await (new Vine(input, this.options, embeds).process()) : output;
+            embeds = utils.ifEmbed(this.options, 'youtube') ? await (new Youtube(input, this.options, embeds).process()) : output;
 
             return [output, embeds];
         } catch (error) {

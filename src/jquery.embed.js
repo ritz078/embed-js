@@ -585,7 +585,7 @@
                     '<div class="ejs-embed">',
                         '<iframe src="//www.' + embedCode.join('/') + '" height="' + videoDimensions.height + '" width="' + videoDimensions.width + '"></iframe>',
                     '</div>'
-                ].join(''); 
+                ].join('');
                 embedArray.push(createObject(matches.index, template));
 
             }
@@ -979,6 +979,7 @@
                     '</div>'
                 ].join('');
                 embedArray.push(createObject(matches.index, template));
+
 
             }
         },

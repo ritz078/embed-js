@@ -57,6 +57,7 @@ import Twitter from './modules/twitter.es6';
             width : 350,
             height : 460
         },
+        googleAuthKey:'AIzaSyCqFouT8h5DKAbxlrTZmjXEmNBjC69f0ts'
     };
 
     class EmbedJS {
