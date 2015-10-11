@@ -45,7 +45,8 @@ import Twitter from './modules/twitter.es6';
             align      : 'none',
             lang       : 'en'
         },
-        excludeEmbed : []
+        excludeEmbed : [],
+        codeEmbedHeight : 500
     };
 
     class EmbedJS {
