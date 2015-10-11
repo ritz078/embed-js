@@ -10,15 +10,15 @@ import Vimeo       from './vimeo.es6';
 
 class VideoEmbed {
     constructor(input, output, options, embeds) {
-        this.input = input;
-        this.output = output;
+        this.input   = input;
+        this.output  = output;
         this.options = options;
-        this.embeds = embeds;
+        this.embeds  = embeds;
     }
 
     async process() {
         try {
-            let input = this.input;
+            let input  = this.input;
             let output = this.output;
             let embeds = this.embeds;
             embeds = utils.ifEmbed(this.options, 'ted') ? await (new Ted(input, this.options, embeds).process()) : output;

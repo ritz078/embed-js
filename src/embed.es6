@@ -26,6 +26,7 @@ import Url        from './modules/url.es6';
 import CodeEmbed  from './modules/code/codeEmbed.es6';
 import VideoEmbed from './modules/video/videoEmbed.es6';
 import Twitter    from './modules/twitter.es6';
+import AudioEmbed  from './modules/audio/audioEmbed.es6';
 
 (function() {
 
@@ -57,7 +58,18 @@ import Twitter    from './modules/twitter.es6';
             width      : 350,
             height     : 460
         },
-        googleAuthKey   : 'AIzaSyCqFouT8h5DKAbxlrTZmjXEmNBjC69f0ts'
+        googleAuthKey   : 'AIzaSyCqFouT8h5DKAbxlrTZmjXEmNBjC69f0ts',
+        soundCloudOptions : {
+            height      : 160,
+            themeColor  : 'f50000',   //Hex Code of the player theme color
+            autoPlay    : false,
+            hideRelated : false,
+            showComments: true,
+            showUser    : true,
+            showReposts : false,
+            visual      : false,         //Show/hide the big preview image
+            download    : false          //Show/Hide download buttons
+        }
     };
 
     class EmbedJS {
@@ -77,7 +89,7 @@ import Twitter    from './modules/twitter.es6';
             output           = options.fontIcons ? await (new Smiley(output, options).process()) : output;
             [output, embeds] = await (new CodeEmbed(input, output, options, embeds).process());
             [output, embeds] = await (new VideoEmbed(input, output, options, embeds).process());
-
+            [output, embeds] = await (new AudioEmbed(input, output, options, embeds).process());
             if (options.tweetsEmbed) {
                 let twitter = new Twitter(input, options, embeds);
                 embeds = options.tweetsEmbed ? await (twitter.process()) : output;
