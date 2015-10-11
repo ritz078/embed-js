@@ -2,6 +2,7 @@ import utils from '../utils.es6';
 
 import Ted from './ted.es6';
 import Dailymotion from './dailymotion.es6';
+import Ustream from './ustream.es6';
 
 class VideoEmbed {
     constructor(input, output, options, embeds) {
@@ -18,6 +19,7 @@ class VideoEmbed {
             let embeds = this.embeds;
             embeds = utils.ifEmbed(this.options, 'ted') ? await (new Ted(input, this.options, embeds).process()) : output;
             embeds = utils.ifEmbed(this.options, 'dailymotion') ? await (new Dailymotion(input, this.options, embeds).process()) : output;
+            embeds = utils.ifEmbed(this.options, 'ustream') ? await (new Ustream(input, this.options, embeds).process()) : output;
 
             return [output, embeds];
         } catch (error) {
