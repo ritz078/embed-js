@@ -13,7 +13,7 @@ module.exports = {
         preLoaders: [{
             test: /\.es6$/,
             exclude: /node_modules/,
-            loader: 'jshint-loader'
+            loader: 'eslint-loader'
         }],
         loaders: [{
             test: /\.es6$/,
@@ -26,7 +26,7 @@ module.exports = {
         new webpack.NoErrorsPlugin(),
         new webpack.ProvidePlugin({
             'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch'
-        })
+                    })
     ],
     stats: {
         // Nice colored output
