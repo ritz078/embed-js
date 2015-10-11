@@ -78,6 +78,14 @@ var utils = {
             str += ` ${embed.text}`;
         }
         return str;
+    },
+
+    matches: function(regex, input){
+        return regex.exec(input);
+    },
+
+    ifEmbed: function(options, service){
+        return ((options.excludeEmbed.indexOf(service) == -1) && (options.excludeEmbed !== 'all'));
     }
 };
 

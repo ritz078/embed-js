@@ -1,3 +1,5 @@
+import utils from './utils.es6';
+
 class Twitter {
     constructor(input,options, embeds) {
         this.input = input;
@@ -22,15 +24,6 @@ class Twitter {
     }
 
     /**
-     * Returns an array of the matching links
-     * @return {Array}
-     */
-    matches() {
-        let x;
-        return (x = this.regex.exec(this.input)) ? x : null;
-    }
-
-    /**
      * Load twitter widgets
      * @return {}
      */
@@ -40,7 +33,7 @@ class Twitter {
 
     async process() {
         let match;
-        while ((match = this.matches()) !== null) {
+        while ((match = utils.matches(this.regex, this.input)) !== null) {
             let data = await this.tweetData(match[0]);
             this.embeds.push({
                 text : data.html,

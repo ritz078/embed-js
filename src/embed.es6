@@ -23,7 +23,7 @@ import utils from './modules/utils.es6';
 import Emoji from './modules/emoticons/emoji.es6';
 import Smiley from './modules/emoticons/smiley.es6';
 import Url from './modules/url.es6';
-import Code from './modules/code.es6';
+import Code from './modules/code/code.es6';
 import Twitter from './modules/twitter.es6';
 
 (function() {
@@ -39,12 +39,13 @@ import Twitter from './modules/twitter.es6';
         highlightCode: true,
         tweetsEmbed: true,
         tweetOptions: {
-            maxWidth: 550,
-            hideMedia: false,
-            hideThread: false,
-            align: 'none',
-            lang: 'en'
-        }
+            maxWidth   : 550,
+            hideMedia  : false,
+            hideThread : false,
+            align      : 'none',
+            lang       : 'en'
+        },
+        excludeEmbed : []
     };
 
     class EmbedJS {
@@ -59,10 +60,12 @@ import Twitter from './modules/twitter.es6';
             let input = this.input;
             let options = this.options;
             let embeds = [];
-            let output = options.link ? await (new Url(input, options).process()) : output;
-            output = options.emoji ? await (new Emoji(output, options).process()) : output;
-            output = options.fontIcons ? await (new Smiley(output, options).process()) : output;
-            output = options.highlightCode ? await (new Code(output, options).process()) : output;
+            let output       = options.link ? await (new Url(input, options).process()) : output;
+            output           = options.emoji ? await (new Emoji(output, options).process()) : output;
+            output           = options.fontIcons ? await (new Smiley(output, options).process()) : output;
+            let codeResponse = await (new Code(input, output, options, embeds).process());
+            output = codeResponse.output;
+            embeds = codeResponse.embeds;
             if (options.tweetsEmbed) {
                 let twitter = new Twitter(input, options, embeds);
                 embeds = options.tweetsEmbed ? await (twitter.process()) : output;
