@@ -19,62 +19,62 @@
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //SOFTWARE.
 
-import utils from './modules/utils.es6';
-import Emoji from './modules/emoticons/emoji.es6';
-import Smiley from './modules/emoticons/smiley.es6';
-import Url from './modules/url.es6';
-import CodeEmbed from './modules/code/codeEmbed.es6';
+import utils      from './modules/utils.es6';
+import Emoji      from './modules/emoticons/emoji.es6';
+import Smiley     from './modules/emoticons/smiley.es6';
+import Url        from './modules/url.es6';
+import CodeEmbed  from './modules/code/codeEmbed.es6';
 import VideoEmbed from './modules/video/videoEmbed.es6';
-import Twitter from './modules/twitter.es6';
+import Twitter    from './modules/twitter.es6';
 
 (function() {
 
     var defaultOptions = {
-        link: true,
-        linkOptions: {
-            target: 'self',
-            exclude: ['pdf']
+        link            : true,
+        linkOptions     : {
+            target  : 'self',
+            exclude : ['pdf']
         },
-        emoji: true,
-        fontIcons: true,
-        highlightCode: true,
-        tweetsEmbed: true,
-        tweetOptions: {
-            maxWidth: 550,
-            hideMedia: false,
-            hideThread: false,
-            align: 'none',
-            lang: 'en'
+        emoji           : true,
+        fontIcons       : true,
+        highlightCode   : true,
+        tweetsEmbed     : true,
+        tweetOptions    : {
+            maxWidth   : 550,
+            hideMedia  : false,
+            hideThread : false,
+            align      : 'none',
+            lang       : 'en'
         },
-        excludeEmbed: [],
-        codeEmbedHeight: 500,
-        videoHeight: null,
-        videoWidth: null,
-        vineOptions: {
-            maxWidth: null,
-            type: 'postcard', //'postcard' or 'simple' embedding
-            responsive: true,
-            width : 350,
-            height : 460
+        excludeEmbed    : [],
+        codeEmbedHeight : 500,
+        videoHeight     : null,
+        videoWidth      : null,
+        vineOptions     : {
+            maxWidth   : null,
+            type       : 'postcard', //'postcard' or 'simple' embedding
+            responsive : true,
+            width      : 350,
+            height     : 460
         },
-        googleAuthKey:'AIzaSyCqFouT8h5DKAbxlrTZmjXEmNBjC69f0ts'
+        googleAuthKey   : 'AIzaSyCqFouT8h5DKAbxlrTZmjXEmNBjC69f0ts'
     };
 
     class EmbedJS {
         constructor(options) {
             this.options = utils.deepExtend(defaultOptions, options);
             this.element = this.options.element;
-            this.input = this.element.innerHTML;
+            this.input   = this.element.innerHTML;
             this.process();
         }
 
         async process() {
-            let input = this.input;
-            let options = this.options;
-            let embeds = [];
-            let output = options.link ? await (new Url(input, options).process()) : output;
-            output = options.emoji ? await (new Emoji(output, options).process()) : output;
-            output = options.fontIcons ? await (new Smiley(output, options).process()) : output;
+            let input        = this.input;
+            let options      = this.options;
+            let embeds       = [];
+            let output       = options.link ? await (new Url(input, options).process()) : output;
+            output           = options.emoji ? await (new Emoji(output, options).process()) : output;
+            output           = options.fontIcons ? await (new Smiley(output, options).process()) : output;
             [output, embeds] = await (new CodeEmbed(input, output, options, embeds).process());
             [output, embeds] = await (new VideoEmbed(input, output, options, embeds).process());
 

@@ -2,24 +2,24 @@ import utils from '../utils.es6';
 
 class Youtube {
     constructor(input, options, embeds) {
-        this.input = input;
+        this.input   = input;
         this.options = options;
-        this.embeds = embeds;
+        this.embeds  = embeds;
 
-        this.regex = /https?:\/\/(?:[0-9A-Z-]+\.)?(?:youtu\.be\/|youtube\.com(?:\/embed\/|\/v\/|\/watch\?v=|\/ytscreeningroom\?v=|\/feeds\/api\/videos\/|\/user\S*[^\w\-\s]|\S*[^\w\-\s]))([\w\-]{11})[?=&+%\w-]*/gi;
+        this.regex   = /https?:\/\/(?:[0-9A-Z-]+\.)?(?:youtu\.be\/|youtube\.com(?:\/embed\/|\/v\/|\/watch\?v=|\/ytscreeningroom\?v=|\/feeds\/api\/videos\/|\/user\S*[^\w\-\s]|\S*[^\w\-\s]))([\w\-]{11})[?=&+%\w-]*/gi;
     }
 
     formatData(data) {
         return {
-            title: data.snippet.title,
-            thumbnail: data.snippet.thumbnails.medium.url,
-            rawDescription: data.snippet.description,
-            views: data.statistics.viewCount,
-            likes: data.statistics.likeCount,
-            description: utils.truncate(data.snippet.description, 150),
-            url: `https://www.youtube.com/watch?v=${data.id}`,
-            id: data.id,
-            host: 'youtube'
+            title          : data.snippet.title,
+            thumbnail      : data.snippet.thumbnails.medium.url,
+            rawDescription : data.snippet.description,
+            views          : data.statistics.viewCount,
+            likes          : data.statistics.likeCount,
+            description    : utils.truncate(data.snippet.description, 150),
+            url            : `https://www.youtube.com/watch?v=${data.id}`,
+            id             : data.id,
+            host           : 'youtube'
         }
     }
 
@@ -48,9 +48,9 @@ class Youtube {
 
     async data(id) {
         try {
-            let url = `https://www.googleapis.com/youtube/v3/videos?id=${id}&key=${this.options.googleAuthKey}&part=snippet,statistics`;
+            let url      = `https://www.googleapis.com/youtube/v3/videos?id=${id}&key=${this.options.googleAuthKey}&part=snippet,statistics`;
             let response = await fetch(url);
-            let data = await response.json();
+            let data     = await response.json();
             return data.items[0];
         } catch (error) {
             console.log(error);
