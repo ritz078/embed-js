@@ -24,9 +24,10 @@ import Emoji      from './modules/emoticons/emoji.es6';
 import Smiley     from './modules/emoticons/smiley.es6';
 import Url        from './modules/url.es6';
 import CodeEmbed  from './modules/code/codeEmbed.es6';
-import VideoEmbed from './modules/video/videoEmbed.es6';
+import Video      from './modules/video/video.es6';
 import Twitter    from './modules/twitter.es6';
-import AudioEmbed  from './modules/audio/audioEmbed.es6';
+import Audio      from './modules/audio/audio.es6';
+import Image      from './modules/image/image.es6';
 
 (function() {
 
@@ -47,6 +48,7 @@ import AudioEmbed  from './modules/audio/audioEmbed.es6';
             align      : 'none',
             lang       : 'en'
         },
+        imageEmbed      : true,
         excludeEmbed    : [],
         codeEmbedHeight : 500,
         videoHeight     : null,
@@ -88,8 +90,9 @@ import AudioEmbed  from './modules/audio/audioEmbed.es6';
             output           = options.emoji ? await (new Emoji(output, options).process()) : output;
             output           = options.fontIcons ? await (new Smiley(output, options).process()) : output;
             [output, embeds] = await (new CodeEmbed(input, output, options, embeds).process());
-            [output, embeds] = await (new VideoEmbed(input, output, options, embeds).process());
-            [output, embeds] = await (new AudioEmbed(input, output, options, embeds).process());
+            [output, embeds] = await (new Video(input, output, options, embeds).process());
+            [output, embeds] = await (new Audio(input, output, options, embeds).process());
+            [output, embeds] = await (new Image(input, output, options, embeds).process());
             if (options.tweetsEmbed) {
                 let twitter = new Twitter(input, options, embeds);
                 embeds = options.tweetsEmbed ? await (twitter.process()) : output;

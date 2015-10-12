@@ -15,31 +15,6 @@
     background-color: rgba(0, 0, 0, .9)
 }
 
-.ejs-lightbox i {
-    position: fixed;
-    top: 15px;
-    right: 15px;
-    color: #fff;
-    font-size: 20px;
-    cursor: pointer;
-    z-index: 1
-}
-
-.ejs-lightbox-wrapper {
-    position: relative;
-    width: 100%;
-    height: 100%
-}
-
-.ejs-lightbox-wrapper img {
-    max-width: 90%;
-    border: 5px solid #fff;
-    border-radius: 3px;
-    display: block;
-    margin: 60px auto;
-    position: relative
-}
-
 .ejs-code {
     font-size: 14px;
     font-family: Consolas, Menlo, Monaco, monospace;
@@ -96,7 +71,8 @@ code.has-numbering {
     margin-left: 36px
 }
 
-.pre-numbering, code.has-numbering {
+.pre-numbering,
+code.has-numbering {
     font-family: Consolas, Menlo, Monaco, monospace;
     font-size: 14px;
     line-height: 20px
@@ -199,7 +175,8 @@ code.has-numbering {
     width: 100%
 }
 
-.ejs-doc, .ejs-video {
+.ejs-doc,
+.ejs-video {
     padding: 5px;
     border: 1px solid #e4e4e4;
     border-radius: 2px;
@@ -211,21 +188,23 @@ code.has-numbering {
     transition: all .5s linear
 }
 
-.ejs-video iframe, .ejs-video object {
+.ejs-video iframe,
+.ejs-video object {
     width: 100%;
-    border: 0
+    border: 0;
 }
 
 .ejs-video video {
-    width: 100%
+    width: 100%;
 }
 
 .ejs-video:hover {
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .26)
 }
 
-.ejs-doc-preview, .ejs-video-preview {
-    overflow: auto
+.ejs-doc-preview,
+.ejs-video-preview {
+    overflow: auto;
 }
 
 .ejs-video-preview img {
@@ -233,7 +212,7 @@ code.has-numbering {
     width: 200px;
     height: 150px;
     border-radius: 2px;
-    background-color: #3498db
+    background-color: #3498db;
 }
 
 .ejs-video-thumb {
@@ -244,7 +223,7 @@ code.has-numbering {
 }
 
 .ejs-video-thumb:hover {
-    color: #fff
+    color: #fff;
 }
 
 .ejs-video-thumb i {
@@ -252,53 +231,55 @@ code.has-numbering {
     font-size: 42px;
     margin-top: -95px;
     margin-left: 5pc;
-    cursor: pointer
+    cursor: pointer;
 }
 
-.ejs-doc-detail, .ejs-video-detail {
+.ejs-doc-detail,
+.ejs-video-detail {
     width: calc(100% - 200px);
     float: left;
     padding-left: 15px;
-    box-sizing: border-box
+    box-sizing: border-box;
 }
 
-.ejs-doc-title, .ejs-video-title {
+.ejs-doc-title,
+.ejs-video-title {
     font-weight: bolder;
     padding: 5px 0;
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis
+    text-overflow: ellipsis;
 }
 
 .ejs-video-desc {
     font-size: 1pc;
     color: #666;
-    height: 90px
+    height: 90px;
 }
 
 .ejs-stats {
     padding-top: 7px;
-    overflow: auto
+    overflow: auto;
 }
 
 .ejs-video-stats span {
     padding: 0 15px;
-    float: right
+    float: right;
 }
 
 .ejs-video-stats span i {
-    margin-right: 10px
+    margin-right: 10px;
 }
 
 .ejs-video-player {
     background-color: #3498db;
     background-image: url(../resources/images/loader.svg);
     background-repeat: no-repeat;
-    background-position: center
+    background-position: center;
 }
 
 .ejs-video-player iframe {
-    width: 100%
+    width: 100%;
 }
 
 .ejs-image {
@@ -310,12 +291,12 @@ code.has-numbering {
     margin: 10px 0;
     padding: 5px;
     box-sizing: border-box;
-    display: inline-block
+    display: inline-block;
 }
 
 .ejs-image img {
     max-width: 100%;
-    display: block
+    display: block;
 }
 
 .ejs-image-wrapper {
@@ -326,7 +307,7 @@ code.has-numbering {
     background-repeat: no-repeat;
     background-position: center;
     height: 100%;
-    overflow: hidden
+    overflow: hidden;
 }
 
 .emoticons-image {
@@ -334,7 +315,7 @@ code.has-numbering {
     border-radius: 2px;
     border: 1px solid #f2f2f2;
     display: block;
-    margin: 20px 0
+    margin: 20px 0;
 }
 
 .noembed-embed-inner {
@@ -342,7 +323,7 @@ code.has-numbering {
     overflow: hidden;
     background: #fff;
     color: #000;
-    font-size: 9pt
+    font-size: 9pt;
 }
 
 .noembed-embed .noembed-meta-info {
@@ -353,33 +334,33 @@ code.has-numbering {
     border: 1px solid #ddd;
     border-top: none;
     border-right: 1px solid #bbb;
-    border-bottom: 1px solid #bbb
+    border-bottom: 1px solid #bbb;
 }
 
 .noembed-embed .noembed-meta-info td {
     vertical-align: middle;
     line-height: 1em;
     padding-top: 2px;
-    padding-bottom: 2px
+    padding-bottom: 2px;
 }
 
 .noembed-embed .noembed-meta-info td:first-child {
-    padding-left: 5px
+    padding-left: 5px;
 }
 
 .noembed-embed .noembed-meta-info td:last-child {
-    padding-right: 5px
+    padding-right: 5px;
 }
 
 .noembed-embed .noembed-meta-info a {
     text-decoration: none;
     color: #666;
-    font-weight: 700
+    font-weight: 700;
 }
 
 .noembed-embed .favicon {
     height: 1pc;
-    width: 1pc
+    width: 1pc;
 }
 
 .noembed-embed .favicon img {
@@ -387,7 +368,7 @@ code.has-numbering {
     display: inline-block;
     margin: 0;
     padding: 0;
-    border: none
+    border: none;
 }
 
 .noembed-gist h2 {
@@ -396,7 +377,7 @@ code.has-numbering {
     margin: 0;
     padding: 0;
     padding-bottom: 5px;
-    border-bottom: 1px solid #eee
+    border-bottom: 1px solid #eee;
 }
 
 .noembed-gist h3 {
@@ -404,23 +385,23 @@ code.has-numbering {
     padding: 5px;
     font-size: 1.5em;
     font-weight: 400;
-    text-align: center
+    text-align: center;
 }
 
 .noembed-gist .gist-language {
     float: right;
-    color: #999
+    color: #999;
 }
 
 .noembed-gist .gist-file {
     background: #f8f8f8;
     overflow-x: auto;
     margin-top: 5px;
-    max-height: 300px
+    max-height: 300px;
 }
 
 .noembed-gist .gist-file table {
-    font-size: 1em
+    font-size: 1em;
 }
 
 .noembed-gist .gist-description {
@@ -431,17 +412,17 @@ code.has-numbering {
     overflow: hidden;
     display: block;
     border-radius: 3px;
-    text-align: center
+    text-align: center;
 }
 
 .noembed-gist .gist-description a {
-    font-weight: 700
+    font-weight: 700;
 }
 
 .noembed-gist table {
     width: auto;
     table-layout: auto;
-    height: auto
+    height: auto;
 }
 
 .noembed-gist .gist-user {
@@ -453,30 +434,30 @@ code.has-numbering {
     font-size: 14px;
     font-family: Consolas, Menlo, Monaco, monospace;
     line-height: 1.5;
-    padding: 15px
+    padding: 15px;
 }
 
 .noembed-gist .gist-file table {
     margin: 0;
     padding: 0;
-    border-spacing: 0
+    border-spacing: 0;
 }
 
 .noembed-gist .gist-file td.linenos {
-    border-right: 1px solid #eaeaea
+    border-right: 1px solid #eaeaea;
 }
 
 .noembed-gist .gist-file td.code {
-    padding: 5px
+    padding: 5px;
 }
 
 .hll {
-    background-color: #ffc
+    background-color: #ffc;
 }
 
 .c {
     color: #408080;
-    font-style: italic
+    font-style: italic;
 }
 
 .err {
@@ -501,7 +482,8 @@ code.has-numbering {
     color: #bc7a00
 }
 
-.c1, .cs {
+.c1,
+.cs {
     color: #408080;
     font-style: italic
 }
@@ -535,7 +517,9 @@ code.has-numbering {
     color: navy
 }
 
-.gp, .gs, .gu {
+.gp,
+.gs,
+.gu {
     font-weight: 700
 }
 
@@ -547,12 +531,15 @@ code.has-numbering {
     color: #0040d0
 }
 
-.kc, .kd, .kn {
+.kc,
+.kd,
+.kn {
     color: green;
     font-weight: 700
 }
 
-.kp, .kr {
+.kp,
+.kr {
     color: green
 }
 
@@ -597,7 +584,8 @@ code.has-numbering {
     color: #999
 }
 
-.ne, .ni {
+.ne,
+.ni {
     font-weight: 700
 }
 
@@ -617,7 +605,8 @@ code.has-numbering {
     color: #00f
 }
 
-.nn, .nt {
+.nn,
+.nt {
     font-weight: 700
 }
 
@@ -638,11 +627,16 @@ code.has-numbering {
     color: #bbb
 }
 
-.mf, .mh, .mi, .mo {
+.mf,
+.mh,
+.mi,
+.mo {
     color: #666
 }
 
-.sb, .sc, .sd {
+.sb,
+.sc,
+.sd {
     color: #ba2121
 }
 
@@ -688,7 +682,9 @@ code.has-numbering {
     color: green
 }
 
-.vc, .vg, .vi {
+.vc,
+.vg,
+.vi {
     color: #19177c
 }
 
@@ -707,7 +703,8 @@ code.has-numbering {
     -moz-osx-font-smoothing: grayscale
 }
 
-.emoticon, .icon-emoticon {
+.emoticon,
+.icon-emoticon {
     display: inline-block;
     vertical-align: middle
 }
@@ -718,13 +715,18 @@ code.has-numbering {
     width: 22px
 }
 
-@media all and (-webkit-min-device-pixel-ratio: 1), all and (min--moz-device-pixel-ratio: 1), all and (min-device-pixel-ratio: 1), all and (min-resolution: 96dpi) {
+@media all and (-webkit-min-device-pixel-ratio: 1),
+all and (min--moz-device-pixel-ratio: 1),
+all and (min-device-pixel-ratio: 1),
+all and (min-resolution: 96dpi) {
     .emoticon {
         background: transparent url(../resources/images/emojis.png) 0 0 no-repeat
     }
 }
 
-@media all and (-webkit-min-device-pixel-ratio: 1.5), all and (min-device-pixel-ratio: 1.5), all and (min-resolution: 144dpi) {
+@media all and (-webkit-min-device-pixel-ratio: 1.5),
+all and (min-device-pixel-ratio: 1.5),
+all and (min-resolution: 144dpi) {
     .emoticon {
         background: transparent url(../resources/images/emojis@2x.png) 0 0 no-repeat;
         background-size: 1736pc 22px
@@ -797,7 +799,8 @@ code.has-numbering {
     background-position: -453px 0
 }
 
-.emoticon-stuck_out_tongue_winking_eye, .emoticon-winky_face {
+.emoticon-stuck_out_tongue_winking_eye,
+.emoticon-winky_face {
     background-position: -485px 0
 }
 
@@ -837,7 +840,8 @@ code.has-numbering {
     background-position: -773px 0
 }
 
-.emoticon-open_mouth, .emoticon-wow {
+.emoticon-open_mouth,
+.emoticon-wow {
     background-position: -805px 0
 }
 
@@ -3109,7 +3113,9 @@ code.has-numbering {
     background-position: -18949px 0
 }
 
-.emoticon-stars, .emoticon-themoreyouknow, .emoticon-tmyk {
+.emoticon-stars,
+.emoticon-themoreyouknow,
+.emoticon-tmyk {
     background-position: -18981px 0
 }
 
@@ -4223,55 +4229,49 @@ code.has-numbering {
         height: 110px;
         width: 200px
     }
-
     .ejs-doc-icon i {
         margin: 15px 148px
     }
-
     .ejs-doc-view {
         height: 65px;
         width: 366px;
         text-align: center
     }
-
     .ejs-doc-view button {
         float: none;
         margin: 10px 10px 0;
         padding: 6px 15px
     }
-
     .ejs-doc-viewer {
         height: 20pc
     }
-
     .ejs-doc-title {
         display: none
     }
-
     .ejs-doc-detail {
         padding-left: 0;
         width: 180px
     }
-
     .ejs-doc {
         margin: 20px 0;
         overflow: auto
     }
-
-    .ejs-stats, .ejs-video-desc, .ejs-video-detail, .ejs-video-stats span, .ejs-video-stats span i, .ejs-video-title {
+    .ejs-stats,
+    .ejs-video-desc,
+    .ejs-video-detail,
+    .ejs-video-stats span,
+    .ejs-video-stats span i,
+    .ejs-video-title {
         display: none
     }
-
     .ejs-video-preview img {
         height: 14pc;
         width: 348px
     }
-
     .ejs-video-thumb {
         float: none;
         width: 348px
     }
-
     .ejs-video-thumb i {
         margin-left: 10pc;
         margin-top: -8pc
@@ -4284,59 +4284,52 @@ code.has-numbering {
         height: 110px;
         width: 228px
     }
-
     .ejs-doc-icon i {
         margin: 15px 78px
     }
-
     .ejs-doc-view {
         height: 75pt;
         width: 228px;
         text-align: center
     }
-
     .ejs-doc-view button {
         float: none;
         margin: 10px 10px 0;
         padding: 6px 15px
     }
-
     .ejs-doc-viewer {
         height: 20pc
     }
-
     .ejs-doc-title {
         display: none
     }
-
     .ejs-doc-detail {
         padding-left: 0;
         width: 180px
     }
-
     .ejs-doc {
         margin: 20px 0;
         overflow: auto
     }
-
-    .ejs-stats, .ejs-video-desc, .ejs-video-detail, .ejs-video-stats span, .ejs-video-stats span i, .ejs-video-title {
-        display: none
+    .ejs-stats,
+    .ejs-video-desc,
+    .ejs-video-detail,
+    .ejs-video-stats span,
+    .ejs-video-stats span i,
+    .ejs-video-title {
+        display: none;
     }
-
     .ejs-video-player {
         width: 13pc;
         overflow: auto
     }
-
     .ejs-video-player iframe {
         width: 13pc
     }
-
     .ejs-video-preview img {
         height: 138px;
         width: 13pc
     }
-
     .ejs-video-thumb {
         float: none;
         width: 13pc;
