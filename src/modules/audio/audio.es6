@@ -1,23 +1,29 @@
 import utils from '../utils.es6';
 
+import SoundCloud from './soundcloud.es6';
+import Spotify from './spotify.es6';
+
 class Audio{
-	constructor(input,options, embeds){
+	constructor(input, output, options, embeds) {
 		this.input = input;
+		this.output = output;
 		this.options = options;
 		this.embeds = embeds;
 	}
 
-	process(){
-		let match;
-		while((match = utils.matches(this.regex, this.input)) !== null){
-			let text = this.template(match[0]);
-			this.embeds.push({
-				text : text,
-				index : match.index
-			})
+	async process(){
+		try{
+			let output = this.output;
+			let embeds = this.embeds;
+			embeds = utils.ifEmbed(this.options, 'soundcloud') ? await (new SoundCloud(this.input, this.options, embeds).process()) : embeds;
+			embeds = utils.ifEmbed(this.options, 'spotify') ? await (new Spotify(this.input, this.options, embeds).process()) : embeds;
+
+			return [output, embeds];
+		}catch(error){
+			console.log(error);
 		}
-		return this.embeds;
 	}
 }
 
 module.exports = Audio;
+

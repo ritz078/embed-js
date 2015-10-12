@@ -1,6 +1,6 @@
-import Audio from './audio.es6';
+import Base from '../base.es6';
 
-class SoundCloud extends Audio{
+class SoundCloud extends Base{
 	constructor(input, options, embeds) {
 		super(input, options, embeds);
 		this.regex = /soundcloud.com\/[a-zA-Z0-9-_]+\/[a-zA-Z0-9-_]+/gi;

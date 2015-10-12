@@ -1,6 +1,6 @@
-import Audio from './audio.es6';
+import Base from '../base.es6';
 
-class Spotify extends Audio{
+class Spotify extends Base{
 	constructor(input, options, embeds) {
 		super(input, options, embeds);
 		this.regex = /spotify.com\/track\/[a-zA-Z0-9_]+/gi;
