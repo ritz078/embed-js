@@ -1,6 +1,6 @@
-import Video from './video.es6';
+import Base from '../base.es6';
 
-class Vine extends Video{
+class Vine extends Base{
 	constructor(input,options, embeds){
 		super(input, options, embeds);
 		this.regex = /vine.co\/v\/[a-zA-Z0-9]+/gi;

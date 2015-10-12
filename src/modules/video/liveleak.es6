@@ -1,6 +1,6 @@
-import Video from './video.es6';
+import base from '../base.es6';
 
-class LiveLeak extends Video{
+class LiveLeak extends base{
 	constructor(input,options, embeds){
 		super(input, options, embeds);
 		this.regex = /liveleak.com\/view\?i=[a-zA-Z0-9_]+/gi;

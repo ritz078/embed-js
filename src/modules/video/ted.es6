@@ -1,6 +1,6 @@
-import Video from './video.es6';
+import Base from '../base.es6';
 
-class Ted extends Video{
+class Ted extends Base{
 	constructor(input,options, embeds){
 		super(input, options, embeds);
 		this.regex = /ted.com\/talks\/[a-zA-Z0-9_]+/gi;

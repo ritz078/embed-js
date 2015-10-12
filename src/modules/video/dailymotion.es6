@@ -1,6 +1,6 @@
-import Video from './video.es6';
+import Base from '../base.es6';
 
-class Dailymotion extends Video{
+class Dailymotion extends Base{
 	constructor(input,options, embeds){
 		super(input, options, embeds);
 		this.regex = /dailymotion.com\/video\/[a-zA-Z0-9-_]+/gi;

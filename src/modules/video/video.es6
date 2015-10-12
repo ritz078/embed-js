@@ -1,42 +1,39 @@
-import utils from '../utils.es6';
+import utils       from '../utils.es6';
+
+import Ted         from './ted.es6';
+import Dailymotion from './dailymotion.es6';
+import Ustream     from './ustream.es6';
+import LiveLeak    from './liveleak.es6';
+import Vine        from './vine.es6';
+import Youtube     from './youtube.es6';
+import Vimeo       from './vimeo.es6';
 
 class Video {
-    constructor(input, options, embeds) {
-        this.input = input;
+    constructor(input, output, options, embeds) {
+        this.input   = input;
+        this.output  = output;
         this.options = options;
-        this.embeds = embeds;
+        this.embeds  = embeds;
     }
 
-    dimensions() {
-        let options = this.options;
-        let dimensions = {
-            width: options.videoWidth,
-            height: options.videoHeight
-        };
-        if (options.videoHeight && options.videoWidth) {
-            return dimensions;
-        } else if (options.videoHeight) {
-            dimensions.width = ((options.videoHeight) / 390) * 640;
-            return dimensions;
-        } else if (options.videoWidth) {
-            dimensions.height = ((dimensions.width) / 640) * 390;
-            return dimensions;
-        } else {
-            [dimensions.width, dimensions.height] = [640, 390];
-            return dimensions;
-        }
-    }
+    async process() {
+        try {
+            let input  = this.input;
+            let output = this.output;
+            let embeds = this.embeds;
+            embeds = utils.ifEmbed(this.options, 'ted') ? await (new Ted(input, this.options, embeds).process()) : output;
+            embeds = utils.ifEmbed(this.options, 'dailymotion') ? await (new Dailymotion(input, this.options, embeds).process()) : output;
+            embeds = utils.ifEmbed(this.options, 'ustream') ? await (new Ustream(input, this.options, embeds).process()) : output;
+            embeds = utils.ifEmbed(this.options, 'liveleak') ? await (new LiveLeak(input, this.options, embeds).process()) : output;
+            embeds = utils.ifEmbed(this.options, 'vine') ? await (new Vine(input, this.options, embeds).process()) : output;
+            embeds = utils.ifEmbed(this.options, 'youtube') ? await (new Youtube(input, this.options, embeds).process()) : output;
+            embeds = utils.ifEmbed(this.options, 'vimeo') ? await (new Vimeo(input, this.options, embeds).process()) : output;
 
-    process() {
-        let match;
-        while ((match = utils.matches(this.regex, this.input)) !== null) {
-            let text = this.template(match[0], this.dimensions());
-            this.embeds.push({
-                text: text,
-                index: match.index
-            })
+
+            return [output, embeds];
+        } catch (error) {
+            console.log(error);
         }
-        return this.embeds;
     }
 }
 
