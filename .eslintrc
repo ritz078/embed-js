@@ -7,9 +7,6 @@
   "parser": "babel-eslint",
   "extends": "eslint:recommended",
   "rules": {
-    "strict": 0,
-    "no-underscore-dangle": 0,
-    "curly": 0,
     "no-multi-spaces": 0,
     "key-spacing": 0,
     "no-return-assign": 0,
