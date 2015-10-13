@@ -1,6 +1,6 @@
-import Code from './code.es6';
+import Base from '../base.es6';
 
-class JsFiddle extends Code{
+class JsFiddle extends Base{
 	constructor(input,options, embeds){
 		super(input, options, embeds);
 		this.regex =/jsfiddle.net\/[a-zA-Z0-9_]+\/[a-zA-Z0-9_]+/gi;

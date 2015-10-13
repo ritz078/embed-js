@@ -12,14 +12,14 @@ class Image{
 		this.embeds  = embeds;
 	}
 
-	async process(){
+	process(){
 		try{
 			let input  = this.input;
             let output = this.output;
             let embeds = this.embeds;
-            embeds = utils.ifEmbed(this.options, 'flickr') ? await (new Flickr(input, this.options, embeds).process()) : output;
-            embeds = utils.ifEmbed(this.options, 'instagram') ? await (new Instagram(input, this.options, embeds).process()) : output;
-            embeds = this.options.imageEmbed ? await (new Basic(input, this.options, embeds).process()) : output;
+            embeds = utils.ifEmbed(this.options, 'flickr') ? (new Flickr(input, this.options, embeds).process()) : output;
+            embeds = utils.ifEmbed(this.options, 'instagram') ? (new Instagram(input, this.options, embeds).process()) : output;
+            embeds = this.options.imageEmbed ? (new Basic(input, this.options, embeds).process()) : output;
 
             return [output, embeds];
 		}catch(error){

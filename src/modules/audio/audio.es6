@@ -11,12 +11,12 @@ class Audio{
 		this.embeds = embeds;
 	}
 
-	async process(){
+	process(){
 		try{
 			let output = this.output;
 			let embeds = this.embeds;
-			embeds = utils.ifEmbed(this.options, 'soundcloud') ? await (new SoundCloud(this.input, this.options, embeds).process()) : embeds;
-			embeds = utils.ifEmbed(this.options, 'spotify') ? await (new Spotify(this.input, this.options, embeds).process()) : embeds;
+			embeds = utils.ifEmbed(this.options, 'soundcloud') ? (new SoundCloud(this.input, this.options, embeds).process()) : embeds;
+			embeds = utils.ifEmbed(this.options, 'spotify') ? (new Spotify(this.input, this.options, embeds).process()) : embeds;
 
 			return [output, embeds];
 		}catch(error){

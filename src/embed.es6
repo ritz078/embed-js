@@ -19,13 +19,16 @@
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //SOFTWARE.
 
+
+// require('./modules/vendor/runtime'); // required at runtime for supporting ES7
+
 import utils      from './modules/utils.es6';
 import Emoji      from './modules/emoticons/emoji.es6';
 import Smiley     from './modules/emoticons/smiley.es6';
 import Url        from './modules/url.es6';
-import CodeEmbed  from './modules/code/codeEmbed.es6';
+import Code       from './modules/code/code.es6';
 import Video      from './modules/video/video.es6';
-import Twitter    from './modules/twitter.es6';
+import Twitter    from './modules/twitter/twitter.es6';
 import Audio      from './modules/audio/audio.es6';
 import Image      from './modules/image/image.es6';
 
@@ -71,7 +74,9 @@ import Image      from './modules/image/image.es6';
             showReposts : false,
             visual      : false,         //Show/hide the big preview image
             download    : false          //Show/Hide download buttons
-        }
+        },
+        beforeEmbedJSApply: function () {},
+        afterEmbedJSApply :function(){}
     };
 
     class EmbedJS {
@@ -86,13 +91,16 @@ import Image      from './modules/image/image.es6';
             let input        = this.input;
             let options      = this.options;
             let embeds       = [];
-            let output       = options.link ? await (new Url(input, options).process()) : output;
-            output           = options.emoji ? await (new Emoji(output, options).process()) : output;
-            output           = options.fontIcons ? await (new Smiley(output, options).process()) : output;
-            [output, embeds] = await (new CodeEmbed(input, output, options, embeds).process());
+
+            this.options.beforeEmbedJSApply();
+
+            let output       = options.link ? (new Url(input, options).process()) : output;
+            output           = options.emoji ? (new Emoji(output, options).process()) : output;
+            output           = options.fontIcons ? (new Smiley(output, options).process()) : output;
+            [output, embeds] = (new Code(input, output, options, embeds).process());
             [output, embeds] = await (new Video(input, output, options, embeds).process());
-            [output, embeds] = await (new Audio(input, output, options, embeds).process());
-            [output, embeds] = await (new Image(input, output, options, embeds).process());
+            [output, embeds] = (new Audio(input, output, options, embeds).process());
+            [output, embeds] = (new Image(input, output, options, embeds).process());
             if (options.tweetsEmbed) {
                 let twitter = new Twitter(input, options, embeds);
                 embeds = options.tweetsEmbed ? await (twitter.process()) : output;
@@ -103,12 +111,13 @@ import Image      from './modules/image/image.es6';
 
         postProcess(output, embeds) {
             let result = utils.createText(output, embeds);
-            this.render(result)
+            this.render(result);
         }
 
         render(result) {
             this.options.element.innerHTML = result;
             twttr.widgets.load(this.options.element);
+            this.options.afterEmbedJSApply();
         }
     }
 

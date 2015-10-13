@@ -1,6 +1,6 @@
-import Code from './code.es6';
+import Base from '../base.es6';
 
-class Plunker extends Code{
+class Plunker extends Base{
 	constructor(input, options, embeds){
 		super(input, options, embeds);
 		this.regex =  /plnkr.co\/edit\/[a-zA-Z0-9\?=]+/gi;

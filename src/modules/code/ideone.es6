@@ -1,6 +1,6 @@
-import Code from './code.es6';
+import Base from '../base.es6';
 
-class Ideone extends Code{
+class Ideone extends Base{
 	constructor(input,options, embeds){
 		super(input, options, embeds);
 		this.regex = /ideone.com\/[a-zA-Z0-9]{6}/gi;

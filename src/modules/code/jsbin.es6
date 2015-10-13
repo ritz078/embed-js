@@ -1,6 +1,6 @@
-import Code from './code.es6';
+import Base from '../base.es6';
 
-class JsBin extends Code{
+class JsBin extends Base{
 	constructor(input, options, embeds) {
 		super(input, options, embeds);
 		this.regex = /jsbin.com\/[a-zA-Z0-9_]+\/[0-9_]+/gi;

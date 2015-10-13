@@ -1,6 +1,6 @@
-import Code from './code.es6';
+import Base from '../base.es6';
 
-class CodePen extends Code{
+class CodePen extends Base{
 	constructor(input,options, embeds){
 		super(input, options, embeds);
 		this.regex = /http:\/\/codepen.io\/([A-Za-z0-9_]+)\/pen\/([A-Za-z0-9_]+)/gi;
