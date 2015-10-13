@@ -25,14 +25,7 @@ module.exports = function(grunt) {
         // (call 'grunt watch')
         watch: {
             files: ['src/**/*'],
-            tasks: ['webpack:build-dev', 'copy']
-        },
-
-        copy: {
-            main: {
-                src: 'src/embed.css',
-                dest: 'dist/embed.css'
-            }
+            tasks: ['webpack:build-dev']
         },
 
         postcss: {
@@ -92,12 +85,11 @@ module.exports = function(grunt) {
     });
 
     grunt.loadNpmTasks("grunt-contrib-watch");
-    grunt.loadNpmTasks("grunt-contrib-copy");
     grunt.loadNpmTasks("grunt-postcss");
     grunt.loadNpmTasks("grunt-contrib-clean");
     grunt.loadNpmTasks("grunt-webpack");
 
     grunt.registerTask("serve", ["webpack-dev-server:start"])
-    grunt.registerTask("default", ["clean", "webpack:build-dev", "copy","watch"]);
-    grunt.registerTask("build", ["clean", "webpack:build", "postcss", "copy"]);
+    grunt.registerTask("default", ["clean", "webpack:build-dev","watch"]);
+    grunt.registerTask("build", ["clean", "webpack:build", "postcss"]);
 };

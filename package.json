@@ -52,7 +52,6 @@
     "grunt": "~0.4.5",
     "grunt-cli": "~0.1.13",
     "grunt-contrib-clean": "^0.6.0",
-    "grunt-contrib-copy": "^0.8.0",
     "grunt-contrib-csslint": "^0.5.0",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-postcss": "^0.5.5",
@@ -60,6 +59,7 @@
     "imports-loader": "^0.6.4",
     "mocha": "^2.2.5",
     "postcss-banner": "^1.0.0",
+    "regenerator": "^0.8.41",
     "semantic-release": "^4.3.5",
     "webpack": "^1.12.2",
     "webpack-dev-server": "^1.12.0"
