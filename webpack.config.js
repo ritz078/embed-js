@@ -6,7 +6,7 @@ module.exports = {
     entry: './src/embed.es6',
     output: {
         path: path.join(__dirname, 'dist'),
-        filename: 'embed.js',
+        filename: 'embed.min.js',
         publicPath: 'dist/'
     },
     module: {
@@ -25,8 +25,11 @@ module.exports = {
         // Avoid publishing files when compilation failed
         new webpack.NoErrorsPlugin(),
         new webpack.ProvidePlugin({
-            'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch'
-                    })
+            'regeneratorRuntime':'imports?this=>global!exports?global.regeneratorRuntime!regenerator/runtime.js',
+            'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch',
+            'fetchJsonp': 'fetch-jsonp'
+                    }),
+        new webpack.optimize.DedupePlugin()
     ],
     stats: {
         // Nice colored output

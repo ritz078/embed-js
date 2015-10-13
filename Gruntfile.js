@@ -60,7 +60,8 @@ module.exports = function(grunt) {
                 plugins: webpackConfig.plugins.concat(
                     new webpack.optimize.UglifyJsPlugin({
                         compress: {
-                            drop_console: true
+                            drop_console: true,
+                            warnings:false
                         },
                         sourceMap: true
                     }),
