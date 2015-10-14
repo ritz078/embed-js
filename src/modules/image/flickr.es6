@@ -12,7 +12,7 @@ class Flickr extends Base{
 		let dimensions = this.dimensions();
 		let template =
 		`<div class="ejs-embed">
-			<div class="ne-image-wrapper">',
+			<div class="ne-image-wrapper">
 				<iframe src="${utils.toUrl(match)}/player/" width="${dimensions.width}" height="${dimensions.height}"></iframe>
 			</div>
 		</div>`;
