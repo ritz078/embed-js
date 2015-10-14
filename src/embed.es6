@@ -32,6 +32,8 @@ import Twitter    from './modules/twitter/twitter.es6';
 import Audio      from './modules/audio/audio.es6';
 import Image      from './modules/image/image.es6';
 
+import helper from './modules/video/helper.es6';
+
 (function() {
 
     var defaultOptions = {
@@ -117,6 +119,7 @@ import Image      from './modules/image/image.es6';
         render(result) {
             this.options.element.innerHTML = result;
             twttr.widgets.load(this.options.element);
+            helper.play('ejs-video-thumb', this.options);
             this.options.afterEmbedJSApply();
         }
     }

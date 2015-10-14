@@ -1,12 +1,14 @@
 import utils from '../utils.es6';
+import helper from './helper.es6';
+
 
 class Vimeo {
 	constructor(input, options, embeds) {
-		this.input = input;
+		this.input   = input;
 		this.options = options;
-		this.embeds = embeds;
+		this.embeds  = embeds;
 
-		this.regex = /https?:\/\/(?:www\.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/([^\/]*)\/videos\/|album\/(\d+)\/video\/|)(\d+)(?:$|\/|\?)*/gi;
+		this.regex   = /https?:\/\/(?:www\.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/([^\/]*)\/videos\/|album\/(\d+)\/video\/|)(\d+)(?:$|\/|\?)*/gi;
 	}
 
 	formatData(data) {
@@ -21,29 +23,6 @@ class Vimeo {
 			id             : data.id,
 			host           : 'vimeo'
 		}
-	}
-
-	template(data) {
-		var template =
-		`<div class="ejs-video">
-		<div class="ejs-video-preview">
-		<div class="ejs-video-thumb">
-		<img src="${data.thumbnail}" alt="${data.host}/${data.id}"/>
-		<i class="fa fa-play-circle-o"></i>
-		</div>
-		<div class="ejs-video-detail">
-		<div class="ejs-video-title">
-		<a href="${data.url}">${data.title}</a>
-		</div>
-		<div class="ejs-video-desc">${data.description}</div>
-		<div class="ejs-video-stats">
-		<span><i class="fa fa-eye"></i>${data.views}</span>
-		<span><i class="fa fa-heart"></i>${data.likes}</span>
-		</div>
-		</div>
-		</div>
-		</div>`;
-		return template;
 	}
 
 	async data(id) {
@@ -63,7 +42,8 @@ class Vimeo {
 			let match;
 			while ((match = utils.matches(this.regex, this.input)) !== null) {
 				let data = await this.data(match[3]);
-				let text = this.template(this.formatData(data));
+				let embedUrl = `https://player.vimeo.com/video/${match[3]}`
+				let text = helper.detailsTemplate(this.formatData(data), embedUrl);
 				this.embeds.push({
 					text: text,
 					index: match.index

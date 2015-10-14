@@ -1,3 +1,4 @@
+import utils from '../utils.es6';
 import base from '../base.es6';
 
 class LiveLeak extends base{
@@ -7,7 +8,7 @@ class LiveLeak extends base{
 	}
 
 	template(match){
-		var dimensions = this.dimensions();
+		var dimensions = utils.dimensions(this.options);
 		let template =
 		`<div class="ejs-video">
 		<iframe src="http://www.liveleak.com/e/${match.split('=')[1]}" height="${dimensions.height}" width="${dimensions.width}"></iframe>

@@ -17,23 +17,18 @@ class Video {
     }
 
     async process() {
-        try {
-            let input  = this.input;
-            let output = this.output;
-            let embeds = this.embeds;
-            embeds = utils.ifEmbed(this.options, 'ted') ? (new Ted(input, this.options, embeds).process()) : output;
-            embeds = utils.ifEmbed(this.options, 'dailymotion') ? (new Dailymotion(input, this.options, embeds).process()) : output;
-            embeds = utils.ifEmbed(this.options, 'ustream') ? (new Ustream(input, this.options, embeds).process()) : output;
-            embeds = utils.ifEmbed(this.options, 'liveleak') ? (new LiveLeak(input, this.options, embeds).process()) : output;
-            embeds = utils.ifEmbed(this.options, 'vine') ? (new Vine(input, this.options, embeds).process()) : output;
-            embeds = utils.ifEmbed(this.options, 'youtube') ? await (new Youtube(input, this.options, embeds).process()) : output;
-            embeds = utils.ifEmbed(this.options, 'vimeo') ? await (new Vimeo(input, this.options, embeds).process()) : output;
+        let input  = this.input;
+        let output = this.output;
+        let embeds = this.embeds;
+        embeds = utils.ifEmbed(this.options, 'ted') ? (new Ted(input, this.options, embeds).process()) : output;
+        embeds = utils.ifEmbed(this.options, 'dailymotion') ? (new Dailymotion(input, this.options, embeds).process()) : output;
+        embeds = utils.ifEmbed(this.options, 'ustream') ? (new Ustream(input, this.options, embeds).process()) : output;
+        embeds = utils.ifEmbed(this.options, 'liveleak') ? (new LiveLeak(input, this.options, embeds).process()) : output;
+        embeds = utils.ifEmbed(this.options, 'vine') ? (new Vine(input, this.options, embeds).process()) : output;
+        embeds = utils.ifEmbed(this.options, 'youtube') ? await (new Youtube(input, this.options, embeds).process()) : output;
+        embeds = utils.ifEmbed(this.options, 'vimeo') ? await (new Vimeo(input, this.options, embeds).process()) : output;
 
-
-            return [output, embeds];
-        } catch (error) {
-            console.log(error);
-        }
+        return [output, embeds];
     }
 }
 

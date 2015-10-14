@@ -1,3 +1,4 @@
+import utils from '../utils.es6';
 import Base from '../base.es6';
 
 class Dailymotion extends Base{
@@ -7,7 +8,7 @@ class Dailymotion extends Base{
 	}
 
 	template(match){
-		let dimensions = this.dimensions();
+		let dimensions = utils.dimensions(this.options);
 		let id = match.split('/')[2];
 		let template =
 		`<div class="ejs-video">

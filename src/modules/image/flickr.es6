@@ -9,7 +9,7 @@ class Flickr extends Base{
 	}
 
 	template(match){
-		let dimensions = this.dimensions();
+		let dimensions = utils.dimensions(this.options);
 		let template =
 		`<div class="ejs-embed">
 			<div class="ne-image-wrapper">

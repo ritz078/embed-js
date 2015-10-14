@@ -7,26 +7,6 @@ class Base{
 		this.embeds = embeds;
 	}
 
-    dimensions() {
-        let options = this.options;
-        let dimensions = {
-            width: options.videoWidth,
-            height: options.videoHeight
-        };
-        if (options.videoHeight && options.videoWidth) {
-            return dimensions;
-        } else if (options.videoHeight) {
-            dimensions.width = ((options.videoHeight) / 390) * 640;
-            return dimensions;
-        } else if (options.videoWidth) {
-            dimensions.height = ((dimensions.width) / 640) * 390;
-            return dimensions;
-        } else {
-            [dimensions.width, dimensions.height] = [640, 390];
-            return dimensions;
-        }
-    }
-
 	process(){
 		let match;
 		while((match = utils.matches(this.regex, this.input)) !== null){
