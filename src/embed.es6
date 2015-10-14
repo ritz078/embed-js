@@ -58,6 +58,7 @@ import helper from './modules/video/helper.es6';
         codeEmbedHeight : 500,
         videoHeight     : null,
         videoWidth      : null,
+        videoDetails    : true,
         vineOptions     : {
             maxWidth   : null,
             type       : 'postcard', //'postcard' or 'simple' embedding

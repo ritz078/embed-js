@@ -39,9 +39,15 @@ class Youtube {
         try {
             let match;
             while ((match = utils.matches(this.regex, this.input)) !== null) {
-                let data = await this.data(match[1]);
-                let embedUrl = `https://www.youtube.com/embed/${match[1]}`
-                let text = helper.detailsTemplate(this.formatData(data), embedUrl);
+                let embedUrl = `https://www.youtube.com/embed/${match[1]}`;
+                let data, text;
+                if(this.options.videoDetails){
+                   data = await this.data(match[1]);
+                   text = helper.detailsTemplate(this.formatData(data), embedUrl);
+                } else {
+                    text = helper.template(embedUrl, this.options);
+                }
+
                 this.embeds.push({
                     text: text,
                     index: match.index
