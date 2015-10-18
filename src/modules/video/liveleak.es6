@@ -1,7 +1,7 @@
 import utils from '../utils.es6';
-import base from '../base.es6';
+import Base from '../base.es6';
 
-class LiveLeak extends base{
+class LiveLeak extends Base{
 	constructor(input,options, embeds){
 		super(input, options, embeds);
 		this.regex = /liveleak.com\/view\?i=[a-zA-Z0-9_]+/gi;

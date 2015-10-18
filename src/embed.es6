@@ -19,9 +19,6 @@
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //SOFTWARE.
 
-
-// require('./modules/vendor/runtime'); // required at runtime for supporting ES7
-
 import utils      from './modules/utils.es6';
 import Emoji      from './modules/emoticons/emoji.es6';
 import Smiley     from './modules/emoticons/smiley.es6';
@@ -31,6 +28,7 @@ import Video      from './modules/video/video.es6';
 import Twitter    from './modules/twitter/twitter.es6';
 import Audio      from './modules/audio/audio.es6';
 import Image      from './modules/image/image.es6';
+import BasicVideo from './modules/video/basic.es6';
 
 import helper from './modules/video/helper.es6';
 
@@ -45,6 +43,8 @@ import helper from './modules/video/helper.es6';
         emoji           : true,
         fontIcons       : true,
         highlightCode   : true,
+        videoJS         : false,
+        videojsOptions  : {},
         tweetsEmbed     : true,
         tweetOptions    : {
             maxWidth   : 550,
@@ -81,7 +81,8 @@ import helper from './modules/video/helper.es6';
         beforeEmbedJSApply : function(){},
         afterEmbedJSApply  : function(){},
         onVideoShow        : function(){},
-        onTweetsLoad       : function(){}
+        onTweetsLoad       : function(){},
+        videojsCallback    : function(){}
     };
 
     class EmbedJS {
@@ -122,13 +123,17 @@ import helper from './modules/video/helper.es6';
         render(result) {
             this.options.element.innerHTML = result;
 
-            //Load twitter data with styling
-            twttr.widgets.load(this.options.element);
+            if(twttr){
+               //Load twitter data with styling
+                twttr.widgets.load(this.options.element);
 
-            //Execute the function after the widget is loaded
-            twttr.events.bind('loaded', ()=>{
-            this.options.onTweetsLoad();
-            })
+                //Execute the function after the widget is loaded
+                twttr.events.bind('loaded', ()=>{
+                    this.options.onTweetsLoad();
+                });
+            }
+
+            BasicVideo.postProcess(this.options);
 
             helper.play('ejs-video-thumb', this.options);
             this.options.afterEmbedJSApply();
