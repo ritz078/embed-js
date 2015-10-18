@@ -28,7 +28,6 @@ import Video      from './modules/video/video.es6';
 import Twitter    from './modules/twitter/twitter.es6';
 import Audio      from './modules/audio/audio.es6';
 import Image      from './modules/image/image.es6';
-import BasicVideo from './modules/video/basic.es6';
 
 import helper from './modules/video/helper.es6';
 
@@ -136,7 +135,7 @@ import helper from './modules/video/helper.es6';
                 });
             }
 
-            BasicVideo.postProcess(this.options);
+            helper.applyVideoJS(this.options);
 
             helper.play('ejs-video-thumb', this.options);
             this.options.afterEmbedJSApply();

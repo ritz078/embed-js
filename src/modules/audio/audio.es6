@@ -2,6 +2,7 @@ import utils from '../utils.es6';
 
 import SoundCloud from './soundcloud.es6';
 import Spotify from './spotify.es6';
+import BasicAudio from './basic.es6';
 
 class Audio{
 	constructor(input, output, options, embeds) {
@@ -17,6 +18,7 @@ class Audio{
 			let embeds = this.embeds;
 			embeds = utils.ifEmbed(this.options, 'soundcloud') ? (new SoundCloud(this.input, this.options, embeds).process()) : embeds;
 			embeds = utils.ifEmbed(this.options, 'spotify') ? (new Spotify(this.input, this.options, embeds).process()) : embeds;
+			embeds = utils.ifEmbed(this.options, 'basic-audio') ? (new BasicAudio(this.input, this.options, embeds).process()) : embeds;
 
 			return [output, embeds];
 		}catch(error){
