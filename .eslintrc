@@ -29,6 +29,7 @@
   "globals":{
     "hljs":true,
     "twttr":true,
-    "fetchJsonp":true
+    "fetchJsonp":true,
+    "videojs":true
   }
 }

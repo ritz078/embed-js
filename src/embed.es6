@@ -44,7 +44,10 @@ import helper from './modules/video/helper.es6';
         fontIcons       : true,
         highlightCode   : true,
         videoJS         : false,
-        videojsOptions  : {},
+        videojsOptions  : {
+            fluid:true,
+            preload:'metadata'
+        },
         tweetsEmbed     : true,
         tweetOptions    : {
             maxWidth   : 550,
