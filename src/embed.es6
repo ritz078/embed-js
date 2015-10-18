@@ -78,8 +78,10 @@ import helper from './modules/video/helper.es6';
             visual      : false,         //Show/hide the big preview image
             download    : false          //Show/Hide download buttons
         },
-        beforeEmbedJSApply: function () {},
-        afterEmbedJSApply :function(){}
+        beforeEmbedJSApply : function(){},
+        afterEmbedJSApply  : function(){},
+        onVideoShow        : function(){},
+        onTweetsLoad       : function(){}
     };
 
     class EmbedJS {
@@ -119,7 +121,15 @@ import helper from './modules/video/helper.es6';
 
         render(result) {
             this.options.element.innerHTML = result;
+
+            //Load twitter data with styling
             twttr.widgets.load(this.options.element);
+
+            //Execute the function after the widget is loaded
+            twttr.events.bind('loaded', ()=>{
+            this.options.onTweetsLoad();
+            })
+
             helper.play('ejs-video-thumb', this.options);
             this.options.afterEmbedJSApply();
         }

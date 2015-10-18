@@ -5,6 +5,7 @@ var helper = {
         let classes = document.getElementsByClassName(className);
         for (let i = 0; i < classes.length; i++) {
             classes[i].addEventListener('click', function() {
+                options.onVideoShow();
                 let url = this.getAttribute('data-ejs-url');
                 let template = helper.template(url, options);
                 this.parentNode.parentNode.innerHTML = template;
