@@ -18,18 +18,12 @@
 .ejs-code {
     font-size: 14px;
     font-family: Consolas, Menlo, Monaco, monospace;
-    padding: 1.5em !important
+    padding: 1.5em !important;
 }
 
 .ejs-embed {
     width: 100%;
-    padding: 5px;
-    border: 1px solid #e4e4e4;
-    border-radius: 2px;
     margin: 20px 0;
-    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .26);
-    border-bottom: 0;
-    padding-bottom: 1px;
     box-sizing: border-box
 }
 
@@ -178,14 +172,8 @@ code.has-numbering {
 .ejs-doc,
 .ejs-video {
     padding: 5px;
-    border: 1px solid #e4e4e4;
-    border-radius: 2px;
     margin: 20px 0;
-    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .26);
-    border-bottom: 0;
     overflow: auto;
-    -kthtml-transition: all .5s linear;
-    transition: all .5s linear
 }
 
 .ejs-video iframe,
@@ -284,12 +272,7 @@ code.has-numbering {
 
 .ejs-image {
     max-width: 100%;
-    border-radius: 2px;
-    border: 1px solid #e4e4e4;
-    overflow: hidden;
-    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .26);
     margin: 10px 0;
-    padding: 5px;
     box-sizing: border-box;
     display: inline-block;
 }
