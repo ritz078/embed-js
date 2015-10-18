@@ -3,3 +3,7 @@ node_modules/
 .tmp/
 npm-debug.log
 .DS_Store
+src/jquery.embed.js
+demo/
+embed.js.sublime-project
+embed.js.sublime-workspace
