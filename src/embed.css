@@ -171,9 +171,13 @@ code.has-numbering {
 
 .ejs-doc,
 .ejs-video {
-    padding: 5px;
     margin: 20px 0;
     overflow: auto;
+}
+
+.ejs-video-preview{
+    padding: 5px;
+    border: 1px solid #e4e4e4;
 }
 
 .ejs-video iframe,
