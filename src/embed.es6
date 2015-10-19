@@ -94,9 +94,14 @@ import helper from './modules/video/helper.es6';
             this.options = utils.deepExtend(defaultOptions, options);
             this.element = this.options.element;
             this.input   = this.element.innerHTML;
-            this.process();
         }
 
+        /**
+         * Processes the string and performs all the insertions and manipulations based on
+         * the options and the input provided by the user. This is an asynchronous function using the async/await
+         * feature of ES7 and this returns a promise which is resolved once the result data is ready
+         * @return {string} The processes resulting string
+         */
         async process() {
             let input        = this.input;
             let options      = this.options;
@@ -116,15 +121,22 @@ import helper from './modules/video/helper.es6';
                 embeds = options.tweetsEmbed ? await (twitter.process()) : output;
             }
 
-            this.postProcess(output, embeds);
-        }
-
-        postProcess(output, embeds) {
             let result = utils.createText(output, embeds);
-            this.render(result);
+            return result;
         }
 
-        render(result) {
+        /**
+         * First processes the data by calling the .process() and then renders the data in the div
+         * => Loads the twitter widgets
+         * => Executes the onTweetsLoad() once all the tweets have been rendered
+         * => Applies video.js on the media (both audio and video)
+         * => Triggers video loading on click of the video preview
+         * => Executes afterEmbedJSApply() once everything is done.
+         *
+         * @return {}
+         */
+        async render() {
+            let result = await this.process();
             this.options.element.innerHTML = result;
 
             if(twttr){
@@ -140,7 +152,18 @@ import helper from './modules/video/helper.es6';
             helper.applyVideoJS(this.options);
 
             helper.play('ejs-video-thumb', this.options);
+
             this.options.afterEmbedJSApply();
+        }
+
+        /**
+         * results the resulting string based on the input and the options passed by the user.
+         * @param  {Function} callback Function that is executed once the data is ready
+         * @return {}
+         */
+        async text(callback){
+            let result = await this.process();
+            callback(result);
         }
     }
 
