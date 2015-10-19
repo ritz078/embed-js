@@ -25,7 +25,7 @@ class Video {
         embeds = utils.ifEmbed(this.options, 'dailymotion') ? (new Dailymotion(input, this.options, embeds).process()) : output;
         embeds = utils.ifEmbed(this.options, 'ustream') ? (new Ustream(input, this.options, embeds).process()) : output;
         embeds = utils.ifEmbed(this.options, 'liveleak') ? (new LiveLeak(input, this.options, embeds).process()) : output;
-        embeds = utils.ifEmbed(this.options, 'basic-video') ? (new BasicVideo(input, this.options, embeds).process()) : output;
+        embeds = this.options.videoEmbed ? (new BasicVideo(input, this.options, embeds).process()) : output;
         embeds = utils.ifEmbed(this.options, 'vine') ? (new Vine(input, this.options, embeds).process()) : output;
         embeds = utils.ifEmbed(this.options, 'youtube') ? await (new Youtube(input, this.options, embeds).process()) : output;
         embeds = utils.ifEmbed(this.options, 'vimeo') ? await (new Vimeo(input, this.options, embeds).process()) : output;

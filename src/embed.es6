@@ -56,11 +56,13 @@ import helper from './modules/video/helper.es6';
             lang       : 'en'
         },
         imageEmbed      : true,
-        excludeEmbed    : [],
-        codeEmbedHeight : 500,
+        videoEmbed      : true,
         videoHeight     : null,
         videoWidth      : null,
         videoDetails    : true,
+        audioEmbed      : true,
+        excludeEmbed    : [],
+        codeEmbedHeight : 500,
         vineOptions     : {
             maxWidth   : null,
             type       : 'postcard', //'postcard' or 'simple' embedding

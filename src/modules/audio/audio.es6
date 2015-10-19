@@ -18,7 +18,7 @@ class Audio{
 			let embeds = this.embeds;
 			embeds = utils.ifEmbed(this.options, 'soundcloud') ? (new SoundCloud(this.input, this.options, embeds).process()) : embeds;
 			embeds = utils.ifEmbed(this.options, 'spotify') ? (new Spotify(this.input, this.options, embeds).process()) : embeds;
-			embeds = utils.ifEmbed(this.options, 'basic-audio') ? (new BasicAudio(this.input, this.options, embeds).process()) : embeds;
+			embeds = this.options.audioEmbed ? (new BasicAudio(this.input, this.options, embeds).process()) : embeds;
 
 			return [output, embeds];
 		}catch(error){
