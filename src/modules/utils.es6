@@ -6,7 +6,7 @@ var utils = {
      * @param n             Length to which it should be truncated
      * @returns {string}    The truncated string
      */
-    truncate: (string, n)=> {
+    truncate: (string, n) => {
         return string.substr(0, n - 1) + (string.length > n ? '...' : '');
     },
 
@@ -15,10 +15,11 @@ var utils = {
      * @param array         The array containing the duplicates
      * @returns {Array}     Array with unique values.
      */
-    getUnique: (array)=> {
-        var u = {}, a = [];
+    getUnique: (array) => {
+        var u = {},
+            a = [];
 
-        array.forEach((value)=> {
+        array.forEach((value) => {
             if (!u.hasOwnProperty(value)) {
                 a.push(value);
                 u[value] = 1;
@@ -31,7 +32,7 @@ var utils = {
      * Converts a string into legitimate url.
      * @param string
      */
-    toUrl: (string)=> {
+    toUrl: (string) => {
         var url;
         if (string.indexOf('//') == -1) {
             url = '//' + string;
@@ -41,35 +42,35 @@ var utils = {
         return url;
     },
 
-	/**
-	 * Extends an Object
-	 * @param destination
-	 * @param source
-	 * @returns {*}
+    /**
+     * Extends an Object
+     * @param destination
+     * @param source
+     * @returns {*}
      */
-	deepExtend: function(destination, source){
-		for (var property in source) {
-			if (source[property] && source[property].constructor === Object) {
-				destination[property] = destination[property] || {};
-				this.deepExtend(destination[property], source[property]);
-			} else {
-				destination[property] = source[property];
-			}
-		}
-		return destination;
-	},
+    deepExtend: function(destination, source){
+        for (var property in source) {
+            if (source[property] && source[property].constructor === Object) {
+                destination[property] = destination[property] || {};
+                this.deepExtend(destination[property], source[property]);
+            } else {
+                destination[property] = source[property];
+            }
+        }
+        return destination;
+    },
 
-	escapeRegExp: function(str) {
-		return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
-	},
+    escapeRegExp: (str) => {
+        return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
+    },
 
     /**
      * Sort an array of objects based on the index value
      * @param  {Array} arr Array to be sorted
      * @return {Array}     Sorted array
      */
-    sortObject: function(arr){
-        return arr.sort((a,b)=>(a.index - b.index));
+    sortObject: (arr) => {
+        return arr.sort((a, b) => (a.index - b.index));
     },
 
     /**
@@ -78,9 +79,9 @@ var utils = {
      * @param  {object} embeds Sorted array of iframe html
      * @return {string}        String to be rendered
      */
-    createText: function(str, embeds){
+    createText: (str, embeds) => {
         let sortedEmbeds = this.sortObject(embeds);
-        for(let embed of sortedEmbeds){
+        for (let embed of sortedEmbeds) {
             str += ` ${embed.text}`;
         }
         return str;
@@ -92,7 +93,7 @@ var utils = {
      * @param  {string} input The string to be analyzed
      * @return {object}       Returns the matched substring with their corresponding positions
      */
-    matches: function(regex, input){
+    matches: (regex, input) => {
         return regex.exec(input);
     },
 
@@ -103,7 +104,7 @@ var utils = {
      * @param  {string} service Name of the service for which the condition is to be analyzed
      * @return {boolean}        True if it should be embedded
      */
-    ifEmbed: function(options, service){
+    ifEmbed: function(options, service) {
         return ((options.excludeEmbed.indexOf(service) == -1) && (options.excludeEmbed !== 'all'));
     },
 

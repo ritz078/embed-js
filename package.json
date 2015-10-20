@@ -3,10 +3,10 @@
   "version": "3.0.0",
   "description": "A JavaScript plugin that analyses the string and embeds emojis, media, tweets, code and services.",
   "keywords": [
-    "jquery-plugin",
-    "jquery",
+    "JavaScript-plugin",
     "embed",
     "plugins",
+    "JavaScript",
     "embed-js",
     "emoticon",
     "jquery-embed"

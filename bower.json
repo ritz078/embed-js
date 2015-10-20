@@ -15,11 +15,11 @@
     "./dist/embed.css"
   ],
   "keywords": [
-    "jquery",
     "plugin",
     "embed",
     "embed-js",
-    "smiley"
+    "smiley",
+    "javascript"
   ],
   "license": "MIT"
 }
