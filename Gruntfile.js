@@ -89,17 +89,18 @@ module.exports = function(grunt) {
                 retinaSrcFilter: './assets/images/ejs_emojis/*@2x.png',
                 destCss: 'src/_emojis.scss',
                 retinaDest: './assets/images/emojis@2x.png',
-                cssFormat:'css'
+                cssFormat:'css',
+                cssTemplate:'sprite.handlebars'
             }
         },
 
         'retinafy': {
             options: {
                 sizes: {
-                    '50%': {
+                    'w22': {
                         suffix: ''
                     },
-                    '100%': {
+                    'w44': {
                         suffix: '@2x'
                     }
                 }
@@ -134,5 +135,6 @@ module.exports = function(grunt) {
 
     grunt.registerTask("serve", ["webpack-dev-server:start"])
     grunt.registerTask("default", ["clean", "webpack:build-dev", "watch"]);
-    grunt.registerTask("build", ["clean", "webpack:build", "sass","postcss"]);
+    grunt.registerTask("build", ["clean", "webpack:build","emoji","postcss"]);
+    grunt.registerTask("emoji",["retinafy","sprite","sass"]);
 };
