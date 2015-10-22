@@ -79,7 +79,7 @@ var utils = {
      * @param  {object} embeds Sorted array of iframe html
      * @return {string}        String to be rendered
      */
-    createText: (str, embeds) => {
+    createText: function(str, embeds){
         let sortedEmbeds = this.sortObject(embeds);
         for (let embed of sortedEmbeds) {
             str += ` ${embed.text}`;

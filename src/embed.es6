@@ -90,9 +90,12 @@ import helper from './modules/video/helper.es6';
     };
 
     class EmbedJS {
-        constructor(options) {
+        constructor(options, input) {
             this.options = utils.deepExtend(defaultOptions, options);
-            this.element = this.options.element;
+            this.element = this.options.element || input;
+            if(!this.element){
+                throw ReferenceError ("You need to pass an element or the string that needs to be processed");
+            }
             this.input   = this.element.innerHTML;
         }
 
@@ -157,7 +160,7 @@ import helper from './modules/video/helper.es6';
         }
 
         /**
-         * results the resulting string based on the input and the options passed by the user.
+         * returns the resulting string based on the input and the options passed by the user.
          * @param  {Function} callback Function that is executed once the data is ready
          * @return {}
          */
