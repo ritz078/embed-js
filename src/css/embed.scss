@@ -92,74 +92,6 @@ code.has-numbering {
     list-style-type: none
 }
 
-.ejs-doc iframe {
-    width: 420px;
-    height: 530px;
-    display: block
-}
-
-.ejs-doc-icon {
-    width: 200px;
-    height: 150px;
-    float: left;
-    border-right: 1px solid #eee;
-    box-sizing: border-box
-}
-
-.ejs-doc-icon i {
-    margin: 29px 62px;
-    color: #999;
-    font-size: 84px
-}
-
-.ejs-doc-view button {
-    font-family: inherit;
-    font-size: 14px;
-    background-color: transparent;
-    border: 1px solid #ccc;
-    padding: 6px 15px;
-    border-radius: 2px;
-    color: #333;
-    cursor: pointer;
-    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .26);
-    outline: 0;
-    border-bottom: 0;
-    float: right;
-    margin: 5pc 10px 0;
-    -kthtml-transition: all .5s linear;
-    transition: all .5s linear
-}
-
-.ejs-doc-view button:hover {
-    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .26)
-}
-
-.ejs-doc-view button i {
-    margin-right: 6px
-}
-
-.ejs-doc-view button a {
-    color: #333
-}
-
-.ejs-doc-viewer iframe {
-    margin: 0 auto
-}
-
-.ejs-doc-viewer {
-    background-color: #d1d1d1;
-    position: relative
-}
-
-.ejs-doc-viewer i {
-    position: absolute;
-    right: 10px;
-    top: 8px;
-    color: #fff;
-    font-size: 25px;
-    cursor: pointer
-}
-
 .ejs-audio {
     background-color: #1d1d1d;
     border-radius: 2px;
@@ -191,7 +123,6 @@ code.has-numbering {
     width: 100%;
 }
 
-.ejs-doc-preview,
 .ejs-video-preview {
     overflow: auto;
 }
@@ -223,7 +154,6 @@ code.has-numbering {
     cursor: pointer;
 }
 
-.ejs-doc-detail,
 .ejs-video-detail {
     width: calc(100% - 200px);
     float: left;
@@ -231,7 +161,6 @@ code.has-numbering {
     box-sizing: border-box;
 }
 
-.ejs-doc-title,
 .ejs-video-title {
     font-weight: bolder;
     padding: 5px 0;
@@ -684,13 +613,9 @@ code.has-numbering {
     text-transform: none;
     line-height: 1;
     -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale
-}
-
-.emoticon,
-.icon-emoticon {
+    -moz-osx-font-smoothing: grayscale;
     display: inline-block;
-    vertical-align: middle
+    vertical-align: middle;
 }
 
 .emoticon{
