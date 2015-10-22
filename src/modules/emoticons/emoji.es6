@@ -882,7 +882,7 @@ class Emoji {
 
     process() {
         return this.input.replace(this.emojiRegex, (match, text) => {
-            return `<span class="icon icon-${text}" title=":${text}:"></span>`;
+            return `<span class="emoticon emoticon-${text}" title=":${text}:"></span>`;
         });
     }
 }

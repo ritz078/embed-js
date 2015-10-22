@@ -693,22 +693,7 @@ code.has-numbering {
     vertical-align: middle
 }
 
-.emoticon {
-    text-indent: -9999px;
-    height: 22px;
-    width: 22px
-}
-
-@media all and (-webkit-min-device-pixel-ratio: 1),
-all and (min--moz-device-pixel-ratio: 1),
-all and (min-device-pixel-ratio: 1),
-all and (min-resolution: 96dpi) {
-    .emoticon {
-        background: transparent url(../assets/images/emojis.png) 0 0 no-repeat
-    }
-}
-
-.icon{
+.emoticon{
     text-indent    : -9999px;
     display        : inline-block;
     height         : 22px;
