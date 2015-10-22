@@ -145,6 +145,6 @@ module.exports = function(grunt) {
 
     grunt.registerTask("serve", ["webpack-dev-server:start"])
     grunt.registerTask("default", ["clean", "webpack:build-dev", "sass", "connect", "watch"]);
-    grunt.registerTask("build", ["clean", "emoji", "webpack:build-dev", "uglify", "postcss"]);
-    grunt.registerTask("emoji", ["retinafy", "sprite", "sass"]);
+    grunt.registerTask("build", ["clean", "build-emoji", "webpack:build-dev", "uglify", "postcss"]);
+    grunt.registerTask("build-emoji", ["retinafy", "sprite", "sass"]);
 };
