@@ -1,7 +1,7 @@
 @font-face {
     font-family: emoticons;
-    src: url(../resources/fonts/emoticons.eot?5zh0vu);
-    src: url(../resources/fonts/emoticons.eot?#iefix5zh0vu) format('embedded-opentype'), url(../resources/fonts/emoticons.woff?5zh0vu) format('woff'), url(../resources/fonts/emoticons.ttf?5zh0vu) format('truetype'), url(../resources/fonts/emoticons.svg?5zh0vu#icomoon) format('svg');
+    src: url(../assets/fonts/emoticons.eot?5zh0vu);
+    src: url(../assets/fonts/emoticons.eot?#iefix5zh0vu) format('embedded-opentype'), url(../assets/fonts/emoticons.woff?5zh0vu) format('woff'), url(../assets/fonts/emoticons.ttf?5zh0vu) format('truetype'), url(../assets/fonts/emoticons.svg?5zh0vu#icomoon) format('svg');
     font-weight: 400;
     font-style: normal
 }
@@ -30,7 +30,7 @@
 .ejs-embed iframe {
     border: 0;
     background-color: #3498db;
-    background-image: url(../resources/images/loader.svg);
+    background-image: url(../assets/images/loader.svg);
     background-repeat: no-repeat;
     background-position: center;
     width: 100%
@@ -166,7 +166,7 @@ code.has-numbering {
 }
 
 .ejs-audio audio {
-    width: 100%
+    width: 100%;
 }
 
 .ejs-doc,
@@ -207,7 +207,7 @@ code.has-numbering {
     width: 200px;
     float: left;
     cursor: pointer;
-    color: hsla(0, 0%, 100%, .6)
+    color: hsla(0, 0%, 100%, .6);
 }
 
 .ejs-video-thumb:hover {
@@ -261,7 +261,7 @@ code.has-numbering {
 
 .ejs-video-player {
     background-color: #3498db;
-    background-image: url(../resources/images/loader.svg);
+    background-image: url(../assets/images/loader.svg);
     background-repeat: no-repeat;
     background-position: center;
 }
@@ -286,7 +286,7 @@ code.has-numbering {
     margin: 5px;
     margin-bottom: 0;
     background-color: #3498db;
-    background-image: url(../resources/images/loader.svg);
+    background-image: url(../assets/images/loader.svg);
     background-repeat: no-repeat;
     background-position: center;
     height: 100%;
@@ -444,12 +444,12 @@ code.has-numbering {
 }
 
 .err {
-    border: 1px solid red
+    border: 1px solid red;
 }
 
 .k {
     color: green;
-    font-weight: 700
+    font-weight: 700;
 }
 
 .o {
@@ -458,72 +458,72 @@ code.has-numbering {
 
 .cm {
     color: #408080;
-    font-style: italic
+    font-style: italic;
 }
 
 .cp {
-    color: #bc7a00
+    color: #bc7a00;
 }
 
 .c1,
 .cs {
     color: #408080;
-    font-style: italic
+    font-style: italic;
 }
 
 .gd {
-    color: #a00000
+    color: #a00000;
 }
 
 .ge {
-    font-style: italic
+    font-style: italic;
 }
 
 .gr {
-    color: red
+    color: red;
 }
 
 .gh {
     color: navy;
-    font-weight: 700
+    font-weight: 700;
 }
 
 .gi {
-    color: #00a000
+    color: #00a000;
 }
 
 .go {
-    color: gray
+    color: gray;
 }
 
 .gp {
-    color: navy
+    color: navy;
 }
 
 .gp,
 .gs,
 .gu {
-    font-weight: 700
+    font-weight: 700;
 }
 
 .gu {
-    color: purple
+    color: purple;
 }
 
 .gt {
-    color: #0040d0
+    color: #0040d0;
 }
 
 .kc,
 .kd,
 .kn {
     color: green;
-    font-weight: 700
+    font-weight: 700;
 }
 
 .kp,
 .kr {
-    color: green
+    color: green;
 }
 
 .kr {
@@ -703,7 +703,7 @@ all and (min--moz-device-pixel-ratio: 1),
 all and (min-device-pixel-ratio: 1),
 all and (min-resolution: 96dpi) {
     .emoticon {
-        background: transparent url(../resources/images/emojis.png) 0 0 no-repeat
+        background: transparent url(../assets/images/emojis.png) 0 0 no-repeat
     }
 }
 
@@ -711,14 +711,14 @@ all and (min-resolution: 96dpi) {
 all and (min-device-pixel-ratio: 1.5),
 all and (min-resolution: 144dpi) {
     .emoticon {
-        background: transparent url(../resources/images/emojis@2x.png) 0 0 no-repeat;
+        background: transparent url(../assets/images/emojis@2x.png) 0 0 no-repeat;
         background-size: 1736pc 22px
     }
 }
 
 @-moz-document url-prefix() {
     .emoticon {
-        background: transparent url(../resources/images/emojis.png) 0 0 no-repeat
+        background: transparent url(../assets/images/emojis.png) 0 0 no-repeat
     }
 }
 
