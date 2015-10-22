@@ -1,4 +1,4 @@
-const Url = require('../../src/modules/url.es6');
+const Url = require('../../src/js/modules/url.es6');
 const expect = require('chai').expect;
 
 

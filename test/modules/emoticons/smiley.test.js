@@ -1,4 +1,4 @@
-var Smiley = require('../../../src/modules/emoticons/smiley.es6');
+var Smiley = require('../../../src/js/modules/emoticons/smiley.es6');
 var expect = require('chai').expect;
 
 var string = 'Hello :)';

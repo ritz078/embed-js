@@ -3,10 +3,10 @@ var webpack = require('webpack');
 var pkg = require('./package.json');
 
 module.exports = {
-    entry: './src/embed.es6',
+    entry: './src/js/embed.es6',
     output: {
-        path: path.join(__dirname, 'dist'),
-        filename: 'embed.min.js',
+        path: path.join(__dirname, 'src'),
+        filename: 'embed.js',
         publicPath: 'dist/'
     },
     module: {
