@@ -1,0 +1,5243 @@
+/*
+Icon classes can be used entirely standalone. They are named after their original file names.
+
+```html
+<!-- `display: block` sprite -->
+<div class="icon-home"></div>
+
+<!-- `display: inline-block` sprite -->
+<img class="icon-home" />
+```
+*/
+.icon--1 {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -512px -640px;
+  width: 32px;
+  height: 32px;
+}
+.icon-100 {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: 0px -32px;
+  width: 32px;
+  height: 32px;
+}
+.icon-109 {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -32px -32px;
+  width: 32px;
+  height: 32px;
+}
+.icon-1234 {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -64px 0px;
+  width: 32px;
+  height: 32px;
+}
+.icon-8ball {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -64px -32px;
+  width: 32px;
+  height: 32px;
+}
+.icon-a {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: 0px -64px;
+  width: 32px;
+  height: 32px;
+}
+.icon-ab {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -32px -64px;
+  width: 32px;
+  height: 32px;
+}
+.icon-abc {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -64px -64px;
+  width: 32px;
+  height: 32px;
+}
+.icon-abcd {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -96px 0px;
+  width: 32px;
+  height: 32px;
+}
+.icon-accept {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -96px -32px;
+  width: 32px;
+  height: 32px;
+}
+.icon-aerial_tramway {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -96px -64px;
+  width: 32px;
+  height: 32px;
+}
+.icon-airplane {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: 0px -96px;
+  width: 32px;
+  height: 32px;
+}
+.icon-alarm_clock {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -32px -96px;
+  width: 32px;
+  height: 32px;
+}
+.icon-alien {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -64px -96px;
+  width: 32px;
+  height: 32px;
+}
+.icon-ambulance {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -96px -96px;
+  width: 32px;
+  height: 32px;
+}
+.icon-anchor {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -128px 0px;
+  width: 32px;
+  height: 32px;
+}
+.icon-angel {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -128px -32px;
+  width: 32px;
+  height: 32px;
+}
+.icon-anger {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -128px -64px;
+  width: 32px;
+  height: 32px;
+}
+.icon-angry {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -128px -96px;
+  width: 32px;
+  height: 32px;
+}
+.icon-anguished {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: 0px -128px;
+  width: 32px;
+  height: 32px;
+}
+.icon-ant {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -32px -128px;
+  width: 32px;
+  height: 32px;
+}
+.icon-apple {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -64px -128px;
+  width: 32px;
+  height: 32px;
+}
+.icon-aquarius {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -96px -128px;
+  width: 32px;
+  height: 32px;
+}
+.icon-aries {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -128px -128px;
+  width: 32px;
+  height: 32px;
+}
+.icon-arrow_backward {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -160px 0px;
+  width: 32px;
+  height: 32px;
+}
+.icon-arrow_double_down {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -160px -32px;
+  width: 32px;
+  height: 32px;
+}
+.icon-arrow_double_up {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -160px -64px;
+  width: 32px;
+  height: 32px;
+}
+.icon-arrow_down {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -160px -96px;
+  width: 32px;
+  height: 32px;
+}
+.icon-arrow_down_small {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -160px -128px;
+  width: 32px;
+  height: 32px;
+}
+.icon-arrow_forward {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: 0px -160px;
+  width: 32px;
+  height: 32px;
+}
+.icon-arrow_heading_down {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -32px -160px;
+  width: 32px;
+  height: 32px;
+}
+.icon-arrow_heading_up {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -64px -160px;
+  width: 32px;
+  height: 32px;
+}
+.icon-arrow_left {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -96px -160px;
+  width: 32px;
+  height: 32px;
+}
+.icon-arrow_lower_left {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -128px -160px;
+  width: 32px;
+  height: 32px;
+}
+.icon-arrow_lower_right {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -160px -160px;
+  width: 32px;
+  height: 32px;
+}
+.icon-arrow_right {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -192px 0px;
+  width: 32px;
+  height: 32px;
+}
+.icon-arrow_right_hook {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -192px -32px;
+  width: 32px;
+  height: 32px;
+}
+.icon-arrow_up {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -192px -64px;
+  width: 32px;
+  height: 32px;
+}
+.icon-arrow_up_down {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -192px -96px;
+  width: 32px;
+  height: 32px;
+}
+.icon-arrow_up_small {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -192px -128px;
+  width: 32px;
+  height: 32px;
+}
+.icon-arrow_upper_left {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -192px -160px;
+  width: 32px;
+  height: 32px;
+}
+.icon-arrow_upper_right {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: 0px -192px;
+  width: 32px;
+  height: 32px;
+}
+.icon-arrows_clockwise {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -32px -192px;
+  width: 32px;
+  height: 32px;
+}
+.icon-arrows_counterclockwise {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -64px -192px;
+  width: 32px;
+  height: 32px;
+}
+.icon-art {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -96px -192px;
+  width: 32px;
+  height: 32px;
+}
+.icon-articulated_lorry {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -128px -192px;
+  width: 32px;
+  height: 32px;
+}
+.icon-astonished {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -160px -192px;
+  width: 32px;
+  height: 32px;
+}
+.icon-atm {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -192px -192px;
+  width: 32px;
+  height: 32px;
+}
+.icon-b {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -224px 0px;
+  width: 32px;
+  height: 32px;
+}
+.icon-baby {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -224px -32px;
+  width: 32px;
+  height: 32px;
+}
+.icon-baby_bottle {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -224px -64px;
+  width: 32px;
+  height: 32px;
+}
+.icon-baby_chick {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -224px -96px;
+  width: 32px;
+  height: 32px;
+}
+.icon-baby_symbol {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -224px -128px;
+  width: 32px;
+  height: 32px;
+}
+.icon-baggage_claim {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -224px -160px;
+  width: 32px;
+  height: 32px;
+}
+.icon-balloon {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -224px -192px;
+  width: 32px;
+  height: 32px;
+}
+.icon-ballot_box_with_check {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: 0px -224px;
+  width: 32px;
+  height: 32px;
+}
+.icon-bamboo {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -32px -224px;
+  width: 32px;
+  height: 32px;
+}
+.icon-banana {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -64px -224px;
+  width: 32px;
+  height: 32px;
+}
+.icon-bangbang {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -96px -224px;
+  width: 32px;
+  height: 32px;
+}
+.icon-bank {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -128px -224px;
+  width: 32px;
+  height: 32px;
+}
+.icon-bar_chart {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -160px -224px;
+  width: 32px;
+  height: 32px;
+}
+.icon-barber {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -192px -224px;
+  width: 32px;
+  height: 32px;
+}
+.icon-baseball {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -224px -224px;
+  width: 32px;
+  height: 32px;
+}
+.icon-basketball {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -256px 0px;
+  width: 32px;
+  height: 32px;
+}
+.icon-bath {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -256px -32px;
+  width: 32px;
+  height: 32px;
+}
+.icon-bathtub {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -256px -64px;
+  width: 32px;
+  height: 32px;
+}
+.icon-battery {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -256px -96px;
+  width: 32px;
+  height: 32px;
+}
+.icon-bear {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -256px -128px;
+  width: 32px;
+  height: 32px;
+}
+.icon-beer {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -256px -160px;
+  width: 32px;
+  height: 32px;
+}
+.icon-beers {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -256px -192px;
+  width: 32px;
+  height: 32px;
+}
+.icon-beetle {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -256px -224px;
+  width: 32px;
+  height: 32px;
+}
+.icon-beginner {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: 0px -256px;
+  width: 32px;
+  height: 32px;
+}
+.icon-bell {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -32px -256px;
+  width: 32px;
+  height: 32px;
+}
+.icon-bento {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -64px -256px;
+  width: 32px;
+  height: 32px;
+}
+.icon-bicyclist {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -96px -256px;
+  width: 32px;
+  height: 32px;
+}
+.icon-bike {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -128px -256px;
+  width: 32px;
+  height: 32px;
+}
+.icon-bikini {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -160px -256px;
+  width: 32px;
+  height: 32px;
+}
+.icon-bird {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -192px -256px;
+  width: 32px;
+  height: 32px;
+}
+.icon-birthday {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -224px -256px;
+  width: 32px;
+  height: 32px;
+}
+.icon-black_circle {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -256px -256px;
+  width: 32px;
+  height: 32px;
+}
+.icon-black_joker {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -288px 0px;
+  width: 32px;
+  height: 32px;
+}
+.icon-black_nib {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -288px -32px;
+  width: 32px;
+  height: 32px;
+}
+.icon-black_square {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -288px -64px;
+  width: 32px;
+  height: 32px;
+}
+.icon-black_square_button {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -288px -96px;
+  width: 32px;
+  height: 32px;
+}
+.icon-blossom {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -288px -128px;
+  width: 32px;
+  height: 32px;
+}
+.icon-blowfish {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -288px -160px;
+  width: 32px;
+  height: 32px;
+}
+.icon-blue_book {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -288px -192px;
+  width: 32px;
+  height: 32px;
+}
+.icon-blue_car {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -288px -224px;
+  width: 32px;
+  height: 32px;
+}
+.icon-blue_heart {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -288px -256px;
+  width: 32px;
+  height: 32px;
+}
+.icon-blush {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: 0px -288px;
+  width: 32px;
+  height: 32px;
+}
+.icon-boar {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -32px -288px;
+  width: 32px;
+  height: 32px;
+}
+.icon-boat {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -64px -288px;
+  width: 32px;
+  height: 32px;
+}
+.icon-bomb {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -96px -288px;
+  width: 32px;
+  height: 32px;
+}
+.icon-book {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -128px -288px;
+  width: 32px;
+  height: 32px;
+}
+.icon-bookmark {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -160px -288px;
+  width: 32px;
+  height: 32px;
+}
+.icon-bookmark_tabs {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -192px -288px;
+  width: 32px;
+  height: 32px;
+}
+.icon-books {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -224px -288px;
+  width: 32px;
+  height: 32px;
+}
+.icon-boom {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -256px -288px;
+  width: 32px;
+  height: 32px;
+}
+.icon-boot {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -288px -288px;
+  width: 32px;
+  height: 32px;
+}
+.icon-bouquet {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -320px 0px;
+  width: 32px;
+  height: 32px;
+}
+.icon-bow {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -320px -32px;
+  width: 32px;
+  height: 32px;
+}
+.icon-bowling {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -320px -64px;
+  width: 32px;
+  height: 32px;
+}
+.icon-bowtie {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -320px -96px;
+  width: 32px;
+  height: 32px;
+}
+.icon-boy {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -320px -128px;
+  width: 32px;
+  height: 32px;
+}
+.icon-bread {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -320px -160px;
+  width: 32px;
+  height: 32px;
+}
+.icon-bride_with_veil {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -320px -192px;
+  width: 32px;
+  height: 32px;
+}
+.icon-bridge_at_night {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -320px -224px;
+  width: 32px;
+  height: 32px;
+}
+.icon-briefcase {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -320px -256px;
+  width: 32px;
+  height: 32px;
+}
+.icon-broken_heart {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -320px -288px;
+  width: 32px;
+  height: 32px;
+}
+.icon-bug {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: 0px -320px;
+  width: 32px;
+  height: 32px;
+}
+.icon-bulb {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -32px -320px;
+  width: 32px;
+  height: 32px;
+}
+.icon-bullettrain_front {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -64px -320px;
+  width: 32px;
+  height: 32px;
+}
+.icon-bullettrain_side {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -96px -320px;
+  width: 32px;
+  height: 32px;
+}
+.icon-bus {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -128px -320px;
+  width: 32px;
+  height: 32px;
+}
+.icon-busstop {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -160px -320px;
+  width: 32px;
+  height: 32px;
+}
+.icon-bust_in_silhouette {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -192px -320px;
+  width: 32px;
+  height: 32px;
+}
+.icon-busts_in_silhouette {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -224px -320px;
+  width: 32px;
+  height: 32px;
+}
+.icon-cactus {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -256px -320px;
+  width: 32px;
+  height: 32px;
+}
+.icon-cake {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -288px -320px;
+  width: 32px;
+  height: 32px;
+}
+.icon-calendar {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -320px -320px;
+  width: 32px;
+  height: 32px;
+}
+.icon-calling {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -352px 0px;
+  width: 32px;
+  height: 32px;
+}
+.icon-camel {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -352px -32px;
+  width: 32px;
+  height: 32px;
+}
+.icon-camera {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -352px -64px;
+  width: 32px;
+  height: 32px;
+}
+.icon-cancer {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -352px -96px;
+  width: 32px;
+  height: 32px;
+}
+.icon-candy {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -352px -128px;
+  width: 32px;
+  height: 32px;
+}
+.icon-capital_abcd {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -352px -160px;
+  width: 32px;
+  height: 32px;
+}
+.icon-capricorn {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -352px -192px;
+  width: 32px;
+  height: 32px;
+}
+.icon-car {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -352px -224px;
+  width: 32px;
+  height: 32px;
+}
+.icon-card_index {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -352px -256px;
+  width: 32px;
+  height: 32px;
+}
+.icon-carousel_horse {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -352px -288px;
+  width: 32px;
+  height: 32px;
+}
+.icon-cat {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -352px -320px;
+  width: 32px;
+  height: 32px;
+}
+.icon-cat2 {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: 0px -352px;
+  width: 32px;
+  height: 32px;
+}
+.icon-cd {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -32px -352px;
+  width: 32px;
+  height: 32px;
+}
+.icon-chart {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -64px -352px;
+  width: 32px;
+  height: 32px;
+}
+.icon-chart_with_downwards_trend {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -96px -352px;
+  width: 32px;
+  height: 32px;
+}
+.icon-chart_with_upwards_trend {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -128px -352px;
+  width: 32px;
+  height: 32px;
+}
+.icon-checkered_flag {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -160px -352px;
+  width: 32px;
+  height: 32px;
+}
+.icon-cherries {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -192px -352px;
+  width: 32px;
+  height: 32px;
+}
+.icon-cherry_blossom {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -224px -352px;
+  width: 32px;
+  height: 32px;
+}
+.icon-chestnut {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -256px -352px;
+  width: 32px;
+  height: 32px;
+}
+.icon-chicken {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -288px -352px;
+  width: 32px;
+  height: 32px;
+}
+.icon-children_crossing {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -320px -352px;
+  width: 32px;
+  height: 32px;
+}
+.icon-chocolate_bar {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -352px -352px;
+  width: 32px;
+  height: 32px;
+}
+.icon-christmas_tree {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -384px 0px;
+  width: 32px;
+  height: 32px;
+}
+.icon-church {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -384px -32px;
+  width: 32px;
+  height: 32px;
+}
+.icon-cinema {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -384px -64px;
+  width: 32px;
+  height: 32px;
+}
+.icon-circus_tent {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -384px -96px;
+  width: 32px;
+  height: 32px;
+}
+.icon-city_sunrise {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -384px -128px;
+  width: 32px;
+  height: 32px;
+}
+.icon-city_sunset {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -384px -160px;
+  width: 32px;
+  height: 32px;
+}
+.icon-cl {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -384px -192px;
+  width: 32px;
+  height: 32px;
+}
+.icon-clap {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -384px -224px;
+  width: 32px;
+  height: 32px;
+}
+.icon-clapper {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -384px -256px;
+  width: 32px;
+  height: 32px;
+}
+.icon-clipboard {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -384px -288px;
+  width: 32px;
+  height: 32px;
+}
+.icon-clock1 {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -384px -320px;
+  width: 32px;
+  height: 32px;
+}
+.icon-clock10 {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -384px -352px;
+  width: 32px;
+  height: 32px;
+}
+.icon-clock1030 {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: 0px -384px;
+  width: 32px;
+  height: 32px;
+}
+.icon-clock11 {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -32px -384px;
+  width: 32px;
+  height: 32px;
+}
+.icon-clock1130 {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -64px -384px;
+  width: 32px;
+  height: 32px;
+}
+.icon-clock12 {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -96px -384px;
+  width: 32px;
+  height: 32px;
+}
+.icon-clock1230 {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -128px -384px;
+  width: 32px;
+  height: 32px;
+}
+.icon-clock130 {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -160px -384px;
+  width: 32px;
+  height: 32px;
+}
+.icon-clock2 {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -192px -384px;
+  width: 32px;
+  height: 32px;
+}
+.icon-clock230 {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -224px -384px;
+  width: 32px;
+  height: 32px;
+}
+.icon-clock3 {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -256px -384px;
+  width: 32px;
+  height: 32px;
+}
+.icon-clock330 {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -288px -384px;
+  width: 32px;
+  height: 32px;
+}
+.icon-clock4 {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -320px -384px;
+  width: 32px;
+  height: 32px;
+}
+.icon-clock430 {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -352px -384px;
+  width: 32px;
+  height: 32px;
+}
+.icon-clock5 {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -384px -384px;
+  width: 32px;
+  height: 32px;
+}
+.icon-clock530 {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -416px 0px;
+  width: 32px;
+  height: 32px;
+}
+.icon-clock6 {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -416px -32px;
+  width: 32px;
+  height: 32px;
+}
+.icon-clock630 {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -416px -64px;
+  width: 32px;
+  height: 32px;
+}
+.icon-clock7 {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -416px -96px;
+  width: 32px;
+  height: 32px;
+}
+.icon-clock730 {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -416px -128px;
+  width: 32px;
+  height: 32px;
+}
+.icon-clock8 {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -416px -160px;
+  width: 32px;
+  height: 32px;
+}
+.icon-clock830 {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -416px -192px;
+  width: 32px;
+  height: 32px;
+}
+.icon-clock9 {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -416px -224px;
+  width: 32px;
+  height: 32px;
+}
+.icon-clock930 {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -416px -256px;
+  width: 32px;
+  height: 32px;
+}
+.icon-closed_book {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -416px -288px;
+  width: 32px;
+  height: 32px;
+}
+.icon-closed_lock_with_key {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -416px -320px;
+  width: 32px;
+  height: 32px;
+}
+.icon-closed_umbrella {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -416px -352px;
+  width: 32px;
+  height: 32px;
+}
+.icon-cloud {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -416px -384px;
+  width: 32px;
+  height: 32px;
+}
+.icon-clubs {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: 0px -416px;
+  width: 32px;
+  height: 32px;
+}
+.icon-cn {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -32px -416px;
+  width: 32px;
+  height: 32px;
+}
+.icon-cocktail {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -64px -416px;
+  width: 32px;
+  height: 32px;
+}
+.icon-coffee {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -96px -416px;
+  width: 32px;
+  height: 32px;
+}
+.icon-cold_sweat {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -128px -416px;
+  width: 32px;
+  height: 32px;
+}
+.icon-collision {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -160px -416px;
+  width: 32px;
+  height: 32px;
+}
+.icon-computer {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -192px -416px;
+  width: 32px;
+  height: 32px;
+}
+.icon-confetti_ball {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -224px -416px;
+  width: 32px;
+  height: 32px;
+}
+.icon-confounded {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -256px -416px;
+  width: 32px;
+  height: 32px;
+}
+.icon-confused {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -288px -416px;
+  width: 32px;
+  height: 32px;
+}
+.icon-congratulations {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -320px -416px;
+  width: 32px;
+  height: 32px;
+}
+.icon-construction {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -352px -416px;
+  width: 32px;
+  height: 32px;
+}
+.icon-construction_worker {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -384px -416px;
+  width: 32px;
+  height: 32px;
+}
+.icon-convenience_store {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -416px -416px;
+  width: 32px;
+  height: 32px;
+}
+.icon-cookie {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -448px 0px;
+  width: 32px;
+  height: 32px;
+}
+.icon-cool {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -448px -32px;
+  width: 32px;
+  height: 32px;
+}
+.icon-cop {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -448px -64px;
+  width: 32px;
+  height: 32px;
+}
+.icon-copyright {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -448px -96px;
+  width: 32px;
+  height: 32px;
+}
+.icon-corn {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -448px -128px;
+  width: 32px;
+  height: 32px;
+}
+.icon-couple {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -448px -160px;
+  width: 32px;
+  height: 32px;
+}
+.icon-couple_with_heart {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -448px -192px;
+  width: 32px;
+  height: 32px;
+}
+.icon-couplekiss {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -448px -224px;
+  width: 32px;
+  height: 32px;
+}
+.icon-cow {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -448px -256px;
+  width: 32px;
+  height: 32px;
+}
+.icon-cow2 {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -448px -288px;
+  width: 32px;
+  height: 32px;
+}
+.icon-credit_card {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -448px -320px;
+  width: 32px;
+  height: 32px;
+}
+.icon-crocodile {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -448px -352px;
+  width: 32px;
+  height: 32px;
+}
+.icon-crossed_flags {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -448px -384px;
+  width: 32px;
+  height: 32px;
+}
+.icon-crown {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -448px -416px;
+  width: 32px;
+  height: 32px;
+}
+.icon-cry {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: 0px -448px;
+  width: 32px;
+  height: 32px;
+}
+.icon-crying_cat_face {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -32px -448px;
+  width: 32px;
+  height: 32px;
+}
+.icon-crystal_ball {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -64px -448px;
+  width: 32px;
+  height: 32px;
+}
+.icon-cupid {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -96px -448px;
+  width: 32px;
+  height: 32px;
+}
+.icon-curly_loop {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -128px -448px;
+  width: 32px;
+  height: 32px;
+}
+.icon-currency_exchange {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -160px -448px;
+  width: 32px;
+  height: 32px;
+}
+.icon-curry {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -192px -448px;
+  width: 32px;
+  height: 32px;
+}
+.icon-custard {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -224px -448px;
+  width: 32px;
+  height: 32px;
+}
+.icon-customs {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -256px -448px;
+  width: 32px;
+  height: 32px;
+}
+.icon-cyclone {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -288px -448px;
+  width: 32px;
+  height: 32px;
+}
+.icon-dancer {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -320px -448px;
+  width: 32px;
+  height: 32px;
+}
+.icon-dancers {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -352px -448px;
+  width: 32px;
+  height: 32px;
+}
+.icon-dango {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -384px -448px;
+  width: 32px;
+  height: 32px;
+}
+.icon-dart {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -416px -448px;
+  width: 32px;
+  height: 32px;
+}
+.icon-dash {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -448px -448px;
+  width: 32px;
+  height: 32px;
+}
+.icon-date {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -480px 0px;
+  width: 32px;
+  height: 32px;
+}
+.icon-de {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -480px -32px;
+  width: 32px;
+  height: 32px;
+}
+.icon-deciduous_tree {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -480px -64px;
+  width: 32px;
+  height: 32px;
+}
+.icon-department_store {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -480px -96px;
+  width: 32px;
+  height: 32px;
+}
+.icon-diamond_shape_with_a_dot_inside {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -480px -128px;
+  width: 32px;
+  height: 32px;
+}
+.icon-diamonds {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -480px -160px;
+  width: 32px;
+  height: 32px;
+}
+.icon-disappointed {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -480px -192px;
+  width: 32px;
+  height: 32px;
+}
+.icon-disappointed_relieved {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -480px -224px;
+  width: 32px;
+  height: 32px;
+}
+.icon-dizzy {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -480px -256px;
+  width: 32px;
+  height: 32px;
+}
+.icon-dizzy_face {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -480px -288px;
+  width: 32px;
+  height: 32px;
+}
+.icon-do_not_litter {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -480px -320px;
+  width: 32px;
+  height: 32px;
+}
+.icon-dog {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -480px -352px;
+  width: 32px;
+  height: 32px;
+}
+.icon-dog2 {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -480px -384px;
+  width: 32px;
+  height: 32px;
+}
+.icon-dollar {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -480px -416px;
+  width: 32px;
+  height: 32px;
+}
+.icon-dolls {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -480px -448px;
+  width: 32px;
+  height: 32px;
+}
+.icon-dolphin {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: 0px -480px;
+  width: 32px;
+  height: 32px;
+}
+.icon-door {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -32px -480px;
+  width: 32px;
+  height: 32px;
+}
+.icon-doughnut {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -64px -480px;
+  width: 32px;
+  height: 32px;
+}
+.icon-dragon {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -96px -480px;
+  width: 32px;
+  height: 32px;
+}
+.icon-dragon_face {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -128px -480px;
+  width: 32px;
+  height: 32px;
+}
+.icon-dress {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -160px -480px;
+  width: 32px;
+  height: 32px;
+}
+.icon-dromedary_camel {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -192px -480px;
+  width: 32px;
+  height: 32px;
+}
+.icon-droplet {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -224px -480px;
+  width: 32px;
+  height: 32px;
+}
+.icon-dvd {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -256px -480px;
+  width: 32px;
+  height: 32px;
+}
+.icon-e-mail {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -288px -480px;
+  width: 32px;
+  height: 32px;
+}
+.icon-ear {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -320px -480px;
+  width: 32px;
+  height: 32px;
+}
+.icon-ear_of_rice {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -352px -480px;
+  width: 32px;
+  height: 32px;
+}
+.icon-earth_africa {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -384px -480px;
+  width: 32px;
+  height: 32px;
+}
+.icon-earth_americas {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -416px -480px;
+  width: 32px;
+  height: 32px;
+}
+.icon-earth_asia {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -448px -480px;
+  width: 32px;
+  height: 32px;
+}
+.icon-egg {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -480px -480px;
+  width: 32px;
+  height: 32px;
+}
+.icon-eggplant {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -512px 0px;
+  width: 32px;
+  height: 32px;
+}
+.icon-eight {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -512px -32px;
+  width: 32px;
+  height: 32px;
+}
+.icon-eight_pointed_black_star {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -512px -64px;
+  width: 32px;
+  height: 32px;
+}
+.icon-eight_spoked_asterisk {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -512px -96px;
+  width: 32px;
+  height: 32px;
+}
+.icon-eightball {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -512px -128px;
+  width: 32px;
+  height: 32px;
+}
+.icon-electric_plug {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -512px -160px;
+  width: 32px;
+  height: 32px;
+}
+.icon-elephant {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -512px -192px;
+  width: 32px;
+  height: 32px;
+}
+.icon-email {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -512px -224px;
+  width: 32px;
+  height: 32px;
+}
+.icon-end {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -512px -256px;
+  width: 32px;
+  height: 32px;
+}
+.icon-envelope {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -512px -288px;
+  width: 32px;
+  height: 32px;
+}
+.icon-es {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -512px -320px;
+  width: 32px;
+  height: 32px;
+}
+.icon-euro {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -512px -352px;
+  width: 32px;
+  height: 32px;
+}
+.icon-european_castle {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -512px -384px;
+  width: 32px;
+  height: 32px;
+}
+.icon-european_post_office {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -512px -416px;
+  width: 32px;
+  height: 32px;
+}
+.icon-evergreen_tree {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -512px -448px;
+  width: 32px;
+  height: 32px;
+}
+.icon-exclamation {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -512px -480px;
+  width: 32px;
+  height: 32px;
+}
+.icon-expressionless {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: 0px -512px;
+  width: 32px;
+  height: 32px;
+}
+.icon-eyeglasses {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -32px -512px;
+  width: 32px;
+  height: 32px;
+}
+.icon-eyes {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -64px -512px;
+  width: 32px;
+  height: 32px;
+}
+.icon-facepunch {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -96px -512px;
+  width: 32px;
+  height: 32px;
+}
+.icon-factory {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -128px -512px;
+  width: 32px;
+  height: 32px;
+}
+.icon-fallen_leaf {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -160px -512px;
+  width: 32px;
+  height: 32px;
+}
+.icon-family {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -192px -512px;
+  width: 32px;
+  height: 32px;
+}
+.icon-fast_forward {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -224px -512px;
+  width: 32px;
+  height: 32px;
+}
+.icon-fax {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -256px -512px;
+  width: 32px;
+  height: 32px;
+}
+.icon-fearful {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -288px -512px;
+  width: 32px;
+  height: 32px;
+}
+.icon-feelsgood {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -320px -512px;
+  width: 32px;
+  height: 32px;
+}
+.icon-feet {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -352px -512px;
+  width: 32px;
+  height: 32px;
+}
+.icon-ferris_wheel {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -384px -512px;
+  width: 32px;
+  height: 32px;
+}
+.icon-file_folder {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -416px -512px;
+  width: 32px;
+  height: 32px;
+}
+.icon-finnadie {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -448px -512px;
+  width: 32px;
+  height: 32px;
+}
+.icon-fire {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -480px -512px;
+  width: 32px;
+  height: 32px;
+}
+.icon-fire_engine {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -512px -512px;
+  width: 32px;
+  height: 32px;
+}
+.icon-fireworks {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -544px 0px;
+  width: 32px;
+  height: 32px;
+}
+.icon-first_quarter_moon {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -544px -32px;
+  width: 32px;
+  height: 32px;
+}
+.icon-first_quarter_moon_with_face {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -544px -64px;
+  width: 32px;
+  height: 32px;
+}
+.icon-fish {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -544px -96px;
+  width: 32px;
+  height: 32px;
+}
+.icon-fish_cake {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -544px -128px;
+  width: 32px;
+  height: 32px;
+}
+.icon-fishing_pole_and_fish {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -544px -160px;
+  width: 32px;
+  height: 32px;
+}
+.icon-fist {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -544px -192px;
+  width: 32px;
+  height: 32px;
+}
+.icon-five {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -544px -224px;
+  width: 32px;
+  height: 32px;
+}
+.icon-flags {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -544px -256px;
+  width: 32px;
+  height: 32px;
+}
+.icon-flashlight {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -544px -288px;
+  width: 32px;
+  height: 32px;
+}
+.icon-floppy_disk {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -544px -320px;
+  width: 32px;
+  height: 32px;
+}
+.icon-flower_playing_cards {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -544px -352px;
+  width: 32px;
+  height: 32px;
+}
+.icon-flushed {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -544px -384px;
+  width: 32px;
+  height: 32px;
+}
+.icon-foggy {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -544px -416px;
+  width: 32px;
+  height: 32px;
+}
+.icon-football {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -544px -448px;
+  width: 32px;
+  height: 32px;
+}
+.icon-fork_and_knife {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -544px -480px;
+  width: 32px;
+  height: 32px;
+}
+.icon-fountain {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -544px -512px;
+  width: 32px;
+  height: 32px;
+}
+.icon-four {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: 0px -544px;
+  width: 32px;
+  height: 32px;
+}
+.icon-four_leaf_clover {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -32px -544px;
+  width: 32px;
+  height: 32px;
+}
+.icon-fr {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -64px -544px;
+  width: 32px;
+  height: 32px;
+}
+.icon-free {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -96px -544px;
+  width: 32px;
+  height: 32px;
+}
+.icon-fried_shrimp {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -128px -544px;
+  width: 32px;
+  height: 32px;
+}
+.icon-fries {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -160px -544px;
+  width: 32px;
+  height: 32px;
+}
+.icon-frog {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -192px -544px;
+  width: 32px;
+  height: 32px;
+}
+.icon-frowning {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -224px -544px;
+  width: 32px;
+  height: 32px;
+}
+.icon-fuelpump {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -256px -544px;
+  width: 32px;
+  height: 32px;
+}
+.icon-full_moon {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -288px -544px;
+  width: 32px;
+  height: 32px;
+}
+.icon-full_moon_with_face {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -320px -544px;
+  width: 32px;
+  height: 32px;
+}
+.icon-game_die {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -352px -544px;
+  width: 32px;
+  height: 32px;
+}
+.icon-gb {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -384px -544px;
+  width: 32px;
+  height: 32px;
+}
+.icon-gem {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -416px -544px;
+  width: 32px;
+  height: 32px;
+}
+.icon-gemini {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -448px -544px;
+  width: 32px;
+  height: 32px;
+}
+.icon-ghost {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -480px -544px;
+  width: 32px;
+  height: 32px;
+}
+.icon-gift {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -512px -544px;
+  width: 32px;
+  height: 32px;
+}
+.icon-gift_heart {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -544px -544px;
+  width: 32px;
+  height: 32px;
+}
+.icon-girl {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -576px 0px;
+  width: 32px;
+  height: 32px;
+}
+.icon-globe_with_meridians {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -576px -32px;
+  width: 32px;
+  height: 32px;
+}
+.icon-goat {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -576px -64px;
+  width: 32px;
+  height: 32px;
+}
+.icon-goberserk {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -576px -96px;
+  width: 32px;
+  height: 32px;
+}
+.icon-godmode {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -576px -128px;
+  width: 32px;
+  height: 32px;
+}
+.icon-golf {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -576px -160px;
+  width: 32px;
+  height: 32px;
+}
+.icon-grapes {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -576px -192px;
+  width: 32px;
+  height: 32px;
+}
+.icon-green_apple {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -576px -224px;
+  width: 32px;
+  height: 32px;
+}
+.icon-green_book {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -576px -256px;
+  width: 32px;
+  height: 32px;
+}
+.icon-green_heart {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -576px -288px;
+  width: 32px;
+  height: 32px;
+}
+.icon-grey_exclamation {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -576px -320px;
+  width: 32px;
+  height: 32px;
+}
+.icon-grey_question {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -576px -352px;
+  width: 32px;
+  height: 32px;
+}
+.icon-grimacing {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -576px -384px;
+  width: 32px;
+  height: 32px;
+}
+.icon-grin {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -576px -416px;
+  width: 32px;
+  height: 32px;
+}
+.icon-grinning {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -576px -448px;
+  width: 32px;
+  height: 32px;
+}
+.icon-guardsman {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -576px -480px;
+  width: 32px;
+  height: 32px;
+}
+.icon-guitar {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -576px -512px;
+  width: 32px;
+  height: 32px;
+}
+.icon-gun {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -576px -544px;
+  width: 32px;
+  height: 32px;
+}
+.icon-haircut {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: 0px -576px;
+  width: 32px;
+  height: 32px;
+}
+.icon-hamburger {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -32px -576px;
+  width: 32px;
+  height: 32px;
+}
+.icon-hammer {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -64px -576px;
+  width: 32px;
+  height: 32px;
+}
+.icon-hamster {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -96px -576px;
+  width: 32px;
+  height: 32px;
+}
+.icon-hand {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -128px -576px;
+  width: 32px;
+  height: 32px;
+}
+.icon-handbag {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -160px -576px;
+  width: 32px;
+  height: 32px;
+}
+.icon-hankey {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -192px -576px;
+  width: 32px;
+  height: 32px;
+}
+.icon-hash {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -224px -576px;
+  width: 32px;
+  height: 32px;
+}
+.icon-hatched_chick {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -256px -576px;
+  width: 32px;
+  height: 32px;
+}
+.icon-hatching_chick {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -288px -576px;
+  width: 32px;
+  height: 32px;
+}
+.icon-headphones {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -320px -576px;
+  width: 32px;
+  height: 32px;
+}
+.icon-hear_no_evil {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -352px -576px;
+  width: 32px;
+  height: 32px;
+}
+.icon-heart {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -384px -576px;
+  width: 32px;
+  height: 32px;
+}
+.icon-heart_decoration {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -416px -576px;
+  width: 32px;
+  height: 32px;
+}
+.icon-heart_eyes {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -448px -576px;
+  width: 32px;
+  height: 32px;
+}
+.icon-heart_eyes_cat {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -480px -576px;
+  width: 32px;
+  height: 32px;
+}
+.icon-heartbeat {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -512px -576px;
+  width: 32px;
+  height: 32px;
+}
+.icon-heartpulse {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -544px -576px;
+  width: 32px;
+  height: 32px;
+}
+.icon-hearts {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -576px -576px;
+  width: 32px;
+  height: 32px;
+}
+.icon-heavy_check_mark {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -608px 0px;
+  width: 32px;
+  height: 32px;
+}
+.icon-heavy_division_sign {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -608px -32px;
+  width: 32px;
+  height: 32px;
+}
+.icon-heavy_dollar_sign {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -608px -64px;
+  width: 32px;
+  height: 32px;
+}
+.icon-heavy_exclamation_mark {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -608px -96px;
+  width: 32px;
+  height: 32px;
+}
+.icon-heavy_minus_sign {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -608px -128px;
+  width: 32px;
+  height: 32px;
+}
+.icon-heavy_multiplication_x {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -608px -160px;
+  width: 32px;
+  height: 32px;
+}
+.icon-heavy_plus_sign {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -608px -192px;
+  width: 32px;
+  height: 32px;
+}
+.icon-helicopter {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -608px -224px;
+  width: 32px;
+  height: 32px;
+}
+.icon-herb {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -608px -256px;
+  width: 32px;
+  height: 32px;
+}
+.icon-hibiscus {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -608px -288px;
+  width: 32px;
+  height: 32px;
+}
+.icon-high_brightness {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -608px -320px;
+  width: 32px;
+  height: 32px;
+}
+.icon-high_heel {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -608px -352px;
+  width: 32px;
+  height: 32px;
+}
+.icon-hocho {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -608px -384px;
+  width: 32px;
+  height: 32px;
+}
+.icon-honey_pot {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -608px -416px;
+  width: 32px;
+  height: 32px;
+}
+.icon-honeybee {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -608px -448px;
+  width: 32px;
+  height: 32px;
+}
+.icon-horse {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -608px -480px;
+  width: 32px;
+  height: 32px;
+}
+.icon-horse_racing {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -608px -512px;
+  width: 32px;
+  height: 32px;
+}
+.icon-hospital {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -608px -544px;
+  width: 32px;
+  height: 32px;
+}
+.icon-hotel {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -608px -576px;
+  width: 32px;
+  height: 32px;
+}
+.icon-hotsprings {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: 0px -608px;
+  width: 32px;
+  height: 32px;
+}
+.icon-hourglass {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -32px -608px;
+  width: 32px;
+  height: 32px;
+}
+.icon-hourglass_flowing_sand {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -64px -608px;
+  width: 32px;
+  height: 32px;
+}
+.icon-house {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -96px -608px;
+  width: 32px;
+  height: 32px;
+}
+.icon-house_with_garden {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -128px -608px;
+  width: 32px;
+  height: 32px;
+}
+.icon-hurtrealbad {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -160px -608px;
+  width: 32px;
+  height: 32px;
+}
+.icon-hushed {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -192px -608px;
+  width: 32px;
+  height: 32px;
+}
+.icon-ice_cream {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -224px -608px;
+  width: 32px;
+  height: 32px;
+}
+.icon-icecream {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -256px -608px;
+  width: 32px;
+  height: 32px;
+}
+.icon-id {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -288px -608px;
+  width: 32px;
+  height: 32px;
+}
+.icon-ideograph_advantage {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -320px -608px;
+  width: 32px;
+  height: 32px;
+}
+.icon-imp {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -352px -608px;
+  width: 32px;
+  height: 32px;
+}
+.icon-inbox_tray {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -384px -608px;
+  width: 32px;
+  height: 32px;
+}
+.icon-incoming_envelope {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -416px -608px;
+  width: 32px;
+  height: 32px;
+}
+.icon-information_desk_person {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -448px -608px;
+  width: 32px;
+  height: 32px;
+}
+.icon-information_source {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -480px -608px;
+  width: 32px;
+  height: 32px;
+}
+.icon-innocent {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -512px -608px;
+  width: 32px;
+  height: 32px;
+}
+.icon-interrobang {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -544px -608px;
+  width: 32px;
+  height: 32px;
+}
+.icon-iphone {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -576px -608px;
+  width: 32px;
+  height: 32px;
+}
+.icon-it {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -608px -608px;
+  width: 32px;
+  height: 32px;
+}
+.icon-izakaya_lantern {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -640px 0px;
+  width: 32px;
+  height: 32px;
+}
+.icon-jack_o_lantern {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -640px -32px;
+  width: 32px;
+  height: 32px;
+}
+.icon-japan {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -640px -64px;
+  width: 32px;
+  height: 32px;
+}
+.icon-japanese_castle {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -640px -96px;
+  width: 32px;
+  height: 32px;
+}
+.icon-japanese_goblin {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -640px -128px;
+  width: 32px;
+  height: 32px;
+}
+.icon-japanese_ogre {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -640px -160px;
+  width: 32px;
+  height: 32px;
+}
+.icon-jeans {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -640px -192px;
+  width: 32px;
+  height: 32px;
+}
+.icon-joy {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -640px -224px;
+  width: 32px;
+  height: 32px;
+}
+.icon-joy_cat {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -640px -256px;
+  width: 32px;
+  height: 32px;
+}
+.icon-jp {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -640px -288px;
+  width: 32px;
+  height: 32px;
+}
+.icon-key {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -640px -320px;
+  width: 32px;
+  height: 32px;
+}
+.icon-keycap_ten {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -640px -352px;
+  width: 32px;
+  height: 32px;
+}
+.icon-kimono {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -640px -384px;
+  width: 32px;
+  height: 32px;
+}
+.icon-kiss {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -640px -416px;
+  width: 32px;
+  height: 32px;
+}
+.icon-kissing {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -640px -448px;
+  width: 32px;
+  height: 32px;
+}
+.icon-kissing_cat {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -640px -480px;
+  width: 32px;
+  height: 32px;
+}
+.icon-kissing_closed_eyes {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -640px -512px;
+  width: 32px;
+  height: 32px;
+}
+.icon-kissing_heart {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -640px -544px;
+  width: 32px;
+  height: 32px;
+}
+.icon-kissing_smiling_eyes {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -640px -576px;
+  width: 32px;
+  height: 32px;
+}
+.icon-koala {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -640px -608px;
+  width: 32px;
+  height: 32px;
+}
+.icon-koko {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: 0px -640px;
+  width: 32px;
+  height: 32px;
+}
+.icon-kr {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -32px -640px;
+  width: 32px;
+  height: 32px;
+}
+.icon-large_blue_circle {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -64px -640px;
+  width: 32px;
+  height: 32px;
+}
+.icon-large_blue_diamond {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -96px -640px;
+  width: 32px;
+  height: 32px;
+}
+.icon-large_orange_diamond {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -128px -640px;
+  width: 32px;
+  height: 32px;
+}
+.icon-last_quarter_moon {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -160px -640px;
+  width: 32px;
+  height: 32px;
+}
+.icon-last_quarter_moon_with_face {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -192px -640px;
+  width: 32px;
+  height: 32px;
+}
+.icon-laughing {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -224px -640px;
+  width: 32px;
+  height: 32px;
+}
+.icon-leaves {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -256px -640px;
+  width: 32px;
+  height: 32px;
+}
+.icon-ledger {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -288px -640px;
+  width: 32px;
+  height: 32px;
+}
+.icon-left_luggage {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -320px -640px;
+  width: 32px;
+  height: 32px;
+}
+.icon-left_right_arrow {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -352px -640px;
+  width: 32px;
+  height: 32px;
+}
+.icon-leftwards_arrow_with_hook {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -384px -640px;
+  width: 32px;
+  height: 32px;
+}
+.icon-lemon {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -416px -640px;
+  width: 32px;
+  height: 32px;
+}
+.icon-leo {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -448px -640px;
+  width: 32px;
+  height: 32px;
+}
+.icon-leopard {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -480px -640px;
+  width: 32px;
+  height: 32px;
+}
+.icon-libra {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: 0px 0px;
+  width: 32px;
+  height: 32px;
+}
+.icon-light_rail {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -544px -640px;
+  width: 32px;
+  height: 32px;
+}
+.icon-link {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -576px -640px;
+  width: 32px;
+  height: 32px;
+}
+.icon-lips {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -608px -640px;
+  width: 32px;
+  height: 32px;
+}
+.icon-lipstick {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -640px -640px;
+  width: 32px;
+  height: 32px;
+}
+.icon-lock {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -672px 0px;
+  width: 32px;
+  height: 32px;
+}
+.icon-lock_with_ink_pen {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -672px -32px;
+  width: 32px;
+  height: 32px;
+}
+.icon-lollipop {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -672px -64px;
+  width: 32px;
+  height: 32px;
+}
+.icon-loop {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -672px -96px;
+  width: 32px;
+  height: 32px;
+}
+.icon-loudspeaker {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -672px -128px;
+  width: 32px;
+  height: 32px;
+}
+.icon-love_hotel {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -672px -160px;
+  width: 32px;
+  height: 32px;
+}
+.icon-love_letter {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -672px -192px;
+  width: 32px;
+  height: 32px;
+}
+.icon-low_brightness {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -672px -224px;
+  width: 32px;
+  height: 32px;
+}
+.icon-m {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -672px -256px;
+  width: 32px;
+  height: 32px;
+}
+.icon-mag {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -672px -288px;
+  width: 32px;
+  height: 32px;
+}
+.icon-mag_right {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -672px -320px;
+  width: 32px;
+  height: 32px;
+}
+.icon-mahjong {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -672px -352px;
+  width: 32px;
+  height: 32px;
+}
+.icon-mailbox {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -672px -384px;
+  width: 32px;
+  height: 32px;
+}
+.icon-mailbox_closed {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -672px -416px;
+  width: 32px;
+  height: 32px;
+}
+.icon-mailbox_with_mail {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -672px -448px;
+  width: 32px;
+  height: 32px;
+}
+.icon-mailbox_with_no_mail {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -672px -480px;
+  width: 32px;
+  height: 32px;
+}
+.icon-man {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -672px -512px;
+  width: 32px;
+  height: 32px;
+}
+.icon-man_with_gua_pi_mao {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -672px -544px;
+  width: 32px;
+  height: 32px;
+}
+.icon-man_with_turban {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -672px -576px;
+  width: 32px;
+  height: 32px;
+}
+.icon-mans_shoe {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -672px -608px;
+  width: 32px;
+  height: 32px;
+}
+.icon-maple_leaf {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -672px -640px;
+  width: 32px;
+  height: 32px;
+}
+.icon-mask {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: 0px -672px;
+  width: 32px;
+  height: 32px;
+}
+.icon-massage {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -32px -672px;
+  width: 32px;
+  height: 32px;
+}
+.icon-meat_on_bone {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -64px -672px;
+  width: 32px;
+  height: 32px;
+}
+.icon-mega {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -96px -672px;
+  width: 32px;
+  height: 32px;
+}
+.icon-melon {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -128px -672px;
+  width: 32px;
+  height: 32px;
+}
+.icon-memo {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -160px -672px;
+  width: 32px;
+  height: 32px;
+}
+.icon-mens {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -192px -672px;
+  width: 32px;
+  height: 32px;
+}
+.icon-metal {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -224px -672px;
+  width: 32px;
+  height: 32px;
+}
+.icon-metro {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -256px -672px;
+  width: 32px;
+  height: 32px;
+}
+.icon-microphone {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -288px -672px;
+  width: 32px;
+  height: 32px;
+}
+.icon-microscope {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -320px -672px;
+  width: 32px;
+  height: 32px;
+}
+.icon-milky_way {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -352px -672px;
+  width: 32px;
+  height: 32px;
+}
+.icon-minibus {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -384px -672px;
+  width: 32px;
+  height: 32px;
+}
+.icon-minidisc {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -416px -672px;
+  width: 32px;
+  height: 32px;
+}
+.icon-mobile_phone_off {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -448px -672px;
+  width: 32px;
+  height: 32px;
+}
+.icon-money_with_wings {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -480px -672px;
+  width: 32px;
+  height: 32px;
+}
+.icon-moneybag {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -512px -672px;
+  width: 32px;
+  height: 32px;
+}
+.icon-monkey {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -544px -672px;
+  width: 32px;
+  height: 32px;
+}
+.icon-monkey_face {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -576px -672px;
+  width: 32px;
+  height: 32px;
+}
+.icon-monorail {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -608px -672px;
+  width: 32px;
+  height: 32px;
+}
+.icon-moon {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -640px -672px;
+  width: 32px;
+  height: 32px;
+}
+.icon-mortar_board {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -672px -672px;
+  width: 32px;
+  height: 32px;
+}
+.icon-mount_fuji {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -704px 0px;
+  width: 32px;
+  height: 32px;
+}
+.icon-mountain_bicyclist {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -704px -32px;
+  width: 32px;
+  height: 32px;
+}
+.icon-mountain_cableway {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -704px -64px;
+  width: 32px;
+  height: 32px;
+}
+.icon-mountain_railway {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -704px -96px;
+  width: 32px;
+  height: 32px;
+}
+.icon-mouse {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -704px -128px;
+  width: 32px;
+  height: 32px;
+}
+.icon-mouse2 {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -704px -160px;
+  width: 32px;
+  height: 32px;
+}
+.icon-movie_camera {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -704px -192px;
+  width: 32px;
+  height: 32px;
+}
+.icon-moyai {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -704px -224px;
+  width: 32px;
+  height: 32px;
+}
+.icon-muscle {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -704px -256px;
+  width: 32px;
+  height: 32px;
+}
+.icon-mushroom {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -704px -288px;
+  width: 32px;
+  height: 32px;
+}
+.icon-musical_keyboard {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -704px -320px;
+  width: 32px;
+  height: 32px;
+}
+.icon-musical_note {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -704px -352px;
+  width: 32px;
+  height: 32px;
+}
+.icon-musical_score {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -704px -384px;
+  width: 32px;
+  height: 32px;
+}
+.icon-mute {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -704px -416px;
+  width: 32px;
+  height: 32px;
+}
+.icon-nail_care {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -704px -448px;
+  width: 32px;
+  height: 32px;
+}
+.icon-name_badge {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -704px -480px;
+  width: 32px;
+  height: 32px;
+}
+.icon-neckbeard {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -704px -512px;
+  width: 32px;
+  height: 32px;
+}
+.icon-necktie {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -704px -544px;
+  width: 32px;
+  height: 32px;
+}
+.icon-negative_squared_cross_mark {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -704px -576px;
+  width: 32px;
+  height: 32px;
+}
+.icon-neutral_face {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -704px -608px;
+  width: 32px;
+  height: 32px;
+}
+.icon-new {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -704px -640px;
+  width: 32px;
+  height: 32px;
+}
+.icon-new_moon {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -704px -672px;
+  width: 32px;
+  height: 32px;
+}
+.icon-new_moon_with_face {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: 0px -704px;
+  width: 32px;
+  height: 32px;
+}
+.icon-newspaper {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -32px -704px;
+  width: 32px;
+  height: 32px;
+}
+.icon-ng {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -64px -704px;
+  width: 32px;
+  height: 32px;
+}
+.icon-nine {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -96px -704px;
+  width: 32px;
+  height: 32px;
+}
+.icon-no_bell {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -128px -704px;
+  width: 32px;
+  height: 32px;
+}
+.icon-no_bicycles {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -160px -704px;
+  width: 32px;
+  height: 32px;
+}
+.icon-no_entry {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -192px -704px;
+  width: 32px;
+  height: 32px;
+}
+.icon-no_entry_sign {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -224px -704px;
+  width: 32px;
+  height: 32px;
+}
+.icon-no_good {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -256px -704px;
+  width: 32px;
+  height: 32px;
+}
+.icon-no_mobile_phones {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -288px -704px;
+  width: 32px;
+  height: 32px;
+}
+.icon-no_mouth {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -320px -704px;
+  width: 32px;
+  height: 32px;
+}
+.icon-no_pedestrians {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -352px -704px;
+  width: 32px;
+  height: 32px;
+}
+.icon-no_smoking {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -384px -704px;
+  width: 32px;
+  height: 32px;
+}
+.icon-non-potable_water {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -416px -704px;
+  width: 32px;
+  height: 32px;
+}
+.icon-nose {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -448px -704px;
+  width: 32px;
+  height: 32px;
+}
+.icon-notebook {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -480px -704px;
+  width: 32px;
+  height: 32px;
+}
+.icon-notebook_with_decorative_cover {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -512px -704px;
+  width: 32px;
+  height: 32px;
+}
+.icon-notes {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -544px -704px;
+  width: 32px;
+  height: 32px;
+}
+.icon-nut_and_bolt {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -576px -704px;
+  width: 32px;
+  height: 32px;
+}
+.icon-o {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -608px -704px;
+  width: 32px;
+  height: 32px;
+}
+.icon-o2 {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -640px -704px;
+  width: 32px;
+  height: 32px;
+}
+.icon-ocean {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -672px -704px;
+  width: 32px;
+  height: 32px;
+}
+.icon-octocat {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -704px -704px;
+  width: 32px;
+  height: 32px;
+}
+.icon-octopus {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -736px 0px;
+  width: 32px;
+  height: 32px;
+}
+.icon-oden {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -736px -32px;
+  width: 32px;
+  height: 32px;
+}
+.icon-office {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -736px -64px;
+  width: 32px;
+  height: 32px;
+}
+.icon-ok {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -736px -96px;
+  width: 32px;
+  height: 32px;
+}
+.icon-ok_hand {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -736px -128px;
+  width: 32px;
+  height: 32px;
+}
+.icon-ok_woman {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -736px -160px;
+  width: 32px;
+  height: 32px;
+}
+.icon-older_man {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -736px -192px;
+  width: 32px;
+  height: 32px;
+}
+.icon-older_woman {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -736px -224px;
+  width: 32px;
+  height: 32px;
+}
+.icon-on {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -736px -256px;
+  width: 32px;
+  height: 32px;
+}
+.icon-oncoming_automobile {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -736px -288px;
+  width: 32px;
+  height: 32px;
+}
+.icon-oncoming_bus {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -736px -320px;
+  width: 32px;
+  height: 32px;
+}
+.icon-oncoming_police_car {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -736px -352px;
+  width: 32px;
+  height: 32px;
+}
+.icon-oncoming_taxi {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -736px -384px;
+  width: 32px;
+  height: 32px;
+}
+.icon-one {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -736px -416px;
+  width: 32px;
+  height: 32px;
+}
+.icon-onehundred {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -736px -448px;
+  width: 32px;
+  height: 32px;
+}
+.icon-onetwothreefour {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -736px -480px;
+  width: 32px;
+  height: 32px;
+}
+.icon-onezeronine {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -736px -512px;
+  width: 32px;
+  height: 32px;
+}
+.icon-open_file_folder {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -736px -544px;
+  width: 32px;
+  height: 32px;
+}
+.icon-open_hands {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -736px -576px;
+  width: 32px;
+  height: 32px;
+}
+.icon-open_mouth {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -736px -608px;
+  width: 32px;
+  height: 32px;
+}
+.icon-ophiuchus {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -736px -640px;
+  width: 32px;
+  height: 32px;
+}
+.icon-orange_book {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -736px -672px;
+  width: 32px;
+  height: 32px;
+}
+.icon-outbox_tray {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -736px -704px;
+  width: 32px;
+  height: 32px;
+}
+.icon-ox {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: 0px -736px;
+  width: 32px;
+  height: 32px;
+}
+.icon-page_facing_up {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -32px -736px;
+  width: 32px;
+  height: 32px;
+}
+.icon-page_with_curl {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -64px -736px;
+  width: 32px;
+  height: 32px;
+}
+.icon-pager {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -96px -736px;
+  width: 32px;
+  height: 32px;
+}
+.icon-palm_tree {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -128px -736px;
+  width: 32px;
+  height: 32px;
+}
+.icon-panda_face {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -160px -736px;
+  width: 32px;
+  height: 32px;
+}
+.icon-paperclip {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -192px -736px;
+  width: 32px;
+  height: 32px;
+}
+.icon-parking {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -224px -736px;
+  width: 32px;
+  height: 32px;
+}
+.icon-part_alternation_mark {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -256px -736px;
+  width: 32px;
+  height: 32px;
+}
+.icon-partly_sunny {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -288px -736px;
+  width: 32px;
+  height: 32px;
+}
+.icon-passport_control {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -320px -736px;
+  width: 32px;
+  height: 32px;
+}
+.icon-paw_prints {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -352px -736px;
+  width: 32px;
+  height: 32px;
+}
+.icon-peach {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -384px -736px;
+  width: 32px;
+  height: 32px;
+}
+.icon-pear {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -416px -736px;
+  width: 32px;
+  height: 32px;
+}
+.icon-pencil {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -448px -736px;
+  width: 32px;
+  height: 32px;
+}
+.icon-pencil2 {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -480px -736px;
+  width: 32px;
+  height: 32px;
+}
+.icon-penguin {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -512px -736px;
+  width: 32px;
+  height: 32px;
+}
+.icon-pensive {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -544px -736px;
+  width: 32px;
+  height: 32px;
+}
+.icon-performing_arts {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -576px -736px;
+  width: 32px;
+  height: 32px;
+}
+.icon-persevere {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -608px -736px;
+  width: 32px;
+  height: 32px;
+}
+.icon-person_frowning {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -640px -736px;
+  width: 32px;
+  height: 32px;
+}
+.icon-person_with_blond_hair {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -672px -736px;
+  width: 32px;
+  height: 32px;
+}
+.icon-person_with_pouting_face {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -704px -736px;
+  width: 32px;
+  height: 32px;
+}
+.icon-phone {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -736px -736px;
+  width: 32px;
+  height: 32px;
+}
+.icon-pig {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -768px 0px;
+  width: 32px;
+  height: 32px;
+}
+.icon-pig2 {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -768px -32px;
+  width: 32px;
+  height: 32px;
+}
+.icon-pig_nose {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -768px -64px;
+  width: 32px;
+  height: 32px;
+}
+.icon-pill {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -768px -96px;
+  width: 32px;
+  height: 32px;
+}
+.icon-pineapple {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -768px -128px;
+  width: 32px;
+  height: 32px;
+}
+.icon-pisces {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -768px -160px;
+  width: 32px;
+  height: 32px;
+}
+.icon-pizza {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -768px -192px;
+  width: 32px;
+  height: 32px;
+}
+.icon-point_down {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -768px -224px;
+  width: 32px;
+  height: 32px;
+}
+.icon-point_left {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -768px -256px;
+  width: 32px;
+  height: 32px;
+}
+.icon-point_right {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -768px -288px;
+  width: 32px;
+  height: 32px;
+}
+.icon-point_up {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -768px -320px;
+  width: 32px;
+  height: 32px;
+}
+.icon-point_up_2 {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -768px -352px;
+  width: 32px;
+  height: 32px;
+}
+.icon-police_car {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -768px -384px;
+  width: 32px;
+  height: 32px;
+}
+.icon-poodle {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -768px -416px;
+  width: 32px;
+  height: 32px;
+}
+.icon-poop {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -768px -448px;
+  width: 32px;
+  height: 32px;
+}
+.icon-post_office {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -768px -480px;
+  width: 32px;
+  height: 32px;
+}
+.icon-postal_horn {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -768px -512px;
+  width: 32px;
+  height: 32px;
+}
+.icon-postbox {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -768px -544px;
+  width: 32px;
+  height: 32px;
+}
+.icon-potable_water {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -768px -576px;
+  width: 32px;
+  height: 32px;
+}
+.icon-pouch {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -768px -608px;
+  width: 32px;
+  height: 32px;
+}
+.icon-poultry_leg {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -768px -640px;
+  width: 32px;
+  height: 32px;
+}
+.icon-pound {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -768px -672px;
+  width: 32px;
+  height: 32px;
+}
+.icon-pouting_cat {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -768px -704px;
+  width: 32px;
+  height: 32px;
+}
+.icon-pray {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -768px -736px;
+  width: 32px;
+  height: 32px;
+}
+.icon-princess {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: 0px -768px;
+  width: 32px;
+  height: 32px;
+}
+.icon-punch {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -32px -768px;
+  width: 32px;
+  height: 32px;
+}
+.icon-purple_heart {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -64px -768px;
+  width: 32px;
+  height: 32px;
+}
+.icon-purse {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -96px -768px;
+  width: 32px;
+  height: 32px;
+}
+.icon-pushpin {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -128px -768px;
+  width: 32px;
+  height: 32px;
+}
+.icon-put_litter_in_its_place {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -160px -768px;
+  width: 32px;
+  height: 32px;
+}
+.icon-question {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -192px -768px;
+  width: 32px;
+  height: 32px;
+}
+.icon-rabbit {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -224px -768px;
+  width: 32px;
+  height: 32px;
+}
+.icon-rabbit2 {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -256px -768px;
+  width: 32px;
+  height: 32px;
+}
+.icon-racehorse {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -288px -768px;
+  width: 32px;
+  height: 32px;
+}
+.icon-radio {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -320px -768px;
+  width: 32px;
+  height: 32px;
+}
+.icon-radio_button {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -352px -768px;
+  width: 32px;
+  height: 32px;
+}
+.icon-rage {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -384px -768px;
+  width: 32px;
+  height: 32px;
+}
+.icon-rage1 {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -416px -768px;
+  width: 32px;
+  height: 32px;
+}
+.icon-rage2 {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -448px -768px;
+  width: 32px;
+  height: 32px;
+}
+.icon-rage3 {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -480px -768px;
+  width: 32px;
+  height: 32px;
+}
+.icon-rage4 {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -512px -768px;
+  width: 32px;
+  height: 32px;
+}
+.icon-railway_car {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -544px -768px;
+  width: 32px;
+  height: 32px;
+}
+.icon-rainbow {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -576px -768px;
+  width: 32px;
+  height: 32px;
+}
+.icon-raised_hand {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -608px -768px;
+  width: 32px;
+  height: 32px;
+}
+.icon-raised_hands {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -640px -768px;
+  width: 32px;
+  height: 32px;
+}
+.icon-raising_hand {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -672px -768px;
+  width: 32px;
+  height: 32px;
+}
+.icon-ram {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -704px -768px;
+  width: 32px;
+  height: 32px;
+}
+.icon-ramen {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -736px -768px;
+  width: 32px;
+  height: 32px;
+}
+.icon-rat {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -768px -768px;
+  width: 32px;
+  height: 32px;
+}
+.icon-recycle {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -800px 0px;
+  width: 32px;
+  height: 32px;
+}
+.icon-red_car {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -800px -32px;
+  width: 32px;
+  height: 32px;
+}
+.icon-red_circle {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -800px -64px;
+  width: 32px;
+  height: 32px;
+}
+.icon-registered {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -800px -96px;
+  width: 32px;
+  height: 32px;
+}
+.icon-relaxed {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -800px -128px;
+  width: 32px;
+  height: 32px;
+}
+.icon-relieved {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -800px -160px;
+  width: 32px;
+  height: 32px;
+}
+.icon-repeat {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -800px -192px;
+  width: 32px;
+  height: 32px;
+}
+.icon-repeat_one {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -800px -224px;
+  width: 32px;
+  height: 32px;
+}
+.icon-restroom {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -800px -256px;
+  width: 32px;
+  height: 32px;
+}
+.icon-revolving_hearts {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -800px -288px;
+  width: 32px;
+  height: 32px;
+}
+.icon-rewind {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -800px -320px;
+  width: 32px;
+  height: 32px;
+}
+.icon-ribbon {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -800px -352px;
+  width: 32px;
+  height: 32px;
+}
+.icon-rice {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -800px -384px;
+  width: 32px;
+  height: 32px;
+}
+.icon-rice_ball {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -800px -416px;
+  width: 32px;
+  height: 32px;
+}
+.icon-rice_cracker {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -800px -448px;
+  width: 32px;
+  height: 32px;
+}
+.icon-rice_scene {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -800px -480px;
+  width: 32px;
+  height: 32px;
+}
+.icon-ring {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -800px -512px;
+  width: 32px;
+  height: 32px;
+}
+.icon-rocket {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -800px -544px;
+  width: 32px;
+  height: 32px;
+}
+.icon-roller_coaster {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -800px -576px;
+  width: 32px;
+  height: 32px;
+}
+.icon-rooster {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -800px -608px;
+  width: 32px;
+  height: 32px;
+}
+.icon-rose {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -800px -640px;
+  width: 32px;
+  height: 32px;
+}
+.icon-rotating_light {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -800px -672px;
+  width: 32px;
+  height: 32px;
+}
+.icon-round_pushpin {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -800px -704px;
+  width: 32px;
+  height: 32px;
+}
+.icon-rowboat {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -800px -736px;
+  width: 32px;
+  height: 32px;
+}
+.icon-ru {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -800px -768px;
+  width: 32px;
+  height: 32px;
+}
+.icon-rugby_football {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: 0px -800px;
+  width: 32px;
+  height: 32px;
+}
+.icon-runner {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -32px -800px;
+  width: 32px;
+  height: 32px;
+}
+.icon-running {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -64px -800px;
+  width: 32px;
+  height: 32px;
+}
+.icon-running_shirt_with_sash {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -96px -800px;
+  width: 32px;
+  height: 32px;
+}
+.icon-sa {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -128px -800px;
+  width: 32px;
+  height: 32px;
+}
+.icon-sagittarius {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -160px -800px;
+  width: 32px;
+  height: 32px;
+}
+.icon-sailboat {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -192px -800px;
+  width: 32px;
+  height: 32px;
+}
+.icon-sake {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -224px -800px;
+  width: 32px;
+  height: 32px;
+}
+.icon-sandal {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -256px -800px;
+  width: 32px;
+  height: 32px;
+}
+.icon-santa {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -288px -800px;
+  width: 32px;
+  height: 32px;
+}
+.icon-satellite {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -320px -800px;
+  width: 32px;
+  height: 32px;
+}
+.icon-satisfied {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -352px -800px;
+  width: 32px;
+  height: 32px;
+}
+.icon-saxophone {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -384px -800px;
+  width: 32px;
+  height: 32px;
+}
+.icon-school {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -416px -800px;
+  width: 32px;
+  height: 32px;
+}
+.icon-school_satchel {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -448px -800px;
+  width: 32px;
+  height: 32px;
+}
+.icon-scissors {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -480px -800px;
+  width: 32px;
+  height: 32px;
+}
+.icon-scorpius {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -512px -800px;
+  width: 32px;
+  height: 32px;
+}
+.icon-scream {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -544px -800px;
+  width: 32px;
+  height: 32px;
+}
+.icon-scream_cat {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -576px -800px;
+  width: 32px;
+  height: 32px;
+}
+.icon-scroll {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -608px -800px;
+  width: 32px;
+  height: 32px;
+}
+.icon-seat {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -640px -800px;
+  width: 32px;
+  height: 32px;
+}
+.icon-secret {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -672px -800px;
+  width: 32px;
+  height: 32px;
+}
+.icon-see_no_evil {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -704px -800px;
+  width: 32px;
+  height: 32px;
+}
+.icon-seedling {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -736px -800px;
+  width: 32px;
+  height: 32px;
+}
+.icon-seven {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -768px -800px;
+  width: 32px;
+  height: 32px;
+}
+.icon-shaved_ice {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -800px -800px;
+  width: 32px;
+  height: 32px;
+}
+.icon-sheep {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -832px 0px;
+  width: 32px;
+  height: 32px;
+}
+.icon-shell {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -832px -32px;
+  width: 32px;
+  height: 32px;
+}
+.icon-ship {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -832px -64px;
+  width: 32px;
+  height: 32px;
+}
+.icon-shipit {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -832px -96px;
+  width: 32px;
+  height: 32px;
+}
+.icon-shirt {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -832px -128px;
+  width: 32px;
+  height: 32px;
+}
+.icon-shit {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -832px -160px;
+  width: 32px;
+  height: 32px;
+}
+.icon-shoe {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -832px -192px;
+  width: 32px;
+  height: 32px;
+}
+.icon-shower {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -832px -224px;
+  width: 32px;
+  height: 32px;
+}
+.icon-signal_strength {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -832px -256px;
+  width: 32px;
+  height: 32px;
+}
+.icon-six {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -832px -288px;
+  width: 32px;
+  height: 32px;
+}
+.icon-six_pointed_star {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -832px -320px;
+  width: 32px;
+  height: 32px;
+}
+.icon-ski {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -832px -352px;
+  width: 32px;
+  height: 32px;
+}
+.icon-skull {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -832px -384px;
+  width: 32px;
+  height: 32px;
+}
+.icon-sleeping {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -832px -416px;
+  width: 32px;
+  height: 32px;
+}
+.icon-sleepy {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -832px -448px;
+  width: 32px;
+  height: 32px;
+}
+.icon-slot_machine {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -832px -480px;
+  width: 32px;
+  height: 32px;
+}
+.icon-small_blue_diamond {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -832px -512px;
+  width: 32px;
+  height: 32px;
+}
+.icon-small_orange_diamond {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -832px -544px;
+  width: 32px;
+  height: 32px;
+}
+.icon-small_red_triangle {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -832px -576px;
+  width: 32px;
+  height: 32px;
+}
+.icon-small_red_triangle_down {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -832px -608px;
+  width: 32px;
+  height: 32px;
+}
+.icon-smile {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -832px -640px;
+  width: 32px;
+  height: 32px;
+}
+.icon-smile_cat {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -832px -672px;
+  width: 32px;
+  height: 32px;
+}
+.icon-smiley {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -832px -704px;
+  width: 32px;
+  height: 32px;
+}
+.icon-smiley_cat {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -832px -736px;
+  width: 32px;
+  height: 32px;
+}
+.icon-smiling_imp {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -832px -768px;
+  width: 32px;
+  height: 32px;
+}
+.icon-smirk {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -832px -800px;
+  width: 32px;
+  height: 32px;
+}
+.icon-smirk_cat {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: 0px -832px;
+  width: 32px;
+  height: 32px;
+}
+.icon-smoking {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -32px -832px;
+  width: 32px;
+  height: 32px;
+}
+.icon-snail {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -64px -832px;
+  width: 32px;
+  height: 32px;
+}
+.icon-snake {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -96px -832px;
+  width: 32px;
+  height: 32px;
+}
+.icon-snowboarder {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -128px -832px;
+  width: 32px;
+  height: 32px;
+}
+.icon-snowflake {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -160px -832px;
+  width: 32px;
+  height: 32px;
+}
+.icon-snowman {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -192px -832px;
+  width: 32px;
+  height: 32px;
+}
+.icon-sob {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -224px -832px;
+  width: 32px;
+  height: 32px;
+}
+.icon-soccer {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -256px -832px;
+  width: 32px;
+  height: 32px;
+}
+.icon-soon {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -288px -832px;
+  width: 32px;
+  height: 32px;
+}
+.icon-sos {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -320px -832px;
+  width: 32px;
+  height: 32px;
+}
+.icon-sound {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -352px -832px;
+  width: 32px;
+  height: 32px;
+}
+.icon-space_invader {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -384px -832px;
+  width: 32px;
+  height: 32px;
+}
+.icon-spades {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -416px -832px;
+  width: 32px;
+  height: 32px;
+}
+.icon-spaghetti {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -448px -832px;
+  width: 32px;
+  height: 32px;
+}
+.icon-sparkler {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -480px -832px;
+  width: 32px;
+  height: 32px;
+}
+.icon-sparkles {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -512px -832px;
+  width: 32px;
+  height: 32px;
+}
+.icon-sparkling_heart {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -544px -832px;
+  width: 32px;
+  height: 32px;
+}
+.icon-speak_no_evil {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -576px -832px;
+  width: 32px;
+  height: 32px;
+}
+.icon-speaker {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -608px -832px;
+  width: 32px;
+  height: 32px;
+}
+.icon-speech_balloon {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -640px -832px;
+  width: 32px;
+  height: 32px;
+}
+.icon-speedboat {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -672px -832px;
+  width: 32px;
+  height: 32px;
+}
+.icon-squirrel {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -704px -832px;
+  width: 32px;
+  height: 32px;
+}
+.icon-star {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -736px -832px;
+  width: 32px;
+  height: 32px;
+}
+.icon-star2 {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -768px -832px;
+  width: 32px;
+  height: 32px;
+}
+.icon-stars {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -800px -832px;
+  width: 32px;
+  height: 32px;
+}
+.icon-station {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -832px -832px;
+  width: 32px;
+  height: 32px;
+}
+.icon-statue_of_liberty {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -864px 0px;
+  width: 32px;
+  height: 32px;
+}
+.icon-steam_locomotive {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -864px -32px;
+  width: 32px;
+  height: 32px;
+}
+.icon-stew {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -864px -64px;
+  width: 32px;
+  height: 32px;
+}
+.icon-straight_ruler {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -864px -96px;
+  width: 32px;
+  height: 32px;
+}
+.icon-strawberry {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -864px -128px;
+  width: 32px;
+  height: 32px;
+}
+.icon-stuck_out_tongue {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -864px -160px;
+  width: 32px;
+  height: 32px;
+}
+.icon-stuck_out_tongue_closed_eyes {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -864px -192px;
+  width: 32px;
+  height: 32px;
+}
+.icon-stuck_out_tongue_winking_eye {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -864px -224px;
+  width: 32px;
+  height: 32px;
+}
+.icon-sun_with_face {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -864px -256px;
+  width: 32px;
+  height: 32px;
+}
+.icon-sunflower {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -864px -288px;
+  width: 32px;
+  height: 32px;
+}
+.icon-sunglasses {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -864px -320px;
+  width: 32px;
+  height: 32px;
+}
+.icon-sunny {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -864px -352px;
+  width: 32px;
+  height: 32px;
+}
+.icon-sunrise {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -864px -384px;
+  width: 32px;
+  height: 32px;
+}
+.icon-sunrise_over_mountains {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -864px -416px;
+  width: 32px;
+  height: 32px;
+}
+.icon-surfer {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -864px -448px;
+  width: 32px;
+  height: 32px;
+}
+.icon-sushi {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -864px -480px;
+  width: 32px;
+  height: 32px;
+}
+.icon-suspect {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -864px -512px;
+  width: 32px;
+  height: 32px;
+}
+.icon-suspension_railway {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -864px -544px;
+  width: 32px;
+  height: 32px;
+}
+.icon-sweat {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -864px -576px;
+  width: 32px;
+  height: 32px;
+}
+.icon-sweat_drops {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -864px -608px;
+  width: 32px;
+  height: 32px;
+}
+.icon-sweat_smile {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -864px -640px;
+  width: 32px;
+  height: 32px;
+}
+.icon-sweet_potato {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -864px -672px;
+  width: 32px;
+  height: 32px;
+}
+.icon-swimmer {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -864px -704px;
+  width: 32px;
+  height: 32px;
+}
+.icon-symbols {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -864px -736px;
+  width: 32px;
+  height: 32px;
+}
+.icon-syringe {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -864px -768px;
+  width: 32px;
+  height: 32px;
+}
+.icon-tada {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -864px -800px;
+  width: 32px;
+  height: 32px;
+}
+.icon-tanabata_tree {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -864px -832px;
+  width: 32px;
+  height: 32px;
+}
+.icon-tangerine {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: 0px -864px;
+  width: 32px;
+  height: 32px;
+}
+.icon-taurus {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -32px -864px;
+  width: 32px;
+  height: 32px;
+}
+.icon-taxi {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -64px -864px;
+  width: 32px;
+  height: 32px;
+}
+.icon-tea {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -96px -864px;
+  width: 32px;
+  height: 32px;
+}
+.icon-telephone {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -128px -864px;
+  width: 32px;
+  height: 32px;
+}
+.icon-telephone_receiver {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -160px -864px;
+  width: 32px;
+  height: 32px;
+}
+.icon-telescope {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -192px -864px;
+  width: 32px;
+  height: 32px;
+}
+.icon-tennis {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -224px -864px;
+  width: 32px;
+  height: 32px;
+}
+.icon-tent {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -256px -864px;
+  width: 32px;
+  height: 32px;
+}
+.icon-thought_balloon {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -288px -864px;
+  width: 32px;
+  height: 32px;
+}
+.icon-three {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -320px -864px;
+  width: 32px;
+  height: 32px;
+}
+.icon-thumbsdown {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -352px -864px;
+  width: 32px;
+  height: 32px;
+}
+.icon-thumbsup {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -384px -864px;
+  width: 32px;
+  height: 32px;
+}
+.icon-ticket {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -416px -864px;
+  width: 32px;
+  height: 32px;
+}
+.icon-tiger {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -448px -864px;
+  width: 32px;
+  height: 32px;
+}
+.icon-tiger2 {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -480px -864px;
+  width: 32px;
+  height: 32px;
+}
+.icon-tired_face {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -512px -864px;
+  width: 32px;
+  height: 32px;
+}
+.icon-tm {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -544px -864px;
+  width: 32px;
+  height: 32px;
+}
+.icon-toilet {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -576px -864px;
+  width: 32px;
+  height: 32px;
+}
+.icon-tokyo_tower {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -608px -864px;
+  width: 32px;
+  height: 32px;
+}
+.icon-tomato {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -640px -864px;
+  width: 32px;
+  height: 32px;
+}
+.icon-tongue {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -672px -864px;
+  width: 32px;
+  height: 32px;
+}
+.icon-top {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -704px -864px;
+  width: 32px;
+  height: 32px;
+}
+.icon-tophat {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -736px -864px;
+  width: 32px;
+  height: 32px;
+}
+.icon-tractor {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -768px -864px;
+  width: 32px;
+  height: 32px;
+}
+.icon-traffic_light {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -800px -864px;
+  width: 32px;
+  height: 32px;
+}
+.icon-train {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -832px -864px;
+  width: 32px;
+  height: 32px;
+}
+.icon-train2 {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -864px -864px;
+  width: 32px;
+  height: 32px;
+}
+.icon-tram {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -896px 0px;
+  width: 32px;
+  height: 32px;
+}
+.icon-triangular_flag_on_post {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -896px -32px;
+  width: 32px;
+  height: 32px;
+}
+.icon-triangular_ruler {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -896px -64px;
+  width: 32px;
+  height: 32px;
+}
+.icon-trident {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -896px -96px;
+  width: 32px;
+  height: 32px;
+}
+.icon-triumph {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -896px -128px;
+  width: 32px;
+  height: 32px;
+}
+.icon-trolleybus {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -896px -160px;
+  width: 32px;
+  height: 32px;
+}
+.icon-trollface {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -896px -192px;
+  width: 32px;
+  height: 32px;
+}
+.icon-trophy {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -896px -224px;
+  width: 32px;
+  height: 32px;
+}
+.icon-tropical_drink {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -896px -256px;
+  width: 32px;
+  height: 32px;
+}
+.icon-tropical_fish {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -896px -288px;
+  width: 32px;
+  height: 32px;
+}
+.icon-truck {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -896px -320px;
+  width: 32px;
+  height: 32px;
+}
+.icon-trumpet {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -896px -352px;
+  width: 32px;
+  height: 32px;
+}
+.icon-tshirt {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -896px -384px;
+  width: 32px;
+  height: 32px;
+}
+.icon-tulip {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -896px -416px;
+  width: 32px;
+  height: 32px;
+}
+.icon-turtle {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -896px -448px;
+  width: 32px;
+  height: 32px;
+}
+.icon-tv {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -896px -480px;
+  width: 32px;
+  height: 32px;
+}
+.icon-twisted_rightwards_arrows {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -896px -512px;
+  width: 32px;
+  height: 32px;
+}
+.icon-two {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -896px -544px;
+  width: 32px;
+  height: 32px;
+}
+.icon-two_hearts {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -896px -576px;
+  width: 32px;
+  height: 32px;
+}
+.icon-two_men_holding_hands {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -896px -608px;
+  width: 32px;
+  height: 32px;
+}
+.icon-two_women_holding_hands {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -896px -640px;
+  width: 32px;
+  height: 32px;
+}
+.icon-u5272 {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -896px -672px;
+  width: 32px;
+  height: 32px;
+}
+.icon-u5408 {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -896px -704px;
+  width: 32px;
+  height: 32px;
+}
+.icon-u55b6 {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -896px -736px;
+  width: 32px;
+  height: 32px;
+}
+.icon-u6307 {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -896px -768px;
+  width: 32px;
+  height: 32px;
+}
+.icon-u6708 {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -896px -800px;
+  width: 32px;
+  height: 32px;
+}
+.icon-u6709 {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -896px -832px;
+  width: 32px;
+  height: 32px;
+}
+.icon-u6e80 {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -896px -864px;
+  width: 32px;
+  height: 32px;
+}
+.icon-u7121 {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: 0px -896px;
+  width: 32px;
+  height: 32px;
+}
+.icon-u7533 {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -32px -896px;
+  width: 32px;
+  height: 32px;
+}
+.icon-u7981 {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -64px -896px;
+  width: 32px;
+  height: 32px;
+}
+.icon-u7a7a {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -96px -896px;
+  width: 32px;
+  height: 32px;
+}
+.icon-uk {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -128px -896px;
+  width: 32px;
+  height: 32px;
+}
+.icon-umbrella {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -160px -896px;
+  width: 32px;
+  height: 32px;
+}
+.icon-unamused {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -192px -896px;
+  width: 32px;
+  height: 32px;
+}
+.icon-underage {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -224px -896px;
+  width: 32px;
+  height: 32px;
+}
+.icon-unlock {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -256px -896px;
+  width: 32px;
+  height: 32px;
+}
+.icon-up {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -288px -896px;
+  width: 32px;
+  height: 32px;
+}
+.icon-us {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -320px -896px;
+  width: 32px;
+  height: 32px;
+}
+.icon-v {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -352px -896px;
+  width: 32px;
+  height: 32px;
+}
+.icon-vertical_traffic_light {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -384px -896px;
+  width: 32px;
+  height: 32px;
+}
+.icon-vhs {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -416px -896px;
+  width: 32px;
+  height: 32px;
+}
+.icon-vibration_mode {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -448px -896px;
+  width: 32px;
+  height: 32px;
+}
+.icon-video_camera {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -480px -896px;
+  width: 32px;
+  height: 32px;
+}
+.icon-video_game {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -512px -896px;
+  width: 32px;
+  height: 32px;
+}
+.icon-violin {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -544px -896px;
+  width: 32px;
+  height: 32px;
+}
+.icon-virgo {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -576px -896px;
+  width: 32px;
+  height: 32px;
+}
+.icon-volcano {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -608px -896px;
+  width: 32px;
+  height: 32px;
+}
+.icon-vs {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -640px -896px;
+  width: 32px;
+  height: 32px;
+}
+.icon-walking {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -672px -896px;
+  width: 32px;
+  height: 32px;
+}
+.icon-waning_crescent_moon {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -704px -896px;
+  width: 32px;
+  height: 32px;
+}
+.icon-waning_gibbous_moon {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -736px -896px;
+  width: 32px;
+  height: 32px;
+}
+.icon-warning {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -768px -896px;
+  width: 32px;
+  height: 32px;
+}
+.icon-watch {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -800px -896px;
+  width: 32px;
+  height: 32px;
+}
+.icon-water_buffalo {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -832px -896px;
+  width: 32px;
+  height: 32px;
+}
+.icon-watermelon {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -864px -896px;
+  width: 32px;
+  height: 32px;
+}
+.icon-wave {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -896px -896px;
+  width: 32px;
+  height: 32px;
+}
+.icon-wavy_dash {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -928px 0px;
+  width: 32px;
+  height: 32px;
+}
+.icon-waxing_crescent_moon {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -928px -32px;
+  width: 32px;
+  height: 32px;
+}
+.icon-waxing_gibbous_moon {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -928px -64px;
+  width: 32px;
+  height: 32px;
+}
+.icon-wc {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -928px -96px;
+  width: 32px;
+  height: 32px;
+}
+.icon-weary {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -928px -128px;
+  width: 32px;
+  height: 32px;
+}
+.icon-wedding {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -928px -160px;
+  width: 32px;
+  height: 32px;
+}
+.icon-whale {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -928px -192px;
+  width: 32px;
+  height: 32px;
+}
+.icon-whale2 {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -928px -224px;
+  width: 32px;
+  height: 32px;
+}
+.icon-wheelchair {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -928px -256px;
+  width: 32px;
+  height: 32px;
+}
+.icon-white_check_mark {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -928px -288px;
+  width: 32px;
+  height: 32px;
+}
+.icon-white_circle {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -928px -320px;
+  width: 32px;
+  height: 32px;
+}
+.icon-white_flower {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -928px -352px;
+  width: 32px;
+  height: 32px;
+}
+.icon-white_square {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -928px -384px;
+  width: 32px;
+  height: 32px;
+}
+.icon-white_square_button {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -928px -416px;
+  width: 32px;
+  height: 32px;
+}
+.icon-wind_chime {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -928px -448px;
+  width: 32px;
+  height: 32px;
+}
+.icon-wine_glass {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -928px -480px;
+  width: 32px;
+  height: 32px;
+}
+.icon-wink {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -928px -512px;
+  width: 32px;
+  height: 32px;
+}
+.icon-wink2 {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -928px -544px;
+  width: 32px;
+  height: 32px;
+}
+.icon-wolf {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -928px -576px;
+  width: 32px;
+  height: 32px;
+}
+.icon-woman {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -928px -608px;
+  width: 32px;
+  height: 32px;
+}
+.icon-womans_clothes {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -928px -640px;
+  width: 32px;
+  height: 32px;
+}
+.icon-womans_hat {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -928px -672px;
+  width: 32px;
+  height: 32px;
+}
+.icon-womens {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -928px -704px;
+  width: 32px;
+  height: 32px;
+}
+.icon-worried {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -928px -736px;
+  width: 32px;
+  height: 32px;
+}
+.icon-wrench {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -928px -768px;
+  width: 32px;
+  height: 32px;
+}
+.icon-x {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -928px -800px;
+  width: 32px;
+  height: 32px;
+}
+.icon-yellow_heart {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -928px -832px;
+  width: 32px;
+  height: 32px;
+}
+.icon-yen {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -928px -864px;
+  width: 32px;
+  height: 32px;
+}
+.icon-yum {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -928px -896px;
+  width: 32px;
+  height: 32px;
+}
+.icon-zap {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: 0px -928px;
+  width: 32px;
+  height: 32px;
+}
+.icon-zero {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -32px -928px;
+  width: 32px;
+  height: 32px;
+}
+.icon-zzz {
+  background-image: url(.././assets/images/emojis.png);
+  background-position: -64px -928px;
+  width: 32px;
+  height: 32px;
+}

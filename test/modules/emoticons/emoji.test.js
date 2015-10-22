@@ -15,9 +15,9 @@ describe('Emoji Unit test', function () {
 	});
 
 	it('should convert a emoji text into emoji', function () {
-		expect(emoji.process()).to.equal(`I am happy <span class="emoticon emoticon-smile" title=":smile:"></span>`);
+		expect(emoji.process()).to.equal(`I am happy <span class="icon icon-smile" title=":smile:"></span>`);
 		expect(emoji2.process()).to.equal(
-			`I am happy <span class="emoticon emoticon-smile" title=":smile:"></span> <span class="emoticon emoticon-+1" title=":+1:"></span>`
+			`I am happy <span class="icon icon-smile" title=":smile:"></span> <span class="icon icon-+1" title=":+1:"></span>`
 		)
 	})
 });

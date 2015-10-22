@@ -32,10 +32,9 @@ module.exports = function(grunt) {
             options: {
                 map: false,
                 processors: [
-                    require('autoprefixer-core')({
-                        browsers: 'last 2 versions'
-                    }), // add vendor prefixes
-                    require('cssnano')() // minify the result
+                    require('cssnano')({
+                        convertValues: false
+                    }) // minify the result
                 ]
             },
             dist: {
@@ -54,7 +53,7 @@ module.exports = function(grunt) {
                     new webpack.optimize.UglifyJsPlugin({
                         compress: {
                             drop_console: true,
-                            warnings:false
+                            warnings: false
                         },
                         sourceMap: true
                     }),
@@ -81,6 +80,47 @@ module.exports = function(grunt) {
                     debug: true
                 }
             }
+        },
+
+        'sprite': {
+            all: {
+                src: './assets/images/ejs_emojis/*.png',
+                dest: './assets/images/emojis.png',
+                retinaSrcFilter: './assets/images/ejs_emojis/*@2x.png',
+                destCss: 'src/_emojis.scss',
+                retinaDest: './assets/images/emojis@2x.png',
+                cssFormat:'css'
+            }
+        },
+
+        'retinafy': {
+            options: {
+                sizes: {
+                    '50%': {
+                        suffix: ''
+                    },
+                    '100%': {
+                        suffix: '@2x'
+                    }
+                }
+            },
+            files: {
+                expand: true,
+                cwd: 'assets/images/emojis',
+                src: ['*.png'],
+                dest: 'assets/images/ejs_emojis/'
+            }
+        },
+
+        'sass': {
+            dist: {
+                options: {
+                    style: 'expanded'
+                },
+                files: {
+                    'src/embed.css': 'src/embed.scss',
+                }
+            }
         }
     });
 
@@ -88,8 +128,11 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks("grunt-postcss");
     grunt.loadNpmTasks("grunt-contrib-clean");
     grunt.loadNpmTasks("grunt-webpack");
+    grunt.loadNpmTasks("grunt-spritesmith");
+    grunt.loadNpmTasks('grunt-retinafy');
+    grunt.loadNpmTasks("grunt-contrib-sass");
 
     grunt.registerTask("serve", ["webpack-dev-server:start"])
-    grunt.registerTask("default", ["clean", "webpack:build-dev","watch"]);
-    grunt.registerTask("build", ["clean", "webpack:build", "postcss"]);
+    grunt.registerTask("default", ["clean", "webpack:build-dev", "watch"]);
+    grunt.registerTask("build", ["clean", "webpack:build", "sass","postcss"]);
 };
