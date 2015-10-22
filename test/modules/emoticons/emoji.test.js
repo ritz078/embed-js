@@ -1,11 +1,16 @@
 var Emoji = require('../../../src/js/modules/emoticons/emoji.es6');
 var expect = require('chai').expect;
 
+var options={
+	customEmoji:[]
+}
+
 var string = 'I am happy :smile:';
 var string2 = 'I am happy :smile: :+1:';
 
-var emoji = new Emoji(string);
-var emoji2 = new Emoji(string2);
+var emoji = new Emoji(string, options);
+var emoji2 = new Emoji(string2, options);
+
 
 describe('Emoji Unit test', function () {
 	"use strict";

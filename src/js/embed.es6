@@ -40,6 +40,7 @@ import helper from './modules/video/helper.es6';
             exclude : ['pdf']
         },
         emoji           : true,
+        customEmoji     : [],
         fontIcons       : true,
         highlightCode   : true,
         videoJS         : false,

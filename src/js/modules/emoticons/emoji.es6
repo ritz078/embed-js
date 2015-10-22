@@ -1,6 +1,7 @@
 class Emoji {
-    constructor(input) {
+    constructor(input, options) {
         this.input = input;
+        this.options = options;
 
         this.emojiList = [
             'bowtie',
@@ -877,7 +878,9 @@ class Emoji {
             'shipit'
         ];
 
-        this.emojiRegex = new RegExp(':(' + this.emojiList.join('|') + '):', 'g');
+        this.allEmojiList = this.emojiList.concat(this.options.customEmoji);
+
+        this.emojiRegex = new RegExp(':(' + this.allEmojiList.join('|') + '):', 'g');
     }
 
     process() {
