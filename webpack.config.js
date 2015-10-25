@@ -1,6 +1,6 @@
 var path = require('path');
 var webpack = require('webpack');
-var pkg = require('./package.json');
+var build = require('./build.json');
 
 module.exports = {
     entry: './src/js/embed.es6',
@@ -24,6 +24,7 @@ module.exports = {
     plugins: [
         // Avoid publishing files when compilation failed
         new webpack.NoErrorsPlugin(),
+        new webpack.DefinePlugin(build),
         new webpack.ProvidePlugin({
             'regeneratorRuntime':'imports?this=>global!exports?global.regeneratorRuntime!regenerator/runtime.js',
             'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch',

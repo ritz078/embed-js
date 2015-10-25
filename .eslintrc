@@ -30,6 +30,7 @@
     "hljs":true,
     "twttr":true,
     "fetchJsonp":true,
-    "videojs":true
+    "videojs":true,
+    "build":true
   }
 }

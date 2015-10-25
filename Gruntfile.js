@@ -32,7 +32,7 @@ module.exports = function(grunt) {
                 tasks: ['sass']
             },
             js: {
-                files: ['src/js/**.es6'],
+                files: ['src/js/**/*.es6','build.json'],
                 tasks: ['webpack:build-dev']
             }
         },

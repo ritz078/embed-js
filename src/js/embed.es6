@@ -19,85 +19,89 @@
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //SOFTWARE.
 
-import utils      from './modules/utils.es6';
-import Emoji      from './modules/emoticons/emoji.es6';
-import Smiley     from './modules/emoticons/smiley.es6';
-import Url        from './modules/url.es6';
-import Code       from './modules/code/code.es6';
-import Video      from './modules/video/video.es6';
-import Twitter    from './modules/twitter/twitter.es6';
-import Audio      from './modules/audio/audio.es6';
-import Image      from './modules/image/image.es6';
+const utils = require('./modules/utils.es6');
 
-import helper from './modules/video/helper.es6';
+if(build.EMOJI)   var Emoji   = require('./modules/emoticons/emoji.es6');
+if(build.SMILEY)  var Smiley  = require('./modules/emoticons/smiley.es6');
+if(build.LINK)    var Url     = require('./modules/url.es6');
+
+if(build.TWITTER) var Twitter = require('./modules/twitter/twitter.es6');
+
+const Code   = require('./modules/code/code.es6');
+const Video  = require('./modules/video/video.es6');
+
+const Audio  = require('./modules/audio/audio.es6');
+const Image  = require('./modules/image/image.es6');
+
+const helper = require('./modules/video/helper.es6');
 
 (function() {
 
     var defaultOptions = {
-        link            : true,
-        linkOptions     : {
-            target  : 'self',
-            exclude : ['pdf']
+        link: true,
+        linkOptions: {
+            target: 'self',
+            exclude: ['pdf']
         },
-        emoji           : true,
-        customEmoji     : [],
-        fontIcons       : true,
-        highlightCode   : true,
-        videoJS         : false,
-        videojsOptions  : {
-            fluid:true,
-            preload:'metadata'
+        emoji: true,
+        customEmoji: [],
+        fontIcons: true,
+        highlightCode: true,
+        videoJS: false,
+        videojsOptions: {
+            fluid: true,
+            preload: 'metadata'
         },
-        tweetsEmbed     : true,
-        tweetOptions    : {
-            maxWidth   : 550,
-            hideMedia  : false,
-            hideThread : false,
-            align      : 'none',
-            lang       : 'en'
+        tweetsEmbed: true,
+        tweetOptions: {
+            maxWidth: 550,
+            hideMedia: false,
+            hideThread: false,
+            align: 'none',
+            lang: 'en'
         },
-        imageEmbed      : true,
-        videoEmbed      : true,
-        videoHeight     : null,
-        videoWidth      : null,
-        videoDetails    : true,
-        audioEmbed      : true,
-        excludeEmbed    : [],
-        codeEmbedHeight : 500,
-        vineOptions     : {
-            maxWidth   : null,
-            type       : 'postcard', //'postcard' or 'simple' embedding
-            responsive : true,
-            width      : 350,
-            height     : 460
+        imageEmbed: true,
+        videoEmbed: true,
+        videoHeight: null,
+        videoWidth: null,
+        videoDetails: true,
+        audioEmbed: true,
+        excludeEmbed: [],
+        codeEmbedHeight: 500,
+        vineOptions: {
+            maxWidth: null,
+            type: 'postcard', //'postcard' or 'simple' embedding
+            responsive: true,
+            width: 350,
+            height: 460
         },
-        googleAuthKey   : 'AIzaSyCqFouT8h5DKAbxlrTZmjXEmNBjC69f0ts',
-        soundCloudOptions : {
-            height      : 160,
-            themeColor  : 'f50000',   //Hex Code of the player theme color
-            autoPlay    : false,
-            hideRelated : false,
+        googleAuthKey: 'AIzaSyCqFouT8h5DKAbxlrTZmjXEmNBjC69f0ts',
+        soundCloudOptions: {
+            height: 160,
+            themeColor: 'f50000', //Hex Code of the player theme color
+            autoPlay: false,
+            hideRelated: false,
             showComments: true,
-            showUser    : true,
-            showReposts : false,
-            visual      : false,         //Show/hide the big preview image
-            download    : false          //Show/Hide download buttons
+            showUser: true,
+            showReposts: false,
+            visual: false, //Show/hide the big preview image
+            download: false //Show/Hide download buttons
         },
-        beforeEmbedJSApply : function(){},
-        afterEmbedJSApply  : function(){},
-        onVideoShow        : function(){},
-        onTweetsLoad       : function(){},
-        videojsCallback    : function(){}
+        beforeEmbedJSApply: function() {},
+        afterEmbedJSApply: function() {},
+        onVideoShow: function() {},
+        onTweetsLoad: function() {},
+        videojsCallback: function() {}
     };
 
     class EmbedJS {
         constructor(options, input) {
             this.options = utils.deepExtend(defaultOptions, options);
             this.element = this.options.element || input;
-            if(!this.element){
-                throw ReferenceError ("You need to pass an element or the string that needs to be processed");
+            if (!this.element) {
+                throw ReferenceError("You need to pass an element or the string that needs to be processed");
             }
-            this.input   = this.element.innerHTML;
+            this.input = this.element.innerHTML;
         }
 
         /**
@@ -107,20 +111,21 @@ import helper from './modules/video/helper.es6';
          * @return {string} The processes resulting string
          */
         async process() {
-            let input        = this.input;
-            let options      = this.options;
-            let embeds       = [];
+            let input = this.input;
+            let options = this.options;
+            let embeds = [];
 
             this.options.beforeEmbedJSApply();
 
-            let output       = options.link ? (new Url(input, options).process()) : output;
-            output           = options.emoji ? (new Emoji(output, options).process()) : output;
-            output           = options.fontIcons ? (new Smiley(output, options).process()) : output;
+            let output = options.link && build.LINK ? (new Url(input, options).process()) : output;
+            output = options.emoji && build.EMOJI ? (new Emoji(output, options).process()) : output;
+            output = options.fontIcons && build.SMILEY ? (new Smiley(output, options).process()) : output;
             [output, embeds] = (new Code(input, output, options, embeds).process());
             [output, embeds] = await (new Video(input, output, options, embeds).process());
+
             [output, embeds] = (new Audio(input, output, options, embeds).process());
             [output, embeds] = (new Image(input, output, options, embeds).process());
-            if (options.tweetsEmbed) {
+            if (options.tweetsEmbed && build.TWITTER) {
                 let twitter = new Twitter(input, options, embeds);
                 embeds = options.tweetsEmbed ? await (twitter.process()) : output;
             }
@@ -143,12 +148,12 @@ import helper from './modules/video/helper.es6';
             let result = await this.process();
             this.options.element.innerHTML = result;
 
-            if(twttr){
-               //Load twitter data with styling
+            if (twttr && build.TWITTER) {
+                //Load twitter data with styling
                 twttr.widgets.load(this.options.element);
 
                 //Execute the function after the widget is loaded
-                twttr.events.bind('loaded', ()=>{
+                twttr.events.bind('loaded', () => {
                     this.options.onTweetsLoad();
                 });
             }
@@ -165,7 +170,7 @@ import helper from './modules/video/helper.es6';
          * @param  {Function} callback Function that is executed once the data is ready
          * @return {}
          */
-        async text(callback){
+        async text(callback) {
             let result = await this.process();
             callback(result);
         }

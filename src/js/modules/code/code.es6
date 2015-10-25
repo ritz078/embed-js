@@ -1,11 +1,11 @@
-import utils from '../utils.es6';
+var utils = require('../utils.es6');
 
-import Highlight from './highlight.es6';
-import Ideone    from './ideone.es6';
-import Plunker   from './plunker.es6';
-import JsBin     from './jsbin.es6';
-import CodePen   from './codepen.es6';
-import JsFiddle  from './jsfiddle.es6';
+if(build.HIGHLIGHTCODE) var Highlight = require('./highlight.es6');
+if(build.IDEONE)        var Ideone    = require('./ideone.es6');
+if(build.PLUNKER)       var Plunker   = require('./plunker.es6');
+if(build.JSBIN)         var JsBin     = require('./jsbin.es6');
+if(build.CODEPEN)       var CodePen   = require('./codepen.es6');
+if(build.JSFIDDLE)      var JsFiddle  = require('./jsfiddle.es6');
 
 class Code {
 	constructor(input, output, options, embeds) {
@@ -19,12 +19,12 @@ class Code {
 		try {
 			let output = this.output;
 			let embeds = this.embeds;
-			output = this.options.highlightCode ? (new Highlight(output, this.options).process()) : output;
-			embeds = utils.ifEmbed(this.options, 'ideone') ? (new Ideone(this.input, this.options, embeds).process()) : embeds;
-			embeds = utils.ifEmbed(this.options, 'plunker') ? (new Plunker(this.input, this.options, embeds).process()) : embeds;
-			embeds = utils.ifEmbed(this.options, 'jsbin') ? (new JsBin(this.input, this.options, embeds).process()) : embeds;
-			embeds = utils.ifEmbed(this.options, 'codepen') ? (new CodePen(this.input, this.options, embeds).process()) : embeds;
-			embeds = utils.ifEmbed(this.options, 'jsfiddle') ? (new JsFiddle(this.input, this.options, embeds).process()) : embeds;
+			output = this.options.highlightCode && build.HIGHLIGHTCODE ? (new Highlight(output, this.options).process()) : output;
+			embeds = utils.ifEmbed(this.options, 'ideone') && build.IDEONE ? (new Ideone(this.input, this.options, embeds).process()) : embeds;
+			embeds = utils.ifEmbed(this.options, 'plunker') && build.PLUNKER ? (new Plunker(this.input, this.options, embeds).process()) : embeds;
+			embeds = utils.ifEmbed(this.options, 'jsbin') && build.JSBIN ? (new JsBin(this.input, this.options, embeds).process()) : embeds;
+			embeds = utils.ifEmbed(this.options, 'codepen') && build.CODEPEN ? (new CodePen(this.input, this.options, embeds).process()) : embeds;
+			embeds = utils.ifEmbed(this.options, 'jsfiddle') && build.JSFIDDLE ? (new JsFiddle(this.input, this.options, embeds).process()) : embeds;
 
 			return [output, embeds];
 		} catch (error) {

@@ -3,6 +3,7 @@ import Base from '../base.es6';
 class SoundCloud extends Base{
 	constructor(input, options, embeds) {
 		super(input, options, embeds);
+		console.log(input,options);
 		this.regex = /soundcloud.com\/[a-zA-Z0-9-_]+\/[a-zA-Z0-9-_]+/gi;
 	}
 
