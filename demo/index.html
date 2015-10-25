@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Embed-js</title>
+
+
+	<link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+	<link href="http://vjs.zencdn.net/5.0.0/video-js.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css"/>
+	<link rel="stylesheet" href="../src/embed.css"/>
+	<style>
+		body {
+			width: 50%;
+			margin: 0 auto;
+			font-family: "Open Sans";
+			font-size: 16px;
+		}
+
+		a {
+			text-decoration: none;
+			color: cornflowerblue;
+		}
+
+		#element > div {
+			display: none;
+			width: 100%;
+			overflow: auto;
+		}
+	</style>
+</head>
+<body>
+
+<h1>Loading embed.js in a block</h1>
+
+<div id="block">
+	Pulchritudines nocere, :heart: tanquam talis hibrida.A falsis, brodium :+1: salvus gabalium.Nunquam
+	promissio
+	http://iitr.ac.in caesium.Cum rumor
+	https://twitter.com/IGN/status/652941146054881281
+	peregrinationes https://www.flickr.com/photos/xdjio/226228060/, omnes ususes http://www.sample-videos.com/video/mp4/240/big_buck_bunny_240p_50mb.mp4
+	https://soundcloud.com/the-bugle/bugle-179-playas-gon-play
+	anhelare fidelis, pius detriuses.
+	```
+	grade = (student, period=(if b? then 7 else 6)) ->
+	if student.excellentWork
+	"A+"
+	else if student.okayStuff
+	if student.triedHard then "B" else "B-"
+	else
+	"C"
+	``` Flavum, ferox
+	http://open.spotify.com/track/4th1RQAelzqgY7wL53UGQt
+	torquiss vix aperto de http://plnkr.co/edit/AK732k bi-color, http://www.iitr.ac.in/Main/assets/images/topold.jpg audax nixus.Pol, alter
+	devatio!Crescere aliquando ducunt ad noster lixa.
+	:smile: :P https://www.youtube.com/watch?v=bQRLVxZHKPs http://www.liveleak.com/view?i=42a_1426999994
+	https://gist.github.com/thomasmb/7132686
+	https://twitter.com/ProductHunt/status/652826210666418176/photo/1 http://www.ted.com/talks/monica_lewinsky_the_price_of_shame http://www.dailymotion.com/video/x2k8un2_2015-wc-nz-vs-wi-holder-reacts-on-guptills-237_sport https://vine.co/v/bjHh0zHdgZT https://vimeo.com/119199079 http://www.w3schools.com/html/horse.mp3
+</div>
+</div>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+<script src="//platform.twitter.com/widgets.js"></script>
+<script src="http://vjs.zencdn.net/5.0.0/video.js"></script>
+<script src="../src/embed.js"></script>
+<script>
+	var x = new EmbedJS({
+		element: document.getElementById('block'),
+		videoDetails:false,
+		videoJS:true
+	});
+	x.render();
+	x.text(function(data){
+		console.log(data);
+	})
+</script>
+
+</body>
+</html>
