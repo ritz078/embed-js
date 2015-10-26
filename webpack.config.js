@@ -26,12 +26,11 @@ module.exports = {
         new webpack.NoErrorsPlugin(),
         new webpack.DefinePlugin(build),
         new webpack.ProvidePlugin({
-            'regeneratorRuntime':'imports?this=>global!exports?global.regeneratorRuntime!regenerator/runtime.js',
             'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch',
             'fetchJsonp': 'fetch-jsonp'
                     }),
-        new webpack.optimize.DedupePlugin()
-    ],
+        new webpack.optimize.DedupePlugin(),
+        ],
     stats: {
         // Nice colored output
         colors: true
