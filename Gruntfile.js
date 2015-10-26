@@ -143,7 +143,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks("grunt-contrib-uglify");
     grunt.loadNpmTasks("grunt-contrib-connect");
 
-    grunt.registerTask("serve", ["webpack-dev-server:start"])
     grunt.registerTask("default", ["clean", "webpack:build-dev", "sass", "connect", "watch"]);
     grunt.registerTask("build", ["clean", "build-emoji", "webpack:build-dev", "uglify", "postcss"]);
     grunt.registerTask("build-emoji", ["retinafy", "sprite", "sass"]);
