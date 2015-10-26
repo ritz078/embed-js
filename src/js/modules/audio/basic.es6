@@ -1,4 +1,4 @@
-import Base from '../base.es6';
+let Base = require('../base.es6');
 
 class BasicAudio extends Base {
 	constructor(input, options, embeds) {

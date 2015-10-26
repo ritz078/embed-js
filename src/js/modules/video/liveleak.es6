@@ -1,5 +1,5 @@
-import utils from '../utils.es6';
-import Base from '../base.es6';
+const utils = require('../utils.es6');
+let Base = require('../base.es6');
 
 class LiveLeak extends Base{
 	constructor(input,options, embeds){
@@ -8,8 +8,8 @@ class LiveLeak extends Base{
 	}
 
 	template(match){
-		var dimensions = utils.dimensions(this.options);
-		let template =
+		const dimensions = utils.dimensions(this.options);
+		const template =
 		`<div class="ejs-video">
 		<iframe src="http://www.liveleak.com/e/${match.split('=')[1]}" height="${dimensions.height}" width="${dimensions.width}"></iframe>
 		</div>`;

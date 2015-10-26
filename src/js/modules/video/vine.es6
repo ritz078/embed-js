@@ -1,4 +1,4 @@
-import Base from '../base.es6';
+let Base = require('../base.es6');
 
 class Vine extends Base{
 	constructor(input,options, embeds){
@@ -7,9 +7,9 @@ class Vine extends Base{
 	}
 
 	template(match){
-		let config = this.options.vineOptions;
+		const config = this.options.vineOptions;
 
-		let template =
+		const template =
 		`<div class="ejs-vine">
 		<iframe class="ejs-vine-iframe" src="https://vine.co/v/${match.split('/')[2]}/embed/${config.type}" height="${config.height}" width="${config.width}"></iframe>
 		</div>`;

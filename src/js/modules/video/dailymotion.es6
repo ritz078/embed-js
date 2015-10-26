@@ -1,5 +1,5 @@
-import utils from '../utils.es6';
-import Base from '../base.es6';
+const utils = require('../utils.es6');
+let Base = require('../base.es6');
 
 class Dailymotion extends Base{
 	constructor(input,options, embeds){
@@ -8,9 +8,9 @@ class Dailymotion extends Base{
 	}
 
 	template(match){
-		let dimensions = utils.dimensions(this.options);
-		let id = match.split('/')[2];
-		let template =
+		const dimensions = utils.dimensions(this.options);
+		const id = match.split('/')[2];
+		const template =
 		`<div class="ejs-video">
 		<iframe src="http://www.dailymotion.com/embed/video/${id}" height="${dimensions.height}" width="${dimensions.width}"></iframe>
 		</div>`

@@ -1,5 +1,5 @@
-import utils from '../utils.es6';
-import helper from './helper.es6';
+const utils = require('../utils.es6');
+const helper = require('./helper.es6');
 
 class Youtube {
     constructor(input, options, embeds) {

@@ -1,5 +1,5 @@
-import utils from '../utils.es6';
-import Base from '../base.es6';
+const utils = require('../utils.es6');
+let Base = require('../base.es6');
 
 class Ustream extends Base{
 	constructor(input,options, embeds){
@@ -10,8 +10,8 @@ class Ustream extends Base{
 	template(match){
 		let id = match.split('/');
 		id.splice(1, 0, 'embed');
-		let dimensions = utils.dimensions(this.options);
-		let template =
+		const dimensions = utils.dimensions(this.options);
+		const template =
 		`<div class="ejs-embed">
 		<iframe src="//www.${id.join('/')}" height="${dimensions.height}" width="${dimensions.width}"></iframe>',
 		'</div>'`;

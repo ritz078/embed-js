@@ -1,4 +1,4 @@
-import Base from '../base.es6';
+let Base = require('../base.es6');
 
 class BasicVideo extends Base {
 	constructor(input, options, embeds) {
@@ -7,13 +7,13 @@ class BasicVideo extends Base {
 	}
 
 	template(match) {
-		var template =
+		let template =
 		`<div class="ejs-video">
-		<div class="ejs-video-player">
-		<div class="ejs-player">
-		<video src="${match}" class="ejs-video-js video-js" controls></video>
-		</div>
-		</div>
+			<div class="ejs-video-player">
+				<div class="ejs-player">
+					<video src="${match}" class="ejs-video-js video-js" controls></video>
+				</div>
+			</div>
 		</div>`;
 		return template;
 	}
