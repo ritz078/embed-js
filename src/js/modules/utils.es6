@@ -121,13 +121,13 @@ var utils = {
         if (options.videoHeight && options.videoWidth) {
             return dimensions;
         } else if (options.videoHeight) {
-            dimensions.width = ((options.videoHeight) / 390) * 640;
+            dimensions.width = ((options.videoHeight) / 3) * 4;
             return dimensions;
         } else if (options.videoWidth) {
-            dimensions.height = ((dimensions.width) / 640) * 390;
+            dimensions.height = ((dimensions.width) / 4) * 3;
             return dimensions;
         } else {
-            [dimensions.width, dimensions.height] = [640, 390];
+            [dimensions.width, dimensions.height] = [800, 600];
             return dimensions;
         }
     }
