@@ -48,9 +48,25 @@ class Highlight {
         return template;
     }
 
+    /**
+     * Replaces the code block with the pre tags and returns a string having the code
+     * formatting using Highlight.js.
+     * => Matches the string with the regex and finds the code written in three back-ticks ```
+     * => Detects whether any language has been provided by the user.
+     *     The format supported by embed.js is
+     *         ```[language-name]
+     *         var a = 2;
+     *         ```
+     * => Trims all the unnecessary spaces and newlines from the code.
+     * => Passes the code to `hljs.highlightAuto(code, language)` which returns a formatted string
+     *     having the html tags for styling. The `language` here is optional. In case we don't pass the
+     *     language, it tries to detect the language itself.
+     * => Replaces the code string in the template with the formatted string
+     * @return {string} The string in which the code is formatted
+     */
     process() {
         let regex = /(`+)(\s|[a-z]+)\s*([\s\S]*?[^`])\s*\1(?!`)/gm;
-        let input = this.input.replace(regex, (match, group1, group2, group3) => {
+        let result = this.input.replace(regex, (match, group1, group2, group3) => {
             let code = group3;
             code = this.trimSpace(code);
             code = this.encode(code);
@@ -73,7 +89,7 @@ class Highlight {
             return this.addTemplate(highlightedCode, language);
 
         });
-        return input;
+        return result;
     }
 }
 
