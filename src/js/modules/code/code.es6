@@ -1,4 +1,4 @@
-var utils = require('../utils.es6');
+const utils = require('../utils.es6');
 
 if(build.HIGHLIGHTCODE) var Highlight = require('./highlight.es6');
 if(build.IDEONE)        var Ideone    = require('./ideone.es6');

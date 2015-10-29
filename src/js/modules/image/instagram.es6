@@ -1,6 +1,6 @@
-import utils from '../utils.es6';
+const utils = require('../utils.es6');
 
-import Base from '../base.es6';
+let Base = require('../base.es6');
 
 class Instagram extends Base{
 	constructor(input,options, embeds){

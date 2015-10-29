@@ -1,4 +1,4 @@
-import utils from '../utils.es6';
+const utils = require('../utils.es6');
 
 class Twitter {
     constructor(input, options, embeds) {
@@ -6,6 +6,7 @@ class Twitter {
         this.options = options;
         this.embeds  = embeds;
         this.regex   = /https:\/\/twitter\.com\/\w+\/\w+\/\d+/gi;
+        this.load();
     }
 
     /**
@@ -14,8 +15,8 @@ class Twitter {
      * @return {object}     data containing the tweet info
      */
     async tweetData(url) {
-        let config   = this.options.tweetOptions;
-        let apiUrl   = `https://api.twitter.com/1/statuses/oembed.json?omit_script=true&url=${url}&maxwidth=${config.maxWidth}&hide_media=${config.hideMedia}&hide_thread=${config.hideThread}&align=${config.align}&lang=${config.lang}`;
+        let config = this.options.tweetOptions;
+        let apiUrl = `https://api.twitter.com/1/statuses/oembed.json?omit_script=true&url=${url}&maxwidth=${config.maxWidth}&hide_media=${config.hideMedia}&hide_thread=${config.hideThread}&align=${config.align}&lang=${config.lang}`;
         let response = await fetchJsonp(apiUrl, {
             credentials: 'include'
         });
@@ -28,7 +29,16 @@ class Twitter {
      * @return {}
      */
     load() {
-        twttr.widgets.load(this.options.element);
+        let elem = this.options.element;
+        elem.addEventListener('rendered', () => {
+            twttr.widgets.load(elem);
+
+            //Execute the function after the widget is loaded
+            twttr.events.bind('loaded', () => {
+                this.options.onTweetsLoad();
+            });
+
+        })
     }
 
     async process() {

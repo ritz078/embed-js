@@ -1,4 +1,4 @@
-import Base from '../base.es6';
+let Base = require('../base.es6');
 
 class CodePen extends Base{
 	constructor(input,options, embeds){
@@ -9,7 +9,7 @@ class CodePen extends Base{
 	template(id){
 		let template =
 		`<div class="ejs-embed ejs-codepen">
-		<iframe scrolling="no" height="${this.options.codeEmbedHeight}" src="${id.replace(/\/pen\//, '/embed/')}/?height=${this.options.codeEmbedHeight}"></iframe>'
+			<iframe scrolling="no" height="${this.options.codeEmbedHeight}" src="${id.replace(/\/pen\//, '/embed/')}/?height=${this.options.codeEmbedHeight}"></iframe>'
 		</div>`;
 		return template;
 	}

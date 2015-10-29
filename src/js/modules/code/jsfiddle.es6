@@ -1,4 +1,4 @@
-import Base from '../base.es6';
+let Base = require('../base.es6');
 
 class JsFiddle extends Base{
 	constructor(input,options, embeds){
@@ -9,7 +9,7 @@ class JsFiddle extends Base{
 	template(id){
 		var template =
 		`<div class="ejs-embed ejs-jsfiddle">
-		<iframe height="${this.options.codeEmbedHeight}" src="http://${id}/embedded"></iframe>
+			<iframe height="${this.options.codeEmbedHeight}" src="http://${id}/embedded"></iframe>
 		</div>`;
 		return template;
 	}

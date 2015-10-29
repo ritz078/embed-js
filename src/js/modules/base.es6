@@ -1,4 +1,4 @@
-import utils from './utils.es6';
+const utils = require('./utils.es6');
 
 class Base{
 	constructor(input,options, embeds){

@@ -1,80 +1,82 @@
-import utils from '../utils.es6';
+const utils = require('../utils.es6');
 
 class Smiley {
-    constructor(input) {
+    constructor(input, options) {
         this.input = ' ' + input + ' '; //hack to consider the first and last element
 
-        this.icons = [{
+        let defaultIcons = [{
             'text': ' :) ',
-            'code': 'e60a'
+            'code': '&#xe60a'
         }, {
             'text': ' :D ',
-            'code': 'e608'
+            'code': '&#xe608'
         }, {
             'text': ' :d ',
-            'code': 'e608'
+            'code': '&#xe608'
         }, {
             'text': ' :( ',
-            'code': 'e60e'
+            'code': '&#xe60e'
         }, {
             'text': ' :/ ',
-            'code': 'e620'
+            'code': '&#xe620'
 
         }, {
             'text': ' :P ',
-            'code': 'e60c'
+            'code': '&#xe60c'
         }, {
             'text': ' :p ',
-            'code': 'e60c'
+            'code': '&#xe60c'
         }, {
             'text': ' 3:) ',
-            'code': 'e618'
+            'code': '&#xe618'
         }, {
             'text': ' (^) ',
-            'code': 'e607'
+            'code': '&#xe607'
         }, {
             'text': ' ;) ',
-            'code': 'e610'
+            'code': '&#xe610'
         }, {
             'text': ' :o ',
-            'code': 'e61a'
+            'code': '&#xe61a'
         }, {
             'text': ' -_- ',
-            'code': 'e61e'
+            'code': '&#xe61e'
         }, {
             'text': ' (y) ',
-            'code': 'e606'
+            'code': '&#xe606'
         }, {
             'text': ' :* ',
-            'code': 'e604'
+            'code': '&#xe604'
         }, {
             'text': ' &lt;3 ',
-            'code': 'e604'
+            'code': '&#xe604'
         }, {
             'text': ' <3 ',
-            'code': 'e604'
+            'code': '&#xe604'
         }, {
             'text': ' &lt;/3 ',
-            'code': 'e605'
+            'code': '&#xe605'
         }, {
             'text': ' </3 ',
-            'code': 'e605'
+            'code': '&#xe605'
         }, {
             'text': ' ^_^ ',
-            'code': 'e612'
+            'code': '&#xe612'
         }, {
             'text': ' 8-) ',
-            'code': 'e614'
+            'code': '&#xe614'
         }, {
             'text': ' 8| ',
-            'code': 'e614'
+            'code': '&#xe614'
         }, {
             'text': ' :S ',
-            'code': 'e61c'
+            'code': '&#xe61c'
         }, {
             'text': ' :s ',
-            'code': 'e61c'
+            'code': '&#xe61c'
         }];
+
+        this.icons = options.customFontIcons.length ? options.customFontIcons : defaultIcons ;
 
         this.EscapedSymbols = this.icons.map((val) => {
             return `${utils.escapeRegExp(val.text)}`;
@@ -87,7 +89,7 @@ class Smiley {
         var processedString = this.input.replace(this.smileyRegex, (match, text) => {
             let index = this.EscapedSymbols.indexOf(utils.escapeRegExp(text));
             let code = this.icons[index].code;
-            return ` <span class="icon-emoticon" title="${text}">&#x${code}</span> `;
+            return ` <span class="icon-emoticon" title="${text}">${code}</span> `;
         });
 
         return processedString.substring(1, processedString.length-1);

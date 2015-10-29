@@ -1,13 +1,18 @@
 var Smiley = require('../../../src/js/modules/emoticons/smiley.es6');
 var expect = require('chai').expect;
 
+let options = {
+	customFontIcons:[]
+}
+
 var string = 'Hello :)';
 
-var smiley = new Smiley(string);
+var smiley = new Smiley(string, options);
 
 var urlstring = 'https://github.com';
 
-var urlString = new Smiley(urlstring);
+var urlString = new Smiley(urlstring, options);
+
 
 describe('Smiley Unit Test', function(){
 	"use strict";

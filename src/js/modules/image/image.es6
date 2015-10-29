@@ -1,4 +1,4 @@
-var utils     = require('../utils.es6');
+const utils     = require('../utils.es6');
 
 if(build.FLICKR)     var Flickr    = require('./flickr.es6');
 if(build.INSTAGRAM)  var Instagram = require('./instagram.es6');

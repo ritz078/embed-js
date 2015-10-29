@@ -1,4 +1,4 @@
-import utils from '../modules/utils.es6';
+const utils = require('../modules/utils.es6');
 
 class Url{
 	constructor(input,options){
