@@ -6,6 +6,7 @@ if(build.PLUNKER)       var Plunker   = require('./plunker.es6');
 if(build.JSBIN)         var JsBin     = require('./jsbin.es6');
 if(build.CODEPEN)       var CodePen   = require('./codepen.es6');
 if(build.JSFIDDLE)      var JsFiddle  = require('./jsfiddle.es6');
+if(build.GIST)          var Gist      = require('./gist.es6');
 
 class Code {
 	constructor(input, output, options, embeds) {
@@ -19,12 +20,14 @@ class Code {
 		try {
 			let output = this.output;
 			let embeds = this.embeds;
-			output = this.options.highlightCode && build.HIGHLIGHTCODE ? (new Highlight(output, this.options).process()) : output;
-			embeds = utils.ifEmbed(this.options, 'ideone') && build.IDEONE ? (new Ideone(this.input, this.options, embeds).process()) : embeds;
-			embeds = utils.ifEmbed(this.options, 'plunker') && build.PLUNKER ? (new Plunker(this.input, this.options, embeds).process()) : embeds;
-			embeds = utils.ifEmbed(this.options, 'jsbin') && build.JSBIN ? (new JsBin(this.input, this.options, embeds).process()) : embeds;
-			embeds = utils.ifEmbed(this.options, 'codepen') && build.CODEPEN ? (new CodePen(this.input, this.options, embeds).process()) : embeds;
-			embeds = utils.ifEmbed(this.options, 'jsfiddle') && build.JSFIDDLE ? (new JsFiddle(this.input, this.options, embeds).process()) : embeds;
+			let options = this.options;
+			output = options.highlightCode && build.HIGHLIGHTCODE ? (new Highlight(output, options).process()) : output;
+			embeds = utils.ifEmbed(options, 'ideone') && build.IDEONE ? (new Ideone(this.input, options, embeds).process()) : embeds;
+			embeds = utils.ifEmbed(options, 'plunker') && build.PLUNKER ? (new Plunker(this.input, options, embeds).process()) : embeds;
+			embeds = utils.ifEmbed(options, 'jsbin') && build.JSBIN ? (new JsBin(this.input, options, embeds).process()) : embeds;
+			embeds = utils.ifEmbed(options, 'codepen') && build.CODEPEN ? (new CodePen(this.input, options, embeds).process()) : embeds;
+			embeds = utils.ifEmbed(options, 'jsfiddle') && build.JSFIDDLE ? (new JsFiddle(this.input, options, embeds).process()) : embeds;
+			embeds = utils.ifEmbed(options, 'gist') && build.GIST ? (new Gist(this.input, options,embeds).process()) : embeds;
 
 			return [output, embeds];
 		} catch (error) {

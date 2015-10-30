@@ -3537,7 +3537,7 @@
   border: 1px solid #eee;
 }
 
-.ejs-vine iframe {
+.ejs-vine iframe, .ejs-gist iframe {
   border: 0;
   margin: 10px 0;
 }
