@@ -30,6 +30,16 @@ module.exports = {
             'fetchJsonp': 'fetch-jsonp'
                     }),
         new webpack.optimize.DedupePlugin(),
+        new webpack.optimize.UglifyJsPlugin({
+            compress:{
+                warnings:false
+            },
+            mangle:false,
+            output:{
+                beautify:true,
+                comments:true
+            }
+        })
         ],
     stats: {
         // Nice colored output

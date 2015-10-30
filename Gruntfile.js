@@ -29,11 +29,11 @@ module.exports = function(grunt) {
             },
             css: {
                 files: ['src/css/**/*.scss'],
-                tasks: ['sass']
+                tasks: ['sass','postcss']
             },
             js: {
                 files: ['src/js/**/*.es6','build.json'],
-                tasks: ['webpack:build-dev']
+                tasks: ['webpack:build-dev','uglify']
             }
         },
 

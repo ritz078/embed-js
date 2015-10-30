@@ -1,6 +1,6 @@
 const utils = require('../utils.es6');
 
-// if(build.SOUNDCLOUD) var SoundCloud = require('./soundcloud.es6');
+if(build.SOUNDCLOUD) var SoundCloud = require('./soundcloud.es6');
 if(build.SPOTIFY)    var Spotify    = require('./spotify.es6');
 if(build.BASICAUDIO) var BasicAudio = require('./basic.es6');
 
@@ -17,7 +17,7 @@ class Audio{
 			let output = this.output;
 			let embeds = this.embeds;
 			console.log(output, embeds);
-			// embeds = utils.ifEmbed(this.options, 'soundcloud') && build.SOUNDCLOUD ? (new SoundCloud(this.input, this.options, embeds).process()) : embeds;
+			embeds = utils.ifEmbed(this.options, 'soundcloud') && build.SOUNDCLOUD ? (new SoundCloud(this.input, this.options, embeds).process()) : embeds;
 			embeds = utils.ifEmbed(this.options, 'spotify') && build.SPOTIFY ? (new Spotify(this.input, this.options, embeds).process()) : embeds;
 			embeds = this.options.audioEmbed && build.BASICAUDIO ? (new BasicAudio(this.input, this.options, embeds).process()) : embeds;
 
