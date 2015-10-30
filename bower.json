@@ -1,11 +1,13 @@
 {
-  "name": "emoticons-js",
+  "name": "embed-js",
   "private": true,
   "dependencies": {
-    "jquery": "~1.11.1",
-    "materialize": "~0.95.3",
-    "embed-js": "~2.0.0",
-    "nanoscroller": "~0.8.5",
-    "social-share-js": "~1.0.1"
+    "jquery": "~2.1.4",
+    "skeleton": "skeleton-css#~2.0.4",
+    "font-awesome": "~4.4.0"
+  },
+  "devDependencies": {
+    "chai": "~3.4.0",
+    "mocha": "~2.3.3"
   }
 }

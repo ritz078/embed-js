@@ -1,0 +1,32 @@
+header {
+    width: 100%;
+    height: 50px;
+    background-color: #fff;
+    nav {
+        box-shadow: 1px 0px 1px rgba(0, 0, 0, 0.3);
+        ul {
+            margin: 0;
+            padding: 0;
+            display: table;
+            margin: 0 auto;
+        }
+        a{
+        	display: inline-block;
+        }
+        li {
+            list-style-type: none;
+            display: inline-block;
+            padding: 16px 22px;
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 0;
+                line-height: normal;
+
+
+            &:hover{
+            	color:#333;
+            	background-color: #fafafa;
+            }
+        }
+    }
+}
