@@ -27,6 +27,7 @@
         "JSBIN"         : true,
         "JSFIDDLE"      : true,
         "PLUNKER"       : true,
+        "GIST"          : true,
 
         "FLICKR"        : true,
         "BASICIMAGE"    : true,
