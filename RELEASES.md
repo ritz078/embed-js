@@ -1,3 +1,21 @@
+Version 3.0.0
+-------------
+####Features
+* No more jQuery dependent. Its purely written in JavaScript
+* Written in ES2015
+* Support for custom emoji added
+* Support to create custom plugin builds
+* Modular code
+* Tests added
+* Support for multiple vimeo and youtube videos added
+* Accept a string instead of an element.
+* Return a processed string
+* Render an element when needed
+
+####Bug fixes
+* Correct order of embeds
+* Performance improvements
+
 Version 2.0.6
 -------------
 * Instagram support added

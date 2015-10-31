@@ -7,3 +7,4 @@ src/jquery.embed.js
 embed.js.sublime-project
 embed.js.sublime-workspace
 .sass-cache
+bower_components
