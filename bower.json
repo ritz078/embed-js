@@ -4,7 +4,8 @@
   "dependencies": {
     "jquery": "~2.1.4",
     "skeleton": "skeleton-css#~2.0.4",
-    "font-awesome": "~4.4.0"
+    "font-awesome": "~4.4.0",
+    "typed.js": "~1.1.1"
   },
   "devDependencies": {
     "chai": "~3.4.0",
