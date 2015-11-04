@@ -85,7 +85,7 @@ function(module, exports, __webpack_require__) {
     //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     //SOFTWARE.
     "use strict";
-    var _classCallCheck = __webpack_require__(1)["default"], _regeneratorRuntime = __webpack_require__(2)["default"], utils = __webpack_require__(71), Emoji = __webpack_require__(75), Smiley = __webpack_require__(76), Url = __webpack_require__(77), Twitter = __webpack_require__(78), Code = __webpack_require__(80), Video = __webpack_require__(93), Audio = __webpack_require__(104), Image = __webpack_require__(108), helper = __webpack_require__(101);
+    var _classCallCheck = __webpack_require__(1)["default"], _regeneratorRuntime = __webpack_require__(2)["default"], utils = __webpack_require__(71), Emoji = __webpack_require__(75), Smiley = __webpack_require__(76), Url = __webpack_require__(77), Twitter = __webpack_require__(78), Gmap = __webpack_require__(80), Code = __webpack_require__(82), Video = __webpack_require__(95), Audio = __webpack_require__(105), Image = __webpack_require__(109), helper = __webpack_require__(102);
     !function() {
         var defaultOptions = {
             link: !0,
@@ -103,6 +103,10 @@ function(module, exports, __webpack_require__) {
             videojsOptions: {
                 fluid: !0,
                 preload: "metadata"
+            },
+            locationEmbed: !0,
+            mapOptions: {
+                mode: "place"
             },
             tweetsEmbed: !0,
             tweetOptions: {
@@ -172,7 +176,7 @@ function(module, exports, __webpack_require__) {
 	         * @param  {Function} callback Function that is executed once the data is ready
 	         * @return {}
 	         */ return EmbedJS.prototype.process = function() {
-                var input, options, embeds, output, _process, _ref, _process2, _process3, twitter, result;
+                var input, options, embeds, output, _process, _ref, _ref2, _process2, _process3, twitter, result;
                 return _regeneratorRuntime.async(function(context$3$0) {
                     for (;;) switch (context$3$0.prev = context$3$0.next) {
                       case 0:
@@ -182,32 +186,46 @@ function(module, exports, __webpack_require__) {
                         output = _process[0], embeds = _process[1], context$3$0.next = 12, _regeneratorRuntime.awrap(new Video(input, output, options, embeds).process());
 
                       case 12:
-                        if (_ref = context$3$0.sent, output = _ref[0], embeds = _ref[1], _process2 = new Audio(input, output, options, embeds).process(), 
+                        if (_ref = context$3$0.sent, output = _ref[0], embeds = _ref[1], !options.locationEmbed) {
+                            context$3$0.next = 21;
+                            break;
+                        }
+                        return context$3$0.next = 18, _regeneratorRuntime.awrap(new Gmap(input, output, options, embeds).process());
+
+                      case 18:
+                        context$3$0.t0 = context$3$0.sent, context$3$0.next = 22;
+                        break;
+
+                      case 21:
+                        context$3$0.t0 = [ output, embeds ];
+
+                      case 22:
+                        if (_ref2 = context$3$0.t0, output = _ref2[0], embeds = _ref2[1], _process2 = new Audio(input, output, options, embeds).process(), 
                         output = _process2[0], embeds = _process2[1], _process3 = new Image(input, output, options, embeds).process(), 
                         output = _process3[0], embeds = _process3[1], !options.tweetsEmbed) {
-                            context$3$0.next = 31;
+                            context$3$0.next = 41;
                             break;
                         }
                         if (twitter = new Twitter(input, options, embeds), !options.tweetsEmbed) {
-                            context$3$0.next = 29;
+                            context$3$0.next = 39;
                             break;
                         }
-                        return context$3$0.next = 26, _regeneratorRuntime.awrap(twitter.process());
+                        return context$3$0.next = 36, _regeneratorRuntime.awrap(twitter.process());
 
-                      case 26:
-                        context$3$0.t0 = context$3$0.sent, context$3$0.next = 30;
+                      case 36:
+                        context$3$0.t1 = context$3$0.sent, context$3$0.next = 40;
                         break;
 
-                      case 29:
-                        context$3$0.t0 = output;
+                      case 39:
+                        context$3$0.t1 = output;
 
-                      case 30:
-                        embeds = context$3$0.t0;
+                      case 40:
+                        embeds = context$3$0.t1;
 
-                      case 31:
+                      case 41:
                         return result = utils.createText(output, embeds), context$3$0.abrupt("return", result);
 
-                      case 33:
+                      case 43:
                       case "end":
                         return context$3$0.stop();
                     }
@@ -2158,470 +2176,86 @@ function(module, exports, __webpack_require__) {
 }, /* 80 */
 /***/
 function(module, exports, __webpack_require__) {
-    "use strict";
-    var _classCallCheck = __webpack_require__(1)["default"], utils = __webpack_require__(71), Highlight = __webpack_require__(81), Ideone = __webpack_require__(82), Plunker = __webpack_require__(88), JsBin = __webpack_require__(89), CodePen = __webpack_require__(90), JsFiddle = __webpack_require__(91), Gist = __webpack_require__(92), Code = function() {
-        function Code(input, output, options, embeds) {
-            _classCallCheck(this, Code), this.input = input, this.output = output, this.options = options, 
-            this.embeds = embeds;
-        }
-        return Code.prototype.process = function() {
-            try {
-                var output = this.output, embeds = this.embeds, options = this.options;
-                return output = options.highlightCode ? new Highlight(output, options).process() : output, 
-                embeds = utils.ifEmbed(options, "ideone") ? new Ideone(this.input, options, embeds).process() : embeds, 
-                embeds = utils.ifEmbed(options, "plunker") ? new Plunker(this.input, options, embeds).process() : embeds, 
-                embeds = utils.ifEmbed(options, "jsbin") ? new JsBin(this.input, options, embeds).process() : embeds, 
-                embeds = utils.ifEmbed(options, "codepen") ? new CodePen(this.input, options, embeds).process() : embeds, 
-                embeds = utils.ifEmbed(options, "jsfiddle") ? new JsFiddle(this.input, options, embeds).process() : embeds, 
-                embeds = utils.ifEmbed(options, "gist") ? new Gist(this.input, options, embeds).process() : embeds, 
-                [ output, embeds ];
-            } catch (error) {
-                console.log(error);
-            }
-        }, Code;
-    }();
-    module.exports = Code;
-}, /* 81 */
-/***/
-function(module, exports, __webpack_require__) {
-    "use strict";
-    var _classCallCheck = __webpack_require__(1)["default"], Highlight = function() {
-        function Highlight(input, options) {
-            if (_classCallCheck(this, Highlight), !hljs) throw new ReferenceError("'hljs is not defined. HighlightJS library is needed to highlight code. Visit https://highlightjs.org/'");
-            this.input = input, this.options = options;
-        }
-        /**
-	     * Encodes the characters like <, > and space and replaces them with
-	     * &lt;, &gt; and &gt; respectively.
-	     * @param  {string} code The string that has to be encoded.
-	     * @return {string}      The encoded string
-	     */ /**
-	     * removes whitespace characters
-	     * @param  {string} code The string from which the whitespace has to be removed
-	     * @return {string}
-	     */ /**
-	     * Places the code and the language name in the required template
-	     * @param {string} processedCode
-	     * @param {string} language
-	     * @return {string}
-	     */ /**
-	     * Replaces the code block with the pre tags and returns a string having the code
-	     * formatting using Highlight.js.
-	     * => Matches the string with the regex and finds the code written in three back-ticks ```
-	     * => Detects whether any language has been provided by the user.
-	     *     The format supported by embed.js is
-	     *         ```[language-name]
-	     *         var a = 2;
-	     *         ```
-	     * => Trims all the unnecessary spaces and newlines from the code.
-	     * => Passes the code to `hljs.highlightAuto(code, language)` which returns a formatted string
-	     *     having the html tags for styling. The `language` here is optional. In case we don't pass the
-	     *     language, it tries to detect the language itself.
-	     * => Replaces the code string in the template with the formatted string
-	     * @return {string} The string in which the code is formatted
-	     */ return Highlight.prototype.encode = function(code) {
-            return code = code.replace(/&amp;/gm, ""), code = code.replace(/&lt;/g, "<"), code = code.replace(/&gt;/g, ">");
-        }, Highlight.prototype.trimSpace = function(code) {
-            // trailing whitespace
-            // leading whitespace
-            return code = code.replace(/^([ \t]*)/g, ""), code = code.replace(/[ \t]*$/g, "");
-        }, Highlight.prototype.addTemplate = function(processedCode, language) {
-            var template = '<pre>\n            <code class="ejs-code hljs ' + language + '">' + processedCode.value + "</code>\n        </pre>\n        ";
-            return template;
-        }, Highlight.prototype.process = function() {
-            var _this = this, regex = /(`+)(\s|[a-z]+)\s*([\s\S]*?[^`])\s*\1(?!`)/gm, result = this.input.replace(regex, function(match, group1, group2, group3) {
-                var code = group3;
-                code = _this.trimSpace(code), code = _this.encode(code), // to prevent auto-linking. Not necessary in code
-                // *blocks*, but in code spans. Will be converted
-                // back after the auto-linker runs.
-                code = code.replace(/:\/\//g, "~P");
-                var language = group2.split("\n")[0], highlightedCode = void 0;
-                return language ? highlightedCode = hljs.highlightAuto(code, [ language ]) : (highlightedCode = hljs.highlightAuto(code), 
-                language = highlightedCode.language), _this.addTemplate(highlightedCode, language);
-            });
-            return result;
-        }, Highlight;
-    }();
-    module.exports = Highlight;
-}, /* 82 */
-/***/
-function(module, exports, __webpack_require__) {
-    "use strict";
-    var _inherits = __webpack_require__(83)["default"], _classCallCheck = __webpack_require__(1)["default"], Base = __webpack_require__(87), Ideone = function(_Base) {
-        function Ideone(input, options, embeds) {
-            _classCallCheck(this, Ideone), _Base.call(this, input, options, embeds), this.regex = /ideone.com\/[a-zA-Z0-9]{6}/gi;
-        }
-        return _inherits(Ideone, _Base), Ideone.prototype.template = function template(match) {
-            var template = '<div class="ejs-ideone ejs-embed">\n			<iframe src="http://ideone.com/embed/' + match.split("/") + '" frameborder="0" height="' + this.options.codeEmbedHeight + "\"></iframe>',\n		</div>";
-            return template;
-        }, Ideone;
-    }(Base);
-    module.exports = Ideone;
-}, /* 83 */
-/***/
-function(module, exports, __webpack_require__) {
-    "use strict";
-    var _Object$create = __webpack_require__(46)["default"], _Object$setPrototypeOf = __webpack_require__(84)["default"];
-    exports["default"] = function(subClass, superClass) {
-        if ("function" != typeof superClass && null !== superClass) throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
-        subClass.prototype = _Object$create(superClass && superClass.prototype, {
-            constructor: {
-                value: subClass,
-                enumerable: !1,
-                writable: !0,
-                configurable: !0
-            }
-        }), superClass && (_Object$setPrototypeOf ? _Object$setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-    }, exports.__esModule = !0;
-}, /* 84 */
-/***/
-function(module, exports, __webpack_require__) {
-    module.exports = {
-        "default": __webpack_require__(85),
-        __esModule: !0
-    };
-}, /* 85 */
-/***/
-function(module, exports, __webpack_require__) {
-    __webpack_require__(86), module.exports = __webpack_require__(14).Object.setPrototypeOf;
-}, /* 86 */
-/***/
-function(module, exports, __webpack_require__) {
-    // 19.1.3.19 Object.setPrototypeOf(O, proto)
-    var $def = __webpack_require__(13);
-    $def($def.S, "Object", {
-        setPrototypeOf: __webpack_require__(60).set
-    });
-}, /* 87 */
-/***/
-function(module, exports, __webpack_require__) {
-    "use strict";
-    var _classCallCheck = __webpack_require__(1)["default"], utils = __webpack_require__(71), Base = function() {
-        function Base(input, options, embeds) {
-            _classCallCheck(this, Base), this.input = input, this.options = options, this.embeds = embeds;
-        }
-        return Base.prototype.process = function() {
-            for (var match = void 0; null !== (match = utils.matches(this.regex, this.input)); ) {
-                var text = this.template(match[0]);
-                this.embeds.push({
-                    text: text,
-                    index: match.index
-                });
-            }
-            return this.embeds;
-        }, Base;
-    }();
-    module.exports = Base;
-}, /* 88 */
-/***/
-function(module, exports, __webpack_require__) {
-    "use strict";
-    var _inherits = __webpack_require__(83)["default"], _classCallCheck = __webpack_require__(1)["default"], Base = __webpack_require__(87), Plunker = function(_Base) {
-        function Plunker(input, options, embeds) {
-            _classCallCheck(this, Plunker), _Base.call(this, input, options, embeds), this.regex = /plnkr.co\/edit\/[a-zA-Z0-9\?=]+/gi;
-        }
-        return _inherits(Plunker, _Base), Plunker.prototype.template = function template(match) {
-            var id = -1 === match.indexOf("?") ? match.split("/")[2] : match.split("/")[2].split("?")[0], template = '<div class="ejs-embed ejs-plunker">\n            <iframe class="ne-plunker" src="http://embed.plnkr.co/' + id + '" height="' + this.options.codeEmbedHeight + '"></iframe>\n        </div>';
-            return template;
-        }, Plunker;
-    }(Base);
-    module.exports = Plunker;
-}, /* 89 */
-/***/
-function(module, exports, __webpack_require__) {
-    "use strict";
-    var _inherits = __webpack_require__(83)["default"], _classCallCheck = __webpack_require__(1)["default"], Base = __webpack_require__(87), JsBin = function(_Base) {
-        function JsBin(input, options, embeds) {
-            _classCallCheck(this, JsBin), _Base.call(this, input, options, embeds), this.regex = /jsbin.com\/[a-zA-Z0-9_]+\/[0-9_]+/gi;
-        }
-        return _inherits(JsBin, _Base), JsBin.prototype.template = function template(id) {
-            var template = '<div class="ejs-jsbin ejs-embed">\n		<iframe height="' + this.options.codeEmbedHeight + '" class="jsbin-embed foo" src="http://' + id + "/embed?html,js,output\"></iframe>',\n		</div>";
-            return template;
-        }, JsBin;
-    }(Base);
-    module.exports = JsBin;
-}, /* 90 */
-/***/
-function(module, exports, __webpack_require__) {
-    "use strict";
-    var _inherits = __webpack_require__(83)["default"], _classCallCheck = __webpack_require__(1)["default"], Base = __webpack_require__(87), CodePen = function(_Base) {
-        function CodePen(input, options, embeds) {
-            _classCallCheck(this, CodePen), _Base.call(this, input, options, embeds), this.regex = /http:\/\/codepen.io\/([A-Za-z0-9_]+)\/pen\/([A-Za-z0-9_]+)/gi;
-        }
-        return _inherits(CodePen, _Base), CodePen.prototype.template = function template(id) {
-            var template = '<div class="ejs-embed ejs-codepen">\n			<iframe scrolling="no" height="' + this.options.codeEmbedHeight + '" src="' + id.replace(/\/pen\//, "/embed/") + "/?height=" + this.options.codeEmbedHeight + "\"></iframe>'\n		</div>";
-            return template;
-        }, CodePen;
-    }(Base);
-    module.exports = CodePen;
-}, /* 91 */
-/***/
-function(module, exports, __webpack_require__) {
-    "use strict";
-    var _inherits = __webpack_require__(83)["default"], _classCallCheck = __webpack_require__(1)["default"], Base = __webpack_require__(87), JsFiddle = function(_Base) {
-        function JsFiddle(input, options, embeds) {
-            _classCallCheck(this, JsFiddle), _Base.call(this, input, options, embeds), this.regex = /jsfiddle.net\/[a-zA-Z0-9_]+\/[a-zA-Z0-9_]+/gi;
-        }
-        return _inherits(JsFiddle, _Base), JsFiddle.prototype.template = function template(id) {
-            var template = '<div class="ejs-embed ejs-jsfiddle">\n			<iframe height="' + this.options.codeEmbedHeight + '" src="http://' + id + '/embedded"></iframe>\n		</div>';
-            return template;
-        }, JsFiddle;
-    }(Base);
-    module.exports = JsFiddle;
-}, /* 92 */
-/***/
-function(module, exports, __webpack_require__) {
-    "use strict";
-    var _inherits = __webpack_require__(83)["default"], _classCallCheck = __webpack_require__(1)["default"], Base = __webpack_require__(87), Gist = function(_Base) {
-        function Gist(input, options, embeds) {
-            var _this = this;
-            _classCallCheck(this, Gist), _Base.call(this, input, options, embeds), this.regex = /gist.github.com\/[a-zA-Z0-9_-]+\/([a-zA-Z0-9]+)/g, 
-            this.options.element.addEventListener("rendered", function() {
-                _this.load();
-            });
-        }
-        return _inherits(Gist, _Base), Gist.prototype.template = function template(match) {
-            var template = '<div class="ejs-gist" data-src="' + match + '"></div>';
-            return template;
-        }, Gist.prototype.load = function() {
-            for (var gists = this.options.element.getElementsByClassName("ejs-gist"), i = 0; i < gists.length; i++) {
-                var gistFrame = document.createElement("iframe");
-                gistFrame.setAttribute("width", "100%"), gistFrame.id = "ejs-gist-" + i;
-                var zone = gists[i];
-                zone.innerHTML = "", zone.appendChild(gistFrame);
-                // Create the iframe's document
-                var gistFrameHTML = '<html><base target="_parent"/><body onload="parent.document.getElementById(\'ejs-gist-' + i + '\').style.height=parseInt(document.body.scrollHeight)+20+\'px\'"><script type="text/javascript" src="https://' + gists[i].getAttribute("data-src") + '.js"></script></body></html>', gistFrameDoc = gistFrame.document;
-                gistFrame.contentDocument ? gistFrameDoc = gistFrame.contentDocument : gistFrame.contentWindow && (gistFrameDoc = gistFrame.contentWindow.document), 
-                gistFrameDoc.open(), gistFrameDoc.writeln(gistFrameHTML), gistFrameDoc.close();
-            }
-        }, Gist;
-    }(Base);
-    module.exports = Gist;
-}, /* 93 */
-/***/
-function(module, exports, __webpack_require__) {
-    "use strict";
-    var _classCallCheck = __webpack_require__(1)["default"], _regeneratorRuntime = __webpack_require__(2)["default"], utils = __webpack_require__(71), Ted = __webpack_require__(94), Dailymotion = __webpack_require__(95), Ustream = __webpack_require__(96), LiveLeak = __webpack_require__(97), Vine = __webpack_require__(98), Youtube = __webpack_require__(99), Vimeo = __webpack_require__(102), BasicVideo = __webpack_require__(103), Video = function() {
-        function Video(input, output, options, embeds) {
-            _classCallCheck(this, Video), this.input = input, this.output = output, this.options = options, 
-            this.embeds = embeds;
-        }
-        return Video.prototype.process = function() {
-            var input, output, embeds;
-            return _regeneratorRuntime.async(function(context$2$0) {
-                for (;;) switch (context$2$0.prev = context$2$0.next) {
-                  case 0:
-                    if (input = this.input, output = this.output, embeds = this.embeds, embeds = utils.ifEmbed(this.options, "ted") ? new Ted(input, this.options, embeds).process() : embeds, 
-                    embeds = utils.ifEmbed(this.options, "dailymotion") ? new Dailymotion(input, this.options, embeds).process() : embeds, 
-                    embeds = utils.ifEmbed(this.options, "ustream") ? new Ustream(input, this.options, embeds).process() : embeds, 
-                    embeds = utils.ifEmbed(this.options, "liveleak") ? new LiveLeak(input, this.options, embeds).process() : embeds, 
-                    embeds = this.options.videoEmbed ? new BasicVideo(input, this.options, embeds).process() : embeds, 
-                    embeds = utils.ifEmbed(this.options, "vine") ? new Vine(input, this.options, embeds).process() : embeds, 
-                    !utils.ifEmbed(this.options, "youtube")) {
-                        context$2$0.next = 15;
-                        break;
-                    }
-                    return context$2$0.next = 12, _regeneratorRuntime.awrap(new Youtube(input, this.options, embeds).process());
-
-                  case 12:
-                    context$2$0.t0 = context$2$0.sent, context$2$0.next = 16;
-                    break;
-
-                  case 15:
-                    context$2$0.t0 = embeds;
-
-                  case 16:
-                    if (embeds = context$2$0.t0, !utils.ifEmbed(this.options, "vimeo")) {
-                        context$2$0.next = 23;
-                        break;
-                    }
-                    return context$2$0.next = 20, _regeneratorRuntime.awrap(new Vimeo(input, this.options, embeds).process());
-
-                  case 20:
-                    context$2$0.t1 = context$2$0.sent, context$2$0.next = 24;
-                    break;
-
-                  case 23:
-                    context$2$0.t1 = embeds;
-
-                  case 24:
-                    return embeds = context$2$0.t1, context$2$0.abrupt("return", [ output, embeds ]);
-
-                  case 26:
-                  case "end":
-                    return context$2$0.stop();
-                }
-            }, null, this);
-        }, Video;
-    }();
-    module.exports = Video;
-}, /* 94 */
-/***/
-function(module, exports, __webpack_require__) {
-    "use strict";
-    var _inherits = __webpack_require__(83)["default"], _classCallCheck = __webpack_require__(1)["default"], utils = __webpack_require__(71), Base = __webpack_require__(87), Ted = function(_Base) {
-        function Ted(input, options, embeds) {
-            _classCallCheck(this, Ted), _Base.call(this, input, options, embeds), this.regex = /ted.com\/talks\/[a-zA-Z0-9_]+/gi;
-        }
-        return _inherits(Ted, _Base), Ted.prototype.template = function template(id) {
-            var dimensions = utils.dimensions(this.options), template = '<div class="ejs-embed">\n			<iframe src="http://embed.ted.com/talks/' + id.split("/")[2] + '.html" height="' + dimensions.height + '" width="' + dimensions.width + '"></iframe>\n		</div>';
-            return template;
-        }, Ted;
-    }(Base);
-    module.exports = Ted;
-}, /* 95 */
-/***/
-function(module, exports, __webpack_require__) {
-    "use strict";
-    var _inherits = __webpack_require__(83)["default"], _classCallCheck = __webpack_require__(1)["default"], utils = __webpack_require__(71), Base = __webpack_require__(87), Dailymotion = function(_Base) {
-        function Dailymotion(input, options, embeds) {
-            _classCallCheck(this, Dailymotion), _Base.call(this, input, options, embeds), this.regex = /dailymotion.com\/video\/[a-zA-Z0-9-_]+/gi;
-        }
-        return _inherits(Dailymotion, _Base), Dailymotion.prototype.template = function template(match) {
-            var dimensions = utils.dimensions(this.options), id = match.split("/")[2], template = '<div class="ejs-video">\n		<iframe src="http://www.dailymotion.com/embed/video/' + id + '" height="' + dimensions.height + '" width="' + dimensions.width + '"></iframe>\n		</div>';
-            return template;
-        }, Dailymotion;
-    }(Base);
-    module.exports = Dailymotion;
-}, /* 96 */
-/***/
-function(module, exports, __webpack_require__) {
-    "use strict";
-    var _inherits = __webpack_require__(83)["default"], _classCallCheck = __webpack_require__(1)["default"], utils = __webpack_require__(71), Base = __webpack_require__(87), Ustream = function(_Base) {
-        function Ustream(input, options, embeds) {
-            _classCallCheck(this, Ustream), _Base.call(this, input, options, embeds), this.regex = /ustream.tv\/[a-z\/0-9]*/gi;
-        }
-        return _inherits(Ustream, _Base), Ustream.prototype.template = function template(match) {
-            var id = match.split("/");
-            id.splice(1, 0, "embed");
-            var dimensions = utils.dimensions(this.options), template = '<div class="ejs-embed">\n		<iframe src="//www.' + id.join("/") + '" height="' + dimensions.height + '" width="' + dimensions.width + "\"></iframe>',\n		'</div>'";
-            return template;
-        }, Ustream;
-    }(Base);
-    module.exports = Ustream;
-}, /* 97 */
-/***/
-function(module, exports, __webpack_require__) {
-    "use strict";
-    var _inherits = __webpack_require__(83)["default"], _classCallCheck = __webpack_require__(1)["default"], utils = __webpack_require__(71), Base = __webpack_require__(87), LiveLeak = function(_Base) {
-        function LiveLeak(input, options, embeds) {
-            _classCallCheck(this, LiveLeak), _Base.call(this, input, options, embeds), this.regex = /liveleak.com\/view\?i=[a-zA-Z0-9_]+/gi;
-        }
-        return _inherits(LiveLeak, _Base), LiveLeak.prototype.template = function template(match) {
-            var dimensions = utils.dimensions(this.options), template = '<div class="ejs-video">\n		<iframe src="http://www.liveleak.com/e/' + match.split("=")[1] + '" height="' + dimensions.height + '" width="' + dimensions.width + '"></iframe>\n		</div>';
-            return template;
-        }, LiveLeak;
-    }(Base);
-    module.exports = LiveLeak;
-}, /* 98 */
-/***/
-function(module, exports, __webpack_require__) {
-    "use strict";
-    var _inherits = __webpack_require__(83)["default"], _classCallCheck = __webpack_require__(1)["default"], Base = __webpack_require__(87), Vine = function(_Base) {
-        function Vine(input, options, embeds) {
-            _classCallCheck(this, Vine), _Base.call(this, input, options, embeds), this.regex = /vine.co\/v\/[a-zA-Z0-9]+/gi;
-        }
-        return _inherits(Vine, _Base), Vine.prototype.template = function template(match) {
-            var config = this.options.vineOptions, template = '<div class="ejs-vine">\n		<iframe class="ejs-vine-iframe" src="https://vine.co/v/' + match.split("/")[2] + "/embed/" + config.type + '" height="' + config.height + '" width="' + config.width + '"></iframe>\n		</div>';
-            return template;
-        }, Vine;
-    }(Base);
-    module.exports = Vine;
-}, /* 99 */
-/***/
-function(module, exports, __webpack_require__) {
     /* WEBPACK VAR INJECTION */
     (function(fetch) {
         "use strict";
-        var _classCallCheck = __webpack_require__(1)["default"], _regeneratorRuntime = __webpack_require__(2)["default"], utils = __webpack_require__(71), helper = __webpack_require__(101), Youtube = function() {
-            function Youtube(input, options, embeds) {
-                _classCallCheck(this, Youtube), this.input = input, this.options = options, this.embeds = embeds, 
-                this.regex = /https?:\/\/(?:[0-9A-Z-]+\.)?(?:youtu\.be\/|youtube\.com(?:\/embed\/|\/v\/|\/watch\?v=|\/ytscreeningroom\?v=|\/feeds\/api\/videos\/|\/user\S*[^\w\-\s]|\S*[^\w\-\s]))([\w\-]{11})[?=&+%\w-]*/gi;
+        var _classCallCheck = __webpack_require__(1)["default"], _regeneratorRuntime = __webpack_require__(2)["default"], utils = __webpack_require__(71), Gmap = function() {
+            function Gmap(input, output, options, embeds) {
+                _classCallCheck(this, Gmap), this.input = input, this.output = output, this.options = options, 
+                this.embeds = embeds, this.regex = /@\((.+)\)/gi;
             }
-            return Youtube.prototype.formatData = function(data) {
-                return {
-                    title: data.snippet.title,
-                    thumbnail: data.snippet.thumbnails.medium.url,
-                    rawDescription: data.snippet.description,
-                    views: data.statistics.viewCount,
-                    likes: data.statistics.likeCount,
-                    description: utils.truncate(data.snippet.description, 150),
-                    url: "https://www.youtube.com/watch?v=" + data.id,
-                    id: data.id,
-                    host: "youtube"
-                };
-            }, Youtube.prototype.data = function data(id) {
-                var url, response, data;
+            return Gmap.prototype.getCoordinate = function(location) {
+                var url, response, data, latitude, longitude;
                 return _regeneratorRuntime.async(function(context$2$0) {
                     for (;;) switch (context$2$0.prev = context$2$0.next) {
                       case 0:
-                        return context$2$0.prev = 0, url = "https://www.googleapis.com/youtube/v3/videos?id=" + id + "&key=" + this.options.googleAuthKey + "&part=snippet,statistics", 
-                        context$2$0.next = 4, _regeneratorRuntime.awrap(fetch(url));
+                        return url = "http://maps.googleapis.com/maps/api/geocode/json?address=" + location + "&sensor=false", 
+                        context$2$0.next = 3, _regeneratorRuntime.awrap(fetch(url));
 
-                      case 4:
-                        return response = context$2$0.sent, context$2$0.next = 7, _regeneratorRuntime.awrap(response.json());
+                      case 3:
+                        return response = context$2$0.sent, context$2$0.next = 6, _regeneratorRuntime.awrap(response.json());
 
-                      case 7:
-                        return data = context$2$0.sent, context$2$0.abrupt("return", data.items[0]);
+                      case 6:
+                        return data = context$2$0.sent, console.log(data), latitude = data.results[0].geometry.location.lat, 
+                        longitude = data.results[0].geometry.location.lng, context$2$0.abrupt("return", [ latitude, longitude ]);
 
                       case 11:
-                        context$2$0.prev = 11, context$2$0.t0 = context$2$0["catch"](0), console.log(context$2$0.t0);
-
-                      case 14:
                       case "end":
                         return context$2$0.stop();
                     }
-                }, null, this, [ [ 0, 11 ] ]);
-            }, Youtube.prototype.process = function() {
-                var match, embedUrl, data, text;
+                }, null, this);
+            }, Gmap.prototype.template = function template(match, latitude, longitude) {
+                var template = void 0, location = match.split("(")[1].split(")")[0], config = this.options.mapOptions, dimensions = utils.dimensions(this.options);
+                return "place" === config.mode ? template = '<div class="ejs-embed ejs-map"><iframe width="' + dimensions.width + '" height="' + dimensions.height + '" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?key=' + this.options.googleAuthKey + "&q=" + location + '"></iframe></div>' : "streetview" === config.mode ? template = '<div class="ejs-embed ejs-map"><iframe width="' + dimensions.width + '" height="' + dimensions.height + '" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/streetview?key=' + this.options.googleAuthKey + "&location=" + latitude + "," + longitude + '&heading=210&pitch=10&fov=35"></iframe></div>' : "view" === config.mode && (template = '<div class="ejs-embed ejs-map"><iframe width="' + dimensions.width + '" height="' + dimensions.height + '" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/view?key=' + this.options.googleAuthKey + "&center=" + latitude + "," + longitude + '&zoom=18&maptype=satellite"></iframe></div>'), 
+                template;
+            }, Gmap.prototype.process = function() {
+                var match, _ref, latitude, longitude, text;
                 return _regeneratorRuntime.async(function(context$2$0) {
                     for (;;) switch (context$2$0.prev = context$2$0.next) {
                       case 0:
-                        context$2$0.prev = 0, match = void 0;
+                        match = void 0;
 
-                      case 2:
+                      case 1:
                         if (null === (match = utils.matches(this.regex, this.input))) {
                             context$2$0.next = 16;
                             break;
                         }
-                        if (embedUrl = "https://www.youtube.com/embed/" + match[1], data = void 0, text = void 0, 
-                        !this.options.videoDetails) {
-                            context$2$0.next = 12;
+                        if ("place" === this.options.mapOptions.mode) {
+                            context$2$0.next = 8;
                             break;
                         }
-                        return context$2$0.next = 8, _regeneratorRuntime.awrap(this.data(match[1]));
+                        return context$2$0.next = 5, _regeneratorRuntime.awrap(this.getCoordinate(match[0]));
 
-                      case 8:
-                        data = context$2$0.sent, text = helper.detailsTemplate(this.formatData(data), embedUrl), 
-                        context$2$0.next = 13;
+                      case 5:
+                        context$2$0.t0 = context$2$0.sent, context$2$0.next = 9;
                         break;
 
-                      case 12:
-                        text = helper.template(embedUrl, this.options);
+                      case 8:
+                        context$2$0.t0 = [ null, null ];
 
-                      case 13:
+                      case 9:
+                        _ref = context$2$0.t0, latitude = _ref[0], longitude = _ref[1], text = this.template(match[0], latitude, longitude), 
                         this.embeds.push({
                             text: text,
                             index: match.index
-                        }), context$2$0.next = 2;
+                        }), context$2$0.next = 1;
                         break;
 
                       case 16:
-                        return context$2$0.abrupt("return", this.embeds);
+                        return this.output = this.output.replace(this.regex, function(match) {
+                            return '<span class="ejs-location">' + match.split("(")[1].split(")")[0] + "</span>";
+                        }), context$2$0.abrupt("return", [ this.output, this.embeds ]);
 
-                      case 19:
-                        context$2$0.prev = 19, context$2$0.t0 = context$2$0["catch"](0), console.log(context$2$0.t0);
-
-                      case 22:
+                      case 18:
                       case "end":
                         return context$2$0.stop();
                     }
-                }, null, this, [ [ 0, 19 ] ]);
-            }, Youtube;
+                }, null, this);
+            }, Gmap;
         }();
-        module.exports = Youtube;
-    }).call(exports, __webpack_require__(100));
-}, /* 100 */
+        module.exports = Gmap;
+    }).call(exports, __webpack_require__(81));
+}, /* 81 */
 /***/
 function(module, exports) {
     /* WEBPACK VAR INJECTION */
@@ -2794,7 +2428,473 @@ function(module, exports) {
     }).call(exports, function() {
         return this;
     }());
+}, /* 82 */
+/***/
+function(module, exports, __webpack_require__) {
+    "use strict";
+    var _classCallCheck = __webpack_require__(1)["default"], utils = __webpack_require__(71), Highlight = __webpack_require__(83), Ideone = __webpack_require__(84), Plunker = __webpack_require__(90), JsBin = __webpack_require__(91), CodePen = __webpack_require__(92), JsFiddle = __webpack_require__(93), Gist = __webpack_require__(94), Code = function() {
+        function Code(input, output, options, embeds) {
+            _classCallCheck(this, Code), this.input = input, this.output = output, this.options = options, 
+            this.embeds = embeds;
+        }
+        return Code.prototype.process = function() {
+            try {
+                var output = this.output, embeds = this.embeds, options = this.options;
+                return output = options.highlightCode ? new Highlight(output, options).process() : output, 
+                embeds = utils.ifEmbed(options, "ideone") ? new Ideone(this.input, options, embeds).process() : embeds, 
+                embeds = utils.ifEmbed(options, "plunker") ? new Plunker(this.input, options, embeds).process() : embeds, 
+                embeds = utils.ifEmbed(options, "jsbin") ? new JsBin(this.input, options, embeds).process() : embeds, 
+                embeds = utils.ifEmbed(options, "codepen") ? new CodePen(this.input, options, embeds).process() : embeds, 
+                embeds = utils.ifEmbed(options, "jsfiddle") ? new JsFiddle(this.input, options, embeds).process() : embeds, 
+                embeds = utils.ifEmbed(options, "gist") ? new Gist(this.input, options, embeds).process() : embeds, 
+                [ output, embeds ];
+            } catch (error) {
+                console.log(error);
+            }
+        }, Code;
+    }();
+    module.exports = Code;
+}, /* 83 */
+/***/
+function(module, exports, __webpack_require__) {
+    "use strict";
+    var _classCallCheck = __webpack_require__(1)["default"], Highlight = function() {
+        function Highlight(input, options) {
+            if (_classCallCheck(this, Highlight), !hljs) throw new ReferenceError("'hljs is not defined. HighlightJS library is needed to highlight code. Visit https://highlightjs.org/'");
+            this.input = input, this.options = options;
+        }
+        /**
+	     * Encodes the characters like <, > and space and replaces them with
+	     * &lt;, &gt; and &gt; respectively.
+	     * @param  {string} code The string that has to be encoded.
+	     * @return {string}      The encoded string
+	     */ /**
+	     * removes whitespace characters
+	     * @param  {string} code The string from which the whitespace has to be removed
+	     * @return {string}
+	     */ /**
+	     * Places the code and the language name in the required template
+	     * @param {string} processedCode
+	     * @param {string} language
+	     * @return {string}
+	     */ /**
+	     * Replaces the code block with the pre tags and returns a string having the code
+	     * formatting using Highlight.js.
+	     * => Matches the string with the regex and finds the code written in three back-ticks ```
+	     * => Detects whether any language has been provided by the user.
+	     *     The format supported by embed.js is
+	     *         ```[language-name]
+	     *         var a = 2;
+	     *         ```
+	     * => Trims all the unnecessary spaces and newlines from the code.
+	     * => Passes the code to `hljs.highlightAuto(code, language)` which returns a formatted string
+	     *     having the html tags for styling. The `language` here is optional. In case we don't pass the
+	     *     language, it tries to detect the language itself.
+	     * => Replaces the code string in the template with the formatted string
+	     * @return {string} The string in which the code is formatted
+	     */ return Highlight.prototype.encode = function(code) {
+            return code = code.replace(/&amp;/gm, ""), code = code.replace(/&lt;/g, "<"), code = code.replace(/&gt;/g, ">");
+        }, Highlight.prototype.trimSpace = function(code) {
+            // trailing whitespace
+            // leading whitespace
+            return code = code.replace(/^([ \t]*)/g, ""), code = code.replace(/[ \t]*$/g, "");
+        }, Highlight.prototype.addTemplate = function(processedCode, language) {
+            var template = '<pre>\n            <code class="ejs-code hljs ' + language + '">' + processedCode.value + "</code>\n        </pre>\n        ";
+            return template;
+        }, Highlight.prototype.process = function() {
+            var _this = this, regex = /(`+)(\s|[a-z]+)\s*([\s\S]*?[^`])\s*\1(?!`)/gm, result = this.input.replace(regex, function(match, group1, group2, group3) {
+                var code = group3;
+                code = _this.trimSpace(code), code = _this.encode(code), // to prevent auto-linking. Not necessary in code
+                // *blocks*, but in code spans. Will be converted
+                // back after the auto-linker runs.
+                code = code.replace(/:\/\//g, "~P");
+                var language = group2.split("\n")[0], highlightedCode = void 0;
+                return language ? highlightedCode = hljs.highlightAuto(code, [ language ]) : (highlightedCode = hljs.highlightAuto(code), 
+                language = highlightedCode.language), _this.addTemplate(highlightedCode, language);
+            });
+            return result;
+        }, Highlight;
+    }();
+    module.exports = Highlight;
+}, /* 84 */
+/***/
+function(module, exports, __webpack_require__) {
+    "use strict";
+    var _inherits = __webpack_require__(85)["default"], _classCallCheck = __webpack_require__(1)["default"], Base = __webpack_require__(89), Ideone = function(_Base) {
+        function Ideone(input, options, embeds) {
+            _classCallCheck(this, Ideone), _Base.call(this, input, options, embeds), this.regex = /ideone.com\/[a-zA-Z0-9]{6}/gi;
+        }
+        return _inherits(Ideone, _Base), Ideone.prototype.template = function template(match) {
+            var template = '<div class="ejs-ideone ejs-embed">\n			<iframe src="http://ideone.com/embed/' + match.split("/") + '" frameborder="0" height="' + this.options.codeEmbedHeight + "\"></iframe>',\n		</div>";
+            return template;
+        }, Ideone;
+    }(Base);
+    module.exports = Ideone;
+}, /* 85 */
+/***/
+function(module, exports, __webpack_require__) {
+    "use strict";
+    var _Object$create = __webpack_require__(46)["default"], _Object$setPrototypeOf = __webpack_require__(86)["default"];
+    exports["default"] = function(subClass, superClass) {
+        if ("function" != typeof superClass && null !== superClass) throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
+        subClass.prototype = _Object$create(superClass && superClass.prototype, {
+            constructor: {
+                value: subClass,
+                enumerable: !1,
+                writable: !0,
+                configurable: !0
+            }
+        }), superClass && (_Object$setPrototypeOf ? _Object$setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
+    }, exports.__esModule = !0;
+}, /* 86 */
+/***/
+function(module, exports, __webpack_require__) {
+    module.exports = {
+        "default": __webpack_require__(87),
+        __esModule: !0
+    };
+}, /* 87 */
+/***/
+function(module, exports, __webpack_require__) {
+    __webpack_require__(88), module.exports = __webpack_require__(14).Object.setPrototypeOf;
+}, /* 88 */
+/***/
+function(module, exports, __webpack_require__) {
+    // 19.1.3.19 Object.setPrototypeOf(O, proto)
+    var $def = __webpack_require__(13);
+    $def($def.S, "Object", {
+        setPrototypeOf: __webpack_require__(60).set
+    });
+}, /* 89 */
+/***/
+function(module, exports, __webpack_require__) {
+    "use strict";
+    var _classCallCheck = __webpack_require__(1)["default"], utils = __webpack_require__(71), Base = function() {
+        function Base(input, options, embeds) {
+            _classCallCheck(this, Base), this.input = input, this.options = options, this.embeds = embeds;
+        }
+        return Base.prototype.process = function() {
+            for (var match = void 0; null !== (match = utils.matches(this.regex, this.input)); ) {
+                var text = this.template(match[0]);
+                this.embeds.push({
+                    text: text,
+                    index: match.index
+                });
+            }
+            return this.embeds;
+        }, Base;
+    }();
+    module.exports = Base;
+}, /* 90 */
+/***/
+function(module, exports, __webpack_require__) {
+    "use strict";
+    var _inherits = __webpack_require__(85)["default"], _classCallCheck = __webpack_require__(1)["default"], Base = __webpack_require__(89), Plunker = function(_Base) {
+        function Plunker(input, options, embeds) {
+            _classCallCheck(this, Plunker), _Base.call(this, input, options, embeds), this.regex = /plnkr.co\/edit\/[a-zA-Z0-9\?=]+/gi;
+        }
+        return _inherits(Plunker, _Base), Plunker.prototype.template = function template(match) {
+            var id = -1 === match.indexOf("?") ? match.split("/")[2] : match.split("/")[2].split("?")[0], template = '<div class="ejs-embed ejs-plunker">\n            <iframe class="ne-plunker" src="http://embed.plnkr.co/' + id + '" height="' + this.options.codeEmbedHeight + '"></iframe>\n        </div>';
+            return template;
+        }, Plunker;
+    }(Base);
+    module.exports = Plunker;
+}, /* 91 */
+/***/
+function(module, exports, __webpack_require__) {
+    "use strict";
+    var _inherits = __webpack_require__(85)["default"], _classCallCheck = __webpack_require__(1)["default"], Base = __webpack_require__(89), JsBin = function(_Base) {
+        function JsBin(input, options, embeds) {
+            _classCallCheck(this, JsBin), _Base.call(this, input, options, embeds), this.regex = /jsbin.com\/[a-zA-Z0-9_]+\/[0-9_]+/gi;
+        }
+        return _inherits(JsBin, _Base), JsBin.prototype.template = function template(id) {
+            var template = '<div class="ejs-jsbin ejs-embed">\n		<iframe height="' + this.options.codeEmbedHeight + '" class="jsbin-embed foo" src="http://' + id + "/embed?html,js,output\"></iframe>',\n		</div>";
+            return template;
+        }, JsBin;
+    }(Base);
+    module.exports = JsBin;
+}, /* 92 */
+/***/
+function(module, exports, __webpack_require__) {
+    "use strict";
+    var _inherits = __webpack_require__(85)["default"], _classCallCheck = __webpack_require__(1)["default"], Base = __webpack_require__(89), CodePen = function(_Base) {
+        function CodePen(input, options, embeds) {
+            _classCallCheck(this, CodePen), _Base.call(this, input, options, embeds), this.regex = /http:\/\/codepen.io\/([A-Za-z0-9_]+)\/pen\/([A-Za-z0-9_]+)/gi;
+        }
+        return _inherits(CodePen, _Base), CodePen.prototype.template = function template(id) {
+            var template = '<div class="ejs-embed ejs-codepen">\n			<iframe scrolling="no" height="' + this.options.codeEmbedHeight + '" src="' + id.replace(/\/pen\//, "/embed/") + "/?height=" + this.options.codeEmbedHeight + "\"></iframe>'\n		</div>";
+            return template;
+        }, CodePen;
+    }(Base);
+    module.exports = CodePen;
+}, /* 93 */
+/***/
+function(module, exports, __webpack_require__) {
+    "use strict";
+    var _inherits = __webpack_require__(85)["default"], _classCallCheck = __webpack_require__(1)["default"], Base = __webpack_require__(89), JsFiddle = function(_Base) {
+        function JsFiddle(input, options, embeds) {
+            _classCallCheck(this, JsFiddle), _Base.call(this, input, options, embeds), this.regex = /jsfiddle.net\/[a-zA-Z0-9_]+\/[a-zA-Z0-9_]+/gi;
+        }
+        return _inherits(JsFiddle, _Base), JsFiddle.prototype.template = function template(id) {
+            var template = '<div class="ejs-embed ejs-jsfiddle">\n			<iframe height="' + this.options.codeEmbedHeight + '" src="http://' + id + '/embedded"></iframe>\n		</div>';
+            return template;
+        }, JsFiddle;
+    }(Base);
+    module.exports = JsFiddle;
+}, /* 94 */
+/***/
+function(module, exports, __webpack_require__) {
+    "use strict";
+    var _inherits = __webpack_require__(85)["default"], _classCallCheck = __webpack_require__(1)["default"], Base = __webpack_require__(89), Gist = function(_Base) {
+        function Gist(input, options, embeds) {
+            var _this = this;
+            _classCallCheck(this, Gist), _Base.call(this, input, options, embeds), this.regex = /gist.github.com\/[a-zA-Z0-9_-]+\/([a-zA-Z0-9]+)/g, 
+            this.options.element.addEventListener("rendered", function() {
+                _this.load();
+            });
+        }
+        return _inherits(Gist, _Base), Gist.prototype.template = function template(match) {
+            var template = '<div class="ejs-gist" data-src="' + match + '"></div>';
+            return template;
+        }, Gist.prototype.load = function() {
+            for (var gists = this.options.element.getElementsByClassName("ejs-gist"), i = 0; i < gists.length; i++) {
+                var gistFrame = document.createElement("iframe");
+                gistFrame.setAttribute("width", "100%"), gistFrame.id = "ejs-gist-" + i;
+                var zone = gists[i];
+                zone.innerHTML = "", zone.appendChild(gistFrame);
+                // Create the iframe's document
+                var gistFrameHTML = '<html><base target="_parent"/><body onload="parent.document.getElementById(\'ejs-gist-' + i + '\').style.height=parseInt(document.body.scrollHeight)+20+\'px\'"><script type="text/javascript" src="https://' + gists[i].getAttribute("data-src") + '.js"></script></body></html>', gistFrameDoc = gistFrame.document;
+                gistFrame.contentDocument ? gistFrameDoc = gistFrame.contentDocument : gistFrame.contentWindow && (gistFrameDoc = gistFrame.contentWindow.document), 
+                gistFrameDoc.open(), gistFrameDoc.writeln(gistFrameHTML), gistFrameDoc.close();
+            }
+        }, Gist;
+    }(Base);
+    module.exports = Gist;
+}, /* 95 */
+/***/
+function(module, exports, __webpack_require__) {
+    "use strict";
+    var _classCallCheck = __webpack_require__(1)["default"], _regeneratorRuntime = __webpack_require__(2)["default"], utils = __webpack_require__(71), Ted = __webpack_require__(96), Dailymotion = __webpack_require__(97), Ustream = __webpack_require__(98), LiveLeak = __webpack_require__(99), Vine = __webpack_require__(100), Youtube = __webpack_require__(101), Vimeo = __webpack_require__(103), BasicVideo = __webpack_require__(104), Video = function() {
+        function Video(input, output, options, embeds) {
+            _classCallCheck(this, Video), this.input = input, this.output = output, this.options = options, 
+            this.embeds = embeds;
+        }
+        return Video.prototype.process = function() {
+            var input, output, embeds;
+            return _regeneratorRuntime.async(function(context$2$0) {
+                for (;;) switch (context$2$0.prev = context$2$0.next) {
+                  case 0:
+                    if (input = this.input, output = this.output, embeds = this.embeds, embeds = utils.ifEmbed(this.options, "ted") ? new Ted(input, this.options, embeds).process() : embeds, 
+                    embeds = utils.ifEmbed(this.options, "dailymotion") ? new Dailymotion(input, this.options, embeds).process() : embeds, 
+                    embeds = utils.ifEmbed(this.options, "ustream") ? new Ustream(input, this.options, embeds).process() : embeds, 
+                    embeds = utils.ifEmbed(this.options, "liveleak") ? new LiveLeak(input, this.options, embeds).process() : embeds, 
+                    embeds = this.options.videoEmbed ? new BasicVideo(input, this.options, embeds).process() : embeds, 
+                    embeds = utils.ifEmbed(this.options, "vine") ? new Vine(input, this.options, embeds).process() : embeds, 
+                    !utils.ifEmbed(this.options, "youtube")) {
+                        context$2$0.next = 15;
+                        break;
+                    }
+                    return context$2$0.next = 12, _regeneratorRuntime.awrap(new Youtube(input, this.options, embeds).process());
+
+                  case 12:
+                    context$2$0.t0 = context$2$0.sent, context$2$0.next = 16;
+                    break;
+
+                  case 15:
+                    context$2$0.t0 = embeds;
+
+                  case 16:
+                    if (embeds = context$2$0.t0, !utils.ifEmbed(this.options, "vimeo")) {
+                        context$2$0.next = 23;
+                        break;
+                    }
+                    return context$2$0.next = 20, _regeneratorRuntime.awrap(new Vimeo(input, this.options, embeds).process());
+
+                  case 20:
+                    context$2$0.t1 = context$2$0.sent, context$2$0.next = 24;
+                    break;
+
+                  case 23:
+                    context$2$0.t1 = embeds;
+
+                  case 24:
+                    return embeds = context$2$0.t1, context$2$0.abrupt("return", [ output, embeds ]);
+
+                  case 26:
+                  case "end":
+                    return context$2$0.stop();
+                }
+            }, null, this);
+        }, Video;
+    }();
+    module.exports = Video;
+}, /* 96 */
+/***/
+function(module, exports, __webpack_require__) {
+    "use strict";
+    var _inherits = __webpack_require__(85)["default"], _classCallCheck = __webpack_require__(1)["default"], utils = __webpack_require__(71), Base = __webpack_require__(89), Ted = function(_Base) {
+        function Ted(input, options, embeds) {
+            _classCallCheck(this, Ted), _Base.call(this, input, options, embeds), this.regex = /ted.com\/talks\/[a-zA-Z0-9_]+/gi;
+        }
+        return _inherits(Ted, _Base), Ted.prototype.template = function template(id) {
+            var dimensions = utils.dimensions(this.options), template = '<div class="ejs-embed">\n			<iframe src="http://embed.ted.com/talks/' + id.split("/")[2] + '.html" height="' + dimensions.height + '" width="' + dimensions.width + '"></iframe>\n		</div>';
+            return template;
+        }, Ted;
+    }(Base);
+    module.exports = Ted;
+}, /* 97 */
+/***/
+function(module, exports, __webpack_require__) {
+    "use strict";
+    var _inherits = __webpack_require__(85)["default"], _classCallCheck = __webpack_require__(1)["default"], utils = __webpack_require__(71), Base = __webpack_require__(89), Dailymotion = function(_Base) {
+        function Dailymotion(input, options, embeds) {
+            _classCallCheck(this, Dailymotion), _Base.call(this, input, options, embeds), this.regex = /dailymotion.com\/video\/[a-zA-Z0-9-_]+/gi;
+        }
+        return _inherits(Dailymotion, _Base), Dailymotion.prototype.template = function template(match) {
+            var dimensions = utils.dimensions(this.options), id = match.split("/")[2], template = '<div class="ejs-video">\n		<iframe src="http://www.dailymotion.com/embed/video/' + id + '" height="' + dimensions.height + '" width="' + dimensions.width + '"></iframe>\n		</div>';
+            return template;
+        }, Dailymotion;
+    }(Base);
+    module.exports = Dailymotion;
+}, /* 98 */
+/***/
+function(module, exports, __webpack_require__) {
+    "use strict";
+    var _inherits = __webpack_require__(85)["default"], _classCallCheck = __webpack_require__(1)["default"], utils = __webpack_require__(71), Base = __webpack_require__(89), Ustream = function(_Base) {
+        function Ustream(input, options, embeds) {
+            _classCallCheck(this, Ustream), _Base.call(this, input, options, embeds), this.regex = /ustream.tv\/[a-z\/0-9]*/gi;
+        }
+        return _inherits(Ustream, _Base), Ustream.prototype.template = function template(match) {
+            var id = match.split("/");
+            id.splice(1, 0, "embed");
+            var dimensions = utils.dimensions(this.options), template = '<div class="ejs-embed">\n		<iframe src="//www.' + id.join("/") + '" height="' + dimensions.height + '" width="' + dimensions.width + "\"></iframe>',\n		'</div>'";
+            return template;
+        }, Ustream;
+    }(Base);
+    module.exports = Ustream;
+}, /* 99 */
+/***/
+function(module, exports, __webpack_require__) {
+    "use strict";
+    var _inherits = __webpack_require__(85)["default"], _classCallCheck = __webpack_require__(1)["default"], utils = __webpack_require__(71), Base = __webpack_require__(89), LiveLeak = function(_Base) {
+        function LiveLeak(input, options, embeds) {
+            _classCallCheck(this, LiveLeak), _Base.call(this, input, options, embeds), this.regex = /liveleak.com\/view\?i=[a-zA-Z0-9_]+/gi;
+        }
+        return _inherits(LiveLeak, _Base), LiveLeak.prototype.template = function template(match) {
+            var dimensions = utils.dimensions(this.options), template = '<div class="ejs-video">\n		<iframe src="http://www.liveleak.com/e/' + match.split("=")[1] + '" height="' + dimensions.height + '" width="' + dimensions.width + '"></iframe>\n		</div>';
+            return template;
+        }, LiveLeak;
+    }(Base);
+    module.exports = LiveLeak;
+}, /* 100 */
+/***/
+function(module, exports, __webpack_require__) {
+    "use strict";
+    var _inherits = __webpack_require__(85)["default"], _classCallCheck = __webpack_require__(1)["default"], Base = __webpack_require__(89), Vine = function(_Base) {
+        function Vine(input, options, embeds) {
+            _classCallCheck(this, Vine), _Base.call(this, input, options, embeds), this.regex = /vine.co\/v\/[a-zA-Z0-9]+/gi;
+        }
+        return _inherits(Vine, _Base), Vine.prototype.template = function template(match) {
+            var config = this.options.vineOptions, template = '<div class="ejs-vine">\n		<iframe class="ejs-vine-iframe" src="https://vine.co/v/' + match.split("/")[2] + "/embed/" + config.type + '" height="' + config.height + '" width="' + config.width + '"></iframe>\n		</div>';
+            return template;
+        }, Vine;
+    }(Base);
+    module.exports = Vine;
 }, /* 101 */
+/***/
+function(module, exports, __webpack_require__) {
+    /* WEBPACK VAR INJECTION */
+    (function(fetch) {
+        "use strict";
+        var _classCallCheck = __webpack_require__(1)["default"], _regeneratorRuntime = __webpack_require__(2)["default"], utils = __webpack_require__(71), helper = __webpack_require__(102), Youtube = function() {
+            function Youtube(input, options, embeds) {
+                _classCallCheck(this, Youtube), this.input = input, this.options = options, this.embeds = embeds, 
+                this.regex = /https?:\/\/(?:[0-9A-Z-]+\.)?(?:youtu\.be\/|youtube\.com(?:\/embed\/|\/v\/|\/watch\?v=|\/ytscreeningroom\?v=|\/feeds\/api\/videos\/|\/user\S*[^\w\-\s]|\S*[^\w\-\s]))([\w\-]{11})[?=&+%\w-]*/gi;
+            }
+            return Youtube.prototype.formatData = function(data) {
+                return {
+                    title: data.snippet.title,
+                    thumbnail: data.snippet.thumbnails.medium.url,
+                    rawDescription: data.snippet.description,
+                    views: data.statistics.viewCount,
+                    likes: data.statistics.likeCount,
+                    description: utils.truncate(data.snippet.description, 150),
+                    url: "https://www.youtube.com/watch?v=" + data.id,
+                    id: data.id,
+                    host: "youtube"
+                };
+            }, Youtube.prototype.data = function data(id) {
+                var url, response, data;
+                return _regeneratorRuntime.async(function(context$2$0) {
+                    for (;;) switch (context$2$0.prev = context$2$0.next) {
+                      case 0:
+                        return context$2$0.prev = 0, url = "https://www.googleapis.com/youtube/v3/videos?id=" + id + "&key=" + this.options.googleAuthKey + "&part=snippet,statistics", 
+                        context$2$0.next = 4, _regeneratorRuntime.awrap(fetch(url));
+
+                      case 4:
+                        return response = context$2$0.sent, context$2$0.next = 7, _regeneratorRuntime.awrap(response.json());
+
+                      case 7:
+                        return data = context$2$0.sent, context$2$0.abrupt("return", data.items[0]);
+
+                      case 11:
+                        context$2$0.prev = 11, context$2$0.t0 = context$2$0["catch"](0), console.log(context$2$0.t0);
+
+                      case 14:
+                      case "end":
+                        return context$2$0.stop();
+                    }
+                }, null, this, [ [ 0, 11 ] ]);
+            }, Youtube.prototype.process = function() {
+                var match, embedUrl, data, text;
+                return _regeneratorRuntime.async(function(context$2$0) {
+                    for (;;) switch (context$2$0.prev = context$2$0.next) {
+                      case 0:
+                        context$2$0.prev = 0, match = void 0;
+
+                      case 2:
+                        if (null === (match = utils.matches(this.regex, this.input))) {
+                            context$2$0.next = 16;
+                            break;
+                        }
+                        if (embedUrl = "https://www.youtube.com/embed/" + match[1], data = void 0, text = void 0, 
+                        !this.options.videoDetails) {
+                            context$2$0.next = 12;
+                            break;
+                        }
+                        return context$2$0.next = 8, _regeneratorRuntime.awrap(this.data(match[1]));
+
+                      case 8:
+                        data = context$2$0.sent, text = helper.detailsTemplate(this.formatData(data), embedUrl), 
+                        context$2$0.next = 13;
+                        break;
+
+                      case 12:
+                        text = helper.template(embedUrl, this.options);
+
+                      case 13:
+                        this.embeds.push({
+                            text: text,
+                            index: match.index
+                        }), context$2$0.next = 2;
+                        break;
+
+                      case 16:
+                        return context$2$0.abrupt("return", this.embeds);
+
+                      case 19:
+                        context$2$0.prev = 19, context$2$0.t0 = context$2$0["catch"](0), console.log(context$2$0.t0);
+
+                      case 22:
+                      case "end":
+                        return context$2$0.stop();
+                    }
+                }, null, this, [ [ 0, 19 ] ]);
+            }, Youtube;
+        }();
+        module.exports = Youtube;
+    }).call(exports, __webpack_require__(81));
+}, /* 102 */
 /***/
 function(module, exports, __webpack_require__) {
     "use strict";
@@ -2826,13 +2926,13 @@ function(module, exports, __webpack_require__) {
         }
     };
     module.exports = helper;
-}, /* 102 */
+}, /* 103 */
 /***/
 function(module, exports, __webpack_require__) {
     /* WEBPACK VAR INJECTION */
     (function(fetch) {
         "use strict";
-        var _classCallCheck = __webpack_require__(1)["default"], _regeneratorRuntime = __webpack_require__(2)["default"], utils = __webpack_require__(71), helper = __webpack_require__(101), Vimeo = function() {
+        var _classCallCheck = __webpack_require__(1)["default"], _regeneratorRuntime = __webpack_require__(2)["default"], utils = __webpack_require__(71), helper = __webpack_require__(102), Vimeo = function() {
             function Vimeo(input, options, embeds) {
                 _classCallCheck(this, Vimeo), this.input = input, this.options = options, this.embeds = embeds, 
                 this.regex = /https?:\/\/(?:www\.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/([^\/]*)\/videos\/|album\/(\d+)\/video\/|)(\d+)(?:$|\/|\?)*/gi;
@@ -2919,12 +3019,12 @@ function(module, exports, __webpack_require__) {
             }, Vimeo;
         }();
         module.exports = Vimeo;
-    }).call(exports, __webpack_require__(100));
-}, /* 103 */
+    }).call(exports, __webpack_require__(81));
+}, /* 104 */
 /***/
 function(module, exports, __webpack_require__) {
     "use strict";
-    var _inherits = __webpack_require__(83)["default"], _classCallCheck = __webpack_require__(1)["default"], Base = __webpack_require__(87), BasicVideo = function(_Base) {
+    var _inherits = __webpack_require__(85)["default"], _classCallCheck = __webpack_require__(1)["default"], Base = __webpack_require__(89), BasicVideo = function(_Base) {
         function BasicVideo(input, options, embeds) {
             _classCallCheck(this, BasicVideo), _Base.call(this, input, options, embeds), this.regex = /(?:https?):\/\/\S*\.(?:ogv|webm|mp4)/gi;
         }
@@ -2934,11 +3034,11 @@ function(module, exports, __webpack_require__) {
         }, BasicVideo;
     }(Base);
     module.exports = BasicVideo;
-}, /* 104 */
+}, /* 105 */
 /***/
 function(module, exports, __webpack_require__) {
     "use strict";
-    var _classCallCheck = __webpack_require__(1)["default"], utils = __webpack_require__(71), SoundCloud = __webpack_require__(105), Spotify = __webpack_require__(106), BasicAudio = __webpack_require__(107), Audio = function() {
+    var _classCallCheck = __webpack_require__(1)["default"], utils = __webpack_require__(71), SoundCloud = __webpack_require__(106), Spotify = __webpack_require__(107), BasicAudio = __webpack_require__(108), Audio = function() {
         function Audio(input, output, options, embeds) {
             _classCallCheck(this, Audio), this.input = input, this.output = output, this.options = options, 
             this.embeds = embeds;
@@ -2956,11 +3056,11 @@ function(module, exports, __webpack_require__) {
         }, Audio;
     }();
     module.exports = Audio;
-}, /* 105 */
+}, /* 106 */
 /***/
 function(module, exports, __webpack_require__) {
     "use strict";
-    var _inherits = __webpack_require__(83)["default"], _classCallCheck = __webpack_require__(1)["default"], Base = __webpack_require__(87), SoundCloud = function(_Base) {
+    var _inherits = __webpack_require__(85)["default"], _classCallCheck = __webpack_require__(1)["default"], Base = __webpack_require__(89), SoundCloud = function(_Base) {
         function SoundCloud(input, options, embeds) {
             _classCallCheck(this, SoundCloud), _Base.call(this, input, options, embeds), console.log(input, options), 
             this.regex = /soundcloud.com\/[a-zA-Z0-9-_]+\/[a-zA-Z0-9-_]+/gi;
@@ -2971,11 +3071,11 @@ function(module, exports, __webpack_require__) {
         }, SoundCloud;
     }(Base);
     module.exports = SoundCloud;
-}, /* 106 */
+}, /* 107 */
 /***/
 function(module, exports, __webpack_require__) {
     "use strict";
-    var _inherits = __webpack_require__(83)["default"], _classCallCheck = __webpack_require__(1)["default"], Base = __webpack_require__(87), Spotify = function(_Base) {
+    var _inherits = __webpack_require__(85)["default"], _classCallCheck = __webpack_require__(1)["default"], Base = __webpack_require__(89), Spotify = function(_Base) {
         function Spotify(input, options, embeds) {
             _classCallCheck(this, Spotify), _Base.call(this, input, options, embeds), this.regex = /spotify.com\/track\/[a-zA-Z0-9_]+/gi;
         }
@@ -2985,11 +3085,11 @@ function(module, exports, __webpack_require__) {
         }, Spotify;
     }(Base);
     module.exports = Spotify;
-}, /* 107 */
+}, /* 108 */
 /***/
 function(module, exports, __webpack_require__) {
     "use strict";
-    var _inherits = __webpack_require__(83)["default"], _classCallCheck = __webpack_require__(1)["default"], Base = __webpack_require__(87), BasicAudio = function(_Base) {
+    var _inherits = __webpack_require__(85)["default"], _classCallCheck = __webpack_require__(1)["default"], Base = __webpack_require__(89), BasicAudio = function(_Base) {
         function BasicAudio(input, options, embeds) {
             _classCallCheck(this, BasicAudio), _Base.call(this, input, options, embeds), this.regex = /((?:https?):\/\/\S*\.(?:wav|mp3|ogg))/gi;
         }
@@ -2999,11 +3099,11 @@ function(module, exports, __webpack_require__) {
         }, BasicAudio;
     }(Base);
     module.exports = BasicAudio;
-}, /* 108 */
+}, /* 109 */
 /***/
 function(module, exports, __webpack_require__) {
     "use strict";
-    var _classCallCheck = __webpack_require__(1)["default"], utils = __webpack_require__(71), Flickr = __webpack_require__(109), Instagram = __webpack_require__(110), Basic = __webpack_require__(111), Image = function() {
+    var _classCallCheck = __webpack_require__(1)["default"], utils = __webpack_require__(71), Flickr = __webpack_require__(110), Instagram = __webpack_require__(111), Basic = __webpack_require__(112), Image = function() {
         function Image(input, output, options, embeds) {
             _classCallCheck(this, Image), this.input = input, this.output = output, this.options = options, 
             this.embeds = embeds;
@@ -3021,11 +3121,11 @@ function(module, exports, __webpack_require__) {
         }, Image;
     }();
     module.exports = Image;
-}, /* 109 */
+}, /* 110 */
 /***/
 function(module, exports, __webpack_require__) {
     "use strict";
-    var _inherits = __webpack_require__(83)["default"], _classCallCheck = __webpack_require__(1)["default"], utils = __webpack_require__(71), Base = __webpack_require__(87), Flickr = function(_Base) {
+    var _inherits = __webpack_require__(85)["default"], _classCallCheck = __webpack_require__(1)["default"], utils = __webpack_require__(71), Base = __webpack_require__(89), Flickr = function(_Base) {
         function Flickr(input, options, embeds) {
             _classCallCheck(this, Flickr), _Base.call(this, input, options, embeds), this.regex = /flickr.com\/[a-z]+\/[a-zA-Z@_$!\d]+\/[\d]+/gi;
         }
@@ -3035,11 +3135,11 @@ function(module, exports, __webpack_require__) {
         }, Flickr;
     }(Base);
     module.exports = Flickr;
-}, /* 110 */
+}, /* 111 */
 /***/
 function(module, exports, __webpack_require__) {
     "use strict";
-    var _inherits = __webpack_require__(83)["default"], _classCallCheck = __webpack_require__(1)["default"], utils = __webpack_require__(71), Base = __webpack_require__(87), Instagram = function(_Base) {
+    var _inherits = __webpack_require__(85)["default"], _classCallCheck = __webpack_require__(1)["default"], utils = __webpack_require__(71), Base = __webpack_require__(89), Instagram = function(_Base) {
         function Instagram(input, options, embeds) {
             _classCallCheck(this, Instagram), _Base.call(this, input, options, embeds), this.regex = /instagram.com\/p\/[a-zA-Z0-9]+/gi;
         }
@@ -3049,11 +3149,11 @@ function(module, exports, __webpack_require__) {
         }, Instagram;
     }(Base);
     module.exports = Instagram;
-}, /* 111 */
+}, /* 112 */
 /***/
 function(module, exports, __webpack_require__) {
     "use strict";
-    var _inherits = __webpack_require__(83)["default"], _classCallCheck = __webpack_require__(1)["default"], Base = __webpack_require__(87), Basic = function(_Base) {
+    var _inherits = __webpack_require__(85)["default"], _classCallCheck = __webpack_require__(1)["default"], Base = __webpack_require__(89), Basic = function(_Base) {
         function Basic(input, options, embeds) {
             _classCallCheck(this, Basic), _Base.call(this, input, options, embeds), this.regex = /((?:https?):\/\/\S*\.(?:gif|jpg|jpeg|tiff|png|svg|webp))/gi;
         }

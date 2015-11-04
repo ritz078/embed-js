@@ -26,6 +26,7 @@ if (build.SMILEY)  var Smiley  = require('./modules/emoticons/smiley.es6');
 if (build.LINK)    var Url     = require('./modules/url.es6');
 
 if (build.TWITTER) var Twitter = require('./modules/twitter/twitter.es6');
+if (build.MAP)     var Gmap     = require('./modules/map/map.es6');
 
 const Code   = require('./modules/code/code.es6');
 const Video  = require('./modules/video/video.es6');
@@ -53,6 +54,10 @@ const helper = require('./modules/video/helper.es6');
         videojsOptions: {
             fluid   : true,
             preload : 'metadata'
+        },
+        locationEmbed : true,
+        mapOptions : {
+            mode : 'place'
         },
         tweetsEmbed: true,
         tweetOptions: {
@@ -124,7 +129,7 @@ const helper = require('./modules/video/helper.es6');
             output           = options.fontIcons && build.SMILEY ? (new Smiley(output, options).process()) : output;
             [output, embeds] = (new Code(input, output, options, embeds).process());
             [output, embeds] = await (new Video(input, output, options, embeds).process());
-
+            [output,embeds]  = options.locationEmbed ? await (new Gmap(input, output, options, embeds).process()) : [output, embeds];
             [output, embeds] = (new Audio(input, output, options, embeds).process());
             [output, embeds] = (new Image(input, output, options, embeds).process());
             if (options.tweetsEmbed && build.TWITTER) {
