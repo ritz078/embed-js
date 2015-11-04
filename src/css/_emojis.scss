@@ -2,6 +2,10 @@
 $retine_sprite_width : 1320px;
 $retine_sprite_height : 1320px;
 
+.emoticon {
+        background : transparent url(../.././assets/images/emojis.png) 0 0 no-repeat;
+}
+
 @media all and (-webkit-min-device-pixel-ratio : 1), all and (min--moz-device-pixel-ratio : 1), all and (-o-min-device-pixel-ratio : 1), all and (min-device-pixel-ratio : 1), all and (min-resolution : 96dpi) {
     .emoticon {
         background : transparent url(../.././assets/images/emojis.png) 0 0 no-repeat;

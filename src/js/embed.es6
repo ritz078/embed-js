@@ -41,7 +41,8 @@ const helper = require('./modules/video/helper.es6');
         link: true,
         linkOptions: {
             target  : 'self',
-            exclude : ['pdf']
+            exclude : ['pdf'],
+            rel     : ''
         },
         emoji           : true,
         customEmoji     : [],

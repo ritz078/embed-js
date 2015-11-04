@@ -1,3 +1,7 @@
+.emoticon {
+  background: transparent url(../.././assets/images/emojis.png) 0 0 no-repeat;
+}
+
 @media all and (-webkit-min-device-pixel-ratio: 1), all and (min--moz-device-pixel-ratio: 1), all and (-o-min-device-pixel-ratio: 1), all and (min-device-pixel-ratio: 1), all and (min-resolution: 96dpi) {
   .emoticon {
     background: transparent url(../.././assets/images/emojis.png) 0 0 no-repeat;

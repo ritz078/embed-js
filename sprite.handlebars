@@ -3,6 +3,10 @@
 $retine_sprite_width : {{retina_spritesheet.width}}px;
 $retine_sprite_height : {{retina_spritesheet.height}}px;
 
+.emoticon {
+        background : transparent url({{spritesheet.image}}) 0 0 no-repeat;
+}
+
 @media all and (-webkit-min-device-pixel-ratio : 1), all and (min--moz-device-pixel-ratio : 1), all and (-o-min-device-pixel-ratio : 1), all and (min-device-pixel-ratio : 1), all and (min-resolution : 96dpi) {
     .emoticon {
         background : transparent url({{spritesheet.image}}) 0 0 no-repeat;
