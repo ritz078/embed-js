@@ -18,7 +18,10 @@ module.exports = {
         loaders: [{
             test: /\.es6$/,
             exclude: /node_modules/,
-            loader: 'babel-loader'
+            loader: 'babel-loader',
+            query :{
+                cacheDirectory:true
+            }
         }]
     },
     plugins: [
