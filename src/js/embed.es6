@@ -172,7 +172,7 @@ const helper = require('./modules/video/helper.es6');
          */
         async text(callback) {
             let result = await this.process();
-            callback(result);
+            callback(result, this.input);
         }
     }
 

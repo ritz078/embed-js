@@ -255,7 +255,7 @@ function(module, exports, __webpack_require__) {
                         return context$3$0.next = 2, _regeneratorRuntime.awrap(this.process());
 
                       case 2:
-                        result = context$3$0.sent, callback(result);
+                        result = context$3$0.sent, callback(result, this.input);
 
                       case 4:
                       case "end":
