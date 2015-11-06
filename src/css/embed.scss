@@ -1,7 +1,5 @@
 @import 'emojis';
-
-$primary : #3498db;
-
+$primary: #3498db;
 @font-face {
     font-family: emoticons;
     src: url(../assets/fonts/emoticons.eot?5zh0vu);
@@ -39,7 +37,8 @@ $primary : #3498db;
     border: 1px solid #eee
 }
 
-.ejs-vine iframe ,.ejs-gist iframe{
+.ejs-vine iframe,
+.ejs-gist iframe {
     border: 0;
     margin: 10px 0;
 }
@@ -52,12 +51,10 @@ pre {
     margin: 0 0 -15px 0;
 }
 
-code.has-numbering {
-    display: block;
-    padding: 9pt 30px;
-    overflow-y: auto;
-    font-weight: 300;
-    margin-left: 36px
+code {
+    background-color: #eee;
+    padding: 3px 10px;
+    border-radius: 2px;
 }
 
 .ejs-audio {
@@ -76,7 +73,7 @@ code.has-numbering {
     overflow: auto;
 }
 
-.ejs-video-preview{
+.ejs-video-preview {
     padding: 5px;
     border: 1px solid #e4e4e4;
     background-color: #fff;
@@ -213,10 +210,10 @@ code.has-numbering {
     vertical-align: middle;
 }
 
-.emoticon{
-    text-indent    : -9999px;
-    display        : inline-block;
-    height         : 22px;
-    width          : 22px;
-    vertical-align : middle;
+.emoticon {
+    text-indent: -9999px;
+    display: inline-block;
+    height: 22px;
+    width: 22px;
+    vertical-align: middle;
 }

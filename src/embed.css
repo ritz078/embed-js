@@ -3541,7 +3541,8 @@
   border: 1px solid #eee;
 }
 
-.ejs-vine iframe, .ejs-gist iframe {
+.ejs-vine iframe,
+.ejs-gist iframe {
   border: 0;
   margin: 10px 0;
 }
@@ -3554,12 +3555,10 @@ pre {
   margin: 0 0 -15px 0;
 }
 
-code.has-numbering {
-  display: block;
-  padding: 9pt 30px;
-  overflow-y: auto;
-  font-weight: 300;
-  margin-left: 36px;
+code {
+  background-color: #eee;
+  padding: 3px 10px;
+  border-radius: 2px;
 }
 
 .ejs-audio {

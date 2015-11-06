@@ -21,7 +21,7 @@ class Code {
 			let output = this.output;
 			let embeds = this.embeds;
 			let options = this.options;
-			output = options.highlightCode && build.HIGHLIGHTCODE ? (new Highlight(output, options).process()) : output;
+			output = options.highlightCode && !options.marked && build.HIGHLIGHTCODE ? (new Highlight(output, options).process()) : output;
 			embeds = utils.ifEmbed(options, 'ideone') && build.IDEONE ? (new Ideone(this.input, options, embeds).process()) : embeds;
 			embeds = utils.ifEmbed(options, 'plunker') && build.PLUNKER ? (new Plunker(this.input, options, embeds).process()) : embeds;
 			embeds = utils.ifEmbed(options, 'jsbin') && build.JSBIN ? (new JsBin(this.input, options, embeds).process()) : embeds;

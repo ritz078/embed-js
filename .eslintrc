@@ -31,6 +31,8 @@
     "twttr":true,
     "fetchJsonp":true,
     "videojs":true,
-    "build":true
+    "build":true,
+    "marked":true,
+    "Renderer":true
   }
 }

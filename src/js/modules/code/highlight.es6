@@ -1,12 +1,13 @@
 class Highlight {
-    constructor(input, options) {
+    constructor(output, options) {
         if (!hljs) {
             throw new ReferenceError(
                 `'hljs is not defined. HighlightJS library is needed to highlight code. Visit https://highlightjs.org/'`
             );
         }
-        this.input = input;
+        this.output = output;
         this.options = options;
+        this.regex = /(`{3})(\s|[a-z]+)\s*([\s\S]*?[^`])\s*\1(?!`)/gm;
     }
 
     /**
@@ -65,8 +66,7 @@ class Highlight {
      * @return {string} The string in which the code is formatted
      */
     process() {
-        let regex = /(`+)(\s|[a-z]+)\s*([\s\S]*?[^`])\s*\1(?!`)/gm;
-        let result = this.input.replace(regex, (match, group1, group2, group3) => {
+        let result = this.output.replace(this.regex, (match, group1, group2, group3) => {
             let code = group3;
             code = this.trimSpace(code);
             code = this.encode(code);

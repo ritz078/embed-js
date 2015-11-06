@@ -27,6 +27,7 @@ if (build.LINK)    var Url     = require('./modules/url.es6');
 
 if (build.TWITTER) var Twitter = require('./modules/twitter/twitter.es6');
 if (build.MAP)     var Gmap     = require('./modules/map/map.es6');
+if (build.MARKDOWN)var Markdown = require('./modules/markdown.es6');
 
 const Code   = require('./modules/code/code.es6');
 const Video  = require('./modules/video/video.es6');
@@ -39,8 +40,24 @@ const helper = require('./modules/video/helper.es6');
 (function() {
 
     var defaultOptions = {
-        link: true,
-        linkOptions: {
+        marked          : false,
+        markedOptions   :{
+            gfm          : true,
+            tables       : true,
+            breaks       : false,
+            pedantic     : false,
+            sanitize     : false,
+            sanitizer    : null,
+            mangle       : true,
+            smartLists   : false,
+            silent       : false,
+            langPrefix   : 'lang-',
+            smartypants  : false,
+            headerPrefix : '',
+            xhtml        : false
+        },
+        link        : true,
+        linkOptions : {
             target  : 'self',
             exclude : ['pdf'],
             rel     : ''
@@ -125,6 +142,7 @@ const helper = require('./modules/video/helper.es6');
             this.options.beforeEmbedJSApply();
 
             let output       = options.link && build.LINK ? (new Url(input, options).process()) : output;
+            output           = options.marked && build.MARKDOWN ? (new Markdown(output,options).process()) : output;
             output           = options.emoji && build.EMOJI ? (new Emoji(output, options).process()) : output;
             output           = options.fontIcons && build.SMILEY ? (new Smiley(output, options).process()) : output;
             [output, embeds] = (new Code(input, output, options, embeds).process());

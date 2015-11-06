@@ -6,6 +6,8 @@
         "SMILEY"        : true,
         "HIGHLIGHTCODE" : true,
 
+        "MARKDOWN"      : true,
+
         "MAP"           : true,
 
         "YOUTUBE"       : true,

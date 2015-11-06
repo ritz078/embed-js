@@ -85,9 +85,25 @@ function(module, exports, __webpack_require__) {
     //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     //SOFTWARE.
     "use strict";
-    var _classCallCheck = __webpack_require__(1)["default"], _regeneratorRuntime = __webpack_require__(2)["default"], utils = __webpack_require__(71), Emoji = __webpack_require__(75), Smiley = __webpack_require__(76), Url = __webpack_require__(77), Twitter = __webpack_require__(78), Gmap = __webpack_require__(80), Code = __webpack_require__(82), Video = __webpack_require__(95), Audio = __webpack_require__(105), Image = __webpack_require__(109), helper = __webpack_require__(102);
+    var _classCallCheck = __webpack_require__(1)["default"], _regeneratorRuntime = __webpack_require__(2)["default"], utils = __webpack_require__(71), Emoji = __webpack_require__(75), Smiley = __webpack_require__(76), Url = __webpack_require__(77), Twitter = __webpack_require__(78), Gmap = __webpack_require__(80), Markdown = __webpack_require__(82), Code = __webpack_require__(83), Video = __webpack_require__(96), Audio = __webpack_require__(106), Image = __webpack_require__(110), helper = __webpack_require__(103);
     !function() {
         var defaultOptions = {
+            marked: !1,
+            markedOptions: {
+                gfm: !0,
+                tables: !0,
+                breaks: !1,
+                pedantic: !1,
+                sanitize: !1,
+                sanitizer: null,
+                mangle: !0,
+                smartLists: !1,
+                silent: !1,
+                langPrefix: "lang-",
+                smartypants: !1,
+                headerPrefix: "",
+                xhtml: !1
+            },
             link: !0,
             linkOptions: {
                 target: "self",
@@ -181,51 +197,52 @@ function(module, exports, __webpack_require__) {
                     for (;;) switch (context$3$0.prev = context$3$0.next) {
                       case 0:
                         return input = this.input, options = this.options, embeds = [], this.options.beforeEmbedJSApply(), 
-                        output = options.link ? new Url(input, options).process() : output, output = options.emoji ? new Emoji(output, options).process() : output, 
-                        output = options.fontIcons ? new Smiley(output, options).process() : output, _process = new Code(input, output, options, embeds).process(), 
-                        output = _process[0], embeds = _process[1], context$3$0.next = 12, _regeneratorRuntime.awrap(new Video(input, output, options, embeds).process());
+                        output = options.link ? new Url(input, options).process() : output, output = options.marked ? new Markdown(output, options).process() : output, 
+                        output = options.emoji ? new Emoji(output, options).process() : output, output = options.fontIcons ? new Smiley(output, options).process() : output, 
+                        _process = new Code(input, output, options, embeds).process(), output = _process[0], 
+                        embeds = _process[1], context$3$0.next = 13, _regeneratorRuntime.awrap(new Video(input, output, options, embeds).process());
 
-                      case 12:
+                      case 13:
                         if (_ref = context$3$0.sent, output = _ref[0], embeds = _ref[1], !options.locationEmbed) {
-                            context$3$0.next = 21;
+                            context$3$0.next = 22;
                             break;
                         }
-                        return context$3$0.next = 18, _regeneratorRuntime.awrap(new Gmap(input, output, options, embeds).process());
+                        return context$3$0.next = 19, _regeneratorRuntime.awrap(new Gmap(input, output, options, embeds).process());
 
-                      case 18:
-                        context$3$0.t0 = context$3$0.sent, context$3$0.next = 22;
+                      case 19:
+                        context$3$0.t0 = context$3$0.sent, context$3$0.next = 23;
                         break;
 
-                      case 21:
+                      case 22:
                         context$3$0.t0 = [ output, embeds ];
 
-                      case 22:
+                      case 23:
                         if (_ref2 = context$3$0.t0, output = _ref2[0], embeds = _ref2[1], _process2 = new Audio(input, output, options, embeds).process(), 
                         output = _process2[0], embeds = _process2[1], _process3 = new Image(input, output, options, embeds).process(), 
                         output = _process3[0], embeds = _process3[1], !options.tweetsEmbed) {
-                            context$3$0.next = 41;
+                            context$3$0.next = 42;
                             break;
                         }
                         if (twitter = new Twitter(input, options, embeds), !options.tweetsEmbed) {
-                            context$3$0.next = 39;
+                            context$3$0.next = 40;
                             break;
                         }
-                        return context$3$0.next = 36, _regeneratorRuntime.awrap(twitter.process());
+                        return context$3$0.next = 37, _regeneratorRuntime.awrap(twitter.process());
 
-                      case 36:
-                        context$3$0.t1 = context$3$0.sent, context$3$0.next = 40;
+                      case 37:
+                        context$3$0.t1 = context$3$0.sent, context$3$0.next = 41;
                         break;
 
-                      case 39:
+                      case 40:
                         context$3$0.t1 = output;
 
-                      case 40:
+                      case 41:
                         embeds = context$3$0.t1;
 
-                      case 41:
+                      case 42:
                         return result = utils.createText(output, embeds), context$3$0.abrupt("return", result);
 
-                      case 43:
+                      case 44:
                       case "end":
                         return context$3$0.stop();
                     }
@@ -2434,7 +2451,29 @@ function(module, exports) {
 /***/
 function(module, exports, __webpack_require__) {
     "use strict";
-    var _classCallCheck = __webpack_require__(1)["default"], utils = __webpack_require__(71), Highlight = __webpack_require__(83), Ideone = __webpack_require__(84), Plunker = __webpack_require__(90), JsBin = __webpack_require__(91), CodePen = __webpack_require__(92), JsFiddle = __webpack_require__(93), Gist = __webpack_require__(94), Code = function() {
+    var _classCallCheck = __webpack_require__(1)["default"], Markdown = function() {
+        function Markdown(output, options) {
+            if (_classCallCheck(this, Markdown), !window.marked) throw new ReferenceError("Marked is not loaded.");
+            this.output = output, this.options = options;
+        }
+        return Markdown.prototype.process = function() {
+            var renderer = new marked.Renderer();
+            renderer.code = function(text) {
+                var highlightedCode = window.hljs ? hljs.highlightAuto(text) : {
+                    value: text
+                }, language = window.hljs ? highlightedCode.language : "", template = '<pre><code class="ejs-code hljs ' + language + '">' + highlightedCode.value + "</code></pre>";
+                return template;
+            }, this.options.markedOptions.renderer = renderer;
+            var output = marked(this.output, this.options.markedOptions);
+            return output;
+        }, Markdown;
+    }();
+    module.exports = Markdown;
+}, /* 83 */
+/***/
+function(module, exports, __webpack_require__) {
+    "use strict";
+    var _classCallCheck = __webpack_require__(1)["default"], utils = __webpack_require__(71), Highlight = __webpack_require__(84), Ideone = __webpack_require__(85), Plunker = __webpack_require__(91), JsBin = __webpack_require__(92), CodePen = __webpack_require__(93), JsFiddle = __webpack_require__(94), Gist = __webpack_require__(95), Code = function() {
         function Code(input, output, options, embeds) {
             _classCallCheck(this, Code), this.input = input, this.output = output, this.options = options, 
             this.embeds = embeds;
@@ -2442,7 +2481,7 @@ function(module, exports, __webpack_require__) {
         return Code.prototype.process = function() {
             try {
                 var output = this.output, embeds = this.embeds, options = this.options;
-                return output = options.highlightCode ? new Highlight(output, options).process() : output, 
+                return output = options.highlightCode && !options.marked ? new Highlight(output, options).process() : output, 
                 embeds = utils.ifEmbed(options, "ideone") ? new Ideone(this.input, options, embeds).process() : embeds, 
                 embeds = utils.ifEmbed(options, "plunker") ? new Plunker(this.input, options, embeds).process() : embeds, 
                 embeds = utils.ifEmbed(options, "jsbin") ? new JsBin(this.input, options, embeds).process() : embeds, 
@@ -2456,14 +2495,14 @@ function(module, exports, __webpack_require__) {
         }, Code;
     }();
     module.exports = Code;
-}, /* 83 */
+}, /* 84 */
 /***/
 function(module, exports, __webpack_require__) {
     "use strict";
     var _classCallCheck = __webpack_require__(1)["default"], Highlight = function() {
-        function Highlight(input, options) {
+        function Highlight(output, options) {
             if (_classCallCheck(this, Highlight), !hljs) throw new ReferenceError("'hljs is not defined. HighlightJS library is needed to highlight code. Visit https://highlightjs.org/'");
-            this.input = input, this.options = options;
+            this.output = output, this.options = options, this.regex = /(`{3})(\s|[a-z]+)\s*([\s\S]*?[^`])\s*\1(?!`)/gm;
         }
         /**
 	     * Encodes the characters like <, > and space and replaces them with
@@ -2504,7 +2543,7 @@ function(module, exports, __webpack_require__) {
             var template = '<pre>\n            <code class="ejs-code hljs ' + language + '">' + processedCode.value + "</code>\n        </pre>\n        ";
             return template;
         }, Highlight.prototype.process = function() {
-            var _this = this, regex = /(`+)(\s|[a-z]+)\s*([\s\S]*?[^`])\s*\1(?!`)/gm, result = this.input.replace(regex, function(match, group1, group2, group3) {
+            var _this = this, result = this.output.replace(this.regex, function(match, group1, group2, group3) {
                 var code = group3;
                 code = _this.trimSpace(code), code = _this.encode(code), // to prevent auto-linking. Not necessary in code
                 // *blocks*, but in code spans. Will be converted
@@ -2518,11 +2557,11 @@ function(module, exports, __webpack_require__) {
         }, Highlight;
     }();
     module.exports = Highlight;
-}, /* 84 */
+}, /* 85 */
 /***/
 function(module, exports, __webpack_require__) {
     "use strict";
-    var _inherits = __webpack_require__(85)["default"], _classCallCheck = __webpack_require__(1)["default"], Base = __webpack_require__(89), Ideone = function(_Base) {
+    var _inherits = __webpack_require__(86)["default"], _classCallCheck = __webpack_require__(1)["default"], Base = __webpack_require__(90), Ideone = function(_Base) {
         function Ideone(input, options, embeds) {
             _classCallCheck(this, Ideone), _Base.call(this, input, options, embeds), this.regex = /ideone.com\/[a-zA-Z0-9]{6}/gi;
         }
@@ -2532,11 +2571,11 @@ function(module, exports, __webpack_require__) {
         }, Ideone;
     }(Base);
     module.exports = Ideone;
-}, /* 85 */
+}, /* 86 */
 /***/
 function(module, exports, __webpack_require__) {
     "use strict";
-    var _Object$create = __webpack_require__(46)["default"], _Object$setPrototypeOf = __webpack_require__(86)["default"];
+    var _Object$create = __webpack_require__(46)["default"], _Object$setPrototypeOf = __webpack_require__(87)["default"];
     exports["default"] = function(subClass, superClass) {
         if ("function" != typeof superClass && null !== superClass) throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
         subClass.prototype = _Object$create(superClass && superClass.prototype, {
@@ -2548,18 +2587,18 @@ function(module, exports, __webpack_require__) {
             }
         }), superClass && (_Object$setPrototypeOf ? _Object$setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
     }, exports.__esModule = !0;
-}, /* 86 */
-/***/
-function(module, exports, __webpack_require__) {
-    module.exports = {
-        "default": __webpack_require__(87),
-        __esModule: !0
-    };
 }, /* 87 */
 /***/
 function(module, exports, __webpack_require__) {
-    __webpack_require__(88), module.exports = __webpack_require__(14).Object.setPrototypeOf;
+    module.exports = {
+        "default": __webpack_require__(88),
+        __esModule: !0
+    };
 }, /* 88 */
+/***/
+function(module, exports, __webpack_require__) {
+    __webpack_require__(89), module.exports = __webpack_require__(14).Object.setPrototypeOf;
+}, /* 89 */
 /***/
 function(module, exports, __webpack_require__) {
     // 19.1.3.19 Object.setPrototypeOf(O, proto)
@@ -2567,7 +2606,7 @@ function(module, exports, __webpack_require__) {
     $def($def.S, "Object", {
         setPrototypeOf: __webpack_require__(60).set
     });
-}, /* 89 */
+}, /* 90 */
 /***/
 function(module, exports, __webpack_require__) {
     "use strict";
@@ -2587,11 +2626,11 @@ function(module, exports, __webpack_require__) {
         }, Base;
     }();
     module.exports = Base;
-}, /* 90 */
+}, /* 91 */
 /***/
 function(module, exports, __webpack_require__) {
     "use strict";
-    var _inherits = __webpack_require__(85)["default"], _classCallCheck = __webpack_require__(1)["default"], Base = __webpack_require__(89), Plunker = function(_Base) {
+    var _inherits = __webpack_require__(86)["default"], _classCallCheck = __webpack_require__(1)["default"], Base = __webpack_require__(90), Plunker = function(_Base) {
         function Plunker(input, options, embeds) {
             _classCallCheck(this, Plunker), _Base.call(this, input, options, embeds), this.regex = /plnkr.co\/edit\/[a-zA-Z0-9\?=]+/gi;
         }
@@ -2601,11 +2640,11 @@ function(module, exports, __webpack_require__) {
         }, Plunker;
     }(Base);
     module.exports = Plunker;
-}, /* 91 */
+}, /* 92 */
 /***/
 function(module, exports, __webpack_require__) {
     "use strict";
-    var _inherits = __webpack_require__(85)["default"], _classCallCheck = __webpack_require__(1)["default"], Base = __webpack_require__(89), JsBin = function(_Base) {
+    var _inherits = __webpack_require__(86)["default"], _classCallCheck = __webpack_require__(1)["default"], Base = __webpack_require__(90), JsBin = function(_Base) {
         function JsBin(input, options, embeds) {
             _classCallCheck(this, JsBin), _Base.call(this, input, options, embeds), this.regex = /jsbin.com\/[a-zA-Z0-9_]+\/[0-9_]+/gi;
         }
@@ -2615,11 +2654,11 @@ function(module, exports, __webpack_require__) {
         }, JsBin;
     }(Base);
     module.exports = JsBin;
-}, /* 92 */
+}, /* 93 */
 /***/
 function(module, exports, __webpack_require__) {
     "use strict";
-    var _inherits = __webpack_require__(85)["default"], _classCallCheck = __webpack_require__(1)["default"], Base = __webpack_require__(89), CodePen = function(_Base) {
+    var _inherits = __webpack_require__(86)["default"], _classCallCheck = __webpack_require__(1)["default"], Base = __webpack_require__(90), CodePen = function(_Base) {
         function CodePen(input, options, embeds) {
             _classCallCheck(this, CodePen), _Base.call(this, input, options, embeds), this.regex = /http:\/\/codepen.io\/([A-Za-z0-9_]+)\/pen\/([A-Za-z0-9_]+)/gi;
         }
@@ -2629,11 +2668,11 @@ function(module, exports, __webpack_require__) {
         }, CodePen;
     }(Base);
     module.exports = CodePen;
-}, /* 93 */
+}, /* 94 */
 /***/
 function(module, exports, __webpack_require__) {
     "use strict";
-    var _inherits = __webpack_require__(85)["default"], _classCallCheck = __webpack_require__(1)["default"], Base = __webpack_require__(89), JsFiddle = function(_Base) {
+    var _inherits = __webpack_require__(86)["default"], _classCallCheck = __webpack_require__(1)["default"], Base = __webpack_require__(90), JsFiddle = function(_Base) {
         function JsFiddle(input, options, embeds) {
             _classCallCheck(this, JsFiddle), _Base.call(this, input, options, embeds), this.regex = /jsfiddle.net\/[a-zA-Z0-9_]+\/[a-zA-Z0-9_]+/gi;
         }
@@ -2643,11 +2682,11 @@ function(module, exports, __webpack_require__) {
         }, JsFiddle;
     }(Base);
     module.exports = JsFiddle;
-}, /* 94 */
+}, /* 95 */
 /***/
 function(module, exports, __webpack_require__) {
     "use strict";
-    var _inherits = __webpack_require__(85)["default"], _classCallCheck = __webpack_require__(1)["default"], Base = __webpack_require__(89), Gist = function(_Base) {
+    var _inherits = __webpack_require__(86)["default"], _classCallCheck = __webpack_require__(1)["default"], Base = __webpack_require__(90), Gist = function(_Base) {
         function Gist(input, options, embeds) {
             var _this = this;
             _classCallCheck(this, Gist), _Base.call(this, input, options, embeds), this.regex = /gist.github.com\/[a-zA-Z0-9_-]+\/([a-zA-Z0-9]+)/g, 
@@ -2672,11 +2711,11 @@ function(module, exports, __webpack_require__) {
         }, Gist;
     }(Base);
     module.exports = Gist;
-}, /* 95 */
+}, /* 96 */
 /***/
 function(module, exports, __webpack_require__) {
     "use strict";
-    var _classCallCheck = __webpack_require__(1)["default"], _regeneratorRuntime = __webpack_require__(2)["default"], utils = __webpack_require__(71), Ted = __webpack_require__(96), Dailymotion = __webpack_require__(97), Ustream = __webpack_require__(98), LiveLeak = __webpack_require__(99), Vine = __webpack_require__(100), Youtube = __webpack_require__(101), Vimeo = __webpack_require__(103), BasicVideo = __webpack_require__(104), Video = function() {
+    var _classCallCheck = __webpack_require__(1)["default"], _regeneratorRuntime = __webpack_require__(2)["default"], utils = __webpack_require__(71), Ted = __webpack_require__(97), Dailymotion = __webpack_require__(98), Ustream = __webpack_require__(99), LiveLeak = __webpack_require__(100), Vine = __webpack_require__(101), Youtube = __webpack_require__(102), Vimeo = __webpack_require__(104), BasicVideo = __webpack_require__(105), Video = function() {
         function Video(input, output, options, embeds) {
             _classCallCheck(this, Video), this.input = input, this.output = output, this.options = options, 
             this.embeds = embeds;
@@ -2730,11 +2769,11 @@ function(module, exports, __webpack_require__) {
         }, Video;
     }();
     module.exports = Video;
-}, /* 96 */
+}, /* 97 */
 /***/
 function(module, exports, __webpack_require__) {
     "use strict";
-    var _inherits = __webpack_require__(85)["default"], _classCallCheck = __webpack_require__(1)["default"], utils = __webpack_require__(71), Base = __webpack_require__(89), Ted = function(_Base) {
+    var _inherits = __webpack_require__(86)["default"], _classCallCheck = __webpack_require__(1)["default"], utils = __webpack_require__(71), Base = __webpack_require__(90), Ted = function(_Base) {
         function Ted(input, options, embeds) {
             _classCallCheck(this, Ted), _Base.call(this, input, options, embeds), this.regex = /ted.com\/talks\/[a-zA-Z0-9_]+/gi;
         }
@@ -2744,11 +2783,11 @@ function(module, exports, __webpack_require__) {
         }, Ted;
     }(Base);
     module.exports = Ted;
-}, /* 97 */
+}, /* 98 */
 /***/
 function(module, exports, __webpack_require__) {
     "use strict";
-    var _inherits = __webpack_require__(85)["default"], _classCallCheck = __webpack_require__(1)["default"], utils = __webpack_require__(71), Base = __webpack_require__(89), Dailymotion = function(_Base) {
+    var _inherits = __webpack_require__(86)["default"], _classCallCheck = __webpack_require__(1)["default"], utils = __webpack_require__(71), Base = __webpack_require__(90), Dailymotion = function(_Base) {
         function Dailymotion(input, options, embeds) {
             _classCallCheck(this, Dailymotion), _Base.call(this, input, options, embeds), this.regex = /dailymotion.com\/video\/[a-zA-Z0-9-_]+/gi;
         }
@@ -2758,11 +2797,11 @@ function(module, exports, __webpack_require__) {
         }, Dailymotion;
     }(Base);
     module.exports = Dailymotion;
-}, /* 98 */
+}, /* 99 */
 /***/
 function(module, exports, __webpack_require__) {
     "use strict";
-    var _inherits = __webpack_require__(85)["default"], _classCallCheck = __webpack_require__(1)["default"], utils = __webpack_require__(71), Base = __webpack_require__(89), Ustream = function(_Base) {
+    var _inherits = __webpack_require__(86)["default"], _classCallCheck = __webpack_require__(1)["default"], utils = __webpack_require__(71), Base = __webpack_require__(90), Ustream = function(_Base) {
         function Ustream(input, options, embeds) {
             _classCallCheck(this, Ustream), _Base.call(this, input, options, embeds), this.regex = /ustream.tv\/[a-z\/0-9]*/gi;
         }
@@ -2774,11 +2813,11 @@ function(module, exports, __webpack_require__) {
         }, Ustream;
     }(Base);
     module.exports = Ustream;
-}, /* 99 */
+}, /* 100 */
 /***/
 function(module, exports, __webpack_require__) {
     "use strict";
-    var _inherits = __webpack_require__(85)["default"], _classCallCheck = __webpack_require__(1)["default"], utils = __webpack_require__(71), Base = __webpack_require__(89), LiveLeak = function(_Base) {
+    var _inherits = __webpack_require__(86)["default"], _classCallCheck = __webpack_require__(1)["default"], utils = __webpack_require__(71), Base = __webpack_require__(90), LiveLeak = function(_Base) {
         function LiveLeak(input, options, embeds) {
             _classCallCheck(this, LiveLeak), _Base.call(this, input, options, embeds), this.regex = /liveleak.com\/view\?i=[a-zA-Z0-9_]+/gi;
         }
@@ -2788,11 +2827,11 @@ function(module, exports, __webpack_require__) {
         }, LiveLeak;
     }(Base);
     module.exports = LiveLeak;
-}, /* 100 */
+}, /* 101 */
 /***/
 function(module, exports, __webpack_require__) {
     "use strict";
-    var _inherits = __webpack_require__(85)["default"], _classCallCheck = __webpack_require__(1)["default"], Base = __webpack_require__(89), Vine = function(_Base) {
+    var _inherits = __webpack_require__(86)["default"], _classCallCheck = __webpack_require__(1)["default"], Base = __webpack_require__(90), Vine = function(_Base) {
         function Vine(input, options, embeds) {
             _classCallCheck(this, Vine), _Base.call(this, input, options, embeds), this.regex = /vine.co\/v\/[a-zA-Z0-9]+/gi;
         }
@@ -2802,13 +2841,13 @@ function(module, exports, __webpack_require__) {
         }, Vine;
     }(Base);
     module.exports = Vine;
-}, /* 101 */
+}, /* 102 */
 /***/
 function(module, exports, __webpack_require__) {
     /* WEBPACK VAR INJECTION */
     (function(fetch) {
         "use strict";
-        var _classCallCheck = __webpack_require__(1)["default"], _regeneratorRuntime = __webpack_require__(2)["default"], utils = __webpack_require__(71), helper = __webpack_require__(102), Youtube = function() {
+        var _classCallCheck = __webpack_require__(1)["default"], _regeneratorRuntime = __webpack_require__(2)["default"], utils = __webpack_require__(71), helper = __webpack_require__(103), Youtube = function() {
             function Youtube(input, options, embeds) {
                 _classCallCheck(this, Youtube), this.input = input, this.options = options, this.embeds = embeds, 
                 this.regex = /https?:\/\/(?:[0-9A-Z-]+\.)?(?:youtu\.be\/|youtube\.com(?:\/embed\/|\/v\/|\/watch\?v=|\/ytscreeningroom\?v=|\/feeds\/api\/videos\/|\/user\S*[^\w\-\s]|\S*[^\w\-\s]))([\w\-]{11})[?=&+%\w-]*/gi;
@@ -2896,7 +2935,7 @@ function(module, exports, __webpack_require__) {
         }();
         module.exports = Youtube;
     }).call(exports, __webpack_require__(81));
-}, /* 102 */
+}, /* 103 */
 /***/
 function(module, exports, __webpack_require__) {
     "use strict";
@@ -2931,13 +2970,13 @@ function(module, exports, __webpack_require__) {
         }
     };
     module.exports = helper;
-}, /* 103 */
+}, /* 104 */
 /***/
 function(module, exports, __webpack_require__) {
     /* WEBPACK VAR INJECTION */
     (function(fetch) {
         "use strict";
-        var _classCallCheck = __webpack_require__(1)["default"], _regeneratorRuntime = __webpack_require__(2)["default"], utils = __webpack_require__(71), helper = __webpack_require__(102), Vimeo = function() {
+        var _classCallCheck = __webpack_require__(1)["default"], _regeneratorRuntime = __webpack_require__(2)["default"], utils = __webpack_require__(71), helper = __webpack_require__(103), Vimeo = function() {
             function Vimeo(input, options, embeds) {
                 _classCallCheck(this, Vimeo), this.input = input, this.options = options, this.embeds = embeds, 
                 this.regex = /https?:\/\/(?:www\.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/([^\/]*)\/videos\/|album\/(\d+)\/video\/|)(\d+)(?:$|\/|\?)*/gi;
@@ -3025,11 +3064,11 @@ function(module, exports, __webpack_require__) {
         }();
         module.exports = Vimeo;
     }).call(exports, __webpack_require__(81));
-}, /* 104 */
+}, /* 105 */
 /***/
 function(module, exports, __webpack_require__) {
     "use strict";
-    var _inherits = __webpack_require__(85)["default"], _classCallCheck = __webpack_require__(1)["default"], Base = __webpack_require__(89), BasicVideo = function(_Base) {
+    var _inherits = __webpack_require__(86)["default"], _classCallCheck = __webpack_require__(1)["default"], Base = __webpack_require__(90), BasicVideo = function(_Base) {
         function BasicVideo(input, options, embeds) {
             _classCallCheck(this, BasicVideo), _Base.call(this, input, options, embeds), this.regex = /(?:https?):\/\/\S*\.(?:ogv|webm|mp4)/gi;
         }
@@ -3039,11 +3078,11 @@ function(module, exports, __webpack_require__) {
         }, BasicVideo;
     }(Base);
     module.exports = BasicVideo;
-}, /* 105 */
+}, /* 106 */
 /***/
 function(module, exports, __webpack_require__) {
     "use strict";
-    var _classCallCheck = __webpack_require__(1)["default"], utils = __webpack_require__(71), SoundCloud = __webpack_require__(106), Spotify = __webpack_require__(107), BasicAudio = __webpack_require__(108), Audio = function() {
+    var _classCallCheck = __webpack_require__(1)["default"], utils = __webpack_require__(71), SoundCloud = __webpack_require__(107), Spotify = __webpack_require__(108), BasicAudio = __webpack_require__(109), Audio = function() {
         function Audio(input, output, options, embeds) {
             _classCallCheck(this, Audio), this.input = input, this.output = output, this.options = options, 
             this.embeds = embeds;
@@ -3051,7 +3090,7 @@ function(module, exports, __webpack_require__) {
         return Audio.prototype.process = function() {
             try {
                 var output = this.output, embeds = this.embeds;
-                return console.log(output, embeds), embeds = utils.ifEmbed(this.options, "soundcloud") ? new SoundCloud(this.input, this.options, embeds).process() : embeds, 
+                return embeds = utils.ifEmbed(this.options, "soundcloud") ? new SoundCloud(this.input, this.options, embeds).process() : embeds, 
                 embeds = utils.ifEmbed(this.options, "spotify") ? new Spotify(this.input, this.options, embeds).process() : embeds, 
                 embeds = this.options.audioEmbed ? new BasicAudio(this.input, this.options, embeds).process() : embeds, 
                 [ output, embeds ];
@@ -3061,14 +3100,13 @@ function(module, exports, __webpack_require__) {
         }, Audio;
     }();
     module.exports = Audio;
-}, /* 106 */
+}, /* 107 */
 /***/
 function(module, exports, __webpack_require__) {
     "use strict";
-    var _inherits = __webpack_require__(85)["default"], _classCallCheck = __webpack_require__(1)["default"], Base = __webpack_require__(89), SoundCloud = function(_Base) {
+    var _inherits = __webpack_require__(86)["default"], _classCallCheck = __webpack_require__(1)["default"], Base = __webpack_require__(90), SoundCloud = function(_Base) {
         function SoundCloud(input, options, embeds) {
-            _classCallCheck(this, SoundCloud), _Base.call(this, input, options, embeds), console.log(input, options), 
-            this.regex = /soundcloud.com\/[a-zA-Z0-9-_]+\/[a-zA-Z0-9-_]+/gi;
+            _classCallCheck(this, SoundCloud), _Base.call(this, input, options, embeds), this.regex = /soundcloud.com\/[a-zA-Z0-9-_]+\/[a-zA-Z0-9-_]+/gi;
         }
         return _inherits(SoundCloud, _Base), SoundCloud.prototype.template = function template(match) {
             var config = this.options.soundCloudOptions, template = '<div class="ejs-embed">\n		<iframe height="160" scrolling="no" src="https://w.soundcloud.com/player/?url=https://' + match + "\n		&auto_play     = " + config.autoPlay + "\n		&hide_related  = " + config.hideRelated + "\n		&show_comments = " + config.showComments + "\n		&show_user     = " + config.showUser + "\n		&show_reposts  = " + config.showReposts + "\n		&visual        = " + config.visual + "\n		&download      = " + config.download + "\n		&color         = " + config.themeColor + "\n		&theme_color   = " + config.themeColor + '"></iframe>\n		</div>';
@@ -3076,11 +3114,11 @@ function(module, exports, __webpack_require__) {
         }, SoundCloud;
     }(Base);
     module.exports = SoundCloud;
-}, /* 107 */
+}, /* 108 */
 /***/
 function(module, exports, __webpack_require__) {
     "use strict";
-    var _inherits = __webpack_require__(85)["default"], _classCallCheck = __webpack_require__(1)["default"], Base = __webpack_require__(89), Spotify = function(_Base) {
+    var _inherits = __webpack_require__(86)["default"], _classCallCheck = __webpack_require__(1)["default"], Base = __webpack_require__(90), Spotify = function(_Base) {
         function Spotify(input, options, embeds) {
             _classCallCheck(this, Spotify), _Base.call(this, input, options, embeds), this.regex = /spotify.com\/track\/[a-zA-Z0-9_]+/gi;
         }
@@ -3090,11 +3128,11 @@ function(module, exports, __webpack_require__) {
         }, Spotify;
     }(Base);
     module.exports = Spotify;
-}, /* 108 */
+}, /* 109 */
 /***/
 function(module, exports, __webpack_require__) {
     "use strict";
-    var _inherits = __webpack_require__(85)["default"], _classCallCheck = __webpack_require__(1)["default"], Base = __webpack_require__(89), BasicAudio = function(_Base) {
+    var _inherits = __webpack_require__(86)["default"], _classCallCheck = __webpack_require__(1)["default"], Base = __webpack_require__(90), BasicAudio = function(_Base) {
         function BasicAudio(input, options, embeds) {
             _classCallCheck(this, BasicAudio), _Base.call(this, input, options, embeds), this.regex = /((?:https?):\/\/\S*\.(?:wav|mp3|ogg))/gi;
         }
@@ -3104,11 +3142,11 @@ function(module, exports, __webpack_require__) {
         }, BasicAudio;
     }(Base);
     module.exports = BasicAudio;
-}, /* 109 */
+}, /* 110 */
 /***/
 function(module, exports, __webpack_require__) {
     "use strict";
-    var _classCallCheck = __webpack_require__(1)["default"], utils = __webpack_require__(71), Flickr = __webpack_require__(110), Instagram = __webpack_require__(111), Basic = __webpack_require__(112), Image = function() {
+    var _classCallCheck = __webpack_require__(1)["default"], utils = __webpack_require__(71), Flickr = __webpack_require__(111), Instagram = __webpack_require__(112), Basic = __webpack_require__(113), Image = function() {
         function Image(input, output, options, embeds) {
             _classCallCheck(this, Image), this.input = input, this.output = output, this.options = options, 
             this.embeds = embeds;
@@ -3126,11 +3164,11 @@ function(module, exports, __webpack_require__) {
         }, Image;
     }();
     module.exports = Image;
-}, /* 110 */
+}, /* 111 */
 /***/
 function(module, exports, __webpack_require__) {
     "use strict";
-    var _inherits = __webpack_require__(85)["default"], _classCallCheck = __webpack_require__(1)["default"], utils = __webpack_require__(71), Base = __webpack_require__(89), Flickr = function(_Base) {
+    var _inherits = __webpack_require__(86)["default"], _classCallCheck = __webpack_require__(1)["default"], utils = __webpack_require__(71), Base = __webpack_require__(90), Flickr = function(_Base) {
         function Flickr(input, options, embeds) {
             _classCallCheck(this, Flickr), _Base.call(this, input, options, embeds), this.regex = /flickr.com\/[a-z]+\/[a-zA-Z@_$!\d]+\/[\d]+/gi;
         }
@@ -3140,11 +3178,11 @@ function(module, exports, __webpack_require__) {
         }, Flickr;
     }(Base);
     module.exports = Flickr;
-}, /* 111 */
+}, /* 112 */
 /***/
 function(module, exports, __webpack_require__) {
     "use strict";
-    var _inherits = __webpack_require__(85)["default"], _classCallCheck = __webpack_require__(1)["default"], utils = __webpack_require__(71), Base = __webpack_require__(89), Instagram = function(_Base) {
+    var _inherits = __webpack_require__(86)["default"], _classCallCheck = __webpack_require__(1)["default"], utils = __webpack_require__(71), Base = __webpack_require__(90), Instagram = function(_Base) {
         function Instagram(input, options, embeds) {
             _classCallCheck(this, Instagram), _Base.call(this, input, options, embeds), this.regex = /instagram.com\/p\/[a-zA-Z0-9]+/gi;
         }
@@ -3154,11 +3192,11 @@ function(module, exports, __webpack_require__) {
         }, Instagram;
     }(Base);
     module.exports = Instagram;
-}, /* 112 */
+}, /* 113 */
 /***/
 function(module, exports, __webpack_require__) {
     "use strict";
-    var _inherits = __webpack_require__(85)["default"], _classCallCheck = __webpack_require__(1)["default"], Base = __webpack_require__(89), Basic = function(_Base) {
+    var _inherits = __webpack_require__(86)["default"], _classCallCheck = __webpack_require__(1)["default"], Base = __webpack_require__(90), Basic = function(_Base) {
         function Basic(input, options, embeds) {
             _classCallCheck(this, Basic), _Base.call(this, input, options, embeds), this.regex = /((?:https?):\/\/\S*\.(?:gif|jpg|jpeg|tiff|png|svg|webp))/gi;
         }
