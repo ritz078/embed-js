@@ -87,7 +87,7 @@ function(module, exports, __webpack_require__) {
     "use strict";
     var _classCallCheck = __webpack_require__(1)["default"], _regeneratorRuntime = __webpack_require__(2)["default"], utils = __webpack_require__(71), Emoji = __webpack_require__(75), Smiley = __webpack_require__(76), Url = __webpack_require__(77), Twitter = __webpack_require__(78), Gmap = __webpack_require__(80), Markdown = __webpack_require__(82), Code = __webpack_require__(83), Video = __webpack_require__(96), Audio = __webpack_require__(106), Image = __webpack_require__(110), helper = __webpack_require__(103);
     !function() {
-        var defaultOptions = {
+        var globalOptions, defaultOptions = {
             marked: !1,
             markedOptions: {
                 gfm: !0,
@@ -169,8 +169,11 @@ function(module, exports, __webpack_require__) {
             videojsCallback: function() {}
         }, EmbedJS = function() {
             function EmbedJS(options, input) {
-                if (_classCallCheck(this, EmbedJS), this.options = utils.deepExtend(defaultOptions, options), 
-                this.element = this.options.element || input, !this.element) throw ReferenceError("You need to pass an element or the string that needs to be processed");
+                _classCallCheck(this, EmbedJS);
+                //merge global options with the default options
+                var globOptions = utils.deepExtend(defaultOptions, globalOptions);
+                if (this.options = utils.deepExtend(globOptions, options), this.element = this.options.element || input, 
+                !this.element) throw ReferenceError("You need to pass an element or the string that needs to be processed");
                 this.input = this.element.innerHTML;
             }
             /**
@@ -192,7 +195,7 @@ function(module, exports, __webpack_require__) {
 	         * @param  {Function} callback Function that is executed once the data is ready
 	         * @return {}
 	         */ return EmbedJS.prototype.process = function() {
-                var input, options, embeds, output, _process, _ref, _ref2, _process2, _process3, twitter, result;
+                var input, options, embeds, output, _process, _ref, _ref2, _process2, _process3, result;
                 return _regeneratorRuntime.async(function(context$3$0) {
                     for (;;) switch (context$3$0.prev = context$3$0.next) {
                       case 0:
@@ -223,11 +226,11 @@ function(module, exports, __webpack_require__) {
                             context$3$0.next = 42;
                             break;
                         }
-                        if (twitter = new Twitter(input, options, embeds), !options.tweetsEmbed) {
+                        if (this.twitter = new Twitter(input, options, embeds), !options.tweetsEmbed) {
                             context$3$0.next = 40;
                             break;
                         }
-                        return context$3$0.next = 37, _regeneratorRuntime.awrap(twitter.process());
+                        return context$3$0.next = 37, _regeneratorRuntime.awrap(this.twitter.process());
 
                       case 37:
                         context$3$0.t1 = context$3$0.sent, context$3$0.next = 41;
@@ -280,10 +283,27 @@ function(module, exports, __webpack_require__) {
                     }
                 }, null, this);
             }, EmbedJS.prototype.destroy = function() {
-                this.options.element.removeEventListener("rendered"), helper.destroy("ejs-video-thumb", this.options);
+                this.options.element.removeEventListener("rendered", this.twitter.load(), !1), helper.destroy("ejs-video-thumb", this.options);
             }, EmbedJS;
-        }();
-        window.EmbedJS = EmbedJS;
+        }(), ejs = {
+            instances: [],
+            elements: utils.getElementsByAttributeName("data-embed-js"),
+            setOptions: function(options) {
+                globalOptions = utils.deepExtend(defaultOptions, options);
+            },
+            applyEmbedJS: function() {
+                for (var i = 0; i < this.elements.length; i++) {
+                    var option = {
+                        element: this.elements[i]
+                    };
+                    this.instances[i] = new EmbedJS(option), this.instances[i].render();
+                }
+            },
+            destroyEmbedJS: function() {
+                for (var i = 0; i < this.elements.length; i++) this.instances[i].destroy();
+            }
+        };
+        window.EmbedJS = EmbedJS, window.ejs = ejs;
     }();
 }, /* 1 */
 /***/
@@ -1889,6 +1909,11 @@ function(module, exports, __webpack_require__) {
             if (options.videoWidth) return dimensions.height = dimensions.width / 4 * 3, dimensions;
             var _ref2 = [ 800, 600 ];
             return dimensions.width = _ref2[0], dimensions.height = _ref2[1], dimensions;
+        },
+        getElementsByAttributeName: function(attribute) {
+            for (var matchingElements = [], allElements = document.getElementsByTagName("*"), i = 0, n = allElements.length; n > i; i++) null !== allElements[i].getAttribute(attribute) && // Element exists with attribute. Add to array.
+            matchingElements.push(allElements[i]);
+            return matchingElements;
         }
     };
     module.exports = utils;
@@ -2046,7 +2071,8 @@ function(module, exports, __webpack_require__) {
         var _classCallCheck = __webpack_require__(1)["default"], _regeneratorRuntime = __webpack_require__(2)["default"], utils = __webpack_require__(71), Twitter = function() {
             function Twitter(input, options, embeds) {
                 _classCallCheck(this, Twitter), this.input = input, this.options = options, this.embeds = embeds, 
-                this.regex = /https:\/\/twitter\.com\/\w+\/\w+\/\d+/gi, this.load();
+                this.regex = /https:\/\/twitter\.com\/\w+\/\w+\/\d+/gi, this.load = this.load.bind(this), 
+                this.options.element.addEventListener("rendered", this.load, !1);
             }
             /**
 	     * Fetches the data from twitter's oEmbed API
@@ -2077,12 +2103,11 @@ function(module, exports, __webpack_require__) {
                     }
                 }, null, this);
             }, Twitter.prototype.load = function() {
-                var _this = this, elem = this.options.element;
-                elem.addEventListener("rendered", function() {
-                    twttr.widgets.load(elem), //Execute the function after the widget is loaded
-                    twttr.events.bind("loaded", function() {
-                        _this.options.onTweetsLoad();
-                    });
+                var _this = this;
+                twttr.widgets.load(this.options.element), //here this refers to the element
+                //Execute the function after the widget is loaded
+                twttr.events.bind("loaded", function() {
+                    _this.options.onTweetsLoad();
                 });
             }, Twitter.prototype.process = function() {
                 var match, data;
@@ -2946,11 +2971,13 @@ function(module, exports, __webpack_require__) {
     "use strict";
     var utils = __webpack_require__(71), helper = {
         play: function(className, options) {
-            for (var classes = document.getElementsByClassName(className), i = 0; i < classes.length; i++) classes[i].addEventListener("click", function() {
-                options.onVideoShow();
-                var url = this.getAttribute("data-ejs-url"), template = helper.template(url, options);
-                this.parentNode.parentNode.innerHTML = template;
-            }, !1);
+            for (var classes = document.getElementsByClassName(className), _loop = function(i) {
+                classes[i].onclick = function() {
+                    options.onVideoShow();
+                    var url = classes[i].getAttribute("data-ejs-url"), template = helper.template(url, options);
+                    classes[i].parentNode.parentNode.innerHTML = template;
+                };
+            }, i = 0; i < classes.length; i++) _loop(i);
         },
         template: function template(url, options) {
             var dimensions = utils.dimensions(options), template = '<div class="ejs-video-player">\n        <iframe src="' + url + '" frameBorder="0" width="' + dimensions.width + '" height="' + dimensions.height + '"></iframe>\n        </div>';
@@ -2971,7 +2998,7 @@ function(module, exports, __webpack_require__) {
             }
         },
         destroy: function(className) {
-            for (var classes = document.getElementsByClassName(className), i = 0; i < classes.length; i++) classes[i].removeEventListener("click");
+            for (var classes = document.getElementsByClassName(className), i = 0; i < classes.length; i++) classes[i].onclick = null;
         }
     };
     module.exports = helper;

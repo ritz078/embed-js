@@ -4,12 +4,12 @@ var helper = {
     play: (className, options) => {
         let classes = document.getElementsByClassName(className);
         for (let i = 0; i < classes.length; i++) {
-            classes[i].addEventListener('click', function() {
+            classes[i].onclick = function() {
                 options.onVideoShow();
-                let url = this.getAttribute('data-ejs-url');
+                let url = classes[i].getAttribute('data-ejs-url');
                 let template = helper.template(url, options);
-                this.parentNode.parentNode.innerHTML = template;
-            }, false);
+                classes[i].parentNode.parentNode.innerHTML = template;
+            };
         }
     },
 
@@ -69,9 +69,9 @@ var helper = {
     },
 
     destroy: (className) => {
-        let classes = document.getElementsByClassName(className);
+        let classes = document.getElementsByClassName(className)
         for (let i = 0; i < classes.length; i++) {
-            classes[i].removeEventListener('click');
+            classes[i].onclick = null
         }
     }
 }

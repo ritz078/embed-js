@@ -21,106 +21,111 @@
 
 const utils = require('./modules/utils.es6');
 
-if (build.EMOJI)   var Emoji   = require('./modules/emoticons/emoji.es6');
-if (build.SMILEY)  var Smiley  = require('./modules/emoticons/smiley.es6');
-if (build.LINK)    var Url     = require('./modules/url.es6');
+if (build.EMOJI) var Emoji = require('./modules/emoticons/emoji.es6');
+if (build.SMILEY) var Smiley = require('./modules/emoticons/smiley.es6');
+if (build.LINK) var Url = require('./modules/url.es6');
 
 if (build.TWITTER) var Twitter = require('./modules/twitter/twitter.es6');
-if (build.MAP)     var Gmap     = require('./modules/map/map.es6');
-if (build.MARKDOWN)var Markdown = require('./modules/markdown.es6');
+if (build.MAP) var Gmap = require('./modules/map/map.es6');
+if (build.MARKDOWN) var Markdown = require('./modules/markdown.es6');
 
-const Code   = require('./modules/code/code.es6');
-const Video  = require('./modules/video/video.es6');
+const Code = require('./modules/code/code.es6');
+const Video = require('./modules/video/video.es6');
 
-const Audio  = require('./modules/audio/audio.es6');
-const Image  = require('./modules/image/image.es6');
+const Audio = require('./modules/audio/audio.es6');
+const Image = require('./modules/image/image.es6');
 
 const helper = require('./modules/video/helper.es6');
 
 (function() {
 
+    var globalOptions;
+
     var defaultOptions = {
-        marked          : false,
-        markedOptions   :{
-            gfm          : true,
-            tables       : true,
-            breaks       : false,
-            pedantic     : false,
-            sanitize     : false,
-            sanitizer    : null,
-            mangle       : true,
-            smartLists   : false,
-            silent       : false,
-            langPrefix   : 'lang-',
-            smartypants  : false,
-            headerPrefix : '',
-            xhtml        : false
+        marked: false,
+        markedOptions: {
+            gfm: true,
+            tables: true,
+            breaks: false,
+            pedantic: false,
+            sanitize: false,
+            sanitizer: null,
+            mangle: true,
+            smartLists: false,
+            silent: false,
+            langPrefix: 'lang-',
+            smartypants: false,
+            headerPrefix: '',
+            xhtml: false
         },
-        link        : true,
-        linkOptions : {
-            target  : 'self',
-            exclude : ['pdf'],
-            rel     : ''
+        link: true,
+        linkOptions: {
+            target: 'self',
+            exclude: ['pdf'],
+            rel: ''
         },
-        emoji           : true,
-        customEmoji     : [],
-        fontIcons       : true,
-        customFontIcons : [],
-        highlightCode   : true,
-        videoJS         : false,
+        emoji: true,
+        customEmoji: [],
+        fontIcons: true,
+        customFontIcons: [],
+        highlightCode: true,
+        videoJS: false,
         videojsOptions: {
-            fluid   : true,
-            preload : 'metadata'
+            fluid: true,
+            preload: 'metadata'
         },
-        locationEmbed : true,
-        mapOptions : {
-            mode : 'place'
+        locationEmbed: true,
+        mapOptions: {
+            mode: 'place'
         },
         tweetsEmbed: true,
         tweetOptions: {
-            maxWidth   : 550,
-            hideMedia  : false,
-            hideThread : false,
-            align      : 'none',
-            lang       : 'en'
+            maxWidth: 550,
+            hideMedia: false,
+            hideThread: false,
+            align: 'none',
+            lang: 'en'
         },
-        imageEmbed      : true,
-        videoEmbed      : true,
-        videoHeight     : null,
-        videoWidth      : null,
-        videoDetails    : true,
-        audioEmbed      : true,
-        excludeEmbed    : [],
-        codeEmbedHeight : 500,
+        imageEmbed: true,
+        videoEmbed: true,
+        videoHeight: null,
+        videoWidth: null,
+        videoDetails: true,
+        audioEmbed: true,
+        excludeEmbed: [],
+        codeEmbedHeight: 500,
         vineOptions: {
-            maxWidth   : null,
-            type       : 'postcard', //'postcard' or 'simple' embedding
-            responsive : true,
-            width      : 350,
-            height     : 460
+            maxWidth: null,
+            type: 'postcard', //'postcard' or 'simple' embedding
+            responsive: true,
+            width: 350,
+            height: 460
         },
-        googleAuthKey    : '',
+        googleAuthKey: '',
         soundCloudOptions: {
-            height       : 160,
-            themeColor   : 'f50000', //Hex Code of the player theme color
-            autoPlay     : false,
-            hideRelated  : false,
-            showComments : true,
-            showUser     : true,
-            showReposts  : false,
-            visual       : false, //Show/hide the big preview image
-            download     : false //Show/Hide download buttons
+            height: 160,
+            themeColor: 'f50000', //Hex Code of the player theme color
+            autoPlay: false,
+            hideRelated: false,
+            showComments: true,
+            showUser: true,
+            showReposts: false,
+            visual: false, //Show/hide the big preview image
+            download: false //Show/Hide download buttons
         },
-        beforeEmbedJSApply : function() {},
-        afterEmbedJSApply  : function() {},
-        onVideoShow        : function() {},
-        onTweetsLoad       : function() {},
-        videojsCallback    : function() {}
+        beforeEmbedJSApply: function() {},
+        afterEmbedJSApply: function() {},
+        onVideoShow: function() {},
+        onTweetsLoad: function() {},
+        videojsCallback: function() {}
     };
 
     class EmbedJS {
         constructor(options, input) {
-            this.options = utils.deepExtend(defaultOptions, options);
+            //merge global options with the default options
+            let globOptions = utils.deepExtend(defaultOptions, globalOptions)
+
+            this.options = utils.deepExtend(globOptions, options);
             this.element = this.options.element || input;
             if (!this.element) {
                 throw ReferenceError("You need to pass an element or the string that needs to be processed");
@@ -141,18 +146,18 @@ const helper = require('./modules/video/helper.es6');
 
             this.options.beforeEmbedJSApply();
 
-            let output       = options.link && build.LINK ? (new Url(input, options).process()) : output;
-            output           = options.marked && build.MARKDOWN ? (new Markdown(output,options).process()) : output;
-            output           = options.emoji && build.EMOJI ? (new Emoji(output, options).process()) : output;
-            output           = options.fontIcons && build.SMILEY ? (new Smiley(output, options).process()) : output;
+            let output = options.link && build.LINK ? (new Url(input, options).process()) : output;
+            output = options.marked && build.MARKDOWN ? (new Markdown(output, options).process()) : output;
+            output = options.emoji && build.EMOJI ? (new Emoji(output, options).process()) : output;
+            output = options.fontIcons && build.SMILEY ? (new Smiley(output, options).process()) : output;
             [output, embeds] = (new Code(input, output, options, embeds).process());
             [output, embeds] = await (new Video(input, output, options, embeds).process());
-            [output,embeds]  = options.locationEmbed ? await (new Gmap(input, output, options, embeds).process()) : [output, embeds];
+            [output, embeds] = options.locationEmbed ? await (new Gmap(input, output, options, embeds).process()) : [output, embeds];
             [output, embeds] = (new Audio(input, output, options, embeds).process());
             [output, embeds] = (new Image(input, output, options, embeds).process());
             if (options.tweetsEmbed && build.TWITTER) {
-                let twitter = new Twitter(input, options, embeds);
-                embeds = options.tweetsEmbed ? await (twitter.process()) : output;
+                this.twitter = new Twitter(input, options, embeds);
+                embeds = options.tweetsEmbed ? await (this.twitter.process()) : output;
             }
 
             let result = utils.createText(output, embeds);
@@ -193,11 +198,34 @@ const helper = require('./modules/video/helper.es6');
             callback(result, this.input);
         }
 
-        destroy(){
-            this.options.element.removeEventListener('rendered');
+        destroy() {
+            this.options.element.removeEventListener('rendered', this.twitter.load(), false);
             helper.destroy('ejs-video-thumb', this.options);
         }
     }
 
-    window.EmbedJS = EmbedJS;
+    let ejs = {
+        instances:[],
+        elements :utils.getElementsByAttributeName('data-embed-js'),
+        setOptions  : function(options){
+            globalOptions = utils.deepExtend(defaultOptions, options)
+        },
+        applyEmbedJS: function(){
+            for (let i = 0; i < this.elements.length; i++) {
+                let option = {
+                    element:this.elements[i]
+                }
+                this.instances[i] = new EmbedJS(option)
+                this.instances[i].render()
+            }
+        },
+        destroyEmbedJS: function(){
+            for (let i = 0; i < this.elements.length; i++) {
+                this.instances[i].destroy()
+            }
+        }
+    }
+
+    window.EmbedJS = EmbedJS
+    window.ejs = ejs
 })();

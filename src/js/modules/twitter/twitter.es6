@@ -2,11 +2,13 @@ const utils = require('../utils.es6');
 
 class Twitter {
     constructor(input, options, embeds) {
-        this.input   = input;
+        this.input = input;
         this.options = options;
-        this.embeds  = embeds;
-        this.regex   = /https:\/\/twitter\.com\/\w+\/\w+\/\d+/gi;
-        this.load();
+        this.embeds = embeds;
+        this.regex = /https:\/\/twitter\.com\/\w+\/\w+\/\d+/gi;
+
+        this.load = this.load.bind(this)
+        this.options.element.addEventListener('rendered', this.load, false);
     }
 
     /**
@@ -29,16 +31,12 @@ class Twitter {
      * @return {}
      */
     load() {
-        let elem = this.options.element;
-        elem.addEventListener('rendered', () => {
-            twttr.widgets.load(elem);
+        twttr.widgets.load(this.options.element); //here this refers to the element
 
-            //Execute the function after the widget is loaded
-            twttr.events.bind('loaded', () => {
-                this.options.onTweetsLoad();
-            });
-
-        })
+        //Execute the function after the widget is loaded
+        twttr.events.bind('loaded', () => {
+            this.options.onTweetsLoad();
+        });
     }
 
     async process() {

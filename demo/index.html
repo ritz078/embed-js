@@ -55,17 +55,25 @@ Flavum, ferox http://open.spotify.com/track/4th1RQAelzqgY7wL53UGQt torquiss vix 
 <script src="http://vjs.zencdn.net/5.0.0/video.js"></script>
 <script src="../src/embed.js"></script>
 <script>
-	var x = new EmbedJS({
-		element: document.getElementById('block'),
+ejs.setOptions({
+		// element: document.getElementById('block'),
 		videoDetails:false,
 		videoJS:true,
 		videoWidth:720,
-		googleAuthKey:'AIzaSyCqFouT8h5DKAbxlrTZmjXEmNBjC69f0ts'
+		videoDetails:true,
+		googleAuthKey:'AIzaSyCqFouT8h5DKAbxlrTZmjXEmNBjC69f0ts',
+		marked:true
+	});
+	var x = new EmbedJS({
+		element: document.getElementById('block')
 	});
 	x.render();
 	x.text(function(data){
 		console.log(data);
 	})
+
+
+	// ejs.applyEmbedJS();
 </script>
 
 </body>

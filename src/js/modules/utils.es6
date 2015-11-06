@@ -48,7 +48,7 @@ var utils = {
      * @param source
      * @returns {*}
      */
-    deepExtend: function(destination, source){
+    deepExtend: function(destination, source) {
         for (var property in source) {
             if (source[property] && source[property].constructor === Object) {
                 destination[property] = destination[property] || {};
@@ -79,7 +79,7 @@ var utils = {
      * @param  {object} embeds Sorted array of iframe html
      * @return {string}        String to be rendered
      */
-    createText: function(str, embeds){
+    createText: function(str, embeds) {
         let sortedEmbeds = this.sortObject(embeds);
         for (let embed of sortedEmbeds) {
             str += ` ${embed.text}`;
@@ -130,6 +130,18 @@ var utils = {
             [dimensions.width, dimensions.height] = [800, 600];
             return dimensions;
         }
+    },
+
+    getElementsByAttributeName: (attribute) => {
+        let matchingElements = [];
+        let allElements = document.getElementsByTagName('*');
+        for (let i = 0, n = allElements.length; i < n; i++) {
+            if (allElements[i].getAttribute(attribute) !== null) {
+                // Element exists with attribute. Add to array.
+                matchingElements.push(allElements[i]);
+            }
+        }
+        return matchingElements;
     }
 };
 
