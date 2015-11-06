@@ -1,3 +1,18 @@
+$primary: #0068AE;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #fafafa;
+    font-family: 'Source Sans Pro', sans-serif;
+    color: #333;
+    background-color: #fff;
+    overflow-x: hidden;
+}
+
 header {
     width: 100%;
     height: 50px;

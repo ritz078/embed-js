@@ -1,4 +1,4 @@
-class Background {
+class Banner {
     constructor() {
         this.items = [
             'soundcloud',
@@ -18,10 +18,37 @@ class Background {
             'vine',
             'play'
         ];
+
+        this.strings = [
+            'SOUNDCLOUD.',
+            'MP4 VIDEOS.',
+            'SPOTIFY.',
+            'VIMEO VIDEOS.',
+            'FLICKR IMAGES.',
+            'INSTAGRAM IMAGES.',
+            'TEXT SMILEYS.',
+            'HIGHLIGHTED CODE',
+            'HTML LINKS.',
+            'TWEETS.',
+            'YOUTUBE VIDEOS.',
+            'JSFIDDLE CODE',
+            'CODEPEN CODE',
+            'VINE VIDEOS.',
+            'GITHUB GISTS.',
+            'DAILYMOTION VIDEOS.',
+            'LIVELEAK VIDEOS.',
+            'USTREAM VIDEOS.',
+            'JSBIN CODE',
+            'PLUNKER CODE.',
+            'MP3 SONGS'
+        ];
+
+        this.fade();
     }
 
     process() {
-        let itemsCount = Math.floor($(window).width() / 60);
+        $('.banner .row').remove();
+        let itemsCount = Math.floor($(window).width() / 61);
         let rowCount = 3;
         let str = '';
         let result = ''
@@ -35,34 +62,23 @@ class Background {
         }
         $('.banner').prepend(result.repeat(2));
     }
+
+    fade() {
+        let i = 0;
+        let $typed = $('.typed');
+        let self = this;
+        setInterval(() => {
+            $typed.fadeOut('slow',function(){
+                $(this).html(self.strings[i]).fadeIn();
+            });
+            i === this.strings.length ? i=0 : i++;
+        }, 2000);
+    }
 }
 
-new Background().process();
+var banner = new Banner();
+banner.process();
 
-$('.typed').typed({
-    strings: [
-        'SOUNDCLOUD.',
-        'MP4 VIDEOS.',
-        'SPOTIFY.',
-        'VIMEO VIDEOS.',
-        'FLICKR IMAGES.',
-        'INSTAGRAM IMAGES.',
-        'TEXT SMILEYS.',
-        'HIGHLIGHTED CODE',
-        'HTML LINKS.',
-        'TWEETS.',
-        'YOUTUBE VIDEOS.',
-        'JSFIDDLE CODE',
-        'CODEPEN CODE',
-        'VINE VIDEOS.',
-        'GITHUB GISTS.',
-        'DAILYMOTION VIDEOS.',
-        'LIVELEAK VIDEOS.',
-        'USTREAM VIDEOS.',
-        'JSBIN CODE',
-        'PLUNKER CODE.',
-        'MP3 SONGS'
-    ],
-    typeSpeed: 30,
-    loop:true
+$(window).resize(function(){
+    banner.process();
 })
