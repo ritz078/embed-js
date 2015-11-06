@@ -174,6 +174,11 @@ const helper = require('./modules/video/helper.es6');
             let result = await this.process();
             callback(result, this.input);
         }
+
+        destroy(){
+            this.options.element.removeEventListener('rendered');
+            helper.destroy('ejs-video-thumb', this.options);
+        }
     }
 
     window.EmbedJS = EmbedJS;
