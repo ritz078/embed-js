@@ -8,6 +8,7 @@ class Highlight {
         this.output = output;
         this.options = options;
         this.regex = /(`{3})(\s|[a-z]+)\s*([\s\S]*?[^`])\s*\1(?!`)/gm;
+        this.inlineCodeRegex = /(`)\s*([\s\S]*?[^`])\s*\1(?!`)/gm;
     }
 
     /**
@@ -66,6 +67,10 @@ class Highlight {
      * @return {string} The string in which the code is formatted
      */
     process() {
+        this.output = this.output.replace(this.inlineCodeRegex,(match,group1,group2)=>{
+            return `<code>${group2}</code>`
+        })
+
         let result = this.output.replace(this.regex, (match, group1, group2, group3) => {
             let code = group3;
             code = this.trimSpace(code);

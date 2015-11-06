@@ -2453,7 +2453,7 @@ function(module, exports, __webpack_require__) {
     "use strict";
     var _classCallCheck = __webpack_require__(1)["default"], Markdown = function() {
         function Markdown(output, options) {
-            if (_classCallCheck(this, Markdown), !window.marked) throw new ReferenceError("Marked is not loaded.");
+            if (_classCallCheck(this, Markdown), !window.marked) throw new ReferenceError("marked.js is not loaded.");
             this.output = output, this.options = options;
         }
         return Markdown.prototype.process = function() {
@@ -2502,7 +2502,8 @@ function(module, exports, __webpack_require__) {
     var _classCallCheck = __webpack_require__(1)["default"], Highlight = function() {
         function Highlight(output, options) {
             if (_classCallCheck(this, Highlight), !hljs) throw new ReferenceError("'hljs is not defined. HighlightJS library is needed to highlight code. Visit https://highlightjs.org/'");
-            this.output = output, this.options = options, this.regex = /(`{3})(\s|[a-z]+)\s*([\s\S]*?[^`])\s*\1(?!`)/gm;
+            this.output = output, this.options = options, this.regex = /(`{3})(\s|[a-z]+)\s*([\s\S]*?[^`])\s*\1(?!`)/gm, 
+            this.inlineCodeRegex = /(`)\s*([\s\S]*?[^`])\s*\1(?!`)/gm;
         }
         /**
 	     * Encodes the characters like <, > and space and replaces them with
@@ -2543,7 +2544,11 @@ function(module, exports, __webpack_require__) {
             var template = '<pre>\n            <code class="ejs-code hljs ' + language + '">' + processedCode.value + "</code>\n        </pre>\n        ";
             return template;
         }, Highlight.prototype.process = function() {
-            var _this = this, result = this.output.replace(this.regex, function(match, group1, group2, group3) {
+            var _this = this;
+            this.output = this.output.replace(this.inlineCodeRegex, function(match, group1, group2) {
+                return "<code>" + group2 + "</code>";
+            });
+            var result = this.output.replace(this.regex, function(match, group1, group2, group3) {
                 var code = group3;
                 code = _this.trimSpace(code), code = _this.encode(code), // to prevent auto-linking. Not necessary in code
                 // *blocks*, but in code spans. Will be converted

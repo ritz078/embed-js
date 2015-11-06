@@ -2,7 +2,7 @@ class Markdown {
 	constructor(output, options) {
 		if (!window.marked) {
 			throw new ReferenceError(
-				`Marked is not loaded.`
+				`marked.js is not loaded.`
 				)
 		}
 		this.output = output

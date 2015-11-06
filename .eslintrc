@@ -32,7 +32,6 @@
     "fetchJsonp":true,
     "videojs":true,
     "build":true,
-    "marked":true,
-    "Renderer":true
+    "marked":true
   }
 }
