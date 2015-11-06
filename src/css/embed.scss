@@ -1,5 +1,7 @@
 @import 'emojis';
 
+$primary : #3498db;
+
 @font-face {
     font-family: emoticons;
     src: url(../assets/fonts/emoticons.eot?5zh0vu);
@@ -22,7 +24,7 @@
 
 .ejs-embed iframe {
     border: 0;
-    background-color: #3498db;
+    background-color: $primary;
     background-image: url(../assets/images/loader.svg);
     background-repeat: no-repeat;
     background-position: center;
@@ -44,10 +46,10 @@
 
 pre {
     position: relative;
-    margin-bottom: 24px;
     border-radius: 2px;
     overflow: hidden;
-    white-space: pre-wrap
+    white-space: pre-wrap;
+    margin: 0 0 -15px 0;
 }
 
 code.has-numbering {
@@ -56,31 +58,6 @@ code.has-numbering {
     overflow-y: auto;
     font-weight: 300;
     margin-left: 36px
-}
-
-.pre-numbering,
-code.has-numbering {
-    font-family: Consolas, Menlo, Monaco, monospace;
-    font-size: 14px;
-    line-height: 20px
-}
-
-.pre-numbering {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 35px;
-    padding: 1.1em 5px 9pt 0;
-    border-right: 1px solid #e8e8e8;
-    border-radius: 3px 0 0 3px;
-    background-color: #eee;
-    text-align: right;
-    color: #aaa;
-    margin-top: -4px
-}
-
-.pre-numbering li {
-    list-style-type: none
 }
 
 .ejs-audio {
@@ -102,6 +79,7 @@ code.has-numbering {
 .ejs-video-preview{
     padding: 5px;
     border: 1px solid #e4e4e4;
+    background-color: #fff;
 }
 
 .ejs-video iframe,
@@ -123,7 +101,7 @@ code.has-numbering {
     width: 200px;
     height: 150px;
     border-radius: 2px;
-    background-color: #3498db;
+    background-color: $primary;
 }
 
 .ejs-video-thumb {
@@ -181,7 +159,7 @@ code.has-numbering {
 }
 
 .ejs-video-player {
-    background-color: #3498db;
+    background-color: $primary;
     background-image: url(../assets/images/loader.svg);
     background-repeat: no-repeat;
     background-position: center;
@@ -206,7 +184,7 @@ code.has-numbering {
 .ejs-image-wrapper {
     margin: 5px;
     margin-bottom: 0;
-    background-color: #3498db;
+    background-color: $primary;
     background-image: url(../assets/images/loader.svg);
     background-repeat: no-repeat;
     background-position: center;
