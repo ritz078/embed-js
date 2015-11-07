@@ -2970,6 +2970,12 @@ function(module, exports, __webpack_require__) {
 function(module, exports, __webpack_require__) {
     "use strict";
     var utils = __webpack_require__(71), helper = {
+        /**
+	     * Plays the video after clicking on the thumbnail
+	     * @param  {string} className The class name on which click is to be listened
+	     * @param  {object} options   Options object
+	     * @return {null}
+	     */
         play: function(className, options) {
             for (var classes = document.getElementsByClassName(className), _loop = function(i) {
                 classes[i].onclick = function() {
@@ -2979,14 +2985,31 @@ function(module, exports, __webpack_require__) {
                 };
             }, i = 0; i < classes.length; i++) _loop(i);
         },
+        /**
+	     * Common template for vimeo and youtube iframes
+	     * @param  {string} url     URL of the embedding video
+	     * @param  {object} options Options object
+	     * @return {string}         compiled template with variables replaced
+	     */
         template: function template(url, options) {
             var dimensions = utils.dimensions(options), template = '<div class="ejs-video-player">\n        <iframe src="' + url + '" frameBorder="0" width="' + dimensions.width + '" height="' + dimensions.height + '"></iframe>\n        </div>';
             return template;
         },
+        /**
+	     * Template for showing vimeo and youtube video details
+	     * @param  {object} data     Object containing the variable values as key-value pair
+	     * @param  {string} embedUrl URL of the video
+	     * @return {string}          template with variables replaced
+	     */
         detailsTemplate: function(data, embedUrl) {
             var template = '<div class="ejs-video">\n        <div class="ejs-video-preview">\n        <div class="ejs-video-thumb" data-ejs-url="' + embedUrl + '">\n        <img src="' + data.thumbnail + '" alt="' + data.host + "/" + data.id + '"/>\n        <i class="fa fa-play-circle-o"></i>\n        </div>\n        <div class="ejs-video-detail">\n        <div class="ejs-video-title">\n        <a href="' + data.url + '">\n        ' + data.title + '\n        </a>\n        </div>\n        <div class="ejs-video-desc">\n        ' + data.description + '\n        </div>\n        <div class="ejs-video-stats">\n        <span>\n        <i class="fa fa-eye"></i>' + data.views + '\n        </span>\n        <span>\n        <i class="fa fa-heart"></i>' + data.likes + "\n        </span>\n        </div>\n        </div>\n        </div>\n        </div>";
             return template;
         },
+        /**
+	     * Applies video.js to all audio and video dynamically
+	     * @param  {object} options Options object
+	     * @return {null}
+	     */
         applyVideoJS: function(options) {
             var dimensions = utils.dimensions(options);
             if (options.videojsOptions.width = dimensions.width, options.videojsOptions.height = dimensions.height, 
@@ -2997,6 +3020,11 @@ function(module, exports, __webpack_require__) {
                 });
             }
         },
+        /**
+	     * Destroys the onclick event for opening the video template from the details template
+	     * @param  {className} className
+	     * @return {null}
+	     */
         destroy: function(className) {
             for (var classes = document.getElementsByClassName(className), i = 0; i < classes.length; i++) classes[i].onclick = null;
         }
