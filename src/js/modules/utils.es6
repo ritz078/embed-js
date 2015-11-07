@@ -132,18 +132,6 @@ var utils = {
         }
     },
 
-    getElementsByAttributeName: (attribute) => {
-        let matchingElements = [];
-        let allElements = document.getElementsByTagName('*');
-        for (let i = 0, n = allElements.length; i < n; i++) {
-            if (allElements[i].getAttribute(attribute) !== null) {
-                // Element exists with attribute. Add to array.
-                matchingElements.push(allElements[i]);
-            }
-        }
-        return matchingElements;
-    },
-
     /**
      * Returns a cloned object
      * @param  {object} obj

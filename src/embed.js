@@ -272,11 +272,12 @@ function(module, exports, __webpack_require__) {
             }, EmbedJS;
         }(), ejs = {
             instances: [],
-            elements: utils.getElementsByAttributeName("data-embed-js"),
+            elements: [],
             setOptions: function(options) {
                 globalOptions = utils.deepExtend(defaultOptions, options);
             },
-            applyEmbedJS: function() {
+            applyEmbedJS: function(className) {
+                this.elements = document.getElementsByClassName(className);
                 for (var i = 0; i < this.elements.length; i++) {
                     var option = {
                         element: this.elements[i]

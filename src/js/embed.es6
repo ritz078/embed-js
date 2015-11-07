@@ -200,11 +200,12 @@ const helper = require('./modules/video/helper.es6');
 
     let ejs = {
         instances: [],
-        elements: utils.getElementsByAttributeName('data-embed-js'),
+        elements: [],
         setOptions: function(options) {
             globalOptions = utils.deepExtend(defaultOptions, options)
         },
-        applyEmbedJS: function() {
+        applyEmbedJS: function(className) {
+            this.elements = document.getElementsByClassName(className)
             for (let i = 0; i < this.elements.length; i++) {
                 let option = {
                     element: this.elements[i]
