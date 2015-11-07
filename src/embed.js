@@ -89,21 +89,7 @@ function(module, exports, __webpack_require__) {
     !function() {
         var globalOptions, defaultOptions = {
             marked: !1,
-            markedOptions: {
-                gfm: !0,
-                tables: !0,
-                breaks: !1,
-                pedantic: !1,
-                sanitize: !1,
-                sanitizer: null,
-                mangle: !0,
-                smartLists: !1,
-                silent: !1,
-                langPrefix: "lang-",
-                smartypants: !1,
-                headerPrefix: "",
-                xhtml: !1
-            },
+            markedOptions: {},
             link: !0,
             linkOptions: {
                 target: "self",
@@ -283,7 +269,8 @@ function(module, exports, __webpack_require__) {
                     }
                 }, null, this);
             }, EmbedJS.prototype.destroy = function() {
-                this.options.element.removeEventListener("rendered", this.twitter.load(), !1), helper.destroy("ejs-video-thumb", this.options);
+                this.options.element.removeEventListener("rendered", this.twitter.load(), !1), helper.destroy("ejs-video-thumb", this.options), 
+                this.options.element.innerHTML = this.input;
             }, EmbedJS;
         }(), ejs = {
             instances: [],

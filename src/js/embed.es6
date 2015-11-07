@@ -43,21 +43,7 @@ const helper = require('./modules/video/helper.es6');
 
     var defaultOptions = {
         marked: false,
-        markedOptions: {
-            gfm: true,
-            tables: true,
-            breaks: false,
-            pedantic: false,
-            sanitize: false,
-            sanitizer: null,
-            mangle: true,
-            smartLists: false,
-            silent: false,
-            langPrefix: 'lang-',
-            smartypants: false,
-            headerPrefix: '',
-            xhtml: false
-        },
+        markedOptions: {},
         link: true,
         linkOptions: {
             target: 'self',
@@ -201,6 +187,7 @@ const helper = require('./modules/video/helper.es6');
         destroy() {
             this.options.element.removeEventListener('rendered', this.twitter.load(), false);
             helper.destroy('ejs-video-thumb', this.options);
+            this.options.element.innerHTML = this.input;
         }
     }
 
