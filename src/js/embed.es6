@@ -108,15 +108,22 @@ const helper = require('./modules/video/helper.es6');
 
     class EmbedJS {
         constructor(options, input) {
+            let [defOpts,globOpts]=[utils.cloneObject(defaultOptions),utils.cloneObject(globalOptions)]
             //merge global options with the default options
-            let globOptions = utils.deepExtend(defaultOptions, globalOptions)
+            let globOptions = utils.deepExtend(defOpts, globOpts)
 
             this.options = utils.deepExtend(globOptions, options);
-            this.element = this.options.element || input;
-            if (!this.element) {
-                throw ReferenceError("You need to pass an element or the string that needs to be processed");
+            if (!this.options.element && !input) {
+                    throw ReferenceError("You need to pass an element or the string that needs to be processed");
+                }
+
+            if (this.options.element) {
+                this.element = this.options.element;
+                this.input = this.element.innerHTML;
+            }else{
+                this.input = input;
             }
-            this.input = this.element.innerHTML;
+
         }
 
         /**
@@ -192,21 +199,21 @@ const helper = require('./modules/video/helper.es6');
     }
 
     let ejs = {
-        instances:[],
-        elements :utils.getElementsByAttributeName('data-embed-js'),
-        setOptions  : function(options){
+        instances: [],
+        elements: utils.getElementsByAttributeName('data-embed-js'),
+        setOptions: function(options) {
             globalOptions = utils.deepExtend(defaultOptions, options)
         },
-        applyEmbedJS: function(){
+        applyEmbedJS: function() {
             for (let i = 0; i < this.elements.length; i++) {
                 let option = {
-                    element:this.elements[i]
+                    element: this.elements[i]
                 }
                 this.instances[i] = new EmbedJS(option)
                 this.instances[i].render()
             }
         },
-        destroyEmbedJS: function(){
+        destroyEmbedJS: function() {
             for (let i = 0; i < this.elements.length; i++) {
                 this.instances[i].destroy()
             }

@@ -156,11 +156,9 @@ function(module, exports, __webpack_require__) {
         }, EmbedJS = function() {
             function EmbedJS(options, input) {
                 _classCallCheck(this, EmbedJS);
-                //merge global options with the default options
-                var globOptions = utils.deepExtend(defaultOptions, globalOptions);
-                if (this.options = utils.deepExtend(globOptions, options), this.element = this.options.element || input, 
-                !this.element) throw ReferenceError("You need to pass an element or the string that needs to be processed");
-                this.input = this.element.innerHTML;
+                var defOpts = utils.cloneObject(defaultOptions), globOpts = utils.cloneObject(globalOptions), globOptions = utils.deepExtend(defOpts, globOpts);
+                if (this.options = utils.deepExtend(globOptions, options), !this.options.element && !input) throw ReferenceError("You need to pass an element or the string that needs to be processed");
+                this.options.element ? (this.element = this.options.element, this.input = this.element.innerHTML) : this.input = input;
             }
             /**
 	         * Processes the string and performs all the insertions and manipulations based on
@@ -1901,6 +1899,18 @@ function(module, exports, __webpack_require__) {
             for (var matchingElements = [], allElements = document.getElementsByTagName("*"), i = 0, n = allElements.length; n > i; i++) null !== allElements[i].getAttribute(attribute) && // Element exists with attribute. Add to array.
             matchingElements.push(allElements[i]);
             return matchingElements;
+        },
+        /**
+	     * Returns a cloned object
+	     * @param  {object} obj
+	     * @return {object}     cloned object
+	     */
+        cloneObject: function(obj) {
+            if (null === obj || "object" != typeof obj) return obj;
+            var temp = obj.constructor();
+            // give temp the original obj's constructor
+            for (var key in obj) temp[key] = this.cloneObject(obj[key]);
+            return temp;
         }
     };
     module.exports = utils;

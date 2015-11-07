@@ -142,6 +142,25 @@ var utils = {
             }
         }
         return matchingElements;
+    },
+
+    /**
+     * Returns a cloned object
+     * @param  {object} obj
+     * @return {object}     cloned object
+     */
+    cloneObject: function(obj) {
+        if (obj === null || typeof obj !== 'object') {
+            return obj;
+        }
+
+        var temp = obj.constructor(); // give temp the original obj's constructor
+        for (var key in obj) {
+            temp[key] = this.cloneObject(obj[key]);
+        }
+
+        return temp;
+
     }
 };
 
