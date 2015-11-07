@@ -2,12 +2,104 @@
 @import "bower_components/font-awesome/scss/font-awesome.scss";
 // endbower
 @import "components/header";
-
-
-header{
-	box-shadow: 0 0 4px rgba(0,0,0,0.25);
+@import "components/tabs";
+header {
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.25);
 }
 
-.container{
-	padding-top: 80px;
+.container {
+    padding-top: 80px;
+}
+
+iframe {
+    border: 1px solid #eee;
+    margin: 30px 0;
+}
+
+.text {
+    color: #555;
+    background-color: #f8f8f8;
+    .tag{
+    	display: none;
+    }
+    span{
+    	font-weight: bold;
+    	b{
+    		color:green;
+    	}
+    }
+}
+
+.opened{
+	background-color: #fff;
+}
+
+.example{
+	margin-bottom: 50px;
+}
+
+.demo-wrap {
+    border: 1px solid #eee;
+    border-radius: 3px;
+    width: 100%;
+    float: none;
+    overflow: hidden;
+
+    div {
+        padding: 20px;
+    }
+}
+
+a {
+    color: blue;
+    text-decoration: none;
+}
+
+h4 {
+    float: left;
+    width: 60%;
+}
+
+.codepen {
+    float: right;
+    background-color: #343436;
+    border: 0;
+    color: #fff;
+    &:hover {
+        background-color: #000;
+        color: #fff;
+    }
+    &:active,&:focus{
+    	color:#fff;
+    }
+}
+
+pre,
+code {
+    font-family: consolas;
+}
+
+pre{
+	margin-bottom: 0;
+}
+
+.html .hljs {
+    white-space: normal;
+}
+
+.hljs {
+    border-color: #1B1B1B;
+    border: 0;
+}
+
+.code {
+    overflow: auto;
+    font-family: inherit;
+    background-color: #F8F8F8;
+    display: none;
+}
+
+.code-toggle {
+    margin-right: 10px;
+    font-size: 18px;
 }

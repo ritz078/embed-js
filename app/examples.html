@@ -9,6 +9,9 @@
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300' rel='stylesheet' type='text/css'>
+    <link href="http://vjs.zencdn.net/5.0.0/video-js.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://rawgit.com/ritz078/embed.js/es6/dist/embed.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(.) styles/vendor.css -->
     <!-- bower:css -->
@@ -18,8 +21,6 @@
     <!-- build:css(.tmp) styles/examples.css -->
     <link rel="stylesheet" href="styles/examples.css">
     <!-- endbuild -->
-    <link rel="stylesheet" href="https://rawgit.com/ritz078/embed.js/es6/dist/embed.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
 </head>
 
 <body>
@@ -43,25 +44,95 @@
         </nav>
     </header>
     <div class="container">
-    	<iframe width="100%" height="600" src="//jsfiddle.net/ritz078/n5dL6ogd/1/embedded/result,html,js,css" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+        <div class="example basic">
+            <h4>Basic Example</h4>
+            <a href="http://codepen.io/ritz078/pen/QjZded" target="_blank">
+                <button class="codepen"><i class="fa fa-codepen"></i> &nbsp;Edit on CodePen</button>
+            </a>
+            <button class="codepen code-toggle"><i class="fa fa-code"></i></button>
+            <div class="demo-wrap">
+                <div class="text">
+                    <span class="tag">&lt;div id="<b>basic-result</b>"&gt;</span>
+                    Pellentesque habitant morbi tristique senectus :smile: et netus buff.ly/1NU7Mnk et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, http://riteshkr.com/embed.js tempor :) sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies bit.ly/1NSYCaf mi vitae est. Mauris placerat eleifend leo.
 
-    </div>
-
-</body>
-<script src="http://platform.twitter.com/widgets.js"></script>
-<script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.5/highlight.min.js"></script>
-<script src="https://rawgit.com/ritz078/embed.js/es6/dist/embed.min.js"></script>
-<script>
-var x = new EmbedJS({
-    element: document.getElementById('rawText'),
-    googleAuthKey: 'AIzaSyCqFouT8h5DKAbxlrTZmjXEmNBjC69f0ts',
-    videoWidth: 800,
-    tweetOptions: {
-        hideMedia: true
-    },
-    codeEmbedHeight: 600
+                    <span class="tag">&lt;/div&gt;</span>
+                </div>
+                <div class="code">
+                    <pre>
+<code>/*JAVASCRIPT*/
+var basicDemo = new EmbedJS({
+    element: document.getElementById('basic-result')
 });
-x.render()
+basicDemo.render();
+</code></pre>
+                </div>
+                <div id="basic-result" class="result">
+                    Pellentesque habitant morbi tristique senectus :smile: et netus buff.ly/1NU7Mnk et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, http://riteshkr.com/embed.js tempor :) sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies bit.ly/1NSYCaf mi vitae est. Mauris placerat eleifend leo.
+                </div>
+            </div>
+        </div>
+
+             <div class="example youtube" id="youtube-example">
+            <h4>Basic Example</h4>
+            <a href="http://codepen.io/ritz078/pen/QjZded" target="_blank">
+                <button class="codepen"><i class="fa fa-codepen"></i> &nbsp;Edit on CodePen</button>
+            </a>
+            <button class="codepen code-toggle"><i class="fa fa-code"></i></button>
+            <div class="demo-wrap">
+                <div class="text">
+                    <span class="tag">&lt;div id="<b>basic-result</b>"&gt;</span>
+                    Pellentesque habitant morbi tristique senectus :smile: et netus buff.ly/1NU7Mnk et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, http://riteshkr.com/embed.js tempor :) sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies bit.ly/1NSYCaf mi vitae est. Mauris placerat eleifend leo.
+
+                    <span class="tag">&lt;/div&gt;</span>
+                </div>
+                <div class="code">
+                    <pre>
+<code>/*JAVASCRIPT*/
+var basicDemo = new EmbedJS({
+    element: document.getElementById('basic-result')
+});
+basicDemo.render();
+</code></pre>
+                </div>
+                <div id="youtube" class="result">
+                    Pellentesque habitant morbi tristique senectus :smile: et netus buff.ly/1NU7Mnk et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, http://riteshkr.com/embed.js tempor :) sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies bit.ly/1NSYCaf mi vitae est. Mauris placerat eleifend leo.
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="/bower_components/jquery/dist/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+<script src="//platform.twitter.com/widgets.js"></script>
+<script src="http://vjs.zencdn.net/5.0.0/video.js"></script>
+<script src="https://rawgit.com/ritz078/embed.js/es6/src/embed.js"></script>
+<script src="scripts/examples.js"></script>
+<script>
+hljs.initHighlightingOnLoad();
+/*=======================================
+=            Basic demo code            =
+=======================================*/
+
+var basicDemo = new EmbedJS({
+    element: document.getElementById('basic-result')
+});
+basicDemo.render();
+
+/*=====  End of Basic demo code  ======*/
+
+/*=====================================
+=            Youtube video            =
+=====================================*/
+var ytDemo = new EmbedJS({
+    element: document.getElementById('youtube'),
+    googleAuthKey : 'AIzaSyCqFouT8h5DKAbxlrTZmjXEmNBjC69f0ts'
+});
+// ytDemo.render();
+
+
+/*=====  End of Youtube video  ======*/
+
 </script>
 
 </html>
