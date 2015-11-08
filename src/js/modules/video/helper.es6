@@ -45,7 +45,7 @@ var helper = {
             `<div class="ejs-video">
         <div class="ejs-video-preview">
         <div class="ejs-video-thumb" data-ejs-url="${embedUrl}">
-        <img src="${data.thumbnail}" alt="${data.host}/${data.id}"/>
+        <div class="ejs-thumb" style="background-image:url(${data.thumbnail})"></div>
         <i class="fa fa-play-circle-o"></i>
         </div>
         <div class="ejs-video-detail">

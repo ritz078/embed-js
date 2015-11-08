@@ -1896,11 +1896,6 @@ function(module, exports, __webpack_require__) {
             var _ref2 = [ 800, 600 ];
             return dimensions.width = _ref2[0], dimensions.height = _ref2[1], dimensions;
         },
-        getElementsByAttributeName: function(attribute) {
-            for (var matchingElements = [], allElements = document.getElementsByTagName("*"), i = 0, n = allElements.length; n > i; i++) null !== allElements[i].getAttribute(attribute) && // Element exists with attribute. Add to array.
-            matchingElements.push(allElements[i]);
-            return matchingElements;
-        },
         /**
 	     * Returns a cloned object
 	     * @param  {object} obj
@@ -3000,7 +2995,7 @@ function(module, exports, __webpack_require__) {
 	     * @return {string}          template with variables replaced
 	     */
         detailsTemplate: function(data, embedUrl) {
-            var template = '<div class="ejs-video">\n        <div class="ejs-video-preview">\n        <div class="ejs-video-thumb" data-ejs-url="' + embedUrl + '">\n        <img src="' + data.thumbnail + '" alt="' + data.host + "/" + data.id + '"/>\n        <i class="fa fa-play-circle-o"></i>\n        </div>\n        <div class="ejs-video-detail">\n        <div class="ejs-video-title">\n        <a href="' + data.url + '">\n        ' + data.title + '\n        </a>\n        </div>\n        <div class="ejs-video-desc">\n        ' + data.description + '\n        </div>\n        <div class="ejs-video-stats">\n        <span>\n        <i class="fa fa-eye"></i>' + data.views + '\n        </span>\n        <span>\n        <i class="fa fa-heart"></i>' + data.likes + "\n        </span>\n        </div>\n        </div>\n        </div>\n        </div>";
+            var template = '<div class="ejs-video">\n        <div class="ejs-video-preview">\n        <div class="ejs-video-thumb" data-ejs-url="' + embedUrl + '">\n        <div class="ejs-thumb" style="background-image:url(' + data.thumbnail + ')"></div>\n        <i class="fa fa-play-circle-o"></i>\n        </div>\n        <div class="ejs-video-detail">\n        <div class="ejs-video-title">\n        <a href="' + data.url + '">\n        ' + data.title + '\n        </a>\n        </div>\n        <div class="ejs-video-desc">\n        ' + data.description + '\n        </div>\n        <div class="ejs-video-stats">\n        <span>\n        <i class="fa fa-eye"></i>' + data.views + '\n        </span>\n        <span>\n        <i class="fa fa-heart"></i>' + data.likes + "\n        </span>\n        </div>\n        </div>\n        </div>\n        </div>";
             return template;
         },
         /**

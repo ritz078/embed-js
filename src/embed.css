@@ -3597,12 +3597,14 @@ code {
   overflow: auto;
 }
 
-.ejs-video-preview img {
+.ejs-video-preview .ejs-thumb {
   display: block;
   width: 200px;
   height: 150px;
   border-radius: 2px;
   background-color: #3498db;
+  background-position: center;
+  background-size: cover;
 }
 
 .ejs-video-thumb {
