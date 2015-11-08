@@ -75,12 +75,12 @@
     "test": "mocha --compilers js:babel/register test/index.test.js",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
-  "czConfig": {
-    "path": "node_modules/cz-conventional-changelog"
-  },
   "config": {
     "ghooks": {
       "pre-commit": "npm run test"
+    },
+    "commitizen": {
+      "path": "node_modules/cz-conventional-changelog"
     }
   }
 }
