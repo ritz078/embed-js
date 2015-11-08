@@ -44,63 +44,32 @@
         </nav>
     </header>
     <div class="container">
-        <div class="example basic">
-            <h4>Basic Example</h4>
-            <a href="http://codepen.io/ritz078/pen/QjZded" target="_blank">
-                <button class="codepen"><i class="fa fa-codepen"></i> &nbsp;Edit on CodePen</button>
-            </a>
-            <button class="codepen code-toggle"><i class="fa fa-code"></i></button>
-            <div class="demo-wrap">
-                <div class="text">
-                    <span class="tag">&lt;div id="<b>basic-result</b>"&gt;</span>
-                    Pellentesque habitant morbi tristique senectus :smile: et netus buff.ly/1NU7Mnk et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, http://riteshkr.com/embed.js tempor :) sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies bit.ly/1NSYCaf mi vitae est. Mauris placerat eleifend leo.
-
-                    <span class="tag">&lt;/div&gt;</span>
-                </div>
-                <div class="code">
-                    <pre>
-<code>/*JAVASCRIPT*/
-var basicDemo = new EmbedJS({
-    element: document.getElementById('basic-result')
-});
-basicDemo.render();
-</code></pre>
-                </div>
-                <div id="basic-result" class="result">
-                    Pellentesque habitant morbi tristique senectus :smile: et netus buff.ly/1NU7Mnk et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, http://riteshkr.com/embed.js tempor :) sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies bit.ly/1NSYCaf mi vitae est. Mauris placerat eleifend leo.
-                </div>
+    </div>
+</body>
+<script id="template" type="text/x-handlebars-template">
+    {{#each data}}
+    <div class="example {{id}}" id="{{id}}">
+        <h4>{{title}}</h4>
+        <a href="{{codepen}}" target="_blank">
+            <button class="codepen"><i class="fa fa-codepen"></i> &nbsp;Edit on CodePen</button>
+        </a>
+        <button class="codepen code-toggle"><i class="fa fa-code"></i></button>
+        <div class="demo-wrap">
+            <div class="text">
+                <span class="tag">&lt;div id="<b>{{id}}-text</b>"&gt;</span> {{text}}
+                <span class="tag">&lt;/div&gt;</span>
             </div>
-        </div>
-
-             <div class="example youtube" id="youtube-example">
-            <h4>Basic Example</h4>
-            <a href="http://codepen.io/ritz078/pen/QjZded" target="_blank">
-                <button class="codepen"><i class="fa fa-codepen"></i> &nbsp;Edit on CodePen</button>
-            </a>
-            <button class="codepen code-toggle"><i class="fa fa-code"></i></button>
-            <div class="demo-wrap">
-                <div class="text">
-                    <span class="tag">&lt;div id="<b>basic-result</b>"&gt;</span>
-                    Pellentesque habitant morbi tristique senectus :smile: et netus buff.ly/1NU7Mnk et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, http://riteshkr.com/embed.js tempor :) sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies bit.ly/1NSYCaf mi vitae est. Mauris placerat eleifend leo.
-
-                    <span class="tag">&lt;/div&gt;</span>
-                </div>
-                <div class="code">
-                    <pre>
-<code>/*JAVASCRIPT*/
-var basicDemo = new EmbedJS({
-    element: document.getElementById('basic-result')
-});
-basicDemo.render();
-</code></pre>
-                </div>
-                <div id="youtube" class="result">
-                    Pellentesque habitant morbi tristique senectus :smile: et netus buff.ly/1NU7Mnk et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, http://riteshkr.com/embed.js tempor :) sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies bit.ly/1NSYCaf mi vitae est. Mauris placerat eleifend leo.
-                </div>
+            <div class="code">
+                <pre><code>{{jsCode}}</code></pre>
+            </div>
+            <div id="{{id}}-text" class="result">
+                {{text}}
             </div>
         </div>
     </div>
-</body>
+    {{/each}}
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.4/handlebars.min.js"></script>
 <script src="/bower_components/jquery/dist/jquery.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
@@ -115,7 +84,7 @@ hljs.initHighlightingOnLoad();
 =======================================*/
 
 var basicDemo = new EmbedJS({
-    element: document.getElementById('basic-result')
+    element: document.getElementById('basic-text')
 });
 basicDemo.render();
 
@@ -125,14 +94,13 @@ basicDemo.render();
 =            Youtube video            =
 =====================================*/
 var ytDemo = new EmbedJS({
-    element: document.getElementById('youtube'),
-    googleAuthKey : 'AIzaSyCqFouT8h5DKAbxlrTZmjXEmNBjC69f0ts'
+    element: document.getElementById('youtube-text'),
+    googleAuthKey: 'AIzaSyCqFouT8h5DKAbxlrTZmjXEmNBjC69f0ts'
 });
-// ytDemo.render();
+ytDemo.render();
 
 
 /*=====  End of Youtube video  ======*/
-
 </script>
 
 </html>

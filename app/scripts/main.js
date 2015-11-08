@@ -20,6 +20,7 @@ class Banner {
         ];
 
         this.strings = [
+            'MARKDOWN',
             'SOUNDCLOUD.',
             'MP4 VIDEOS.',
             'SPOTIFY.',
@@ -68,10 +69,10 @@ class Banner {
         let $typed = $('.typed');
         let self = this;
         setInterval(() => {
-            $typed.fadeOut('slow',function(){
+            $typed.fadeOut('slow', function() {
                 $(this).html(self.strings[i]).fadeIn();
             });
-            i === this.strings.length ? i=0 : i++;
+            i === this.strings.length ? i = 0 : i++;
         }, 2000);
     }
 }
@@ -79,6 +80,6 @@ class Banner {
 var banner = new Banner();
 banner.process();
 
-$(window).resize(function(){
+$(window).resize(function() {
     banner.process();
 })
