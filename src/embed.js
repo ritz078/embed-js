@@ -2973,7 +2973,7 @@ function(module, exports, __webpack_require__) {
             for (var classes = document.getElementsByClassName(className), _loop = function(i) {
                 classes[i].onclick = function() {
                     options.onVideoShow();
-                    var url = classes[i].getAttribute("data-ejs-url"), template = helper.template(url, options);
+                    var url = classes[i].getAttribute("data-ejs-url") + "?autoplay=true", template = helper.template(url, options);
                     classes[i].parentNode.parentNode.innerHTML = template;
                 };
             }, i = 0; i < classes.length; i++) _loop(i);

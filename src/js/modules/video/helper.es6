@@ -12,7 +12,7 @@ var helper = {
         for (let i = 0; i < classes.length; i++) {
             classes[i].onclick = function() {
                 options.onVideoShow();
-                let url = classes[i].getAttribute('data-ejs-url');
+                let url = classes[i].getAttribute('data-ejs-url')+"?autoplay=true";
                 let template = helper.template(url, options);
                 classes[i].parentNode.parentNode.innerHTML = template;
             };
