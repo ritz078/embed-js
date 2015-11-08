@@ -3552,7 +3552,7 @@ pre {
   border-radius: 2px;
   overflow: hidden;
   white-space: pre-wrap;
-  margin: 0 0 -15px 0;
+  margin: 0;
 }
 
 code {
@@ -3693,14 +3693,6 @@ code {
   background-position: center;
   height: 100%;
   overflow: hidden;
-}
-
-.emoticons-image {
-  padding: 5px;
-  border-radius: 2px;
-  border: 1px solid #f2f2f2;
-  display: block;
-  margin: 20px 0;
 }
 
 .icon-emoticon {
