@@ -17,6 +17,7 @@ class Markdown {
 			let template =`<pre><code class="ejs-code hljs ${language}">${highlightedCode.value}</code></pre>`;
 			return template
 		}
+		renderer.paragraph = (text) => `<p> ${text} </p>` //for font smiley in end.
 		this.options.markedOptions.renderer = renderer
 		let output = marked(this.output, this.options.markedOptions)
 		return output

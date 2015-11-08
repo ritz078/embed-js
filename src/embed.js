@@ -2481,7 +2481,10 @@ function(module, exports, __webpack_require__) {
                     value: text
                 }, language = window.hljs ? highlightedCode.language : "", template = '<pre><code class="ejs-code hljs ' + language + '">' + highlightedCode.value + "</code></pre>";
                 return template;
-            }, this.options.markedOptions.renderer = renderer;
+            }, renderer.paragraph = function(text) {
+                return "<p> " + text + " </p>";
+            }, //for font smiley in end.
+            this.options.markedOptions.renderer = renderer;
             var output = marked(this.output, this.options.markedOptions);
             return output;
         }, Markdown;
