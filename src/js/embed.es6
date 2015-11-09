@@ -139,7 +139,7 @@ const helper = require('./modules/video/helper.es6');
 
             this.options.beforeEmbedJSApply();
 
-            let output = options.link && build.LINK ? (new Url(input, options).process()) : output;
+            let output = options.link && build.LINK ? (new Url(input, options).process()) : input;
             output = options.marked && build.MARKDOWN ? (new Markdown(output, options).process()) : output;
             output = options.emoji && build.EMOJI ? (new Emoji(output, options).process()) : output;
             output = options.fontIcons && build.SMILEY ? (new Smiley(output, options).process()) : output;

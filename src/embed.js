@@ -184,7 +184,7 @@ function(module, exports, __webpack_require__) {
                     for (;;) switch (context$3$0.prev = context$3$0.next) {
                       case 0:
                         return input = this.input, options = this.options, embeds = [], this.options.beforeEmbedJSApply(), 
-                        output = options.link ? new Url(input, options).process() : output, output = options.marked ? new Markdown(output, options).process() : output, 
+                        output = options.link ? new Url(input, options).process() : input, output = options.marked ? new Markdown(output, options).process() : output, 
                         output = options.emoji ? new Emoji(output, options).process() : output, output = options.fontIcons ? new Smiley(output, options).process() : output, 
                         _process = new Code(input, output, options, embeds).process(), output = _process[0], 
                         embeds = _process[1], context$3$0.next = 13, _regeneratorRuntime.awrap(new Video(input, output, options, embeds).process());
@@ -2475,12 +2475,14 @@ function(module, exports, __webpack_require__) {
             this.output = output, this.options = options;
         }
         return Markdown.prototype.process = function() {
-            var renderer = new marked.Renderer();
+            var _this = this, renderer = new marked.Renderer();
             renderer.code = function(text) {
                 var highlightedCode = window.hljs ? hljs.highlightAuto(text) : {
                     value: text
                 }, language = window.hljs ? highlightedCode.language : "", template = '<pre><code class="ejs-code hljs ' + language + '">' + highlightedCode.value + "</code></pre>";
                 return template;
+            }, renderer.link = function(text, title, link) {
+                return -1 === text.indexOf("&lt;/a") ? text : text.match(/&gt;(.+)&lt;\/a/gi) ? '<a href="' + RegExp.$1 + '" rel=' + _this.options.linkOptions.rel + '" target="' + _this.options.linkOptions.target + '" title="' + title + '">' + link + "</a>" : void 0;
             }, renderer.paragraph = function(text) {
                 return "<p> " + text + " </p>";
             }, //for font smiley in end.
