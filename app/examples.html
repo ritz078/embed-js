@@ -43,6 +43,9 @@
             </ul>
         </nav>
     </header>
+    <div class="left-nav">
+
+    </div>
     <div class="container">
     </div>
 </body>
@@ -56,11 +59,13 @@
         <button class="codepen code-toggle"><i class="fa fa-code"></i></button>
         <div class="demo-wrap">
             <div class="text">
-                <span class="tag">&lt;div id="<b>{{id}}-text</b>"&gt;</span> {{text}}
-                <span class="tag">&lt;/div&gt;</span>
+                <span class="tag">&lt;div id="<b>{{id}}-text</b>"&gt;<br></span> {{text}}
+                <span class="tag"><br>&lt;/div&gt;</span>
+                <span class="tag html-tag">HTML</span>
             </div>
             <div class="code">
                 <pre><code>{{jsCode}}</code></pre>
+                <span class="tag js-tag">javascript</span>
             </div>
             <div id="{{id}}-text" class="result">
                 {{text}}
@@ -79,28 +84,6 @@
 <script src="scripts/examples.js"></script>
 <script>
 hljs.initHighlightingOnLoad();
-/*=======================================
-=            Basic demo code            =
-=======================================*/
-
-var basicDemo = new EmbedJS({
-    element: document.getElementById('basic-text')
-});
-basicDemo.render();
-
-/*=====  End of Basic demo code  ======*/
-
-/*=====================================
-=            Youtube video            =
-=====================================*/
-var ytDemo = new EmbedJS({
-    element: document.getElementById('youtube-text'),
-    googleAuthKey: 'AIzaSyCqFouT8h5DKAbxlrTZmjXEmNBjC69f0ts'
-});
-ytDemo.render();
-
-
-/*=====  End of Youtube video  ======*/
 </script>
 
 </html>

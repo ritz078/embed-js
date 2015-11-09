@@ -37,7 +37,8 @@ header {
     border-radius: 2px;
     text-transform: uppercase;
 }
-.js-tag{
+
+.js-tag {
     background-color: #B7A000;
 }
 
@@ -114,4 +115,33 @@ pre {
 .code-toggle {
     margin-right: 10px;
     font-size: 18px;
+}
+
+.result {
+    background-color: #fff;
+    line-height: normal;
+    .ejs-embed:last-of-type {
+        margin-bottom: 0;
+    }
+}
+
+.left-nav {
+    position: fixed;
+    left: 0;
+    height: 100%;
+    width: 250px;
+    background-color: #fff;
+    border-right: 1px solid #eee;
+}
+
+.container {
+    position: absolute;
+    left: 280px;
+    right: 30px;
+}
+
+.ejs-embed {
+    margin-bottom: 0;
+    border: 1px solid #E4E4E4;
+    border-radius: 2px;
 }
