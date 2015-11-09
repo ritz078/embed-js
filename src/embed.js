@@ -2483,7 +2483,10 @@ function(module, exports, __webpack_require__) {
                 return template;
             }, renderer.link = function(text, title, link) {
                 return -1 === text.indexOf("&lt;/a") ? text : text.match(/&gt;(.+)&lt;\/a/gi) ? '<a href="' + RegExp.$1 + '" rel=' + _this.options.linkOptions.rel + '" target="' + _this.options.linkOptions.target + '" title="' + title + '">' + link + "</a>" : void 0;
-            }, renderer.paragraph = function(text) {
+            }, //Fix for heading that should be actually present in marked.js
+            //if gfm is true the `## Heading` is acceptable but `##Heading` is not
+            marked.Lexer.rules.gfm.heading = marked.Lexer.rules.normal.heading, marked.Lexer.rules.tables.heading = marked.Lexer.rules.normal.heading, 
+            renderer.paragraph = function(text) {
                 return "<p> " + text + " </p>";
             }, //for font smiley in end.
             this.options.markedOptions.renderer = renderer;
