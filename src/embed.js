@@ -2481,8 +2481,12 @@ function(module, exports, __webpack_require__) {
                     value: text
                 }, language = window.hljs ? highlightedCode.language : "", template = '<pre><code class="ejs-code hljs ' + language + '">' + highlightedCode.value + "</code></pre>";
                 return template;
-            }, renderer.link = function(text, title, link) {
-                return -1 === text.indexOf("&lt;/a") ? text : text.match(/&gt;(.+)&lt;\/a/gi) ? '<a href="' + RegExp.$1 + '" rel=' + _this.options.linkOptions.rel + '" target="' + _this.options.linkOptions.target + '" title="' + title + '">' + link + "</a>" : void 0;
+            }, renderer.link = function(href, title, text) {
+                return -1 === href.indexOf("&lt;/a") ? href : href.match(/&gt;(.+)&lt;\/a/gi) ? (title || (title = ""), 
+                '<a href="' + RegExp.$1 + '" rel=' + _this.options.linkOptions.rel + '" target="' + _this.options.linkOptions.target + '" title="' + title + '">' + text + "</a>") : void 0;
+            }, renderer.image = function(href, title, text) {
+                return -1 === href.indexOf("&lt;/a") ? href : href.match(/&gt;(.+)&lt;\/a/gi) ? (title || (title = ""), 
+                '<div class="ejs-image">\n				<div class="ne-image-wrapper">\n				<img src="' + RegExp.$1 + '" title="' + title + '" alt="' + text + '"/>\n				</div>\n				</div>') : void 0;
             }, //Fix for heading that should be actually present in marked.js
             //if gfm is true the `## Heading` is acceptable but `##Heading` is not
             marked.Lexer.rules.gfm.heading = marked.Lexer.rules.normal.heading, marked.Lexer.rules.tables.heading = marked.Lexer.rules.normal.heading, 
