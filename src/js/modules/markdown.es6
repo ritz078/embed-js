@@ -32,7 +32,7 @@ class Markdown {
 			if (href.indexOf('&lt;/a') === -1) return href
 			if (href.match(/&gt;(.+)&lt;\/a/gi)) {
 				if (!title) title=''
-					return `<div class="ejs-image">
+					return `<div class="ejs-image ejs-embed">
 				<div class="ne-image-wrapper">
 				<img src="${RegExp.$1}" title="${title}" alt="${text}"/>
 				</div>

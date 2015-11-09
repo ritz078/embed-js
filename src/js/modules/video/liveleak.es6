@@ -10,7 +10,7 @@ class LiveLeak extends Base{
 	template(match){
 		const dimensions = utils.dimensions(this.options);
 		const template =
-		`<div class="ejs-video">
+		`<div class="ejs-video ejs-embed">
 		<iframe src="http://www.liveleak.com/e/${match.split('=')[1]}" height="${dimensions.height}" width="${dimensions.width}"></iframe>
 		</div>`;
 		return template;

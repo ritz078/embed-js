@@ -8,7 +8,7 @@ class Basic extends Base{
 
 	template(match){
 		let template =
-		`<div class="ejs-image">
+		`<div class="ejs-image ejs-embed">
 		<div class="ne-image-wrapper">
 		<img src="${match}"/>
 		</div>

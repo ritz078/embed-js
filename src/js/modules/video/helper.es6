@@ -28,7 +28,7 @@ var helper = {
     template: (url, options) => {
         let dimensions = utils.dimensions(options);
         let template =
-            `<div class="ejs-video-player">
+            `<div class="ejs-video-player ejs-embed">
         <iframe src="${url}" frameBorder="0" width="${dimensions.width}" height="${dimensions.height}"></iframe>
         </div>`;
         return template;
@@ -42,7 +42,7 @@ var helper = {
      */
     detailsTemplate: (data, embedUrl) => {
         var template =
-            `<div class="ejs-video">
+            `<div class="ejs-video ejs-embed">
         <div class="ejs-video-preview">
         <div class="ejs-video-thumb" data-ejs-url="${embedUrl}">
         <div class="ejs-thumb" style="background-image:url(${data.thumbnail})"></div>

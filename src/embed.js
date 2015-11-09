@@ -2486,7 +2486,7 @@ function(module, exports, __webpack_require__) {
                 '<a href="' + RegExp.$1 + '" rel=' + _this.options.linkOptions.rel + '" target="' + _this.options.linkOptions.target + '" title="' + title + '">' + text + "</a>") : void 0;
             }, renderer.image = function(href, title, text) {
                 return -1 === href.indexOf("&lt;/a") ? href : href.match(/&gt;(.+)&lt;\/a/gi) ? (title || (title = ""), 
-                '<div class="ejs-image">\n				<div class="ne-image-wrapper">\n				<img src="' + RegExp.$1 + '" title="' + title + '" alt="' + text + '"/>\n				</div>\n				</div>') : void 0;
+                '<div class="ejs-image ejs-embed">\n				<div class="ne-image-wrapper">\n				<img src="' + RegExp.$1 + '" title="' + title + '" alt="' + text + '"/>\n				</div>\n				</div>') : void 0;
             }, //Fix for heading that should be actually present in marked.js
             //if gfm is true the `## Heading` is acceptable but `##Heading` is not
             marked.Lexer.rules.gfm.heading = marked.Lexer.rules.normal.heading, marked.Lexer.rules.tables.heading = marked.Lexer.rules.normal.heading, 
@@ -2813,7 +2813,7 @@ function(module, exports, __webpack_require__) {
             _classCallCheck(this, Ted), _Base.call(this, input, options, embeds), this.regex = /ted.com\/talks\/[a-zA-Z0-9_]+/gi;
         }
         return _inherits(Ted, _Base), Ted.prototype.template = function template(id) {
-            var dimensions = utils.dimensions(this.options), template = '<div class="ejs-embed">\n			<iframe src="http://embed.ted.com/talks/' + id.split("/")[2] + '.html" height="' + dimensions.height + '" width="' + dimensions.width + '"></iframe>\n		</div>';
+            var dimensions = utils.dimensions(this.options), template = '<div class="ejs-embed ejs-ted">\n			<iframe src="http://embed.ted.com/talks/' + id.split("/")[2] + '.html" height="' + dimensions.height + '" width="' + dimensions.width + '"></iframe>\n		</div>';
             return template;
         }, Ted;
     }(Base);
@@ -2827,7 +2827,7 @@ function(module, exports, __webpack_require__) {
             _classCallCheck(this, Dailymotion), _Base.call(this, input, options, embeds), this.regex = /dailymotion.com\/video\/[a-zA-Z0-9-_]+/gi;
         }
         return _inherits(Dailymotion, _Base), Dailymotion.prototype.template = function template(match) {
-            var dimensions = utils.dimensions(this.options), id = match.split("/")[2], template = '<div class="ejs-video">\n		<iframe src="http://www.dailymotion.com/embed/video/' + id + '" height="' + dimensions.height + '" width="' + dimensions.width + '"></iframe>\n		</div>';
+            var dimensions = utils.dimensions(this.options), id = match.split("/")[2], template = '<div class="ejs-video ejs-embed">\n		<iframe src="http://www.dailymotion.com/embed/video/' + id + '" height="' + dimensions.height + '" width="' + dimensions.width + '"></iframe>\n		</div>';
             return template;
         }, Dailymotion;
     }(Base);
@@ -2843,7 +2843,7 @@ function(module, exports, __webpack_require__) {
         return _inherits(Ustream, _Base), Ustream.prototype.template = function template(match) {
             var id = match.split("/");
             id.splice(1, 0, "embed");
-            var dimensions = utils.dimensions(this.options), template = '<div class="ejs-embed">\n		<iframe src="//www.' + id.join("/") + '" height="' + dimensions.height + '" width="' + dimensions.width + "\"></iframe>',\n		'</div>'";
+            var dimensions = utils.dimensions(this.options), template = '<div class="ejs-embed ejs-ustream">\n		<iframe src="//www.' + id.join("/") + '" height="' + dimensions.height + '" width="' + dimensions.width + "\"></iframe>',\n		'</div>'";
             return template;
         }, Ustream;
     }(Base);
@@ -2857,7 +2857,7 @@ function(module, exports, __webpack_require__) {
             _classCallCheck(this, LiveLeak), _Base.call(this, input, options, embeds), this.regex = /liveleak.com\/view\?i=[a-zA-Z0-9_]+/gi;
         }
         return _inherits(LiveLeak, _Base), LiveLeak.prototype.template = function template(match) {
-            var dimensions = utils.dimensions(this.options), template = '<div class="ejs-video">\n		<iframe src="http://www.liveleak.com/e/' + match.split("=")[1] + '" height="' + dimensions.height + '" width="' + dimensions.width + '"></iframe>\n		</div>';
+            var dimensions = utils.dimensions(this.options), template = '<div class="ejs-video ejs-embed">\n		<iframe src="http://www.liveleak.com/e/' + match.split("=")[1] + '" height="' + dimensions.height + '" width="' + dimensions.width + '"></iframe>\n		</div>';
             return template;
         }, LiveLeak;
     }(Base);
@@ -2997,7 +2997,7 @@ function(module, exports, __webpack_require__) {
 	     * @return {string}         compiled template with variables replaced
 	     */
         template: function template(url, options) {
-            var dimensions = utils.dimensions(options), template = '<div class="ejs-video-player">\n        <iframe src="' + url + '" frameBorder="0" width="' + dimensions.width + '" height="' + dimensions.height + '"></iframe>\n        </div>';
+            var dimensions = utils.dimensions(options), template = '<div class="ejs-video-player ejs-embed">\n        <iframe src="' + url + '" frameBorder="0" width="' + dimensions.width + '" height="' + dimensions.height + '"></iframe>\n        </div>';
             return template;
         },
         /**
@@ -3007,7 +3007,7 @@ function(module, exports, __webpack_require__) {
 	     * @return {string}          template with variables replaced
 	     */
         detailsTemplate: function(data, embedUrl) {
-            var template = '<div class="ejs-video">\n        <div class="ejs-video-preview">\n        <div class="ejs-video-thumb" data-ejs-url="' + embedUrl + '">\n        <div class="ejs-thumb" style="background-image:url(' + data.thumbnail + ')"></div>\n        <i class="fa fa-play-circle-o"></i>\n        </div>\n        <div class="ejs-video-detail">\n        <div class="ejs-video-title">\n        <a href="' + data.url + '">\n        ' + data.title + '\n        </a>\n        </div>\n        <div class="ejs-video-desc">\n        ' + data.description + '\n        </div>\n        <div class="ejs-video-stats">\n        <span>\n        <i class="fa fa-eye"></i>' + data.views + '\n        </span>\n        <span>\n        <i class="fa fa-heart"></i>' + data.likes + "\n        </span>\n        </div>\n        </div>\n        </div>\n        </div>";
+            var template = '<div class="ejs-video ejs-embed">\n        <div class="ejs-video-preview">\n        <div class="ejs-video-thumb" data-ejs-url="' + embedUrl + '">\n        <div class="ejs-thumb" style="background-image:url(' + data.thumbnail + ')"></div>\n        <i class="fa fa-play-circle-o"></i>\n        </div>\n        <div class="ejs-video-detail">\n        <div class="ejs-video-title">\n        <a href="' + data.url + '">\n        ' + data.title + '\n        </a>\n        </div>\n        <div class="ejs-video-desc">\n        ' + data.description + '\n        </div>\n        <div class="ejs-video-stats">\n        <span>\n        <i class="fa fa-eye"></i>' + data.views + '\n        </span>\n        <span>\n        <i class="fa fa-heart"></i>' + data.likes + "\n        </span>\n        </div>\n        </div>\n        </div>\n        </div>";
             return template;
         },
         /**
@@ -3138,7 +3138,7 @@ function(module, exports, __webpack_require__) {
             _classCallCheck(this, BasicVideo), _Base.call(this, input, options, embeds), this.regex = /(?:https?):\/\/\S*\.(?:ogv|webm|mp4)/gi;
         }
         return _inherits(BasicVideo, _Base), BasicVideo.prototype.template = function template(match) {
-            var template = '<div class="ejs-video">\n			<div class="ejs-video-player">\n				<div class="ejs-player">\n					<video src="' + match + '" class="ejs-video-js video-js" controls></video>\n				</div>\n			</div>\n		</div>';
+            var template = '<div class="ejs-video ejs-embed">\n			<div class="ejs-video-player">\n				<div class="ejs-player">\n					<video src="' + match + '" class="ejs-video-js video-js" controls></video>\n				</div>\n			</div>\n		</div>';
             return template;
         }, BasicVideo;
     }(Base);
@@ -3202,7 +3202,7 @@ function(module, exports, __webpack_require__) {
             _classCallCheck(this, BasicAudio), _Base.call(this, input, options, embeds), this.regex = /((?:https?):\/\/\S*\.(?:wav|mp3|ogg))/gi;
         }
         return _inherits(BasicAudio, _Base), BasicAudio.prototype.template = function template(match) {
-            var template = '<div class="ejs-audio">\n		<audio src="' + match + '" controls class="video-js ejs-video-js"></audio>\n		</div>';
+            var template = '<div class="ejs-audio ejs-embed">\n		<audio src="' + match + '" controls class="video-js ejs-video-js"></audio>\n		</div>';
             return template;
         }, BasicAudio;
     }(Base);
@@ -3266,7 +3266,7 @@ function(module, exports, __webpack_require__) {
             _classCallCheck(this, Basic), _Base.call(this, input, options, embeds), this.regex = /((?:https?):\/\/\S*\.(?:gif|jpg|jpeg|tiff|png|svg|webp))/gi;
         }
         return _inherits(Basic, _Base), Basic.prototype.template = function template(match) {
-            var template = '<div class="ejs-image">\n		<div class="ne-image-wrapper">\n		<img src="' + match + '"/>\n		</div>\n		</div>';
+            var template = '<div class="ejs-image ejs-embed">\n		<div class="ne-image-wrapper">\n		<img src="' + match + '"/>\n		</div>\n		</div>';
             return template;
         }, Basic;
     }(Base);

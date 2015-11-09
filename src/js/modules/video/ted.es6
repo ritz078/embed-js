@@ -10,7 +10,7 @@ class Ted extends Base{
 	template(id){
 		const dimensions = utils.dimensions(this.options);
 		const template =
-		`<div class="ejs-embed">
+		`<div class="ejs-embed ejs-ted">
 			<iframe src="http://embed.ted.com/talks/${id.split('/')[2]}.html" height="${dimensions.height}" width="${dimensions.width}"></iframe>
 		</div>`;
 		return template;

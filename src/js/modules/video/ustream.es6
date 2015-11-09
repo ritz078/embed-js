@@ -12,7 +12,7 @@ class Ustream extends Base{
 		id.splice(1, 0, 'embed');
 		const dimensions = utils.dimensions(this.options);
 		const template =
-		`<div class="ejs-embed">
+		`<div class="ejs-embed ejs-ustream">
 		<iframe src="//www.${id.join('/')}" height="${dimensions.height}" width="${dimensions.width}"></iframe>',
 		'</div>'`;
 		return template;
