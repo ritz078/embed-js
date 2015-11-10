@@ -244,8 +244,8 @@ function(module, exports, __webpack_require__) {
                         return context$3$0.next = 2, _regeneratorRuntime.awrap(this.process());
 
                       case 2:
-                        result = context$3$0.sent, this.options.element.innerHTML = result, event = new Event("rendered"), 
-                        this.options.element.dispatchEvent(event), helper.applyVideoJS(this.options), helper.play("ejs-video-thumb", this.options), 
+                        result = context$3$0.sent, this.options.element.innerHTML = result, helper.applyVideoJS(this.options), 
+                        helper.play("ejs-video-thumb", this.options), event = new Event("rendered"), this.options.element.dispatchEvent(event), 
                         this.options.afterEmbedJSApply();
 
                       case 9:
@@ -2781,7 +2781,9 @@ function(module, exports, __webpack_require__) {
                 var zone = gists[i];
                 zone.innerHTML = "", zone.appendChild(gistFrame);
                 // Create the iframe's document
-                var gistFrameHTML = '<html><base target="_parent"/><body onload="parent.document.getElementById(\'ejs-gist-' + i + '\').style.height=parseInt(document.body.scrollHeight)+20+\'px\'"><script type="text/javascript" src="https://' + gists[i].getAttribute("data-src") + '.js"></script></body></html>', gistFrameDoc = gistFrame.document;
+                var url = gists[i].getAttribute("data-src");
+                url = -1 === url.indexOf("http") ? "https://" + url : url;
+                var gistFrameHTML = '<html><base target="_parent"/><body onload="parent.document.getElementById(\'ejs-gist-' + i + '\').style.height=parseInt(document.body.scrollHeight)+20+\'px\'"><script type="text/javascript" src="' + url + '.js"></script></body></html>', gistFrameDoc = gistFrame.document;
                 gistFrame.contentDocument ? gistFrameDoc = gistFrame.contentDocument : gistFrame.contentWindow && (gistFrameDoc = gistFrame.contentWindow.document), 
                 gistFrameDoc.open(), gistFrameDoc.writeln(gistFrameHTML), gistFrameDoc.close();
             }

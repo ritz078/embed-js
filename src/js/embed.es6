@@ -172,12 +172,12 @@ const helper           =   require('./modules/video/helper.es6');
             let result = await this.process();
             this.options.element.innerHTML = result;
 
-            let event = new Event('rendered');
-            this.options.element.dispatchEvent(event);
-
             helper.applyVideoJS(this.options);
 
             helper.play('ejs-video-thumb', this.options);
+
+            let event = new Event('rendered');
+            this.options.element.dispatchEvent(event);
 
             this.options.afterEmbedJSApply();
         }
