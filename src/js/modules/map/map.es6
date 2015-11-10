@@ -6,6 +6,7 @@ class Gmap {
         this.output = output;
         this.options = options;
         this.embeds = embeds;
+        this.service = 'map'
         this.regex = /@\((.+)\)/gi;
     }
 
@@ -38,17 +39,24 @@ class Gmap {
 
     async process() {
         let match;
-        while ((match = utils.matches(this.regex, this.input)) !== null) {
+        while ((match = utils.matches(this.regex, this.output)) !== null) {
             let [latitude, longitude] = this.options.mapOptions.mode !== 'place' ? await this.getCoordinate(match[0]) : [null, null];
             let text = this.template(match[0], latitude, longitude);
-            this.embeds.push({
-                text: text,
-                index: match.index
-            })
+            if (!utils.ifInline(this.options, this.service)) {
+                this.output = this.output.replace(this.regex, (match) => {
+                    return '<span class="ejs-location">' + match.split('(')[1].split(')')[0] + '</span>' + text
+                })
+            } else {
+                this.embeds.push({
+                    text: text,
+                    index: match.index
+                })
+                this.output = this.output.replace(this.regex, function(match) {
+                    return '<span class="ejs-location">' + match.split('(')[1].split(')')[0] + '</span>';
+                });
+            }
         }
-        this.output = this.output.replace(this.regex, function(match) {
-            return '<span class="ejs-location">' + match.split('(')[1].split(')')[0] + '</span>';
-        });
+
         return [this.output, this.embeds];
     }
 }

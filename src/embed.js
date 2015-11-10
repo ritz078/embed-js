@@ -2259,7 +2259,7 @@ function(module, exports, __webpack_require__) {
         var _classCallCheck = __webpack_require__(1)["default"], _regeneratorRuntime = __webpack_require__(2)["default"], utils = __webpack_require__(71), Gmap = function() {
             function Gmap(input, output, options, embeds) {
                 _classCallCheck(this, Gmap), this.input = input, this.output = output, this.options = options, 
-                this.embeds = embeds, this.regex = /@\((.+)\)/gi;
+                this.embeds = embeds, this.service = "map", this.regex = /@\((.+)\)/gi;
             }
             return Gmap.prototype.getCoordinate = function(location) {
                 var url, response, data, latitude, longitude;
@@ -2286,44 +2286,61 @@ function(module, exports, __webpack_require__) {
                 return "place" === config.mode ? template = '<div class="ejs-embed ejs-map"><iframe width="' + dimensions.width + '" height="' + dimensions.height + '" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?key=' + this.options.googleAuthKey + "&q=" + location + '"></iframe></div>' : "streetview" === config.mode ? template = '<div class="ejs-embed ejs-map"><iframe width="' + dimensions.width + '" height="' + dimensions.height + '" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/streetview?key=' + this.options.googleAuthKey + "&location=" + latitude + "," + longitude + '&heading=210&pitch=10&fov=35"></iframe></div>' : "view" === config.mode && (template = '<div class="ejs-embed ejs-map"><iframe width="' + dimensions.width + '" height="' + dimensions.height + '" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/view?key=' + this.options.googleAuthKey + "&center=" + latitude + "," + longitude + '&zoom=18&maptype=satellite"></iframe></div>'), 
                 template;
             }, Gmap.prototype.process = function() {
-                var match, _ref, latitude, longitude, text;
+                var match, _loop;
                 return _regeneratorRuntime.async(function(context$2$0) {
-                    for (;;) switch (context$2$0.prev = context$2$0.next) {
+                    for (var _this = this; ;) switch (context$2$0.prev = context$2$0.next) {
                       case 0:
-                        match = void 0;
+                        match = void 0, _loop = function() {
+                            var _ref, latitude, longitude, text;
+                            return _regeneratorRuntime.async(function(context$3$0) {
+                                for (;;) switch (context$3$0.prev = context$3$0.next) {
+                                  case 0:
+                                    if ("place" === this.options.mapOptions.mode) {
+                                        context$3$0.next = 6;
+                                        break;
+                                    }
+                                    return context$3$0.next = 3, _regeneratorRuntime.awrap(this.getCoordinate(match[0]));
 
-                      case 1:
-                        if (null === (match = utils.matches(this.regex, this.input))) {
-                            context$2$0.next = 16;
+                                  case 3:
+                                    context$3$0.t0 = context$3$0.sent, context$3$0.next = 7;
+                                    break;
+
+                                  case 6:
+                                    context$3$0.t0 = [ null, null ];
+
+                                  case 7:
+                                    _ref = context$3$0.t0, latitude = _ref[0], longitude = _ref[1], text = this.template(match[0], latitude, longitude), 
+                                    utils.ifInline(this.options, this.service) ? (this.embeds.push({
+                                        text: text,
+                                        index: match.index
+                                    }), this.output = this.output.replace(this.regex, function(match) {
+                                        return '<span class="ejs-location">' + match.split("(")[1].split(")")[0] + "</span>";
+                                    })) : this.output = this.output.replace(this.regex, function(match) {
+                                        return '<span class="ejs-location">' + match.split("(")[1].split(")")[0] + "</span>" + text;
+                                    });
+
+                                  case 12:
+                                  case "end":
+                                    return context$3$0.stop();
+                                }
+                            }, null, _this);
+                        };
+
+                      case 2:
+                        if (null === (match = utils.matches(this.regex, this.output))) {
+                            context$2$0.next = 7;
                             break;
                         }
-                        if ("place" === this.options.mapOptions.mode) {
-                            context$2$0.next = 8;
-                            break;
-                        }
-                        return context$2$0.next = 5, _regeneratorRuntime.awrap(this.getCoordinate(match[0]));
+                        return context$2$0.next = 5, _regeneratorRuntime.awrap(_loop());
 
                       case 5:
-                        context$2$0.t0 = context$2$0.sent, context$2$0.next = 9;
+                        context$2$0.next = 2;
                         break;
+
+                      case 7:
+                        return context$2$0.abrupt("return", [ this.output, this.embeds ]);
 
                       case 8:
-                        context$2$0.t0 = [ null, null ];
-
-                      case 9:
-                        _ref = context$2$0.t0, latitude = _ref[0], longitude = _ref[1], text = this.template(match[0], latitude, longitude), 
-                        this.embeds.push({
-                            text: text,
-                            index: match.index
-                        }), context$2$0.next = 1;
-                        break;
-
-                      case 16:
-                        return this.output = this.output.replace(this.regex, function(match) {
-                            return '<span class="ejs-location">' + match.split("(")[1].split(")")[0] + "</span>";
-                        }), context$2$0.abrupt("return", [ this.output, this.embeds ]);
-
-                      case 18:
                       case "end":
                         return context$2$0.stop();
                     }
