@@ -2934,10 +2934,9 @@ function(module, exports, __webpack_require__) {
         "use strict";
         var _classCallCheck = __webpack_require__(1)["default"], _regeneratorRuntime = __webpack_require__(2)["default"], utils = __webpack_require__(71), helper = __webpack_require__(103), Youtube = function() {
             function Youtube(input, output, options, embeds) {
-                _classCallCheck(this, Youtube);
-                var _ref = [ input, output, options, embeds ];
-                this.input = _ref[0], this.output = _ref[1], this.options = _ref[2], this.embeds = _ref[3], 
-                this.regex = /https?:\/\/(?:[0-9A-Z-]+\.)?(?:youtu\.be\/|youtube\.com(?:\/embed\/|\/v\/|\/watch\?v=|\/ytscreeningroom\?v=|\/feeds\/api\/videos\/|\/user\S*[^\w\-\s]|\S*[^\w\-\s]))([\w\-]{11})[?=&+%\w-]*/gi;
+                _classCallCheck(this, Youtube), this.input = input, this.output = output, this.options = options, 
+                this.embeds = embeds, this.regex = /https?:\/\/(?:[0-9A-Z-]+\.)?(?:youtu\.be\/|youtube\.com(?:\/embed\/|\/v\/|\/watch\?v=|\/ytscreeningroom\?v=|\/feeds\/api\/videos\/|\/user\S*[^\w\-\s]|\S*[^\w\-\s]))([\w\-]{11})[?=&+%\w-]*/gi, 
+                this.service = "youtube";
             }
             return Youtube.prototype.formatData = function(data) {
                 return {
@@ -2974,50 +2973,80 @@ function(module, exports, __webpack_require__) {
                     }
                 }, null, this, [ [ 0, 11 ] ]);
             }, Youtube.prototype.process = function() {
-                var match, embedUrl, data, text;
+                var regexInline, match, id, embedUrl, data, text;
                 return _regeneratorRuntime.async(function(context$2$0) {
                     for (;;) switch (context$2$0.prev = context$2$0.next) {
                       case 0:
-                        context$2$0.prev = 0, match = void 0;
+                        if (context$2$0.prev = 0, utils.ifInline(this.options, this.service)) {
+                            context$2$0.next = 17;
+                            break;
+                        }
+                        regexInline = this.options.link ? new RegExp("([^>]*" + this.regex.source + ")</a>", "gi") : new RegExp("([^\\s]*" + this.regex.source + ")", "gi"), 
+                        match = void 0;
 
-                      case 2:
+                      case 4:
+                        if (null === (match = utils.matches(regexInline, this.output))) {
+                            context$2$0.next = 15;
+                            break;
+                        }
+                        return id = match[2], embedUrl = "https://www.youtube.com/embed/" + id, context$2$0.next = 9, 
+                        _regeneratorRuntime.awrap(this.data(id));
+
+                      case 9:
+                        data = context$2$0.sent, console.log(data, id), text = helper.detailsTemplate(this.formatData(data), embedUrl), 
+                        this.options.link ? this.output = this.options.inlineText ? this.output.replace(match[0], match[0] + text) : this.output.replace(match[0], text + "</a>") : this.output = this.options.inlineText ? this.output.replace(match[0], match[0] + text) : this.output.replace(match[0], text), 
+                        context$2$0.next = 4;
+                        break;
+
+                      case 15:
+                        context$2$0.next = 32;
+                        break;
+
+                      case 17:
+                        match = void 0;
+
+                      case 18:
                         if (null === (match = utils.matches(this.regex, this.input))) {
-                            context$2$0.next = 16;
+                            context$2$0.next = 32;
                             break;
                         }
                         if (embedUrl = "https://www.youtube.com/embed/" + match[1], data = void 0, text = void 0, 
                         !this.options.videoDetails) {
-                            context$2$0.next = 12;
+                            context$2$0.next = 28;
                             break;
                         }
-                        return context$2$0.next = 8, _regeneratorRuntime.awrap(this.data(match[1]));
+                        return context$2$0.next = 24, _regeneratorRuntime.awrap(this.data(match[1]));
 
-                      case 8:
+                      case 24:
                         data = context$2$0.sent, text = helper.detailsTemplate(this.formatData(data), embedUrl), 
-                        context$2$0.next = 13;
+                        context$2$0.next = 29;
                         break;
 
-                      case 12:
+                      case 28:
                         text = helper.template(embedUrl, this.options);
 
-                      case 13:
+                      case 29:
                         this.embeds.push({
                             text: text,
                             index: match.index
-                        }), context$2$0.next = 2;
+                        }), context$2$0.next = 18;
                         break;
 
-                      case 16:
+                      case 32:
+                        context$2$0.next = 37;
+                        break;
+
+                      case 34:
+                        context$2$0.prev = 34, context$2$0.t0 = context$2$0["catch"](0), console.log(context$2$0.t0);
+
+                      case 37:
                         return context$2$0.abrupt("return", [ this.output, this.embeds ]);
 
-                      case 19:
-                        context$2$0.prev = 19, context$2$0.t0 = context$2$0["catch"](0), console.log(context$2$0.t0);
-
-                      case 22:
+                      case 38:
                       case "end":
                         return context$2$0.stop();
                     }
-                }, null, this, [ [ 0, 19 ] ]);
+                }, null, this, [ [ 0, 34 ] ]);
             }, Youtube;
         }();
         module.exports = Youtube;
@@ -3096,7 +3125,8 @@ function(module, exports, __webpack_require__) {
         var _classCallCheck = __webpack_require__(1)["default"], _regeneratorRuntime = __webpack_require__(2)["default"], utils = __webpack_require__(71), helper = __webpack_require__(103), Vimeo = function() {
             function Vimeo(input, output, options, embeds) {
                 _classCallCheck(this, Vimeo), this.input = input, this.output = output, this.options = options, 
-                this.embeds = embeds, this.regex = /https?:\/\/(?:www\.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/([^\/]*)\/videos\/|album\/(\d+)\/video\/|)(\d+)(?:$|\/|\?)*/gi;
+                this.embeds = embeds, this.regex = /https?:\/\/(?:www\.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/([^\/]*)\/videos\/|album\/(\d+)\/video\/|)(\d+)(?:$|\/|\?)*/gi, 
+                this.service = "vimeo";
             }
             return Vimeo.prototype.formatData = function(data) {
                 return {
@@ -3133,50 +3163,76 @@ function(module, exports, __webpack_require__) {
                     }
                 }, null, this, [ [ 0, 11 ] ]);
             }, Vimeo.prototype.process = function() {
-                var match, embedUrl, data, text;
+                var regexInline, match, id, embedUrl, data, text;
                 return _regeneratorRuntime.async(function(context$2$0) {
                     for (;;) switch (context$2$0.prev = context$2$0.next) {
                       case 0:
-                        context$2$0.prev = 0, match = void 0;
-
-                      case 2:
-                        if (null === (match = utils.matches(this.regex, this.input))) {
+                        if (context$2$0.prev = 0, utils.ifInline(this.options, this.service)) {
                             context$2$0.next = 16;
+                            break;
+                        }
+                        regexInline = this.options.link ? new RegExp("([^>]*" + this.regex.source + ")</a>", "gi") : new RegExp("([^\\s]*" + this.regex.source + ")", "gi"), 
+                        match = void 0;
+
+                      case 4:
+                        if (null === (match = utils.matches(regexInline, this.output))) {
+                            context$2$0.next = 14;
+                            break;
+                        }
+                        return id = this.options.link ? match[0].slice(0, -4).split("/").slice(-1).pop() : match[0].split("/").slice(-1).pop(), 
+                        embedUrl = "https://player.vimeo.com/video/" + id, context$2$0.next = 9, _regeneratorRuntime.awrap(this.data(id));
+
+                      case 9:
+                        data = context$2$0.sent, text = helper.detailsTemplate(this.formatData(data), embedUrl), 
+                        this.options.link ? this.output = this.options.inlineText ? this.output.replace(match[0], match[0] + text) : this.output.replace(match[0], text + "</a>") : this.output = this.options.inlineText ? this.output.replace(match[0], match[0] + text) : this.output.replace(match[0], text), 
+                        context$2$0.next = 4;
+                        break;
+
+                      case 14:
+                        context$2$0.next = 31;
+                        break;
+
+                      case 16:
+                        match = void 0;
+
+                      case 17:
+                        if (null === (match = utils.matches(this.regex, this.input))) {
+                            context$2$0.next = 31;
                             break;
                         }
                         if (embedUrl = "https://player.vimeo.com/video/" + match[3], data = void 0, text = void 0, 
                         !this.options.videoDetails) {
-                            context$2$0.next = 12;
+                            context$2$0.next = 27;
                             break;
                         }
-                        return context$2$0.next = 8, _regeneratorRuntime.awrap(this.data(match[3]));
+                        return context$2$0.next = 23, _regeneratorRuntime.awrap(this.data(match[3]));
 
-                      case 8:
+                      case 23:
                         data = context$2$0.sent, text = helper.detailsTemplate(this.formatData(data), embedUrl), 
-                        context$2$0.next = 13;
+                        context$2$0.next = 28;
                         break;
 
-                      case 12:
+                      case 27:
                         text = helper.template(embedUrl, this.options);
 
-                      case 13:
+                      case 28:
                         this.embeds.push({
                             text: text,
                             index: match.index
-                        }), context$2$0.next = 2;
+                        }), context$2$0.next = 17;
                         break;
 
-                      case 16:
+                      case 31:
                         return context$2$0.abrupt("return", [ this.output, this.embeds ]);
 
-                      case 19:
-                        context$2$0.prev = 19, context$2$0.t0 = context$2$0["catch"](0), console.log(context$2$0.t0);
+                      case 34:
+                        context$2$0.prev = 34, context$2$0.t0 = context$2$0["catch"](0), console.log(context$2$0.t0);
 
-                      case 22:
+                      case 37:
                       case "end":
                         return context$2$0.stop();
                     }
-                }, null, this, [ [ 0, 19 ] ]);
+                }, null, this, [ [ 0, 34 ] ]);
             }, Vimeo;
         }();
         module.exports = Vimeo;
