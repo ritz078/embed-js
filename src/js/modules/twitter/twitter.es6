@@ -1,11 +1,13 @@
 const utils = require('../utils.es6');
 
 class Twitter {
-    constructor(input, options, embeds) {
+    constructor(input,output, options, embeds) {
         this.input = input;
+        this.output = output;
         this.options = options;
         this.embeds = embeds;
         this.regex = /https:\/\/twitter\.com\/\w+\/\w+\/\d+/gi;
+        this.service = 'twitter'
 
         this.load = this.load.bind(this)
         this.options.element.addEventListener('rendered', this.load, false);
@@ -41,15 +43,30 @@ class Twitter {
 
     async process() {
         try {
-            let match;
-            while ((match = utils.matches(this.regex, this.input)) !== null) {
-                let data = await this.tweetData(match[0]);
-                this.embeds.push({
-                    text: data.html,
-                    index: match.index
-                })
+            if (!utils.ifInline(this.options, this.service)) {
+                let regexInline = this.options.link ? new RegExp(`([^>]*${this.regex.source})<\/a>`, 'gi') : new RegExp(`([^\\s]*${this.regex.source})`, 'gi')
+                let match;
+                while ((match = utils.matches(regexInline, this.output)) !== null) {
+                    let url = this.options.link ? match[0].slice(0, -4) : match[0]
+                    let data = await this.tweetData(url)
+                    let text = data.html
+                    if (this.options.link) {
+                        this.output = !this.options.inlineText ? this.output.replace(match[0], text + '</a>') : this.output.replace(match[0], match[0] + text)
+                    } else {
+                        this.output = !this.options.inlineText ? this.output.replace(match[0], text) : this.output.replace(match[0], match[0] + text)
+                    }
+                }
+            } else {
+                let match;
+                while ((match = utils.matches(this.regex, this.input)) !== null) {
+                    let data = await this.tweetData(match[0]);
+                    this.embeds.push({
+                        text: data.html,
+                        index: match.index
+                    })
+                }
             }
-            return this.embeds;
+            return [this.output, this.embeds];
 
         } catch (error) {
             console.log(error);

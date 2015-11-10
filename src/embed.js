@@ -181,7 +181,7 @@ function(module, exports, __webpack_require__) {
 	         * @param  {Function} callback Function that is executed once the data is ready
 	         * @return {}
 	         */ return EmbedJS.prototype.process = function() {
-                var input, options, embeds, output, _process, _ref, _ref2, _process2, _process3, result;
+                var input, options, embeds, output, _process, _ref, _ref2, _process2, _process3, _ref3, result;
                 return _regeneratorRuntime.async(function(context$3$0) {
                     for (;;) switch (context$3$0.prev = context$3$0.next) {
                       case 0:
@@ -209,29 +209,19 @@ function(module, exports, __webpack_require__) {
                         if (_ref2 = context$3$0.t0, output = _ref2[0], embeds = _ref2[1], _process2 = new Audio(input, output, options, embeds).process(), 
                         output = _process2[0], embeds = _process2[1], _process3 = new Image(input, output, options, embeds).process(), 
                         output = _process3[0], embeds = _process3[1], !options.tweetsEmbed) {
-                            context$3$0.next = 42;
+                            context$3$0.next = 39;
                             break;
                         }
-                        if (this.twitter = new Twitter(input, options, embeds), !options.tweetsEmbed) {
-                            context$3$0.next = 40;
-                            break;
-                        }
-                        return context$3$0.next = 37, _regeneratorRuntime.awrap(this.twitter.process());
+                        return this.twitter = new Twitter(input, output, options, embeds), context$3$0.next = 36, 
+                        _regeneratorRuntime.awrap(this.twitter.process());
 
-                      case 37:
-                        context$3$0.t1 = context$3$0.sent, context$3$0.next = 41;
-                        break;
+                      case 36:
+                        _ref3 = context$3$0.sent, output = _ref3[0], embeds = _ref3[1];
 
-                      case 40:
-                        context$3$0.t1 = output;
-
-                      case 41:
-                        embeds = context$3$0.t1;
-
-                      case 42:
+                      case 39:
                         return result = utils.createText(output, embeds), context$3$0.abrupt("return", result);
 
-                      case 44:
+                      case 41:
                       case "end":
                         return context$3$0.stop();
                     }
@@ -2087,10 +2077,10 @@ function(module, exports, __webpack_require__) {
     (function(fetchJsonp) {
         "use strict";
         var _classCallCheck = __webpack_require__(1)["default"], _regeneratorRuntime = __webpack_require__(2)["default"], utils = __webpack_require__(71), Twitter = function() {
-            function Twitter(input, options, embeds) {
-                _classCallCheck(this, Twitter), this.input = input, this.options = options, this.embeds = embeds, 
-                this.regex = /https:\/\/twitter\.com\/\w+\/\w+\/\d+/gi, this.load = this.load.bind(this), 
-                this.options.element.addEventListener("rendered", this.load, !1);
+            function Twitter(input, output, options, embeds) {
+                _classCallCheck(this, Twitter), this.input = input, this.output = output, this.options = options, 
+                this.embeds = embeds, this.regex = /https:\/\/twitter\.com\/\w+\/\w+\/\d+/gi, this.service = "twitter", 
+                this.load = this.load.bind(this), this.options.element.addEventListener("rendered", this.load, !1);
             }
             /**
 	     * Fetches the data from twitter's oEmbed API
@@ -2128,37 +2118,62 @@ function(module, exports, __webpack_require__) {
                     _this.options.onTweetsLoad();
                 });
             }, Twitter.prototype.process = function() {
-                var match, data;
+                var regexInline, match, url, data, text;
                 return _regeneratorRuntime.async(function(context$2$0) {
                     for (;;) switch (context$2$0.prev = context$2$0.next) {
                       case 0:
-                        context$2$0.prev = 0, match = void 0;
-
-                      case 2:
-                        if (null === (match = utils.matches(this.regex, this.input))) {
-                            context$2$0.next = 9;
+                        if (context$2$0.prev = 0, utils.ifInline(this.options, this.service)) {
+                            context$2$0.next = 15;
                             break;
                         }
-                        return context$2$0.next = 5, _regeneratorRuntime.awrap(this.tweetData(match[0]));
+                        regexInline = this.options.link ? new RegExp("([^>]*" + this.regex.source + ")</a>", "gi") : new RegExp("([^\\s]*" + this.regex.source + ")", "gi"), 
+                        match = void 0;
 
-                      case 5:
+                      case 4:
+                        if (null === (match = utils.matches(regexInline, this.output))) {
+                            context$2$0.next = 13;
+                            break;
+                        }
+                        return url = this.options.link ? match[0].slice(0, -4) : match[0], context$2$0.next = 8, 
+                        _regeneratorRuntime.awrap(this.tweetData(url));
+
+                      case 8:
+                        data = context$2$0.sent, text = data.html, this.options.link ? this.output = this.options.inlineText ? this.output.replace(match[0], match[0] + text) : this.output.replace(match[0], text + "</a>") : this.output = this.options.inlineText ? this.output.replace(match[0], match[0] + text) : this.output.replace(match[0], text), 
+                        context$2$0.next = 4;
+                        break;
+
+                      case 13:
+                        context$2$0.next = 23;
+                        break;
+
+                      case 15:
+                        match = void 0;
+
+                      case 16:
+                        if (null === (match = utils.matches(this.regex, this.input))) {
+                            context$2$0.next = 23;
+                            break;
+                        }
+                        return context$2$0.next = 19, _regeneratorRuntime.awrap(this.tweetData(match[0]));
+
+                      case 19:
                         data = context$2$0.sent, this.embeds.push({
                             text: data.html,
                             index: match.index
-                        }), context$2$0.next = 2;
+                        }), context$2$0.next = 16;
                         break;
 
-                      case 9:
-                        return context$2$0.abrupt("return", this.embeds);
+                      case 23:
+                        return context$2$0.abrupt("return", [ this.output, this.embeds ]);
 
-                      case 12:
-                        context$2$0.prev = 12, context$2$0.t0 = context$2$0["catch"](0), console.log(context$2$0.t0);
+                      case 26:
+                        context$2$0.prev = 26, context$2$0.t0 = context$2$0["catch"](0), console.log(context$2$0.t0);
 
-                      case 15:
+                      case 29:
                       case "end":
                         return context$2$0.stop();
                     }
-                }, null, this, [ [ 0, 12 ] ]);
+                }, null, this, [ [ 0, 26 ] ]);
             }, Twitter;
         }();
         module.exports = Twitter;
@@ -3168,7 +3183,7 @@ function(module, exports, __webpack_require__) {
                     for (;;) switch (context$2$0.prev = context$2$0.next) {
                       case 0:
                         if (context$2$0.prev = 0, utils.ifInline(this.options, this.service)) {
-                            context$2$0.next = 16;
+                            context$2$0.next = 21;
                             break;
                         }
                         regexInline = this.options.link ? new RegExp("([^>]*" + this.regex.source + ")</a>", "gi") : new RegExp("([^\\s]*" + this.regex.source + ")", "gi"), 
@@ -3176,63 +3191,75 @@ function(module, exports, __webpack_require__) {
 
                       case 4:
                         if (null === (match = utils.matches(regexInline, this.output))) {
-                            context$2$0.next = 14;
+                            context$2$0.next = 19;
                             break;
                         }
-                        return id = this.options.link ? match[0].slice(0, -4).split("/").slice(-1).pop() : match[0].split("/").slice(-1).pop(), 
-                        embedUrl = "https://player.vimeo.com/video/" + id, context$2$0.next = 9, _regeneratorRuntime.awrap(this.data(id));
+                        if (id = this.options.link ? match[0].slice(0, -4).split("/").slice(-1).pop() : match[0].split("/").slice(-1).pop(), 
+                        embedUrl = "https://player.vimeo.com/video/" + id, data = void 0, text = void 0, 
+                        !this.options.videoDetails) {
+                            context$2$0.next = 15;
+                            break;
+                        }
+                        return context$2$0.next = 11, _regeneratorRuntime.awrap(this.data(id));
 
-                      case 9:
+                      case 11:
                         data = context$2$0.sent, text = helper.detailsTemplate(this.formatData(data), embedUrl), 
+                        context$2$0.next = 16;
+                        break;
+
+                      case 15:
+                        text = helper.template(embedUrl, this.options);
+
+                      case 16:
                         this.options.link ? this.output = this.options.inlineText ? this.output.replace(match[0], match[0] + text) : this.output.replace(match[0], text + "</a>") : this.output = this.options.inlineText ? this.output.replace(match[0], match[0] + text) : this.output.replace(match[0], text), 
                         context$2$0.next = 4;
                         break;
 
-                      case 14:
-                        context$2$0.next = 31;
+                      case 19:
+                        context$2$0.next = 36;
                         break;
 
-                      case 16:
+                      case 21:
                         match = void 0;
 
-                      case 17:
+                      case 22:
                         if (null === (match = utils.matches(this.regex, this.input))) {
-                            context$2$0.next = 31;
+                            context$2$0.next = 36;
                             break;
                         }
                         if (embedUrl = "https://player.vimeo.com/video/" + match[3], data = void 0, text = void 0, 
                         !this.options.videoDetails) {
-                            context$2$0.next = 27;
+                            context$2$0.next = 32;
                             break;
                         }
-                        return context$2$0.next = 23, _regeneratorRuntime.awrap(this.data(match[3]));
-
-                      case 23:
-                        data = context$2$0.sent, text = helper.detailsTemplate(this.formatData(data), embedUrl), 
-                        context$2$0.next = 28;
-                        break;
-
-                      case 27:
-                        text = helper.template(embedUrl, this.options);
+                        return context$2$0.next = 28, _regeneratorRuntime.awrap(this.data(match[3]));
 
                       case 28:
+                        data = context$2$0.sent, text = helper.detailsTemplate(this.formatData(data), embedUrl), 
+                        context$2$0.next = 33;
+                        break;
+
+                      case 32:
+                        text = helper.template(embedUrl, this.options);
+
+                      case 33:
                         this.embeds.push({
                             text: text,
                             index: match.index
-                        }), context$2$0.next = 17;
+                        }), context$2$0.next = 22;
                         break;
 
-                      case 31:
+                      case 36:
                         return context$2$0.abrupt("return", [ this.output, this.embeds ]);
 
-                      case 34:
-                        context$2$0.prev = 34, context$2$0.t0 = context$2$0["catch"](0), console.log(context$2$0.t0);
+                      case 39:
+                        context$2$0.prev = 39, context$2$0.t0 = context$2$0["catch"](0), console.log(context$2$0.t0);
 
-                      case 37:
+                      case 42:
                       case "end":
                         return context$2$0.stop();
                     }
-                }, null, this, [ [ 0, 34 ] ]);
+                }, null, this, [ [ 0, 39 ] ]);
             }, Vimeo;
         }();
         module.exports = Vimeo;

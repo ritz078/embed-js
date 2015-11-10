@@ -150,8 +150,8 @@ const helper           =   require('./modules/video/helper.es6');
             [output, embeds] = (new Image(input, output, options, embeds).process());
 
             if (options.tweetsEmbed && build.TWITTER) {
-                this.twitter = new Twitter(input, options, embeds);
-                embeds = options.tweetsEmbed ? await (this.twitter.process()) : output;
+                this.twitter = new Twitter(input,output, options, embeds);
+                [output, embeds] = await (this.twitter.process());
             }
 
             let result = utils.createText(output, embeds);
