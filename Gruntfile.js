@@ -29,11 +29,11 @@ module.exports = function(grunt) {
             },
             css: {
                 files: ['src/css/**/*.scss'],
-                tasks: ['sass','postcss']
+                tasks: ['sass', 'postcss']
             },
             js: {
-                files: ['src/js/**/*.es6','build.json'],
-                tasks: ['webpack:build-dev','uglify']
+                files: ['src/js/**/*.es6', 'build.json'],
+                tasks: ['webpack:build-dev', 'uglify']
             }
         },
 
@@ -64,13 +64,13 @@ module.exports = function(grunt) {
 
         'sprite': {
             all: {
-                src             : './assets/images/ejs_emojis/*.png',
-                dest            : './assets/images/emojis.png',
-                retinaSrcFilter : './assets/images/ejs_emojis/*@2x.png',
-                destCss         : 'src/css/_emojis.scss',
-                retinaDest      : './assets/images/emojis@2x.png',
-                cssFormat       : 'css',
-                cssTemplate     : 'sprite.handlebars'
+                src: './assets/images/ejs_emojis/*.png',
+                dest: './assets/images/emojis.png',
+                retinaSrcFilter: './assets/images/ejs_emojis/*@2x.png',
+                destCss: 'src/css/_emojis.scss',
+                retinaDest: './assets/images/emojis@2x.png',
+                cssFormat: 'css',
+                cssTemplate: 'sprite.handlebars'
             }
         },
 
@@ -106,7 +106,18 @@ module.exports = function(grunt) {
 
         'uglify': {
             options: {
-                banner: "<%= meta.banner %>"
+                banner: "<%= meta.banner %>",
+                mangle: true,
+                compress: {
+                    sequences: true,
+                    dead_code: true,
+                    conditionals: true,
+                    booleans: true,
+                    unused: true,
+                    if_return: true,
+                    join_vars: true,
+                    drop_console: true
+                }
             },
             build: {
                 files: {

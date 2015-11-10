@@ -2167,7 +2167,7 @@ function(module, exports, __webpack_require__) {
                         return context$2$0.abrupt("return", [ this.output, this.embeds ]);
 
                       case 26:
-                        context$2$0.prev = 26, context$2$0.t0 = context$2$0["catch"](0), console.log(context$2$0.t0);
+                        context$2$0.prev = 26, context$2$0.t0 = context$2$0["catch"](0);
 
                       case 29:
                       case "end":
@@ -2273,7 +2273,7 @@ function(module, exports, __webpack_require__) {
                         return response = context$2$0.sent, context$2$0.next = 6, _regeneratorRuntime.awrap(response.json());
 
                       case 6:
-                        return data = context$2$0.sent, console.log(data), latitude = data.results[0].geometry.location.lat, 
+                        return data = context$2$0.sent, latitude = data.results[0].geometry.location.lat, 
                         longitude = data.results[0].geometry.location.lng, context$2$0.abrupt("return", [ latitude, longitude ]);
 
                       case 11:
@@ -2581,9 +2581,7 @@ function(module, exports, __webpack_require__) {
                 output = _ref5[0], embeds = _ref5[1];
                 var _ref6 = utils.ifEmbed(options, "gist") ? new Gist(input, output, options, embeds).process() : [ output, embeds ];
                 return output = _ref6[0], embeds = _ref6[1], [ output, embeds ];
-            } catch (error) {
-                console.log(error);
-            }
+            } catch (error) {}
         }, Code;
     }();
     module.exports = Code;
@@ -2997,7 +2995,7 @@ function(module, exports, __webpack_require__) {
                         return data = context$2$0.sent, context$2$0.abrupt("return", data.items[0]);
 
                       case 11:
-                        context$2$0.prev = 11, context$2$0.t0 = context$2$0["catch"](0), console.log(context$2$0.t0);
+                        context$2$0.prev = 11, context$2$0.t0 = context$2$0["catch"](0);
 
                       case 14:
                       case "end":
@@ -3010,7 +3008,7 @@ function(module, exports, __webpack_require__) {
                     for (;;) switch (context$2$0.prev = context$2$0.next) {
                       case 0:
                         if (context$2$0.prev = 0, utils.ifInline(this.options, this.service)) {
-                            context$2$0.next = 17;
+                            context$2$0.next = 21;
                             break;
                         }
                         regexInline = this.options.link ? new RegExp("([^>]*" + this.regex.source + ")</a>", "gi") : new RegExp("([^\\s]*" + this.regex.source + ")", "gi"), 
@@ -3018,67 +3016,78 @@ function(module, exports, __webpack_require__) {
 
                       case 4:
                         if (null === (match = utils.matches(regexInline, this.output))) {
+                            context$2$0.next = 19;
+                            break;
+                        }
+                        if (id = match[2], embedUrl = "https://www.youtube.com/embed/" + id, data = void 0, 
+                        text = void 0, !this.options.videoDetails) {
                             context$2$0.next = 15;
                             break;
                         }
-                        return id = match[2], embedUrl = "https://www.youtube.com/embed/" + id, context$2$0.next = 9, 
-                        _regeneratorRuntime.awrap(this.data(id));
+                        return context$2$0.next = 11, _regeneratorRuntime.awrap(this.data(id));
 
-                      case 9:
-                        data = context$2$0.sent, console.log(data, id), text = helper.detailsTemplate(this.formatData(data), embedUrl), 
+                      case 11:
+                        data = context$2$0.sent, text = helper.detailsTemplate(this.formatData(data), embedUrl), 
+                        context$2$0.next = 16;
+                        break;
+
+                      case 15:
+                        text = helper.template(embedUrl, this.options);
+
+                      case 16:
                         this.options.link ? this.output = this.options.inlineText ? this.output.replace(match[0], match[0] + text) : this.output.replace(match[0], text + "</a>") : this.output = this.options.inlineText ? this.output.replace(match[0], match[0] + text) : this.output.replace(match[0], text), 
                         context$2$0.next = 4;
                         break;
 
-                      case 15:
-                        context$2$0.next = 32;
+                      case 19:
+                        context$2$0.next = 36;
                         break;
 
-                      case 17:
+                      case 21:
                         match = void 0;
 
-                      case 18:
+                      case 22:
                         if (null === (match = utils.matches(this.regex, this.input))) {
-                            context$2$0.next = 32;
+                            context$2$0.next = 36;
                             break;
                         }
                         if (embedUrl = "https://www.youtube.com/embed/" + match[1], data = void 0, text = void 0, 
                         !this.options.videoDetails) {
-                            context$2$0.next = 28;
+                            context$2$0.next = 32;
                             break;
                         }
-                        return context$2$0.next = 24, _regeneratorRuntime.awrap(this.data(match[1]));
-
-                      case 24:
-                        data = context$2$0.sent, text = helper.detailsTemplate(this.formatData(data), embedUrl), 
-                        context$2$0.next = 29;
-                        break;
+                        return context$2$0.next = 28, _regeneratorRuntime.awrap(this.data(match[1]));
 
                       case 28:
-                        text = helper.template(embedUrl, this.options);
-
-                      case 29:
-                        this.embeds.push({
-                            text: text,
-                            index: match.index
-                        }), context$2$0.next = 18;
+                        data = context$2$0.sent, text = helper.detailsTemplate(this.formatData(data), embedUrl), 
+                        context$2$0.next = 33;
                         break;
 
                       case 32:
-                        context$2$0.next = 37;
+                        text = helper.template(embedUrl, this.options);
+
+                      case 33:
+                        this.embeds.push({
+                            text: text,
+                            index: match.index
+                        }), context$2$0.next = 22;
                         break;
 
-                      case 34:
-                        context$2$0.prev = 34, context$2$0.t0 = context$2$0["catch"](0), console.log(context$2$0.t0);
-
-                      case 37:
-                        return context$2$0.abrupt("return", [ this.output, this.embeds ]);
+                      case 36:
+                        context$2$0.next = 41;
+                        break;
 
                       case 38:
+                        context$2$0.prev = 38, context$2$0.t0 = context$2$0["catch"](0);
+
+                      case 41:
+                        return context$2$0.abrupt("return", [ this.output, this.embeds ]);
+
+                      case 42:
                       case "end":
                         return context$2$0.stop();
                     }
-                }, null, this, [ [ 0, 34 ] ]);
+                }, null, this, [ [ 0, 38 ] ]);
             }, Youtube;
         }();
         module.exports = Youtube;
@@ -3187,7 +3196,7 @@ function(module, exports, __webpack_require__) {
                         return data = context$2$0.sent, context$2$0.abrupt("return", data[0]);
 
                       case 11:
-                        context$2$0.prev = 11, context$2$0.t0 = context$2$0["catch"](0), console.log(context$2$0.t0);
+                        context$2$0.prev = 11, context$2$0.t0 = context$2$0["catch"](0);
 
                       case 14:
                       case "end":
@@ -3270,7 +3279,7 @@ function(module, exports, __webpack_require__) {
                         return context$2$0.abrupt("return", [ this.output, this.embeds ]);
 
                       case 39:
-                        context$2$0.prev = 39, context$2$0.t0 = context$2$0["catch"](0), console.log(context$2$0.t0);
+                        context$2$0.prev = 39, context$2$0.t0 = context$2$0["catch"](0);
 
                       case 42:
                       case "end":
@@ -3313,9 +3322,7 @@ function(module, exports, __webpack_require__) {
                 output = _ref2[0], embeds = _ref2[1];
                 var _ref3 = this.options.audioEmbed ? new BasicAudio(input, output, options, embeds).process() : [ output, embeds ];
                 return output = _ref3[0], embeds = _ref3[1], [ output, embeds ];
-            } catch (error) {
-                console.log(error);
-            }
+            } catch (error) {}
         }, Audio;
     }();
     module.exports = Audio;
@@ -3381,9 +3388,7 @@ function(module, exports, __webpack_require__) {
                 output = _ref2[0], embeds = _ref2[1];
                 var _ref3 = this.options.imageEmbed ? new Basic(input, output, this.options, embeds).process() : [ output, embeds ];
                 return output = _ref3[0], embeds = _ref3[1], [ output, embeds ];
-            } catch (error) {
-                console.log(error);
-            }
+            } catch (error) {}
         }, Image;
     }();
     module.exports = Image;

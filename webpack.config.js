@@ -17,10 +17,10 @@ module.exports = {
         }],
         loaders: [{
             test: /\.es6$/,
-            exclude: /node_modules/,
+            include: /src/,
             loader: 'babel-loader',
-            query :{
-                cacheDirectory:'.tmp/'
+            query: {
+                cacheDirectory: '.tmp/'
             }
         }]
     },
@@ -31,19 +31,27 @@ module.exports = {
         new webpack.ProvidePlugin({
             'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch',
             'fetchJsonp': 'fetch-jsonp'
-                    }),
+        }),
         new webpack.optimize.DedupePlugin(),
         new webpack.optimize.UglifyJsPlugin({
-            compress:{
-                warnings:false
+            compress: {
+                warnings: false,
+                sequences: true,
+                dead_code: true,
+                conditionals: true,
+                booleans: true,
+                unused: true,
+                if_return: true,
+                join_vars: true,
+                drop_console: true
             },
             mangle:false,
-            output:{
-                beautify:true,
-                comments:true
+            output: {
+                beautify: true,
+                comments: true
             }
         })
-        ],
+    ],
     stats: {
         // Nice colored output
         colors: true

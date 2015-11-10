@@ -44,9 +44,13 @@ class Youtube {
                 while ((match = utils.matches(regexInline, this.output)) !== null) {
                     let id = match[2]
                     let embedUrl = `https://www.youtube.com/embed/${id}`
-                    let data = await this.data(id)
-                    console.log(data,id)
-                    let text = helper.detailsTemplate(this.formatData(data), embedUrl)
+                    let data, text;
+                    if (this.options.videoDetails) {
+                        data = await this.data(id)
+                        text = helper.detailsTemplate(this.formatData(data), embedUrl)
+                    } else {
+                        text = helper.template(embedUrl, this.options)
+                    }
                     if (this.options.link) {
                         this.output = !this.options.inlineText ? this.output.replace(match[0], text + '</a>') : this.output.replace(match[0], match[0] + text)
                     } else {
@@ -72,7 +76,7 @@ class Youtube {
                 }
             }
 
-        }catch(error){
+        } catch (error) {
             console.log(error)
         }
 
