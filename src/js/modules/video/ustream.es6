@@ -2,9 +2,10 @@ const utils = require('../utils.es6');
 let Base = require('../base.es6');
 
 class Ustream extends Base{
-	constructor(input,options, embeds){
-		super(input, options, embeds);
+	constructor(input,output,options, embeds){
+		super(input,output, options, embeds);
 		this.regex = /ustream.tv\/[a-z\/0-9]*/gi;
+		this.service = 'ustream'
 	}
 
 	template(match){

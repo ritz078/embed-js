@@ -11,24 +11,23 @@ if(build.BASICVIDEO)  var BasicVideo  = require('./basic.es6');
 
 class Video {
     constructor(input, output, options, embeds) {
-        this.input   = input;
-        this.output  = output;
-        this.options = options;
-        this.embeds  = embeds;
+        this.input = input;
+		this.output = output;
+		this.options = options;
+		this.embeds = embeds
     }
 
     async process() {
-        let input  = this.input;
-        let output = this.output;
-        let embeds = this.embeds;
-        embeds = utils.ifEmbed(this.options, 'ted') && build.TED ? (new Ted(input, this.options, embeds).process()) : embeds;
-        embeds = utils.ifEmbed(this.options, 'dailymotion') && build.DAILYMOTION ? (new Dailymotion(input, this.options, embeds).process()) : embeds;
-        embeds = utils.ifEmbed(this.options, 'ustream') && build.USTREAM ? (new Ustream(input, this.options, embeds).process()) : embeds;
-        embeds = utils.ifEmbed(this.options, 'liveleak') && build.LIVELEAK ? (new LiveLeak(input, this.options, embeds).process()) : embeds;
-        embeds = this.options.videoEmbed && build.BASICVIDEO ? (new BasicVideo(input, this.options, embeds).process()) : embeds;
-        embeds = utils.ifEmbed(this.options, 'vine') && build.VINE ? (new Vine(input, this.options, embeds).process()) : embeds;
-        embeds = utils.ifEmbed(this.options, 'youtube') && build.YOUTUBE ? await (new Youtube(input, this.options, embeds).process()) : embeds;
-        embeds = utils.ifEmbed(this.options, 'vimeo') && build.VIMEO ? await (new Vimeo(input, this.options, embeds).process()) : embeds;
+        let [input,output,options,embeds] = [this.input,this.output,this.options,this.embeds];
+
+        [output, embeds] = utils.ifEmbed(options, 'ted') && build.TED ? (new Ted(input, output, options, embeds).process()) : [output, embeds];
+        [output, embeds] = utils.ifEmbed(options, 'dailymotion') && build.DAILYMOTION ? (new Dailymotion(input, output, options, embeds).process()) : [output, embeds];
+        [output, embeds] = utils.ifEmbed(options, 'ustream') && build.USTREAM ? (new Ustream(input, output, options, embeds).process()) : [output, embeds];
+        [output, embeds] = utils.ifEmbed(options, 'liveleak') && build.LIVELEAK ? (new LiveLeak(input, output, options, embeds).process()) : [output, embeds];
+        [output, embeds] = options.videoEmbed && build.BASICVIDEO ? (new BasicVideo(input, output, options, embeds).process()) : [output, embeds];
+        [output, embeds] = utils.ifEmbed(options, 'vine') && build.VINE ? (new Vine(input, output, options, embeds).process()) : [output, embeds];
+        [output, embeds] = utils.ifEmbed(options, 'youtube') && build.YOUTUBE ? await (new Youtube(input, output, options, embeds).process()) : [output, embeds];
+        [output, embeds] = utils.ifEmbed(options, 'vimeo') && build.VIMEO ? await (new Vimeo(input, output, options, embeds).process()) : [output, embeds];
 
         return [output, embeds];
     }

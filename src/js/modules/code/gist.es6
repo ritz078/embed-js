@@ -1,9 +1,10 @@
 let Base = require('../base.es6');
 
 class Gist extends Base {
-    constructor(input, options, embeds) {
-        super(input, options, embeds);
+	constructor(input, output,options, embeds){
+		super(input,output, options, embeds);
         this.regex = /gist.github.com\/[a-zA-Z0-9_-]+\/([a-zA-Z0-9]+)/g;
+		this.service = 'gist';
 
         this.options.element.addEventListener('rendered', () => {
             this.load()

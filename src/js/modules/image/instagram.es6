@@ -3,9 +3,10 @@ const utils = require('../utils.es6');
 let Base = require('../base.es6');
 
 class Instagram extends Base{
-	constructor(input,options, embeds){
-		super(input, options, embeds);
+	constructor(input, output,options, embeds){
+		super(input,output, options, embeds);
 		this.regex = /instagram.com\/p\/[a-zA-Z0-9]+/gi;
+		this.service = 'instagram'
 	}
 
 	template(match){

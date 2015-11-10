@@ -1,9 +1,10 @@
 let Base = require('../base.es6');
 
 class JsFiddle extends Base{
-	constructor(input,options, embeds){
-		super(input, options, embeds);
+	constructor(input, output,options, embeds){
+		super(input,output, options, embeds);
 		this.regex =/jsfiddle.net\/[a-zA-Z0-9_]+\/[a-zA-Z0-9_]+/gi;
+		this.service = 'jsfiddle';
 	}
 
 	template(id){

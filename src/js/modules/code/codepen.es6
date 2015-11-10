@@ -1,9 +1,10 @@
 let Base = require('../base.es6');
 
 class CodePen extends Base{
-	constructor(input,options, embeds){
-		super(input, options, embeds);
+	constructor(input, output,options, embeds){
+		super(input,output, options, embeds);
 		this.regex = /http:\/\/codepen.io\/([A-Za-z0-9_]+)\/pen\/([A-Za-z0-9_]+)/gi;
+		this.service = 'codepen';
 	}
 
 	template(id){

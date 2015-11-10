@@ -3,11 +3,11 @@ const helper = require('./helper.es6');
 
 
 class Vimeo {
-	constructor(input, options, embeds) {
-		this.input   = input;
+	constructor(input, output, options, embeds) {
+		this.input = input;
+		this.output = output;
 		this.options = options;
-		this.embeds  = embeds;
-
+		this.embeds = embeds;
 		this.regex   = /https?:\/\/(?:www\.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/([^\/]*)\/videos\/|album\/(\d+)\/video\/|)(\d+)(?:$|\/|\?)*/gi;
 	}
 
@@ -55,7 +55,7 @@ class Vimeo {
 					index: match.index
 				})
 			}
-			return this.embeds;
+			return [this.output, this.embeds];
 		} catch (error) {
 			console.log(error);
 		}

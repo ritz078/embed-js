@@ -18,16 +18,15 @@ class Code {
 
 	process() {
 		try {
-			let output = this.output;
-			let embeds = this.embeds;
-			let options = this.options;
+			let [input, output, options, embeds] = [this.input, this.output, this.options, this.embeds];
+
 			output = options.highlightCode && !options.marked && build.HIGHLIGHTCODE ? (new Highlight(output, options).process()) : output;
-			embeds = utils.ifEmbed(options, 'ideone') && build.IDEONE ? (new Ideone(this.input, options, embeds).process()) : embeds;
-			embeds = utils.ifEmbed(options, 'plunker') && build.PLUNKER ? (new Plunker(this.input, options, embeds).process()) : embeds;
-			embeds = utils.ifEmbed(options, 'jsbin') && build.JSBIN ? (new JsBin(this.input, options, embeds).process()) : embeds;
-			embeds = utils.ifEmbed(options, 'codepen') && build.CODEPEN ? (new CodePen(this.input, options, embeds).process()) : embeds;
-			embeds = utils.ifEmbed(options, 'jsfiddle') && build.JSFIDDLE ? (new JsFiddle(this.input, options, embeds).process()) : embeds;
-			embeds = utils.ifEmbed(options, 'gist') && build.GIST ? (new Gist(this.input, options,embeds).process()) : embeds;
+			[output,embeds] = utils.ifEmbed(options, 'ideone') && build.IDEONE ? (new Ideone(input,output, options, embeds).process()) : [output,embeds];
+			[output,embeds] = utils.ifEmbed(options, 'plunker') && build.PLUNKER ? (new Plunker(input,output, options, embeds).process()) : [output,embeds];
+			[output,embeds] = utils.ifEmbed(options, 'jsbin') && build.JSBIN ? (new JsBin(input,output, options, embeds).process()) : [output,embeds];
+			[output,embeds] = utils.ifEmbed(options, 'codepen') && build.CODEPEN ? (new CodePen(input,output, options, embeds).process()) : [output,embeds];
+			[output,embeds] = utils.ifEmbed(options, 'jsfiddle') && build.JSFIDDLE ? (new JsFiddle(input,output, options, embeds).process()) : [output,embeds];
+			[output,embeds] = utils.ifEmbed(options, 'gist') && build.GIST ? (new Gist(input,output, options,embeds).process()) : [output,embeds];
 
 			return [output, embeds];
 		} catch (error) {

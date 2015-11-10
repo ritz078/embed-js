@@ -98,7 +98,7 @@ var utils = {
     },
 
     /**
-     * Checks wheteher a particular service should be embedded or no based on
+     * Checks wheteher a particular service should be embedded or not based on
      * the setting provided by the user
      * @param  {object} options The options provided by the user
      * @param  {string} service Name of the service for which the condition is to be analyzed
@@ -107,6 +107,10 @@ var utils = {
     ifEmbed: function(options, service) {
         return ((options.excludeEmbed.indexOf(service) == -1) && (options.excludeEmbed !== 'all'));
     },
+
+	ifInline: function(options, service) {
+		return ((options.inlineEmbed.indexOf(service) == -1) && (options.inlineEmbed !== 'all'));
+	},
 
     /**
      * Calculates the dimensions for the elements based on a aspect ratio

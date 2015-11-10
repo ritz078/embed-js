@@ -14,11 +14,10 @@ class Audio{
 
 	process(){
 		try{
-			let output = this.output;
-			let embeds = this.embeds;
-			embeds = utils.ifEmbed(this.options, 'soundcloud') && build.SOUNDCLOUD ? (new SoundCloud(this.input, this.options, embeds).process()) : embeds;
-			embeds = utils.ifEmbed(this.options, 'spotify') && build.SPOTIFY ? (new Spotify(this.input, this.options, embeds).process()) : embeds;
-			embeds = this.options.audioEmbed && build.BASICAUDIO ? (new BasicAudio(this.input, this.options, embeds).process()) : embeds;
+			let [input, output, options, embeds] = [this.input, this.output, this.options, this.embeds];
+			[output,embeds] = utils.ifEmbed(options, 'soundcloud') && build.SOUNDCLOUD ? (new SoundCloud(input,output, options, embeds).process()) : [output,embeds];
+			[output,embeds] = utils.ifEmbed(options, 'spotify') && build.SPOTIFY ? (new Spotify(input,output, options, embeds).process()) : [output,embeds];
+			[output,embeds] = this.options.audioEmbed && build.BASICAUDIO ? (new BasicAudio(input,output, options, embeds).process()) : [output,embeds];
 
 			return [output, embeds];
 		}catch(error){

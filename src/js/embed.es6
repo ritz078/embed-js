@@ -1,5 +1,5 @@
 //The MIT License (MIT)
-//Copyright (c) 2014 Ritesh Kumar
+//Copyright (c) 2015 Ritesh Kumar
 //
 //Permission is hereby granted, free of charge, to any person obtaining a copy
 //of this software and associated documentation files (the "Software"), to deal
@@ -21,89 +21,89 @@
 
 const utils = require('./modules/utils.es6');
 
-if (build.EMOJI) var Emoji = require('./modules/emoticons/emoji.es6');
-if (build.SMILEY) var Smiley = require('./modules/emoticons/smiley.es6');
-if (build.LINK) var Url = require('./modules/url.es6');
+if    (build.EMOJI)    var Emoji     = require('./modules/emoticons/emoji.es6');
+if    (build.SMILEY)   var Smiley    = require('./modules/emoticons/smiley.es6');
+if    (build.LINK)     var Url       = require('./modules/url.es6');
 
-if (build.TWITTER) var Twitter = require('./modules/twitter/twitter.es6');
-if (build.MAP) var Gmap = require('./modules/map/map.es6');
-if (build.MARKDOWN) var Markdown = require('./modules/markdown.es6');
+if    (build.TWITTER)  var Twitter   = require('./modules/twitter/twitter.es6');
+if    (build.MAP)      var Gmap      = require('./modules/map/map.es6');
+if    (build.MARKDOWN) var Markdown  = require('./modules/markdown.es6');
 
-const Code = require('./modules/code/code.es6');
-const Video = require('./modules/video/video.es6');
-
-const Audio = require('./modules/audio/audio.es6');
-const Image = require('./modules/image/image.es6');
-
-const helper = require('./modules/video/helper.es6');
+const Code             =   require('./modules/code/code.es6');
+const Video            =   require('./modules/video/video.es6');
+const Audio            =   require('./modules/audio/audio.es6');
+const Image            =   require('./modules/image/image.es6');
+const helper           =   require('./modules/video/helper.es6');
 
 (function() {
 
     var globalOptions;
 
     var defaultOptions = {
-        marked: false,
-        markedOptions: {},
-        link: true,
-        linkOptions: {
-            target: 'self',
-            exclude: ['pdf'],
-            rel: ''
+        marked             : false,
+        markedOptions      : {},
+        link               : true,
+        linkOptions        : {
+            target             : 'self',
+            exclude            : ['pdf'],
+            rel                : ''
         },
-        emoji: true,
-        customEmoji: [],
-        fontIcons: true,
-        customFontIcons: [],
-        highlightCode: true,
-        videoJS: false,
-        videojsOptions: {
-            fluid: true,
-            preload: 'metadata'
+        emoji              : true,
+        customEmoji        : [],
+        fontIcons          : true,
+        customFontIcons    : [],
+        highlightCode      : true,
+        videoJS            : false,
+        videojsOptions     : {
+            fluid              : true,
+            preload            : 'metadata'
         },
-        locationEmbed: true,
-        mapOptions: {
-            mode: 'place'
+        locationEmbed      : true,
+        mapOptions         : {
+            mode               : 'place'
         },
-        tweetsEmbed: true,
-        tweetOptions: {
-            maxWidth: 550,
-            hideMedia: false,
-            hideThread: false,
-            align: 'none',
-            lang: 'en'
+        tweetsEmbed        : true,
+        tweetOptions       : {
+        maxWidth           : 550,
+        hideMedia          : false,
+        hideThread         : false,
+        align              : 'none',
+        lang               : 'en'
         },
-        imageEmbed: true,
-        videoEmbed: true,
-        videoHeight: null,
-        videoWidth: null,
-        videoDetails: true,
-        audioEmbed: true,
-        excludeEmbed: [],
-        codeEmbedHeight: 500,
-        vineOptions: {
-            maxWidth: null,
-            type: 'postcard', //'postcard' or 'simple' embedding
-            responsive: true,
-            width: 350,
-            height: 460
+        imageEmbed         : true,
+        videoEmbed         : true,
+        videoHeight        : null,
+        videoWidth         : null,
+        videoDetails       : true,
+        audioEmbed         : true,
+        excludeEmbed       : [],
+		inlineEmbed        : [],
+        inlineText         : true,
+        codeEmbedHeight    : 500,
+        vineOptions        : {
+            maxWidth           : null,
+            type               : 'postcard', //'postcard' or 'simple' embedding
+            responsive         : true,
+            width              : 350,
+            height             : 460
         },
-        googleAuthKey: '',
-        soundCloudOptions: {
-            height: 160,
-            themeColor: 'f50000', //Hex Code of the player theme color
-            autoPlay: false,
-            hideRelated: false,
-            showComments: true,
-            showUser: true,
-            showReposts: false,
-            visual: false, //Show/hide the big preview image
-            download: false //Show/Hide download buttons
+        googleAuthKey      : '',
+        soundCloudOptions  : {
+            height             : 160,
+            themeColor         : 'f50000', //Hex Code of the player theme color
+            autoPlay           : false,
+            hideRelated        : false,
+            showComments       : true,
+            showUser           : true,
+            showReposts        : false,
+            visual             : false, //Show/hide the big preview image
+            download           : false //Show/Hide download buttons
         },
-        beforeEmbedJSApply: function() {},
-        afterEmbedJSApply: function() {},
-        onVideoShow: function() {},
-        onTweetsLoad: function() {},
-        videojsCallback: function() {}
+        beforeEmbedJSApply : function() {},
+        afterEmbedJSApply  : function() {},
+        onVideoShow        : function() {},
+        onTweetsLoad       : function() {},
+        videojsCallback    : function() {}
     };
 
     class EmbedJS {
@@ -139,15 +139,16 @@ const helper = require('./modules/video/helper.es6');
 
             this.options.beforeEmbedJSApply();
 
-            let output = options.link && build.LINK ? (new Url(input, options).process()) : input;
-            output = options.marked && build.MARKDOWN ? (new Markdown(output, options).process()) : output;
-            output = options.emoji && build.EMOJI ? (new Emoji(output, options).process()) : output;
-            output = options.fontIcons && build.SMILEY ? (new Smiley(output, options).process()) : output;
+            let output       = options.link && build.LINK ? (new Url(input, options).process()) : input;
+            output           = options.marked && build.MARKDOWN ? (new Markdown(output, options).process()) : output;
+            output           = options.emoji && build.EMOJI ? (new Emoji(output, options).process()) : output;
+            output           = options.fontIcons && build.SMILEY ? (new Smiley(output, options).process()) : output;
             [output, embeds] = (new Code(input, output, options, embeds).process());
             [output, embeds] = await (new Video(input, output, options, embeds).process());
             [output, embeds] = options.locationEmbed ? await (new Gmap(input, output, options, embeds).process()) : [output, embeds];
             [output, embeds] = (new Audio(input, output, options, embeds).process());
             [output, embeds] = (new Image(input, output, options, embeds).process());
+
             if (options.tweetsEmbed && build.TWITTER) {
                 this.twitter = new Twitter(input, options, embeds);
                 embeds = options.tweetsEmbed ? await (this.twitter.process()) : output;
@@ -201,9 +202,20 @@ const helper = require('./modules/video/helper.es6');
     let ejs = {
         instances: [],
         elements: [],
+
+        /**
+         * Sets options globally
+         * @param {object} options
+         */
         setOptions: function(options) {
             globalOptions = utils.deepExtend(defaultOptions, options)
         },
+
+        /**
+         * Applies embed.js to all the elements with the class name provided as option
+         * @param  {string} className
+         * @return {null}
+         */
         applyEmbedJS: function(className) {
             this.elements = document.getElementsByClassName(className)
             for (let i = 0; i < this.elements.length; i++) {
@@ -214,6 +226,11 @@ const helper = require('./modules/video/helper.es6');
                 this.instances[i].render()
             }
         },
+
+        /**
+         * Destroys all the instances of EmbedJS created by using ejs.applyEmbedJS method.
+         * @return {null}
+         */
         destroyEmbedJS: function() {
             for (let i = 0; i < this.elements.length; i++) {
                 this.instances[i].destroy()

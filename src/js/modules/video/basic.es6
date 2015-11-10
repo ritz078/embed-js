@@ -1,9 +1,10 @@
 let Base = require('../base.es6');
 
 class BasicVideo extends Base {
-	constructor(input, options, embeds) {
-		super(input, options, embeds);
+	constructor(input,output, options, embeds) {
+		super(input,output, options, embeds);
 		this.regex = /(?:https?):\/\/\S*\.(?:ogv|webm|mp4)/gi;
+		this.service = 'video'
 	}
 
 	template(match) {

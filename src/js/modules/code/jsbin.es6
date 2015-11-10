@@ -1,9 +1,10 @@
 let Base = require('../base.es6');
 
 class JsBin extends Base{
-	constructor(input, options, embeds) {
-		super(input, options, embeds);
+	constructor(input, output,options, embeds){
+		super(input,output, options, embeds);
 		this.regex = /jsbin.com\/[a-zA-Z0-9_]+\/[0-9_]+/gi;
+		this.service = 'jsbin';
 	}
 
 	template(id) {

@@ -1,15 +1,18 @@
 let Base = require('../base.es6');
 
 class Spotify extends Base{
-	constructor(input, options, embeds) {
-		super(input, options, embeds);
+	constructor(input,output, options, embeds) {
+		super(input,output, options, embeds);
 		this.regex = /spotify.com\/track\/[a-zA-Z0-9_]+/gi;
+		this.service = 'spotify'
 	}
 
 	template(match){
+		let a = match.split('/')
+		let id = a[a.length-1]
 		let template =
 		`<div class="ejs-embed">
-		<iframe src="https://embed.spotify.com/?uri=spotify:track:${match.split('/')[2]}" height="80"></iframe>
+		<iframe src="https://embed.spotify.com/?uri=spotify:track:${id}" height="80"></iframe>
 		</div>`;
 		return template;
 	}

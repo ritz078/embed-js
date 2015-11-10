@@ -2,9 +2,10 @@ const utils = require('../utils.es6');
 let Base = require('../base.es6');
 
 class LiveLeak extends Base{
-	constructor(input,options, embeds){
-		super(input, options, embeds);
+	constructor(input,output,options, embeds){
+		super(input,output, options, embeds);
 		this.regex = /liveleak.com\/view\?i=[a-zA-Z0-9_]+/gi;
+		this.service = 'liveleak'
 	}
 
 	template(match){

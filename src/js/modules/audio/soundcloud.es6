@@ -1,16 +1,17 @@
 let Base = require('../base.es6');
 
 class SoundCloud extends Base{
-	constructor(input, options, embeds) {
-		super(input, options, embeds);
-		this.regex = /soundcloud.com\/[a-zA-Z0-9-_]+\/[a-zA-Z0-9-_]+/gi;
+	constructor(input,output, options, embeds) {
+		super(input,output, options, embeds);
+		this.regex = /(soundcloud.com)\/[a-zA-Z0-9-_]+\/[a-zA-Z0-9-_]+/gi;
+		this.service = 'soundcloud'
 	}
 
 	template(match) {
 		let config = this.options.soundCloudOptions;
 		let template =
 		`<div class="ejs-embed">
-		<iframe height="160" scrolling="no" src="https://w.soundcloud.com/player/?url=https://${match}
+		<iframe height="160" scrolling="no" src="https://w.soundcloud.com/player/?url=${match}
 		&auto_play     = ${config.autoPlay}
 		&hide_related  = ${config.hideRelated}
 		&show_comments = ${config.showComments}

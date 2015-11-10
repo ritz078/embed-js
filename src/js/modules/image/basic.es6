@@ -1,9 +1,10 @@
 let Base = require('../base.es6');
 
 class Basic extends Base{
-	constructor(input,options, embeds){
-		super(input, options, embeds);
+	constructor(input, output,options, embeds){
+		super(input,output, options, embeds);
 		this.regex =/((?:https?):\/\/\S*\.(?:gif|jpg|jpeg|tiff|png|svg|webp))/gi;
+		this.service = 'image'
 	}
 
 	template(match){

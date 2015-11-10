@@ -17,9 +17,9 @@ class Image{
 			let input  = this.input;
             let output = this.output;
             let embeds = this.embeds;
-            embeds = utils.ifEmbed(this.options, 'flickr') && build.FLICKR ? (new Flickr(input, this.options, embeds).process()) : embeds;
-            embeds = utils.ifEmbed(this.options, 'instagram') && build.INSTAGRAM ? (new Instagram(input, this.options, embeds).process()) : embeds;
-            embeds = this.options.imageEmbed && build.BASICIMAGE ? (new Basic(input, this.options, embeds).process()) : embeds;
+            [output,embeds] = utils.ifEmbed(this.options, 'flickr') && build.FLICKR ? (new Flickr(input,output, this.options, embeds).process()) : [output,embeds];
+            [output,embeds] = utils.ifEmbed(this.options, 'instagram') && build.INSTAGRAM ? (new Instagram(input,output, this.options, embeds).process()) : [output,embeds];
+            [output,embeds] = this.options.imageEmbed && build.BASICIMAGE ? (new Basic(input,output, this.options, embeds).process()) : [output,embeds];
 
             return [output, embeds];
 		}catch(error){

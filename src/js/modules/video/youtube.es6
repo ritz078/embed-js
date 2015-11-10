@@ -2,11 +2,8 @@ const utils = require('../utils.es6');
 const helper = require('./helper.es6');
 
 class Youtube {
-    constructor(input, options, embeds) {
-        this.input   = input;
-        this.options = options;
-        this.embeds  = embeds;
-
+    constructor(input,output, options, embeds) {
+        [this.input,this.output,this.options,this.embeds] = [input,output,options,embeds];
         this.regex   = /https?:\/\/(?:[0-9A-Z-]+\.)?(?:youtu\.be\/|youtube\.com(?:\/embed\/|\/v\/|\/watch\?v=|\/ytscreeningroom\?v=|\/feeds\/api\/videos\/|\/user\S*[^\w\-\s]|\S*[^\w\-\s]))([\w\-]{11})[?=&+%\w-]*/gi;
     }
 
@@ -54,7 +51,7 @@ class Youtube {
                 })
             }
 
-            return this.embeds;
+            return [this.output, this.embeds];
         } catch (error) {
             console.log(error);
         }

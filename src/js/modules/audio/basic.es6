@@ -1,9 +1,10 @@
 let Base = require('../base.es6');
 
 class BasicAudio extends Base {
-	constructor(input, options, embeds) {
-		super(input, options, embeds);
-		this.regex = /((?:https?):\/\/\S*\.(?:wav|mp3|ogg))/gi;
+	constructor(input,output, options, embeds) {
+		super(input,output, options, embeds)
+		this.regex = /((?:https?):\/\/\S*\.(?:wav|mp3|ogg))/gi
+		this.service = 'audio'
 	}
 
 	template(match) {
