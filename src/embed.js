@@ -64,30 +64,10 @@
 }([ /* 0 */
 /***/
 function(module, exports, __webpack_require__) {
-    //The MIT License (MIT)
-    //Copyright (c) 2015 Ritesh Kumar
-    //
-    //Permission is hereby granted, free of charge, to any person obtaining a copy
-    //of this software and associated documentation files (the "Software"), to deal
-    //in the Software without restriction, including without limitation the rights
-    //to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-    //copies of the Software, and to permit persons to whom the Software is
-    //furnished to do so, subject to the following conditions:
-    //
-    //    The above copyright notice and this permission notice shall be included in all
-    //copies or substantial portions of the Software.
-    //
-    //    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    //IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    //FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-    //AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    //LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-    //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-    //SOFTWARE.
     "use strict";
     var _classCallCheck = __webpack_require__(1)["default"], _regeneratorRuntime = __webpack_require__(2)["default"], utils = __webpack_require__(71), Emoji = __webpack_require__(75), Smiley = __webpack_require__(76), Url = __webpack_require__(77), Twitter = __webpack_require__(78), Gmap = __webpack_require__(80), Markdown = __webpack_require__(82), Code = __webpack_require__(83), Video = __webpack_require__(96), Audio = __webpack_require__(106), Image = __webpack_require__(110), helper = __webpack_require__(103);
-    !function() {
-        var globalOptions, defaultOptions = {
+    !function(window) {
+        var globalOptions = {}, defaultOptions = {
             marked: !1,
             markedOptions: {},
             link: !0,
@@ -156,10 +136,26 @@ function(module, exports, __webpack_require__) {
             onTweetsLoad: function() {},
             videojsCallback: function() {}
         }, EmbedJS = function() {
+            /**
+	         * The constructor takes two arguements. The first one is the options object and the second one is the
+	         * optional string . If the user wants to provide a string directly instead of the element, he can do that.
+	         * In case the user provides both the input element and the string, the input string will be taken from the element
+	         * and the provided string won't be processed.
+	         *
+	         * @param  {object} options The options object
+	         * @param  {string} input   [optional] The string to be processed
+	         * @return {null}
+	         */
             function EmbedJS(options, input) {
                 _classCallCheck(this, EmbedJS);
+                /**
+	             * We have created a clone of the original options to make sure that the original object
+	             * isn't altered.
+	             */
                 var defOpts = utils.cloneObject(defaultOptions), globOpts = utils.cloneObject(globalOptions), globOptions = utils.deepExtend(defOpts, globOpts);
-                if (this.options = utils.deepExtend(globOptions, options), !this.options.element && !input) throw ReferenceError("You need to pass an element or the string that needs to be processed");
+                if (//merge global options with the overriding options provided by the user as an options
+                //object while creating a new instance of embed.js
+                this.options = utils.deepExtend(globOptions, options), !this.options.element && !input) throw ReferenceError("You need to pass an element or the string that needs to be processed");
                 this.options.element ? (this.element = this.options.element, this.input = this.element.innerHTML) : this.input = input;
             }
             /**
@@ -180,48 +176,52 @@ function(module, exports, __webpack_require__) {
 	         * returns the resulting string based on the input and the options passed by the user.
 	         * @param  {Function} callback Function that is executed once the data is ready
 	         * @return {}
+	         */ /**
+	         * The destroy method destroys all the listeners and replaces the rih text with the original text in the
+	         * element.
+	         * @return {null}
 	         */ return EmbedJS.prototype.process = function() {
                 var input, options, embeds, output, _process, _ref, _ref2, _process2, _process3, _ref3, result;
                 return _regeneratorRuntime.async(function(context$3$0) {
                     for (;;) switch (context$3$0.prev = context$3$0.next) {
                       case 0:
-                        return input = this.input, options = this.options, embeds = [], this.options.beforeEmbedJSApply(), 
+                        return input = this.input, options = this.options, embeds = [], output = "", this.options.beforeEmbedJSApply(), 
                         output = options.link ? new Url(input, options).process() : input, output = options.marked ? new Markdown(output, options).process() : output, 
                         output = options.emoji ? new Emoji(output, options).process() : output, output = options.fontIcons ? new Smiley(output, options).process() : output, 
                         _process = new Code(input, output, options, embeds).process(), output = _process[0], 
-                        embeds = _process[1], context$3$0.next = 13, _regeneratorRuntime.awrap(new Video(input, output, options, embeds).process());
+                        embeds = _process[1], context$3$0.next = 14, _regeneratorRuntime.awrap(new Video(input, output, options, embeds).process());
 
-                      case 13:
+                      case 14:
                         if (_ref = context$3$0.sent, output = _ref[0], embeds = _ref[1], !options.locationEmbed) {
-                            context$3$0.next = 22;
+                            context$3$0.next = 23;
                             break;
                         }
-                        return context$3$0.next = 19, _regeneratorRuntime.awrap(new Gmap(input, output, options, embeds).process());
+                        return context$3$0.next = 20, _regeneratorRuntime.awrap(new Gmap(input, output, options, embeds).process());
 
-                      case 19:
-                        context$3$0.t0 = context$3$0.sent, context$3$0.next = 23;
+                      case 20:
+                        context$3$0.t0 = context$3$0.sent, context$3$0.next = 24;
                         break;
 
-                      case 22:
+                      case 23:
                         context$3$0.t0 = [ output, embeds ];
 
-                      case 23:
+                      case 24:
                         if (_ref2 = context$3$0.t0, output = _ref2[0], embeds = _ref2[1], _process2 = new Audio(input, output, options, embeds).process(), 
                         output = _process2[0], embeds = _process2[1], _process3 = new Image(input, output, options, embeds).process(), 
                         output = _process3[0], embeds = _process3[1], !options.tweetsEmbed) {
-                            context$3$0.next = 39;
+                            context$3$0.next = 40;
                             break;
                         }
-                        return this.twitter = new Twitter(input, output, options, embeds), context$3$0.next = 36, 
+                        return this.twitter = new Twitter(input, output, options, embeds), context$3$0.next = 37, 
                         _regeneratorRuntime.awrap(this.twitter.process());
 
-                      case 36:
+                      case 37:
                         _ref3 = context$3$0.sent, output = _ref3[0], embeds = _ref3[1];
 
-                      case 39:
+                      case 40:
                         return result = utils.createText(output, embeds), context$3$0.abrupt("return", result);
 
-                      case 41:
+                      case 42:
                       case "end":
                         return context$3$0.stop();
                     }
@@ -231,14 +231,21 @@ function(module, exports, __webpack_require__) {
                 return _regeneratorRuntime.async(function(context$3$0) {
                     for (;;) switch (context$3$0.prev = context$3$0.next) {
                       case 0:
-                        return context$3$0.next = 2, _regeneratorRuntime.awrap(this.process());
+                        if (this.element) {
+                            context$3$0.next = 2;
+                            break;
+                        }
+                        throw new Error("You didn't pass an element while creating this instance. render() method can't work without an element");
 
                       case 2:
-                        result = context$3$0.sent, this.options.element.innerHTML = result, helper.applyVideoJS(this.options), 
-                        helper.play("ejs-video-thumb", this.options), event = new Event("rendered"), this.options.element.dispatchEvent(event), 
+                        return context$3$0.next = 4, _regeneratorRuntime.awrap(this.process());
+
+                      case 4:
+                        result = context$3$0.sent, this.element.innerHTML = result, helper.applyVideoJS(this.options), 
+                        helper.play("ejs-video-thumb", this.options), event = new Event("rendered"), this.element.dispatchEvent(event), 
                         this.options.afterEmbedJSApply();
 
-                      case 9:
+                      case 11:
                       case "end":
                         return context$3$0.stop();
                     }
@@ -259,8 +266,9 @@ function(module, exports, __webpack_require__) {
                     }
                 }, null, this);
             }, EmbedJS.prototype.destroy = function() {
-                this.options.element.removeEventListener("rendered", this.twitter.load(), !1), helper.destroy("ejs-video-thumb", this.options), 
-                this.options.element.innerHTML = this.input;
+                if (!this.element) throw new Error("destroy() method only if an element had been passed in the options object");
+                helper.destroy("ejs-video-thumb", this.options), this.element.removeEventListener("rendered", this.twitter.load(), !1), 
+                this.element.innerHTML = this.input;
             }, EmbedJS;
         }(), ejs = {
             instances: [],
@@ -295,7 +303,7 @@ function(module, exports, __webpack_require__) {
             }
         };
         window.EmbedJS = EmbedJS, window.ejs = ejs;
-    }();
+    }(window);
 }, /* 1 */
 /***/
 function(module, exports) {
@@ -2281,10 +2289,9 @@ function(module, exports, __webpack_require__) {
                         return context$2$0.stop();
                     }
                 }, null, this);
-            }, Gmap.prototype.template = function template(match, latitude, longitude) {
-                var template = void 0, location = match.split("(")[1].split(")")[0], config = this.options.mapOptions, dimensions = utils.dimensions(this.options);
-                return "place" === config.mode ? template = '<div class="ejs-embed ejs-map"><iframe width="' + dimensions.width + '" height="' + dimensions.height + '" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?key=' + this.options.googleAuthKey + "&q=" + location + '"></iframe></div>' : "streetview" === config.mode ? template = '<div class="ejs-embed ejs-map"><iframe width="' + dimensions.width + '" height="' + dimensions.height + '" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/streetview?key=' + this.options.googleAuthKey + "&location=" + latitude + "," + longitude + '&heading=210&pitch=10&fov=35"></iframe></div>' : "view" === config.mode && (template = '<div class="ejs-embed ejs-map"><iframe width="' + dimensions.width + '" height="' + dimensions.height + '" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/view?key=' + this.options.googleAuthKey + "&center=" + latitude + "," + longitude + '&zoom=18&maptype=satellite"></iframe></div>'), 
-                template;
+            }, Gmap.prototype.template = function(match, latitude, longitude) {
+                var location = match.split("(")[1].split(")")[0], config = this.options.mapOptions, dimensions = utils.dimensions(this.options);
+                return "place" === config.mode ? '<div class="ejs-embed ejs-map"><iframe width="' + dimensions.width + '" height="' + dimensions.height + '" src="https://www.google.com/maps/embed/v1/place?key=' + this.options.googleAuthKey + "&q=" + location + '"></iframe></div>' : "streetview" === config.mode ? '<div class="ejs-embed ejs-map"><iframe width="' + dimensions.width + '" height="' + dimensions.height + '" src="https://www.google.com/maps/embed/v1/streetview?key=' + this.options.googleAuthKey + "&location=" + latitude + "," + longitude + '&heading=210&pitch=10&fov=35"></iframe></div>' : "view" === config.mode ? '<div class="ejs-embed ejs-map"><iframe width="' + dimensions.width + '" height="' + dimensions.height + '" src="https://www.google.com/maps/embed/v1/view?key=' + this.options.googleAuthKey + "&center=" + latitude + "," + longitude + '&zoom=18&maptype=satellite"></iframe></div>' : void 0;
             }, Gmap.prototype.process = function() {
                 var match, _loop;
                 return _regeneratorRuntime.async(function(context$2$0) {
@@ -2631,8 +2638,7 @@ function(module, exports, __webpack_require__) {
             // leading whitespace
             return code = code.replace(/^([ \t]*)/g, ""), code = code.replace(/[ \t]*$/g, "");
         }, Highlight.prototype.addTemplate = function(processedCode, language) {
-            var template = '<pre>\n            <code class="ejs-code hljs ' + language + '">' + processedCode.value + "</code>\n        </pre>\n        ";
-            return template;
+            return '<pre><code class="ejs-code hljs ' + language + '">' + processedCode.value + "</code></pre>";
         }, Highlight.prototype.process = function() {
             var _this = this;
             this.output = this.output.replace(this.inlineCodeRegex, function(match, group1, group2) {
@@ -2661,9 +2667,8 @@ function(module, exports, __webpack_require__) {
             _classCallCheck(this, Ideone), _Base.call(this, input, output, options, embeds), 
             this.regex = /ideone.com\/[a-zA-Z0-9]{6}/gi, this.service = "ideone";
         }
-        return _inherits(Ideone, _Base), Ideone.prototype.template = function template(match) {
-            var template = '<div class="ejs-ideone ejs-embed">\n			<iframe src="http://ideone.com/embed/' + match.split("/") + '" frameborder="0" height="' + this.options.codeEmbedHeight + "\"></iframe>',\n		</div>";
-            return template;
+        return _inherits(Ideone, _Base), Ideone.prototype.template = function(match) {
+            return '<div class="ejs-ideone ejs-embed"><iframe src="http://ideone.com/embed/' + match.split("/") + '" frameborder="0" height="' + this.options.codeEmbedHeight + '"></iframe></div>';
         }, Ideone;
     }(Base);
     module.exports = Ideone;
@@ -2738,9 +2743,9 @@ function(module, exports, __webpack_require__) {
             _classCallCheck(this, Plunker), _Base.call(this, input, output, options, embeds), 
             this.regex = /plnkr.co\/edit\/[a-zA-Z0-9\?=]+/gi, this.service = "plunker";
         }
-        return _inherits(Plunker, _Base), Plunker.prototype.template = function template(match) {
-            var a = match.split("?")[0].split("/"), id = a[a.length - 1], template = '<div class="ejs-embed ejs-plunker">\n            <iframe class="ne-plunker" src="http://embed.plnkr.co/' + id + '" height="' + this.options.codeEmbedHeight + '"></iframe>\n        </div>';
-            return template;
+        return _inherits(Plunker, _Base), Plunker.prototype.template = function(match) {
+            var a = match.split("?")[0].split("/"), id = a[a.length - 1];
+            return '<div class="ejs-embed ejs-plunker">\n		<iframe class="ne-plunker" src="http://embed.plnkr.co/' + id + '" height="' + this.options.codeEmbedHeight + '"></iframe>\n		</div>';
         }, Plunker;
     }(Base);
     module.exports = Plunker;
@@ -2753,9 +2758,8 @@ function(module, exports, __webpack_require__) {
             _classCallCheck(this, JsBin), _Base.call(this, input, output, options, embeds), 
             this.regex = /jsbin.com\/[a-zA-Z0-9_]+\/[0-9_]+/gi, this.service = "jsbin";
         }
-        return _inherits(JsBin, _Base), JsBin.prototype.template = function template(id) {
-            var template = '<div class="ejs-jsbin ejs-embed">\n		<iframe height="' + this.options.codeEmbedHeight + '" class="jsbin-embed foo" src="http://' + id + "/embed?html,js,output\"></iframe>',\n		</div>";
-            return template;
+        return _inherits(JsBin, _Base), JsBin.prototype.template = function(id) {
+            return '<div class="ejs-jsbin ejs-embed">\n		<iframe height="' + this.options.codeEmbedHeight + '" class="jsbin-embed foo" src="http://' + id + '/embed?html,js,output"></iframe>\n		</div>';
         }, JsBin;
     }(Base);
     module.exports = JsBin;
@@ -2768,9 +2772,8 @@ function(module, exports, __webpack_require__) {
             _classCallCheck(this, CodePen), _Base.call(this, input, output, options, embeds), 
             this.regex = /http:\/\/codepen.io\/([A-Za-z0-9_]+)\/pen\/([A-Za-z0-9_]+)/gi, this.service = "codepen";
         }
-        return _inherits(CodePen, _Base), CodePen.prototype.template = function template(id) {
-            var template = '<div class="ejs-embed ejs-codepen">\n			<iframe scrolling="no" height="' + this.options.codeEmbedHeight + '" src="' + id.replace(/\/pen\//, "/embed/") + "/?height=" + this.options.codeEmbedHeight + "\"></iframe>'\n		</div>";
-            return template;
+        return _inherits(CodePen, _Base), CodePen.prototype.template = function(id) {
+            return '<div class="ejs-embed ejs-codepen">\n			<iframe scrolling="no" height="' + this.options.codeEmbedHeight + '" src="' + id.replace(/\/pen\//, "/embed/") + "/?height=" + this.options.codeEmbedHeight + "\"></iframe>'\n		</div>";
         }, CodePen;
     }(Base);
     module.exports = CodePen;
@@ -2783,9 +2786,8 @@ function(module, exports, __webpack_require__) {
             _classCallCheck(this, JsFiddle), _Base.call(this, input, output, options, embeds), 
             this.regex = /jsfiddle.net\/[a-zA-Z0-9_]+\/[a-zA-Z0-9_]+/gi, this.service = "jsfiddle";
         }
-        return _inherits(JsFiddle, _Base), JsFiddle.prototype.template = function template(id) {
-            var template = '<div class="ejs-embed ejs-jsfiddle">\n			<iframe height="' + this.options.codeEmbedHeight + '" src="http://' + id + '/embedded"></iframe>\n		</div>';
-            return template;
+        return _inherits(JsFiddle, _Base), JsFiddle.prototype.template = function(id) {
+            return '<div class="ejs-embed ejs-jsfiddle">\n			<iframe height="' + this.options.codeEmbedHeight + '" src="http://' + id + '/embedded"></iframe>\n		</div>';
         }, JsFiddle;
     }(Base);
     module.exports = JsFiddle;
@@ -2801,9 +2803,8 @@ function(module, exports, __webpack_require__) {
                 _this.load();
             });
         }
-        return _inherits(Gist, _Base), Gist.prototype.template = function template(match) {
-            var template = '<div class="ejs-gist" data-src="' + match + '"></div>';
-            return template;
+        return _inherits(Gist, _Base), Gist.prototype.template = function(match) {
+            return '<div class="ejs-gist" data-src="' + match + '"></div>';
         }, Gist.prototype.load = function() {
             for (var gists = this.options.element.getElementsByClassName("ejs-gist"), i = 0; i < gists.length; i++) {
                 var gistFrame = document.createElement("iframe");
@@ -2888,9 +2889,9 @@ function(module, exports, __webpack_require__) {
             _classCallCheck(this, Ted), _Base.call(this, input, output, options, embeds), this.regex = /ted.com\/talks\/[a-zA-Z0-9_]+/gi, 
             this.service = "ted";
         }
-        return _inherits(Ted, _Base), Ted.prototype.template = function template(match) {
-            var dimensions = utils.dimensions(this.options), a = match.split("/"), id = a[a.length - 1], template = '<div class="ejs-embed ejs-ted">\n			<iframe src="http://embed.ted.com/talks/' + id + '.html" height="' + dimensions.height + '" width="' + dimensions.width + '"></iframe>\n		</div>';
-            return template;
+        return _inherits(Ted, _Base), Ted.prototype.template = function(match) {
+            var dimensions = utils.dimensions(this.options), a = match.split("/"), id = a[a.length - 1];
+            return '<div class="ejs-embed ejs-ted"><iframe src="http://embed.ted.com/talks/' + id + '.html" height="' + dimensions.height + '" width="' + dimensions.width + '"></iframe></div>';
         }, Ted;
     }(Base);
     module.exports = Ted;
@@ -2903,9 +2904,9 @@ function(module, exports, __webpack_require__) {
             _classCallCheck(this, Dailymotion), _Base.call(this, input, output, options, embeds), 
             this.regex = /dailymotion.com\/video\/[a-zA-Z0-9-_]+/gi, this.service = "dailymotion";
         }
-        return _inherits(Dailymotion, _Base), Dailymotion.prototype.template = function template(match) {
-            var dimensions = utils.dimensions(this.options), a = match.split("/"), id = a[a.length - 1], template = '<div class="ejs-video ejs-embed">\n		<iframe src="http://www.dailymotion.com/embed/video/' + id + '" height="' + dimensions.height + '" width="' + dimensions.width + '"></iframe>\n		</div>';
-            return template;
+        return _inherits(Dailymotion, _Base), Dailymotion.prototype.template = function(match) {
+            var dimensions = utils.dimensions(this.options), a = match.split("/"), id = a[a.length - 1];
+            return '<div class="ejs-video ejs-embed">\n		<iframe src="http://www.dailymotion.com/embed/video/' + id + '" height="' + dimensions.height + '" width="' + dimensions.width + '"></iframe>\n		</div>';
         }, Dailymotion;
     }(Base);
     module.exports = Dailymotion;
@@ -2918,11 +2919,11 @@ function(module, exports, __webpack_require__) {
             _classCallCheck(this, Ustream), _Base.call(this, input, output, options, embeds), 
             this.regex = /ustream.tv\/[a-z\/0-9]*/gi, this.service = "ustream";
         }
-        return _inherits(Ustream, _Base), Ustream.prototype.template = function template(match) {
+        return _inherits(Ustream, _Base), Ustream.prototype.template = function(match) {
             var id = match.split("/");
             id.splice(1, 0, "embed");
-            var dimensions = utils.dimensions(this.options), template = '<div class="ejs-embed ejs-ustream">\n		<iframe src="//www.' + id.join("/") + '" height="' + dimensions.height + '" width="' + dimensions.width + "\"></iframe>',\n		'</div>'";
-            return template;
+            var dimensions = utils.dimensions(this.options);
+            return '<div class="ejs-embed ejs-ustream"><iframe src="//www.' + id.join("/") + '" height="' + dimensions.height + '" width="' + dimensions.width + '"></iframe></div>';
         }, Ustream;
     }(Base);
     module.exports = Ustream;
@@ -2935,9 +2936,9 @@ function(module, exports, __webpack_require__) {
             _classCallCheck(this, LiveLeak), _Base.call(this, input, output, options, embeds), 
             this.regex = /liveleak.com\/view\?i=[a-zA-Z0-9_]+/gi, this.service = "liveleak";
         }
-        return _inherits(LiveLeak, _Base), LiveLeak.prototype.template = function template(match) {
-            var dimensions = utils.dimensions(this.options), template = '<div class="ejs-video ejs-embed">\n		<iframe src="http://www.liveleak.com/e/' + match.split("=")[1] + '" height="' + dimensions.height + '" width="' + dimensions.width + '"></iframe>\n		</div>';
-            return template;
+        return _inherits(LiveLeak, _Base), LiveLeak.prototype.template = function(match) {
+            var dimensions = utils.dimensions(this.options);
+            return '<div class="ejs-video ejs-embed"><iframe src="http://www.liveleak.com/e/' + match.split("=")[1] + '" height="' + dimensions.height + '" width="' + dimensions.width + '"></iframe></div>';
         }, LiveLeak;
     }(Base);
     module.exports = LiveLeak;
@@ -2950,9 +2951,9 @@ function(module, exports, __webpack_require__) {
             _classCallCheck(this, Vine), _Base.call(this, input, output, options, embeds), this.regex = /vine.co\/v\/[a-zA-Z0-9]+/gi, 
             this.service = "vine";
         }
-        return _inherits(Vine, _Base), Vine.prototype.template = function template(match) {
-            var config = this.options.vineOptions, a = match.split("/"), id = a[a.length - 1], template = '<div class="ejs-vine">\n		<iframe class="ejs-vine-iframe" src="https://vine.co/v/' + id + "/embed/" + config.type + '" height="' + config.height + '" width="' + config.width + '"></iframe>\n		</div>';
-            return template;
+        return _inherits(Vine, _Base), Vine.prototype.template = function(match) {
+            var config = this.options.vineOptions, a = match.split("/"), id = a[a.length - 1];
+            return '<div class="ejs-vine">\n		<iframe class="ejs-vine-iframe" src="https://vine.co/v/' + id + "/embed/" + config.type + '" height="' + config.height + '" width="' + config.width + '"></iframe>\n		</div>';
         }, Vine;
     }(Base);
     module.exports = Vine;
@@ -3129,8 +3130,7 @@ function(module, exports, __webpack_require__) {
 	     * @return {string}          template with variables replaced
 	     */
         detailsTemplate: function(data, embedUrl) {
-            var template = '<div class="ejs-video ejs-embed">\n        <div class="ejs-video-preview">\n        <div class="ejs-video-thumb" data-ejs-url="' + embedUrl + '">\n        <div class="ejs-thumb" style="background-image:url(' + data.thumbnail + ')"></div>\n        <i class="fa fa-play-circle-o"></i>\n        </div>\n        <div class="ejs-video-detail">\n        <div class="ejs-video-title">\n        <a href="' + data.url + '">\n        ' + data.title + '\n        </a>\n        </div>\n        <div class="ejs-video-desc">\n        ' + data.description + '\n        </div>\n        <div class="ejs-video-stats">\n        <span>\n        <i class="fa fa-eye"></i>' + data.views + '\n        </span>\n        <span>\n        <i class="fa fa-heart"></i>' + data.likes + "\n        </span>\n        </div>\n        </div>\n        </div>\n        </div>";
-            return template;
+            return '<div class="ejs-video ejs-embed">\n        <div class="ejs-video-preview">\n        <div class="ejs-video-thumb" data-ejs-url="' + embedUrl + '">\n        <div class="ejs-thumb" style="background-image:url(' + data.thumbnail + ')"></div>\n        <i class="fa fa-play-circle-o"></i>\n        </div>\n        <div class="ejs-video-detail">\n        <div class="ejs-video-title">\n        <a href="' + data.url + '">\n        ' + data.title + '\n        </a>\n        </div>\n        <div class="ejs-video-desc">\n        ' + data.description + '\n        </div>\n        <div class="ejs-video-stats">\n        <span>\n        <i class="fa fa-eye"></i>' + data.views + '\n        </span>\n        <span>\n        <i class="fa fa-heart"></i>' + data.likes + "\n        </span>\n        </div>\n        </div>\n        </div>\n        </div>";
         },
         /**
 	     * Applies video.js to all audio and video dynamically
@@ -3299,9 +3299,8 @@ function(module, exports, __webpack_require__) {
             _classCallCheck(this, BasicVideo), _Base.call(this, input, output, options, embeds), 
             this.regex = /(?:https?):\/\/\S*\.(?:ogv|webm|mp4)/gi, this.service = "video";
         }
-        return _inherits(BasicVideo, _Base), BasicVideo.prototype.template = function template(match) {
-            var template = '<div class="ejs-video ejs-embed">\n			<div class="ejs-video-player">\n				<div class="ejs-player">\n					<video src="' + match + '" class="ejs-video-js video-js" controls></video>\n				</div>\n			</div>\n		</div>';
-            return template;
+        return _inherits(BasicVideo, _Base), BasicVideo.prototype.template = function(match) {
+            return '<div class="ejs-video ejs-embed">\n			<div class="ejs-video-player">\n				<div class="ejs-player">\n					<video src="' + match + '" class="ejs-video-js video-js" controls></video>\n				</div>\n			</div>\n		</div>';
         }, BasicVideo;
     }(Base);
     module.exports = BasicVideo;
@@ -3335,9 +3334,9 @@ function(module, exports, __webpack_require__) {
             _classCallCheck(this, SoundCloud), _Base.call(this, input, output, options, embeds), 
             this.regex = /(soundcloud.com)\/[a-zA-Z0-9-_]+\/[a-zA-Z0-9-_]+/gi, this.service = "soundcloud";
         }
-        return _inherits(SoundCloud, _Base), SoundCloud.prototype.template = function template(match) {
-            var config = this.options.soundCloudOptions, template = '<div class="ejs-embed">\n		<iframe height="160" scrolling="no" src="https://w.soundcloud.com/player/?url=' + match + "\n		&auto_play     = " + config.autoPlay + "\n		&hide_related  = " + config.hideRelated + "\n		&show_comments = " + config.showComments + "\n		&show_user     = " + config.showUser + "\n		&show_reposts  = " + config.showReposts + "\n		&visual        = " + config.visual + "\n		&download      = " + config.download + "\n		&color         = " + config.themeColor + "\n		&theme_color   = " + config.themeColor + '"></iframe>\n		</div>';
-            return template;
+        return _inherits(SoundCloud, _Base), SoundCloud.prototype.template = function(match) {
+            var config = this.options.soundCloudOptions;
+            return '<div class="ejs-embed">\n		<iframe height="160" scrolling="no" src="https://w.soundcloud.com/player/?url=' + match + "\n		&auto_play     = " + config.autoPlay + "\n		&hide_related  = " + config.hideRelated + "\n		&show_comments = " + config.showComments + "\n		&show_user     = " + config.showUser + "\n		&show_reposts  = " + config.showReposts + "\n		&visual        = " + config.visual + "\n		&download      = " + config.download + "\n		&color         = " + config.themeColor + "\n		&theme_color   = " + config.themeColor + '"></iframe>\n		</div>';
         }, SoundCloud;
     }(Base);
     module.exports = SoundCloud;
@@ -3350,9 +3349,9 @@ function(module, exports, __webpack_require__) {
             _classCallCheck(this, Spotify), _Base.call(this, input, output, options, embeds), 
             this.regex = /spotify.com\/track\/[a-zA-Z0-9_]+/gi, this.service = "spotify";
         }
-        return _inherits(Spotify, _Base), Spotify.prototype.template = function template(match) {
-            var a = match.split("/"), id = a[a.length - 1], template = '<div class="ejs-embed">\n		<iframe src="https://embed.spotify.com/?uri=spotify:track:' + id + '" height="80"></iframe>\n		</div>';
-            return template;
+        return _inherits(Spotify, _Base), Spotify.prototype.template = function(match) {
+            var a = match.split("/"), id = a[a.length - 1];
+            return '<div class="ejs-embed">\n		<iframe src="https://embed.spotify.com/?uri=spotify:track:' + id + '" height="80"></iframe>\n		</div>';
         }, Spotify;
     }(Base);
     module.exports = Spotify;
@@ -3365,9 +3364,8 @@ function(module, exports, __webpack_require__) {
             _classCallCheck(this, BasicAudio), _Base.call(this, input, output, options, embeds), 
             this.regex = /((?:https?):\/\/\S*\.(?:wav|mp3|ogg))/gi, this.service = "audio";
         }
-        return _inherits(BasicAudio, _Base), BasicAudio.prototype.template = function template(match) {
-            var template = '<div class="ejs-audio ejs-embed">\n		<audio src="' + match + '" controls class="video-js ejs-video-js"></audio>\n		</div>';
-            return template;
+        return _inherits(BasicAudio, _Base), BasicAudio.prototype.template = function(match) {
+            return '<div class="ejs-audio ejs-embed"><audio src="' + match + '" controls class="video-js ejs-video-js"></audio></div>';
         }, BasicAudio;
     }(Base);
     module.exports = BasicAudio;
@@ -3401,9 +3399,9 @@ function(module, exports, __webpack_require__) {
             _classCallCheck(this, Flickr), _Base.call(this, input, output, options, embeds), 
             this.regex = /flickr.com\/[a-z]+\/[a-zA-Z@_$!\d]+\/[\d]+/gi, this.service = "flickr";
         }
-        return _inherits(Flickr, _Base), Flickr.prototype.template = function template(match) {
-            var dimensions = utils.dimensions(this.options), template = '<div class="ejs-embed">\n			<div class="ne-image-wrapper">\n				<iframe src="' + utils.toUrl(match) + '/player/" width="' + dimensions.width + '" height="' + dimensions.height + '"></iframe>\n			</div>\n		</div>';
-            return template;
+        return _inherits(Flickr, _Base), Flickr.prototype.template = function(match) {
+            var dimensions = utils.dimensions(this.options);
+            return '<div class="ejs-embed">\n			<div class="ne-image-wrapper">\n				<iframe src="' + utils.toUrl(match) + '/player/" width="' + dimensions.width + '" height="' + dimensions.height + '"></iframe>\n			</div>\n		</div>';
         }, Flickr;
     }(Base);
     module.exports = Flickr;
@@ -3416,9 +3414,9 @@ function(module, exports, __webpack_require__) {
             _classCallCheck(this, Instagram), _Base.call(this, input, output, options, embeds), 
             this.regex = /instagram.com\/p\/[a-zA-Z0-9]+/gi, this.service = "instagram";
         }
-        return _inherits(Instagram, _Base), Instagram.prototype.template = function template(match) {
-            var dimensions = this.dimensions(), template = '<div class="ejs-embed">\n			<iframe src="' + utils.toUrl(match) + '/embed/" width="' + dimensions.width + '" height="' + dimensions.height + '"></iframe>\n		</div>';
-            return template;
+        return _inherits(Instagram, _Base), Instagram.prototype.template = function(match) {
+            var dimensions = utils.dimensions(this.options);
+            return '<div class="ejs-embed"><iframe src="' + utils.toUrl(match) + '/embed/" width="' + dimensions.width + '" height="' + dimensions.height + '"></iframe></div>';
         }, Instagram;
     }(Base);
     module.exports = Instagram;
@@ -3431,9 +3429,8 @@ function(module, exports, __webpack_require__) {
             _classCallCheck(this, Basic), _Base.call(this, input, output, options, embeds), 
             this.regex = /((?:https?):\/\/\S*\.(?:gif|jpg|jpeg|tiff|png|svg|webp))/gi, this.service = "image";
         }
-        return _inherits(Basic, _Base), Basic.prototype.template = function template(match) {
-            var template = '<div class="ejs-image ejs-embed">\n		<div class="ne-image-wrapper">\n		<img src="' + match + '"/>\n		</div>\n		</div>';
-            return template;
+        return _inherits(Basic, _Base), Basic.prototype.template = function(match) {
+            return '<div class="ejs-image ejs-embed"><div class="ne-image-wrapper"><img src="' + match + '"/></div></div>';
         }, Basic;
     }(Base);
     module.exports = Basic;

@@ -41,8 +41,7 @@ var helper = {
      * @return {string}          template with variables replaced
      */
     detailsTemplate: (data, embedUrl) => {
-        var template =
-            `<div class="ejs-video ejs-embed">
+        return  `<div class="ejs-video ejs-embed">
         <div class="ejs-video-preview">
         <div class="ejs-video-thumb" data-ejs-url="${embedUrl}">
         <div class="ejs-thumb" style="background-image:url(${data.thumbnail})"></div>
@@ -67,8 +66,7 @@ var helper = {
         </div>
         </div>
         </div>
-        </div>`;
-        return template;
+        </div>`
     },
 
     /**
@@ -81,9 +79,7 @@ var helper = {
         options.videojsOptions.width = dimensions.width;
         options.videojsOptions.height = dimensions.height;
         if (options.videoJS) {
-            if (!window.videojs) {
-                throw new ReferenceError("You have enabled videojs but you haven't loaded the library.Find it at http://videojs.com/");
-            }
+            if (!window.videojs) throw new ReferenceError("You have enabled videojs but you haven't loaded the library.Find it at http://videojs.com/")
             let elements = options.element.getElementsByClassName('ejs-video-js');
             for (let i = 0; i < elements.length; i++) {
                 videojs(elements[i], options.videojsOptions, () => options.videojsCallback());

@@ -8,15 +8,13 @@ class BasicVideo extends Base {
 	}
 
 	template(match) {
-		let template =
-		`<div class="ejs-video ejs-embed">
+		return `<div class="ejs-video ejs-embed">
 			<div class="ejs-video-player">
 				<div class="ejs-player">
 					<video src="${match}" class="ejs-video-js video-js" controls></video>
 				</div>
 			</div>
-		</div>`;
-		return template;
+		</div>`
 	}
 }
 

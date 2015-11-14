@@ -11,11 +11,9 @@ class Vine extends Base{
 		const config = this.options.vineOptions;
 		let a = match.split('/')
 		const id = a[a.length-1]
-		const template =
-		`<div class="ejs-vine">
+		return `<div class="ejs-vine">
 		<iframe class="ejs-vine-iframe" src="https://vine.co/v/${id}/embed/${config.type}" height="${config.height}" width="${config.width}"></iframe>
-		</div>`;
-		return template;
+		</div>`
 	}
 }
 

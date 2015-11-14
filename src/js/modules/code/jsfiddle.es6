@@ -8,11 +8,9 @@ class JsFiddle extends Base{
 	}
 
 	template(id){
-		var template =
-		`<div class="ejs-embed ejs-jsfiddle">
+		return `<div class="ejs-embed ejs-jsfiddle">
 			<iframe height="${this.options.codeEmbedHeight}" src="http://${id}/embedded"></iframe>
-		</div>`;
-		return template;
+		</div>`
 	}
 }
 

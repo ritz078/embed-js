@@ -14,23 +14,23 @@ class Vimeo {
 
     formatData(data) {
         return {
-            title: data.title,
-            thumbnail: data.thumbnail_medium,
-            rawDescription: data.description.replace(/\n/g, '<br/>').replace(/&#10;/g, '<br/>'),
-            views: data.stats_number_of_plays,
-            likes: data.stats_number_of_likes,
-            description: utils.truncate(data.description.replace(/((<|&lt;)br\s*\/*(>|&gt;)\r\n)/g, ' '), 150),
-            url: data.url,
-            id: data.id,
-            host: 'vimeo'
+            title          : data.title,
+            thumbnail      : data.thumbnail_medium,
+            rawDescription : data.description.replace(/\n/g, '<br/>').replace(/&#10;/g, '<br/>'),
+            views          : data.stats_number_of_plays,
+            likes          : data.stats_number_of_likes,
+            description    : utils.truncate(data.description.replace(/((<|&lt;)br\s*\/*(>|&gt;)\r\n)/g, ' '), 150),
+            url            : data.url,
+            id             : data.id,
+            host           : 'vimeo'
         }
     }
 
     async data(id) {
         try {
-            let url = `https://vimeo.com/api/v2/video/${id}.json`;
+            let url      = `https://vimeo.com/api/v2/video/${id}.json`;
             let response = await fetch(url);
-            let data = await response.json();
+            let data     = await response.json();
             return data[0];
         } catch (error) {
             console.log(error);

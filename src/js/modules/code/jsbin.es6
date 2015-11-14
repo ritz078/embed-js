@@ -8,11 +8,9 @@ class JsBin extends Base{
 	}
 
 	template(id) {
-		let template =
-		`<div class="ejs-jsbin ejs-embed">
-		<iframe height="${this.options.codeEmbedHeight}" class="jsbin-embed foo" src="http://${id}/embed?html,js,output"></iframe>',
-		</div>`;
-		return template;
+		return `<div class="ejs-jsbin ejs-embed">
+		<iframe height="${this.options.codeEmbedHeight}" class="jsbin-embed foo" src="http://${id}/embed?html,js,output"></iframe>
+		</div>`
 	}
 }
 

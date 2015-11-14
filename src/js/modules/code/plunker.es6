@@ -10,11 +10,9 @@ class Plunker extends Base{
 	template(match){
 		let a=match.split('?')[0].split('/')
 		const id = a[a.length-1]
-		let template =
-		`<div class="ejs-embed ejs-plunker">
-            <iframe class="ne-plunker" src="http://embed.plnkr.co/${id}" height="${this.options.codeEmbedHeight}"></iframe>
-        </div>`;
-        return template;
+		return `<div class="ejs-embed ejs-plunker">
+		<iframe class="ne-plunker" src="http://embed.plnkr.co/${id}" height="${this.options.codeEmbedHeight}"></iframe>
+		</div>`
 	}
 }
 

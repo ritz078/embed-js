@@ -42,12 +42,7 @@ class Highlight {
      * @return {string}
      */
     addTemplate(processedCode, language){
-        let template =
-        `<pre>
-            <code class="ejs-code hljs ${language}">${processedCode.value}</code>
-        </pre>
-        `;
-        return template;
+        return `<pre><code class="ejs-code hljs ${language}">${processedCode.value}</code></pre>`
     }
 
     /**

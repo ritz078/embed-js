@@ -2,12 +2,12 @@ const utils = require('../utils.es6');
 
 class Gmap {
     constructor(input, output, options, embeds) {
-        this.input = input;
-        this.output = output;
-        this.options = options;
-        this.embeds = embeds;
+        this.input   = input
+        this.output  = output
+        this.options = options
+        this.embeds  = embeds
         this.service = 'map'
-        this.regex = /@\((.+)\)/gi;
+        this.regex   = /@\((.+)\)/gi
     }
 
     async getCoordinate(location) {
@@ -20,21 +20,16 @@ class Gmap {
     }
 
     template(match, latitude, longitude) {
-        let template;
         let location = match.split('(')[1].split(')')[0];
         let config = this.options.mapOptions;
         let dimensions = utils.dimensions(this.options);
         if (config.mode === 'place') {
-            template =
-                `<div class="ejs-embed ejs-map"><iframe width="${dimensions.width}" height="${dimensions.height}" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?key=${this.options.googleAuthKey}&q=${location}"></iframe></div>`;
+            return `<div class="ejs-embed ejs-map"><iframe width="${dimensions.width}" height="${dimensions.height}" src="https://www.google.com/maps/embed/v1/place?key=${this.options.googleAuthKey}&q=${location}"></iframe></div>`;
         } else if (config.mode === 'streetview') {
-            template =
-                `<div class="ejs-embed ejs-map"><iframe width="${dimensions.width}" height="${dimensions.height}" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/streetview?key=${this.options.googleAuthKey}&location=${latitude},${longitude}&heading=210&pitch=10&fov=35"></iframe></div>`;
+            return `<div class="ejs-embed ejs-map"><iframe width="${dimensions.width}" height="${dimensions.height}" src="https://www.google.com/maps/embed/v1/streetview?key=${this.options.googleAuthKey}&location=${latitude},${longitude}&heading=210&pitch=10&fov=35"></iframe></div>`;
         } else if (config.mode === 'view') {
-            template =
-                `<div class="ejs-embed ejs-map"><iframe width="${dimensions.width}" height="${dimensions.height}" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/view?key=${this.options.googleAuthKey}&center=${latitude},${longitude}&zoom=18&maptype=satellite"></iframe></div>`
+            return `<div class="ejs-embed ejs-map"><iframe width="${dimensions.width}" height="${dimensions.height}" src="https://www.google.com/maps/embed/v1/view?key=${this.options.googleAuthKey}&center=${latitude},${longitude}&zoom=18&maptype=satellite"></iframe></div>`
         }
-        return template;
     }
 
     async process() {

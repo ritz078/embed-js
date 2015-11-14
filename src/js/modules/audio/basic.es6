@@ -8,11 +8,7 @@ class BasicAudio extends Base {
 	}
 
 	template(match) {
-		let template =
-		`<div class="ejs-audio ejs-embed">
-		<audio src="${match}" controls class="video-js ejs-video-js"></audio>
-		</div>`;
-		return template;
+		return `<div class="ejs-audio ejs-embed"><audio src="${match}" controls class="video-js ejs-video-js"></audio></div>`
 	}
 }
 

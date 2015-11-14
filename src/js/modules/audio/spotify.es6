@@ -10,11 +10,9 @@ class Spotify extends Base{
 	template(match){
 		let a = match.split('/')
 		let id = a[a.length-1]
-		let template =
-		`<div class="ejs-embed">
+		return `<div class="ejs-embed">
 		<iframe src="https://embed.spotify.com/?uri=spotify:track:${id}" height="80"></iframe>
-		</div>`;
-		return template;
+		</div>`
 	}
 }
 

@@ -12,9 +12,7 @@ class Gist extends Base {
     }
 
     template(match) {
-        let template =
-            `<div class="ejs-gist" data-src="${match}"></div>`
-        return template;
+        return `<div class="ejs-gist" data-src="${match}"></div>`
     }
 
     load() {

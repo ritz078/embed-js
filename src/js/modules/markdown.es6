@@ -1,16 +1,13 @@
 class Markdown {
     constructor(output, options) {
-        if (!window.marked) {
-            throw new ReferenceError(
-                `marked.js is not loaded.`
-            )
-        }
+        if (!window.marked) throw new ReferenceError(`marked.js is not loaded.`)
         this.output = output
         this.options = options
     }
 
     process() {
         let renderer = new marked.Renderer()
+
         renderer.code = function(text) {
             let highlightedCode = window.hljs ? hljs.highlightAuto(text) : {
                 value: text

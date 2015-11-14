@@ -1,43 +1,45 @@
-//The MIT License (MIT)
-//Copyright (c) 2015 Ritesh Kumar
-//
-//Permission is hereby granted, free of charge, to any person obtaining a copy
-//of this software and associated documentation files (the "Software"), to deal
-//in the Software without restriction, including without limitation the rights
-//to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-//copies of the Software, and to permit persons to whom the Software is
-//furnished to do so, subject to the following conditions:
-//
-//    The above copyright notice and this permission notice shall be included in all
-//copies or substantial portions of the Software.
-//
-//    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-//IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-//FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-//AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-//LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-//OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-//SOFTWARE.
-
 const utils = require('./modules/utils.es6');
 
-if    (build.EMOJI)    var Emoji     = require('./modules/emoticons/emoji.es6');
-if    (build.SMILEY)   var Smiley    = require('./modules/emoticons/smiley.es6');
-if    (build.LINK)     var Url       = require('./modules/url.es6');
+/**
+ *
+ * `build` object is defined in the file `build.json` present in the root folder of the project
+ * It is used to create a custom build of the plugin. Webpack uses the object and sets it as a global variable
+ * while creating the build. Later UglifyJS removes the dead code from the file and a custom build is created.
+ *
+ * Eg: Webpack converts
+ *     if (build.EMOJI){
+ *         var Emoji = require('./modules/emoticons/emoji.es6');
+ *     }
+ *     to
+ *     if (true){
+ *        var Emoji = require('./modules/emoticons/emoji.es6');
+ *     }
+ *     assuming that build.EMOJI is set to true in build.json
+ *     While processing UglifyJS removes the conditions if its always true. In case its set to false, UglifyJS
+ *     identifies the code in that block as dead code and removes it as that code won't be executed anyways.
+ *
+ * We have used `require` instead of `import` as according to ES6 spec `import` can't be put inside any conditional block
+ * and it should be present at the top of the file.
+ *
+ */
 
-if    (build.TWITTER)  var Twitter   = require('./modules/twitter/twitter.es6');
-if    (build.MAP)      var Gmap      = require('./modules/map/map.es6');
-if    (build.MARKDOWN) var Markdown  = require('./modules/markdown.es6');
+if    (build.EMOJI)    var Emoji    = require('./modules/emoticons/emoji.es6');
+if    (build.SMILEY)   var Smiley   = require('./modules/emoticons/smiley.es6');
+if    (build.LINK)     var Url      = require('./modules/url.es6');
 
-const Code             =   require('./modules/code/code.es6');
-const Video            =   require('./modules/video/video.es6');
-const Audio            =   require('./modules/audio/audio.es6');
-const Image            =   require('./modules/image/image.es6');
-const helper           =   require('./modules/video/helper.es6');
+if    (build.TWITTER)  var Twitter  = require('./modules/twitter/twitter.es6');
+if    (build.MAP)      var Gmap     = require('./modules/map/map.es6');
+if    (build.MARKDOWN) var Markdown = require('./modules/markdown.es6');
 
-(function() {
+const Code                          = require('./modules/code/code.es6');
+const Video                         = require('./modules/video/video.es6');
+const Audio                         = require('./modules/audio/audio.es6');
+const Image                         = require('./modules/image/image.es6');
+const helper                        = require('./modules/video/helper.es6');
 
-    var globalOptions;
+(function(window) {
+
+    var globalOptions = {};
 
     var defaultOptions = {
         marked             : false,
@@ -107,15 +109,32 @@ const helper           =   require('./modules/video/helper.es6');
     };
 
     class EmbedJS {
+        /**
+         * The constructor takes two arguements. The first one is the options object and the second one is the
+         * optional string . If the user wants to provide a string directly instead of the element, he can do that.
+         * In case the user provides both the input element and the string, the input string will be taken from the element
+         * and the provided string won't be processed.
+         *
+         * @param  {object} options The options object
+         * @param  {string} input   [optional] The string to be processed
+         * @return {null}
+         */
         constructor(options, input) {
-            let [defOpts,globOpts]=[utils.cloneObject(defaultOptions),utils.cloneObject(globalOptions)]
+            /**
+             * We have created a clone of the original options to make sure that the original object
+             * isn't altered.
+             */
+            let defOpts  = utils.cloneObject(defaultOptions)
+            let globOpts = utils.cloneObject(globalOptions)
+
             //merge global options with the default options
             let globOptions = utils.deepExtend(defOpts, globOpts)
 
+            //merge global options with the overriding options provided by the user as an options
+            //object while creating a new instance of embed.js
             this.options = utils.deepExtend(globOptions, options);
-            if (!this.options.element && !input) {
-                    throw ReferenceError("You need to pass an element or the string that needs to be processed");
-                }
+
+            if (!this.options.element && !input) throw ReferenceError("You need to pass an element or the string that needs to be processed")
 
             if (this.options.element) {
                 this.element = this.options.element;
@@ -133,16 +152,17 @@ const helper           =   require('./modules/video/helper.es6');
          * @return {string} The processes resulting string
          */
         async process() {
-            let input = this.input;
+            let input   = this.input;
             let options = this.options;
-            let embeds = [];
+            let embeds  = [];
+            let output  = '';
 
             this.options.beforeEmbedJSApply();
 
-            let output       = options.link && build.LINK ? (new Url(input, options).process()) : input;
+            output           = options.link && build.LINK ? (new Url(input, options).process())             : input;
             output           = options.marked && build.MARKDOWN ? (new Markdown(output, options).process()) : output;
-            output           = options.emoji && build.EMOJI ? (new Emoji(output, options).process()) : output;
-            output           = options.fontIcons && build.SMILEY ? (new Smiley(output, options).process()) : output;
+            output           = options.emoji && build.EMOJI ? (new Emoji(output, options).process())        : output;
+            output           = options.fontIcons && build.SMILEY ? (new Smiley(output, options).process())  : output;
             [output, embeds] = (new Code(input, output, options, embeds).process());
             [output, embeds] = await (new Video(input, output, options, embeds).process());
             [output, embeds] = options.locationEmbed ? await (new Gmap(input, output, options, embeds).process()) : [output, embeds];
@@ -169,15 +189,16 @@ const helper           =   require('./modules/video/helper.es6');
          * @return {}
          */
         async render() {
+            if(!this.element) throw new Error(`You didn't pass an element while creating this instance. render() method can't work without an element`)
             let result = await this.process();
-            this.options.element.innerHTML = result;
+            this.element.innerHTML = result;
 
             helper.applyVideoJS(this.options);
 
             helper.play('ejs-video-thumb', this.options);
 
             let event = new Event('rendered');
-            this.options.element.dispatchEvent(event);
+            this.element.dispatchEvent(event);
 
             this.options.afterEmbedJSApply();
         }
@@ -192,22 +213,28 @@ const helper           =   require('./modules/video/helper.es6');
             callback(result, this.input);
         }
 
+        /**
+         * The destroy method destroys all the listeners and replaces the rih text with the original text in the
+         * element.
+         * @return {null}
+         */
         destroy() {
-            this.options.element.removeEventListener('rendered', this.twitter.load(), false);
-            helper.destroy('ejs-video-thumb', this.options);
-            this.options.element.innerHTML = this.input;
+            if(!this.element) throw new Error(`destroy() method only if an element had been passed in the options object`)
+            helper.destroy('ejs-video-thumb', this.options)
+            this.element.removeEventListener('rendered', this.twitter.load(), false)
+            this.element.innerHTML = this.input
         }
     }
 
     let ejs = {
-        instances: [],
-        elements: [],
+        instances : [],
+        elements  : [],
 
         /**
          * Sets options globally
          * @param {object} options
          */
-        setOptions: function(options) {
+        setOptions(options) {
             globalOptions = utils.deepExtend(defaultOptions, options)
         },
 
@@ -216,7 +243,7 @@ const helper           =   require('./modules/video/helper.es6');
          * @param  {string} className
          * @return {null}
          */
-        applyEmbedJS: function(className) {
+        applyEmbedJS(className) {
             this.elements = document.getElementsByClassName(className)
             for (let i = 0; i < this.elements.length; i++) {
                 let option = {
@@ -231,7 +258,7 @@ const helper           =   require('./modules/video/helper.es6');
          * Destroys all the instances of EmbedJS created by using ejs.applyEmbedJS method.
          * @return {null}
          */
-        destroyEmbedJS: function() {
+        destroyEmbedJS() {
             for (let i = 0; i < this.elements.length; i++) {
                 this.instances[i].destroy()
             }
@@ -239,5 +266,6 @@ const helper           =   require('./modules/video/helper.es6');
     }
 
     window.EmbedJS = EmbedJS
-    window.ejs = ejs
-})();
+    window.ejs     = ejs
+
+})(window);

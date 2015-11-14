@@ -11,13 +11,11 @@ class Flickr extends Base{
 
 	template(match){
 		let dimensions = utils.dimensions(this.options);
-		let template =
-		`<div class="ejs-embed">
+		return `<div class="ejs-embed">
 			<div class="ne-image-wrapper">
 				<iframe src="${utils.toUrl(match)}/player/" width="${dimensions.width}" height="${dimensions.height}"></iframe>
 			</div>
-		</div>`;
-		return template;
+		</div>`
 	}
 }
 
