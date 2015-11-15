@@ -6,7 +6,7 @@ var utils = {
      * @param n             Length to which it should be truncated
      * @returns {string}    The truncated string
      */
-    truncate: (string, n) => {
+    truncate(string, n) {
         return string.substr(0, n - 1) + (string.length > n ? '...' : '');
     },
 
@@ -15,7 +15,7 @@ var utils = {
      * @param array         The array containing the duplicates
      * @returns {Array}     Array with unique values.
      */
-    getUnique: (array) => {
+    getUnique(array) {
         var u = {},
             a = [];
 
@@ -32,14 +32,8 @@ var utils = {
      * Converts a string into legitimate url.
      * @param string
      */
-    toUrl: (string) => {
-        var url;
-        if (string.indexOf('//') == -1) {
-            url = '//' + string;
-        } else {
-            url = string;
-        }
-        return url;
+    toUrl(string) {
+        return (string.indexOf('//') === -1) ? ('//' + string) : string
     },
 
     /**
@@ -48,7 +42,7 @@ var utils = {
      * @param source
      * @returns {*}
      */
-    deepExtend: function(destination, source) {
+    deepExtend(destination, source) {
         for (var property in source) {
             if (source[property] && source[property].constructor === Object) {
                 destination[property] = destination[property] || {};
@@ -60,7 +54,7 @@ var utils = {
         return destination;
     },
 
-    escapeRegExp: (str) => {
+    escapeRegExp(str) {
         return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
     },
 
@@ -69,7 +63,7 @@ var utils = {
      * @param  {Array} arr Array to be sorted
      * @return {Array}     Sorted array
      */
-    sortObject: (arr) => {
+    sortObject(arr) {
         return arr.sort((a, b) => (a.index - b.index));
     },
 
@@ -79,7 +73,7 @@ var utils = {
      * @param  {object} embeds Sorted array of iframe html
      * @return {string}        String to be rendered
      */
-    createText: function(str, embeds) {
+    createText(str, embeds) {
         let sortedEmbeds = this.sortObject(embeds);
         for (let embed of sortedEmbeds) {
             str += ` ${embed.text}`;
@@ -93,7 +87,7 @@ var utils = {
      * @param  {string} input The string to be analyzed
      * @return {object}       Returns the matched substring with their corresponding positions
      */
-    matches: (regex, input) => {
+    matches(regex, input) {
         return regex.exec(input);
     },
 
@@ -104,20 +98,20 @@ var utils = {
      * @param  {string} service Name of the service for which the condition is to be analyzed
      * @return {boolean}        True if it should be embedded
      */
-    ifEmbed: function(options, service) {
+    ifEmbed(options, service) {
         return ((options.excludeEmbed.indexOf(service) == -1) && (options.excludeEmbed !== 'all'));
     },
 
-	ifInline: function(options, service) {
-		return ((options.inlineEmbed.indexOf(service) == -1) && (options.inlineEmbed !== 'all'));
-	},
+    ifInline(options, service) {
+        return ((options.inlineEmbed.indexOf(service) == -1) && (options.inlineEmbed !== 'all'));
+    },
 
     /**
      * Calculates the dimensions for the elements based on a aspect ratio
      * @param  {object} options Plugin options
      * @return {object}         The width and height of the elements
      */
-    dimensions: (options) => {
+    dimensions(options) {
         let dimensions = {
             width: options.videoWidth,
             height: options.videoHeight
@@ -141,18 +135,13 @@ var utils = {
      * @param  {object} obj
      * @return {object}     cloned object
      */
-    cloneObject: function(obj) {
-        if (obj === null || typeof obj !== 'object') {
-            return obj;
-        }
-
+    cloneObject(obj) {
+        if (obj === null || typeof obj !== 'object') return obj
         var temp = obj.constructor(); // give temp the original obj's constructor
         for (var key in obj) {
-            temp[key] = this.cloneObject(obj[key]);
+            temp[key] = this.cloneObject(obj[key])
         }
-
-        return temp;
-
+        return temp
     }
 };
 

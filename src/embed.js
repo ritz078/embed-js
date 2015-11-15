@@ -1832,8 +1832,7 @@ function(module, exports, __webpack_require__) {
 	     * @param string
 	     */
         toUrl: function(string) {
-            var url;
-            return url = -1 == string.indexOf("//") ? "//" + string : string;
+            return -1 === string.indexOf("//") ? "//" + string : string;
         },
         /**
 	     * Extends an Object
@@ -2284,7 +2283,7 @@ function(module, exports, __webpack_require__) {
                         return data = context$2$0.sent, latitude = data.results[0].geometry.location.lat, 
                         longitude = data.results[0].geometry.location.lng, context$2$0.abrupt("return", [ latitude, longitude ]);
 
-                      case 11:
+                      case 10:
                       case "end":
                         return context$2$0.stop();
                     }
@@ -2292,15 +2291,17 @@ function(module, exports, __webpack_require__) {
             }, Gmap.prototype.template = function(match, latitude, longitude) {
                 var location = match.split("(")[1].split(")")[0], config = this.options.mapOptions, dimensions = utils.dimensions(this.options);
                 return "place" === config.mode ? '<div class="ejs-embed ejs-map"><iframe width="' + dimensions.width + '" height="' + dimensions.height + '" src="https://www.google.com/maps/embed/v1/place?key=' + this.options.googleAuthKey + "&q=" + location + '"></iframe></div>' : "streetview" === config.mode ? '<div class="ejs-embed ejs-map"><iframe width="' + dimensions.width + '" height="' + dimensions.height + '" src="https://www.google.com/maps/embed/v1/streetview?key=' + this.options.googleAuthKey + "&location=" + latitude + "," + longitude + '&heading=210&pitch=10&fov=35"></iframe></div>' : "view" === config.mode ? '<div class="ejs-embed ejs-map"><iframe width="' + dimensions.width + '" height="' + dimensions.height + '" src="https://www.google.com/maps/embed/v1/view?key=' + this.options.googleAuthKey + "&center=" + latitude + "," + longitude + '&zoom=18&maptype=satellite"></iframe></div>' : void 0;
+            }, Gmap.prototype.locationText = function(match) {
+                return match.split("(")[1].split(")")[0];
             }, Gmap.prototype.process = function() {
                 var match, _loop;
                 return _regeneratorRuntime.async(function(context$2$0) {
-                    for (var _this = this; ;) switch (context$2$0.prev = context$2$0.next) {
+                    for (var _this2 = this; ;) switch (context$2$0.prev = context$2$0.next) {
                       case 0:
                         match = void 0, _loop = function() {
                             var _ref, latitude, longitude, text;
                             return _regeneratorRuntime.async(function(context$3$0) {
-                                for (;;) switch (context$3$0.prev = context$3$0.next) {
+                                for (var _this = this; ;) switch (context$3$0.prev = context$3$0.next) {
                                   case 0:
                                     if ("place" === this.options.mapOptions.mode) {
                                         context$3$0.next = 6;
@@ -2320,17 +2321,17 @@ function(module, exports, __webpack_require__) {
                                     utils.ifInline(this.options, this.service) ? (this.embeds.push({
                                         text: text,
                                         index: match.index
-                                    }), this.output = this.output.replace(this.regex, function(match) {
-                                        return '<span class="ejs-location">' + match.split("(")[1].split(")")[0] + "</span>";
-                                    })) : this.output = this.output.replace(this.regex, function(match) {
-                                        return '<span class="ejs-location">' + match.split("(")[1].split(")")[0] + "</span>" + text;
+                                    }), this.output = this.output.replace(this.regex, function(regexMatch) {
+                                        return '<span class="ejs-location">' + _this.locationText(regexMatch) + "</span>";
+                                    })) : this.output = this.output.replace(this.regex, function(regexMatch) {
+                                        return '<span class="ejs-location">' + _this.locationText(regexMatch) + "</span>" + text;
                                     });
 
                                   case 12:
                                   case "end":
                                     return context$3$0.stop();
                                 }
-                            }, null, _this);
+                            }, null, _this2);
                         };
 
                       case 2:
@@ -2540,23 +2541,28 @@ function(module, exports, __webpack_require__) {
         }
         return Markdown.prototype.process = function() {
             var _this = this, renderer = new marked.Renderer();
+            /**
+	         * Change the default template of the code blocks provided by marked.js
+	         * @param  {string} text The code block string
+	         * @return {string}      the new template
+	         */
             renderer.code = function(text) {
                 var highlightedCode = window.hljs ? hljs.highlightAuto(text) : {
                     value: text
-                }, language = window.hljs ? highlightedCode.language : "", template = '<pre><code class="ejs-code hljs ' + language + '">' + highlightedCode.value + "</code></pre>";
-                return template;
+                }, language = window.hljs ? highlightedCode.language : "";
+                return '<pre><code class="ejs-code hljs ' + language + '">' + highlightedCode.value + "</code></pre>";
             }, renderer.link = function(href, title, text) {
                 return -1 === href.indexOf("&lt;/a") ? href : href.match(/&gt;(.+)&lt;\/a/gi) ? (title || (title = ""), 
                 '<a href="' + RegExp.$1 + '" rel=' + _this.options.linkOptions.rel + '" target="' + _this.options.linkOptions.target + '" title="' + title + '">' + text + "</a>") : void 0;
             }, renderer.image = function(href, title, text) {
                 return -1 === href.indexOf("&lt;/a") ? href : href.match(/&gt;(.+)&lt;\/a/gi) ? (title || (title = ""), 
                 '<div class="ejs-image ejs-embed"><div class="ne-image-wrapper"><img src="' + RegExp.$1 + '" title="' + title + '" alt="' + text + '"/></div></div>') : void 0;
-            }, //Fix for heading that should be actually present in marked.js
-            //if gfm is true the `## Heading` is acceptable but `##Heading` is not
-            marked.Lexer.rules.gfm.heading = marked.Lexer.rules.normal.heading, marked.Lexer.rules.tables.heading = marked.Lexer.rules.normal.heading, 
-            renderer.paragraph = function(text) {
+            }, renderer.paragraph = function(text) {
                 return "<p> " + text + " </p>";
             }, //for font smiley in end.
+            //Fix for heading that should be actually present in marked.js
+            //if gfm is true the `## Heading` is acceptable but `##Heading` is not
+            marked.Lexer.rules.gfm.heading = marked.Lexer.rules.normal.heading, marked.Lexer.rules.tables.heading = marked.Lexer.rules.normal.heading, 
             this.options.markedOptions.renderer = renderer;
             var output = marked(this.output, this.options.markedOptions);
             return output;
@@ -2787,7 +2793,7 @@ function(module, exports, __webpack_require__) {
             this.regex = /jsfiddle.net\/[a-zA-Z0-9_]+\/[a-zA-Z0-9_]+/gi, this.service = "jsfiddle";
         }
         return _inherits(JsFiddle, _Base), JsFiddle.prototype.template = function(id) {
-            return '<div class="ejs-embed ejs-jsfiddle">\n			<iframe height="' + this.options.codeEmbedHeight + '" src="http://' + id + '/embedded"></iframe>\n		</div>';
+            return '<div class="ejs-embed ejs-jsfiddle"><iframe height="' + this.options.codeEmbedHeight + '" src="http://' + id + '/embedded"></iframe></div>';
         }, JsFiddle;
     }(Base);
     module.exports = JsFiddle;
@@ -3041,7 +3047,7 @@ function(module, exports, __webpack_require__) {
                         break;
 
                       case 19:
-                        context$2$0.next = 36;
+                        context$2$0.next = 37;
                         break;
 
                       case 21:
@@ -3049,46 +3055,46 @@ function(module, exports, __webpack_require__) {
 
                       case 22:
                         if (null === (match = utils.matches(this.regex, this.input))) {
-                            context$2$0.next = 36;
+                            context$2$0.next = 37;
                             break;
                         }
-                        if (embedUrl = "https://www.youtube.com/embed/" + match[1], data = void 0, text = void 0, 
-                        !this.options.videoDetails) {
-                            context$2$0.next = 32;
+                        if (id = match[1], embedUrl = "https://www.youtube.com/embed/" + id, data = void 0, 
+                        text = void 0, !this.options.videoDetails) {
+                            context$2$0.next = 33;
                             break;
                         }
-                        return context$2$0.next = 28, _regeneratorRuntime.awrap(this.data(match[1]));
+                        return context$2$0.next = 29, _regeneratorRuntime.awrap(this.data(id));
 
-                      case 28:
+                      case 29:
                         data = context$2$0.sent, text = helper.detailsTemplate(this.formatData(data), embedUrl), 
-                        context$2$0.next = 33;
+                        context$2$0.next = 34;
                         break;
 
-                      case 32:
+                      case 33:
                         text = helper.template(embedUrl, this.options);
 
-                      case 33:
+                      case 34:
                         this.embeds.push({
                             text: text,
                             index: match.index
                         }), context$2$0.next = 22;
                         break;
 
-                      case 36:
-                        context$2$0.next = 41;
+                      case 37:
+                        context$2$0.next = 42;
                         break;
 
-                      case 38:
-                        context$2$0.prev = 38, context$2$0.t0 = context$2$0["catch"](0);
-
-                      case 41:
-                        return context$2$0.abrupt("return", [ this.output, this.embeds ]);
+                      case 39:
+                        context$2$0.prev = 39, context$2$0.t0 = context$2$0["catch"](0);
 
                       case 42:
+                        return context$2$0.abrupt("return", [ this.output, this.embeds ]);
+
+                      case 43:
                       case "end":
                         return context$2$0.stop();
                     }
-                }, null, this, [ [ 0, 38 ] ]);
+                }, null, this, [ [ 0, 39 ] ]);
             }, Youtube;
         }();
         module.exports = Youtube;
@@ -3108,35 +3114,35 @@ function(module, exports, __webpack_require__) {
             for (var classes = document.getElementsByClassName(className), _loop = function(i) {
                 classes[i].onclick = function() {
                     options.onVideoShow();
-                    var url = classes[i].getAttribute("data-ejs-url") + "?autoplay=true", template = helper.template(url, options);
+                    var url = classes[i].getAttribute("data-ejs-url") + "?autoplay=true", template = this.template(url, options);
                     classes[i].parentNode.parentNode.innerHTML = template;
                 };
             }, i = 0; i < classes.length; i++) _loop(i);
         },
         /**
-	     * Common template for vimeo and youtube iframes
-	     * @param  {string} url     URL of the embedding video
-	     * @param  {object} options Options object
-	     * @return {string}         compiled template with variables replaced
-	     */
-        template: function template(url, options) {
-            var dimensions = utils.dimensions(options), template = '<div class="ejs-video-player ejs-embed">\n        <iframe src="' + url + '" frameBorder="0" width="' + dimensions.width + '" height="' + dimensions.height + '"></iframe>\n        </div>';
-            return template;
+	         * Common template for vimeo and youtube iframes
+	         * @param  {string} url     URL of the embedding video
+	         * @param  {object} options Options object
+	         * @return {string}         compiled template with variables replaced
+	         */
+        template: function(url, options) {
+            var dimensions = utils.dimensions(options);
+            return '<div class="ejs-video-player ejs-embed">\n        <iframe src="' + url + '" frameBorder="0" width="' + dimensions.width + '" height="' + dimensions.height + '"></iframe>\n        </div>';
         },
         /**
-	     * Template for showing vimeo and youtube video details
-	     * @param  {object} data     Object containing the variable values as key-value pair
-	     * @param  {string} embedUrl URL of the video
-	     * @return {string}          template with variables replaced
-	     */
+	         * Template for showing vimeo and youtube video details
+	         * @param  {object} data     Object containing the variable values as key-value pair
+	         * @param  {string} embedUrl URL of the video
+	         * @return {string}          template with variables replaced
+	         */
         detailsTemplate: function(data, embedUrl) {
             return '<div class="ejs-video ejs-embed">\n        <div class="ejs-video-preview">\n        <div class="ejs-video-thumb" data-ejs-url="' + embedUrl + '">\n        <div class="ejs-thumb" style="background-image:url(' + data.thumbnail + ')"></div>\n        <i class="fa fa-play-circle-o"></i>\n        </div>\n        <div class="ejs-video-detail">\n        <div class="ejs-video-title">\n        <a href="' + data.url + '">\n        ' + data.title + '\n        </a>\n        </div>\n        <div class="ejs-video-desc">\n        ' + data.description + '\n        </div>\n        <div class="ejs-video-stats">\n        <span>\n        <i class="fa fa-eye"></i>' + data.views + '\n        </span>\n        <span>\n        <i class="fa fa-heart"></i>' + data.likes + "\n        </span>\n        </div>\n        </div>\n        </div>\n        </div>";
         },
         /**
-	     * Applies video.js to all audio and video dynamically
-	     * @param  {object} options Options object
-	     * @return {null}
-	     */
+	         * Applies video.js to all audio and video dynamically
+	         * @param  {object} options Options object
+	         * @return {null}
+	         */
         applyVideoJS: function(options) {
             var dimensions = utils.dimensions(options);
             if (options.videojsOptions.width = dimensions.width, options.videojsOptions.height = dimensions.height, 
@@ -3148,10 +3154,10 @@ function(module, exports, __webpack_require__) {
             }
         },
         /**
-	     * Destroys the onclick event for opening the video template from the details template
-	     * @param  {className} className
-	     * @return {null}
-	     */
+	         * Destroys the onclick event for opening the video template from the details template
+	         * @param  {className} className
+	         * @return {null}
+	         */
         destroy: function(className) {
             for (var classes = document.getElementsByClassName(className), i = 0; i < classes.length; i++) classes[i].onclick = null;
         }
@@ -3300,7 +3306,7 @@ function(module, exports, __webpack_require__) {
             this.regex = /(?:https?):\/\/\S*\.(?:ogv|webm|mp4)/gi, this.service = "video";
         }
         return _inherits(BasicVideo, _Base), BasicVideo.prototype.template = function(match) {
-            return '<div class="ejs-video ejs-embed">\n			<div class="ejs-video-player">\n				<div class="ejs-player">\n					<video src="' + match + '" class="ejs-video-js video-js" controls></video>\n				</div>\n			</div>\n		</div>';
+            return '<div class="ejs-video ejs-embed">\n		<div class="ejs-video-player">\n		<div class="ejs-player">\n		<video src="' + match + '" class="ejs-video-js video-js" controls></video>\n		</div>\n		</div>\n		</div>';
         }, BasicVideo;
     }(Base);
     module.exports = BasicVideo;
@@ -3351,7 +3357,7 @@ function(module, exports, __webpack_require__) {
         }
         return _inherits(Spotify, _Base), Spotify.prototype.template = function(match) {
             var a = match.split("/"), id = a[a.length - 1];
-            return '<div class="ejs-embed">\n		<iframe src="https://embed.spotify.com/?uri=spotify:track:' + id + '" height="80"></iframe>\n		</div>';
+            return '<div class="ejs-embed"><iframe src="https://embed.spotify.com/?uri=spotify:track:' + id + '" height="80"></iframe></div>';
         }, Spotify;
     }(Base);
     module.exports = Spotify;

@@ -41,7 +41,7 @@ class Highlight {
      * @param {string} language
      * @return {string}
      */
-    addTemplate(processedCode, language){
+    addTemplate(processedCode, language) {
         return `<pre><code class="ejs-code hljs ${language}">${processedCode.value}</code></pre>`
     }
 
@@ -62,7 +62,7 @@ class Highlight {
      * @return {string} The string in which the code is formatted
      */
     process() {
-        this.output = this.output.replace(this.inlineCodeRegex,(match,group1,group2)=>{
+        this.output = this.output.replace(this.inlineCodeRegex, function(match, group1, group2) {
             return `<code>${group2}</code>`
         })
 

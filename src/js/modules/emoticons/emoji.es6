@@ -884,7 +884,7 @@ class Emoji {
     }
 
     process() {
-        return this.input.replace(this.emojiRegex, (match, text) => {
+        return this.input.replace(this.emojiRegex, function(match, text){
             return `<span class="emoticon emoticon-${text}" title=":${text}:"></span>`;
         });
     }

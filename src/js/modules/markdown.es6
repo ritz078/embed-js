@@ -8,13 +8,17 @@ class Markdown {
     process() {
         let renderer = new marked.Renderer()
 
+        /**
+         * Change the default template of the code blocks provided by marked.js
+         * @param  {string} text The code block string
+         * @return {string}      the new template
+         */
         renderer.code = function(text) {
             let highlightedCode = window.hljs ? hljs.highlightAuto(text) : {
                 value: text
             }
             let language = window.hljs ? highlightedCode.language : ''
-            let template = `<pre><code class="ejs-code hljs ${language}">${highlightedCode.value}</code></pre>`;
-            return template
+            return `<pre><code class="ejs-code hljs ${language}">${highlightedCode.value}</code></pre>`
         }
 
         renderer.link = (href, title, text) => {
@@ -33,12 +37,13 @@ class Markdown {
             }
         }
 
+        renderer.paragraph = (text) => `<p> ${text} </p>` //for font smiley in end.
+
         //Fix for heading that should be actually present in marked.js
         //if gfm is true the `## Heading` is acceptable but `##Heading` is not
         marked.Lexer.rules.gfm.heading = marked.Lexer.rules.normal.heading;
         marked.Lexer.rules.tables.heading = marked.Lexer.rules.normal.heading;
 
-        renderer.paragraph = (text) => `<p> ${text} </p>` //for font smiley in end.
         this.options.markedOptions.renderer = renderer
         let output = marked(this.output, this.options.markedOptions)
         return output
