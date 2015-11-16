@@ -1,4 +1,4 @@
-let Base = require('../base.es6');
+import Base from '../base.es6'
 
 class Gist extends Base {
     constructor(input, output, options, embeds) {
@@ -47,4 +47,4 @@ class Gist extends Base {
     }
 }
 
-module.exports = Gist;
+export default Gist;

@@ -1,4 +1,4 @@
-const utils = require('./modules/utils.es6');
+import utils from './modules/utils.es6'
 
 /**
  *
@@ -23,19 +23,19 @@ const utils = require('./modules/utils.es6');
  *
  */
 
-if    (build.EMOJI)    var Emoji    = require('./modules/emoticons/emoji.es6');
-if    (build.SMILEY)   var Smiley   = require('./modules/emoticons/smiley.es6');
-if    (build.LINK)     var Url      = require('./modules/url.es6');
+import Emoji    from './modules/emoticons/emoji.es6'
+import Smiley   from './modules/emoticons/smiley.es6'
+import Url      from './modules/url.es6'
 
-if    (build.TWITTER)  var Twitter  = require('./modules/twitter/twitter.es6');
-if    (build.MAP)      var Gmap     = require('./modules/map/map.es6');
-if    (build.MARKDOWN) var Markdown = require('./modules/markdown.es6');
+import Twitter  from './modules/twitter/twitter.es6'
+import Gmap     from './modules/map/map.es6'
+import Markdown from './modules/markdown.es6'
 
-const Code                          = require('./modules/code/code.es6');
-const Video                         = require('./modules/video/video.es6');
-const Audio                         = require('./modules/audio/audio.es6');
-const Image                         = require('./modules/image/image.es6');
-const helper                        = require('./modules/video/helper.es6');
+import Code      from './modules/code/code.es6'
+import Video     from './modules/video/video.es6'
+import Audio     from './modules/audio/audio.es6'
+import Image     from './modules/image/image.es6'
+import helper    from './modules/video/helper.es6'
 
 (function(window) {
 
@@ -159,17 +159,17 @@ const helper                        = require('./modules/video/helper.es6');
 
             this.options.beforeEmbedJSApply();
 
-            output           = options.link && build.LINK ? (new Url(input, options).process())             : input;
-            output           = options.marked && build.MARKDOWN ? (new Markdown(output, options).process()) : output;
-            output           = options.emoji && build.EMOJI ? (new Emoji(output, options).process())        : output;
-            output           = options.fontIcons && build.SMILEY ? (new Smiley(output, options).process())  : output;
+            output           = options.link && LINK ? (new Url(input, options).process())             : input;
+            output           = options.marked && MARKDOWN ? (new Markdown(output, options).process()) : output;
+            output           = options.emoji && EMOJI ? (new Emoji(output, options).process())        : output;
+            output           = options.fontIcons && SMILEY ? (new Smiley(output, options).process())  : output;
             [output, embeds] = (new Code(input, output, options, embeds).process());
             [output, embeds] = await (new Video(input, output, options, embeds).process());
             [output, embeds] = options.locationEmbed ? await (new Gmap(input, output, options, embeds).process()) : [output, embeds];
             [output, embeds] = (new Audio(input, output, options, embeds).process());
             [output, embeds] = (new Image(input, output, options, embeds).process());
 
-            if (options.tweetsEmbed && build.TWITTER) {
+            if (options.tweetsEmbed && TWITTER) {
                 this.twitter = new Twitter(input,output, options, embeds);
                 [output, embeds] = await (this.twitter.process());
             }

@@ -1,5 +1,5 @@
-const utils = require('../utils.es6');
-const helper = require('./helper.es6');
+import utils from '../utils.es6'
+import Base from '../base.es6'
 
 
 class Vimeo {
@@ -86,4 +86,4 @@ class Vimeo {
     }
 }
 
-module.exports = Vimeo;
+export default Vimeo

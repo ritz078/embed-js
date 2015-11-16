@@ -1,4 +1,4 @@
-let Base = require('../base.es6');
+import Base from '../base.es6'
 
 class BasicAudio extends Base {
     constructor(input, output, options, embeds) {
@@ -12,4 +12,4 @@ class BasicAudio extends Base {
     }
 }
 
-module.exports = BasicAudio;
+export default BasicAudio;

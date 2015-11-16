@@ -1,4 +1,4 @@
-const utils = require('../modules/utils.es6');
+import utils from './utils.es6'
 
 class Url{
 	constructor(input,options){
@@ -19,4 +19,4 @@ class Url{
 	}
 }
 
-module.exports = Url;
+export default Url;

@@ -1,4 +1,4 @@
-const utils = require('../utils.es6');
+import utils from '../utils.es6'
 
 class Twitter {
     constructor(input,output, options, embeds) {
@@ -74,4 +74,4 @@ class Twitter {
     }
 }
 
-module.exports = Twitter;
+export default Twitter

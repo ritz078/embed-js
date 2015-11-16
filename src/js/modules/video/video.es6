@@ -1,13 +1,13 @@
-const utils = require('../utils.es6');
+import utils from '../utils.es6';
 
-if(build.TED)         var Ted         = require('./ted.es6');
-if(build.DAILYMOTION) var Dailymotion = require('./dailymotion.es6');
-if(build.USTREAM)     var Ustream     = require('./ustream.es6');
-if(build.LIVELEAK)    var LiveLeak    = require('./liveleak.es6');
-if(build.VINE)        var Vine        = require('./vine.es6');
-if(build.YOUTUBE)     var Youtube     = require('./youtube.es6');
-if(build.VIMEO)       var Vimeo       = require('./vimeo.es6');
-if(build.BASICVIDEO)  var BasicVideo  = require('./basic.es6');
+import Ted         from './ted.es6'
+import Dailymotion from './dailymotion.es6'
+import Ustream     from './ustream.es6'
+import LiveLeak    from './liveleak.es6'
+import Vine        from './vine.es6'
+import Youtube     from './youtube.es6'
+import Vimeo       from './vimeo.es6'
+import BasicVideo  from './basic.es6'
 
 class Video {
     constructor(input, output, options, embeds) {
@@ -33,4 +33,4 @@ class Video {
     }
 }
 
-module.exports = Video;
+export default Video;

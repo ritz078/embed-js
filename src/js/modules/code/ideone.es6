@@ -1,4 +1,4 @@
-let Base = require('../base.es6');
+import Base from '../base.es6'
 
 class Ideone extends Base {
     constructor(input, output, options, embeds) {
@@ -12,4 +12,4 @@ class Ideone extends Base {
     }
 }
 
-module.exports = Ideone;
+export default Ideone;

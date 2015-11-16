@@ -1,4 +1,4 @@
-const utils = require('../utils.es6');
+import utils from '../utils.es6'
 
 class Gmap {
     constructor(input, output, options, embeds) {
@@ -59,4 +59,4 @@ class Gmap {
     }
 }
 
-module.exports = Gmap;
+export default Gmap;

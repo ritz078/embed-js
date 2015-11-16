@@ -1,5 +1,5 @@
-const utils = require('../utils.es6');
-const helper = require('./helper.es6');
+import utils from '../utils.es6'
+import Base from '../base.es6'
 
 class Youtube {
     constructor(input, output, options, embeds) {
@@ -85,4 +85,4 @@ class Youtube {
     }
 }
 
-module.exports = Youtube;
+export default Youtube

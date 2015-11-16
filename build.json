@@ -1,39 +1,37 @@
 {
-    "build": {
-        "EMOJI"         : true,
-        "LINK"          : true,
-        "TWITTER"       : true,
-        "SMILEY"        : true,
-        "HIGHLIGHTCODE" : true,
+    "EMOJI"         : true,
+    "LINK"          : true,
+    "TWITTER"       : false,
+    "SMILEY"        : true,
+    "HIGHLIGHTCODE" : true,
 
-        "MARKDOWN"      : true,
+    "MARKDOWN"      : false,
 
-        "MAP"           : true,
+    "MAP"           : true,
 
-        "YOUTUBE"       : true,
-        "VIMEO"         : true,
-        "TED"           : true,
-        "DAILYMOTION"   : true,
-        "USTREAM"       : true,
-        "LIVELEAK"      : true,
-        "VINE"          : true,
-        "YOUTUBE"       : true,
-        "BASICVIDEO"    : true,
+    "YOUTUBE"       : true,
+    "VIMEO"         : true,
+    "TED"           : true,
+    "DAILYMOTION"   : true,
+    "USTREAM"       : true,
+    "LIVELEAK"      : true,
+    "VINE"          : true,
+    "YOUTUBE"       : true,
+    "BASICVIDEO"    : true,
 
 
-        "SPOTIFY"       : true,
-        "SOUNDCLOUD"    : true,
-        "BASICAUDIO"    : true,
+    "SPOTIFY"       : true,
+    "SOUNDCLOUD"    : false,
+    "BASICAUDIO"    : true,
 
-        "CODEPEN"       : true,
-        "IDEONE"        : true,
-        "JSBIN"         : true,
-        "JSFIDDLE"      : true,
-        "PLUNKER"       : true,
-        "GIST"          : true,
+    "CODEPEN"       : true,
+    "IDEONE"        : true,
+    "JSBIN"         : true,
+    "JSFIDDLE"      : true,
+    "PLUNKER"       : true,
+    "GIST"          : true,
 
-        "FLICKR"        : true,
-        "BASICIMAGE"    : true,
-        "INSTAGRAM"     : true
-    }
+    "FLICKR"        : true,
+    "BASICIMAGE"    : true,
+    "INSTAGRAM"     : true
 }

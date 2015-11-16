@@ -1,4 +1,4 @@
-const utils = require('../utils.es6');
+import utils from '../utils.es6'
 
 var helper = {
     /**
@@ -98,4 +98,4 @@ var helper = {
         }
 }
 
-module.exports = helper;
+export default helper;

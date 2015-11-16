@@ -1,4 +1,4 @@
-const utils = require('./utils.es6');
+import utils from './utils.es6'
 
 class Base {
 	constructor(input, output, options, embeds) {
@@ -37,4 +37,4 @@ class Base {
 	}
 }
 
-module.exports = Base;
+export default Base

@@ -2,6 +2,11 @@ module.exports = function(grunt) {
 
     var webpack = require('webpack');
     var webpackConfig = require('./webpack.config.js');
+    var babel = require('rollup-plugin-babel');
+    var npm = require('rollup-plugin-npm');
+    var commonjs = require('rollup-plugin-commonjs');
+    var replace = require('rollup-plugin-replace');
+    var build = require('./build.json');
 
     grunt.initConfig({
 
@@ -141,6 +146,28 @@ module.exports = function(grunt) {
                     }
                 }
             }
+        },
+
+        rollup: {
+            options: {
+                format: 'cjs',
+                banner: "<%= meta.banner %>",
+                plugins: [
+                    babel(),
+                    replace(build),
+                    npm({
+                        jsnext: true,
+                        main: true
+                    }),
+                    commonjs({
+                        include: 'node_modules/**'
+                    })
+                ]
+            },
+            files: {
+                src: 'src/js/embed.es6',
+                dest: 'src/embed.js'
+            }
         }
     });
 
@@ -153,6 +180,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks("grunt-contrib-sass");
     grunt.loadNpmTasks("grunt-contrib-uglify");
     grunt.loadNpmTasks("grunt-contrib-connect");
+    grunt.loadNpmTasks("grunt-rollup")
 
     grunt.registerTask("default", ["webpack:build-dev", "sass", "connect", "watch"]);
     grunt.registerTask("build", ["clean", "build-emoji", "webpack:build-dev", "uglify", "postcss"]);

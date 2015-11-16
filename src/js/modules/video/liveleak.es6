@@ -1,5 +1,5 @@
-let utils = require('../utils.es6')
-let Base = require('../base.es6')
+import utils from '../utils.es6'
+import Base from '../base.es6'
 
 class LiveLeak extends Base {
     constructor(input, output, options, embeds) {
@@ -14,4 +14,4 @@ class LiveLeak extends Base {
     }
 }
 
-module.exports = LiveLeak;
+export default LiveLeak;

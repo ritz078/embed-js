@@ -1,4 +1,4 @@
-const utils = require('../utils.es6');
+import utils from '../utils.es6'
 
 class Smiley {
     constructor(input, options) {
@@ -96,4 +96,4 @@ class Smiley {
     }
 }
 
-module.exports = Smiley;
+export default Smiley

@@ -1,4 +1,4 @@
-let Base = require('../base.es6');
+import Base from '../base.es6'
 
 class BasicVideo extends Base {
 	constructor(input, output, options, embeds) {
@@ -18,4 +18,4 @@ class BasicVideo extends Base {
 	}
 }
 
-module.exports = BasicVideo;
+export default BasicVideo

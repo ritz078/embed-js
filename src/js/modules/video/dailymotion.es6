@@ -1,5 +1,5 @@
-const utils = require('../utils.es6');
-let Base = require('../base.es6');
+import utils from '../utils.es6'
+import Base from '../base.es6'
 
 class Dailymotion extends Base {
     constructor(input, output, options, embeds) {
@@ -18,4 +18,4 @@ class Dailymotion extends Base {
     }
 }
 
-module.exports = Dailymotion;
+export default Dailymotion

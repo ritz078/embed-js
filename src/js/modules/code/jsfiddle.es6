@@ -1,4 +1,4 @@
-let Base = require('../base.es6');
+import Base from '../base.es6'
 
 class JsFiddle extends Base {
     constructor(input, output, options, embeds) {
@@ -12,4 +12,4 @@ class JsFiddle extends Base {
     }
 }
 
-module.exports = JsFiddle;
+export default JsFiddle;

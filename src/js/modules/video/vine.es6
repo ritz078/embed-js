@@ -1,4 +1,4 @@
-let Base = require('../base.es6');
+import Base from '../base.es6'
 
 class Vine extends Base {
     constructor(input, output, options, embeds) {
@@ -17,4 +17,4 @@ class Vine extends Base {
     }
 }
 
-module.exports = Vine;
+export default Vine

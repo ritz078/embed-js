@@ -1,4 +1,4 @@
-let Base = require('../base.es6');
+import Base from '../base.es6'
 
 class Plunker extends Base {
     constructor(input, output, options, embeds) {
@@ -16,4 +16,4 @@ class Plunker extends Base {
     }
 }
 
-module.exports = Plunker;
+export default Plunker;

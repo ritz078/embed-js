@@ -1,8 +1,8 @@
-const utils = require('../utils.es6');
+import utils from '../utils.es6'
 
-if(build.SOUNDCLOUD) var SoundCloud = require('./soundcloud.es6');
-if(build.SPOTIFY)    var Spotify    = require('./spotify.es6');
-if(build.BASICAUDIO) var BasicAudio = require('./basic.es6');
+import SoundCloud from './soundcloud.es6'
+import Spotify    from './spotify.es6'
+import BasicAudio from './basic.es6'
 
 class Audio{
 	constructor(input, output, options, embeds) {
@@ -15,9 +15,9 @@ class Audio{
 	process(){
 		try{
 			let [input, output, options, embeds] = [this.input, this.output, this.options, this.embeds];
-			[output,embeds] = utils.ifEmbed(options, 'soundcloud') && build.SOUNDCLOUD ? (new SoundCloud(input,output, options, embeds).process()) : [output,embeds];
-			[output,embeds] = utils.ifEmbed(options, 'spotify') && build.SPOTIFY ? (new Spotify(input,output, options, embeds).process()) : [output,embeds];
-			[output,embeds] = this.options.audioEmbed && build.BASICAUDIO ? (new BasicAudio(input,output, options, embeds).process()) : [output,embeds];
+			[output,embeds] = utils.ifEmbed(options, 'soundcloud') && SOUNDCLOUD ? (new SoundCloud(input,output, options, embeds).process()) : [output,embeds];
+			[output,embeds] = utils.ifEmbed(options, 'spotify') && SPOTIFY ? (new Spotify(input,output, options, embeds).process()) : [output,embeds];
+			[output,embeds] = this.options.audioEmbed && BASICAUDIO ? (new BasicAudio(input,output, options, embeds).process()) : [output,embeds];
 
 			return [output, embeds];
 		}catch(error){
@@ -26,5 +26,5 @@ class Audio{
 	}
 }
 
-module.exports = Audio;
+export default Audio
 

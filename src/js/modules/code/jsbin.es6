@@ -1,4 +1,4 @@
-let Base = require('../base.es6');
+import Base from '../base.es6'
 
 class JsBin extends Base {
     constructor(input, output, options, embeds) {
@@ -14,4 +14,4 @@ class JsBin extends Base {
     }
 }
 
-module.exports = JsBin;
+export default JsBin;

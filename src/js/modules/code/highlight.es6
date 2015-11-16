@@ -93,4 +93,4 @@ class Highlight {
     }
 }
 
-module.exports = Highlight;
+export default Highlight;

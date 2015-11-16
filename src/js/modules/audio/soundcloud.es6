@@ -1,4 +1,4 @@
-let Base = require('../base.es6');
+import Base from '../base.es6'
 
 class SoundCloud extends Base{
 	constructor(input,output, options, embeds) {
@@ -24,4 +24,4 @@ class SoundCloud extends Base{
 	}
 }
 
-module.exports = SoundCloud;
+export default SoundCloud

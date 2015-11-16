@@ -1,4 +1,4 @@
-let Base = require('../base.es6');
+import Base from '../base.es6'
 
 class Spotify extends Base{
 	constructor(input,output, options, embeds) {
@@ -14,4 +14,4 @@ class Spotify extends Base{
 	}
 }
 
-module.exports = Spotify;
+export default Spotify;

@@ -890,4 +890,4 @@ class Emoji {
     }
 }
 
-module.exports = Emoji;
+export default Emoji;
