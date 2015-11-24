@@ -5,7 +5,6 @@ module.exports = function(grunt) {
     var commonjs = require('rollup-plugin-commonjs');
     var replace = require('rollup-plugin-replace');
     var build = require('./build.json');
-    var inject = require('rollup-plugin-inject')
 
     grunt.initConfig({
 
