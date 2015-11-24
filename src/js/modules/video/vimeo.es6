@@ -1,8 +1,10 @@
 import utils from '../utils.es6'
 import Base from '../base.es6'
+import helper from './helper.es6'
+import '../../vendor/fetch.js'
 
 
-class Vimeo {
+export class Vimeo {
     constructor(input, output, options, embeds) {
         this.input = input;
         this.output = output;
@@ -86,4 +88,3 @@ class Vimeo {
     }
 }
 
-export default Vimeo

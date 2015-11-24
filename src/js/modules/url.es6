@@ -1,6 +1,6 @@
 import utils from './utils.es6'
 
-class Url{
+export class Url{
 	constructor(input,options){
 		this.input = input;
 		this.options = options;
@@ -18,5 +18,3 @@ class Url{
 		});
 	}
 }
-
-export default Url;

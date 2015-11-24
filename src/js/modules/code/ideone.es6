@@ -1,6 +1,6 @@
 import Base from '../base.es6'
 
-class Ideone extends Base {
+export class Ideone extends Base {
     constructor(input, output, options, embeds) {
         super(input, output, options, embeds);
         this.regex = /ideone.com\/[a-zA-Z0-9]{6}/gi;
@@ -11,5 +11,3 @@ class Ideone extends Base {
         return `<div class="ejs-ideone ejs-embed"><iframe src="http://ideone.com/embed/${match.split('/')}" frameborder="0" height="${this.options.codeEmbedHeight}"></iframe></div>`
     }
 }
-
-export default Ideone;

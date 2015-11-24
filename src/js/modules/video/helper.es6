@@ -10,7 +10,7 @@ var helper = {
     play(className, options) {
             let classes = document.getElementsByClassName(className);
             for (let i = 0; i < classes.length; i++) {
-                classes[i].onclick = function() {
+                classes[i].onclick = () => {
                     options.onVideoShow();
                     let url = classes[i].getAttribute('data-ejs-url') + "?autoplay=true";
                     let template = this.template(url, options);

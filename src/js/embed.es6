@@ -1,3 +1,5 @@
+import regeneratorRuntime from './vendor/regeneratorRuntime.js'
+
 import utils from './modules/utils.es6'
 
 /**
@@ -23,89 +25,109 @@ import utils from './modules/utils.es6'
  *
  */
 
-import Emoji    from './modules/emoticons/emoji.es6'
-import Smiley   from './modules/emoticons/smiley.es6'
-import Url      from './modules/url.es6'
+import {Emoji}       from './modules/emoticons/emoji.es6'
+import {Smiley}      from './modules/emoticons/smiley.es6'
+import {Url}         from './modules/url.es6'
 
-import Twitter  from './modules/twitter/twitter.es6'
-import Gmap     from './modules/map/map.es6'
-import Markdown from './modules/markdown.es6'
+import {Twitter}     from './modules/twitter/twitter.es6'
+import {Gmap}        from './modules/map/map.es6'
+import {Markdown}    from './modules/markdown.es6'
 
-import Code      from './modules/code/code.es6'
-import Video     from './modules/video/video.es6'
-import Audio     from './modules/audio/audio.es6'
-import Image     from './modules/image/image.es6'
-import helper    from './modules/video/helper.es6'
+import {Highlight}   from './modules/code/highlight.es6'
+import {Ideone}      from './modules/code/ideone.es6'
+import {Plunker}     from './modules/code/plunker.es6'
+import {JsBin}       from './modules/code/jsbin.es6'
+import {CodePen}     from './modules/code/codepen.es6'
+import {JsFiddle}    from './modules/code/jsfiddle.es6'
+import {Gist}        from './modules/code/gist.es6'
 
-(function(window) {
+import {Ted}         from './modules/video/ted.es6'
+import {Dailymotion} from './modules/video/dailymotion.es6'
+import {Ustream}     from './modules/video/ustream.es6'
+import {LiveLeak}    from './modules/video/liveleak.es6'
+import {Vine}        from './modules/video/vine.es6'
+import {Youtube}     from './modules/video/youtube.es6'
+import {Vimeo}       from './modules/video/vimeo.es6'
+import {BasicVideo}  from './modules/video/basic.es6'
 
-    var globalOptions = {};
+import {SoundCloud}  from './modules/audio/soundcloud.es6'
+import {Spotify}     from './modules/audio/spotify.es6'
+import {BasicAudio}  from './modules/audio/basic.es6'
+
+import {Flickr}      from './modules/image/flickr.es6'
+import {Instagram}   from './modules/image/instagram.es6'
+import {Basic}       from './modules/image/basic.es6'
+
+import helper from './modules/video/helper.es6'
+
+(function(window){
+    var globalOptions = {}
 
     var defaultOptions = {
-        marked             : false,
-        markedOptions      : {},
-        link               : true,
-        linkOptions        : {
-            target             : 'self',
-            exclude            : ['pdf'],
-            rel                : ''
+        marked: false,
+        markedOptions: {},
+        link: true,
+        linkOptions: {
+            target: 'self',
+            exclude: ['pdf'],
+            rel: ''
         },
-        emoji              : true,
-        customEmoji        : [],
-        fontIcons          : true,
-        customFontIcons    : [],
-        highlightCode      : true,
-        videoJS            : false,
-        videojsOptions     : {
-            fluid              : true,
-            preload            : 'metadata'
+        emoji: true,
+        customEmoji: [],
+        fontIcons: true,
+        customFontIcons: [],
+        highlightCode: true,
+        videoJS: false,
+        videojsOptions: {
+            fluid: true,
+            preload: 'metadata'
         },
-        locationEmbed      : true,
-        mapOptions         : {
-            mode               : 'place'
+        locationEmbed: true,
+        mapOptions: {
+            mode: 'place'
         },
-        tweetsEmbed        : true,
-        tweetOptions       : {
-        maxWidth           : 550,
-        hideMedia          : false,
-        hideThread         : false,
-        align              : 'none',
-        lang               : 'en'
+        tweetsEmbed: true,
+        tweetOptions: {
+            maxWidth: 550,
+            hideMedia: false,
+            hideThread: false,
+            align: 'none',
+            lang: 'en'
         },
-        imageEmbed         : true,
-        videoEmbed         : true,
-        videoHeight        : null,
-        videoWidth         : null,
-        videoDetails       : true,
-        audioEmbed         : true,
-        excludeEmbed       : [],
-		inlineEmbed        : [],
-        inlineText         : true,
-        codeEmbedHeight    : 500,
-        vineOptions        : {
-            maxWidth           : null,
-            type               : 'postcard', //'postcard' or 'simple' embedding
-            responsive         : true,
-            width              : 350,
-            height             : 460
+        imageEmbed: true,
+        videoEmbed: true,
+        videoHeight: null,
+        videoWidth: null,
+        videoDetails: true,
+        audioEmbed: true,
+        excludeEmbed: [],
+        inlineEmbed: [],
+        inlineText: true,
+        codeEmbedHeight: 500,
+        vineOptions: {
+            maxWidth: null,
+            type: 'postcard', //'postcard' or 'simple' embedding
+            responsive: true,
+            width: 350,
+            height: 460
         },
-        googleAuthKey      : '',
-        soundCloudOptions  : {
-            height             : 160,
-            themeColor         : 'f50000', //Hex Code of the player theme color
-            autoPlay           : false,
-            hideRelated        : false,
-            showComments       : true,
-            showUser           : true,
-            showReposts        : false,
-            visual             : false, //Show/hide the big preview image
-            download           : false //Show/Hide download buttons
+        googleAuthKey: '',
+        soundCloudOptions: {
+            height: 160,
+            themeColor: 'f50000', //Hex Code of the player theme color
+            autoPlay: false,
+            hideRelated: false,
+            showComments: true,
+            showUser: true,
+            showReposts: false,
+            visual: false, //Show/hide the big preview image
+            download: false //Show/Hide download buttons
         },
-        beforeEmbedJSApply : function() {},
-        afterEmbedJSApply  : function() {},
-        onVideoShow        : function() {},
-        onTweetsLoad       : function() {},
-        videojsCallback    : function() {}
+        beforeEmbedJSApply: function() {},
+        afterEmbedJSApply: function() {},
+        onVideoShow: function() {},
+        onTweetsLoad: function() {},
+        videojsCallback: function() {}
     };
 
     class EmbedJS {
@@ -124,7 +146,7 @@ import helper    from './modules/video/helper.es6'
              * We have created a clone of the original options to make sure that the original object
              * isn't altered.
              */
-            let defOpts  = utils.cloneObject(defaultOptions)
+            let defOpts = utils.cloneObject(defaultOptions)
             let globOpts = utils.cloneObject(globalOptions)
 
             //merge global options with the default options
@@ -139,7 +161,7 @@ import helper    from './modules/video/helper.es6'
             if (this.options.element) {
                 this.element = this.options.element;
                 this.input = this.element.innerHTML;
-            }else{
+            } else {
                 this.input = input;
             }
 
@@ -152,25 +174,100 @@ import helper    from './modules/video/helper.es6'
          * @return {string} The processes resulting string
          */
         async process() {
-            let input   = this.input;
+            let input = this.input;
             let options = this.options;
-            let embeds  = [];
-            let output  = '';
+            let embeds = [];
+            let output = '';
 
             this.options.beforeEmbedJSApply();
 
-            output           = options.link && LINK ? (new Url(input, options).process())             : input;
-            output           = options.marked && MARKDOWN ? (new Markdown(output, options).process()) : output;
-            output           = options.emoji && EMOJI ? (new Emoji(output, options).process())        : output;
-            output           = options.fontIcons && SMILEY ? (new Smiley(output, options).process())  : output;
-            [output, embeds] = (new Code(input, output, options, embeds).process());
-            [output, embeds] = await (new Video(input, output, options, embeds).process());
-            [output, embeds] = options.locationEmbed ? await (new Gmap(input, output, options, embeds).process()) : [output, embeds];
-            [output, embeds] = (new Audio(input, output, options, embeds).process());
-            [output, embeds] = (new Image(input, output, options, embeds).process());
+            if (LINK && options.link){
+                output = new Url(input, options).process()
+            }
+            if (MARKDOWN && options.marked) {
+                output = new Markdown(output, options).process()
+            }
+            if (EMOJI && options.emoji){
+                output = new Emoji(output, options).process()
+            }
+            if (SMILEY && options.fontIcons){
+                output = new Smiley(output, options).process()
+            }
+
+            if (HIGHLIGHTCODE && options.highlightCode && !options.marked) {
+                output = new Highlight(output, options).process()
+            }
+            if (IDEONE && utils.ifEmbed(options, 'ideone')) {
+                [output, embeds] = new Ideone(input, output, options, embeds).process()
+            }
+            if (PLUNKER && utils.ifEmbed(options, 'plunker')) {
+                [output, embeds] = new Plunker(input, output, options, embeds).process()
+            }
+            if (JSBIN && utils.ifEmbed(options, 'jsbin')) {
+                [output, embeds] = new JsBin(input, output, options, embeds).process()
+            }
+            if (CODEPEN && utils.ifEmbed(options, 'codepen')) {
+                [output, embeds] = new CodePen(input, output, options, embeds).process()
+            }
+            if (JSFIDDLE && utils.ifEmbed(options, 'jsfiddle')) {
+                [output, embeds] = new JsFiddle(input, output, options, embeds).process()
+            }
+            if (GIST && utils.ifEmbed(options, 'gist')) {
+                [output, embeds] = new Gist(input, output, options, embeds).process()
+            }
+
+
+            if (TED && utils.ifEmbed(options, 'ted')) {
+                [output, embeds] = new Ted(input, output, options, embeds).process()
+            }
+            if (DAILYMOTION && utils.ifEmbed(options, 'dailymotion')) {
+                [output, embeds] = new Dailymotion(input, output, options, embeds).process()
+            }
+            if (USTREAM && utils.ifEmbed(options, 'ustream')) {
+                [output, embeds] = new Ustream(input, output, options, embeds).process()
+            }
+            if (LIVELEAK && utils.ifEmbed(options, 'liveleak')) {
+                [output, embeds] = new LiveLeak(input, output, options, embeds).process()
+            }
+            if (BASICVIDEO && options.videoEmbed) {
+                [output, embeds] = new BasicVideo(input, output, options, embeds).process()
+            }
+            if (VINE && utils.ifEmbed(options, 'vine')) {
+                [output, embeds] = new Vine(input, output, options, embeds).process()
+            }
+            if (YOUTUBE && utils.ifEmbed(options, 'youtube') && regeneratorRuntime) {
+                [output, embeds] = await new Youtube(input, output, options, embeds).process()
+            }
+            if (VIMEO && utils.ifEmbed(options, 'vimeo')) {
+                [output, embeds] = await new Vimeo(input, output, options, embeds).process()
+            }
+
+            if (MAP && options.locationEmbed) {
+                [output, embeds] = await new Gmap(input, output, options, embeds).process()
+            }
+
+            if (SOUNDCLOUD && utils.ifEmbed(options, 'soundcloud')) {
+                [output, embeds] = new SoundCloud(input, output, options, embeds).process()
+            }
+            if (SPOTIFY && utils.ifEmbed(options, 'spotify')) {
+                [output, embeds] = new Spotify(input, output, options, embeds).process()
+            }
+            if (BASICAUDIO && options.audioEmbed) {
+                [output, embeds] = new BasicAudio(input, output, options, embeds).process()
+            }
+
+            if (FLICKR && utils.ifEmbed(options, 'flickr')) {
+                [output, embeds] = new Flickr(input, output, options, embeds).process()
+            }
+            if (INSTAGRAM && utils.ifEmbed(options, 'instagram')) {
+                [output, embeds] = new Instagram(input, output, options, embeds).process()
+            }
+            if (BASICIMAGE && options.imageEmbed) {
+                [output, embeds] = new Basic(input, output, options, embeds).process()
+            }
 
             if (options.tweetsEmbed && TWITTER) {
-                this.twitter = new Twitter(input,output, options, embeds);
+                this.twitter = new Twitter(input, output, options, embeds);
                 [output, embeds] = await (this.twitter.process());
             }
 
@@ -189,7 +286,7 @@ import helper    from './modules/video/helper.es6'
          * @return {}
          */
         async render() {
-            if(!this.element) throw new Error(`You didn't pass an element while creating this instance. render() method can't work without an element`)
+            if (!this.element) throw new Error(`You didn't pass an element while creating this instance. render() method can't work without an element`)
             let result = await this.process();
             this.element.innerHTML = result;
 
@@ -219,7 +316,7 @@ import helper    from './modules/video/helper.es6'
          * @return {null}
          */
         destroy() {
-            if(!this.element) throw new Error(`destroy() method only if an element had been passed in the options object`)
+            if (!this.element) throw new Error(`destroy() method only if an element had been passed in the options object`)
             helper.destroy('ejs-video-thumb', this.options)
             this.element.removeEventListener('rendered', this.twitter.load(), false)
             this.element.innerHTML = this.input
@@ -227,8 +324,8 @@ import helper    from './modules/video/helper.es6'
     }
 
     let ejs = {
-        instances : [],
-        elements  : [],
+        instances: [],
+        elements: [],
 
         /**
          * Sets options globally
@@ -266,6 +363,6 @@ import helper    from './modules/video/helper.es6'
     }
 
     window.EmbedJS = EmbedJS
-    window.ejs     = ejs
+    window.ejs = ejs
 
-})(window);
+})(window)

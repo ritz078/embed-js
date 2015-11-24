@@ -1,7 +1,7 @@
-require('./modules/utils.test');
+import './modules/utils.test'
 
 
-require('./modules/emoticons/emoji.test');
-require('./modules/emoticons/smiley.test');
+import './modules/emoticons/emoji.test'
+import './modules/emoticons/smiley.test'
 
-require('./modules/url.test.js');
+import './modules/url.test.js'

@@ -1,6 +1,6 @@
 import Base from '../base.es6'
 
-class BasicAudio extends Base {
+export class BasicAudio extends Base {
     constructor(input, output, options, embeds) {
         super(input, output, options, embeds)
         this.regex = /((?:https?):\/\/\S*\.(?:wav|mp3|ogg))/gi
@@ -12,4 +12,3 @@ class BasicAudio extends Base {
     }
 }
 
-export default BasicAudio;

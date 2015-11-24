@@ -1,7 +1,7 @@
 import utils from '../utils.es6'
 import Base from '../base.es6'
 
-class Flickr extends Base{
+export class Flickr extends Base{
 	constructor(input, output,options, embeds){
 		super(input,output, options, embeds);
 		this.regex = /flickr.com\/[a-z]+\/[a-zA-Z@_$!\d]+\/[\d]+/gi;
@@ -18,4 +18,3 @@ class Flickr extends Base{
 	}
 }
 
-export default Flickr;

@@ -1,6 +1,6 @@
 import utils from '../utils.es6'
 
-class Gmap {
+export class Gmap {
     constructor(input, output, options, embeds) {
         this.input   = input
         this.output  = output
@@ -59,4 +59,3 @@ class Gmap {
     }
 }
 
-export default Gmap;

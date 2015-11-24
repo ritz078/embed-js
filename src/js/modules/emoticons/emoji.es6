@@ -1,6 +1,6 @@
-class Emoji {
-    constructor(input, options) {
-        this.input = input;
+export class Emoji {
+    constructor(output, options) {
+        this.output = output;
         this.options = options;
 
         this.emojiList = [
@@ -884,10 +884,9 @@ class Emoji {
     }
 
     process() {
-        return this.input.replace(this.emojiRegex, function(match, text){
+        return this.output.replace(this.emojiRegex, function(match, text){
             return `<span class="emoticon emoticon-${text}" title=":${text}:"></span>`;
         });
     }
 }
 
-export default Emoji;

@@ -1,6 +1,6 @@
 import Base from '../base.es6'
 
-class Plunker extends Base {
+export class Plunker extends Base {
     constructor(input, output, options, embeds) {
         super(input, output, options, embeds);
         this.regex = /plnkr.co\/edit\/[a-zA-Z0-9\?=]+/gi;
@@ -16,4 +16,3 @@ class Plunker extends Base {
     }
 }
 
-export default Plunker;

@@ -1,6 +1,6 @@
 import Base from '../base.es6'
 
-class Basic extends Base{
+export class Basic extends Base{
 	constructor(input, output,options, embeds){
 		super(input,output, options, embeds);
 		this.regex =/((?:https?):\/\/\S*\.(?:gif|jpg|jpeg|tiff|png|svg|webp))/gi;
@@ -12,4 +12,3 @@ class Basic extends Base{
 	}
 }
 
-export default Basic;

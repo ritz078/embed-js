@@ -1,7 +1,7 @@
 import utils from '../utils.es6'
 import Base from '../base.es6'
 
-class Dailymotion extends Base {
+export class Dailymotion extends Base {
     constructor(input, output, options, embeds) {
         super(input, output, options, embeds);
         this.regex = /dailymotion.com\/video\/[a-zA-Z0-9-_]+/gi;
@@ -18,4 +18,3 @@ class Dailymotion extends Base {
     }
 }
 
-export default Dailymotion

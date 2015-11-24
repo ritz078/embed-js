@@ -1,6 +1,6 @@
 import Base from '../base.es6'
 
-class JsBin extends Base {
+export class JsBin extends Base {
     constructor(input, output, options, embeds) {
         super(input, output, options, embeds);
         this.regex = /jsbin.com\/[a-zA-Z0-9_]+\/[0-9_]+/gi;
@@ -13,5 +13,3 @@ class JsBin extends Base {
 		</div>`
     }
 }
-
-export default JsBin;

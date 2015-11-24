@@ -1,4 +1,4 @@
-var utils = require('../../src/js/modules/utils.es6');
+import utils from '../../src/js/modules/utils.es6'
 var expect = require('chai').expect;
 
 describe('toUrl() method', function() {

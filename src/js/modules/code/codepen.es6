@@ -1,6 +1,6 @@
 import Base from '../base.es6'
 
-class CodePen extends Base {
+export class CodePen extends Base {
     constructor(input, output, options, embeds) {
         super(input, output, options, embeds);
         this.regex = /http:\/\/codepen.io\/([A-Za-z0-9_]+)\/pen\/([A-Za-z0-9_]+)/gi;
@@ -14,4 +14,3 @@ class CodePen extends Base {
     }
 }
 
-export default CodePen
