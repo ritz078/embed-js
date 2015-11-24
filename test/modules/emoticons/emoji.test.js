@@ -1,4 +1,4 @@
-var Emoji = require('../../../src/js/modules/emoticons/emoji.es6');
+import {Emoji} from '../../../src/js/modules/emoticons/emoji.es6'
 var expect = require('chai').expect;
 
 var options={

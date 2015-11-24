@@ -1,6 +1,6 @@
-let Base = require('../base.es6');
+import Base from '../base.es6'
 
-class Gist extends Base {
+export class Gist extends Base {
     constructor(input, output, options, embeds) {
         super(input, output, options, embeds);
         this.regex = /gist.github.com\/[a-zA-Z0-9_-]+\/([a-zA-Z0-9]+)/g;
@@ -46,5 +46,3 @@ class Gist extends Base {
         }
     }
 }
-
-module.exports = Gist;

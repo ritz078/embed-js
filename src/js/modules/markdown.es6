@@ -1,8 +1,9 @@
-class Markdown {
+export class Markdown {
     constructor(output, options) {
         if (!window.marked) throw new ReferenceError(`marked.js is not loaded.`)
         this.output = output
         this.options = options
+        this.process()
     }
 
     process() {
@@ -49,5 +50,3 @@ class Markdown {
         return output
     }
 }
-
-module.exports = Markdown

@@ -1,6 +1,8 @@
-const utils = require('../utils.es6');
+import utils from '../utils.es6'
+import '../../vendor/fetch.js'
+import fetchJsonp from '../../vendor/fetch_jsonp.js'
 
-class Twitter {
+export class Twitter {
     constructor(input,output, options, embeds) {
         this.input = input;
         this.output = output;
@@ -73,5 +75,3 @@ class Twitter {
         }
     }
 }
-
-module.exports = Twitter;
