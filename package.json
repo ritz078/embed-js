@@ -40,6 +40,7 @@
     "babel-eslint": "^4.1.6",
     "babel-plugin-transform-regenerator": "^6.2.0",
     "babel-preset-es2015-rollup": "^1.0.0",
+    "babel-preset-stage-2": "^6.1.18",
     "chai": "^3.2.0",
     "commitizen": "^2.4.6",
     "cssnano": "^3.3.2",
