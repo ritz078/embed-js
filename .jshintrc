@@ -1,0 +1,19 @@
+{
+  "browser": true,
+  "jquery": true,
+  "node": true,
+  "esnext": false,
+  "globals": {
+    "hljs":true,
+    "twttr":true
+  },
+  "laxcomma": true,
+  "globalstrict": false,
+  "quotmark": "single",
+  "curly": true,
+  "indent": 2,
+  "undef": true,
+  "unused": true,
+
+  "predef": ["define"]
+}
