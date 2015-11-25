@@ -8,7 +8,7 @@ export class CodePen extends Base {
     }
 
     template(id) {
-        return `<div class="ejs-embed ejs-codepen">
+        return ejs.template.codePen(id, this.options) || `<div class="ejs-embed ejs-codepen">
 			<iframe scrolling="no" height="${this.options.codeEmbedHeight}" src="${id.replace(/\/pen\//, '/embed/')}/?height=${this.options.codeEmbedHeight}"></iframe>'
 		</div>`
     }

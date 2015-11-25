@@ -27,7 +27,7 @@ var helper = {
          */
         template(url, options) {
             let dimensions = utils.dimensions(options);
-            return `<div class="ejs-video-player ejs-embed">
+            return ejs.template.vimeo(url, dimensions, options) || ejs.template.youtube(url, dimensions, options) || `<div class="ejs-video-player ejs-embed">
         <iframe src="${url}" frameBorder="0" width="${dimensions.width}" height="${dimensions.height}"></iframe>
         </div>`
         },
@@ -65,6 +65,15 @@ var helper = {
         </div>
         </div>
         </div>`
+        },
+
+        getDetailsTemplate(data, fullData, embedUrl){
+            if(data.host === 'vimeo'){
+                return ejs.template.detailsVimeo(data, fullData,embedUrl) || this.detailsTemplate(data,embedUrl)
+            }
+            else if(data.host === 'youtube'){
+                return ejs.template.detailsYoutube(data, fullData, embedUrl) || this.detailsTemplate(data, embedUrl)
+            }
         },
 
         /**

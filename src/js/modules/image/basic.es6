@@ -8,7 +8,7 @@ export class Basic extends Base{
 	}
 
 	template(match){
-		return `<div class="ejs-image ejs-embed"><div class="ne-image-wrapper"><img src="${match}"/></div></div>`
+		return ejs.template.basicImage(match, this.options) || `<div class="ejs-image ejs-embed"><div class="ne-image-wrapper"><img src="${match}"/></div></div>`
 	}
 }
 

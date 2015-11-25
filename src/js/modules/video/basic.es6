@@ -8,7 +8,7 @@ export class BasicVideo extends Base {
 	}
 
 	template(match) {
-		return `<div class="ejs-video ejs-embed">
+		return ejs.template.basicVideo(match, this.options) || `<div class="ejs-video ejs-embed">
 		<div class="ejs-video-player">
 		<div class="ejs-player">
 		<video src="${match}" class="ejs-video-js video-js" controls></video>

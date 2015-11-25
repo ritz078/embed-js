@@ -8,7 +8,7 @@ export class JsBin extends Base {
     }
 
     template(id) {
-        return `<div class="ejs-jsbin ejs-embed">
+        return ejs.template.jsBin(id, this.options) || `<div class="ejs-jsbin ejs-embed">
 		<iframe height="${this.options.codeEmbedHeight}" class="jsbin-embed foo" src="http://${id}/embed?html,js,output"></iframe>
 		</div>`
     }

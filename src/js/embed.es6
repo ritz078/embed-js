@@ -8,7 +8,7 @@ import utils from './modules/utils.es6'
  * It is used to create a custom build of the plugin. Webpack uses the object and sets it as a global variable
  * while creating the build. Later UglifyJS removes the dead code from the file and a custom build is created.
  *
- * Eg: Webpack converts
+ * Eg: Rollup converts
  *     if (build.EMOJI){
  *         var Emoji = require('./modules/emoticons/emoji.es6');
  *     }
@@ -25,42 +25,123 @@ import utils from './modules/utils.es6'
  *
  */
 
-import {Emoji}       from './modules/emoticons/emoji.es6'
-import {Smiley}      from './modules/emoticons/smiley.es6'
-import {Url}         from './modules/url.es6'
+import {
+    Emoji
+}
+from './modules/emoticons/emoji.es6'
+import {
+    Smiley
+}
+from './modules/emoticons/smiley.es6'
+import {
+    Url
+}
+from './modules/url.es6'
 
-import {Twitter}     from './modules/twitter/twitter.es6'
-import {Gmap}        from './modules/map/map.es6'
-import {Markdown}    from './modules/markdown.es6'
+import {
+    Twitter
+}
+from './modules/twitter/twitter.es6'
+import {
+    Gmap
+}
+from './modules/map/map.es6'
+import {
+    Markdown
+}
+from './modules/markdown.es6'
 
-import {Highlight}   from './modules/code/highlight.es6'
-import {Ideone}      from './modules/code/ideone.es6'
-import {Plunker}     from './modules/code/plunker.es6'
-import {JsBin}       from './modules/code/jsbin.es6'
-import {CodePen}     from './modules/code/codepen.es6'
-import {JsFiddle}    from './modules/code/jsfiddle.es6'
-import {Gist}        from './modules/code/gist.es6'
+import {
+    Highlight
+}
+from './modules/code/highlight.es6'
+import {
+    Ideone
+}
+from './modules/code/ideone.es6'
+import {
+    Plunker
+}
+from './modules/code/plunker.es6'
+import {
+    JsBin
+}
+from './modules/code/jsbin.es6'
+import {
+    CodePen
+}
+from './modules/code/codepen.es6'
+import {
+    JsFiddle
+}
+from './modules/code/jsfiddle.es6'
+import {
+    Gist
+}
+from './modules/code/gist.es6'
 
-import {Ted}         from './modules/video/ted.es6'
-import {Dailymotion} from './modules/video/dailymotion.es6'
-import {Ustream}     from './modules/video/ustream.es6'
-import {LiveLeak}    from './modules/video/liveleak.es6'
-import {Vine}        from './modules/video/vine.es6'
-import {Youtube}     from './modules/video/youtube.es6'
-import {Vimeo}       from './modules/video/vimeo.es6'
-import {BasicVideo}  from './modules/video/basic.es6'
+import {
+    Ted
+}
+from './modules/video/ted.es6'
+import {
+    Dailymotion
+}
+from './modules/video/dailymotion.es6'
+import {
+    Ustream
+}
+from './modules/video/ustream.es6'
+import {
+    LiveLeak
+}
+from './modules/video/liveleak.es6'
+import {
+    Vine
+}
+from './modules/video/vine.es6'
+import {
+    Youtube
+}
+from './modules/video/youtube.es6'
+import {
+    Vimeo
+}
+from './modules/video/vimeo.es6'
+import {
+    BasicVideo
+}
+from './modules/video/basic.es6'
 
-import {SoundCloud}  from './modules/audio/soundcloud.es6'
-import {Spotify}     from './modules/audio/spotify.es6'
-import {BasicAudio}  from './modules/audio/basic.es6'
+import {
+    SoundCloud
+}
+from './modules/audio/soundcloud.es6'
+import {
+    Spotify
+}
+from './modules/audio/spotify.es6'
+import {
+    BasicAudio
+}
+from './modules/audio/basic.es6'
 
-import {Flickr}      from './modules/image/flickr.es6'
-import {Instagram}   from './modules/image/instagram.es6'
-import {Basic}       from './modules/image/basic.es6'
+import {
+    Flickr
+}
+from './modules/image/flickr.es6'
+import {
+    Instagram
+}
+from './modules/image/instagram.es6'
+import {
+    Basic
+}
+from './modules/image/basic.es6'
 
 import helper from './modules/video/helper.es6'
 
-(function(window){
+(function(window) {
     var globalOptions = {}
 
     var defaultOptions = {
@@ -181,16 +262,16 @@ import helper from './modules/video/helper.es6'
 
             this.options.beforeEmbedJSApply();
 
-            if (LINK && options.link){
+            if (LINK && options.link) {
                 output = new Url(input, options).process()
             }
             if (MARKDOWN && options.marked) {
                 output = new Markdown(output, options).process()
             }
-            if (EMOJI && options.emoji){
+            if (EMOJI && options.emoji) {
                 output = new Emoji(output, options).process()
             }
-            if (SMILEY && options.fontIcons){
+            if (SMILEY && options.fontIcons) {
                 output = new Smiley(output, options).process()
             }
 
@@ -359,10 +440,35 @@ import helper from './modules/video/helper.es6'
             for (let i = 0; i < this.elements.length; i++) {
                 this.instances[i].destroy()
             }
+        },
+
+        template: {
+            url() {},
+            smiley() {},
+            emoji() {},
+            basicAudio() {},
+            soundCloud() {},
+            spotify() {},
+            codePen() {},
+            ideone() {},
+            jsBin() {},
+            jsFiddle() {},
+            plunker() {},
+            basicImage() {},
+            flickr() {},
+            instagram() {},
+            basicVideo() {},
+            dailymotion() {},
+            liveLeak() {},
+            ted() {},
+            ustream() {},
+            detailsVimeo() {},
+            detailsYoutube() {},
+            vine() {}
         }
     }
 
-    window.EmbedJS = EmbedJS
     window.ejs = ejs
+    window.EmbedJS = EmbedJS
 
 })(window)

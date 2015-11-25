@@ -89,7 +89,7 @@ export class Smiley {
         var processedString = this.input.replace(this.smileyRegex, (match, text) => {
             let index = this.EscapedSymbols.indexOf(utils.escapeRegExp(text));
             let code = this.icons[index].code;
-            return ` <span class="icon-emoticon" title="${text}">${code}</span> `;
+            return ejs.template.smiley(text, code, this.options) || ` <span class="icon-emoticon" title="${text}">${code}</span> `;
         });
 
         return processedString.substring(1, processedString.length-1);

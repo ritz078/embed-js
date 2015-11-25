@@ -320,7 +320,7 @@
        */
       template: function template(url, options) {
           var dimensions = utils.dimensions(options);
-          return '<div class="ejs-video-player ejs-embed">\n        <iframe src="' + url + '" frameBorder="0" width="' + dimensions.width + '" height="' + dimensions.height + '"></iframe>\n        </div>';
+          return ejs.template.vimeo(url, dimensions, options) || ejs.template.youtube(url, dimensions, options) || '<div class="ejs-video-player ejs-embed">\n        <iframe src="' + url + '" frameBorder="0" width="' + dimensions.width + '" height="' + dimensions.height + '"></iframe>\n        </div>';
       },
 
       /**
@@ -331,6 +331,13 @@
        */
       detailsTemplate: function detailsTemplate(data, embedUrl) {
           return '<div class="ejs-video ejs-embed">\n        <div class="ejs-video-preview">\n        <div class="ejs-video-thumb" data-ejs-url="' + embedUrl + '">\n        <div class="ejs-thumb" style="background-image:url(' + data.thumbnail + ')"></div>\n        <i class="fa fa-play-circle-o"></i>\n        </div>\n        <div class="ejs-video-detail">\n        <div class="ejs-video-title">\n        <a href="' + data.url + '">\n        ' + data.title + '\n        </a>\n        </div>\n        <div class="ejs-video-desc">\n        ' + data.description + '\n        </div>\n        <div class="ejs-video-stats">\n        <span>\n        <i class="fa fa-eye"></i>' + data.views + '\n        </span>\n        <span>\n        <i class="fa fa-heart"></i>' + data.likes + '\n        </span>\n        </div>\n        </div>\n        </div>\n        </div>';
+      },
+      getDetailsTemplate: function getDetailsTemplate(data, fullData, embedUrl) {
+          if (data.host === 'vimeo') {
+              return ejs.template.detailsVimeo(data, fullData, embedUrl) || this.detailsTemplate(data, embedUrl);
+          } else if (data.host === 'youtube') {
+              return ejs.template.detailsYoutube(data, fullData, embedUrl) || this.detailsTemplate(data, embedUrl);
+          }
       },
 
       /**
@@ -1413,9 +1420,9 @@
       babelHelpers.createClass(Twitter, [{
           key: 'tweetData',
           value: (function () {
-              var ref = babelHelpers.asyncToGenerator(regeneratorRuntime.mark(function tweetData(url) {
+              var ref = babelHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee(url) {
                   var config, apiUrl, response, data;
-                  return regeneratorRuntime.wrap(function tweetData$(_context) {
+                  return regeneratorRuntime.wrap(function _callee$(_context) {
                       while (1) switch (_context.prev = _context.next) {
                           case 0:
                               config = this.options.tweetOptions;
@@ -1438,9 +1445,9 @@
                           case 'end':
                               return _context.stop();
                       }
-                  }, tweetData, this);
+                  }, _callee, this);
               }));
-              return function value(_x) {
+              return function tweetData(_x) {
                   return ref.apply(this, arguments);
               };
           })()
@@ -1465,9 +1472,9 @@
       }, {
           key: 'process',
           value: (function () {
-              var ref = babelHelpers.asyncToGenerator(regeneratorRuntime.mark(function process() {
+              var ref = babelHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
                   var regexInline, match, url, data, text;
-                  return regeneratorRuntime.wrap(function process$(_context2) {
+                  return regeneratorRuntime.wrap(function _callee2$(_context2) {
                       while (1) switch (_context2.prev = _context2.next) {
                           case 0:
                               _context2.prev = 0;
@@ -1541,9 +1548,9 @@
                           case 'end':
                               return _context2.stop();
                       }
-                  }, process, this, [[0, 26]]);
+                  }, _callee2, this, [[0, 26]]);
               }));
-              return function value() {
+              return function process() {
                   return ref.apply(this, arguments);
               };
           })()
@@ -1607,7 +1614,7 @@
   	babelHelpers.createClass(Basic, [{
   		key: 'template',
   		value: function template(match) {
-  			return '<div class="ejs-image ejs-embed"><div class="ne-image-wrapper"><img src="' + match + '"/></div></div>';
+  			return ejs.template.basicImage(match, this.options) || '<div class="ejs-image ejs-embed"><div class="ne-image-wrapper"><img src="' + match + '"/></div></div>';
   		}
   	}]);
   	return Basic;
@@ -1630,7 +1637,7 @@
   		key: 'template',
   		value: function template(match) {
   			var dimensions = utils.dimensions(this.options);
-  			return '<div class="ejs-embed"><iframe src="' + utils.toUrl(match) + '/embed/" width="' + dimensions.width + '" height="' + dimensions.height + '"></iframe></div>';
+  			return ejs.template.instagram(match, dimensions, this.options) || '<div class="ejs-embed"><iframe src="' + utils.toUrl(match) + '/embed/" width="' + dimensions.width + '" height="' + dimensions.height + '"></iframe></div>';
   		}
   	}]);
   	return Instagram;
@@ -1653,7 +1660,7 @@
   		key: 'template',
   		value: function template(match) {
   			var dimensions = utils.dimensions(this.options);
-  			return '<div class="ejs-embed">\n\t\t\t<div class="ne-image-wrapper">\n\t\t\t\t<iframe src="' + utils.toUrl(match) + '/player/" width="' + dimensions.width + '" height="' + dimensions.height + '"></iframe>\n\t\t\t</div>\n\t\t</div>';
+  			return ejs.template.flickr(match, dimensions, this.options) || '<div class="ejs-embed">\n\t\t\t<div class="ne-image-wrapper">\n\t\t\t\t<iframe src="' + utils.toUrl(match) + '/player/" width="' + dimensions.width + '" height="' + dimensions.height + '"></iframe>\n\t\t\t</div>\n\t\t</div>';
   		}
   	}]);
   	return Flickr;
@@ -1675,7 +1682,7 @@
       babelHelpers.createClass(BasicAudio, [{
           key: 'template',
           value: function template(match) {
-              return '<div class="ejs-audio ejs-embed"><audio src="' + match + '" controls class="video-js ejs-video-js"></audio></div>';
+              return ejs.template.basicAudio(match) || '<div class="ejs-audio ejs-embed"><audio src="' + match + '" controls class="video-js ejs-video-js"></audio></div>';
           }
       }]);
       return BasicAudio;
@@ -1699,7 +1706,7 @@
   		value: function template(match) {
   			var a = match.split('/');
   			var id = a[a.length - 1];
-  			return '<div class="ejs-embed"><iframe src="https://embed.spotify.com/?uri=spotify:track:' + id + '" height="80"></iframe></div>';
+  			return ejs.template.spotify(id) || '<div class="ejs-embed"><iframe src="https://embed.spotify.com/?uri=spotify:track:' + id + '" height="80"></iframe></div>';
   		}
   	}]);
   	return Spotify;
@@ -1722,7 +1729,7 @@
   		key: 'template',
   		value: function template(match) {
   			var config = this.options.soundCloudOptions;
-  			return '<div class="ejs-embed">\n\t\t<iframe height="160" scrolling="no" src="https://w.soundcloud.com/player/?url=' + match + '\n\t\t&auto_play     = ' + config.autoPlay + '\n\t\t&hide_related  = ' + config.hideRelated + '\n\t\t&show_comments = ' + config.showComments + '\n\t\t&show_user     = ' + config.showUser + '\n\t\t&show_reposts  = ' + config.showReposts + '\n\t\t&visual        = ' + config.visual + '\n\t\t&download      = ' + config.download + '\n\t\t&color         = ' + config.themeColor + '\n\t\t&theme_color   = ' + config.themeColor + '"></iframe>\n\t\t</div>';
+  			return ejs.template.soundCloud(match, config) || '<div class="ejs-embed">\n\t\t<iframe height="160" scrolling="no" src="https://w.soundcloud.com/player/?url=' + match + '\n\t\t&auto_play     = ' + config.autoPlay + '\n\t\t&hide_related  = ' + config.hideRelated + '\n\t\t&show_comments = ' + config.showComments + '\n\t\t&show_user     = ' + config.showUser + '\n\t\t&show_reposts  = ' + config.showReposts + '\n\t\t&visual        = ' + config.visual + '\n\t\t&download      = ' + config.download + '\n\t\t&color         = ' + config.themeColor + '\n\t\t&theme_color   = ' + config.themeColor + '"></iframe>\n\t\t</div>';
   		}
   	}]);
   	return SoundCloud;
@@ -1743,9 +1750,9 @@
       babelHelpers.createClass(Gmap, [{
           key: 'getCoordinate',
           value: (function () {
-              var ref = babelHelpers.asyncToGenerator(regeneratorRuntime.mark(function getCoordinate(location) {
+              var ref = babelHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee(location) {
                   var url, response, data, latitude, longitude;
-                  return regeneratorRuntime.wrap(function getCoordinate$(_context) {
+                  return regeneratorRuntime.wrap(function _callee$(_context) {
                       while (1) switch (_context.prev = _context.next) {
                           case 0:
                               url = 'http://maps.googleapis.com/maps/api/geocode/json?address=' + location + '&sensor=false';
@@ -1767,9 +1774,9 @@
                           case 'end':
                               return _context.stop();
                       }
-                  }, getCoordinate, this);
+                  }, _callee, this);
               }));
-              return function value(_x) {
+              return function getCoordinate(_x) {
                   return ref.apply(this, arguments);
               };
           })()
@@ -1795,19 +1802,19 @@
       }, {
           key: 'process',
           value: (function () {
-              var ref = babelHelpers.asyncToGenerator(regeneratorRuntime.mark(function process() {
+              var ref = babelHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee3() {
                   var _this = this;
 
                   var match, _loop;
 
-                  return regeneratorRuntime.wrap(function process$(_context3) {
+                  return regeneratorRuntime.wrap(function _callee3$(_context3) {
                       while (1) switch (_context3.prev = _context3.next) {
                           case 0:
                               match = undefined;
-                              _loop = regeneratorRuntime.mark(function _callee() {
+                              _loop = regeneratorRuntime.mark(function _callee2() {
                                   var _ref, _ref2, latitude, longitude, text;
 
-                                  return regeneratorRuntime.wrap(function _callee$(_context2) {
+                                  return regeneratorRuntime.wrap(function _callee2$(_context2) {
                                       while (1) switch (_context2.prev = _context2.next) {
                                           case 0:
                                               if (!(_this.options.mapOptions.mode !== 'place')) {
@@ -1851,7 +1858,7 @@
                                           case 'end':
                                               return _context2.stop();
                                       }
-                                  }, _callee, _this);
+                                  }, _callee2, _this);
                               });
 
                           case 2:
@@ -1873,9 +1880,9 @@
                           case 'end':
                               return _context3.stop();
                       }
-                  }, process, this);
+                  }, _callee3, this);
               }));
-              return function value() {
+              return function process() {
                   return ref.apply(this, arguments);
               };
           })()
@@ -1913,10 +1920,9 @@
       }, {
           key: 'data',
           value: (function () {
-              var ref = babelHelpers.asyncToGenerator(regeneratorRuntime.mark(function data(id) {
-                  var url, response, _data;
-
-                  return regeneratorRuntime.wrap(function data$(_context) {
+              var ref = babelHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee(id) {
+                  var url, response, data;
+                  return regeneratorRuntime.wrap(function _callee$(_context) {
                       while (1) switch (_context.prev = _context.next) {
                           case 0:
                               _context.prev = 0;
@@ -1930,8 +1936,8 @@
                               return response.json();
 
                           case 7:
-                              _data = _context.sent;
-                              return _context.abrupt('return', _data[0]);
+                              data = _context.sent;
+                              return _context.abrupt('return', data[0]);
 
                           case 11:
                               _context.prev = 11;
@@ -1943,18 +1949,19 @@
                           case 'end':
                               return _context.stop();
                       }
-                  }, data, this, [[0, 11]]);
+                  }, _callee, this, [[0, 11]]);
               }));
-              return function value(_x) {
+              return function data(_x) {
                   return ref.apply(this, arguments);
               };
           })()
       }, {
           key: 'process',
           value: (function () {
-              var ref = babelHelpers.asyncToGenerator(regeneratorRuntime.mark(function process() {
-                  var regexInline, match, id, embedUrl, data, text;
-                  return regeneratorRuntime.wrap(function process$(_context2) {
+              var ref = babelHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+                  var regexInline, match, id, embedUrl, _data, text, _data2;
+
+                  return regeneratorRuntime.wrap(function _callee2$(_context2) {
                       while (1) switch (_context2.prev = _context2.next) {
                           case 0:
                               _context2.prev = 0;
@@ -1975,7 +1982,7 @@
 
                               id = this.options.link ? match[0].slice(0, -4).split('/').slice(-1).pop() : match[0].split('/').slice(-1).pop();
                               embedUrl = 'https://player.vimeo.com/video/' + id;
-                              data = undefined, text = undefined;
+                              _data = undefined, text = undefined;
 
                               if (!this.options.videoDetails) {
                                   _context2.next = 15;
@@ -1986,9 +1993,9 @@
                               return this.data(id);
 
                           case 11:
-                              data = _context2.sent;
+                              _data = _context2.sent;
 
-                              text = helper.detailsTemplate(this.formatData(data), embedUrl);
+                              text = helper.getDetailsTemplate(this.formatData(_data), _data, embedUrl);
                               _context2.next = 16;
                               break;
 
@@ -2019,7 +2026,7 @@
                               }
 
                               embedUrl = 'https://player.vimeo.com/video/' + match[3];
-                              data = undefined, text = undefined;
+                              _data2 = undefined, text = undefined;
 
                               if (!this.options.videoDetails) {
                                   _context2.next = 32;
@@ -2030,9 +2037,9 @@
                               return this.data(match[3]);
 
                           case 28:
-                              data = _context2.sent;
+                              _data2 = _context2.sent;
 
-                              text = helper.detailsTemplate(this.formatData(data), embedUrl);
+                              text = helper.getDetailsTemplate(this.formatData(_data2), _data2, embedUrl);
                               _context2.next = 33;
                               break;
 
@@ -2061,9 +2068,9 @@
                           case 'end':
                               return _context2.stop();
                       }
-                  }, process, this, [[0, 39]]);
+                  }, _callee2, this, [[0, 39]]);
               }));
-              return function value() {
+              return function process() {
                   return ref.apply(this, arguments);
               };
           })()
@@ -2101,10 +2108,9 @@
       }, {
           key: 'data',
           value: (function () {
-              var ref = babelHelpers.asyncToGenerator(regeneratorRuntime.mark(function data(id) {
-                  var url, response, _data;
-
-                  return regeneratorRuntime.wrap(function data$(_context) {
+              var ref = babelHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee(id) {
+                  var url, response, data;
+                  return regeneratorRuntime.wrap(function _callee$(_context) {
                       while (1) switch (_context.prev = _context.next) {
                           case 0:
                               _context.prev = 0;
@@ -2118,8 +2124,8 @@
                               return response.json();
 
                           case 7:
-                              _data = _context.sent;
-                              return _context.abrupt('return', _data.items[0]);
+                              data = _context.sent;
+                              return _context.abrupt('return', data.items[0]);
 
                           case 11:
                               _context.prev = 11;
@@ -2131,18 +2137,19 @@
                           case 'end':
                               return _context.stop();
                       }
-                  }, data, this, [[0, 11]]);
+                  }, _callee, this, [[0, 11]]);
               }));
-              return function value(_x) {
+              return function data(_x) {
                   return ref.apply(this, arguments);
               };
           })()
       }, {
           key: 'process',
           value: (function () {
-              var ref = babelHelpers.asyncToGenerator(regeneratorRuntime.mark(function process() {
-                  var regexInline, match, id, embedUrl, data, text;
-                  return regeneratorRuntime.wrap(function process$(_context2) {
+              var ref = babelHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+                  var regexInline, match, id, embedUrl, _data, text, _data2;
+
+                  return regeneratorRuntime.wrap(function _callee2$(_context2) {
                       while (1) switch (_context2.prev = _context2.next) {
                           case 0:
                               _context2.prev = 0;
@@ -2163,7 +2170,7 @@
 
                               id = match[2];
                               embedUrl = 'https://www.youtube.com/embed/' + id;
-                              data = undefined, text = undefined;
+                              _data = undefined, text = undefined;
 
                               if (!this.options.videoDetails) {
                                   _context2.next = 15;
@@ -2174,9 +2181,9 @@
                               return this.data(id);
 
                           case 11:
-                              data = _context2.sent;
+                              _data = _context2.sent;
 
-                              text = helper.detailsTemplate(this.formatData(data), embedUrl);
+                              text = helper.getDetailsTemplate(this.formatData(_data), _data, embedUrl);
                               _context2.next = 16;
                               break;
 
@@ -2207,7 +2214,7 @@
 
                               id = match[1];
                               embedUrl = 'https://www.youtube.com/embed/' + id;
-                              data = undefined, text = undefined;
+                              _data2 = undefined, text = undefined;
 
                               if (!this.options.videoDetails) {
                                   _context2.next = 33;
@@ -2218,9 +2225,9 @@
                               return this.data(id);
 
                           case 29:
-                              data = _context2.sent;
+                              _data2 = _context2.sent;
 
-                              text = helper.detailsTemplate(this.formatData(data), embedUrl);
+                              text = helper.getDetailsTemplate(this.formatData(_data2), _data2, embedUrl);
                               _context2.next = 34;
                               break;
 
@@ -2253,9 +2260,9 @@
                           case 'end':
                               return _context2.stop();
                       }
-                  }, process, this, [[0, 39]]);
+                  }, _callee2, this, [[0, 39]]);
               }));
-              return function value() {
+              return function process() {
                   return ref.apply(this, arguments);
               };
           })()
@@ -2282,7 +2289,7 @@
               var config = this.options.vineOptions;
               var a = match.split('/');
               var id = a[a.length - 1];
-              return '<div class="ejs-vine">\n\t\t<iframe class="ejs-vine-iframe" src="https://vine.co/v/' + id + '/embed/' + config.type + '" height="' + config.height + '" width="' + config.width + '"></iframe>\n\t\t</div>';
+              return ejs.template.vine(id, this.options) || '<div class="ejs-vine">\n\t\t<iframe class="ejs-vine-iframe" src="https://vine.co/v/' + id + '/embed/' + config.type + '" height="' + config.height + '" width="' + config.width + '"></iframe>\n\t\t</div>';
           }
       }]);
       return Vine;
@@ -2304,7 +2311,7 @@
   	babelHelpers.createClass(BasicVideo, [{
   		key: 'template',
   		value: function template(match) {
-  			return '<div class="ejs-video ejs-embed">\n\t\t<div class="ejs-video-player">\n\t\t<div class="ejs-player">\n\t\t<video src="' + match + '" class="ejs-video-js video-js" controls></video>\n\t\t</div>\n\t\t</div>\n\t\t</div>';
+  			return ejs.template.basicVideo(match, this.options) || '<div class="ejs-video ejs-embed">\n\t\t<div class="ejs-video-player">\n\t\t<div class="ejs-player">\n\t\t<video src="' + match + '" class="ejs-video-js video-js" controls></video>\n\t\t</div>\n\t\t</div>\n\t\t</div>';
   		}
   	}]);
   	return BasicVideo;
@@ -2327,7 +2334,7 @@
           key: 'template',
           value: function template(match) {
               var dimensions = utils.dimensions(this.options);
-              return '<div class="ejs-video ejs-embed"><iframe src="http://www.liveleak.com/e/' + match.split('=')[1] + '" height="' + dimensions.height + '" width="' + dimensions.width + '"></iframe></div>';
+              return ejs.template.liveLeak(match, dimensions, this.options) || '<div class="ejs-video ejs-embed"><iframe src="http://www.liveleak.com/e/' + match.split('=')[1] + '" height="' + dimensions.height + '" width="' + dimensions.width + '"></iframe></div>';
           }
       }]);
       return LiveLeak;
@@ -2352,7 +2359,7 @@
               var id = match.split('/');
               id.splice(1, 0, 'embed');
               var dimensions = utils.dimensions(this.options);
-              return '<div class="ejs-embed ejs-ustream"><iframe src="//www.' + id.join('/') + '" height="' + dimensions.height + '" width="' + dimensions.width + '"></iframe></div>';
+              return ejs.template.ustream(id, dimensions, this.options) || '<div class="ejs-embed ejs-ustream"><iframe src="//www.' + id.join('/') + '" height="' + dimensions.height + '" width="' + dimensions.width + '"></iframe></div>';
           }
       }]);
       return Ustream;
@@ -2377,7 +2384,7 @@
               var dimensions = utils.dimensions(this.options);
               var a = match.split('/');
               var id = a[a.length - 1];
-              return '<div class="ejs-video ejs-embed">\n\t\t<iframe src="http://www.dailymotion.com/embed/video/' + id + '" height="' + dimensions.height + '" width="' + dimensions.width + '"></iframe>\n\t\t</div>';
+              return ejs.template.dailymotion(id, dimensions, this.options) || '<div class="ejs-video ejs-embed">\n\t\t<iframe src="http://www.dailymotion.com/embed/video/' + id + '" height="' + dimensions.height + '" width="' + dimensions.width + '"></iframe>\n\t\t</div>';
           }
       }]);
       return Dailymotion;
@@ -2402,7 +2409,7 @@
               var dimensions = utils.dimensions(this.options);
               var a = match.split('/');
               var id = a[a.length - 1];
-              return '<div class="ejs-embed ejs-ted"><iframe src="http://embed.ted.com/talks/' + id + '.html" height="' + dimensions.height + '" width="' + dimensions.width + '"></iframe></div>';
+              return ejs.template.ted(id, dimensions, this.options) || '<div class="ejs-embed ejs-ted"><iframe src="http://embed.ted.com/talks/' + id + '.html" height="' + dimensions.height + '" width="' + dimensions.width + '"></iframe></div>';
           }
       }]);
       return Ted;
@@ -2482,7 +2489,7 @@
       babelHelpers.createClass(JsFiddle, [{
           key: 'template',
           value: function template(id) {
-              return '<div class="ejs-embed ejs-jsfiddle"><iframe height="' + this.options.codeEmbedHeight + '" src="http://' + id + '/embedded"></iframe></div>';
+              return ejs.template.jsFiddle(id, this.options) || '<div class="ejs-embed ejs-jsfiddle"><iframe height="' + this.options.codeEmbedHeight + '" src="http://' + id + '/embedded"></iframe></div>';
           }
       }]);
       return JsFiddle;
@@ -2504,7 +2511,7 @@
       babelHelpers.createClass(CodePen, [{
           key: 'template',
           value: function template(id) {
-              return '<div class="ejs-embed ejs-codepen">\n\t\t\t<iframe scrolling="no" height="' + this.options.codeEmbedHeight + '" src="' + id.replace(/\/pen\//, '/embed/') + '/?height=' + this.options.codeEmbedHeight + '"></iframe>\'\n\t\t</div>';
+              return ejs.template.codePen(id, this.options) || '<div class="ejs-embed ejs-codepen">\n\t\t\t<iframe scrolling="no" height="' + this.options.codeEmbedHeight + '" src="' + id.replace(/\/pen\//, '/embed/') + '/?height=' + this.options.codeEmbedHeight + '"></iframe>\'\n\t\t</div>';
           }
       }]);
       return CodePen;
@@ -2526,7 +2533,7 @@
       babelHelpers.createClass(JsBin, [{
           key: 'template',
           value: function template(id) {
-              return '<div class="ejs-jsbin ejs-embed">\n\t\t<iframe height="' + this.options.codeEmbedHeight + '" class="jsbin-embed foo" src="http://' + id + '/embed?html,js,output"></iframe>\n\t\t</div>';
+              return ejs.template.jsBin(id, this.options) || '<div class="ejs-jsbin ejs-embed">\n\t\t<iframe height="' + this.options.codeEmbedHeight + '" class="jsbin-embed foo" src="http://' + id + '/embed?html,js,output"></iframe>\n\t\t</div>';
           }
       }]);
       return JsBin;
@@ -2550,7 +2557,7 @@
           value: function template(match) {
               var a = match.split('?')[0].split('/');
               var id = a[a.length - 1];
-              return '<div class="ejs-embed ejs-plunker">\n\t\t<iframe class="ne-plunker" src="http://embed.plnkr.co/' + id + '" height="' + this.options.codeEmbedHeight + '"></iframe>\n\t\t</div>';
+              return ejs.template.plunker(id, this.options) || '<div class="ejs-embed ejs-plunker">\n\t\t<iframe class="ne-plunker" src="http://embed.plnkr.co/' + id + '" height="' + this.options.codeEmbedHeight + '"></iframe>\n\t\t</div>';
           }
       }]);
       return Plunker;
@@ -2572,7 +2579,7 @@
       babelHelpers.createClass(Ideone, [{
           key: 'template',
           value: function template(match) {
-              return '<div class="ejs-ideone ejs-embed"><iframe src="http://ideone.com/embed/' + match.split('/') + '" frameborder="0" height="' + this.options.codeEmbedHeight + '"></iframe></div>';
+              return ejs.template.ideone(match, this.options) || '<div class="ejs-ideone ejs-embed"><iframe src="http://ideone.com/embed/' + match.split('/') + '" frameborder="0" height="' + this.options.codeEmbedHeight + '"></iframe></div>';
           }
       }]);
       return Ideone;
@@ -2783,7 +2790,7 @@
               var processedString = this.input.replace(this.smileyRegex, function (match, text) {
                   var index = _this.EscapedSymbols.indexOf(utils.escapeRegExp(text));
                   var code = _this.icons[index].code;
-                  return ' <span class="icon-emoticon" title="' + text + '">' + code + '</span> ';
+                  return ejs.template.smiley(text, code, _this.options) || ' <span class="icon-emoticon" title="' + text + '">' + code + '</span> ';
               });
 
               return processedString.substring(1, processedString.length - 1);
@@ -2809,8 +2816,10 @@
       babelHelpers.createClass(Emoji, [{
           key: 'process',
           value: function process() {
+              var _this = this;
+
               return this.output.replace(this.emojiRegex, function (match, text) {
-                  return '<span class="emoticon emoticon-' + text + '" title=":' + text + ':"></span>';
+                  return ejs.template.emoji(text, _this.options) || '<span class="emoticon emoticon-' + text + '" title=":' + text + ':"></span>';
               });
           }
       }]);
@@ -2892,11 +2901,13 @@
   	babelHelpers.createClass(Url, [{
   		key: 'process',
   		value: function process() {
+  			var _this = this;
+
   			var config = this.options.linkOptions;
   			return this.input.replace(this.urlRegex, function (match) {
   				var extension = match.split('.')[match.split('.').length - 1];
   				if (config.exclude.indexOf(extension) === -1) {
-  					return '<a href="' + utils.toUrl(match) + '" rel="' + config.rel + '" target="' + config.target + '">' + match + '</a>';
+  					return ejs.template.url(match, _this.options) || '<a href="' + utils.toUrl(match) + '" rel="' + config.rel + '" target="' + config.target + '">' + match + '</a>';
   				}
   				return match;
   			});
@@ -3024,10 +3035,10 @@
           babelHelpers.createClass(EmbedJS, [{
               key: 'process',
               value: (function () {
-                  var ref = babelHelpers.asyncToGenerator(regeneratorRuntime$1.mark(function process() {
+                  var ref = babelHelpers.asyncToGenerator(regeneratorRuntime$1.mark(function _callee() {
                       var input, options, embeds, output, _process, _process2, _process3, _process4, _process5, _process6, _process7, _process8, _process9, _process10, _process11, _process12, _process13, _process14, _process15, _process16, _process17, _process18, _process19, _process20, _process21, _process22, _process23, _process24, _ref, _ref2, _ref3, _ref4, _ref5, _ref6, _process25, _process26, _process27, _process28, _process29, _process30, _process31, _process32, _process33, _process34, _process35, _process36, _ref7, _ref8, result;
 
-                      return regeneratorRuntime$1.wrap(function process$(_context) {
+                      return regeneratorRuntime$1.wrap(function _callee$(_context) {
                           while (1) switch (_context.prev = _context.next) {
                               case 0:
                                   input = this.input;
@@ -3234,9 +3245,9 @@
                               case 'end':
                                   return _context.stop();
                           }
-                      }, process, this);
+                      }, _callee, this);
                   }));
-                  return function value() {
+                  return function process() {
                       return ref.apply(this, arguments);
                   };
               })()
@@ -3255,9 +3266,9 @@
           }, {
               key: 'render',
               value: (function () {
-                  var ref = babelHelpers.asyncToGenerator(regeneratorRuntime$1.mark(function render() {
+                  var ref = babelHelpers.asyncToGenerator(regeneratorRuntime$1.mark(function _callee2() {
                       var result, event;
-                      return regeneratorRuntime$1.wrap(function render$(_context2) {
+                      return regeneratorRuntime$1.wrap(function _callee2$(_context2) {
                           while (1) switch (_context2.prev = _context2.next) {
                               case 0:
                                   if (this.element) {
@@ -3290,9 +3301,9 @@
                               case 'end':
                                   return _context2.stop();
                           }
-                      }, render, this);
+                      }, _callee2, this);
                   }));
-                  return function value() {
+                  return function render() {
                       return ref.apply(this, arguments);
                   };
               })()
@@ -3306,9 +3317,9 @@
           }, {
               key: 'text',
               value: (function () {
-                  var ref = babelHelpers.asyncToGenerator(regeneratorRuntime$1.mark(function text(callback) {
+                  var ref = babelHelpers.asyncToGenerator(regeneratorRuntime$1.mark(function _callee3(callback) {
                       var result;
-                      return regeneratorRuntime$1.wrap(function text$(_context3) {
+                      return regeneratorRuntime$1.wrap(function _callee3$(_context3) {
                           while (1) switch (_context3.prev = _context3.next) {
                               case 0:
                                   _context3.next = 2;
@@ -3323,9 +3334,9 @@
                               case 'end':
                                   return _context3.stop();
                           }
-                      }, text, this);
+                      }, _callee3, this);
                   }));
-                  return function value(_x) {
+                  return function text(_x) {
                       return ref.apply(this, arguments);
                   };
               })()
@@ -3384,11 +3395,36 @@
               for (var i = 0; i < this.elements.length; i++) {
                   this.instances[i].destroy();
               }
+          },
+
+          template: {
+              url: function url() {},
+              smiley: function smiley() {},
+              emoji: function emoji() {},
+              basicAudio: function basicAudio() {},
+              soundCloud: function soundCloud() {},
+              spotify: function spotify() {},
+              codePen: function codePen() {},
+              ideone: function ideone() {},
+              jsBin: function jsBin() {},
+              jsFiddle: function jsFiddle() {},
+              plunker: function plunker() {},
+              basicImage: function basicImage() {},
+              flickr: function flickr() {},
+              instagram: function instagram() {},
+              basicVideo: function basicVideo() {},
+              dailymotion: function dailymotion() {},
+              liveLeak: function liveLeak() {},
+              ted: function ted() {},
+              ustream: function ustream() {},
+              detailsVimeo: function detailsVimeo() {},
+              detailsYoutube: function detailsYoutube() {},
+              vine: function vine() {}
           }
       };
 
-      window.EmbedJS = EmbedJS;
       window.ejs = ejs;
+      window.EmbedJS = EmbedJS;
   })(window);
 
 }));

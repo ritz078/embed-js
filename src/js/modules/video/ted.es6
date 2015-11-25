@@ -12,6 +12,6 @@ export class Ted extends Base {
         const dimensions = utils.dimensions(this.options)
         let a = match.split('/')
         const id = a[a.length - 1]
-        return `<div class="ejs-embed ejs-ted"><iframe src="http://embed.ted.com/talks/${id}.html" height="${dimensions.height}" width="${dimensions.width}"></iframe></div>`
+        return ejs.template.ted(id, dimensions, this.options) || `<div class="ejs-embed ejs-ted"><iframe src="http://embed.ted.com/talks/${id}.html" height="${dimensions.height}" width="${dimensions.width}"></iframe></div>`
     }
 }

@@ -10,7 +10,7 @@ export class Instagram extends Base{
 
 	template(match){
 		let dimensions = utils.dimensions(this.options)
-		return `<div class="ejs-embed"><iframe src="${utils.toUrl(match)}/embed/" width="${dimensions.width}" height="${dimensions.height}"></iframe></div>`
+		return ejs.template.instagram(match, dimensions, this.options) || `<div class="ejs-embed"><iframe src="${utils.toUrl(match)}/embed/" width="${dimensions.width}" height="${dimensions.height}"></iframe></div>`
 	}
 }
 

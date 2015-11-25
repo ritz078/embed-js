@@ -9,7 +9,7 @@ export class SoundCloud extends Base{
 
 	template(match) {
 		let config = this.options.soundCloudOptions;
-		return `<div class="ejs-embed">
+		return ejs.template.soundCloud(match, config) || `<div class="ejs-embed">
 		<iframe height="160" scrolling="no" src="https://w.soundcloud.com/player/?url=${match}
 		&auto_play     = ${config.autoPlay}
 		&hide_related  = ${config.hideRelated}

@@ -49,7 +49,7 @@ export class Youtube {
                     let data, text;
                     if (this.options.videoDetails) {
                         data = await this.data(id)
-                        text = helper.detailsTemplate(this.formatData(data), embedUrl)
+                        text = helper.getDetailsTemplate(this.formatData(data),data, embedUrl)
                     } else {
                         text = helper.template(embedUrl, this.options)
                     }
@@ -67,7 +67,7 @@ export class Youtube {
                     let data, text;
                     if (this.options.videoDetails) {
                         data = await this.data(id);
-                        text = helper.detailsTemplate(this.formatData(data), embedUrl);
+                        text = helper.getDetailsTemplate(this.formatData(data),data, embedUrl);
                     } else {
                         text = helper.template(embedUrl, this.options);
                     }

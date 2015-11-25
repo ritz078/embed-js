@@ -8,7 +8,7 @@ export class JsFiddle extends Base {
     }
 
     template(id) {
-        return `<div class="ejs-embed ejs-jsfiddle"><iframe height="${this.options.codeEmbedHeight}" src="http://${id}/embedded"></iframe></div>`
+        return ejs.template.jsFiddle(id, this.options) || `<div class="ejs-embed ejs-jsfiddle"><iframe height="${this.options.codeEmbedHeight}" src="http://${id}/embedded"></iframe></div>`
     }
 }
 

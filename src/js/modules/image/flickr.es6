@@ -10,7 +10,7 @@ export class Flickr extends Base{
 
 	template(match){
 		let dimensions = utils.dimensions(this.options);
-		return `<div class="ejs-embed">
+		return ejs.template.flickr(match, dimensions, this.options) || `<div class="ejs-embed">
 			<div class="ne-image-wrapper">
 				<iframe src="${utils.toUrl(match)}/player/" width="${dimensions.width}" height="${dimensions.height}"></iframe>
 			</div>
