@@ -3419,7 +3419,9 @@
               ustream: function ustream() {},
               detailsVimeo: function detailsVimeo() {},
               detailsYoutube: function detailsYoutube() {},
-              vine: function vine() {}
+              vine: function vine() {},
+              vimeo: function vimeo() {},
+              youtube: function youtube() {}
           }
       };
 
