@@ -162,6 +162,10 @@ rollup: {
                 src: 'src/js/embed.es6',
                 dest: 'src/embed.js'
             }
+        },
+
+        eslint:{
+            target:['src/js/**/*.es6']
         }
     });
 
@@ -174,8 +178,9 @@ rollup: {
     grunt.loadNpmTasks("grunt-contrib-uglify");
     grunt.loadNpmTasks("grunt-contrib-connect");
     grunt.loadNpmTasks("grunt-rollup")
+    grunt.loadNpmTasks("grunt-eslint")
 
-    grunt.registerTask("default", ["rollup", "sass", "connect", "watch"]);
-    grunt.registerTask("build", ["clean", "build-emoji", "rollup", "uglify", "postcss"]);
+    grunt.registerTask("default", ["eslint","rollup", "sass", "connect", "watch"]);
+    grunt.registerTask("build", ["clean", "build-emoji","eslint", "rollup", "uglify", "postcss"]);
     grunt.registerTask("build-emoji", ["retinafy", "sprite", "sass"]);
 };
