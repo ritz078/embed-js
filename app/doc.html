@@ -208,9 +208,119 @@
     <h5 id="locationEmbed">locationEmbed</h5>
     <span><b>Type</b> : Boolean</span><br>
     <span><b>Default</b> : <code>true</code></span>
-    <p></p>
+    <p>Set whether you want to embed google maps. The format to follow for embedding google map with a location is <code>@(locationName)</code>. <code>@()</code> will be automatically removed by the plugin.</p>
+
+
+    <h5 id="mapOptions">mapOptions</h5>
+    <span><b>Type</b> : object</span><br>
+    <div class="obj">
+        <h5>mode</h5>
+        <b>Type</b> : string <br>
+        <b>default</b> : <code>'place'</code>
+        <p>Can be any of <code>'place'</code>, <code>'view'</code> or <code>'streetview'</code></p>.
+    </div>
+
+    <h5 id="googleAuthKey">googleAuthKey</h5>
+    <span><b>Type</b> : string</span><br>
+    <span><b>Default</b> : <code>''</code></span>
+    <p>The google dev auth key needed if the user is using youtube embedding or google map embedding feature of the plugin.</p>
+
+
+    <h5 id="tweetsEmbed">tweetsEmbed</h5>
+    <b>Type</b> : Boolean <br>
+    <b>Default</b> : <code>true</code>
+    <p>Set to <code>true</code> if you want to embed tweets. Make sure you load <a href="http://platform.twitter.com/widgets.js" target="_blank">http://platform.twitter.com/widgets.js</a> if this option is set to <code>true</code> else the plugin will throw an error.</p>
+
+    <h5 id="tweetOptions">tweetOptions</h5>
+    <b>Type</b> : object <br>
+    <b>Default</b> :
+    <pre><code>{
+    maxWidth           : 550,
+    hideMedia          : false,
+    hideThread         : false,
+    align              : 'none',
+    lang               : 'en'
+}</code></pre>
+<p>Options for embedding tweets. Supports the options listed <a href="https://dev.twitter.com/rest/reference/get/statuses/oembed">here</a></p>
+
+    <h5 id="imageEmbed">imageEmbed</h5>
+    <span><b>Type</b> : Boolean</span><br>
+    <span><b>Default</b> : <code>true</code></span>
+    <p>Set to <code>false</code> if you want to disable embedding images (jpeg/gif/png/webp).</p>
+
+    <h5 id="videoEmbed">videoEmbed</h5>
+    <span><b>Type</b> : Boolean</span><br>
+    <span><b>Default</b> : <code>true</code></span>
+    <p>Set to <code>false</code> if you want to disable embedding supported video formats.</p>
+
+    <h5 id="videoHeight">videoHeight</h5>
+    <span><b>Type</b> : number</span><br>
+    <span><b>Default</b> : <code>null</code></span>
+    <p>Set the height of the videos that are to be embedded and most of the other iframe embeds will also take the same dimensions.</p>
+
+    <h5 id="videoWidth">videoWidth</h5>
+    <span><b>Type</b> : number</span><br>
+    <span><b>Default</b> : <code>null</code></span>
+    <p>Set the width of the videos that are to be embedded and most of the other iframe embeds will also take the same dimensions.</p>
+
+    <h5 id="videoDetails">videoDetails</h5>
+    <span><b>Type</b> : Boolean</span><br>
+    <span><b>Default</b> : <code>true</code></span>
+    <p>If set to <code>false</code> the preview and the description of youtube and vimeo videos will not be shown and instead the whole video will be embedded directly.</p>
+
+    <h5 id="audioEmbed">audioEmbed</h5>
+    <span><b>Type</b> : Boolean</span><br>
+    <span><b>Default</b> : <code>true</code></span>
+    <p>Set to <code>false</code> if you want to disable embedding supported audio formats.</p>
+
+    <h5 id="excludeEmbed">excludeEmbed</h5>
+    <span><b>Type</b> : array/string</span><br>
+    <span><b>Default</b> : <code>[]</code></span>
+    <p>An array of all the services that you want to exclude from being embed. Eg : <code>['codepen','flickr','spotify']</code>. If you want to exclude all the services then just set it to <code>'all'</code></p>
+
+    <h5 id="inlineEmbed">inlineEmbed</h5>
+    <span><b>Type</b> : array/string</span><br>
+    <span><b>Default</b> : <code>[]</code></span>
+    <p>An array of all the services you want to embed inline. If you want to embed all services inline then set it to <code>'all'</code></p>
+
+    <h5 id="codeEmbedHeight">codeEmbedHeight</h5>
+    <span><b>Type</b> : number</span><br>
+    <span><b>Default</b> : <code>500</code></span>
+    <p>Set the height of all the code editing services. Eg : codepen , plunker, ideone, jsbin, jsfiddle.</p>
+
+
+    <h5 id="vineOptions">vineOptions</h5>
+    <span><b>Type</b> : object</span><br>
+    <span><b>Default</b> :
+    <pre><code>{
+    maxWidth           : null,
+    type               : 'postcard',  // "postcard" or "simple" embedding
+    responsive         : true,
+    width              : 350,
+    height             : 460
+}</code></pre>
+<p>The options for vine embedding.</p>
+
+    <h5 id="soundCloudOptions">soundCloudOptions</h5>
+    <span><b>Type</b> : object</span><br>
+    <span><b>Default</b> :
+    <pre><code>{
+    height             : 160,
+    themeColor         : 'f50000', //Hex Code of the player theme color
+    autoPlay           : false,
+    hideRelated        : false,
+    showComments       : true,
+    showUser           : true,
+    showReposts        : false,
+    visual             : false, //Show/hide the big preview image
+    download           : false //Show/Hide download buttons
+}</code></pre>
+<p>Options for soundcloud embedding.</p>
+
+
 
     </div>
+
 </body>
 <script src="/bower_components/jquery/dist/jquery.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/highlight.min.js"></script>
