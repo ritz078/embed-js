@@ -3,8 +3,16 @@
 // endbower
 @import "components/header";
 @import "components/tabs";
+html {
+    background-color: #f6f6f6;
+}
+
 header {
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.25);
+}
+
+h5 {
+    margin-top: 15px;
 }
 
 .container {
@@ -67,26 +75,6 @@ a {
     text-decoration: none;
 }
 
-h4 {
-    float: left;
-    width: 60%;
-}
-
-.codepen {
-    float: right;
-    background-color: #343436;
-    border: 0;
-    color: #fff;
-    &:hover {
-        background-color: #000;
-        color: #fff;
-    }
-    &:active,
-    &:focus {
-        color: #fff;
-    }
-}
-
 pre,
 code {
     font-family: consolas;
@@ -131,7 +119,19 @@ pre {
     height: 100%;
     width: 250px;
     background-color: #fff;
-    border-right: 1px solid #eee;
+    border-right: 1px solid #e8e8e8;
+    ul {
+        margin-top: 70px;
+        li {
+            list-style-type: none;
+            padding: 2px 20px;
+            color: #666;
+            font-size: 14px;
+            &:hover{
+                color:#000;
+            }
+        }
+    }
 }
 
 .container {

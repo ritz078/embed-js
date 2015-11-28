@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>embed js</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300' rel='stylesheet' type='text/css'>
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css(.) styles/vendor.css -->
+    <!-- bower:css -->
+    <link rel="stylesheet" href="/bower_components/skeleton/css/skeleton.css" />
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:css(.tmp) styles/examples.css -->
+    <link rel="stylesheet" href="styles/doc.css">
+    <!-- endbuild -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/styles/github.min.css">
+</head>
+
+<body>
+    <header>
+        <a href="/"><img src="images/logo.png" alt=""></a>
+        <nav>
+            <ul>
+                <a href="/">
+                    <li>Home</li>
+                </a>
+                <a href="getting_started">
+                    <li>Getting Started</li>
+                </a>
+                <a href="doc.html">
+                    <li>Documentation</li>
+                </a>
+                <a href="examples.html">
+                    <li>Examples</li>
+                </a>
+            </ul>
+        </nav>
+    </header>
+    <div class="left-nav">
+        <ul>
+
+        </ul>
+    </div>
+    <div class="container">
+    <h5>Advanced options</h5>
+    <pre><code>
+    {
+        marked             : false,
+        markedOptions      : {},
+        link               : true,
+        linkOptions        : {
+            target             : 'self',
+            exclude            : ['pdf'],
+            rel                : ''
+        },
+        emoji              : true,
+        customEmoji        : [],
+        fontIcons          : true,
+        customFontIcons    : [],
+        highlightCode      : true,
+        videoJS            : false,
+        videojsOptions     : {
+            fluid              : true,
+            preload            : 'metadata'
+        },
+        locationEmbed      : true,
+        mapOptions         : {
+            mode               : 'place'
+        },
+        tweetsEmbed        : true,
+        tweetOptions       : {
+            maxWidth           : 550,
+            hideMedia          : false,
+            hideThread         : false,
+            align              : 'none',
+            lang               : 'en'
+        },
+        imageEmbed         : true,
+        videoEmbed         : true,
+        videoHeight        : null,
+        videoWidth         : null,
+        videoDetails       : true,
+        audioEmbed         : true,
+        excludeEmbed       : [],
+        inlineEmbed        : [],
+        inlineText         : true,
+        codeEmbedHeight    : 500,
+        vineOptions        : {
+            maxWidth           : null,
+            type               : 'postcard', //'postcard' or 'simple' embedding
+            responsive         : true,
+            width              : 350,
+            height             : 460
+        },
+        googleAuthKey      : '',
+        soundCloudOptions  : {
+            height             : 160,
+            themeColor         : 'f50000', //Hex Code of the player theme color
+            autoPlay           : false,
+            hideRelated        : false,
+            showComments       : true,
+            showUser           : true,
+            showReposts        : false,
+            visual             : false, //Show/hide the big preview image
+            download           : false //Show/Hide download buttons
+        },
+        beforeEmbedJSApply : function() {},
+        afterEmbedJSApply  : function() {},
+        onVideoShow        : function() {},
+        onTweetsLoad       : function() {},
+        videojsCallback    : function() {}
+    };
+    </code></pre>
+    <h5>marked</h5>
+    <span><b>Type</b> : Boolean</span> <br>
+    <span><b>Default</b> : <code>false</code></span>
+    <p>An option when set to <code>true</code> will use <a href="https://github.com/chjj/marked" target="_blank">marked.js</a> to parse markdown and convert it to HTML. Make sure you have loaded marked.js before loading embed.js if this option is set to <code>true</code> else the plugin will throw an error.</p>
+
+    <h5>markedOptions</h5>
+    <span><b>Type</b> : Object</span><br>
+    <span><b>Default</b> : <code>{}</code></span><br>
+    <p>The option takes the marked.js <a href="https://github.com/chjj/marked#options-1" target="_blank">options.</a></p>
+
+    <h5 id="link">link</h5>
+    <span><b>Type</b> : Boolean</span><br>
+    <span><b>Default</b> : <code>true</code></span>
+    <p>Instructs the plugin whether or not to embed urls/ convert urls into HTML anchor tags.</p>
+
+    <h5 id="link-options">linkOptions</h5>
+    <span><b>Type</b> : object</span><br>
+    <div class="obj">
+        <h5>target</h5>
+        <span><b>Type</b> : String</span><br>
+        <span><b>Default</b>: <code>'self'</code></span><br>
+        <p>Same as the target attribute in html anchor tag . supports all html supported target values.</p>
+
+        <h5>exclude</h5>
+        <span><b>Type</b> : Array</span><br>
+        <span><b>Default</b> : <code>[]</code></span>
+        <p>Accept array of extensions to be excluded from converting into HTML anchor links</p>
+
+        <h5>rel</h5>
+        <span><b>Type</b> : string</span><br>
+        <span><b>Default</b> : <code>''</code></span>
+        <p>Same as the rel attribute.</p>
+    </div>
+
+    <h5 id="emoji">emoji</h5>
+    <span><b>Type</b> : Boolean</span><br>
+    <span><b>Default</b> : <code>true</code></span>
+    <p>Set to <code>false</code> if you want to disable converting emoji codes into actual emojis.</p>
+
+    <h5 id="customEmoji">customEmoji</h5>
+    <span><b>Type</b> : Array</span><br>
+    <span><b>Default</b> : <code>[]</code></span>
+    <p>Include the names of custom emojis. Eg : <code>['emoji1', 'emoji2']</code>. Now they can be used using <code>:emoji1:</code> <code>:emoji2:</code></p>
+
+    <h5 id="fontIcons">fontIcons</h5>
+    <span><b>Type</b> : Boolean</span><br>
+    <span><b>Default</b> : <code>true</code></span><br>
+    <p></p>
+
+    <h5 id="customFontIcons">customFontIcons</h5>
+    <span><b>Type</b> : Array</span><br>
+    <span><b>Default</b> : <code>[]</code></span><br>
+    <p>You can use your customised font icon with this plugin. You need to replace the default font files with yours and provide the code to icon mapping in the format :
+    <pre><code>customFontIcons:[{
+    'text': ' :) ',
+    'code': '&amp;#xe60a'
+}, {
+    'text': ' :D ',
+    'code': '&amp;#xe608'
+}, {
+    'text': ' :d ',
+    'code': '&amp;#xe608'
+}]</code></pre>
+    </p>
+
+    <h5 id="highlightCode">highlightCode</h5>
+    <span><b>Type</b> : Boolean</span><br>
+    <span><b>Default</b> : <code>true</code></span>
+    <p>Set to true if you want to convert code blocks into formatted code. It uses <a href="https://highlightjs.org/">highlight.js</a> for code highlighting. Make sure highlight.js is loaded before embed.js if this option is set to <code>true</code> or else set this to <code>false</code> The format that it supports are single backticks and code blocks:
+    <pre><code>```[optional-language-name]
+//code here
+```</code></pre>
+</p>.
+
+    <h5 id="videojs">videoJS</h5>
+    <span><b>Type</b> : Boolean</span><br>
+    <span><b>Default</b> : <code>false</code></span>
+    <p>Set to <code>true</code> if you want to enable <a href="http://videojs.com/" target="_blank">video.js</a> support for audio and video files. Make sure video.js is loaded before the plugin else the plugin will throw an error.</p>
+
+    <h5 id="videojsOptions">videojsOptions</h5>
+    <span><b>Type</b> : Object</span><br>
+    <span><b>Default</b> : <code>{}</code></span>
+    <p>This object is the video.js <a href="https://github.com/videojs/video.js/blob/master/docs/guides/options.md">options</a>. You can pass any option supported by video.js. Currently it will be applied to both audio and video files. Eg :
+<pre><code>videojsOptions : {
+    fluid              : true,
+    preload            : 'metadata'
+}</code></pre>
+    </p>
+
+    <h5 id="locationEmbed">locationEmbed</h5>
+    <span><b>Type</b> : Boolean</span><br>
+    <span><b>Default</b> : <code>true</code></span>
+    <p></p>
+
+    </div>
+</body>
+<script src="/bower_components/jquery/dist/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/highlight.min.js"></script>
+<script src="scripts/docs.js"></script>
+
+
+</html>
