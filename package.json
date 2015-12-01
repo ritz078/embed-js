@@ -59,7 +59,7 @@
     "grunt-eslint": "^17.3.1",
     "grunt-postcss": "^0.7.1",
     "grunt-retinafy": "^0.1.5",
-    "grunt-rollup": "^0.5.0",
+    "grunt-rollup": "^0.6.1",
     "grunt-spritesmith": "^6.1.0",
     "mocha": "^2.3.4",
     "promise": "^7.0.4",
