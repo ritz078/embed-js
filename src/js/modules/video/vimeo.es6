@@ -13,7 +13,7 @@ export class Vimeo {
         this.service = 'vimeo'
     }
 
-    static formatData(data, utils) {
+    formatData(data) {
         return {
             title          : data.title,
             thumbnail      : data.thumbnail_medium,
@@ -46,11 +46,11 @@ export class Vimeo {
                 let match;
                 while ((match = utils.matches(regexInline, this.output)) !== null) {
                     let id = this.options.link ? match[0].slice(0, -4).split('/').slice(-1).pop() : match[0].split('/').slice(-1).pop()
-                    let embedUrl = `https://player.vimeo.com/video/${id}`;
+                    let embedUrl = `https://player.vimeo.com/video/${id}`
                     let data, text;
                     if (this.options.videoDetails) {
-                        data = await this.data(id);
-                        text = helper.getDetailsTemplate(Vimeo.formatData(data, utils),data, embedUrl)
+                        data = await this.data(id)
+                        text = helper.getDetailsTemplate(this.formatData(data),data, embedUrl)
                     } else {
                         text = helper.template(embedUrl, this.options)
                     }
@@ -68,7 +68,7 @@ export class Vimeo {
                     let data, text;
                     if (this.options.videoDetails) {
                         data = await this.data(match[3]);
-                        text = helper.getDetailsTemplate(Vimeo.formatData(data, utils),data, embedUrl)
+                        text = helper.getDetailsTemplate(this.formatData(data),data, embedUrl)
                     } else {
                         text = helper.template(embedUrl, this.options);
                     }

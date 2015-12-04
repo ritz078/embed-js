@@ -2,11 +2,11 @@ import utils from '../utils.es6'
 
 export class Gmap {
     constructor(input, output, options, embeds) {
-        this.input   = input;
-        this.output  = output;
-        this.options = options;
-        this.embeds  = embeds;
-        this.service = 'map';
+        this.input   = input
+        this.output  = output
+        this.options = options
+        this.embeds  = embeds
+        this.service = 'map'
         this.regex   = /@\((.+)\)/gi
     }
 
@@ -31,7 +31,7 @@ export class Gmap {
         }
     }
 
-    static locationText(match){
+    locationText(match){
         return match.split('(')[1].split(')')[0]
     }
 
@@ -42,15 +42,15 @@ export class Gmap {
             let text = this.template(match[0], latitude, longitude);
             if (!utils.ifInline(this.options, this.service)) {
                 this.output = this.output.replace(this.regex, (regexMatch) => {
-                    return `<span class="ejs-location">${Gmap.locationText(regexMatch)}</span>${text}`
+                    return `<span class="ejs-location">${this.locationText(regexMatch)}</span>${text}`
                 })
             } else {
                 this.embeds.push({
                     text: text,
                     index: match.index
-                });
+                })
                 this.output = this.output.replace(this.regex, (regexMatch) => {
-                    return `<span class="ejs-location">${Gmap.locationText(regexMatch)}</span>`
+                    return `<span class="ejs-location">${this.locationText(regexMatch)}</span>`
                 });
             }
         }

@@ -17,7 +17,7 @@ export class Highlight {
      * @param  {string} code The string that has to be encoded.
      * @return {string}      The encoded string
      */
-    static encode(code) {
+    encode(code) {
         code = code.replace(/&amp;/gm, '');
         code = code.replace(/&lt;/g, '<');
         code = code.replace(/&gt;/g, '>');
@@ -29,7 +29,7 @@ export class Highlight {
      * @param  {string} code The string from which the whitespace has to be removed
      * @return {string}
      */
-    static trimSpace(code) {
+    trimSpace(code) {
         code = code.replace(/^([ \t]*)/g, ''); // leading whitespace
         code = code.replace(/[ \t]*$/g, ''); // trailing whitespace
         return code;
@@ -41,7 +41,7 @@ export class Highlight {
      * @param {string} language
      * @return {string}
      */
-    static addTemplate(processedCode, language) {
+    addTemplate(processedCode, language) {
         return `<pre><code class="ejs-code hljs ${language}">${processedCode.value}</code></pre>`
     }
 
@@ -64,12 +64,12 @@ export class Highlight {
     process() {
         this.output = this.output.replace(this.inlineCodeRegex, function(match, group1, group2) {
             return `<code>${group2}</code>`
-        });
+        })
 
-        return this.output.replace(this.regex, (match, group1, group2, group3) => {
+        let result = this.output.replace(this.regex, (match, group1, group2, group3) => {
             let code = group3;
-            code = Highlight.trimSpace(code);
-            code = Highlight.encode(code);
+            code = this.trimSpace(code);
+            code = this.encode(code);
 
             // to prevent auto-linking. Not necessary in code
             // *blocks*, but in code spans. Will be converted
@@ -86,9 +86,10 @@ export class Highlight {
                 language = highlightedCode.language;
             }
 
-            return Highlight.addTemplate(highlightedCode, language);
+            return this.addTemplate(highlightedCode, language);
 
         });
+        return result;
     }
 }
 
