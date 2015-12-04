@@ -23,9 +23,6 @@
     return function () {
       var gen = fn.apply(this, arguments);
       return new Promise(function (resolve, reject) {
-        var callNext = step.bind(null, "next");
-        var callThrow = step.bind(null, "throw");
-
         function step(key, arg) {
           try {
             var info = gen[key](arg);
@@ -38,11 +35,15 @@
           if (info.done) {
             resolve(value);
           } else {
-            Promise.resolve(value).then(callNext, callThrow);
+            Promise.resolve(value).then(function (value) {
+              step("next", value);
+            }, function (err) {
+              step("throw", err);
+            });
           }
         }
 
-        callNext();
+        step("next");
       });
     };
   };
@@ -1423,27 +1424,29 @@
               var ref = babelHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee(url) {
                   var config, apiUrl, response, data;
                   return regeneratorRuntime.wrap(function _callee$(_context) {
-                      while (1) switch (_context.prev = _context.next) {
-                          case 0:
-                              config = this.options.tweetOptions;
-                              apiUrl = 'https://api.twitter.com/1/statuses/oembed.json?omit_script=true&url=' + url + '&maxwidth=' + config.maxWidth + '&hide_media=' + config.hideMedia + '&hide_thread=' + config.hideThread + '&align=' + config.align + '&lang=' + config.lang;
-                              _context.next = 4;
-                              return fetchJsonp(apiUrl, {
-                                  credentials: 'include'
-                              });
+                      while (1) {
+                          switch (_context.prev = _context.next) {
+                              case 0:
+                                  config = this.options.tweetOptions;
+                                  apiUrl = 'https://api.twitter.com/1/statuses/oembed.json?omit_script=true&url=' + url + '&maxwidth=' + config.maxWidth + '&hide_media=' + config.hideMedia + '&hide_thread=' + config.hideThread + '&align=' + config.align + '&lang=' + config.lang;
+                                  _context.next = 4;
+                                  return fetchJsonp(apiUrl, {
+                                      credentials: 'include'
+                                  });
 
-                          case 4:
-                              response = _context.sent;
-                              _context.next = 7;
-                              return response.json();
+                              case 4:
+                                  response = _context.sent;
+                                  _context.next = 7;
+                                  return response.json();
 
-                          case 7:
-                              data = _context.sent;
-                              return _context.abrupt('return', data);
+                              case 7:
+                                  data = _context.sent;
+                                  return _context.abrupt('return', data);
 
-                          case 9:
-                          case 'end':
-                              return _context.stop();
+                              case 9:
+                              case 'end':
+                                  return _context.stop();
+                          }
                       }
                   }, _callee, this);
               }));
@@ -1475,78 +1478,80 @@
               var ref = babelHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
                   var regexInline, match, url, data, text;
                   return regeneratorRuntime.wrap(function _callee2$(_context2) {
-                      while (1) switch (_context2.prev = _context2.next) {
-                          case 0:
-                              _context2.prev = 0;
+                      while (1) {
+                          switch (_context2.prev = _context2.next) {
+                              case 0:
+                                  _context2.prev = 0;
 
-                              if (utils.ifInline(this.options, this.service)) {
-                                  _context2.next = 15;
+                                  if (utils.ifInline(this.options, this.service)) {
+                                      _context2.next = 15;
+                                      break;
+                                  }
+
+                                  regexInline = this.options.link ? new RegExp('([^>]*' + this.regex.source + ')</a>', 'gi') : new RegExp('([^\\s]*' + this.regex.source + ')', 'gi');
+                                  match = undefined;
+
+                              case 4:
+                                  if (!((match = utils.matches(regexInline, this.output)) !== null)) {
+                                      _context2.next = 13;
+                                      break;
+                                  }
+
+                                  url = this.options.link ? match[0].slice(0, -4) : match[0];
+                                  _context2.next = 8;
+                                  return this.tweetData(url);
+
+                              case 8:
+                                  data = _context2.sent;
+                                  text = data.html;
+
+                                  if (this.options.link) {
+                                      this.output = !this.options.inlineText ? this.output.replace(match[0], text + '</a>') : this.output.replace(match[0], match[0] + text);
+                                  } else {
+                                      this.output = !this.options.inlineText ? this.output.replace(match[0], text) : this.output.replace(match[0], match[0] + text);
+                                  }
+                                  _context2.next = 4;
                                   break;
-                              }
 
-                              regexInline = this.options.link ? new RegExp('([^>]*' + this.regex.source + ')</a>', 'gi') : new RegExp('([^\\s]*' + this.regex.source + ')', 'gi');
-                              match = undefined;
-
-                          case 4:
-                              if (!((match = utils.matches(regexInline, this.output)) !== null)) {
-                                  _context2.next = 13;
-                                  break;
-                              }
-
-                              url = this.options.link ? match[0].slice(0, -4) : match[0];
-                              _context2.next = 8;
-                              return this.tweetData(url);
-
-                          case 8:
-                              data = _context2.sent;
-                              text = data.html;
-
-                              if (this.options.link) {
-                                  this.output = !this.options.inlineText ? this.output.replace(match[0], text + '</a>') : this.output.replace(match[0], match[0] + text);
-                              } else {
-                                  this.output = !this.options.inlineText ? this.output.replace(match[0], text) : this.output.replace(match[0], match[0] + text);
-                              }
-                              _context2.next = 4;
-                              break;
-
-                          case 13:
-                              _context2.next = 23;
-                              break;
-
-                          case 15:
-                              match = undefined;
-
-                          case 16:
-                              if (!((match = utils.matches(this.regex, this.input)) !== null)) {
+                              case 13:
                                   _context2.next = 23;
                                   break;
-                              }
 
-                              _context2.next = 19;
-                              return this.tweetData(match[0]);
+                              case 15:
+                                  match = undefined;
 
-                          case 19:
-                              data = _context2.sent;
+                              case 16:
+                                  if (!((match = utils.matches(this.regex, this.input)) !== null)) {
+                                      _context2.next = 23;
+                                      break;
+                                  }
 
-                              this.embeds.push({
-                                  text: data.html,
-                                  index: match.index
-                              });
-                              _context2.next = 16;
-                              break;
+                                  _context2.next = 19;
+                                  return this.tweetData(match[0]);
 
-                          case 23:
-                              return _context2.abrupt('return', [this.output, this.embeds]);
+                              case 19:
+                                  data = _context2.sent;
 
-                          case 26:
-                              _context2.prev = 26;
-                              _context2.t0 = _context2['catch'](0);
+                                  this.embeds.push({
+                                      text: data.html,
+                                      index: match.index
+                                  });
+                                  _context2.next = 16;
+                                  break;
 
-                              console.log(_context2.t0);
+                              case 23:
+                                  return _context2.abrupt('return', [this.output, this.embeds]);
 
-                          case 29:
-                          case 'end':
-                              return _context2.stop();
+                              case 26:
+                                  _context2.prev = 26;
+                                  _context2.t0 = _context2['catch'](0);
+
+                                  console.log(_context2.t0);
+
+                              case 29:
+                              case 'end':
+                                  return _context2.stop();
+                          }
                       }
                   }, _callee2, this, [[0, 26]]);
               }));
@@ -1753,26 +1758,28 @@
               var ref = babelHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee(location) {
                   var url, response, data, latitude, longitude;
                   return regeneratorRuntime.wrap(function _callee$(_context) {
-                      while (1) switch (_context.prev = _context.next) {
-                          case 0:
-                              url = 'http://maps.googleapis.com/maps/api/geocode/json?address=' + location + '&sensor=false';
-                              _context.next = 3;
-                              return fetch(url);
+                      while (1) {
+                          switch (_context.prev = _context.next) {
+                              case 0:
+                                  url = 'http://maps.googleapis.com/maps/api/geocode/json?address=' + location + '&sensor=false';
+                                  _context.next = 3;
+                                  return fetch(url);
 
-                          case 3:
-                              response = _context.sent;
-                              _context.next = 6;
-                              return response.json();
+                              case 3:
+                                  response = _context.sent;
+                                  _context.next = 6;
+                                  return response.json();
 
-                          case 6:
-                              data = _context.sent;
-                              latitude = data.results[0].geometry.location.lat;
-                              longitude = data.results[0].geometry.location.lng;
-                              return _context.abrupt('return', [latitude, longitude]);
+                              case 6:
+                                  data = _context.sent;
+                                  latitude = data.results[0].geometry.location.lat;
+                                  longitude = data.results[0].geometry.location.lng;
+                                  return _context.abrupt('return', [latitude, longitude]);
 
-                          case 10:
-                          case 'end':
-                              return _context.stop();
+                              case 10:
+                              case 'end':
+                                  return _context.stop();
+                          }
                       }
                   }, _callee, this);
               }));
@@ -1808,77 +1815,81 @@
                   var match, _loop;
 
                   return regeneratorRuntime.wrap(function _callee3$(_context3) {
-                      while (1) switch (_context3.prev = _context3.next) {
-                          case 0:
-                              match = undefined;
-                              _loop = regeneratorRuntime.mark(function _callee2() {
-                                  var _ref, _ref2, latitude, longitude, text;
+                      while (1) {
+                          switch (_context3.prev = _context3.next) {
+                              case 0:
+                                  match = undefined;
+                                  _loop = regeneratorRuntime.mark(function _callee2() {
+                                      var _ref, _ref2, latitude, longitude, text;
 
-                                  return regeneratorRuntime.wrap(function _callee2$(_context2) {
-                                      while (1) switch (_context2.prev = _context2.next) {
-                                          case 0:
-                                              if (!(_this.options.mapOptions.mode !== 'place')) {
-                                                  _context2.next = 6;
-                                                  break;
+                                      return regeneratorRuntime.wrap(function _callee2$(_context2) {
+                                          while (1) {
+                                              switch (_context2.prev = _context2.next) {
+                                                  case 0:
+                                                      if (!(_this.options.mapOptions.mode !== 'place')) {
+                                                          _context2.next = 6;
+                                                          break;
+                                                      }
+
+                                                      _context2.next = 3;
+                                                      return _this.getCoordinate(match[0]);
+
+                                                  case 3:
+                                                      _context2.t0 = _context2.sent;
+                                                      _context2.next = 7;
+                                                      break;
+
+                                                  case 6:
+                                                      _context2.t0 = [null, null];
+
+                                                  case 7:
+                                                      _ref = _context2.t0;
+                                                      _ref2 = babelHelpers.slicedToArray(_ref, 2);
+                                                      latitude = _ref2[0];
+                                                      longitude = _ref2[1];
+                                                      text = _this.template(match[0], latitude, longitude);
+
+                                                      if (!utils.ifInline(_this.options, _this.service)) {
+                                                          _this.output = _this.output.replace(_this.regex, function (regexMatch) {
+                                                              return '<span class="ejs-location">' + _this.locationText(regexMatch) + '</span>' + text;
+                                                          });
+                                                      } else {
+                                                          _this.embeds.push({
+                                                              text: text,
+                                                              index: match.index
+                                                          });
+                                                          _this.output = _this.output.replace(_this.regex, function (regexMatch) {
+                                                              return '<span class="ejs-location">' + _this.locationText(regexMatch) + '</span>';
+                                                          });
+                                                      }
+
+                                                  case 13:
+                                                  case 'end':
+                                                      return _context2.stop();
                                               }
+                                          }
+                                      }, _callee2, _this);
+                                  });
 
-                                              _context2.next = 3;
-                                              return _this.getCoordinate(match[0]);
+                              case 2:
+                                  if (!((match = utils.matches(this.regex, this.output)) !== null)) {
+                                      _context3.next = 6;
+                                      break;
+                                  }
 
-                                          case 3:
-                                              _context2.t0 = _context2.sent;
-                                              _context2.next = 7;
-                                              break;
+                                  return _context3.delegateYield(_loop(), 't0', 4);
 
-                                          case 6:
-                                              _context2.t0 = [null, null];
-
-                                          case 7:
-                                              _ref = _context2.t0;
-                                              _ref2 = babelHelpers.slicedToArray(_ref, 2);
-                                              latitude = _ref2[0];
-                                              longitude = _ref2[1];
-                                              text = _this.template(match[0], latitude, longitude);
-
-                                              if (!utils.ifInline(_this.options, _this.service)) {
-                                                  _this.output = _this.output.replace(_this.regex, function (regexMatch) {
-                                                      return '<span class="ejs-location">' + _this.locationText(regexMatch) + '</span>' + text;
-                                                  });
-                                              } else {
-                                                  _this.embeds.push({
-                                                      text: text,
-                                                      index: match.index
-                                                  });
-                                                  _this.output = _this.output.replace(_this.regex, function (regexMatch) {
-                                                      return '<span class="ejs-location">' + _this.locationText(regexMatch) + '</span>';
-                                                  });
-                                              }
-
-                                          case 13:
-                                          case 'end':
-                                              return _context2.stop();
-                                      }
-                                  }, _callee2, _this);
-                              });
-
-                          case 2:
-                              if (!((match = utils.matches(this.regex, this.output)) !== null)) {
-                                  _context3.next = 6;
+                              case 4:
+                                  _context3.next = 2;
                                   break;
-                              }
 
-                              return _context3.delegateYield(_loop(), 't0', 4);
+                              case 6:
+                                  return _context3.abrupt('return', [this.output, this.embeds]);
 
-                          case 4:
-                              _context3.next = 2;
-                              break;
-
-                          case 6:
-                              return _context3.abrupt('return', [this.output, this.embeds]);
-
-                          case 7:
-                          case 'end':
-                              return _context3.stop();
+                              case 7:
+                              case 'end':
+                                  return _context3.stop();
+                          }
                       }
                   }, _callee3, this);
               }));
@@ -1923,31 +1934,33 @@
               var ref = babelHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee(id) {
                   var url, response, data;
                   return regeneratorRuntime.wrap(function _callee$(_context) {
-                      while (1) switch (_context.prev = _context.next) {
-                          case 0:
-                              _context.prev = 0;
-                              url = 'https://vimeo.com/api/v2/video/' + id + '.json';
-                              _context.next = 4;
-                              return fetch(url);
+                      while (1) {
+                          switch (_context.prev = _context.next) {
+                              case 0:
+                                  _context.prev = 0;
+                                  url = 'https://vimeo.com/api/v2/video/' + id + '.json';
+                                  _context.next = 4;
+                                  return fetch(url);
 
-                          case 4:
-                              response = _context.sent;
-                              _context.next = 7;
-                              return response.json();
+                              case 4:
+                                  response = _context.sent;
+                                  _context.next = 7;
+                                  return response.json();
 
-                          case 7:
-                              data = _context.sent;
-                              return _context.abrupt('return', data[0]);
+                              case 7:
+                                  data = _context.sent;
+                                  return _context.abrupt('return', data[0]);
 
-                          case 11:
-                              _context.prev = 11;
-                              _context.t0 = _context['catch'](0);
+                              case 11:
+                                  _context.prev = 11;
+                                  _context.t0 = _context['catch'](0);
 
-                              console.log(_context.t0);
+                                  console.log(_context.t0);
 
-                          case 14:
-                          case 'end':
-                              return _context.stop();
+                              case 14:
+                              case 'end':
+                                  return _context.stop();
+                          }
                       }
                   }, _callee, this, [[0, 11]]);
               }));
@@ -1962,111 +1975,113 @@
                   var regexInline, match, id, embedUrl, _data, text, _data2;
 
                   return regeneratorRuntime.wrap(function _callee2$(_context2) {
-                      while (1) switch (_context2.prev = _context2.next) {
-                          case 0:
-                              _context2.prev = 0;
+                      while (1) {
+                          switch (_context2.prev = _context2.next) {
+                              case 0:
+                                  _context2.prev = 0;
 
-                              if (utils.ifInline(this.options, this.service)) {
-                                  _context2.next = 21;
+                                  if (utils.ifInline(this.options, this.service)) {
+                                      _context2.next = 21;
+                                      break;
+                                  }
+
+                                  regexInline = this.options.link ? new RegExp('([^>]*' + this.regex.source + ')</a>', 'gi') : new RegExp('([^\\s]*' + this.regex.source + ')', 'gi');
+                                  match = undefined;
+
+                              case 4:
+                                  if (!((match = utils.matches(regexInline, this.output)) !== null)) {
+                                      _context2.next = 19;
+                                      break;
+                                  }
+
+                                  id = this.options.link ? match[0].slice(0, -4).split('/').slice(-1).pop() : match[0].split('/').slice(-1).pop();
+                                  embedUrl = 'https://player.vimeo.com/video/' + id;
+                                  _data = undefined, text = undefined;
+
+                                  if (!this.options.videoDetails) {
+                                      _context2.next = 15;
+                                      break;
+                                  }
+
+                                  _context2.next = 11;
+                                  return this.data(id);
+
+                              case 11:
+                                  _data = _context2.sent;
+
+                                  text = helper.getDetailsTemplate(this.formatData(_data), _data, embedUrl);
+                                  _context2.next = 16;
                                   break;
-                              }
 
-                              regexInline = this.options.link ? new RegExp('([^>]*' + this.regex.source + ')</a>', 'gi') : new RegExp('([^\\s]*' + this.regex.source + ')', 'gi');
-                              match = undefined;
+                              case 15:
+                                  text = helper.template(embedUrl, this.options);
 
-                          case 4:
-                              if (!((match = utils.matches(regexInline, this.output)) !== null)) {
-                                  _context2.next = 19;
+                              case 16:
+
+                                  if (this.options.link) {
+                                      this.output = !this.options.inlineText ? this.output.replace(match[0], text + '</a>') : this.output.replace(match[0], match[0] + text);
+                                  } else {
+                                      this.output = !this.options.inlineText ? this.output.replace(match[0], text) : this.output.replace(match[0], match[0] + text);
+                                  }
+                                  _context2.next = 4;
                                   break;
-                              }
 
-                              id = this.options.link ? match[0].slice(0, -4).split('/').slice(-1).pop() : match[0].split('/').slice(-1).pop();
-                              embedUrl = 'https://player.vimeo.com/video/' + id;
-                              _data = undefined, text = undefined;
-
-                              if (!this.options.videoDetails) {
-                                  _context2.next = 15;
-                                  break;
-                              }
-
-                              _context2.next = 11;
-                              return this.data(id);
-
-                          case 11:
-                              _data = _context2.sent;
-
-                              text = helper.getDetailsTemplate(this.formatData(_data), _data, embedUrl);
-                              _context2.next = 16;
-                              break;
-
-                          case 15:
-                              text = helper.template(embedUrl, this.options);
-
-                          case 16:
-
-                              if (this.options.link) {
-                                  this.output = !this.options.inlineText ? this.output.replace(match[0], text + '</a>') : this.output.replace(match[0], match[0] + text);
-                              } else {
-                                  this.output = !this.options.inlineText ? this.output.replace(match[0], text) : this.output.replace(match[0], match[0] + text);
-                              }
-                              _context2.next = 4;
-                              break;
-
-                          case 19:
-                              _context2.next = 36;
-                              break;
-
-                          case 21:
-                              match = undefined;
-
-                          case 22:
-                              if (!((match = utils.matches(this.regex, this.input)) !== null)) {
+                              case 19:
                                   _context2.next = 36;
                                   break;
-                              }
 
-                              embedUrl = 'https://player.vimeo.com/video/' + match[3];
-                              _data2 = undefined, text = undefined;
+                              case 21:
+                                  match = undefined;
 
-                              if (!this.options.videoDetails) {
-                                  _context2.next = 32;
+                              case 22:
+                                  if (!((match = utils.matches(this.regex, this.input)) !== null)) {
+                                      _context2.next = 36;
+                                      break;
+                                  }
+
+                                  embedUrl = 'https://player.vimeo.com/video/' + match[3];
+                                  _data2 = undefined, text = undefined;
+
+                                  if (!this.options.videoDetails) {
+                                      _context2.next = 32;
+                                      break;
+                                  }
+
+                                  _context2.next = 28;
+                                  return this.data(match[3]);
+
+                              case 28:
+                                  _data2 = _context2.sent;
+
+                                  text = helper.getDetailsTemplate(this.formatData(_data2), _data2, embedUrl);
+                                  _context2.next = 33;
                                   break;
-                              }
 
-                              _context2.next = 28;
-                              return this.data(match[3]);
+                              case 32:
+                                  text = helper.template(embedUrl, this.options);
 
-                          case 28:
-                              _data2 = _context2.sent;
+                              case 33:
 
-                              text = helper.getDetailsTemplate(this.formatData(_data2), _data2, embedUrl);
-                              _context2.next = 33;
-                              break;
+                                  this.embeds.push({
+                                      text: text,
+                                      index: match.index
+                                  });
+                                  _context2.next = 22;
+                                  break;
 
-                          case 32:
-                              text = helper.template(embedUrl, this.options);
+                              case 36:
+                                  return _context2.abrupt('return', [this.output, this.embeds]);
 
-                          case 33:
+                              case 39:
+                                  _context2.prev = 39;
+                                  _context2.t0 = _context2['catch'](0);
 
-                              this.embeds.push({
-                                  text: text,
-                                  index: match.index
-                              });
-                              _context2.next = 22;
-                              break;
+                                  console.log(_context2.t0);
 
-                          case 36:
-                              return _context2.abrupt('return', [this.output, this.embeds]);
-
-                          case 39:
-                              _context2.prev = 39;
-                              _context2.t0 = _context2['catch'](0);
-
-                              console.log(_context2.t0);
-
-                          case 42:
-                          case 'end':
-                              return _context2.stop();
+                              case 42:
+                              case 'end':
+                                  return _context2.stop();
+                          }
                       }
                   }, _callee2, this, [[0, 39]]);
               }));
@@ -2111,31 +2126,33 @@
               var ref = babelHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee(id) {
                   var url, response, data;
                   return regeneratorRuntime.wrap(function _callee$(_context) {
-                      while (1) switch (_context.prev = _context.next) {
-                          case 0:
-                              _context.prev = 0;
-                              url = 'https://www.googleapis.com/youtube/v3/videos?id=' + id + '&key=' + this.options.googleAuthKey + '&part=snippet,statistics';
-                              _context.next = 4;
-                              return fetch(url);
+                      while (1) {
+                          switch (_context.prev = _context.next) {
+                              case 0:
+                                  _context.prev = 0;
+                                  url = 'https://www.googleapis.com/youtube/v3/videos?id=' + id + '&key=' + this.options.googleAuthKey + '&part=snippet,statistics';
+                                  _context.next = 4;
+                                  return fetch(url);
 
-                          case 4:
-                              response = _context.sent;
-                              _context.next = 7;
-                              return response.json();
+                              case 4:
+                                  response = _context.sent;
+                                  _context.next = 7;
+                                  return response.json();
 
-                          case 7:
-                              data = _context.sent;
-                              return _context.abrupt('return', data.items[0]);
+                              case 7:
+                                  data = _context.sent;
+                                  return _context.abrupt('return', data.items[0]);
 
-                          case 11:
-                              _context.prev = 11;
-                              _context.t0 = _context['catch'](0);
+                              case 11:
+                                  _context.prev = 11;
+                                  _context.t0 = _context['catch'](0);
 
-                              console.log(_context.t0);
+                                  console.log(_context.t0);
 
-                          case 14:
-                          case 'end':
-                              return _context.stop();
+                              case 14:
+                              case 'end':
+                                  return _context.stop();
+                          }
                       }
                   }, _callee, this, [[0, 11]]);
               }));
@@ -2150,115 +2167,117 @@
                   var regexInline, match, id, embedUrl, _data, text, _data2;
 
                   return regeneratorRuntime.wrap(function _callee2$(_context2) {
-                      while (1) switch (_context2.prev = _context2.next) {
-                          case 0:
-                              _context2.prev = 0;
+                      while (1) {
+                          switch (_context2.prev = _context2.next) {
+                              case 0:
+                                  _context2.prev = 0;
 
-                              if (utils.ifInline(this.options, this.service)) {
-                                  _context2.next = 21;
+                                  if (utils.ifInline(this.options, this.service)) {
+                                      _context2.next = 21;
+                                      break;
+                                  }
+
+                                  regexInline = this.options.link ? new RegExp('([^>]*' + this.regex.source + ')</a>', 'gi') : new RegExp('([^\\s]*' + this.regex.source + ')', 'gi');
+                                  match = undefined;
+
+                              case 4:
+                                  if (!((match = utils.matches(regexInline, this.output)) !== null)) {
+                                      _context2.next = 19;
+                                      break;
+                                  }
+
+                                  id = match[2];
+                                  embedUrl = 'https://www.youtube.com/embed/' + id;
+                                  _data = undefined, text = undefined;
+
+                                  if (!this.options.videoDetails) {
+                                      _context2.next = 15;
+                                      break;
+                                  }
+
+                                  _context2.next = 11;
+                                  return this.data(id);
+
+                              case 11:
+                                  _data = _context2.sent;
+
+                                  text = helper.getDetailsTemplate(this.formatData(_data), _data, embedUrl);
+                                  _context2.next = 16;
                                   break;
-                              }
 
-                              regexInline = this.options.link ? new RegExp('([^>]*' + this.regex.source + ')</a>', 'gi') : new RegExp('([^\\s]*' + this.regex.source + ')', 'gi');
-                              match = undefined;
+                              case 15:
+                                  text = helper.template(embedUrl, this.options);
 
-                          case 4:
-                              if (!((match = utils.matches(regexInline, this.output)) !== null)) {
-                                  _context2.next = 19;
+                              case 16:
+                                  if (this.options.link) {
+                                      this.output = !this.options.inlineText ? this.output.replace(match[0], text + '</a>') : this.output.replace(match[0], match[0] + text);
+                                  } else {
+                                      this.output = !this.options.inlineText ? this.output.replace(match[0], text) : this.output.replace(match[0], match[0] + text);
+                                  }
+                                  _context2.next = 4;
                                   break;
-                              }
 
-                              id = match[2];
-                              embedUrl = 'https://www.youtube.com/embed/' + id;
-                              _data = undefined, text = undefined;
-
-                              if (!this.options.videoDetails) {
-                                  _context2.next = 15;
-                                  break;
-                              }
-
-                              _context2.next = 11;
-                              return this.data(id);
-
-                          case 11:
-                              _data = _context2.sent;
-
-                              text = helper.getDetailsTemplate(this.formatData(_data), _data, embedUrl);
-                              _context2.next = 16;
-                              break;
-
-                          case 15:
-                              text = helper.template(embedUrl, this.options);
-
-                          case 16:
-                              if (this.options.link) {
-                                  this.output = !this.options.inlineText ? this.output.replace(match[0], text + '</a>') : this.output.replace(match[0], match[0] + text);
-                              } else {
-                                  this.output = !this.options.inlineText ? this.output.replace(match[0], text) : this.output.replace(match[0], match[0] + text);
-                              }
-                              _context2.next = 4;
-                              break;
-
-                          case 19:
-                              _context2.next = 37;
-                              break;
-
-                          case 21:
-                              match = undefined;
-
-                          case 22:
-                              if (!((match = utils.matches(this.regex, this.input)) !== null)) {
+                              case 19:
                                   _context2.next = 37;
                                   break;
-                              }
 
-                              id = match[1];
-                              embedUrl = 'https://www.youtube.com/embed/' + id;
-                              _data2 = undefined, text = undefined;
+                              case 21:
+                                  match = undefined;
 
-                              if (!this.options.videoDetails) {
-                                  _context2.next = 33;
+                              case 22:
+                                  if (!((match = utils.matches(this.regex, this.input)) !== null)) {
+                                      _context2.next = 37;
+                                      break;
+                                  }
+
+                                  id = match[1];
+                                  embedUrl = 'https://www.youtube.com/embed/' + id;
+                                  _data2 = undefined, text = undefined;
+
+                                  if (!this.options.videoDetails) {
+                                      _context2.next = 33;
+                                      break;
+                                  }
+
+                                  _context2.next = 29;
+                                  return this.data(id);
+
+                              case 29:
+                                  _data2 = _context2.sent;
+
+                                  text = helper.getDetailsTemplate(this.formatData(_data2), _data2, embedUrl);
+                                  _context2.next = 34;
                                   break;
-                              }
 
-                              _context2.next = 29;
-                              return this.data(id);
+                              case 33:
+                                  text = helper.template(embedUrl, this.options);
 
-                          case 29:
-                              _data2 = _context2.sent;
+                              case 34:
 
-                              text = helper.getDetailsTemplate(this.formatData(_data2), _data2, embedUrl);
-                              _context2.next = 34;
-                              break;
+                                  this.embeds.push({
+                                      text: text,
+                                      index: match.index
+                                  });
+                                  _context2.next = 22;
+                                  break;
 
-                          case 33:
-                              text = helper.template(embedUrl, this.options);
+                              case 37:
+                                  _context2.next = 42;
+                                  break;
 
-                          case 34:
+                              case 39:
+                                  _context2.prev = 39;
+                                  _context2.t0 = _context2['catch'](0);
 
-                              this.embeds.push({
-                                  text: text,
-                                  index: match.index
-                              });
-                              _context2.next = 22;
-                              break;
+                                  console.log(_context2.t0);
 
-                          case 37:
-                              _context2.next = 42;
-                              break;
+                              case 42:
+                                  return _context2.abrupt('return', [this.output, this.embeds]);
 
-                          case 39:
-                              _context2.prev = 39;
-                              _context2.t0 = _context2['catch'](0);
-
-                              console.log(_context2.t0);
-
-                          case 42:
-                              return _context2.abrupt('return', [this.output, this.embeds]);
-
-                          case 43:
-                          case 'end':
-                              return _context2.stop();
+                              case 43:
+                              case 'end':
+                                  return _context2.stop();
+                          }
                       }
                   }, _callee2, this, [[0, 39]]);
               }));
@@ -3039,211 +3058,213 @@
                       var input, options, embeds, output, _process, _process2, _process3, _process4, _process5, _process6, _process7, _process8, _process9, _process10, _process11, _process12, _process13, _process14, _process15, _process16, _process17, _process18, _process19, _process20, _process21, _process22, _process23, _process24, _ref, _ref2, _ref3, _ref4, _ref5, _ref6, _process25, _process26, _process27, _process28, _process29, _process30, _process31, _process32, _process33, _process34, _process35, _process36, _ref7, _ref8, result;
 
                       return regeneratorRuntime$1.wrap(function _callee$(_context) {
-                          while (1) switch (_context.prev = _context.next) {
-                              case 0:
-                                  input = this.input;
-                                  options = this.options;
-                                  embeds = [];
-                                  output = '';
+                          while (1) {
+                              switch (_context.prev = _context.next) {
+                                  case 0:
+                                      input = this.input;
+                                      options = this.options;
+                                      embeds = [];
+                                      output = '';
 
-                                  this.options.beforeEmbedJSApply();
+                                      this.options.beforeEmbedJSApply();
 
-                                  if (true && options.link) {
-                                      output = new Url(input, options).process();
-                                  }
-                                  if (true && options.marked) {
-                                      output = new Markdown(output, options).process();
-                                  }
-                                  if (true && options.emoji) {
-                                      output = new Emoji(output, options).process();
-                                  }
-                                  if (true && options.fontIcons) {
-                                      output = new Smiley(output, options).process();
-                                  }
+                                      if (true && options.link) {
+                                          output = new Url(input, options).process();
+                                      }
+                                      if (true && options.marked) {
+                                          output = new Markdown(output, options).process();
+                                      }
+                                      if (true && options.emoji) {
+                                          output = new Emoji(output, options).process();
+                                      }
+                                      if (true && options.fontIcons) {
+                                          output = new Smiley(output, options).process();
+                                      }
 
-                                  if (true && options.highlightCode && !options.marked) {
-                                      output = new Highlight(output, options).process();
-                                  }
-                                  if (true && utils.ifEmbed(options, 'ideone')) {
-                                      _process = new Ideone(input, output, options, embeds).process();
-                                      _process2 = babelHelpers.slicedToArray(_process, 2);
-                                      output = _process2[0];
-                                      embeds = _process2[1];
-                                  }
-                                  if (true && utils.ifEmbed(options, 'plunker')) {
-                                      _process3 = new Plunker(input, output, options, embeds).process();
-                                      _process4 = babelHelpers.slicedToArray(_process3, 2);
-                                      output = _process4[0];
-                                      embeds = _process4[1];
-                                  }
-                                  if (true && utils.ifEmbed(options, 'jsbin')) {
-                                      _process5 = new JsBin(input, output, options, embeds).process();
-                                      _process6 = babelHelpers.slicedToArray(_process5, 2);
-                                      output = _process6[0];
-                                      embeds = _process6[1];
-                                  }
-                                  if (true && utils.ifEmbed(options, 'codepen')) {
-                                      _process7 = new CodePen(input, output, options, embeds).process();
-                                      _process8 = babelHelpers.slicedToArray(_process7, 2);
-                                      output = _process8[0];
-                                      embeds = _process8[1];
-                                  }
-                                  if (true && utils.ifEmbed(options, 'jsfiddle')) {
-                                      _process9 = new JsFiddle(input, output, options, embeds).process();
-                                      _process10 = babelHelpers.slicedToArray(_process9, 2);
-                                      output = _process10[0];
-                                      embeds = _process10[1];
-                                  }
-                                  if (true && utils.ifEmbed(options, 'gist')) {
-                                      _process11 = new Gist(input, output, options, embeds).process();
-                                      _process12 = babelHelpers.slicedToArray(_process11, 2);
-                                      output = _process12[0];
-                                      embeds = _process12[1];
-                                  }
+                                      if (true && options.highlightCode && !options.marked) {
+                                          output = new Highlight(output, options).process();
+                                      }
+                                      if (true && utils.ifEmbed(options, 'ideone')) {
+                                          _process = new Ideone(input, output, options, embeds).process();
+                                          _process2 = babelHelpers.slicedToArray(_process, 2);
+                                          output = _process2[0];
+                                          embeds = _process2[1];
+                                      }
+                                      if (true && utils.ifEmbed(options, 'plunker')) {
+                                          _process3 = new Plunker(input, output, options, embeds).process();
+                                          _process4 = babelHelpers.slicedToArray(_process3, 2);
+                                          output = _process4[0];
+                                          embeds = _process4[1];
+                                      }
+                                      if (true && utils.ifEmbed(options, 'jsbin')) {
+                                          _process5 = new JsBin(input, output, options, embeds).process();
+                                          _process6 = babelHelpers.slicedToArray(_process5, 2);
+                                          output = _process6[0];
+                                          embeds = _process6[1];
+                                      }
+                                      if (true && utils.ifEmbed(options, 'codepen')) {
+                                          _process7 = new CodePen(input, output, options, embeds).process();
+                                          _process8 = babelHelpers.slicedToArray(_process7, 2);
+                                          output = _process8[0];
+                                          embeds = _process8[1];
+                                      }
+                                      if (true && utils.ifEmbed(options, 'jsfiddle')) {
+                                          _process9 = new JsFiddle(input, output, options, embeds).process();
+                                          _process10 = babelHelpers.slicedToArray(_process9, 2);
+                                          output = _process10[0];
+                                          embeds = _process10[1];
+                                      }
+                                      if (true && utils.ifEmbed(options, 'gist')) {
+                                          _process11 = new Gist(input, output, options, embeds).process();
+                                          _process12 = babelHelpers.slicedToArray(_process11, 2);
+                                          output = _process12[0];
+                                          embeds = _process12[1];
+                                      }
 
-                                  if (true && utils.ifEmbed(options, 'ted')) {
-                                      _process13 = new Ted(input, output, options, embeds).process();
-                                      _process14 = babelHelpers.slicedToArray(_process13, 2);
-                                      output = _process14[0];
-                                      embeds = _process14[1];
-                                  }
-                                  if (true && utils.ifEmbed(options, 'dailymotion')) {
-                                      _process15 = new Dailymotion(input, output, options, embeds).process();
-                                      _process16 = babelHelpers.slicedToArray(_process15, 2);
-                                      output = _process16[0];
-                                      embeds = _process16[1];
-                                  }
-                                  if (true && utils.ifEmbed(options, 'ustream')) {
-                                      _process17 = new Ustream(input, output, options, embeds).process();
-                                      _process18 = babelHelpers.slicedToArray(_process17, 2);
-                                      output = _process18[0];
-                                      embeds = _process18[1];
-                                  }
-                                  if (true && utils.ifEmbed(options, 'liveleak')) {
-                                      _process19 = new LiveLeak(input, output, options, embeds).process();
-                                      _process20 = babelHelpers.slicedToArray(_process19, 2);
-                                      output = _process20[0];
-                                      embeds = _process20[1];
-                                  }
-                                  if (true && options.videoEmbed) {
-                                      _process21 = new BasicVideo(input, output, options, embeds).process();
-                                      _process22 = babelHelpers.slicedToArray(_process21, 2);
-                                      output = _process22[0];
-                                      embeds = _process22[1];
-                                  }
-                                  if (true && utils.ifEmbed(options, 'vine')) {
-                                      _process23 = new Vine(input, output, options, embeds).process();
-                                      _process24 = babelHelpers.slicedToArray(_process23, 2);
-                                      output = _process24[0];
-                                      embeds = _process24[1];
-                                  }
+                                      if (true && utils.ifEmbed(options, 'ted')) {
+                                          _process13 = new Ted(input, output, options, embeds).process();
+                                          _process14 = babelHelpers.slicedToArray(_process13, 2);
+                                          output = _process14[0];
+                                          embeds = _process14[1];
+                                      }
+                                      if (true && utils.ifEmbed(options, 'dailymotion')) {
+                                          _process15 = new Dailymotion(input, output, options, embeds).process();
+                                          _process16 = babelHelpers.slicedToArray(_process15, 2);
+                                          output = _process16[0];
+                                          embeds = _process16[1];
+                                      }
+                                      if (true && utils.ifEmbed(options, 'ustream')) {
+                                          _process17 = new Ustream(input, output, options, embeds).process();
+                                          _process18 = babelHelpers.slicedToArray(_process17, 2);
+                                          output = _process18[0];
+                                          embeds = _process18[1];
+                                      }
+                                      if (true && utils.ifEmbed(options, 'liveleak')) {
+                                          _process19 = new LiveLeak(input, output, options, embeds).process();
+                                          _process20 = babelHelpers.slicedToArray(_process19, 2);
+                                          output = _process20[0];
+                                          embeds = _process20[1];
+                                      }
+                                      if (true && options.videoEmbed) {
+                                          _process21 = new BasicVideo(input, output, options, embeds).process();
+                                          _process22 = babelHelpers.slicedToArray(_process21, 2);
+                                          output = _process22[0];
+                                          embeds = _process22[1];
+                                      }
+                                      if (true && utils.ifEmbed(options, 'vine')) {
+                                          _process23 = new Vine(input, output, options, embeds).process();
+                                          _process24 = babelHelpers.slicedToArray(_process23, 2);
+                                          output = _process24[0];
+                                          embeds = _process24[1];
+                                      }
 
-                                  if (!(true && utils.ifEmbed(options, 'youtube') && regeneratorRuntime$1)) {
-                                      _context.next = 29;
-                                      break;
-                                  }
+                                      if (!(true && utils.ifEmbed(options, 'youtube') && regeneratorRuntime$1)) {
+                                          _context.next = 29;
+                                          break;
+                                      }
 
-                                  _context.next = 25;
-                                  return new Youtube(input, output, options, embeds).process();
+                                      _context.next = 25;
+                                      return new Youtube(input, output, options, embeds).process();
 
-                              case 25:
-                                  _ref = _context.sent;
-                                  _ref2 = babelHelpers.slicedToArray(_ref, 2);
-                                  output = _ref2[0];
-                                  embeds = _ref2[1];
+                                  case 25:
+                                      _ref = _context.sent;
+                                      _ref2 = babelHelpers.slicedToArray(_ref, 2);
+                                      output = _ref2[0];
+                                      embeds = _ref2[1];
 
-                              case 29:
-                                  if (!(true && utils.ifEmbed(options, 'vimeo'))) {
-                                      _context.next = 36;
-                                      break;
-                                  }
+                                  case 29:
+                                      if (!(true && utils.ifEmbed(options, 'vimeo'))) {
+                                          _context.next = 36;
+                                          break;
+                                      }
 
-                                  _context.next = 32;
-                                  return new Vimeo(input, output, options, embeds).process();
+                                      _context.next = 32;
+                                      return new Vimeo(input, output, options, embeds).process();
 
-                              case 32:
-                                  _ref3 = _context.sent;
-                                  _ref4 = babelHelpers.slicedToArray(_ref3, 2);
-                                  output = _ref4[0];
-                                  embeds = _ref4[1];
+                                  case 32:
+                                      _ref3 = _context.sent;
+                                      _ref4 = babelHelpers.slicedToArray(_ref3, 2);
+                                      output = _ref4[0];
+                                      embeds = _ref4[1];
 
-                              case 36:
-                                  if (!(true && options.locationEmbed)) {
-                                      _context.next = 43;
-                                      break;
-                                  }
+                                  case 36:
+                                      if (!(true && options.locationEmbed)) {
+                                          _context.next = 43;
+                                          break;
+                                      }
 
-                                  _context.next = 39;
-                                  return new Gmap(input, output, options, embeds).process();
+                                      _context.next = 39;
+                                      return new Gmap(input, output, options, embeds).process();
 
-                              case 39:
-                                  _ref5 = _context.sent;
-                                  _ref6 = babelHelpers.slicedToArray(_ref5, 2);
-                                  output = _ref6[0];
-                                  embeds = _ref6[1];
+                                  case 39:
+                                      _ref5 = _context.sent;
+                                      _ref6 = babelHelpers.slicedToArray(_ref5, 2);
+                                      output = _ref6[0];
+                                      embeds = _ref6[1];
 
-                              case 43:
+                                  case 43:
 
-                                  if (true && utils.ifEmbed(options, 'soundcloud')) {
-                                      _process25 = new SoundCloud(input, output, options, embeds).process();
-                                      _process26 = babelHelpers.slicedToArray(_process25, 2);
-                                      output = _process26[0];
-                                      embeds = _process26[1];
-                                  }
-                                  if (true && utils.ifEmbed(options, 'spotify')) {
-                                      _process27 = new Spotify(input, output, options, embeds).process();
-                                      _process28 = babelHelpers.slicedToArray(_process27, 2);
-                                      output = _process28[0];
-                                      embeds = _process28[1];
-                                  }
-                                  if (true && options.audioEmbed) {
-                                      _process29 = new BasicAudio(input, output, options, embeds).process();
-                                      _process30 = babelHelpers.slicedToArray(_process29, 2);
-                                      output = _process30[0];
-                                      embeds = _process30[1];
-                                  }
+                                      if (true && utils.ifEmbed(options, 'soundcloud')) {
+                                          _process25 = new SoundCloud(input, output, options, embeds).process();
+                                          _process26 = babelHelpers.slicedToArray(_process25, 2);
+                                          output = _process26[0];
+                                          embeds = _process26[1];
+                                      }
+                                      if (true && utils.ifEmbed(options, 'spotify')) {
+                                          _process27 = new Spotify(input, output, options, embeds).process();
+                                          _process28 = babelHelpers.slicedToArray(_process27, 2);
+                                          output = _process28[0];
+                                          embeds = _process28[1];
+                                      }
+                                      if (true && options.audioEmbed) {
+                                          _process29 = new BasicAudio(input, output, options, embeds).process();
+                                          _process30 = babelHelpers.slicedToArray(_process29, 2);
+                                          output = _process30[0];
+                                          embeds = _process30[1];
+                                      }
 
-                                  if (true && utils.ifEmbed(options, 'flickr')) {
-                                      _process31 = new Flickr(input, output, options, embeds).process();
-                                      _process32 = babelHelpers.slicedToArray(_process31, 2);
-                                      output = _process32[0];
-                                      embeds = _process32[1];
-                                  }
-                                  if (true && utils.ifEmbed(options, 'instagram')) {
-                                      _process33 = new Instagram(input, output, options, embeds).process();
-                                      _process34 = babelHelpers.slicedToArray(_process33, 2);
-                                      output = _process34[0];
-                                      embeds = _process34[1];
-                                  }
-                                  if (true && options.imageEmbed) {
-                                      _process35 = new Basic(input, output, options, embeds).process();
-                                      _process36 = babelHelpers.slicedToArray(_process35, 2);
-                                      output = _process36[0];
-                                      embeds = _process36[1];
-                                  }
+                                      if (true && utils.ifEmbed(options, 'flickr')) {
+                                          _process31 = new Flickr(input, output, options, embeds).process();
+                                          _process32 = babelHelpers.slicedToArray(_process31, 2);
+                                          output = _process32[0];
+                                          embeds = _process32[1];
+                                      }
+                                      if (true && utils.ifEmbed(options, 'instagram')) {
+                                          _process33 = new Instagram(input, output, options, embeds).process();
+                                          _process34 = babelHelpers.slicedToArray(_process33, 2);
+                                          output = _process34[0];
+                                          embeds = _process34[1];
+                                      }
+                                      if (true && options.imageEmbed) {
+                                          _process35 = new Basic(input, output, options, embeds).process();
+                                          _process36 = babelHelpers.slicedToArray(_process35, 2);
+                                          output = _process36[0];
+                                          embeds = _process36[1];
+                                      }
 
-                                  if (!(options.tweetsEmbed && true)) {
-                                      _context.next = 57;
-                                      break;
-                                  }
+                                      if (!(options.tweetsEmbed && true)) {
+                                          _context.next = 57;
+                                          break;
+                                      }
 
-                                  this.twitter = new Twitter(input, output, options, embeds);
-                                  _context.next = 53;
-                                  return this.twitter.process();
+                                      this.twitter = new Twitter(input, output, options, embeds);
+                                      _context.next = 53;
+                                      return this.twitter.process();
 
-                              case 53:
-                                  _ref7 = _context.sent;
-                                  _ref8 = babelHelpers.slicedToArray(_ref7, 2);
-                                  output = _ref8[0];
-                                  embeds = _ref8[1];
+                                  case 53:
+                                      _ref7 = _context.sent;
+                                      _ref8 = babelHelpers.slicedToArray(_ref7, 2);
+                                      output = _ref8[0];
+                                      embeds = _ref8[1];
 
-                              case 57:
-                                  result = utils.createText(output, embeds);
-                                  return _context.abrupt('return', result);
+                                  case 57:
+                                      result = utils.createText(output, embeds);
+                                      return _context.abrupt('return', result);
 
-                              case 59:
-                              case 'end':
-                                  return _context.stop();
+                                  case 59:
+                                  case 'end':
+                                      return _context.stop();
+                              }
                           }
                       }, _callee, this);
                   }));
@@ -3269,37 +3290,39 @@
                   var ref = babelHelpers.asyncToGenerator(regeneratorRuntime$1.mark(function _callee2() {
                       var result, event;
                       return regeneratorRuntime$1.wrap(function _callee2$(_context2) {
-                          while (1) switch (_context2.prev = _context2.next) {
-                              case 0:
-                                  if (this.element) {
-                                      _context2.next = 2;
-                                      break;
-                                  }
+                          while (1) {
+                              switch (_context2.prev = _context2.next) {
+                                  case 0:
+                                      if (this.element) {
+                                          _context2.next = 2;
+                                          break;
+                                      }
 
-                                  throw new Error('You didn\'t pass an element while creating this instance. render() method can\'t work without an element');
+                                      throw new Error('You didn\'t pass an element while creating this instance. render() method can\'t work without an element');
 
-                              case 2:
-                                  _context2.next = 4;
-                                  return this.process();
+                                  case 2:
+                                      _context2.next = 4;
+                                      return this.process();
 
-                              case 4:
-                                  result = _context2.sent;
+                                  case 4:
+                                      result = _context2.sent;
 
-                                  this.element.innerHTML = result;
+                                      this.element.innerHTML = result;
 
-                                  helper.applyVideoJS(this.options);
+                                      helper.applyVideoJS(this.options);
 
-                                  helper.play('ejs-video-thumb', this.options);
+                                      helper.play('ejs-video-thumb', this.options);
 
-                                  event = new Event('rendered');
+                                      event = new Event('rendered');
 
-                                  this.element.dispatchEvent(event);
+                                      this.element.dispatchEvent(event);
 
-                                  this.options.afterEmbedJSApply();
+                                      this.options.afterEmbedJSApply();
 
-                              case 11:
-                              case 'end':
-                                  return _context2.stop();
+                                  case 11:
+                                  case 'end':
+                                      return _context2.stop();
+                              }
                           }
                       }, _callee2, this);
                   }));
@@ -3320,19 +3343,21 @@
                   var ref = babelHelpers.asyncToGenerator(regeneratorRuntime$1.mark(function _callee3(callback) {
                       var result;
                       return regeneratorRuntime$1.wrap(function _callee3$(_context3) {
-                          while (1) switch (_context3.prev = _context3.next) {
-                              case 0:
-                                  _context3.next = 2;
-                                  return this.process();
+                          while (1) {
+                              switch (_context3.prev = _context3.next) {
+                                  case 0:
+                                      _context3.next = 2;
+                                      return this.process();
 
-                              case 2:
-                                  result = _context3.sent;
+                                  case 2:
+                                      result = _context3.sent;
 
-                                  callback(result, this.input);
+                                      callback(result, this.input);
 
-                              case 4:
-                              case 'end':
-                                  return _context3.stop();
+                                  case 4:
+                                  case 'end':
+                                      return _context3.stop();
+                              }
                           }
                       }, _callee3, this);
                   }));
