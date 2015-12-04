@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>embed js</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300' rel='stylesheet' type='text/css'>
+  <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+  <!-- build:css(.) styles/vendor.css -->
+  <!-- bower:css -->
+  <link rel="stylesheet" href="/bower_components/skeleton/css/skeleton.css" />
+  <!-- endbower -->
+  <!-- endbuild -->
+  <!-- build:css(.tmp) styles/api.css -->
+  <link rel="stylesheet" href="styles/api.css">
+  <!-- endbuild -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/styles/github.min.css">
+</head>
+
+<body>
+<header>
+  <a href="/"><img src="images/logo.png" alt=""></a>
+  <nav>
+    <ul>
+      <a href="/">
+        <li>Home</li>
+      </a>
+      <a href="getting_started.html">
+        <li>Getting Started</li>
+      </a>
+      <a href="doc.html">
+        <li>Options</li>
+      </a>
+      <a href="api.html">
+        <li>API</li>
+      </a>
+      <a href="examples.html">
+        <li>Examples</li>
+      </a>
+    </ul>
+  </nav>
+</header>
+<div class="left-nav">
+  <ul>
+    <li><b>Default Methods</b></li>
+    <a href="#render">
+      <li>render()</li>
+    </a>
+    <a href="#text">
+      <li>text()</li>
+    </a>
+    <a href="#destroy">
+      <li>destroy()</li>
+    </a>
+    <li><b>ejs Methods</b></li>
+    <a href="#setOptions">
+      <li>.setOptions()</li>
+    </a>
+    <a href="#applyEmbedJS">
+      <li>.applyEmbedJS()</li>
+    </a>
+    <a href="#destroyEmbedJS">
+      <li>.destroyEmbedJS()</li>
+    </a>
+    <a href="#template">
+      <li>.template.serviceName()</li>
+    </a>
+  </ul>
+</div>
+<div class="container">
+  <h4>Default Methods</h4>
+  <p>This method of usage should be preferred if you wan't to apply embed.js to a single block or want the result as string.</p>
+  <h5 id="render"><b>.render()</b></h5> Renders the result in the element from which the original raw string was taken.
+        <pre><code class="xml">&lt;div id="element"&gt;
+          Lotus :smile: eleates vix attrahendams luna est.Advenas mori!Fermiums prarere in cubiculum!Cum cacula cantare, omnes stellaes manifestum azureus, nobilis https://angularjs.org/ acipenseres.Cum orgia mori, omnes rationees :) experientia alter, regius :heart: mortemes.Devatios persuadere, tanquam secundus spatii.Heu, barcas!Cedriums observare!A falsis, lacta talis imber. :P Cur eleates peregrinatione?
+          &lt;/div&gt;
+
+          &lt;script&gt;
+          var x = new EmbedJS({
+          element: document.getElementById('element'),
+          googleAuthKey : 'xxxx'
+          })
+
+          x.render()
+          &lt;/script&gt;
+        </code></pre>
+  <p>Here the <code>render()</code> method will replace the html content of <code>#element</code> with the processed string.</p>
+  <br>
+  <h5 id="text"><b>.text(function(result, input){ })</b></h5>
+  <b>Syntax</b> : <code>.text(function(result, input){})</code>
+  <p>This method comes handy if you want to only get the resulting string and use it according to your wish.</p>
+        <pre><code>var x = new EmbedJS({
+          element: document.getElementById('element'),
+          googleAuthKey : 'xxxx'
+          })
+
+          x.text(function(result, input){
+          console.log(result) //result string
+          console.log(input) //input string
+          })
+        </code></pre>
+  <h5 id="destroy"><b>.destroy()</b></h5> The <code>destroy()</code> method turns off all the event listeners and replaces the string with the original string.
+        <pre><code>var x = new EmbedJS({
+          element: document.getElementById('element'),
+          googleAuthKey : 'xxxx'
+          })
+
+          x.render() //renders the result
+          x.destroy() //destroys the instance
+        </code></pre>
+  <h4>ejs Methods</h4>
+  <p>The following methods should be used when you want to use the plugin on multiple blocks.</p>
+  <h5 id="setOptions"><b>.setOptions(options)</b></h5> Can be used to set the options globally. The options can be overridden by passing the option for a single block.
+        <pre><code>ejs.setOptions({
+          videoDetails:false,
+          videoJS:true,
+          videoWidth:720,
+          videoDetails:true,
+          googleAuthKey:'xxx',
+          inlineEmbed:[],
+          marked:true,
+          link:true
+          });
+
+          var x = new EmbedJS({
+          element: document.getElementById('block')
+          });</code></pre>
+  <h5 id="applyEmbedJS"><b>.applyEmbedJS(className)</b></h5> Can be used to apply this plugins to multiple classes by passing the class name as string. It will use the globally set options.
+        <pre><code>ejs.setOptions({
+          videoDetails:false,
+          videoJS:true,
+          videoWidth:720,
+          videoDetails:true,
+          googleAuthKey:'xxx'
+          });
+
+          ejs.applyEmbedJS('.element')</code></pre>
+  <h5 id="destroyEmbedJS"><b>.destroyEmbedJS()</b></h5> destroys all the instances of the plugin
+  <pre><code>ejs.destroyEmbedJS()</code></pre>
+  <h5 id="template"><b>.template.serviceName()</b></h5> You can change the templates of all the services.
+        <pre><code class="javascript">ejs.template.soundcloud = function(match, dimensions, options){
+          return '&lt;div class="ejs-embed"&gt;'+
+          '&lt;div class="ne-image-wrapper"&gt;'+
+          '&lt;iframe src="${utils.toUrl(match)}/player/" width="'+dimensions.width+'" height="'+dimensions.height+'"&gt;'+
+          '&lt;/iframe&gt;'+
+          '&lt;/div&gt;'+
+          '&lt;/div&gt;'
+          }</code></pre>
+</div>
+</body>
+<!-- build:js(.) scripts/vendor.js -->
+<!-- bower:js -->
+<script src="/bower_components/jquery/dist/jquery.js"></script>
+<!-- endbower -->
+<!-- endbuild -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/highlight.min.js"></script>
+<script>
+  hljs.initHighlightingOnLoad();
+
+  $('.left-nav a').click(function(e) {
+    e.preventDefault()
+    var id = $(this).attr('href')
+    $('html,body').animate({
+        scrollTop: $(id).offset().top - 70
+      },
+      'slow');
+  })
+</script>
+
+</html>
