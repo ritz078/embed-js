@@ -19,8 +19,13 @@ header {
     padding-top: 80px;
 }
 
+a{
+    text-decoration: none;
+}
+
 .left-nav {
     position: fixed;
+    overflow-y:scroll;
     left: 0;
     height: 100%;
     width: 250px;

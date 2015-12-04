@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="/bower_components/skeleton/css/skeleton.css" />
     <!-- endbower -->
     <!-- endbuild -->
-    <!-- build:css(.tmp) styles/examples.css -->
+    <!-- build:css(.tmp) styles/doc.css -->
     <link rel="stylesheet" href="styles/doc.css">
     <!-- endbuild -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/styles/github.min.css">
@@ -29,11 +29,14 @@
                 <a href="/">
                     <li>Home</li>
                 </a>
-                <a href="getting_started">
+                <a href="getting_started.html">
                     <li>Getting Started</li>
                 </a>
                 <a href="doc.html">
-                    <li>Documentation</li>
+                    <li>Options</li>
+                </a>
+                <a href="api.html">
+                    <li>API</li>
                 </a>
                 <a href="examples.html">
                     <li>Examples</li>
@@ -43,12 +46,11 @@
     </header>
     <div class="left-nav">
         <ul>
-
         </ul>
     </div>
     <div class="container">
-    <h5>Advanced options</h5>
-    <pre><code>
+        <h5>Advanced options</h5>
+        <pre><code>
     {
         marked             : false,
         markedOptions      : {},
@@ -116,60 +118,66 @@
         videojsCallback    : function() {}
     };
     </code></pre>
-    <h5>marked</h5>
-    <span><b>Type</b> : Boolean</span> <br>
-    <span><b>Default</b> : <code>false</code></span>
-    <p>An option when set to <code>true</code> will use <a href="https://github.com/chjj/marked" target="_blank">marked.js</a> to parse markdown and convert it to HTML. Make sure you have loaded marked.js before loading embed.js if this option is set to <code>true</code> else the plugin will throw an error.</p>
-
-    <h5>markedOptions</h5>
-    <span><b>Type</b> : Object</span><br>
-    <span><b>Default</b> : <code>{}</code></span><br>
-    <p>The option takes the marked.js <a href="https://github.com/chjj/marked#options-1" target="_blank">options.</a></p>
-
-    <h5 id="link">link</h5>
-    <span><b>Type</b> : Boolean</span><br>
-    <span><b>Default</b> : <code>true</code></span>
-    <p>Instructs the plugin whether or not to embed urls/ convert urls into HTML anchor tags.</p>
-
-    <h5 id="link-options">linkOptions</h5>
-    <span><b>Type</b> : object</span><br>
-    <div class="obj">
-        <h5>target</h5>
-        <span><b>Type</b> : String</span><br>
-        <span><b>Default</b>: <code>'self'</code></span><br>
-        <p>Same as the target attribute in html anchor tag . supports all html supported target values.</p>
-
-        <h5>exclude</h5>
-        <span><b>Type</b> : Array</span><br>
+        <h5 id="marked">marked</h5>
+        <span><b>Type</b> : Boolean</span>
+        <br>
+        <span><b>Default</b> : <code>false</code></span>
+        <p>An option when set to <code>true</code> will use <a href="https://github.com/chjj/marked" target="_blank">marked.js</a> to parse markdown and convert it to HTML. Make sure you have loaded marked.js before loading embed.js if this option is set to <code>true</code> else the plugin will throw an error.</p>
+        <h5 id="markedOptions">markedOptions</h5>
+        <span><b>Type</b> : Object</span>
+        <br>
+        <span><b>Default</b> : <code>{}</code></span>
+        <br>
+        <p>The option takes the marked.js <a href="https://github.com/chjj/marked#options-1" target="_blank">options.</a></p>
+        <h5 id="link">link</h5>
+        <span><b>Type</b> : Boolean</span>
+        <br>
+        <span><b>Default</b> : <code>true</code></span>
+        <p>Instructs the plugin whether or not to embed urls/ convert urls into HTML anchor tags.</p>
+        <h5 id="linkOptions">linkOptions</h5>
+        <span><b>Type</b> : object</span>
+        <br>
+        <div class="obj">
+            <h4>target</h4>
+            <span><b>Type</b> : String</span>
+            <br>
+            <span><b>Default</b>: <code>'self'</code></span>
+            <br>
+            <p>Same as the target attribute in html anchor tag . supports all html supported target values.</p>
+            <h4>exclude</h4>
+            <span><b>Type</b> : Array</span>
+            <br>
+            <span><b>Default</b> : <code>[]</code></span>
+            <p>Accept array of extensions to be excluded from converting into HTML anchor links</p>
+            <h4>rel</h4>
+            <span><b>Type</b> : string</span>
+            <br>
+            <span><b>Default</b> : <code>''</code></span>
+            <p>Same as the rel attribute.</p>
+        </div>
+        <h5 id="emoji">emoji</h5>
+        <span><b>Type</b> : Boolean</span>
+        <br>
+        <span><b>Default</b> : <code>true</code></span>
+        <p>Set to <code>false</code> if you want to disable converting emoji codes into actual emojis.</p>
+        <h5 id="customEmoji">customEmoji</h5>
+        <span><b>Type</b> : Array</span>
+        <br>
         <span><b>Default</b> : <code>[]</code></span>
-        <p>Accept array of extensions to be excluded from converting into HTML anchor links</p>
-
-        <h5>rel</h5>
-        <span><b>Type</b> : string</span><br>
-        <span><b>Default</b> : <code>''</code></span>
-        <p>Same as the rel attribute.</p>
-    </div>
-
-    <h5 id="emoji">emoji</h5>
-    <span><b>Type</b> : Boolean</span><br>
-    <span><b>Default</b> : <code>true</code></span>
-    <p>Set to <code>false</code> if you want to disable converting emoji codes into actual emojis.</p>
-
-    <h5 id="customEmoji">customEmoji</h5>
-    <span><b>Type</b> : Array</span><br>
-    <span><b>Default</b> : <code>[]</code></span>
-    <p>Include the names of custom emojis. Eg : <code>['emoji1', 'emoji2']</code>. Now they can be used using <code>:emoji1:</code> <code>:emoji2:</code></p>
-
-    <h5 id="fontIcons">fontIcons</h5>
-    <span><b>Type</b> : Boolean</span><br>
-    <span><b>Default</b> : <code>true</code></span><br>
-    <p></p>
-
-    <h5 id="customFontIcons">customFontIcons</h5>
-    <span><b>Type</b> : Array</span><br>
-    <span><b>Default</b> : <code>[]</code></span><br>
-    <p>You can use your customised font icon with this plugin. You need to replace the default font files with yours and provide the code to icon mapping in the format :
-    <pre><code>customFontIcons:[{
+        <p>Include the names of custom emojis. Eg : <code>['emoji1', 'emoji2']</code>. Now they can be used using <code>:emoji1:</code> <code>:emoji2:</code></p>
+        <h5 id="fontIcons">fontIcons</h5>
+        <span><b>Type</b> : Boolean</span>
+        <br>
+        <span><b>Default</b> : <code>true</code></span>
+        <br>
+        <p></p>
+        <h5 id="customFontIcons">customFontIcons</h5>
+        <span><b>Type</b> : Array</span>
+        <br>
+        <span><b>Default</b> : <code>[]</code></span>
+        <br>
+        <p>You can use your customised font icon with this plugin. You need to replace the default font files with yours and provide the code to icon mapping in the format :
+            <pre><code>customFontIcons:[{
     'text': ' :) ',
     'code': '&amp;#xe60a'
 }, {
@@ -179,119 +187,117 @@
     'text': ' :d ',
     'code': '&amp;#xe608'
 }]</code></pre>
-    </p>
-
-    <h5 id="highlightCode">highlightCode</h5>
-    <span><b>Type</b> : Boolean</span><br>
-    <span><b>Default</b> : <code>true</code></span>
-    <p>Set to true if you want to convert code blocks into formatted code. It uses <a href="https://highlightjs.org/">highlight.js</a> for code highlighting. Make sure highlight.js is loaded before embed.js if this option is set to <code>true</code> or else set this to <code>false</code> The format that it supports are single backticks and code blocks:
-    <pre><code>```[optional-language-name]
+        </p>
+        <h5 id="highlightCode">highlightCode</h5>
+        <span><b>Type</b> : Boolean</span>
+        <br>
+        <span><b>Default</b> : <code>true</code></span>
+        <p>Set to true if you want to convert code blocks into formatted code. It uses <a href="https://highlightjs.org/">highlight.js</a> for code highlighting. Make sure highlight.js is loaded before embed.js if this option is set to <code>true</code> or else set this to <code>false</code> The format that it supports are single backticks and code blocks:
+            <pre><code>```[optional-language-name]
 //code here
 ```</code></pre>
-</p>.
-
-    <h5 id="videojs">videoJS</h5>
-    <span><b>Type</b> : Boolean</span><br>
-    <span><b>Default</b> : <code>false</code></span>
-    <p>Set to <code>true</code> if you want to enable <a href="http://videojs.com/" target="_blank">video.js</a> support for audio and video files. Make sure video.js is loaded before the plugin else the plugin will throw an error.</p>
-
-    <h5 id="videojsOptions">videojsOptions</h5>
-    <span><b>Type</b> : Object</span><br>
-    <span><b>Default</b> : <code>{}</code></span>
-    <p>This object is the video.js <a href="https://github.com/videojs/video.js/blob/master/docs/guides/options.md">options</a>. You can pass any option supported by video.js. Currently it will be applied to both audio and video files. Eg :
-<pre><code>videojsOptions : {
+        </p>.
+        <h5 id="videoJS">videoJS</h5>
+        <span><b>Type</b> : Boolean</span>
+        <br>
+        <span><b>Default</b> : <code>false</code></span>
+        <p>Set to <code>true</code> if you want to enable <a href="http://videojs.com/" target="_blank">video.js</a> support for audio and video files. Make sure video.js is loaded before the plugin else the plugin will throw an error.</p>
+        <h5 id="videojsOptions">videojsOptions</h5>
+        <span><b>Type</b> : Object</span>
+        <br>
+        <span><b>Default</b> : <code>{}</code></span>
+        <p>This object is the video.js <a href="https://github.com/videojs/video.js/blob/master/docs/guides/options.md">options</a>. You can pass any option supported by video.js. Currently it will be applied to both audio and video files. Eg :
+            <pre><code>videojsOptions : {
     fluid              : true,
     preload            : 'metadata'
 }</code></pre>
-    </p>
-
-    <h5 id="locationEmbed">locationEmbed</h5>
-    <span><b>Type</b> : Boolean</span><br>
-    <span><b>Default</b> : <code>true</code></span>
-    <p>Set whether you want to embed google maps. The format to follow for embedding google map with a location is <code>@(locationName)</code>. <code>@()</code> will be automatically removed by the plugin.</p>
-
-
-    <h5 id="mapOptions">mapOptions</h5>
-    <span><b>Type</b> : object</span><br>
-    <div class="obj">
-        <h5>mode</h5>
-        <b>Type</b> : string <br>
-        <b>default</b> : <code>'place'</code>
-        <p>Can be any of <code>'place'</code>, <code>'view'</code> or <code>'streetview'</code></p>.
-    </div>
-
-    <h5 id="googleAuthKey">googleAuthKey</h5>
-    <span><b>Type</b> : string</span><br>
-    <span><b>Default</b> : <code>''</code></span>
-    <p>The google dev auth key needed if the user is using youtube embedding or google map embedding feature of the plugin.</p>
-
-
-    <h5 id="tweetsEmbed">tweetsEmbed</h5>
-    <b>Type</b> : Boolean <br>
-    <b>Default</b> : <code>true</code>
-    <p>Set to <code>true</code> if you want to embed tweets. Make sure you load <a href="http://platform.twitter.com/widgets.js" target="_blank">http://platform.twitter.com/widgets.js</a> if this option is set to <code>true</code> else the plugin will throw an error.</p>
-
-    <h5 id="tweetOptions">tweetOptions</h5>
-    <b>Type</b> : object <br>
-    <b>Default</b> :
-    <pre><code>{
+        </p>
+        <h5 id="locationEmbed">locationEmbed</h5>
+        <span><b>Type</b> : Boolean</span>
+        <br>
+        <span><b>Default</b> : <code>true</code></span>
+        <p>Set whether you want to embed google maps. The format to follow for embedding google map with a location is <code>@(locationName)</code>. <code>@()</code> will be automatically removed by the plugin.</p>
+        <h5 id="mapOptions">mapOptions</h5>
+        <span><b>Type</b> : object</span>
+        <br>
+        <div class="obj">
+            <h4>mode</h4>
+            <b>Type</b> : string
+            <br>
+            <b>default</b> : <code>'place'</code>
+            <p>Can be any of <code>'place'</code>, <code>'view'</code> or <code>'streetview'</code></p>.
+        </div>
+        <h5 id="googleAuthKey">googleAuthKey</h5>
+        <span><b>Type</b> : string</span>
+        <br>
+        <span><b>Default</b> : <code>''</code></span>
+        <p>The google dev auth key needed if the user is using youtube embedding or google map embedding feature of the plugin.</p>
+        <h5 id="tweetsEmbed">tweetsEmbed</h5>
+        <b>Type</b> : Boolean
+        <br>
+        <b>Default</b> : <code>true</code>
+        <p>Set to <code>true</code> if you want to embed tweets. Make sure you load <a href="http://platform.twitter.com/widgets.js" target="_blank">http://platform.twitter.com/widgets.js</a> if this option is set to <code>true</code> else the plugin will throw an error.</p>
+        <h5 id="tweetOptions">tweetOptions</h5>
+        <b>Type</b> : object
+        <br>
+        <b>Default</b> :
+        <pre><code>{
     maxWidth           : 550,
     hideMedia          : false,
     hideThread         : false,
     align              : 'none',
     lang               : 'en'
 }</code></pre>
-<p>Options for embedding tweets. Supports the options listed <a href="https://dev.twitter.com/rest/reference/get/statuses/oembed">here</a></p>
-
-    <h5 id="imageEmbed">imageEmbed</h5>
-    <span><b>Type</b> : Boolean</span><br>
-    <span><b>Default</b> : <code>true</code></span>
-    <p>Set to <code>false</code> if you want to disable embedding images (jpeg/gif/png/webp).</p>
-
-    <h5 id="videoEmbed">videoEmbed</h5>
-    <span><b>Type</b> : Boolean</span><br>
-    <span><b>Default</b> : <code>true</code></span>
-    <p>Set to <code>false</code> if you want to disable embedding supported video formats.</p>
-
-    <h5 id="videoHeight">videoHeight</h5>
-    <span><b>Type</b> : number</span><br>
-    <span><b>Default</b> : <code>null</code></span>
-    <p>Set the height of the videos that are to be embedded and most of the other iframe embeds will also take the same dimensions.</p>
-
-    <h5 id="videoWidth">videoWidth</h5>
-    <span><b>Type</b> : number</span><br>
-    <span><b>Default</b> : <code>null</code></span>
-    <p>Set the width of the videos that are to be embedded and most of the other iframe embeds will also take the same dimensions.</p>
-
-    <h5 id="videoDetails">videoDetails</h5>
-    <span><b>Type</b> : Boolean</span><br>
-    <span><b>Default</b> : <code>true</code></span>
-    <p>If set to <code>false</code> the preview and the description of youtube and vimeo videos will not be shown and instead the whole video will be embedded directly.</p>
-
-    <h5 id="audioEmbed">audioEmbed</h5>
-    <span><b>Type</b> : Boolean</span><br>
-    <span><b>Default</b> : <code>true</code></span>
-    <p>Set to <code>false</code> if you want to disable embedding supported audio formats.</p>
-
-    <h5 id="excludeEmbed">excludeEmbed</h5>
-    <span><b>Type</b> : array/string</span><br>
-    <span><b>Default</b> : <code>[]</code></span>
-    <p>An array of all the services that you want to exclude from being embed. Eg : <code>['codepen','flickr','spotify']</code>. If you want to exclude all the services then just set it to <code>'all'</code></p>
-
-    <h5 id="inlineEmbed">inlineEmbed</h5>
-    <span><b>Type</b> : array/string</span><br>
-    <span><b>Default</b> : <code>[]</code></span>
-    <p>An array of all the services you want to embed inline. If you want to embed all services inline then set it to <code>'all'</code></p>
-
-    <h5 id="codeEmbedHeight">codeEmbedHeight</h5>
-    <span><b>Type</b> : number</span><br>
-    <span><b>Default</b> : <code>500</code></span>
-    <p>Set the height of all the code editing services. Eg : codepen , plunker, ideone, jsbin, jsfiddle.</p>
-
-
-    <h5 id="vineOptions">vineOptions</h5>
-    <span><b>Type</b> : object</span><br>
-    <span><b>Default</b> :
+        <p>Options for embedding tweets. Supports the options listed <a href="https://dev.twitter.com/rest/reference/get/statuses/oembed">here</a></p>
+        <h5 id="imageEmbed">imageEmbed</h5>
+        <span><b>Type</b> : Boolean</span>
+        <br>
+        <span><b>Default</b> : <code>true</code></span>
+        <p>Set to <code>false</code> if you want to disable embedding images (jpeg/gif/png/webp).</p>
+        <h5 id="videoEmbed">videoEmbed</h5>
+        <span><b>Type</b> : Boolean</span>
+        <br>
+        <span><b>Default</b> : <code>true</code></span>
+        <p>Set to <code>false</code> if you want to disable embedding supported video formats.</p>
+        <h5 id="videoHeight">videoHeight</h5>
+        <span><b>Type</b> : number</span>
+        <br>
+        <span><b>Default</b> : <code>null</code></span>
+        <p>Set the height of the videos that are to be embedded and most of the other iframe embeds will also take the same dimensions.</p>
+        <h5 id="videoWidth">videoWidth</h5>
+        <span><b>Type</b> : number</span>
+        <br>
+        <span><b>Default</b> : <code>null</code></span>
+        <p>Set the width of the videos that are to be embedded and most of the other iframe embeds will also take the same dimensions.</p>
+        <h5 id="videoDetails">videoDetails</h5>
+        <span><b>Type</b> : Boolean</span>
+        <br>
+        <span><b>Default</b> : <code>true</code></span>
+        <p>If set to <code>false</code> the preview and the description of youtube and vimeo videos will not be shown and instead the whole video will be embedded directly.</p>
+        <h5 id="audioEmbed">audioEmbed</h5>
+        <span><b>Type</b> : Boolean</span>
+        <br>
+        <span><b>Default</b> : <code>true</code></span>
+        <p>Set to <code>false</code> if you want to disable embedding supported audio formats.</p>
+        <h5 id="excludeEmbed">excludeEmbed</h5>
+        <span><b>Type</b> : array/string</span>
+        <br>
+        <span><b>Default</b> : <code>[]</code></span>
+        <p>An array of all the services that you want to exclude from being embed. Eg : <code>['codepen','flickr','spotify']</code>. If you want to exclude all the services then just set it to <code>'all'</code></p>
+        <h5 id="inlineEmbed">inlineEmbed</h5>
+        <span><b>Type</b> : array/string</span>
+        <br>
+        <span><b>Default</b> : <code>[]</code></span>
+        <p>An array of all the services you want to embed inline. If you want to embed all services inline then set it to <code>'all'</code></p>
+        <h5 id="codeEmbedHeight">codeEmbedHeight</h5>
+        <span><b>Type</b> : number</span>
+        <br>
+        <span><b>Default</b> : <code>500</code></span>
+        <p>Set the height of all the code editing services. Eg : codepen , plunker, ideone, jsbin, jsfiddle.</p>
+        <h5 id="vineOptions">vineOptions</h5>
+        <span><b>Type</b> : object</span>
+        <br>
+        <span><b>Default</b> :
     <pre><code>{
     maxWidth           : null,
     type               : 'postcard',  // "postcard" or "simple" embedding
@@ -302,8 +308,9 @@
 <p>The options for vine embedding.</p>
 
     <h5 id="soundCloudOptions">soundCloudOptions</h5>
-    <span><b>Type</b> : object</span><br>
-    <span><b>Default</b> :
+    <span><b>Type</b> : object</span>
+        <br>
+        <span><b>Default</b> :
     <pre><code>{
     height             : 160,
     themeColor         : 'f50000', //Hex Code of the player theme color
@@ -317,14 +324,36 @@
 }</code></pre>
 <p>Options for soundcloud embedding.</p>
 
-
-
+<h5 id="beforeEmbedJSApply">beforeEmbedJSApply</h5>
+    <span><b>Type</b> : Function</span>
+        <br>
+        <span><b>Default</b> : <code>function(){}</code></span>
+        <p>A function to be executed before the plugin is executed.</p>
+        <h5 id="afterEmbedJSApply">afterEmbedJSApply</h5>
+        <span><b>Type</b> : Function</span>
+        <br>
+        <span><b>Default</b> : <code>function(){}</code></span>
+        <p>A function to be executed after the plugin is executed.</p>
+        <h5 id="onTweetsLoad">onTweetsLoad</h5>
+        <span><b>Type</b> : Function</span>
+        <br>
+        <span><b>Default</b> : <code>function(){}</code></span>
+        <p>A function to be executed after the tweets have been embedded.</p>
+        <h5 id="videojsCallback">videojsCallback</h5>
+        <span><b>Type</b> : Function</span>
+        <br>
+        <span><b>Default</b> : <code>function(){}</code></span>
+        <p>A function to be executed after video.js has been applied.</p>
     </div>
-
 </body>
+<!-- build:js(.) scripts/vendor.js -->
+<!-- bower:js -->
 <script src="/bower_components/jquery/dist/jquery.js"></script>
+<!-- endbower -->
+<!-- endbuild -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/highlight.min.js"></script>
+<!-- build:js(.tmp) scripts/docs.js -->
 <script src="scripts/docs.js"></script>
-
+<!-- endbuild -->
 
 </html>
