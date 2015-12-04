@@ -9,8 +9,8 @@ export class Vine extends Base {
 
     template(match) {
         const config = this.options.vineOptions;
-        let a = match.split('/')
-        const id = a[a.length - 1]
+        let a = match.split('/');
+        const id = a[a.length - 1];
         return ejs.template.vine(id, this.options) || `<div class="ejs-vine">
 		<iframe class="ejs-vine-iframe" src="https://vine.co/v/${id}/embed/${config.type}" height="${config.height}" width="${config.width}"></iframe>
 		</div>`

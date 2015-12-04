@@ -69,7 +69,7 @@ var utils = {
 
         /**
          * Creates the string of the iframes after sorting them and finally returning a string
-         * @param  {sring} str    String to which the created text has to be added
+         * @param  {string} str    String to which the created text has to be added
          * @param  {object} embeds Sorted array of iframe html
          * @return {string}        String to be rendered
          */
@@ -136,7 +136,7 @@ var utils = {
          * @return {object}     cloned object
          */
         cloneObject(obj) {
-            if (obj === null || typeof obj !== 'object') return obj
+            if (obj === null || typeof obj !== 'object') return obj;
             var temp = obj.constructor(); // give temp the original obj's constructor
             for (var key in obj) {
                 temp[key] = this.cloneObject(obj[key])
