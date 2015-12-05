@@ -77,7 +77,8 @@
   <p>This method of usage should be preferred if you wan't to apply embed.js to a single block or want the result as
     string.</p>
   <h5 id="render"><b>.render()</b></h5> Renders the result in the element from which the original raw string was taken.
-  <pre><code class="xml"> &lt;div id="element"&gt;
+  <pre><code class="xml">
+  &lt;div id="element"&gt;
     Lotus :smile: eleates vix attrahendams luna est.Advenas mori!Fermiums prarere in cubiculum!Cum cacula cantare,
     omnes stellaes manifestum azureus, nobilis https://angularjs.org/ acipenseres.Cum orgia mori, omnes rationees
     :) experientia alter, regius :heart: mortemes.Devatios persuadere, tanquam secundus spatii.Heu,
@@ -100,67 +101,75 @@
   <b>Syntax</b> : <code>.text(function(result, input){})</code>
 
   <p>This method comes handy if you want to only get the resulting string and use it according to your wish.</p>
-    <pre><code> var x = new EmbedJS({
+    <pre><code>
+  var x = new EmbedJS({
     element: document.getElementById('element'),
-      googleAuthKey : 'xxxx'
-    })
+    googleAuthKey : 'xxxx'
+  })
 
-    x.text(function(result, input){
-      console.log(result) //result string
-      console.log(input) //input string
-    })
+  x.text(function(result, input){
+    console.log(result) //result string
+    console.log(input) //input string
+  })
           </code></pre>
   <h5 id="destroy"><b>.destroy()</b></h5> The <code>destroy()</code> method turns off all the event listeners and
   replaces the string with the original string.
-  <pre><code> var x = new EmbedJS({
-      element: document.getElementById('element'),
-      googleAuthKey : 'xxxx'
-    })
+  <pre><code>
+  var x = new EmbedJS({
+    element: document.getElementById('element'),
+    googleAuthKey : 'xxxx'
+  })
 
-    x.render() //renders the result
-    x.destroy() //destroys the instance
+  x.render() //renders the result
+  x.destroy() //destroys the instance
   </code></pre>
   <h4>ejs Methods</h4>
 
   <p>The following methods should be used when you want to use the plugin on multiple blocks.</p>
   <h5 id="setOptions"><b>.setOptions(options)</b></h5> Can be used to set the options globally. The options can be
   overridden by passing the option for a single block.
-  <pre><code> ejs.setOptions({
-      videoDetails:false,
-      videoJS:true,
-      videoWidth:720,
-      videoDetails:true,
-      googleAuthKey:'xxx',
-      inlineEmbed:[],
-      marked:true,
-      link:true
-    });
+  <pre><code>
+  ejs.setOptions({
+    videoDetails:false,
+    videoJS:true,
+    videoWidth:720,
+    videoDetails:true,
+    googleAuthKey:'xxx',
+    inlineEmbed:[],
+    marked:true,
+    link:true
+  });
 
-    var x = new EmbedJS({
+  var x = new EmbedJS({
     element: document.getElementById('block')
-    });</code></pre>
+  });
+  </code></pre>
   <h5 id="applyEmbedJS"><b>.applyEmbedJS(className)</b></h5> Can be used to apply this plugins to multiple classes by
   passing the class name as string. It will use the globally set options.
-  <pre><code> ejs.setOptions({
-      videoDetails:false,
-      videoJS:true,
-      videoWidth:720,
-      videoDetails:true,
-      googleAuthKey:'xxx'
-    });
+  <pre><code>
+  ejs.setOptions({
+    videoDetails:false,
+    videoJS:true,
+    videoWidth:720,
+    videoDetails:true,
+    googleAuthKey:'xxx'
+  });
 
-  ejs.applyEmbedJS('.element')</code></pre>
+  ejs.applyEmbedJS('.element')
+  </code></pre>
   <h5 id="destroyEmbedJS"><b>.destroyEmbedJS()</b></h5> destroys all the instances of the plugin
   <pre><code>ejs.destroyEmbedJS()</code></pre>
   <h5 id="template"><b>.template.serviceName()</b></h5> You can change the templates of all the services.
-  <pre><code class="javascript">  ejs.template.soundcloud = function(match, dimensions, options){
+  <pre><code class="javascript">
+  ejs.template.soundcloud = function(match, dimensions, options){
     return '&lt;div class="ejs-embed"&gt;'+
       '&lt;div class="ne-image-wrapper"&gt;'+
       '&lt;iframe src="${utils.toUrl(match)}/player/" width="'+dimensions.width+'" height="'+dimensions.height+'"&gt;'+
       '&lt;/iframe&gt;'+
       '&lt;/div&gt;'+
       '&lt;/div&gt;'
-    }</code></pre>
+  }
+  </code></pre>
 </div>
 </body>
 <!-- build:js(.) scripts/vendor.js -->
@@ -172,10 +181,10 @@
 <script>
   hljs.initHighlightingOnLoad();
 
-  $('.left-nav a').click(function (e) {
-    e.preventDefault()
-    var id = $(this).attr('href')
-    $('html,body').animate({
+  $(".left-nav a").click(function (e) {
+    e.preventDefault();
+    var id = $(this).attr('href');
+    $("html,body").animate({
         scrollTop: $(id).offset().top - 70
       },
       'slow');

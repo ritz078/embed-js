@@ -15,18 +15,38 @@
   width: 100%;
   z-index: 98;
   margin-top: 55px;
+  .twitter-btn{
+    line-height: 20px;
+    padding: 0 8px;
+    height: 20px;
+    background-color: #fff;
+    border: 0;
+    border-radius: 2px;
+    text-transform: capitalize;
+    letter-spacing: 0;
+    color:#1B95E0;
+    i{
+      font-size: 14px;
+      margin-right: 2px;
+      vertical-align: text-top;
+    }
+  }
   img {
     width: 200px;
     display: block;
     margin: 30px auto;
   }
-  button {
+  a{
+    text-decoration: none;
+    display: table;
+    margin: 0 auto;
+  }
+  .download {
     margin: 0 auto;
     display: block;
     background-color: white;
     border-color: white;
     color: $primary;
-    margin-top: 90px;
     &:hover, &:focus {
       background-color: #f8f8f8;
       border-color: #fff;
@@ -49,11 +69,14 @@
   .social-wrapper {
     display: table;
     margin: 20px auto;
+    margin-bottom: 0;
     .social {
       div {
         display: inline-block;
+        vertical-align: top;
       }
       .star {
+        padding-top: 3px;
         iframe {
           width: 85px;
         }
@@ -91,59 +114,66 @@
       float: left;
       margin-right: 10px;
       margin-top: 5px;
-      &.twitter{
-        background-position-x:-58px ;
+      -webkit-filter: grayscale(10%);
+      &.twitter {
+        background-position-x: -58px;
       }
-      &.github{
-        background-position-x:-116px ;
+      &.github {
+        background-position-x: -116px;
       }
-      &.youtube{
+      &.youtube {
         background-position-x: -174px;
       }
-      &.ted{
+      &.ted {
         background-position-x: -232px;
       }
-      &.instagram{
+      &.instagram {
         background-position-x: -290px;
       }
-      &.codepen{
+      &.codepen {
         background-position-x: -348px;
       }
-      &.soundcloud{
+      &.soundcloud {
         background-position-x: -406px;
       }
-      &.gmap{
+      &.gmap {
         background-position-x: -464px;
       }
-      &.markdown{
+      &.markdown {
         background-position-x: -520px;
       }
-      &.url{
+      &.url {
         background-position-x: -578px;
       }
-      &.image{
+      &.image {
         background-position-x: -636px;
       }
-      &.media{
+      &.code {
+        background-position-x: -694px;
+      }
+      &.media {
         background-position-x: -752px;
       }
     }
     .text {
-      .title{
+      .title {
         font-weight: bold;
         color: #000;
       }
       float: none;
       overflow: hidden;
-      color:#888;
+      color: #888;
     }
   }
 }
 
-h5{
+h5 {
   margin-top: 30px;
   text-align: center;
   border-bottom: 1px solid #eee;
   padding-bottom: 20px;
   font-weight: bold;
 }
+
+@import "components/footer";
+

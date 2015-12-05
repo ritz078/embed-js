@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>embed js</title>
+  <title>embed.js</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="shortcut icon" href="/favicon.ico">
@@ -12,7 +12,7 @@
   <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
   <!-- build:css(.) styles/vendor.css -->
   <!-- bower:css -->
-  <link rel="stylesheet" href="/bower_components/skeleton/css/skeleton.css" />
+  <link rel="stylesheet" href="/bower_components/skeleton/css/skeleton.css"/>
   <!-- endbower -->
   <!-- endbuild -->
   <!-- build:css(.tmp) styles/main.css -->
@@ -51,87 +51,85 @@
 <div class="banner">
   <div class="banner-details">
     <span class="title">A vanilla JavaScript plugin to insert or embed <br><span class="typed">MP3 SONGS</span></span>
-    <button class="button-primary">Download v3.0.0</button>
-    <!--<div class="social-wrapper">-->
-      <!--<div class="social">-->
-        <!--<div class="twitter">-->
-          <!--<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://bit.ly/1NIvT8A"-->
-             <!--data-via="ritz078" data-hashtags="JavaScript">Tweet</a>-->
-          <!--<script>-->
-            <!--!function (d, s, id) {-->
-              <!--var js, fjs = d.getElementsByTagName(s)[0],-->
-                  <!--p       = /^http:/.test(d.location) ? 'http' : 'https';-->
-              <!--if (!d.getElementById(id)) {-->
-                <!--js     = d.createElement(s);-->
-                <!--js.id  = id;-->
-                <!--js.src = p + '://platform.twitter.com/widgets.js';-->
-                <!--fjs.parentNode.insertBefore(js, fjs);-->
-              <!--}-->
-            <!--}(document, 'script', 'twitter-wjs');-->
-          <!--</script>-->
-        <!--</div>-->
-        <!--<div class="star">-->
-          <!--<iframe src="https://ghbtns.com/github-btn.html?user=ritz078&repo=embed.js&type=star&count=true"-->
-                  <!--frameborder="0" scrolling="0" width="170px" height="20px"></iframe>-->
-        <!--</div>-->
-      <!--</div>-->
-    <!--</div>-->
+    <a href="https://github.com/ritz078/embed.js/archive/master.zip"><button class="button-primary download">Download v3.0.0</button></a>
+    <div class="social-wrapper">
+    <div class="social">
+    <div class="twitter">
+      <a href="https://twitter.com/intent/tweet?text=embed.js+%7C+A+JavaScript+plugin+to+automatically+embed+emoji%2C+media%2C+map%2C+tweets%2C+code%2C+services+and+parse+markdown.&url='http%3A%2F%2Fbit.ly%2F1NIvT8A'&hashtags=JavaScript&via=ritz078" target="_blank">
+        <button class="twitter-btn"><i class="fa fa-twitter"></i>Tweet</button></a>
+    </div>
+    <div class="star">
+    <iframe src="https://ghbtns.com/github-btn.html?user=ritz078&repo=embed.js&type=star&count=true"
+    frameborder="0" scrolling="0" width="170px" height="20px"></iframe>
+    </div>
+    </div>
+    </div>
   </div>
   <img src="images/Browser.png" class="browser" srcset="images/Browser.png 1x, images/Browser@2x.png 2x" alt="">
 </div>
 <!--<div class="browser-wrapper">-->
-  <!--&lt;!&ndash;<img src="images/Browser.png" class="browser" srcset="images/Browser.png 1x, images/Browser@2x.png 2x" alt="">&ndash;&gt;-->
+<!--&lt;!&ndash;<img src="images/Browser.png" class="browser" srcset="images/Browser.png 1x, images/Browser@2x.png 2x" alt="">&ndash;&gt;-->
 <!--</div>-->
 <div class="container">
   <h5>Features</h5>
+
   <div class="row features">
     <div class="six columns">
       <div class="column-item">
         <div class="icon emoji"></div>
         <div class="text">
           <div class="title">Emoji & Font icons</div>
-          Use the font smileys by using familiar codes like :), :/, :( etc. You can easily change the color of those
+          Support for all emojis and font icons is present. You can even add your own emoji or customize the font
           smileys.
         </div>
-      </div><div class="column-item">
+      </div>
+      <div class="column-item">
         <div class="icon twitter">
         </div>
         <div class="text">
           <div class="title">Twitter</div>
-          Use the font smileys by using familiar codes like :), :/, :( etc. You can easily change the color of those
-          smileys.
+          You can embed tweets by enabling the option and pass all the configuration options supported by twitter oEmbed
+          API.
         </div>
       </div>
       <div class="column-item">
         <div class="icon github">
         </div>
         <div class="text">
-          <div class="title">Github</div>
-          Your simple youtube/vimeo links are automatically converted into embedded video with all the video details.
+          <div class="title">Github Gists</div>
+          Github Gists can be embedded without requiring any extra scripts.
         </div>
       </div>
       <div class="column-item">
-        <div class="icon youtube">
+        <div class="icon ted">
         </div>
         <div class="text">
-          <div class="title">Youtube</div>
-          Your simple youtube/vimeo links are automatically converted into embedded video with all the video details.
+          <div class="title">Video Sharing Services</div>
+          Services like YOUTUBE, VIMEO, VINE, USTREAM, DAILYMOTION and LIVELEAK are supported.
         </div>
       </div>
       <div class="column-item">
         <div class="icon codepen">
         </div>
         <div class="text">
-          <div class="title">codepen</div>
-          Your simple youtube/vimeo links are automatically converted into embedded video with all the video details.
+          <div class="title">Online Code Editors</div>
+          Online Code Editors like CODEPEN, JSFIDDLE, JSBIN, IDEONE and PLUNKER are supported.
         </div>
       </div>
       <div class="column-item">
         <div class="icon instagram">
         </div>
         <div class="text">
-          <div class="title">Instagram</div>
-          Your simple youtube/vimeo links are automatically converted into embedded video with all the video details.
+          <div class="title">Photo Sharing</div>
+          Photo Sharing services like FLICKR and INSTAGRAM are supported currently.
+        </div>
+      </div>
+      <div class="column-item">
+        <div class="icon youtube">
+        </div>
+        <div class="text">
+          <div class="title">Video Details</div>
+          The preview of videos with video description is supported for VIMEO and YOUTUBE videos.
         </div>
       </div>
     </div>
@@ -141,22 +139,23 @@
         </div>
         <div class="text">
           <div class="title">Music sharing</div>
-          Your simple youtube/vimeo links are automatically converted into embedded video with all the video details.
+          Music sharing services like SPOTIFY and SOUNDCLOUD are supported.
         </div>
-      </div><div class="column-item">
-      <div class="icon gmap">
       </div>
-      <div class="text">
-        <div class="title">Google Map</div>
-        Your simple youtube/vimeo links are automatically converted into embedded video with all the video details.
+      <div class="column-item">
+        <div class="icon gmap">
+        </div>
+        <div class="text">
+          <div class="title">Google Map</div>
+          You can embed google maps pointing to a location in all possible configurations like streetview, place etc.
+        </div>
       </div>
-    </div>
       <div class="column-item">
         <div class="icon markdown">
         </div>
         <div class="text">
           <div class="title">Markdown</div>
-          Your simple youtube/vimeo links are automatically converted into embedded video with all the video details.
+          This plugin supports markdown parsing using the power of marked.js .
         </div>
       </div>
       <div class="column-item">
@@ -164,7 +163,7 @@
         </div>
         <div class="text">
           <div class="title">URL</div>
-          Your simple youtube/vimeo links are automatically converted into embedded video with all the video details.
+          converts urls into HTML anchor tags. It also recognizes hundreds of shortened url like bit.ly, buff.ly etc.
         </div>
       </div>
       <div class="column-item">
@@ -183,10 +182,22 @@
           Your simple youtube/vimeo links are automatically converted into embedded video with all the video details.
         </div>
       </div>
+      <div class="column-item">
+        <div class="icon code">
+        </div>
+        <div class="text">
+          <div class="title">Code Highlighting</div>
+          Get inline code syntax highlighting using the code's markdown syntax with customizable themes.
+        </div>
+      </div>
 
     </div>
   </div>
 </div>
+
+<footer>
+<span>Copyright &copy; 2015 &nbsp; | &nbsp; Made by <a href="https://twitter.com/ritz078" target="_blank">Ritesh Kumar</a></span>
+</footer>
 <!-- build:js(.) scripts/vendor.js -->
 <!-- bower:js -->
 <script src="/bower_components/jquery/dist/jquery.js"></script>

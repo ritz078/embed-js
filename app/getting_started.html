@@ -52,40 +52,49 @@
   <pre><code>bower install --save-dev embed-js</code></pre>
   <h5>Manual Installation</h5>
         <pre><code>
-          &lt;!--======== css ============--&gt;
-          &lt;link rel="stylesheet" href="path/to/embed.css"/&gt;
+  &lt;!--======== css ============--&gt;
+  &lt;link rel="stylesheet" href="path/to/embed.css"/&gt;
 
-          &lt;!--===============js==================--&gt;
-          &lt;script src="path/to/embed.js"&gt;&lt;/script&gt;
+  &lt;!--===============js==================--&gt;
+  &lt;script src="path/to/embed.js"&gt;&lt;/script&gt;
         </code></pre>
   <h5><b>Basic Usage</b></h5>
   <h5>HTML</h5>
-        <pre><code class="xml">&lt;div id="element"&gt;
-          Lotus :smile: eleates vix attrahendams luna est.Advenas mori!Fermiums prarere in cubiculum!Cum cacula cantare, omnes stellaes manifestum azureus, nobilis https://angularjs.org/ acipenseres.Cum orgia mori, omnes rationees :) experientia alter, regius :heart: mortemes.Devatios persuadere, tanquam secundus spatii.Heu, barcas!Cedriums observare!A falsis, lacta talis imber. :P Cur eleates peregrinatione?
-          &lt;/div&gt;</code></pre>
+        <pre><code class="xml">
+  &lt;div id="element"&gt;
+    Lotus :smile: eleates vix attrahendams luna est.Advenas mori!Fermiums prarere in cubiculum!Cum cacula cantare, omnes stellaes manifestum azureus, nobilis https://angularjs.org/ acipenseres.Cum orgia mori, omnes rationees :) experientia alter, regius :heart: mortemes.Devatios persuadere, tanquam secundus spatii.Heu, barcas!Cedriums observare!A falsis, lacta talis imber. :P Cur eleates peregrinatione?
+  &lt;/div&gt;
+        </code></pre>
   <h5>JavaScript</h5>
   <span>Creating an instance.</span>
-        <pre><code>var x = new EmbedJS({
-          element: document.getElementById('element'),
-          googleAuthKey : 'xxxx'
-          })
+        <pre><code>
+  var x = new EmbedJS({
+    element: document.getElementById('element'),
+    googleAuthKey : 'xxxx'
+  })
         </code></pre>
   <b>Note : To know about all the available options, go <a href="doc.html">here.</a></b>
   <br> Rendering the result in the same block
   <br>
-        <pre><code>//Render the result
-          x.render();
+        <pre><code>
+  //Render the result
+  x.render();
         </code></pre> Getting the resulting string
   <br>
-        <pre><code>//Get the resulting string
-          x.text(function(data){
-          console.log(data); //The resultant string
-          })
+        <pre><code>
+  //Get the resulting string
+  x.text(function(data){
+    console.log(data); //The resultant string
+  })
         </code></pre> destroying the instance
-        <pre><code>//Destroy the instance
-          x.destroy()
+        <pre><code>
+  //Destroy the instance
+  x.destroy()
         </code></pre>
 </div>
+<footer>
+  <span>Copyright &copy; 2015 &nbsp; | &nbsp; Made by <a href="https://twitter.com/ritz078" target="_blank">Ritesh Kumar</a></span>
+</footer>
 </body>
 <!-- build:js(.) scripts/vendor.js -->
 <!-- bower:js -->
