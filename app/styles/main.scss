@@ -3,124 +3,147 @@
 // endbower
 @import "components/header";
 
-.hero-unit {
-    margin: 50px auto 0 auto;
-    width: 300px;
-    font-size: 18px;
-    font-weight: 200;
-    line-height: 30px;
-    background-color: #eee;
-    border-radius: 6px;
-    padding: 60px;
-    h1 {
-        font-size: 60px;
-        line-height: 1;
-        letter-spacing: -1px;
-    }
-}
-
-.browsehappy {
-    margin: 0.2em 0;
-    background: #ccc;
-    color: #000;
-    padding: 0.2em 0;
+.browser {
+  width: 100%;
+  display: block;
+  position: relative;
+  z-index: 9;
 }
 
 .banner-details {
-    position: absolute;
-    width: 100%;
-    z-index: 98;
-    margin-top: -330px;
-    img {
-        width: 200px;
-        display: block;
-        margin: 30px auto;
+  position: relative;
+  width: 100%;
+  z-index: 98;
+  margin-top: 55px;
+  img {
+    width: 200px;
+    display: block;
+    margin: 30px auto;
+  }
+  button {
+    margin: 0 auto;
+    display: block;
+    background-color: white;
+    border-color: white;
+    color: $primary;
+    margin-top: 90px;
+    &:hover, &:focus {
+      background-color: #f8f8f8;
+      border-color: #fff;
+      color: $primary;
     }
-    button {
-        margin: 0 auto;
-        display: block;
-        background-color: white;
-        border-color: white;
-        color:$primary;
-        margin-top: 90px;
-        &:hover, &:focus{
-          background-color: #f8f8f8;
-          border-color: #fff;
-          color:$primary;
+  }
+  .title {
+    display: block;
+    text-align: center;
+    color: #fff;
+    margin: 45px auto;
+    font-weight: 300;
+    font-size: 28px;
+    line-height: 52px;
+    .typed {
+      font-weight: bold;
+      display: inline-block;
+    }
+  }
+  .social-wrapper {
+    display: table;
+    margin: 20px auto;
+    .social {
+      div {
+        display: inline-block;
+      }
+      .star {
+        iframe {
+          width: 85px;
         }
+      }
     }
-    .title {
-        display: block;
-        text-align: center;
-        color: #fff;
-        margin: 45px auto;
-        font-weight: 300;
-        font-size: 28px;
-        line-height: 52px;
-        .typed{
-          font-weight: bold;
-          display: inline-block;
-        }
-    }
-    .social-wrapper {
-        display: table;
-        margin: 20px auto;
-        .social {
-            div {
-                display: inline-block;
-            }
-            .star {
-                iframe {
-                    width: 85px;
-                }
-            }
-        }
-    }
+  }
 }
 
 .banner {
-    padding-top: 50px;
-    position: relative;
-    &:before {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        background-color: $primary;
-        width: 100%;
-        height: 100%;
-        z-index: 9;
-        opacity: 0.82;
-    }
-    .row {
-        width: 100%;
-        .row-elem {
-            display: inline-block;
-            padding: 10px 15px;
-            font-size: 24px;
-            border: 1px solid #F8F8F8;
-            border-top: 0;
-            border-left: 0;
-            margin-left: -4px;
-            vertical-align: top;
-            color: #ececec;
-        }
-    }
+  padding-top: 50px;
+  position: relative;
+  width: 100%;
+  &:before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    background-color: $primary;
+    width: 100%;
+    height: 100%;
+    z-index: 9;
+  }
 }
 
-.features{
-    padding: 20px 0;
-    color:#555;
-    .column-item{
-        padding: 25px 10px;
-        .icon{
-            font-size: 28px;
-            float:left;
-            padding: 0 10px;
-            margin-right: 10px;
-        }
-        .text{
-            float:none;
-            overflow: hidden;
-        }
+.features {
+  padding: 20px 0;
+  color: #555;
+  padding-top: 0;
+  .column-item {
+    padding: 25px 10px;
+    .icon {
+      width: 50px;
+      height: 50px;
+      background-image: url("../images/homepage@2x.png");
+      background-size: auto 100%;
+      float: left;
+      margin-right: 10px;
+      margin-top: 5px;
+      &.twitter{
+        background-position-x:-58px ;
+      }
+      &.github{
+        background-position-x:-116px ;
+      }
+      &.youtube{
+        background-position-x: -174px;
+      }
+      &.ted{
+        background-position-x: -232px;
+      }
+      &.instagram{
+        background-position-x: -290px;
+      }
+      &.codepen{
+        background-position-x: -348px;
+      }
+      &.soundcloud{
+        background-position-x: -406px;
+      }
+      &.gmap{
+        background-position-x: -464px;
+      }
+      &.markdown{
+        background-position-x: -520px;
+      }
+      &.url{
+        background-position-x: -578px;
+      }
+      &.image{
+        background-position-x: -636px;
+      }
+      &.media{
+        background-position-x: -752px;
+      }
     }
+    .text {
+      .title{
+        font-weight: bold;
+        color: #000;
+      }
+      float: none;
+      overflow: hidden;
+      color:#888;
+    }
+  }
+}
+
+h5{
+  margin-top: 30px;
+  text-align: center;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 20px;
+  font-weight: bold;
 }

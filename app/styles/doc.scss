@@ -3,46 +3,10 @@
 // endbower
 @import "components/header";
 @import "components/tabs";
+@import "components/left_nav";
 
 html{
 	background-color: #fff;
-}
-
-header {
-    box-shadow: 0 0 4px rgba(0, 0, 0, 0.25);
-}
-
-.container {
-        position: absolute;
-    left: 280px;
-    right: 30px;
-    padding-top: 80px;
-}
-
-a{
-    text-decoration: none;
-}
-
-.left-nav {
-    position: fixed;
-    overflow-y:scroll;
-    left: 0;
-    height: 100%;
-    width: 250px;
-    background-color: #fff;
-    border-right: 1px solid #e8e8e8;
-    ul {
-        margin-top: 70px;
-        li {
-            list-style-type: none;
-            padding-left: 20px;
-            color: #666;
-            font-size: 14px;
-            &:hover{
-                color:#000;
-            }
-        }
-    }
 }
 
 pre,code{
