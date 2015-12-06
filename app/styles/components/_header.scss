@@ -39,7 +39,7 @@ header {
     li {
       list-style-type: none;
       display: inline-block;
-      padding: 16px 22px;
+      padding: 15px 22px;
       font-size: 14px;
       color: #555;
       margin-bottom: 0;
@@ -47,6 +47,12 @@ header {
       &:hover {
         color: #333;
         background-color: #fafafa;
+      }
+      i{
+        font-size: 22px !important;
+        vertical-align: middle;
+        line-height: 20px !important;
+        margin-top: -1px;
       }
     }
   }
