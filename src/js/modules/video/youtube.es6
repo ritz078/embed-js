@@ -4,15 +4,15 @@ import '../../vendor/fetch.js'
 
 export class Youtube {
     constructor(input, output, options, embeds) {
-        this.input   = input
-        this.output  = output
-        this.options = options
-        this.embeds  = embeds
-        this.regex   = /https?:\/\/(?:[0-9A-Z-]+\.)?(?:youtu\.be\/|youtube\.com(?:\/embed\/|\/v\/|\/watch\?v=|\/ytscreeningroom\?v=|\/feeds\/api\/videos\/|\/user\S*[^\w\-\s]|\S*[^\w\-\s]))([\w\-]{11})[?=&+%\w-]*/gi
+        this.input   = input;
+        this.output  = output;
+        this.options = options;
+        this.embeds  = embeds;
+        this.regex   = /https?:\/\/(?:[0-9A-Z-]+\.)?(?:youtu\.be\/|youtube\.com(?:\/embed\/|\/v\/|\/watch\?v=|\/ytscreeningroom\?v=|\/feeds\/api\/videos\/|\/user\S*[^\w\-\s]|\S*[^\w\-\s]))([\w\-]{11})[?=&+%\w-]*/gi;
         this.service = 'youtube'
     }
 
-    formatData(data) {
+    static formatData(data, utils) {
         return {
             title          : data.snippet.title,
             thumbnail      : data.snippet.thumbnails.medium.url,
@@ -40,15 +40,15 @@ export class Youtube {
     async process() {
         try {
             if (!utils.ifInline(this.options, this.service)) {
-                let regexInline = this.options.link ? new RegExp(`([^>]*${this.regex.source})<\/a>`, 'gi') : new RegExp(`([^\\s]*${this.regex.source})`, 'gi')
+                let regexInline = this.options.link ? new RegExp(`([^>]*${this.regex.source})<\/a>`, 'gi') : new RegExp(`([^\\s]*${this.regex.source})`, 'gi');
                 let match;
                 while ((match = utils.matches(regexInline, this.output)) !== null) {
-                    let id = match[2]
-                    let embedUrl = `https://www.youtube.com/embed/${id}`
+                    let id = match[2];
+                    let embedUrl = `https://www.youtube.com/embed/${id}`;
                     let data, text;
                     if (this.options.videoDetails) {
-                        data = await this.data(id)
-                        text = helper.getDetailsTemplate(this.formatData(data),data, embedUrl)
+                        data = await this.data(id);
+                        text = helper.getDetailsTemplate(Youtube.formatData(data, utils),data, embedUrl)
                     } else {
                         text = helper.template(embedUrl, this.options)
                     }
@@ -61,12 +61,12 @@ export class Youtube {
             } else {
                 let match;
                 while ((match = utils.matches(this.regex, this.input)) !== null) {
-                    let id = match[1]
+                    let id = match[1];
                     let embedUrl = `https://www.youtube.com/embed/${id}`;
                     let data, text;
                     if (this.options.videoDetails) {
                         data = await this.data(id);
-                        text = helper.getDetailsTemplate(this.formatData(data),data, embedUrl);
+                        text = helper.getDetailsTemplate(Youtube.formatData(data, utils),data, embedUrl);
                     } else {
                         text = helper.template(embedUrl, this.options);
                     }

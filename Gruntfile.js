@@ -36,7 +36,7 @@ module.exports = function(grunt) {
             },
             js: {
                 files: ['src/js/**/*.es6', 'build.json','src/js/vendor/*.js'],
-                tasks: ['rollup', 'uglify']
+                tasks: ['eslint','rollup', 'uglify']
             }
         },
 

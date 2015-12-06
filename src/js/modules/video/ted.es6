@@ -9,9 +9,9 @@ export class Ted extends Base {
     }
 
     template(match) {
-        const dimensions = utils.dimensions(this.options)
-        let a = match.split('/')
-        const id = a[a.length - 1]
+        const dimensions = utils.dimensions(this.options);
+        let a = match.split('/');
+        const id = a[a.length - 1];
         return ejs.template.ted(id, dimensions, this.options) || `<div class="ejs-embed ejs-ted"><iframe src="http://embed.ted.com/talks/${id}.html" height="${dimensions.height}" width="${dimensions.width}"></iframe></div>`
     }
 }

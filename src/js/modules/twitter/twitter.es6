@@ -9,9 +9,9 @@ export class Twitter {
         this.options = options;
         this.embeds = embeds;
         this.regex = /https:\/\/twitter\.com\/\w+\/\w+\/\d+/gi;
-        this.service = 'twitter'
+        this.service = 'twitter';
 
-        this.load = this.load.bind(this)
+        this.load = this.load.bind(this);
         this.options.element.addEventListener('rendered', this.load, false);
     }
 
@@ -26,13 +26,12 @@ export class Twitter {
         let response = await fetchJsonp(apiUrl, {
             credentials: 'include'
         });
-        let data = await response.json();
-        return data;
+        return await response.json();
     }
 
     /**
      * Load twitter widgets
-     * @return {}
+     * @return null
      */
     load() {
         twttr.widgets.load(this.options.element); //here this refers to the element
@@ -46,12 +45,12 @@ export class Twitter {
     async process() {
         try {
             if (!utils.ifInline(this.options, this.service)) {
-                let regexInline = this.options.link ? new RegExp(`([^>]*${this.regex.source})<\/a>`, 'gi') : new RegExp(`([^\\s]*${this.regex.source})`, 'gi')
+                let regexInline = this.options.link ? new RegExp(`([^>]*${this.regex.source})<\/a>`, 'gi') : new RegExp(`([^\\s]*${this.regex.source})`, 'gi');
                 let match;
                 while ((match = utils.matches(regexInline, this.output)) !== null) {
-                    let url = this.options.link ? match[0].slice(0, -4) : match[0]
-                    let data = await this.tweetData(url)
-                    let text = data.html
+                    let url = this.options.link ? match[0].slice(0, -4) : match[0];
+                    let data = await this.tweetData(url);
+                    let text = data.html;
                     if (this.options.link) {
                         this.output = !this.options.inlineText ? this.output.replace(match[0], text + '</a>') : this.output.replace(match[0], match[0] + text)
                     } else {
