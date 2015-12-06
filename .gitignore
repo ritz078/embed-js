@@ -1,8 +1,0 @@
-node_modules
-dist
-.tmp
-bower_components
-.DS_Store
-.idea/
-.sass-cache/
-embed.js.sublime-workspace
