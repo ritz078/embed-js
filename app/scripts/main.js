@@ -45,17 +45,15 @@ function isRetina(){
   return !!(window.matchMedia && window.matchMedia(mediaQuery).matches);
 }
 
-function lazyload($elem, background, path){
-  var suffix = isRetina() ? '@2x' : '';
-  var url = background ? path.replace('@0.5x',suffix) : $elem.attr('src').replace('@0.5x',suffix);
+function lazyload($elem){
+  var url = isRetina() ? $elem.data('lazy-retina'): $elem.data('lazy');
   let image = new Image();
   image.src = url;
   image.onload = function () {
-    background ? $elem.css('background-image','url('+url+')') : $elem.attr('src',url);
+    $elem.attr('src',url);
   };
 }
 
 lazyload($('.browser'));
-lazyload($('.icon'), true, 'images/homepage@0.5x.png');
 
 fade();

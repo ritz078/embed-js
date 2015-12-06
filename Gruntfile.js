@@ -244,7 +244,7 @@ module.exports = function (grunt) {
           '<%= config.dist %>/styles'
         ],
         patterns: {
-          html: [[/srcset.*\/(.*@2x\.png)/, 'Replacing reference to srcset images']]
+          html: [[/data-lazy-retina.*\/(.*@2x\.png)/, 'Replacing reference to srcset images'],[/data-lazy.*\/(.*\.png)/, 'Replacing reference to srcset images']]
         }
       },
       html: ['<%= config.dist %>/{,*/}*.html'],
@@ -406,7 +406,7 @@ module.exports = function (grunt) {
     'cssmin',
     'uglify',
     'copy:dist',
-    //'filerev',
+    'filerev',
     'usemin',
     'htmlmin'
   ]);
