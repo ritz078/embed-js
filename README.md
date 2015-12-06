@@ -45,5 +45,5 @@ This will create a customized build of the plugin.
 
 ##License
 
-MIT &copy;
+MIT &copy; [Ritesh Kumar](https://github.com/ritz078)
 
