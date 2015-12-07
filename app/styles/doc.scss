@@ -2,8 +2,8 @@
 @import "bower_components/font-awesome/scss/font-awesome.scss";
 // endbower
 @import "components/header";
-@import "components/tabs";
 @import "components/left_nav";
+@import "components/footer";
 
 html{
 	background-color: #fff;
@@ -30,4 +30,12 @@ h5{
 
 .left-nav{
   overflow-y: scroll;
+}
+
+footer {
+  display: none;
+  @media all
+  and (max-device-width: 800px) {
+    display: block;
+  }
 }

@@ -8,6 +8,7 @@
   },
   "devDependencies": {
     "chai": "~3.4.0",
-    "mocha": "~2.3.3"
+    "mocha": "~2.3.3",
+    "sidr": "~1.2.1"
   }
 }

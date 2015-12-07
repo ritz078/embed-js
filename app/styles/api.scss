@@ -3,6 +3,7 @@
 // endbower
 @import "components/header";
 @import "components/left_nav";
+@import "components/footer";
 
 pre,
 code {
@@ -17,5 +18,13 @@ code {
   /* Opera 7 */
   word-wrap: break-word;
   margin-top: 10px;
+}
+
+footer {
+  display: none;
+  @media all
+  and (max-device-width: 800px) {
+    display: block;
+  }
 }
 

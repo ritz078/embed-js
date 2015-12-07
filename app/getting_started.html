@@ -10,9 +10,10 @@
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300' rel='stylesheet' type='text/css'>
   <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-  <!-- build:css(.) styles/vendor.css -->
+  <!-- build:css(.) styles/vendor_gs.css -->
   <!-- bower:css -->
   <link rel="stylesheet" href="/bower_components/skeleton/css/skeleton.css" />
+  <link rel="stylesheet" href="/bower_components/sidr/stylesheets/jquery.sidr.light.css">
   <!-- endbower -->
   <!-- endbuild -->
   <!-- build:css(.tmp) styles/getting_started.css -->
@@ -23,9 +24,11 @@
 
 <body>
 <header>
-  <a href="/embed.js/"><img src="images/logo.png" srcset="images/logo@2x.png 2x" alt="Logo"></a>
+  <a href="/embed.js/" id="logo"><img src="images/logo.png" srcset="images/logo@2x.png 2x" alt=""></a>
   <nav>
+    <a href="#sidr" class="nav"><i class="fa fa-bars"></i></a>
     <ul>
+
       <a href="/embed.js/">
         <li>Home</li>
       </a>
@@ -45,7 +48,21 @@
         <li><i class="fa fa-github"></i></li>
       </a>
     </ul>
+
   </nav>
+
+  <div id="sidr-right">
+    <!-- Your content -->
+    <ul>
+
+      <li><a href="/embed.js/">Home</a></li>
+      <li><a href="getting_started.html">Getting Started</a></li>
+      <li><a href="doc.html">Options</a></li>
+      <li><a href="api.html">API</a></li>
+      <li><a href="examples.html">Examples</a></li>
+      <li><a href="https://github.com/ritz078/embed.js">Github</a></li>
+    </ul>
+  </div>
 </header>
 <div class="container">
   <h5><b>Installation</b></h5>
@@ -99,17 +116,27 @@
   <span>Copyright &copy; 2015 &nbsp; | &nbsp; Made by <a href="https://twitter.com/ritz078" target="_blank">Ritesh Kumar</a></span>
 </footer>
 </body>
-<!-- build:js(.) scripts/vendor.js -->
+<!-- build:js(.) scripts/vendor_gs.js -->
 <!-- bower:js -->
 <script src="/bower_components/jquery/dist/jquery.js"></script>
+<script src="/bower_components/sidr/jquery.sidr.min.js"></script>
 <!-- endbower -->
 <!-- endbuild -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/highlight.min.js"></script>
 <script>
   hljs.initHighlightingOnLoad();
-</script>
-<!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
-<script>
+
+  $('.nav').sidr({
+    side:'right',
+    name:'sidr-right'
+  });
+
+  window.onresize = function(){
+    if (window.innerWidth > 480){
+      $.sidr('close','sidr-right')
+    }
+  };
+
   (function (b, o, i, l, e, r) {
     b.GoogleAnalyticsObject = l;
     b[l] || (b[l] =

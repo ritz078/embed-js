@@ -4,7 +4,8 @@
 <head>
   <meta charset="utf-8">
   <title>embed.js</title>
-  <meta name="description" content="A JavaScript plugin that analyses the string and automatically embeds emojis, media, maps, tweets, code and services.">
+  <meta name="description"
+        content="A JavaScript plugin that analyses the string and automatically embeds emojis, media, maps, tweets, code and services.">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="shortcut icon" href="favicon.ico">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -26,9 +27,11 @@
   your browser</a> to improve your experience.</p>
 <![endif]-->
 <header>
-  <a href="/embed.js/"><img src="images/logo.png" srcset="images/logo@2x.png 2x" alt=""></a>
+  <a href="/embed.js/" id="logo"><img src="images/logo.png" srcset="images/logo@2x.png 2x" alt=""></a>
   <nav>
+    <a href="#sidr" class="nav"><i class="fa fa-bars"></i></a>
     <ul>
+
       <a href="/embed.js/">
         <li>Home</li>
       </a>
@@ -48,28 +51,48 @@
         <li><i class="fa fa-github"></i></li>
       </a>
     </ul>
+
   </nav>
+
+  <div id="sidr-right">
+    <!-- Your content -->
+    <ul>
+
+      <li><a href="/embed.js/">Home</a></li>
+      <li><a href="getting_started.html">Getting Started</a></li>
+      <li><a href="doc.html">Options</a></li>
+      <li><a href="api.html">API</a></li>
+      <li><a href="examples.html">Examples</a></li>
+      <li><a href="https://github.com/ritz078/embed.js">Github</a></li>
+    </ul>
+  </div>
 </header>
 
 <div class="banner">
   <div class="banner-details">
     <span class="title">A pure JavaScript plugin to insert or embed <br><span class="typed">MP3 SONGS</span></span>
-    <a href="https://github.com/ritz078/embed.js/archive/master.zip"><button class="button-primary download">Download v3.0.0</button></a>
+    <a href="https://github.com/ritz078/embed.js/archive/master.zip">
+      <button class="button-primary download">Download v3.0.0</button>
+    </a>
+
     <div class="social-wrapper">
-    <div class="social">
-    <div class="twitter">
-      <a href="https://twitter.com/intent/tweet?text=embed.js+%7C+A+JS+plugin+to+embed+emojis%2C+media%2C+maps%2C+tweets%2C+code%2C+services+and+parse+markdown+http%3A%2F%2Fbit.ly%2F1NIvT8A&url='http%3A%2F%2Fbit.ly%2F1NIvT8A'&hashtags=JavaScript" target="_blank">
-        <button class="twitter-btn"><i class="fa fa-twitter"></i>Tweet</button>
-      </a>
-    </div>
-    <div class="star">
-    <iframe src="https://ghbtns.com/github-btn.html?user=ritz078&repo=embed.js&type=star&count=true"
-    frameborder="0" scrolling="0" width="170px" height="20px"></iframe>
-    </div>
-    </div>
+      <div class="social">
+        <div class="twitter">
+          <a
+            href="https://twitter.com/intent/tweet?text=embed.js+%7C+A+JS+plugin+to+embed+emojis%2C+media%2C+maps%2C+tweets%2C+code%2C+services+and+parse+markdown+http%3A%2F%2Fbit.ly%2F1NIvT8A&url='http%3A%2F%2Fbit.ly%2F1NIvT8A'&hashtags=JavaScript"
+            target="_blank">
+            <button class="twitter-btn"><i class="fa fa-twitter"></i>Tweet</button>
+          </a>
+        </div>
+        <div class="star">
+          <iframe src="https://ghbtns.com/github-btn.html?user=ritz078&repo=embed.js&type=star&count=true"
+                  frameborder="0" scrolling="0" width="170px" height="20px"></iframe>
+        </div>
+      </div>
     </div>
   </div>
-  <img src="images/Browser@0.5x.png" data-lazy="images/Browser.png" data-lazy-retina="images/Browser@2x.png" class="browser" alt="">
+  <img src="images/Browser@0.5x.png" data-lazy="images/Browser.png" data-lazy-retina="images/Browser@2x.png"
+       class="browser" alt="">
 </div>
 <!--<div class="browser-wrapper">-->
 <!--&lt;!&ndash;<img src="images/Browser.png" class="browser" srcset="images/Browser.png 1x, images/Browser@2x.png 2x" alt="">&ndash;&gt;-->
@@ -200,7 +223,8 @@
 </div>
 
 <footer>
-<span>Copyright &copy; 2015 &nbsp; | &nbsp; Made by <a href="https://twitter.com/ritz078" target="_blank">Ritesh Kumar</a></span>
+  <span>Copyright &copy; 2015 &nbsp; | &nbsp; Made by <a href="https://twitter.com/ritz078" target="_blank">Ritesh
+    Kumar</a></span>
 </footer>
 <!-- build:js(.) scripts/vendor.js -->
 <!-- bower:js -->
@@ -208,7 +232,6 @@
 <!-- endbower -->
 <!-- endbuild -->
 <!-- build:js(.tmp) scripts/main.js -->
-<script src="scripts/vendor/jquery.min.js"></script>
 <script src="scripts/main.js"></script>
 <!-- endbuild -->
 <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->

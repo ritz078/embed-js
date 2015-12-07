@@ -1,12 +1,13 @@
 .left-nav {
-  position: fixed;
-  left: 0;
+  //position: fixed;
+  //left: 0;
   height: 100%;
   width: 250px;
   background-color: #fff;
   border-right: 1px solid #e8e8e8;
   ul {
-    margin-top: 70px;
+    margin-top: 50px;
+
     li {
       list-style-type: none;
       padding: 2px 20px;
@@ -24,6 +25,12 @@
   left: 280px;
   right: 30px;
   padding-top: 80px;
+  @media all
+  and (max-device-width: 800px) {
+    position: relative;
+    left:auto;
+    right: auto;
+  }
 }
 
 a {

@@ -45,6 +45,10 @@ function isRetina(){
   return !!(window.matchMedia && window.matchMedia(mediaQuery).matches);
 }
 
+function isMobile(){
+  return window.innerWidth < 480
+}
+
 function lazyload($elem){
   var url = isRetina() ? $elem.data('lazy-retina'): $elem.data('lazy');
   let image = new Image();
@@ -54,6 +58,18 @@ function lazyload($elem){
   };
 }
 
-lazyload($('.browser'));
+if(!isMobile()) lazyload($('.browser'));
 
 fade();
+
+$('.nav').sidr({
+  side:'right',
+  name:'sidr-right'
+});
+
+window.onresize = function(){
+  fade();
+  if (window.innerWidth > 480){
+    $.sidr('close','sidr-right')
+  }
+};
