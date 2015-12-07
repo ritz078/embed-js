@@ -8,6 +8,11 @@
   display: block;
   position: relative;
   z-index: 9;
+  min-height: 200px;
+  @media all
+  and (max-device-width: 768px) {
+    min-height: auto;
+  }
 }
 
 .banner-details {
