@@ -43,7 +43,7 @@
     "babel-preset-stage-2": "^6.3.13",
     "chai": "^3.2.0",
     "commitizen": "^2.4.6",
-    "cssnano": "^3.3.2",
+    "cssnano": "^3.4.0",
     "cz-conventional-changelog": "^1.1.5",
     "es6-promise": "^3.0.2",
     "eslint": "^1.10.3",
