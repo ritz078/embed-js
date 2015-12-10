@@ -22,17 +22,19 @@
   margin-top: 55px;
   .twitter-btn{
     line-height: 20px;
-    padding: 0 8px;
-    height: 20px;
+    padding: 0 20px;
+    height: 30px;
     background-color: #fff;
     border: 0;
     border-radius: 2px;
     text-transform: capitalize;
     letter-spacing: 0;
-    color:#1B95E0;
+    color: #1B95E0;
+    font-size: 14px;
+    margin-top: 3px;
     i{
-      font-size: 14px;
-      margin-right: 2px;
+      font-size: 17px;
+      margin-right: 4px;
       vertical-align: text-top;
     }
   }
@@ -83,7 +85,8 @@
       .star {
         padding-top: 3px;
         iframe {
-          width: 85px;
+          width: 132px;
+          height: 30px;
         }
       }
     }
