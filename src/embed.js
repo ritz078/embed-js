@@ -1,5 +1,5 @@
 /*
- *  embed-js - v3.0.2
+ *  embed-js - v3.0.3
  *  A JavaScript plugin that analyses the string and embeds emojis, media, tweets, code and services.
  *  http://riteshkr.com/embed.js
  *
@@ -1578,6 +1578,7 @@
 
   			if (!utils.ifInline(this.options, this.service)) {
   				var regexInline = this.options.link ? new RegExp('([^>]*' + this.regex.source + ')</a>', 'gm') : new RegExp('([^\\s]*' + this.regex.source + ')', 'gm');
+  				console.log(regexInline);
   				this.output = this.output.replace(regexInline, function (match) {
   					if (_this.options.link) {
   						return !_this.options.inlineText ? _this.template(match.slice(0, -4)) + '</a>' : match + _this.template(match.slice(0, -4));
@@ -1631,7 +1632,7 @@
 
   		var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(Instagram).call(this, input, output, options, embeds));
 
-  		_this.regex = /instagram.com\/p\/[a-zA-Z0-9_-]+/gi;
+  		_this.regex = /instagram.com\/p\/[a-zA-Z0-9_\/\?\-\=]+/gi;
   		_this.service = 'instagram';
   		return _this;
   	}
@@ -1640,7 +1641,7 @@
   		key: 'template',
   		value: function template(match) {
   			var dimensions = utils.dimensions(this.options);
-  			return ejs.template.instagram(match, dimensions, this.options) || '<div class="ejs-embed ejs-instagram"><iframe src="' + utils.toUrl(match) + '/embed/" height="' + dimensions.height + '"></iframe></div>';
+  			return ejs.template.instagram(match, dimensions, this.options) || '<div class="ejs-embed ejs-instagram"><iframe src="' + utils.toUrl(match.split('/?')[0]) + '/embed/" height="' + dimensions.height + '"></iframe></div>';
   		}
   	}]);
   	return Instagram;
@@ -1654,7 +1655,7 @@
 
   		var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(Flickr).call(this, input, output, options, embeds));
 
-  		_this.regex = /flickr.com\/[a-z]+\/[a-zA-Z@_$!\d]+\/[\d]+/gi;
+  		_this.regex = /flickr.com\/[a-z]+\/[a-zA-Z@_$!\d\-\]+\/[\d]+/gi;
   		_this.service = 'flickr';
   		return _this;
   	}
@@ -1663,7 +1664,7 @@
   		key: 'template',
   		value: function template(match) {
   			var dimensions = utils.dimensions(this.options);
-  			return ejs.template.flickr(match, dimensions, this.options) || '<div class="ejs-embed">\n\t\t\t<div class="ne-image-wrapper">\n\t\t\t\t<iframe src="' + utils.toUrl(match) + '/player/" width="' + dimensions.width + '" height="' + dimensions.height + '"></iframe>\n\t\t\t</div>\n\t\t</div>';
+  			return ejs.template.flickr(match, dimensions, this.options) || '<div class="ejs-embed">\n\t\t\t<div class="ne-image-wrapper">\n\t\t\t\t<iframe src="' + utils.toUrl(match.split('/?')[0]) + '/player/" width="' + dimensions.width + '" height="' + dimensions.height + '"></iframe>\n\t\t\t</div>\n\t\t</div>';
   		}
   	}]);
   	return Flickr;

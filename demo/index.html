@@ -55,7 +55,7 @@ Flavum buff.ly/1fPIjQf , ferox http://open.spotify.com/track/4th1RQAelzqgY7wL53U
 Cur rumor nocere?Emeritis adelphis satis perderes domina est.Gloss cadunt in bi-color brema!
 @(IIT Roorkee) Bi-color habitio virtualiter imitaris amicitia est.Teres tatas ducunt ad racana.Genetrixs
 prarere in
-rugensis civitas! :) https://www.instagram.com/p/_JHaOcjJ7h/?taken-by=9gag https://www.instagram.com/p/-mIWFsIVV-/?taken-by=natgeo
+rugensis civitas! :) https://www.instagram.com/p/_JHaOcjJ7h/?taken-by=9gag https://www.instagram.com/p/-mIWFsIVV-/?taken-by=natgeo https://www.flickr.com/photos/43301211@N03/23331635460/in/explore-2015-12-09/
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"></script>
@@ -78,20 +78,21 @@ ejs.setOptions({
 	var x = new EmbedJS({
 		element: document.getElementById('block')
 	});
-	x.render()
+	x.render();
 	// x.render();
 	var y = new EmbedJS({
-		element: document.getElementById('block2')
+		element: document.getElementById('block2'),
+		inlineEmbed:'all'
 	});
-	y.render()
+	y.render();
 
 	x.text(function(data){
 		console.log(data);
-	})
+	});
 
 	ejs.template.basicAudio = function(match){
 		return 'kjkh'+ match
-	}
+	};
 
 
 	// ejs.applyEmbedJS("block");
