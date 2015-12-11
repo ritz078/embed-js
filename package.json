@@ -1,6 +1,6 @@
 {
   "name": "embed-js",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "A JavaScript plugin that analyses the string and embeds emojis, media, tweets, code and services.",
   "keywords": [
     "JavaScript-plugin",
@@ -11,7 +11,7 @@
     "emoticon",
     "jquery-embed"
   ],
-  "main": "./dist/embed.min.js",
+  "main": [".dist/embed.min.css","./dist/embed.min.js"],
   "repository": {
     "type": "git",
     "url": "https://github.com/ritz078/embed.js.git"

@@ -1,25 +1,29 @@
 {
   "name": "embed-js",
-  "version": "3.0.0",
+  "version":"3.0.1",
   "description": "A JavaScript plugin that analyses the string and embeds emojis, media, tweets, code and services.",
-  "homepage": "http://rkritesh.in/embed.js",
-  "ignore": [
-    ".jshintrc",
-    "**/*.txt"
-  ],
+  "main": [".dist/embed.min.css","./dist/embed.min.js"]
   "authors": [
-    "Ritesh Kumar <rkritesh078@gmail.com>",
+    "Ritesh Kumar <rkritesh078@gmail.com>"
   ],
-  "main": [
-    "./dist/embed.js",
-    "./dist/embed.css"
-  ],
+  "license": "MIT",
   "keywords": [
-    "plugin",
+    "JavaScript-plugin",
     "embed",
+    "plugins",
+    "JavaScript",
     "embed-js",
-    "smiley",
-    "javascript"
+    "emoticon",
+    "jquery-embed"
   ],
-  "license": "MIT"
+  "homepage": "http://riteshkr.com/embed.js",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "www/lib",
+    "test",
+    "tests"
+  ]
 }
