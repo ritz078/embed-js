@@ -1,6 +1,6 @@
 {
   "name": "embed-js",
-  "version":"0.0.0-semantically-released",
+  "version": "3.2.2",
   "description": "A JavaScript plugin that analyses the string and embeds emojis, media, tweets, code and services.",
   "keywords": [
     "JavaScript-plugin",
@@ -67,13 +67,11 @@
     "rollup-plugin-babel": "^2.x",
     "rollup-plugin-commonjs": "^1.4.0",
     "rollup-plugin-npm": "^1.1.0",
-    "rollup-plugin-replace": "^1.1.0",
-    "semantic-release": "^4.3.5"
+    "rollup-plugin-replace": "^1.1.0"
   },
   "scripts": {
     "commit": "git-cz",
-    "test": "rollup -c && mocha test/bundle.test.js",
-    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
+    "test": "rollup -c && mocha test/bundle.test.js"
   },
   "config": {
     "ghooks": {
