@@ -3534,6 +3534,12 @@
   display: block;
 }
 
+.ejs-instagram iframe {
+  width: auto;
+  border: 1px solid #eee;
+  height: 372px;
+}
+
 .ejs-plunker iframe {
   background-color: #fff;
   display: block;

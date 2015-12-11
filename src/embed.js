@@ -1,5 +1,5 @@
 /*
- *  embed-js - v3.0.0
+ *  embed-js - v3.0.2
  *  A JavaScript plugin that analyses the string and embeds emojis, media, tweets, code and services.
  *  http://riteshkr.com/embed.js
  *
@@ -1631,7 +1631,7 @@
 
   		var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(Instagram).call(this, input, output, options, embeds));
 
-  		_this.regex = /instagram.com\/p\/[a-zA-Z0-9]+/gi;
+  		_this.regex = /instagram.com\/p\/[a-zA-Z0-9_-]+/gi;
   		_this.service = 'instagram';
   		return _this;
   	}
@@ -1640,7 +1640,7 @@
   		key: 'template',
   		value: function template(match) {
   			var dimensions = utils.dimensions(this.options);
-  			return ejs.template.instagram(match, dimensions, this.options) || '<div class="ejs-embed"><iframe src="' + utils.toUrl(match) + '/embed/" width="' + dimensions.width + '" height="' + dimensions.height + '"></iframe></div>';
+  			return ejs.template.instagram(match, dimensions, this.options) || '<div class="ejs-embed ejs-instagram"><iframe src="' + utils.toUrl(match) + '/embed/" height="' + dimensions.height + '"></iframe></div>';
   		}
   	}]);
   	return Instagram;
