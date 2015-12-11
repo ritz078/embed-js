@@ -1,6 +1,6 @@
 {
   "name": "embed-js",
-  "version":"3.0.3",
+  "version":"0.0.0-semantically-released",
   "description": "A JavaScript plugin that analyses the string and embeds emojis, media, tweets, code and services.",
   "main": [".dist/embed.min.css","./dist/embed.min.js"],
   "authors": [
@@ -25,6 +25,7 @@
     "www/lib",
     "test",
     "tests",
-	"demo"
+	"demo",
+	"src"
   ]
 }
