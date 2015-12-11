@@ -36,7 +36,7 @@
   "devDependencies": {
     "autoprefixer-core": "^6.0.1",
     "babel": "^6.3.13",
-    "babel-core": "^6.3.13",
+    "babel-core": "^6.3.17",
     "babel-eslint": "^4.1.6",
     "babel-plugin-transform-regenerator": "^6.3.13",
     "babel-preset-es2015-rollup": "^1.0.0",
