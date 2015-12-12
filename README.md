@@ -1,6 +1,6 @@
 <img src="demo/logo.png" style="display:block;margin:0 auto;" alt="">
 
-[![Build Status](https://travis-ci.org/ritz078/embed.js.svg?branch=es6)](https://travis-ci.org/ritz078/embed.js)
+[![Build Status](https://travis-ci.org/ritz078/embed.js.svg?branch=master)](https://travis-ci.org/ritz078/embed.js)
 ============
 
 >A JavaScript plugin that analyses the string and automatically embeds the supported emojis, media, maps, tweets, code and services.
