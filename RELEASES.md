@@ -1,3 +1,12 @@
+Version 3.2.2
+-------------
+####Bug fixes
+* Fixed instagram embedding
+* Fixed flickr and instagram inline embedding
+* Added .npmignore
+* Fixed bower.json and package.json
+* Removed automatic versioning.
+
 Version 3.0.0
 -------------
 ####Features
