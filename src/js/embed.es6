@@ -53,7 +53,7 @@ import helper from './modules/video/helper.es6'
 		customEmoji       : [],
 		fontIcons         : true,
 		customFontIcons   : [],
-		highlightCode     : true,
+		highlightCode     : false,
 		videoJS           : false,
 		videojsOptions    : {
 			fluid  : true,
@@ -63,7 +63,7 @@ import helper from './modules/video/helper.es6'
 		mapOptions        : {
 			mode: 'place'
 		},
-		tweetsEmbed       : true,
+		tweetsEmbed       : false,
 		tweetOptions      : {
 			maxWidth  : 550,
 			hideMedia : false,
@@ -321,6 +321,7 @@ import helper from './modules/video/helper.es6'
 		 * @return {null}
 		 */
 		applyEmbedJS(className) {
+			if(className.charAt(0) === '.') className = className.substr(1)
 			this.elements = document.getElementsByClassName(className);
 			for (let i = 0; i < this.elements.length; i++) {
 				let option        = {

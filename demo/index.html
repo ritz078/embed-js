@@ -80,11 +80,11 @@ ejs.setOptions({
 	});
 	x.render();
 	// x.render();
-	var y = new EmbedJS({
-		element: document.getElementById('block2'),
-		inlineEmbed:'all'
-	});
-	y.render();
+	// var y = new EmbedJS({
+	// 	element: document.getElementById('block2'),
+	// 	inlineEmbed:'all'
+	// });
+	// y.render();
 
 	x.text(function(data){
 		console.log(data);
@@ -95,7 +95,7 @@ ejs.setOptions({
 	};
 
 
-	// ejs.applyEmbedJS("block");
+	ejs.applyEmbedJS(".block");
 </script>
 
 </body>
