@@ -86,7 +86,7 @@
         customEmoji        : [],
         fontIcons          : true,
         customFontIcons    : [],
-        highlightCode      : true,
+        highlightCode      : false,
         videoJS            : false,
         videojsOptions     : {
             fluid              : true,
@@ -96,7 +96,7 @@
         mapOptions         : {
             mode               : 'place'
         },
-        tweetsEmbed        : true,
+        tweetsEmbed        : false,
         tweetOptions       : {
             maxWidth           : 550,
             hideMedia          : false,
@@ -213,8 +213,8 @@
         <h5 id="highlightCode">highlightCode</h5>
         <span><b>Type</b> : Boolean</span>
         <br>
-        <span><b>Default</b> : <code>true</code></span>
-        <p>Set to true if you want to convert code blocks into formatted code. It uses <a href="https://highlightjs.org/">highlight.js</a> for code highlighting. Make sure highlight.js is loaded before embed.js if this option is set to <code>true</code> or else set this to <code>false</code> The format that it supports are single backticks and code blocks:
+        <span><b>Default</b> : <code>false</code></span>
+        <p>Set to true if you want to convert code blocks into formatted code. It uses <a href="https://highlightjs.org/">highlight.js</a> for code highlighting. Make sure highlight.js is loaded before embed.js if this option is set to <code>true</code>. The format that it supports are single backticks and code blocks:
             <pre><code>```[optional-language-name]
 //code here
 ```</code></pre>
@@ -257,7 +257,7 @@
         <h5 id="tweetsEmbed">tweetsEmbed</h5>
         <b>Type</b> : Boolean
         <br>
-        <b>Default</b> : <code>true</code>
+        <b>Default</b> : <code>false</code>
         <p>Set to <code>true</code> if you want to embed tweets. Make sure you load <a href="http://platform.twitter.com/widgets.js" target="_blank">http://platform.twitter.com/widgets.js</a> if this option is set to <code>true</code> else the plugin will throw an error.</p>
         <h5 id="tweetOptions">tweetOptions</h5>
         <b>Type</b> : object
