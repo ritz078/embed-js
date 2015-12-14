@@ -321,6 +321,7 @@ import helper from './modules/video/helper.es6'
 		 * @return {null}
 		 */
 		applyEmbedJS(className) {
+			if(className.charAt(0) === '.') className = className.substr(1)
 			this.elements = document.getElementsByClassName(className);
 			for (let i = 0; i < this.elements.length; i++) {
 				let option        = {

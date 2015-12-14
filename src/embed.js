@@ -3392,6 +3392,7 @@
      * @return {null}
      */
   		applyEmbedJS: function applyEmbedJS(className) {
+  			if (className.charAt(0) === '.') className = className.substr(1);
   			this.elements = document.getElementsByClassName(className);
   			for (var i = 0; i < this.elements.length; i++) {
   				var option = {
