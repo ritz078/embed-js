@@ -1,5 +1,5 @@
 /*
- *  embed-js - v3.0.3
+ *  embed-js - v3.2.2
  *  A JavaScript plugin that analyses the string and embeds emojis, media, tweets, code and services.
  *  http://riteshkr.com/embed.js
  *
@@ -1578,7 +1578,6 @@
 
   			if (!utils.ifInline(this.options, this.service)) {
   				var regexInline = this.options.link ? new RegExp('([^>]*' + this.regex.source + ')</a>', 'gm') : new RegExp('([^\\s]*' + this.regex.source + ')', 'gm');
-  				console.log(regexInline);
   				this.output = this.output.replace(regexInline, function (match) {
   					if (_this.options.link) {
   						return !_this.options.inlineText ? _this.template(match.slice(0, -4)) + '</a>' : match + _this.template(match.slice(0, -4));
@@ -2945,7 +2944,7 @@
   		customEmoji: [],
   		fontIcons: true,
   		customFontIcons: [],
-  		highlightCode: true,
+  		highlightCode: false,
   		videoJS: false,
   		videojsOptions: {
   			fluid: true,
@@ -2955,7 +2954,7 @@
   		mapOptions: {
   			mode: 'place'
   		},
-  		tweetsEmbed: true,
+  		tweetsEmbed: false,
   		tweetOptions: {
   			maxWidth: 550,
   			hideMedia: false,

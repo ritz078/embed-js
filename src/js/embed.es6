@@ -53,7 +53,7 @@ import helper from './modules/video/helper.es6'
 		customEmoji       : [],
 		fontIcons         : true,
 		customFontIcons   : [],
-		highlightCode     : true,
+		highlightCode     : false,
 		videoJS           : false,
 		videojsOptions    : {
 			fluid  : true,
@@ -63,7 +63,7 @@ import helper from './modules/video/helper.es6'
 		mapOptions        : {
 			mode: 'place'
 		},
-		tweetsEmbed       : true,
+		tweetsEmbed       : false,
 		tweetOptions      : {
 			maxWidth  : 550,
 			hideMedia : false,
