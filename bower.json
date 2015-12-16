@@ -4,11 +4,14 @@
   "dependencies": {
     "jquery": "~2.1.4",
     "skeleton": "skeleton-css#~2.0.4",
-    "font-awesome": "~4.4.0"
+    "font-awesome": "~4.5.0"
   },
   "devDependencies": {
     "chai": "~3.4.0",
     "mocha": "~2.3.3",
     "sidr": "~1.2.1"
+  },
+  "resolutions": {
+    "font-awesome": "~4.5.0"
   }
 }
