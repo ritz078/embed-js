@@ -7,10 +7,13 @@
 
 ![screen](demo/demo.gif)
 
-* #### [Full Documentation](http://riteshkr.com/embed.js/doc.html)
-  
-* #### [Examples](http://riteshkr.com/embed.js/examples.html)
+## Important links
+
+* **[Features](http://riteshkr.com/embed.js)**
+* **[Full Documentation](http://riteshkr.com/embed.js/doc.html)**
+* **[Examples](http://riteshkr.com/embed.js/examples.html)**
   ​
+
 ## Simple Usage
 
 Let's assume that the HTML structure is as written below
