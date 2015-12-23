@@ -5,41 +5,12 @@
 > A JavaScript plugin that analyses the string and automatically embeds the supported emojis, media, maps, tweets, code and services.
 
 
-
 ![screen](demo/demo.gif)
 
-
-
-## Features
-
-* enables embedding of emojis and font icons. Supports custom emojis and font icons.
+* #### [Full Documentation](http://riteshkr.com/embed.js/doc.html)
   
-* Tweets embedding (require [widgets.js](http://platform.twitter.com/widgets.js))
-  
-* Github Gists embedding
-  
-* Supports code highlighting using the power of [highlight.js](https://highlightjs.org/).
-  
-* supports video services like YOUTUBE, VIMEO, VINE, USTREAM, DAILYMOTION and LIVELEAK.
-  
-* supports audio services like SPOTIFY and SOUNDCLOUD.
-  
-* supports online code editors like CODEPEN, JSFIDDLE, JSBIN, IDEONE and PLUNKER.
-  
-* supports photo Sharing services like FLICKR and INSTAGRAM.
-  
-* supports Google Map embedding.
-  
-* supports Markdown parsing (using [marked](https://github.com/chjj/marked))
-  
-* converts links into HTML anchor tags.
-  
-* Embeds media files
-  
-* Supports [video.js](http://videojs.com/) for media embedding.
-  
+* #### [Examples](http://riteshkr.com/embed.js/examples.html)
   ​
-
 ## Simple Usage
 
 Let's assume that the HTML structure is as written below
@@ -81,14 +52,6 @@ If you wan't to destroy the instance. It will also replace the processed string 
 //Destroy the instance
 x.destroy()
 ```
-
-
-
-* ### [Full Documentation](http://riteshkr.com/embed.js/doc.html)
-  
-* ### [Examples](http://riteshkr.com/embed.js/examples.html)
-  
-  ​
 
 ## Creating custom build
 
