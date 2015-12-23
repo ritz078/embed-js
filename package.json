@@ -63,7 +63,7 @@
     "grunt-spritesmith": "^6.1.0",
     "mocha": "^2.3.4",
     "promise": "^7.0.4",
-    "rollup": "^0.21.3",
+    "rollup": "^0.22.0",
     "rollup-plugin-babel": "^2.x",
     "rollup-plugin-commonjs": "^1.4.0",
     "rollup-plugin-npm": "^1.1.0",
