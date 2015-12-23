@@ -8,9 +8,38 @@
 
 ![screen](demo/demo.gif)
 
-[Codepen Example](http://codepen.io/ritz078/full/WvvNGe/)
 
 
+## Contents
+
+* [Features](#features)
+* [Installation](#Installation)
+* [Getting Started](#getting-started)
+* [Advanced Options](http://riteshkr.com/embed.js/doc.html)
+* [API](http://riteshkr.com/embed.js/api.html)
+* [Examples](http://riteshkr.com/embed.js/examples.html)
+* Development
+  * [Creating custom build of the plugin](#creating-custom-build)
+  * [Adding custom emojis](#adding-custom-emojis)
+  * [Contributing](#contributing)
+
+
+
+## Features
+
+* enables embedding of emojis and font icons. Supports custom emojis and font icons.
+* Tweets embedding (require [widgets.js](http://platform.twitter.com/widgets.js))
+* Github Gists embedding
+* Supports code highlighting using the power of [highlight.js](https://highlightjs.org/).
+* supports video services like YOUTUBE, VIMEO, VINE, USTREAM, DAILYMOTION and LIVELEAK.
+* supports audio services like SPOTIFY and SOUNDCLOUD.
+* supports online code editors like CODEPEN, JSFIDDLE, JSBIN, IDEONE and PLUNKER.
+* supports photo Sharing services like FLICKR and INSTAGRAM.
+* supports Google Map embedding.
+* supports Markdown parsing (using [marked](https://github.com/chjj/marked))
+* converts links into HTML anchor tags.
+* Embeds media files
+* Supports [video.js](http://videojs.com/) for media embedding.
 
 ## Installation
 
@@ -80,17 +109,13 @@ If you wan't to destroy the instance. It will also replace the processed string 
 x.destroy()
 ```
 
-#### Documentation
 
-* [Features](http://riteshkr.com/embed.js/)
-* [Full Documentation](http://riteshkr.com/embed.js/getting_started.html)
-* [Examples](http://riteshkr.com/embed.js/examples.html)
 
 ## Creating custom build
 
-Set the features you don't want to false in `build.json` and then run
+Set the features you don't want to **false** in `build.json` and then run
 
-```
+``` 
 grunt build
 ```
 
@@ -98,7 +123,7 @@ This will create a customized build of the plugin.
 
 ## Adding custom emojis
 
-1. Add the image to `assets/images/emojis`. Make sure the name of the file is same as emoji name.
+1. Add the image to **assets/images/emojis**. Make sure the name of the file is same as emoji name.
 2. Pass the emoji name as the value to `customEmoji`. See the example [here](http://riteshkr.com/embed.js/doc.html#emoji)
 3. Run `grunt build-emoji && grunt build`
 
