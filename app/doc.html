@@ -185,6 +185,12 @@
         <p>Set to <code>false</code> if you want to disable converting emoji codes into actual emojis.</p>
         <h5 id="customEmoji">customEmoji</h5>
         <span><b>Type</b> : Array</span>
+        <p>Add the names of the custom emojis that you want to use. It requires some others steps also:</p>
+        <ul>
+            <li>Add the image to <code>assets/images/emojis</code>. Make sure the name of the file is same as emoji name.</li>
+            <li>Pass the emoji name as the value to customEmoji. Eg ['custom'] for emoji with image file name <code>custom.png</code></li>
+            <li>Run <code>grunt build-emoji</code> && <code>grunt build</code></li>
+        </ul>
         <br>
         <span><b>Default</b> : <code>[]</code></span>
         <p>Include the names of custom emojis. Eg : <code>['emoji1', 'emoji2']</code>. Now they can be used using <code>:emoji1:</code> <code>:emoji2:</code></p>
