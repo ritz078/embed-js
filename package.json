@@ -38,7 +38,7 @@
     "babel": "^6.3.26",
     "babel-core": "^6.3.21",
     "babel-eslint": "^4.1.6",
-    "babel-plugin-transform-regenerator": "^6.3.18",
+    "babel-plugin-transform-regenerator": "^6.3.26",
     "babel-preset-es2015-rollup": "^1.0.0",
     "babel-preset-stage-2": "^6.3.13",
     "chai": "^3.2.0",
