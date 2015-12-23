@@ -1,4 +1,4 @@
-<img src="demo/logo.png" style="display:block;margin:0 auto;" alt="">
+<p align="center"><img src="demo/logo.png" align="center" alt=""></p>
 
 [![Build Status](https://travis-ci.org/ritz078/embed.js.svg?branch=master)](https://travis-ci.org/ritz078/embed.js)
 
@@ -57,7 +57,7 @@ var x = new EmbedJS({
 })
 ```
 
-Next step is replacing the original text with the processed text. 
+Next step is replacing the original text with the processed text.
 
 ``` javascript
 //Render the result
@@ -90,7 +90,7 @@ x.destroy()
 
 Set the features you don't want to false in `build.json` and then run
 
-``` 
+```
 grunt build
 ```
 
