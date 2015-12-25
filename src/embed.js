@@ -295,20 +295,14 @@
     */
 
   	play: function play(className, options) {
-  		var _this = this;
-
   		var classes = document.getElementsByClassName(className);
-
-  		var _loop = function _loop(i) {
+  		var _this = this;
+  		for (var i = 0; i < classes.length; i++) {
   			classes[i].onclick = function () {
   				options.onVideoShow();
-  				var url = classes[i].getAttribute('data-ejs-url') + "?autoplay=true";
-  				classes[i].parentNode.parentNode.innerHTML = _this.template(url, options);
+  				var url = this.getAttribute('data-ejs-url') + "?autoplay=true";
+  				this.parentNode.parentNode.innerHTML = _this.template(url, options);
   			};
-  		};
-
-  		for (var i = 0; i < classes.length; i++) {
-  			_loop(i);
   		}
   	},
 

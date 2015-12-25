@@ -9,11 +9,12 @@ var helper = {
 	 */
 	play(className, options) {
 		let classes = document.getElementsByClassName(className);
+		let _this = this;
 		for (let i = 0; i < classes.length; i++) {
-			classes[i].onclick = () => {
+			classes[i].onclick = function(){
 				options.onVideoShow();
-				let url                                    = classes[i].getAttribute('data-ejs-url') + "?autoplay=true";
-				classes[i].parentNode.parentNode.innerHTML = this.template(url, options);
+				let url                                    = this.getAttribute('data-ejs-url') + "?autoplay=true";
+				this.parentNode.parentNode.innerHTML = _this.template(url, options);
 			};
 		}
 	},
