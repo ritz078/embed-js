@@ -1,6 +1,8 @@
 <p align="center"><img src="demo/logo.png" align="center" alt=""></p>
 
-[![Build Status](https://travis-ci.org/ritz078/embed.js.svg?branch=master)](https://travis-ci.org/ritz078/embed.js)
+[![Build Status](https://travis-ci.org/ritz078/embed.js.svg?branch=master)](https://travis-ci.org/ritz078/embed.js) [![npm](https://img.shields.io/npm/v/embed-js.svg)](https://github.com/ritz078/embed.js) [![Bower](https://img.shields.io/bower/v/embed-js.svg)](https://github.com/ritz078/embed.js) [![GitHub license](https://img.shields.io/github/license/mashape/apistatus.svg)]()
+[![GitHub issues](https://img.shields.io/github/issues/ritz078/embed.js.svg)](https://github.com/ritz078/embed.js/issues)
+[![Twitter](https://img.shields.io/twitter/url/https/github.com/ritz078/embed.js.svg?style=social)](https://twitter.com/intent/tweet?text=Wow:&url=%5Bobject%20Object%5D)
 
 > A JavaScript plugin that analyses the string and automatically embeds the supported emojis, media, maps, tweets, code and services.
 
