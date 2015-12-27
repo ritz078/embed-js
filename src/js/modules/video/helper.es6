@@ -9,7 +9,7 @@ var helper = {
 	 */
 	play(options) {
 		/** Execute the customVideoClickHandler if the user wants to handle it on his own. */
-		if(options.customVideoClickHandler) return options.customVideoClickHandler(options, this.template)
+		if(options.customVideoClickHandler) return options.videoClickHandler(options, this.template)
 
 		let classes = document.getElementsByClassName(options.videoClickClass);
 		let _this = this;

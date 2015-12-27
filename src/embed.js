@@ -296,7 +296,7 @@
 
   	play: function play(options) {
   		/** Execute the customVideoClickHandler if the user wants to handle it on his own. */
-  		if (options.customVideoClickHandler) return options.customVideoClickHandler(options, this.template);
+  		if (options.customVideoClickHandler) return options.videoClickHandler(options, this.template);
 
   		var classes = document.getElementsByClassName(options.videoClickClass);
   		var _this = this;
