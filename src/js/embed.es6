@@ -141,7 +141,7 @@ import helper from './modules/video/helper.es6'
 			//merge global options with the overriding options provided by the user as an options
 			//object while creating a new instance of embed.js
 			this.options = utils.deepExtend(globOptions, options);
-			console.log(options)
+
 			if (!this.options.element && !input) throw ReferenceError("You need to pass an element or the string that needs to be processed");
 
 			if (this.options.element) {
