@@ -294,8 +294,11 @@
     * @return {null}
     */
 
-  	play: function play(className, options) {
-  		var classes = document.getElementsByClassName(className);
+  	play: function play(options) {
+  		/** Execute the customVideoClickHandler if the user wants to handle it on his own. */
+  		if (options.customVideoClickHandler) return options.videoClickHandler(options, this.template);
+
+  		var classes = document.getElementsByClassName(options.videoClickClass);
   		var _this = this;
   		for (var i = 0; i < classes.length; i++) {
   			classes[i].onclick = function () {
@@ -2985,11 +2988,14 @@
   			visual: false, //Show/hide the big preview image
   			download: false //Show/Hide download buttons
   		},
+  		videoClickClass: 'ejs-video-thumb',
+  		customVideoClickHandler: false,
   		beforeEmbedJSApply: function beforeEmbedJSApply() {},
   		afterEmbedJSApply: function afterEmbedJSApply() {},
   		onVideoShow: function onVideoShow() {},
   		onTweetsLoad: function onTweetsLoad() {},
-  		videojsCallback: function videojsCallback() {}
+  		videojsCallback: function videojsCallback() {},
+  		videoClickHandler: function videoClickHandler() {}
   	};
 
   	var EmbedJS = (function () {
@@ -3295,7 +3301,7 @@
 
   									helper.applyVideoJS(this.options);
 
-  									helper.play('ejs-video-thumb', this.options);
+  									helper.play(this.options);
 
   									event = new Event('rendered');
 
