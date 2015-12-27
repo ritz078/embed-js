@@ -7,8 +7,14 @@ var helper = {
 	 * @param  {object} options   Options object
 	 * @return {null}
 	 */
-	play(className, options) {
-		let classes = document.getElementsByClassName(className);
+	play(options) {
+		/** Execute the customVideoClickHandler if the user wants to handle it on his own. */
+		if(options.customVideoClickHandler){
+			options.customVideoClickHandler(options, this.template)
+			return
+		}
+
+		let classes = document.getElementsByClassName(options.videoClickClass);
 		let _this = this;
 		for (let i = 0; i < classes.length; i++) {
 			classes[i].onclick = function(){
