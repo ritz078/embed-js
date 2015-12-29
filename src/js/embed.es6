@@ -35,6 +35,8 @@ import Flickr      from './modules/image/flickr.es6'
 import Instagram   from './modules/image/instagram.es6'
 import Basic       from './modules/image/basic.es6'
 
+import OpenGraph   from './modules/openGraph.es6'
+
 import helper from './modules/video/helper.es6'
 
 (function (window) {
@@ -76,7 +78,7 @@ import helper from './modules/video/helper.es6'
 			opengraphIo   : true,
 			opengraphIoId : null,
 			forceCache    : false,
-			apiEndpoint   : 'http://${url}'
+			apiEndpoint   : null
 		},
 		imageEmbed        : true,
 		videoEmbed        : true,
@@ -172,6 +174,9 @@ import helper from './modules/video/helper.es6'
 
 			if (LINK && options.link) {
 				output = new Url(input, options).process()
+			}
+			if (OPENGRAPH && options.openGraph) {
+				[output, embeds] = await new OpenGraph(input, output, options, embeds).process()
 			}
 			if (MARKDOWN && options.marked) {
 				output = new Markdown(output, options).process()

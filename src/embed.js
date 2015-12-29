@@ -2899,6 +2899,92 @@
   	return Markdown;
   })();
 
+  var OpenGraph = (function () {
+  	function OpenGraph(input, output, options, embeds) {
+  		babelHelpers.classCallCheck(this, OpenGraph);
+
+  		this.input = input;
+  		this.output = output;
+  		this.options = options;
+  		this.embeds = embeds;
+  		this.urlRegex = utils.urlRegex();
+  	}
+
+  	babelHelpers.createClass(OpenGraph, [{
+  		key: 'template',
+  		value: function template(data) {
+  			return '<div class="ejs-embed ejs-ogp">\n\t\t<div class="ejs-ogp-thumb" style="background-image:url(' + data.image + ')"></div>\n\t\t<div class="ejs-ogp-details">\n\t\t\t<div class="ejs-ogp-title"><a href="' + data.url + '" target="' + this.options.linkOptions.target + '">' + data.title + '</a></div>\n\t\t\t<div class="ejs-ogb-details">' + data.description + '</div>\n\t\t</div>\n\t\t</div>';
+  		}
+  	}, {
+  		key: 'fetchData',
+  		value: (function () {
+  			var ref = babelHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+  				var url, config, api, response;
+  				return regeneratorRuntime.wrap(function _callee$(_context) {
+  					while (1) {
+  						switch (_context.prev = _context.next) {
+  							case 0:
+  								url = 'https://housing.com';
+  								config = this.options.openGraphOptions;
+  								api = 'https://opengraph.io/api/1.0/site/' + encodeURI(url) + '?cache_ok=' + config.forceCache;
+
+  								if (config.opengraphIoId) api += 'app_id=' + config.opengraphIoId;
+  								if (config.apiEndpoint) api = config.apiEndpoint;
+  								_context.next = 7;
+  								return fetch(api);
+
+  							case 7:
+  								response = _context.sent;
+  								_context.next = 10;
+  								return response.json();
+
+  							case 10:
+  								return _context.abrupt('return', _context.sent);
+
+  							case 11:
+  							case 'end':
+  								return _context.stop();
+  						}
+  					}
+  				}, _callee, this);
+  			}));
+  			return function fetchData() {
+  				return ref.apply(this, arguments);
+  			};
+  		})()
+  	}, {
+  		key: 'process',
+  		value: (function () {
+  			var ref = babelHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+  				var data;
+  				return regeneratorRuntime.wrap(function _callee2$(_context2) {
+  					while (1) {
+  						switch (_context2.prev = _context2.next) {
+  							case 0:
+  								_context2.next = 2;
+  								return this.fetchData();
+
+  							case 2:
+  								data = _context2.sent;
+
+  								this.output = this.output + this.template(data.hybridGraph);
+  								return _context2.abrupt('return', [this.output, this.embeds]);
+
+  							case 5:
+  							case 'end':
+  								return _context2.stop();
+  						}
+  					}
+  				}, _callee2, this);
+  			}));
+  			return function process() {
+  				return ref.apply(this, arguments);
+  			};
+  		})()
+  	}]);
+  	return OpenGraph;
+  })();
+
   var Url = (function () {
   	function Url(input, options) {
   		babelHelpers.classCallCheck(this, Url);
@@ -2965,7 +3051,7 @@
   			opengraphIo: true,
   			opengraphIoId: null,
   			forceCache: false,
-  			apiEndpoint: 'http://${url}'
+  			apiEndpoint: null
   		},
   		imageEmbed: true,
   		videoEmbed: true,
@@ -3053,7 +3139,7 @@
   			key: 'process',
   			value: (function () {
   				var ref = babelHelpers.asyncToGenerator(regeneratorRuntime$1.mark(function _callee() {
-  					var input, options, embeds, output, _process, _process2, _process3, _process4, _process5, _process6, _process7, _process8, _process9, _process10, _process11, _process12, _process13, _process14, _process15, _process16, _process17, _process18, _process19, _process20, _process21, _process22, _process23, _process24, _ref, _ref2, _ref3, _ref4, _ref5, _ref6, _process25, _process26, _process27, _process28, _process29, _process30, _process31, _process32, _process33, _process34, _process35, _process36, _ref7, _ref8;
+  					var input, options, embeds, output, _ref, _ref2, _process, _process2, _process3, _process4, _process5, _process6, _process7, _process8, _process9, _process10, _process11, _process12, _process13, _process14, _process15, _process16, _process17, _process18, _process19, _process20, _process21, _process22, _process23, _process24, _ref3, _ref4, _ref5, _ref6, _ref7, _ref8, _process25, _process26, _process27, _process28, _process29, _process30, _process31, _process32, _process33, _process34, _process35, _process36, _ref9, _ref10;
 
   					return regeneratorRuntime$1.wrap(function _callee$(_context) {
   						while (1) {
@@ -3069,6 +3155,22 @@
   									if (true && options.link) {
   										output = new Url(input, options).process();
   									}
+
+  									if (!(true && options.openGraph)) {
+  										_context.next = 13;
+  										break;
+  									}
+
+  									_context.next = 9;
+  									return new OpenGraph(input, output, options, embeds).process();
+
+  								case 9:
+  									_ref = _context.sent;
+  									_ref2 = babelHelpers.slicedToArray(_ref, 2);
+  									output = _ref2[0];
+  									embeds = _ref2[1];
+
+  								case 13:
   									if (true && options.marked) {
   										output = new Markdown(output, options).process();
   									}
@@ -3157,27 +3259,12 @@
   									}
 
   									if (!(true && utils.ifEmbed(options, 'youtube') && regeneratorRuntime$1)) {
-  										_context.next = 29;
-  										break;
-  									}
-
-  									_context.next = 25;
-  									return new Youtube(input, output, options, embeds).process();
-
-  								case 25:
-  									_ref = _context.sent;
-  									_ref2 = babelHelpers.slicedToArray(_ref, 2);
-  									output = _ref2[0];
-  									embeds = _ref2[1];
-
-  								case 29:
-  									if (!(true && utils.ifEmbed(options, 'vimeo'))) {
   										_context.next = 36;
   										break;
   									}
 
   									_context.next = 32;
-  									return new Vimeo(input, output, options, embeds).process();
+  									return new Youtube(input, output, options, embeds).process();
 
   								case 32:
   									_ref3 = _context.sent;
@@ -3186,13 +3273,13 @@
   									embeds = _ref4[1];
 
   								case 36:
-  									if (!(true && options.locationEmbed)) {
+  									if (!(true && utils.ifEmbed(options, 'vimeo'))) {
   										_context.next = 43;
   										break;
   									}
 
   									_context.next = 39;
-  									return new Gmap(input, output, options, embeds).process();
+  									return new Vimeo(input, output, options, embeds).process();
 
   								case 39:
   									_ref5 = _context.sent;
@@ -3201,6 +3288,21 @@
   									embeds = _ref6[1];
 
   								case 43:
+  									if (!(true && options.locationEmbed)) {
+  										_context.next = 50;
+  										break;
+  									}
+
+  									_context.next = 46;
+  									return new Gmap(input, output, options, embeds).process();
+
+  								case 46:
+  									_ref7 = _context.sent;
+  									_ref8 = babelHelpers.slicedToArray(_ref7, 2);
+  									output = _ref8[0];
+  									embeds = _ref8[1];
+
+  								case 50:
 
   									if (true && utils.ifEmbed(options, 'soundcloud')) {
   										_process25 = new SoundCloud(input, output, options, embeds).process();
@@ -3241,24 +3343,24 @@
   									}
 
   									if (!(options.tweetsEmbed && true)) {
-  										_context.next = 57;
+  										_context.next = 64;
   										break;
   									}
 
   									this.twitter = new Twitter(input, output, options, embeds);
-  									_context.next = 53;
+  									_context.next = 60;
   									return this.twitter.process();
 
-  								case 53:
-  									_ref7 = _context.sent;
-  									_ref8 = babelHelpers.slicedToArray(_ref7, 2);
-  									output = _ref8[0];
-  									embeds = _ref8[1];
+  								case 60:
+  									_ref9 = _context.sent;
+  									_ref10 = babelHelpers.slicedToArray(_ref9, 2);
+  									output = _ref10[0];
+  									embeds = _ref10[1];
 
-  								case 57:
+  								case 64:
   									return _context.abrupt('return', utils.createText(output, embeds));
 
-  								case 58:
+  								case 65:
   								case 'end':
   									return _context.stop();
   							}
