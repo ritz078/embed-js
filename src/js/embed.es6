@@ -71,6 +71,13 @@ import helper from './modules/video/helper.es6'
 			align     : 'none',
 			lang      : 'en'
 		},
+		openGraph     : true,
+		openGraphOptions  : {
+			opengraphIo   : true,
+			opengraphIoId : null,
+			forceCache    : false,
+			apiEndpoint   : 'http://${url}'
+		},
 		imageEmbed        : true,
 		videoEmbed        : true,
 		videoHeight       : null,
