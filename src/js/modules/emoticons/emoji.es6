@@ -1,4 +1,4 @@
-export class Emoji {
+export default class Emoji {
     constructor(output, options) {
         this.output = output;
         this.options = options;

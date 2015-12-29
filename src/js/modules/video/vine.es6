@@ -1,6 +1,6 @@
 import Base from '../base.es6'
 
-export class Vine extends Base {
+export default class Vine extends Base {
     constructor(input, output, options, embeds) {
         super(input, output, options, embeds);
         this.regex = /vine.co\/v\/[a-zA-Z0-9]+/gi;

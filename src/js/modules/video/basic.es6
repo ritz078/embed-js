@@ -1,6 +1,6 @@
 import Base from '../base.es6'
 
-export class BasicVideo extends Base {
+export default class BasicVideo extends Base {
 	constructor(input, output, options, embeds) {
 		super(input, output, options, embeds);
 		this.regex = /(?:https?):\/\/\S*\.(?:ogv|webm|mp4)/gi;

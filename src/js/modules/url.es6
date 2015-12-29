@@ -1,6 +1,6 @@
 import utils from './utils.es6'
 
-export class Url{
+export default class Url{
 	constructor(input,options){
 		this.input = input;
 		this.options = options;

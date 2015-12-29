@@ -1,6 +1,6 @@
 import utils from '../utils.es6'
 
-export class Gmap {
+export default class Gmap {
     constructor(input, output, options, embeds) {
         this.input   = input;
         this.output  = output;
