@@ -10,7 +10,7 @@
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory() :
   typeof define === 'function' && define.amd ? define(factory) :
-  factory();
+  (factory());
 }(this, function () { 'use strict';
 
   function babelHelpers_typeof (obj) {
@@ -2905,29 +2905,33 @@
           this.options = options;
           this.embeds = embeds;
           this.service = 'opengraph';
+          this.options.served = [];
+          this.excludeRegex = new RegExp(['youtube', 'twitter', 'vimeo', 'unsplash', 'soundcloud', 'spotify'].concat(options.openGraphExclude).join('|'), 'gi');
       }
 
       babelHelpers_createClass(OpenGraph, [{
           key: 'template',
           value: function template(data) {
-              return '<div class="ejs-embed ejs-ogp">\n\t\t<div class="ejs-ogp-thumb" style="background-image:url(' + data.image + ')"></div>\n\t\t<div class="ejs-ogp-details">\n\t\t\t<div class="ejs-ogp-title"><a href="' + data.url + '" target="' + this.options.linkOptions.target + '">' + data.title + '</a></div>\n\t\t\t<div class="ejs-ogb-details">' + data.description + '</div>\n\t\t</div>\n\t\t</div>';
+              return ejs.template.openGraph(data, this.options) || '<div class="ejs-embed ejs-ogp">\n\t\t<div class="ejs-ogp-thumb" style="background-image:url(' + data.image + ')"></div>\n\t\t<div class="ejs-ogp-details">\n\t\t<div class="ejs-ogp-title"><a href="' + data.url + '" target="' + this.options.linkOptions.target + '">' + data.title + '</a></div>\n\t\t<div class="ejs-ogb-details">' + data.description + '</div></div></div>';
           }
       }, {
           key: 'fetchData',
           value: (function () {
               var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee(url) {
-                  var api, response;
+                  var api, response, data;
                   return regeneratorRuntime.wrap(function _callee$(_context) {
                       while (1) {
                           switch (_context.prev = _context.next) {
                               case 0:
                                   _context.prev = 0;
 
-                                  this.served.push(url);
+                                  this.options.served.push(url);
                                   url = encodeURIComponent(url);
                                   api = new Function('url', 'return `' + this.options.openGraphEndpoint + '`')(url);
                                   _context.next = 6;
-                                  return fetch(api);
+                                  return fetch(api, {
+                                      credentials: 'no-cors'
+                                  });
 
                               case 6:
                                   response = _context.sent;
@@ -2935,19 +2939,22 @@
                                   return response.json();
 
                               case 9:
-                                  return _context.abrupt('return', _context.sent);
+                                  data = _context.sent;
+                                  return _context.abrupt('return', this.options.onOpenGraphFetch(data) || data);
 
-                              case 12:
-                                  _context.prev = 12;
+                              case 13:
+                                  _context.prev = 13;
                                   _context.t0 = _context['catch'](0);
+
+                                  this.options.onOpenGraphFail(_context.t0);
                                   return _context.abrupt('return');
 
-                              case 15:
+                              case 17:
                               case 'end':
                                   return _context.stop();
                           }
                       }
-                  }, _callee, this, [[0, 12]]);
+                  }, _callee, this, [[0, 13]]);
               }));
               return function fetchData(_x) {
                   return ref.apply(this, arguments);
@@ -2957,51 +2964,120 @@
           key: 'process',
           value: (function () {
               var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
-                  var regex, match, data, template;
+                  var match, regexInline, url, _data, text, _data2, template;
+
                   return regeneratorRuntime.wrap(function _callee2$(_context2) {
                       while (1) {
                           switch (_context2.prev = _context2.next) {
                               case 0:
-                                  regex = utils.urlRegex();
+                                  _context2.prev = 0;
                                   match = undefined;
 
-                              case 2:
-                                  if (!((match = utils.matches(regex, this.input)) !== null)) {
+                                  this.regex = utils.urlRegex();
+
+                                  if (utils.ifInline(this.options, this.service)) {
+                                      _context2.next = 17;
+                                      break;
+                                  }
+
+                                  regexInline = this.options.link ? new RegExp('([^>]*' + this.regex.source + ')</a>', 'gi') : new RegExp('([^\\s]*' + this.regex.source + ')', 'gi');
+
+                              case 5:
+                                  if (!((match = utils.matches(regexInline, this.output)) !== null)) {
+                                      _context2.next = 15;
+                                      break;
+                                  }
+
+                                  url = this.options.link ? match[0].slice(0, -4) : match[0];
+
+                                  if (OpenGraph.ifProcessOGC(url, this.excludeRegex)) {
                                       _context2.next = 9;
                                       break;
                                   }
 
+                                  return _context2.abrupt('continue', 5);
+
+                              case 9:
+                                  _context2.next = 11;
+                                  return this.fetchData(url);
+
+                              case 11:
+                                  _data = _context2.sent;
+
+                                  if (_data && _data.success) {
+                                      text = this.template(_data);
+
+                                      if (this.options.link) {
+                                          this.output = !this.options.inlineText ? this.output.replace(match[0], text + '</a>') : this.output.replace(match[0], match[0] + text);
+                                      } else {
+                                          this.output = !this.options.inlineText ? this.output.replace(match[0], text) : this.output.replace(match[0], match[0] + text);
+                                      }
+                                  }
                                   _context2.next = 5;
-                                  return this.fetchData(match[0]);
+                                  break;
 
-                              case 5:
-                                  data = _context2.sent;
+                              case 15:
+                                  _context2.next = 27;
+                                  break;
 
-                                  if (data && data.success) {
-                                      template = this.template(data.hybridGraph || data);
+                              case 17:
+                                  if (!((match = utils.matches(this.regex, this.input)) !== null)) {
+                                      _context2.next = 27;
+                                      break;
+                                  }
+
+                                  url = match[0];
+
+                                  if (OpenGraph.ifProcessOGC(url, this.excludeRegex)) {
+                                      _context2.next = 21;
+                                      break;
+                                  }
+
+                                  return _context2.abrupt('continue', 17);
+
+                              case 21:
+                                  _context2.next = 23;
+                                  return this.fetchData(url);
+
+                              case 23:
+                                  _data2 = _context2.sent;
+
+                                  if (_data2 && _data2.success) {
+                                      template = this.template(_data2);
 
                                       this.embeds.push({
                                           text: template,
                                           index: match.index
                                       });
                                   }
-                                  _context2.next = 2;
+                                  _context2.next = 17;
                                   break;
 
-                              case 9:
+                              case 27:
                                   return _context2.abrupt('return', [this.output, this.embeds]);
 
-                              case 10:
+                              case 30:
+                                  _context2.prev = 30;
+                                  _context2.t0 = _context2['catch'](0);
+
+                                  console.log(_context2.t0);
+
+                              case 33:
                               case 'end':
                                   return _context2.stop();
                           }
                       }
-                  }, _callee2, this);
+                  }, _callee2, this, [[0, 30]]);
               }));
               return function process() {
                   return ref.apply(this, arguments);
               };
           })()
+      }], [{
+          key: 'ifProcessOGC',
+          value: function ifProcessOGC(url, excludeRegex) {
+              return url.match(excludeRegex) ? false : true;
+          }
       }]);
       return OpenGraph;
   })();
@@ -3068,6 +3144,7 @@
   			lang: 'en'
   		},
   		openGraphEndpoint: null,
+  		openGraphExclude: [],
   		videoEmbed: true,
   		videoHeight: null,
   		videoWidth: null,
@@ -3100,7 +3177,9 @@
   		afterEmbedJSApply: function afterEmbedJSApply() {},
   		onVideoShow: function onVideoShow() {},
   		onTweetsLoad: function onTweetsLoad() {},
-  		videojsCallback: function videojsCallback() {}
+  		videojsCallback: function videojsCallback() {},
+  		onOpenGraphFetch: function onOpenGraphFetch() {},
+  		onOpenGraphFail: function onOpenGraphFail() {}
   	};
 
   	var EmbedJS = (function () {
@@ -3558,7 +3637,8 @@
   			detailsYoutube: function detailsYoutube() {},
   			vine: function vine() {},
   			vimeo: function vimeo() {},
-  			youtube: function youtube() {}
+  			youtube: function youtube() {},
+  			openGraph: function openGraph() {}
   		}
   	};
   	window.EmbedJS = EmbedJS;

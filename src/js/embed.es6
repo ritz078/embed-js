@@ -74,6 +74,7 @@ import helper from './modules/video/helper.es6'
 			lang      : 'en'
 		},
 		openGraphEndpoint : null,
+		openGraphExclude  : [],
 		videoEmbed        : true,
 		videoHeight       : null,
 		videoWidth        : null,
@@ -111,6 +112,10 @@ import helper from './modules/video/helper.es6'
 		onTweetsLoad      : function () {
 		},
 		videojsCallback   : function () {
+		},
+		onOpenGraphFetch  : function () {
+		},
+		onOpenGraphFail   : function () {
 		}
 	};
 
@@ -395,6 +400,8 @@ import helper from './modules/video/helper.es6'
 			vimeo(){
 			},
 			youtube(){
+			},
+			openGraph(){
 			}
 		}
 	};
