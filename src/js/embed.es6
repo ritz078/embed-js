@@ -73,14 +73,7 @@ import helper from './modules/video/helper.es6'
 			align     : 'none',
 			lang      : 'en'
 		},
-		openGraph     : true,
-		openGraphOptions  : {
-			opengraphIo   : true,
-			opengraphIoId : null,
-			forceCache    : false,
-			apiEndpoint   : null
-		},
-		imageEmbed        : true,
+		openGraphEndpoint : null,
 		videoEmbed        : true,
 		videoHeight       : null,
 		videoWidth        : null,
@@ -175,7 +168,7 @@ import helper from './modules/video/helper.es6'
 			if (LINK && options.link) {
 				output = new Url(input, options).process()
 			}
-			if (OPENGRAPH && options.openGraph) {
+			if (OPENGRAPH && options.openGraphEndpoint) {
 				[output, embeds] = await new OpenGraph(input, output, options, embeds).process()
 			}
 			if (MARKDOWN && options.marked) {

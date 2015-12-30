@@ -4,8 +4,8 @@
 	<title>Embed-js</title>
 	<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
 
-	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-	<link href="http://vjs.zencdn.net/5.0.0/video-js.css" rel="stylesheet">
+	<!-- <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+ -->	<link href="http://vjs.zencdn.net/5.0.0/video-js.css" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css"/>
 	<link rel="stylesheet" href="../src/embed.css"/>
 	<style>
@@ -31,7 +31,9 @@
 <body>
 
 <h1>Loading embed.js in a block</h1>
-
+<div id="url">
+	Lorem ipsum dolor sit amet, consectetur adipisicing elit. Itaque consectetur iure culpa reiciendis repudiandae vitae quae temporibus eum fugit, porro accusamus https://vimeo.com/119199079 quis quas sapiente, deleniti! Suscipit excepturi ipsa nobis corrupti.
+</div>
 <div id="block">
 
 #embed.js
@@ -69,6 +71,8 @@ ejs.setOptions({
 		videoJS:true,
 		videoWidth:720,
 		videoDetails:true,
+		excludeEmbed:['spotify'],
+		openGraphEndpoint:'http://127.0.0.1:3000/${url}',
 		googleAuthKey:'AIzaSyCqFouT8h5DKAbxlrTZmjXEmNBjC69f0ts',
 		inlineEmbed:'all',
 		marked:true,
@@ -80,16 +84,16 @@ ejs.setOptions({
 	});
 	x.render();
 
-	x.text(function(data){
-		console.log(data);
-	});
+	// x.text(function(data){
+	// 	console.log(data);
+	// });
 
 	ejs.template.basicAudio = function(match){
 		return 'kjkh'+ match
 	};
 
 
-	ejs.applyEmbedJS(".block");
+	// ejs.applyEmbedJS(".block");
 </script>
 
 </body>
