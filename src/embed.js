@@ -280,6 +280,10 @@
               temp[key] = this.cloneObject(obj[key]);
           }
           return temp;
+      },
+      urlRegex: function urlRegex() {
+          return (/((href|src)=["']|)(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])|(?:https?:\/\/)?(?:(?:0rz\.tw)|(?:1link\.in)|(?:1url\.com)|(?:2\.gp)|(?:2big\.at)|(?:2tu\.us)|(?:3\.ly)|(?:307\.to)|(?:4ms\.me)|(?:4sq\.com)|(?:4url\.cc)|(?:6url\.com)|(?:7\.ly)|(?:a\.gg)|(?:a\.nf)|(?:aa\.cx)|(?:abcurl\.net)|(?:ad\.vu)|(?:adf\.ly)|(?:adjix\.com)|(?:afx\.cc)|(?:all\.fuseurl.com)|(?:alturl\.com)|(?:amzn\.to)|(?:ar\.gy)|(?:arst\.ch)|(?:atu\.ca)|(?:azc\.cc)|(?:b23\.ru)|(?:b2l\.me)|(?:bacn\.me)|(?:bcool\.bz)|(?:binged\.it)|(?:bit\.ly)|(?:buff\.ly)|(?:bizj\.us)|(?:bloat\.me)|(?:bravo\.ly)|(?:bsa\.ly)|(?:budurl\.com)|(?:canurl\.com)|(?:chilp\.it)|(?:chzb\.gr)|(?:cl\.lk)|(?:cl\.ly)|(?:clck\.ru)|(?:cli\.gs)|(?:cliccami\.info)|(?:clickthru\.ca)|(?:clop\.in)|(?:conta\.cc)|(?:cort\.as)|(?:cot\.ag)|(?:crks\.me)|(?:ctvr\.us)|(?:cutt\.us)|(?:dai\.ly)|(?:decenturl\.com)|(?:dfl8\.me)|(?:digbig\.com)|(?:digg\.com)|(?:disq\.us)|(?:dld\.bz)|(?:dlvr\.it)|(?:do\.my)|(?:doiop\.com)|(?:dopen\.us)|(?:easyuri\.com)|(?:easyurl\.net)|(?:eepurl\.com)|(?:eweri\.com)|(?:fa\.by)|(?:fav\.me)|(?:fb\.me)|(?:fbshare\.me)|(?:ff\.im)|(?:fff\.to)|(?:fire\.to)|(?:firsturl\.de)|(?:firsturl\.net)|(?:flic\.kr)|(?:flq\.us)|(?:fly2\.ws)|(?:fon\.gs)|(?:freak\.to)|(?:fuseurl\.com)|(?:fuzzy\.to)|(?:fwd4\.me)|(?:fwib\.net)|(?:g\.ro.lt)|(?:gizmo\.do)|(?:gl\.am)|(?:go\.9nl.com)|(?:go\.ign.com)|(?:go\.usa.gov)|(?:goo\.gl)|(?:goshrink\.com)|(?:gurl\.es)|(?:hex\.io)|(?:hiderefer\.com)|(?:hmm\.ph)|(?:href\.in)|(?:hsblinks\.com)|(?:htxt\.it)|(?:huff\.to)|(?:hulu\.com)|(?:hurl\.me)|(?:hurl\.ws)|(?:icanhaz\.com)|(?:idek\.net)|(?:ilix\.in)|(?:is\.gd)|(?:its\.my)|(?:ix\.lt)|(?:j\.mp)|(?:jijr\.com)|(?:kl\.am)|(?:klck\.me)|(?:korta\.nu)|(?:krunchd\.com)|(?:l9k\.net)|(?:lat\.ms)|(?:liip\.to)|(?:liltext\.com)|(?:linkbee\.com)|(?:linkbun\.ch)|(?:liurl\.cn)|(?:ln-s\.net)|(?:ln-s\.ru)|(?:lnk\.gd)|(?:lnk\.ms)|(?:lnkd\.in)|(?:lnkurl\.com)|(?:lru\.jp)|(?:lt\.tl)|(?:lurl\.no)|(?:macte\.ch)|(?:mash\.to)|(?:merky\.de)|(?:migre\.me)|(?:miniurl\.com)|(?:minurl\.fr)|(?:mke\.me)|(?:moby\.to)|(?:moourl\.com)|(?:mrte\.ch)|(?:myloc\.me)|(?:myurl\.in)|(?:n\.pr)|(?:nbc\.co)|(?:nblo\.gs)|(?:nn\.nf)|(?:not\.my)|(?:notlong\.com)|(?:nsfw\.in)|(?:nutshellurl\.com)|(?:nxy\.in)|(?:nyti\.ms)|(?:o-x\.fr)|(?:oc1\.us)|(?:om\.ly)|(?:omf\.gd)|(?:omoikane\.net)|(?:on\.cnn.com)|(?:on\.mktw.net)|(?:onforb\.es)|(?:orz\.se)|(?:ow\.ly)|(?:ping\.fm)|(?:pli\.gs)|(?:pnt\.me)|(?:politi\.co)|(?:post\.ly)|(?:pp\.gg)|(?:profile\.to)|(?:ptiturl\.com)|(?:pub\.vitrue.com)|(?:qlnk\.net)|(?:qte\.me)|(?:qu\.tc)|(?:qy\.fi)|(?:r\.im)|(?:rb6\.me)|(?:read\.bi)|(?:readthis\.ca)|(?:reallytinyurl\.com)|(?:redir\.ec)|(?:redirects\.ca)|(?:redirx\.com)|(?:retwt\.me)|(?:ri\.ms)|(?:rickroll\.it)|(?:riz\.gd)|(?:rt\.nu)|(?:ru\.ly)|(?:rubyurl\.com)|(?:rurl\.org)|(?:rww\.tw)|(?:s4c\.in)|(?:s7y\.us)|(?:safe\.mn)|(?:sameurl\.com)|(?:sdut\.us)|(?:shar\.es)|(?:shink\.de)|(?:shorl\.com)|(?:short\.ie)|(?:short\.to)|(?:shortlinks\.co.uk)|(?:shorturl\.com)|(?:shout\.to)|(?:show\.my)|(?:shrinkify\.com)|(?:shrinkr\.com)|(?:shrt\.fr)|(?:shrt\.st)|(?:shrten\.com)|(?:shrunkin\.com)|(?:simurl\.com)|(?:slate\.me)|(?:smallr\.com)|(?:smsh\.me)|(?:smurl\.name)|(?:sn\.im)|(?:snipr\.com)|(?:snipurl\.com)|(?:snurl\.com)|(?:sp2\.ro)|(?:spedr\.com)|(?:srnk\.net)|(?:srs\.li)|(?:starturl\.com)|(?:su\.pr)|(?:surl\.co.uk)|(?:surl\.hu)|(?:t\.cn)|(?:t\.co)|(?:t\.lh.com)|(?:ta\.gd)|(?:tbd\.ly)|(?:tcrn\.ch)|(?:tgr\.me)|(?:tgr\.ph)|(?:tighturl\.com)|(?:tiniuri\.com)|(?:tiny\.cc)|(?:tiny\.ly)|(?:tiny\.pl)|(?:tinylink\.in)|(?:tinyuri\.ca)|(?:tinyurl\.com)|(?:tl\.gd)|(?:tmi\.me)|(?:tnij\.org)|(?:tnw\.to)|(?:tny\.com)|(?:to\.ly)|(?:togoto\.us)|(?:totc\.us)|(?:toysr\.us)|(?:tpm\.ly)|(?:tr\.im)|(?:tra\.kz)|(?:trunc\.it)|(?:twhub\.com)|(?:twirl\.at)|(?:twitclicks\.com)|(?:twitterurl\.net)|(?:twitterurl\.org)|(?:twiturl\.de)|(?:twurl\.cc)|(?:twurl\.nl)|(?:u\.mavrev.com)|(?:u\.nu)|(?:u76\.org)|(?:ub0\.cc)|(?:ulu\.lu)|(?:updating\.me)|(?:ur1\.ca)|(?:url\.az)|(?:url\.co.uk)|(?:url\.ie)|(?:url360\.me)|(?:url4\.eu)|(?:urlborg\.com)|(?:urlbrief\.com)|(?:urlcover\.com)|(?:urlcut\.com)|(?:urlenco\.de)|(?:urli\.nl)|(?:urls\.im)|(?:urlshorteningservicefortwitter\.com)|(?:urlx\.ie)|(?:urlzen\.com)|(?:usat\.ly)|(?:use\.my)|(?:vb\.ly)|(?:vgn\.am)|(?:vl\.am)|(?:vm\.lc)|(?:w55\.de)|(?:wapo\.st)|(?:wapurl\.co.uk)|(?:wipi\.es)|(?:wp\.me)|(?:x\.vu)|(?:xr\.com)|(?:xrl\.in)|(?:xrl\.us)|(?:xurl\.es)|(?:xurl\.jp)|(?:y\.ahoo.it)|(?:yatuc\.com)|(?:ye\.pe)|(?:yep\.it)|(?:yfrog\.com)|(?:yhoo\.it)|(?:yiyd\.com)|(?:youtu\.be)|(?:yuarel\.com)|(?:z0p\.de)|(?:zi\.ma)|(?:zi\.mu)|(?:zipmyurl\.com)|(?:zud\.me)|(?:zurl\.ws)|(?:zz\.gd)|(?:zzang\.kr)|(?:›\.ws)|(?:✩\.ws)|(?:✿\.ws)|(?:❥\.ws)|(?:➔\.ws)|(?:➞\.ws)|(?:➡\.ws)|(?:➨\.ws)|(?:➯\.ws)|(?:➹\.ws)|(?:➽\.ws))\/[a-z0-9]*/gi
+          );
       }
   };
 
@@ -291,8 +295,11 @@
     * @return {null}
     */
 
-  	play: function play(className, options) {
-  		var classes = document.getElementsByClassName(className);
+  	play: function play(options) {
+  		/** Execute the customVideoClickHandler if the user wants to handle it on his own. */
+  		if (options.customVideoClickHandler) return options.videoClickHandler(options, this.template);
+
+  		var classes = document.getElementsByClassName(options.videoClickClass);
   		var _this = this;
   		for (var i = 0; i < classes.length; i++) {
   			classes[i].onclick = function () {
@@ -1388,168 +1395,185 @@
   })();
 
   var Twitter = (function () {
-      function Twitter(input, output, options, embeds) {
-          babelHelpers_classCallCheck(this, Twitter);
+  	function Twitter(input, output, options, embeds) {
+  		babelHelpers_classCallCheck(this, Twitter);
 
-          this.input = input;
-          this.output = output;
-          this.options = options;
-          this.embeds = embeds;
-          this.regex = /https:\/\/twitter\.com\/\w+\/\w+\/\d+/gi;
-          this.service = 'twitter';
+  		this.input = input;
+  		this.output = output;
+  		this.options = options;
+  		this.embeds = embeds;
+  		this.regex = /https:\/\/twitter\.com\/\w+\/\w+\/\d+/gi;
+  		this.service = 'twitter';
 
-          this.load = this.load.bind(this);
-          this.options.element.addEventListener('rendered', this.load, false);
-      }
+  		this.load = this.load.bind(this);
+  		this.options.element.addEventListener('rendered', this.load, false);
+  	}
 
-      /**
-       * Fetches the data from twitter's oEmbed API
-       * @param  {string} url URL of the tweet
-       * @return {object}     data containing the tweet info
-       */
+  	/**
+    * Fetches the data from twitter's oEmbed API
+    * @param  {string} url URL of the tweet
+    * @return {object}     data containing the tweet info
+    */
 
-      babelHelpers_createClass(Twitter, [{
-          key: 'tweetData',
-          value: (function () {
-              var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee(url) {
-                  var config, apiUrl, response;
-                  return regeneratorRuntime.wrap(function _callee$(_context) {
-                      while (1) {
-                          switch (_context.prev = _context.next) {
-                              case 0:
-                                  config = this.options.tweetOptions;
-                                  apiUrl = 'https://api.twitter.com/1/statuses/oembed.json?omit_script=true&url=' + url + '&maxwidth=' + config.maxWidth + '&hide_media=' + config.hideMedia + '&hide_thread=' + config.hideThread + '&align=' + config.align + '&lang=' + config.lang;
-                                  _context.next = 4;
-                                  return fetchJsonp(apiUrl, {
-                                      credentials: 'include'
-                                  });
+  	babelHelpers_createClass(Twitter, [{
+  		key: 'tweetData',
+  		value: (function () {
+  			var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee(url) {
+  				var config, apiUrl, response;
+  				return regeneratorRuntime.wrap(function _callee$(_context) {
+  					while (1) {
+  						switch (_context.prev = _context.next) {
+  							case 0:
+  								config = this.options.tweetOptions;
+  								apiUrl = 'https://api.twitter.com/1/statuses/oembed.json?omit_script=true&url=' + url + '&maxwidth=' + config.maxWidth + '&hide_media=' + config.hideMedia + '&hide_thread=' + config.hideThread + '&align=' + config.align + '&lang=' + config.lang;
+  								_context.next = 4;
+  								return fetchJsonp(apiUrl, {
+  									credentials: 'include'
+  								});
 
-                              case 4:
-                                  response = _context.sent;
-                                  _context.next = 7;
-                                  return response.json();
+  							case 4:
+  								response = _context.sent;
+  								_context.next = 7;
+  								return response.json();
 
-                              case 7:
-                                  return _context.abrupt('return', _context.sent);
+  							case 7:
+  								return _context.abrupt('return', _context.sent);
 
-                              case 8:
-                              case 'end':
-                                  return _context.stop();
-                          }
-                      }
-                  }, _callee, this);
-              }));
-              return function tweetData(_x) {
-                  return ref.apply(this, arguments);
-              };
-          })()
+  							case 8:
+  							case 'end':
+  								return _context.stop();
+  						}
+  					}
+  				}, _callee, this);
+  			}));
+  			return function tweetData(_x) {
+  				return ref.apply(this, arguments);
+  			};
+  		})()
 
-          /**
-           * Load twitter widgets
-           * @return null
-           */
+  		/**
+     * Load twitter widgets
+     * @return null
+     */
 
-      }, {
-          key: 'load',
-          value: function load() {
-              var _this = this;
+  	}, {
+  		key: 'load',
+  		value: function load() {
+  			var _this = this;
 
-              twttr.widgets.load(this.options.element); //here this refers to the element
+  			twttr.widgets.load(this.options.element); //here this refers to the element
 
-              //Execute the function after the widget is loaded
-              twttr.events.bind('loaded', function () {
-                  _this.options.onTweetsLoad();
-              });
-          }
-      }, {
-          key: 'process',
-          value: (function () {
-              var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
-                  var regexInline, match, url, data, text;
-                  return regeneratorRuntime.wrap(function _callee2$(_context2) {
-                      while (1) {
-                          switch (_context2.prev = _context2.next) {
-                              case 0:
-                                  _context2.prev = 0;
+  			//Execute the function after the widget is loaded
+  			twttr.events.bind('loaded', function () {
+  				_this.options.onTweetsLoad();
+  			});
+  		}
+  	}, {
+  		key: 'process',
+  		value: (function () {
+  			var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+  				var regexInline, match, url, data, text;
+  				return regeneratorRuntime.wrap(function _callee2$(_context2) {
+  					while (1) {
+  						switch (_context2.prev = _context2.next) {
+  							case 0:
+  								_context2.prev = 0;
 
-                                  if (utils.ifInline(this.options, this.service)) {
-                                      _context2.next = 15;
-                                      break;
-                                  }
+  								if (utils.ifInline(this.options, this.service)) {
+  									_context2.next = 17;
+  									break;
+  								}
 
-                                  regexInline = this.options.link ? new RegExp('([^>]*' + this.regex.source + ')</a>', 'gi') : new RegExp('([^\\s]*' + this.regex.source + ')', 'gi');
-                                  match = undefined;
+  								regexInline = this.options.link ? new RegExp('([^>]*' + this.regex.source + ')</a>', 'gi') : new RegExp('([^\\s]*' + this.regex.source + ')', 'gi');
+  								match = undefined;
 
-                              case 4:
-                                  if (!((match = utils.matches(regexInline, this.output)) !== null)) {
-                                      _context2.next = 13;
-                                      break;
-                                  }
+  							case 4:
+  								if (!((match = utils.matches(regexInline, this.output)) !== null)) {
+  									_context2.next = 15;
+  									break;
+  								}
 
-                                  url = this.options.link ? match[0].slice(0, -4) : match[0];
-                                  _context2.next = 8;
-                                  return this.tweetData(url);
+  								url = this.options.link ? match[0].slice(0, -4) : match[0];
 
-                              case 8:
-                                  data = _context2.sent;
-                                  text = data.html;
+  								if (!(this.options.served.indexOf(url) !== -1)) {
+  									_context2.next = 8;
+  									break;
+  								}
 
-                                  if (this.options.link) {
-                                      this.output = !this.options.inlineText ? this.output.replace(match[0], text + '</a>') : this.output.replace(match[0], match[0] + text);
-                                  } else {
-                                      this.output = !this.options.inlineText ? this.output.replace(match[0], text) : this.output.replace(match[0], match[0] + text);
-                                  }
-                                  _context2.next = 4;
-                                  break;
+  								return _context2.abrupt('continue', 4);
 
-                              case 13:
-                                  _context2.next = 23;
-                                  break;
+  							case 8:
+  								_context2.next = 10;
+  								return this.tweetData(url);
 
-                              case 15:
-                                  match = undefined;
+  							case 10:
+  								data = _context2.sent;
+  								text = data.html;
 
-                              case 16:
-                                  if (!((match = utils.matches(this.regex, this.input)) !== null)) {
-                                      _context2.next = 23;
-                                      break;
-                                  }
+  								if (this.options.link) {
+  									this.output = !this.options.inlineText ? this.output.replace(match[0], text + '</a>') : this.output.replace(match[0], match[0] + text);
+  								} else {
+  									this.output = !this.options.inlineText ? this.output.replace(match[0], text) : this.output.replace(match[0], match[0] + text);
+  								}
+  								_context2.next = 4;
+  								break;
 
-                                  _context2.next = 19;
-                                  return this.tweetData(match[0]);
+  							case 15:
+  								_context2.next = 27;
+  								break;
 
-                              case 19:
-                                  data = _context2.sent;
+  							case 17:
+  								match = undefined;
 
-                                  this.embeds.push({
-                                      text: data.html,
-                                      index: match.index
-                                  });
-                                  _context2.next = 16;
-                                  break;
+  							case 18:
+  								if (!((match = utils.matches(this.regex, this.input)) !== null)) {
+  									_context2.next = 27;
+  									break;
+  								}
 
-                              case 23:
-                                  return _context2.abrupt('return', [this.output, this.embeds]);
+  								if (!(this.options.served.indexOf(match[0]) !== -1)) {
+  									_context2.next = 21;
+  									break;
+  								}
 
-                              case 26:
-                                  _context2.prev = 26;
-                                  _context2.t0 = _context2['catch'](0);
+  								return _context2.abrupt('continue', 18);
 
-                                  console.log(_context2.t0);
+  							case 21:
+  								_context2.next = 23;
+  								return this.tweetData(match[0]);
 
-                              case 29:
-                              case 'end':
-                                  return _context2.stop();
-                          }
-                      }
-                  }, _callee2, this, [[0, 26]]);
-              }));
-              return function process() {
-                  return ref.apply(this, arguments);
-              };
-          })()
-      }]);
-      return Twitter;
+  							case 23:
+  								data = _context2.sent;
+
+  								this.embeds.push({
+  									text: data.html,
+  									index: match.index
+  								});
+  								_context2.next = 18;
+  								break;
+
+  							case 27:
+  								return _context2.abrupt('return', [this.output, this.embeds]);
+
+  							case 30:
+  								_context2.prev = 30;
+  								_context2.t0 = _context2['catch'](0);
+
+  								console.log(_context2.t0);
+
+  							case 33:
+  							case 'end':
+  								return _context2.stop();
+  						}
+  					}
+  				}, _callee2, this, [[0, 30]]);
+  			}));
+  			return function process() {
+  				return ref.apply(this, arguments);
+  			};
+  		})()
+  	}]);
+  	return Twitter;
   })();
 
   var Base = (function () {
@@ -1570,20 +1594,27 @@
   			if (!utils.ifInline(this.options, this.service)) {
   				var regexInline = this.options.link ? new RegExp('([^>]*' + this.regex.source + ')</a>', 'gm') : new RegExp('([^\\s]*' + this.regex.source + ')', 'gm');
   				this.output = this.output.replace(regexInline, function (match) {
-  					if (_this.options.link) {
-  						return !_this.options.inlineText ? _this.template(match.slice(0, -4)) + '</a>' : match + _this.template(match.slice(0, -4));
+  					var url = _this.options.link ? match.slice(0, -4) : match;
+  					if (_this.options.served.indexOf(url) === -1) {
+  						if (_this.options.link) {
+  							return !_this.options.inlineText ? _this.template(match.slice(0, -4)) + '</a>' : match + _this.template(match.slice(0, -4));
+  						} else {
+  							return !_this.options.inlineText ? _this.template(match) : match + _this.template(match);
+  						}
   					} else {
-  						return !_this.options.inlineText ? _this.template(match) : match + _this.template(match);
+  						return url;
   					}
   				});
   			} else {
   				var match = undefined;
   				while ((match = utils.matches(this.regex, this.input)) !== null) {
-  					var text = this.template(match[0]);
-  					this.embeds.push({
-  						text: text,
-  						index: match.index
-  					});
+  					if (this.options.served.indexOf(match[0]) === -1) {
+  						var text = this.template(match[0]);
+  						this.embeds.push({
+  							text: text,
+  							index: match.index
+  						});
+  					}
   				}
   			}
   			return [this.output, this.embeds];
@@ -1890,392 +1921,601 @@
       return Gmap;
   })();
 
+  var Github = (function () {
+  	function Github(input, output, options, embeds) {
+  		babelHelpers_classCallCheck(this, Github);
+
+  		this.input = input;
+  		this.output = output;
+  		this.options = options;
+  		this.embeds = embeds;
+  		this.service = 'github';
+  		this.regex = /github.com\/([a-zA-Z0-9\.-]+)\/([a-zA-Z0-9\.-]+)/gi;
+  	}
+
+  	babelHelpers_createClass(Github, [{
+  		key: 'template',
+  		value: function template(data) {
+  			return ejs.template.Github(data, this.options) || '<div class="ejs-embed ejs-github">\n\t\t<div class="ejs-ogp-thumb" style="background-image:url(' + data.owner.avatar_url + ')"></div>\n\t\t<div class="ejs-ogp-details">\n\t\t<div class="ejs-ogp-title"><a href="' + data.html_url + '" target="' + this.options.linkOptions.target + '">' + data.full_name + '</a></div>\n\t\t<div class="ejs-ogb-details">' + data.description + '</div><div class="ejs-github-stats">\n        <span>\n        <i class="fa fa-star"></i>' + data.stargazers_count + '\n        </span>\n        <span>\n        <i class="fa fa-code-fork"></i>' + data.network_count + '\n        </span>\n        </div></div></div>';
+  		}
+  	}, {
+  		key: 'fetchRepo',
+  		value: (function () {
+  			var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee(data) {
+  				var api, response;
+  				return regeneratorRuntime.wrap(function _callee$(_context) {
+  					while (1) {
+  						switch (_context.prev = _context.next) {
+  							case 0:
+  								api = 'https://api.github.com/repos/' + data.user + '/' + data.repo;
+  								_context.next = 3;
+  								return fetch(api);
+
+  							case 3:
+  								response = _context.sent;
+  								_context.next = 6;
+  								return response.json();
+
+  							case 6:
+  								return _context.abrupt('return', _context.sent);
+
+  							case 7:
+  							case 'end':
+  								return _context.stop();
+  						}
+  					}
+  				}, _callee, this);
+  			}));
+  			return function fetchRepo(_x) {
+  				return ref.apply(this, arguments);
+  			};
+  		})()
+  	}, {
+  		key: 'process',
+  		value: (function () {
+  			var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+  				var match, regexInline, url, data, value, text;
+  				return regeneratorRuntime.wrap(function _callee2$(_context2) {
+  					while (1) {
+  						switch (_context2.prev = _context2.next) {
+  							case 0:
+  								match = undefined;
+
+  								if (utils.ifInline(this.options, this.service)) {
+  									_context2.next = 19;
+  									break;
+  								}
+
+  								regexInline = this.options.link ? new RegExp('([^>]*' + this.regex.source + ')</a>', 'gi') : new RegExp('([^\\s]*' + this.regex.source + ')', 'gi');
+
+  							case 3:
+  								if (!((match = utils.matches(regexInline, this.output)) !== null)) {
+  									_context2.next = 17;
+  									break;
+  								}
+
+  								url = this.options.link ? match[0].slice(0, -4) : match[0];
+
+  								if (!(this.options.served.indexOf(url) == -1)) {
+  									_context2.next = 15;
+  									break;
+  								}
+
+  								if (match[3]) {
+  									_context2.next = 8;
+  									break;
+  								}
+
+  								return _context2.abrupt('continue', 3);
+
+  							case 8:
+  								//if url doesn't have repo name then don't process it. User profiles are not supported.
+  								data = {
+  									user: match[2],
+  									repo: match[3]
+  								};
+  								_context2.next = 11;
+  								return this.fetchRepo(data);
+
+  							case 11:
+  								value = _context2.sent;
+  								text = this.template(value);
+
+  								if (this.options.link) {
+  									this.output = !this.options.inlineText ? this.output.replace(match[0], text + '</a>') : this.output.replace(match[0], match[0] + text);
+  								} else {
+  									this.output = !this.options.inlineText ? this.output.replace(match[0], text) : this.output.replace(match[0], match[0] + text);
+  								}
+  								this.options.served.push(url);
+
+  							case 15:
+  								_context2.next = 3;
+  								break;
+
+  							case 17:
+  								_context2.next = 32;
+  								break;
+
+  							case 19:
+  								if (!(match = utils.matches(this.regex, this.input))) {
+  									_context2.next = 32;
+  									break;
+  								}
+
+  								url = match[0];
+
+  								if (!(this.options.served.indexOf(url) == -1)) {
+  									_context2.next = 30;
+  									break;
+  								}
+
+  								if (match[3]) {
+  									_context2.next = 24;
+  									break;
+  								}
+
+  								return _context2.abrupt('continue', 19);
+
+  							case 24:
+  								//if url doesn't have repo name then don't process it. User profiles are not supported.
+  								data = {
+  									user: match[2],
+  									repo: match[3]
+  								};
+  								_context2.next = 27;
+  								return this.fetchRepo(data);
+
+  							case 27:
+  								value = _context2.sent;
+  								text = this.template(value);
+
+  								this.embeds.push({
+  									text: text,
+  									index: match.index
+  								});
+
+  							case 30:
+  								_context2.next = 19;
+  								break;
+
+  							case 32:
+  								return _context2.abrupt('return', [this.output, this.embeds]);
+
+  							case 33:
+  							case 'end':
+  								return _context2.stop();
+  						}
+  					}
+  				}, _callee2, this);
+  			}));
+  			return function process() {
+  				return ref.apply(this, arguments);
+  			};
+  		})()
+  	}]);
+  	return Github;
+  })();
+
   var Vimeo = (function () {
-      function Vimeo(input, output, options, embeds) {
-          babelHelpers_classCallCheck(this, Vimeo);
+  	function Vimeo(input, output, options, embeds) {
+  		babelHelpers_classCallCheck(this, Vimeo);
 
-          this.input = input;
-          this.output = output;
-          this.options = options;
-          this.embeds = embeds;
-          this.regex = /https?:\/\/(?:www\.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/([^\/]*)\/videos\/|album\/(\d+)\/video\/|)(\d+)(?:$|\/|\?)*/gi;
-          this.service = 'vimeo';
-      }
+  		this.input = input;
+  		this.output = output;
+  		this.options = options;
+  		this.embeds = embeds;
+  		this.regex = /https?:\/\/(?:www\.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/([^\/]*)\/videos\/|album\/(\d+)\/video\/|)(\d+)(?:$|\/|\?)*/gi;
+  		this.service = 'vimeo';
+  	}
 
-      babelHelpers_createClass(Vimeo, [{
-          key: 'data',
-          value: (function () {
-              var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee(id) {
-                  var url, response, data;
-                  return regeneratorRuntime.wrap(function _callee$(_context) {
-                      while (1) {
-                          switch (_context.prev = _context.next) {
-                              case 0:
-                                  _context.prev = 0;
-                                  url = 'https://vimeo.com/api/v2/video/' + id + '.json';
-                                  _context.next = 4;
-                                  return fetch(url);
+  	babelHelpers_createClass(Vimeo, [{
+  		key: 'data',
+  		value: (function () {
+  			var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee(id) {
+  				var url, response, data;
+  				return regeneratorRuntime.wrap(function _callee$(_context) {
+  					while (1) {
+  						switch (_context.prev = _context.next) {
+  							case 0:
+  								_context.prev = 0;
+  								url = 'https://vimeo.com/api/v2/video/' + id + '.json';
+  								_context.next = 4;
+  								return fetch(url);
 
-                              case 4:
-                                  response = _context.sent;
-                                  _context.next = 7;
-                                  return response.json();
+  							case 4:
+  								response = _context.sent;
+  								_context.next = 7;
+  								return response.json();
 
-                              case 7:
-                                  data = _context.sent;
-                                  return _context.abrupt('return', data[0]);
+  							case 7:
+  								data = _context.sent;
+  								return _context.abrupt('return', data[0]);
 
-                              case 11:
-                                  _context.prev = 11;
-                                  _context.t0 = _context['catch'](0);
+  							case 11:
+  								_context.prev = 11;
+  								_context.t0 = _context['catch'](0);
 
-                                  console.log(_context.t0);
+  								console.log(_context.t0);
 
-                              case 14:
-                              case 'end':
-                                  return _context.stop();
-                          }
-                      }
-                  }, _callee, this, [[0, 11]]);
-              }));
-              return function data(_x) {
-                  return ref.apply(this, arguments);
-              };
-          })()
-      }, {
-          key: 'process',
-          value: (function () {
-              var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
-                  var regexInline, match, id, embedUrl, _data, text, _data2;
+  							case 14:
+  							case 'end':
+  								return _context.stop();
+  						}
+  					}
+  				}, _callee, this, [[0, 11]]);
+  			}));
+  			return function data(_x) {
+  				return ref.apply(this, arguments);
+  			};
+  		})()
+  	}, {
+  		key: 'process',
+  		value: (function () {
+  			var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+  				var regexInline, match, _url, id, embedUrl, _data, text, _data2;
 
-                  return regeneratorRuntime.wrap(function _callee2$(_context2) {
-                      while (1) {
-                          switch (_context2.prev = _context2.next) {
-                              case 0:
-                                  _context2.prev = 0;
+  				return regeneratorRuntime.wrap(function _callee2$(_context2) {
+  					while (1) {
+  						switch (_context2.prev = _context2.next) {
+  							case 0:
+  								_context2.prev = 0;
 
-                                  if (utils.ifInline(this.options, this.service)) {
-                                      _context2.next = 21;
-                                      break;
-                                  }
+  								if (utils.ifInline(this.options, this.service)) {
+  									_context2.next = 24;
+  									break;
+  								}
 
-                                  regexInline = this.options.link ? new RegExp('([^>]*' + this.regex.source + ')</a>', 'gi') : new RegExp('([^\\s]*' + this.regex.source + ')', 'gi');
-                                  match = undefined;
+  								regexInline = this.options.link ? new RegExp('([^>]*' + this.regex.source + ')</a>', 'gi') : new RegExp('([^\\s]*' + this.regex.source + ')', 'gi');
+  								match = undefined;
 
-                              case 4:
-                                  if (!((match = utils.matches(regexInline, this.output)) !== null)) {
-                                      _context2.next = 19;
-                                      break;
-                                  }
+  							case 4:
+  								if (!((match = utils.matches(regexInline, this.output)) !== null)) {
+  									_context2.next = 22;
+  									break;
+  								}
 
-                                  id = this.options.link ? match[0].slice(0, -4).split('/').slice(-1).pop() : match[0].split('/').slice(-1).pop();
-                                  embedUrl = 'https://player.vimeo.com/video/' + id;
-                                  _data = undefined, text = undefined;
+  								_url = this.options.link ? match[0].slice(0, -4) : match[0];
 
-                                  if (!this.options.videoDetails) {
-                                      _context2.next = 15;
-                                      break;
-                                  }
+  								if (!(this.options.served.indexOf(_url) !== -1)) {
+  									_context2.next = 8;
+  									break;
+  								}
 
-                                  _context2.next = 11;
-                                  return this.data(id);
+  								return _context2.abrupt('continue', 4);
 
-                              case 11:
-                                  _data = _context2.sent;
+  							case 8:
+  								id = this.options.link ? match[0].slice(0, -4).split('/').slice(-1).pop() : match[0].split('/').slice(-1).pop();
+  								embedUrl = 'https://player.vimeo.com/video/' + id;
+  								_data = undefined, text = undefined;
 
-                                  text = helper.getDetailsTemplate(Vimeo.formatData(_data, utils), _data, embedUrl);
-                                  _context2.next = 16;
-                                  break;
+  								if (!this.options.videoDetails) {
+  									_context2.next = 18;
+  									break;
+  								}
 
-                              case 15:
-                                  text = helper.template(embedUrl, this.options);
+  								_context2.next = 14;
+  								return this.data(id);
 
-                              case 16:
+  							case 14:
+  								_data = _context2.sent;
 
-                                  if (this.options.link) {
-                                      this.output = !this.options.inlineText ? this.output.replace(match[0], text + '</a>') : this.output.replace(match[0], match[0] + text);
-                                  } else {
-                                      this.output = !this.options.inlineText ? this.output.replace(match[0], text) : this.output.replace(match[0], match[0] + text);
-                                  }
-                                  _context2.next = 4;
-                                  break;
+  								text = helper.getDetailsTemplate(Vimeo.formatData(_data, utils), _data, embedUrl);
+  								_context2.next = 19;
+  								break;
 
-                              case 19:
-                                  _context2.next = 36;
-                                  break;
+  							case 18:
+  								text = helper.template(embedUrl, this.options);
 
-                              case 21:
-                                  match = undefined;
+  							case 19:
 
-                              case 22:
-                                  if (!((match = utils.matches(this.regex, this.input)) !== null)) {
-                                      _context2.next = 36;
-                                      break;
-                                  }
+  								if (this.options.link) {
+  									this.output = !this.options.inlineText ? this.output.replace(match[0], text + '</a>') : this.output.replace(match[0], match[0] + text);
+  								} else {
+  									this.output = !this.options.inlineText ? this.output.replace(match[0], text) : this.output.replace(match[0], match[0] + text);
+  								}
+  								_context2.next = 4;
+  								break;
 
-                                  embedUrl = 'https://player.vimeo.com/video/' + match[3];
-                                  _data2 = undefined, text = undefined;
+  							case 22:
+  								_context2.next = 41;
+  								break;
 
-                                  if (!this.options.videoDetails) {
-                                      _context2.next = 32;
-                                      break;
-                                  }
+  							case 24:
+  								match = undefined;
 
-                                  _context2.next = 28;
-                                  return this.data(match[3]);
+  							case 25:
+  								if (!((match = utils.matches(this.regex, this.input)) !== null)) {
+  									_context2.next = 41;
+  									break;
+  								}
 
-                              case 28:
-                                  _data2 = _context2.sent;
+  								if (!(this.options.served.indexOf(match[0]) !== -1)) {
+  									_context2.next = 28;
+  									break;
+  								}
 
-                                  text = helper.getDetailsTemplate(Vimeo.formatData(_data2, utils), _data2, embedUrl);
-                                  _context2.next = 33;
-                                  break;
+  								return _context2.abrupt('continue', 25);
 
-                              case 32:
-                                  text = helper.template(embedUrl, this.options);
+  							case 28:
+  								embedUrl = 'https://player.vimeo.com/video/' + match[3];
+  								_data2 = undefined, text = undefined;
 
-                              case 33:
+  								if (!this.options.videoDetails) {
+  									_context2.next = 37;
+  									break;
+  								}
 
-                                  this.embeds.push({
-                                      text: text,
-                                      index: match.index
-                                  });
-                                  _context2.next = 22;
-                                  break;
+  								_context2.next = 33;
+  								return this.data(match[3]);
 
-                              case 36:
-                                  return _context2.abrupt('return', [this.output, this.embeds]);
+  							case 33:
+  								_data2 = _context2.sent;
 
-                              case 39:
-                                  _context2.prev = 39;
-                                  _context2.t0 = _context2['catch'](0);
+  								text = helper.getDetailsTemplate(Vimeo.formatData(_data2, utils), _data2, embedUrl);
+  								_context2.next = 38;
+  								break;
 
-                                  console.log(_context2.t0);
+  							case 37:
+  								text = helper.template(embedUrl, this.options);
 
-                              case 42:
-                              case 'end':
-                                  return _context2.stop();
-                          }
-                      }
-                  }, _callee2, this, [[0, 39]]);
-              }));
-              return function process() {
-                  return ref.apply(this, arguments);
-              };
-          })()
-      }], [{
-          key: 'formatData',
-          value: function formatData(data, utils) {
-              return {
-                  title: data.title,
-                  thumbnail: data.thumbnail_medium,
-                  rawDescription: data.description.replace(/\n/g, '<br/>').replace(/&#10;/g, '<br/>'),
-                  views: data.stats_number_of_plays,
-                  likes: data.stats_number_of_likes,
-                  description: utils.truncate(data.description.replace(/((<|&lt;)br\s*\/*(>|&gt;)\r\n)/g, ' '), 150),
-                  url: data.url,
-                  id: data.id,
-                  host: 'vimeo'
-              };
-          }
-      }]);
-      return Vimeo;
+  							case 38:
+
+  								this.embeds.push({
+  									text: text,
+  									index: match.index
+  								});
+  								_context2.next = 25;
+  								break;
+
+  							case 41:
+  								return _context2.abrupt('return', [this.output, this.embeds]);
+
+  							case 44:
+  								_context2.prev = 44;
+  								_context2.t0 = _context2['catch'](0);
+
+  								console.log(_context2.t0);
+
+  							case 47:
+  							case 'end':
+  								return _context2.stop();
+  						}
+  					}
+  				}, _callee2, this, [[0, 44]]);
+  			}));
+  			return function process() {
+  				return ref.apply(this, arguments);
+  			};
+  		})()
+  	}], [{
+  		key: 'formatData',
+  		value: function formatData(data, utils) {
+  			return {
+  				title: data.title,
+  				thumbnail: data.thumbnail_medium,
+  				rawDescription: data.description.replace(/\n/g, '<br/>').replace(/&#10;/g, '<br/>'),
+  				views: data.stats_number_of_plays,
+  				likes: data.stats_number_of_likes,
+  				description: utils.truncate(data.description.replace(/((<|&lt;)br\s*\/*(>|&gt;)\r\n)/g, ' '), 150),
+  				url: data.url,
+  				id: data.id,
+  				host: 'vimeo'
+  			};
+  		}
+  	}]);
+  	return Vimeo;
   })();
 
   var Youtube = (function () {
-      function Youtube(input, output, options, embeds) {
-          babelHelpers_classCallCheck(this, Youtube);
+  	function Youtube(input, output, options, embeds) {
+  		babelHelpers_classCallCheck(this, Youtube);
 
-          this.input = input;
-          this.output = output;
-          this.options = options;
-          this.embeds = embeds;
-          this.regex = /https?:\/\/(?:[0-9A-Z-]+\.)?(?:youtu\.be\/|youtube\.com(?:\/embed\/|\/v\/|\/watch\?v=|\/ytscreeningroom\?v=|\/feeds\/api\/videos\/|\/user\S*[^\w\-\s]|\S*[^\w\-\s]))([\w\-]{11})[?=&+%\w-]*/gi;
-          this.service = 'youtube';
-      }
+  		this.input = input;
+  		this.output = output;
+  		this.options = options;
+  		this.embeds = embeds;
+  		this.regex = /https?:\/\/(?:[0-9A-Z-]+\.)?(?:youtu\.be\/|youtube\.com(?:\/embed\/|\/v\/|\/watch\?v=|\/ytscreeningroom\?v=|\/feeds\/api\/videos\/|\/user\S*[^\w\-\s]|\S*[^\w\-\s]))([\w\-]{11})[?=&+%\w-]*/gi;
+  		this.service = 'youtube';
+  	}
 
-      babelHelpers_createClass(Youtube, [{
-          key: 'data',
-          value: (function () {
-              var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee(id) {
-                  var url, response, data;
-                  return regeneratorRuntime.wrap(function _callee$(_context) {
-                      while (1) {
-                          switch (_context.prev = _context.next) {
-                              case 0:
-                                  _context.prev = 0;
-                                  url = 'https://www.googleapis.com/youtube/v3/videos?id=' + id + '&key=' + this.options.googleAuthKey + '&part=snippet,statistics';
-                                  _context.next = 4;
-                                  return fetch(url);
+  	babelHelpers_createClass(Youtube, [{
+  		key: 'data',
+  		value: (function () {
+  			var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee(id) {
+  				var url, response, data;
+  				return regeneratorRuntime.wrap(function _callee$(_context) {
+  					while (1) {
+  						switch (_context.prev = _context.next) {
+  							case 0:
+  								_context.prev = 0;
+  								url = 'https://www.googleapis.com/youtube/v3/videos?id=' + id + '&key=' + this.options.googleAuthKey + '&part=snippet,statistics';
+  								_context.next = 4;
+  								return fetch(url);
 
-                              case 4:
-                                  response = _context.sent;
-                                  _context.next = 7;
-                                  return response.json();
+  							case 4:
+  								response = _context.sent;
+  								_context.next = 7;
+  								return response.json();
 
-                              case 7:
-                                  data = _context.sent;
-                                  return _context.abrupt('return', data.items[0]);
+  							case 7:
+  								data = _context.sent;
+  								return _context.abrupt('return', data.items[0]);
 
-                              case 11:
-                                  _context.prev = 11;
-                                  _context.t0 = _context['catch'](0);
+  							case 11:
+  								_context.prev = 11;
+  								_context.t0 = _context['catch'](0);
 
-                                  console.log(_context.t0);
+  								console.log(_context.t0);
 
-                              case 14:
-                              case 'end':
-                                  return _context.stop();
-                          }
-                      }
-                  }, _callee, this, [[0, 11]]);
-              }));
-              return function data(_x) {
-                  return ref.apply(this, arguments);
-              };
-          })()
-      }, {
-          key: 'process',
-          value: (function () {
-              var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
-                  var regexInline, match, id, embedUrl, _data, text, _data2;
+  							case 14:
+  							case 'end':
+  								return _context.stop();
+  						}
+  					}
+  				}, _callee, this, [[0, 11]]);
+  			}));
+  			return function data(_x) {
+  				return ref.apply(this, arguments);
+  			};
+  		})()
+  	}, {
+  		key: 'process',
+  		value: (function () {
+  			var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+  				var regexInline, match, id, embedUrl, _data, text, _data2;
 
-                  return regeneratorRuntime.wrap(function _callee2$(_context2) {
-                      while (1) {
-                          switch (_context2.prev = _context2.next) {
-                              case 0:
-                                  _context2.prev = 0;
+  				return regeneratorRuntime.wrap(function _callee2$(_context2) {
+  					while (1) {
+  						switch (_context2.prev = _context2.next) {
+  							case 0:
+  								_context2.prev = 0;
 
-                                  if (utils.ifInline(this.options, this.service)) {
-                                      _context2.next = 21;
-                                      break;
-                                  }
+  								if (utils.ifInline(this.options, this.service)) {
+  									_context2.next = 23;
+  									break;
+  								}
 
-                                  regexInline = this.options.link ? new RegExp('([^>]*' + this.regex.source + ')</a>', 'gi') : new RegExp('([^\\s]*' + this.regex.source + ')', 'gi');
-                                  match = undefined;
+  								regexInline = this.options.link ? new RegExp('([^>]*' + this.regex.source + ')</a>', 'gi') : new RegExp('([^\\s]*' + this.regex.source + ')', 'gi');
+  								match = undefined;
 
-                              case 4:
-                                  if (!((match = utils.matches(regexInline, this.output)) !== null)) {
-                                      _context2.next = 19;
-                                      break;
-                                  }
+  							case 4:
+  								if (!((match = utils.matches(regexInline, this.output)) !== null)) {
+  									_context2.next = 21;
+  									break;
+  								}
 
-                                  id = match[2];
-                                  embedUrl = 'https://www.youtube.com/embed/' + id;
-                                  _data = undefined, text = undefined;
+  								if (!(this.options.served.indexOf(match[1]) !== -1)) {
+  									_context2.next = 7;
+  									break;
+  								}
 
-                                  if (!this.options.videoDetails) {
-                                      _context2.next = 15;
-                                      break;
-                                  }
+  								return _context2.abrupt('continue', 4);
 
-                                  _context2.next = 11;
-                                  return this.data(id);
+  							case 7:
+  								id = match[2];
+  								embedUrl = 'https://www.youtube.com/embed/' + id;
+  								_data = undefined, text = undefined;
 
-                              case 11:
-                                  _data = _context2.sent;
+  								if (!this.options.videoDetails) {
+  									_context2.next = 17;
+  									break;
+  								}
 
-                                  text = helper.getDetailsTemplate(Youtube.formatData(_data, utils), _data, embedUrl);
-                                  _context2.next = 16;
-                                  break;
+  								_context2.next = 13;
+  								return this.data(id);
 
-                              case 15:
-                                  text = helper.template(embedUrl, this.options);
+  							case 13:
+  								_data = _context2.sent;
 
-                              case 16:
-                                  if (this.options.link) {
-                                      this.output = !this.options.inlineText ? this.output.replace(match[0], text + '</a>') : this.output.replace(match[0], match[0] + text);
-                                  } else {
-                                      this.output = !this.options.inlineText ? this.output.replace(match[0], text) : this.output.replace(match[0], match[0] + text);
-                                  }
-                                  _context2.next = 4;
-                                  break;
+  								text = helper.getDetailsTemplate(Youtube.formatData(_data, utils), _data, embedUrl);
+  								_context2.next = 18;
+  								break;
 
-                              case 19:
-                                  _context2.next = 37;
-                                  break;
+  							case 17:
+  								text = helper.template(embedUrl, this.options);
 
-                              case 21:
-                                  match = undefined;
+  							case 18:
+  								if (this.options.link) {
+  									this.output = !this.options.inlineText ? this.output.replace(match[0], text + '</a>') : this.output.replace(match[0], match[0] + text);
+  								} else {
+  									this.output = !this.options.inlineText ? this.output.replace(match[0], text) : this.output.replace(match[0], match[0] + text);
+  								}
+  								_context2.next = 4;
+  								break;
 
-                              case 22:
-                                  if (!((match = utils.matches(this.regex, this.input)) !== null)) {
-                                      _context2.next = 37;
-                                      break;
-                                  }
+  							case 21:
+  								_context2.next = 41;
+  								break;
 
-                                  id = match[1];
-                                  embedUrl = 'https://www.youtube.com/embed/' + id;
-                                  _data2 = undefined, text = undefined;
+  							case 23:
+  								match = undefined;
 
-                                  if (!this.options.videoDetails) {
-                                      _context2.next = 33;
-                                      break;
-                                  }
+  							case 24:
+  								if (!((match = utils.matches(this.regex, this.input)) !== null)) {
+  									_context2.next = 41;
+  									break;
+  								}
 
-                                  _context2.next = 29;
-                                  return this.data(id);
+  								if (!(this.options.served.indexOf(match[0]) !== -1)) {
+  									_context2.next = 27;
+  									break;
+  								}
 
-                              case 29:
-                                  _data2 = _context2.sent;
+  								return _context2.abrupt('continue', 24);
 
-                                  text = helper.getDetailsTemplate(Youtube.formatData(_data2, utils), _data2, embedUrl);
-                                  _context2.next = 34;
-                                  break;
+  							case 27:
+  								id = match[1];
+  								embedUrl = 'https://www.youtube.com/embed/' + id;
+  								_data2 = undefined, text = undefined;
 
-                              case 33:
-                                  text = helper.template(embedUrl, this.options);
+  								if (!this.options.videoDetails) {
+  									_context2.next = 37;
+  									break;
+  								}
 
-                              case 34:
+  								_context2.next = 33;
+  								return this.data(id);
 
-                                  this.embeds.push({
-                                      text: text,
-                                      index: match.index
-                                  });
-                                  _context2.next = 22;
-                                  break;
+  							case 33:
+  								_data2 = _context2.sent;
 
-                              case 37:
-                                  _context2.next = 42;
-                                  break;
+  								text = helper.getDetailsTemplate(Youtube.formatData(_data2, utils), _data2, embedUrl);
+  								_context2.next = 38;
+  								break;
 
-                              case 39:
-                                  _context2.prev = 39;
-                                  _context2.t0 = _context2['catch'](0);
+  							case 37:
+  								text = helper.template(embedUrl, this.options);
 
-                                  console.log(_context2.t0);
+  							case 38:
 
-                              case 42:
-                                  return _context2.abrupt('return', [this.output, this.embeds]);
+  								this.embeds.push({
+  									text: text,
+  									index: match.index
+  								});
+  								_context2.next = 24;
+  								break;
 
-                              case 43:
-                              case 'end':
-                                  return _context2.stop();
-                          }
-                      }
-                  }, _callee2, this, [[0, 39]]);
-              }));
-              return function process() {
-                  return ref.apply(this, arguments);
-              };
-          })()
-      }], [{
-          key: 'formatData',
-          value: function formatData(data, utils) {
-              return {
-                  title: data.snippet.title,
-                  thumbnail: data.snippet.thumbnails.medium.url,
-                  rawDescription: data.snippet.description,
-                  views: data.statistics.viewCount,
-                  likes: data.statistics.likeCount,
-                  description: utils.truncate(data.snippet.description, 150),
-                  url: 'https://www.youtube.com/watch?v=' + data.id,
-                  id: data.id,
-                  host: 'youtube'
-              };
-          }
-      }]);
-      return Youtube;
+  							case 41:
+  								_context2.next = 46;
+  								break;
+
+  							case 43:
+  								_context2.prev = 43;
+  								_context2.t0 = _context2['catch'](0);
+
+  								console.log(_context2.t0);
+
+  							case 46:
+  								return _context2.abrupt('return', [this.output, this.embeds]);
+
+  							case 47:
+  							case 'end':
+  								return _context2.stop();
+  						}
+  					}
+  				}, _callee2, this, [[0, 43]]);
+  			}));
+  			return function process() {
+  				return ref.apply(this, arguments);
+  			};
+  		})()
+  	}], [{
+  		key: 'formatData',
+  		value: function formatData(data, utils) {
+  			return {
+  				title: data.snippet.title,
+  				thumbnail: data.snippet.thumbnails.medium.url,
+  				rawDescription: data.snippet.description,
+  				views: data.statistics.viewCount,
+  				likes: data.statistics.likeCount,
+  				description: utils.truncate(data.snippet.description, 150),
+  				url: 'https://www.youtube.com/watch?v=' + data.id,
+  				id: data.id,
+  				host: 'youtube'
+  			};
+  		}
+  	}]);
+  	return Youtube;
   })();
 
   var Vine = (function (_Base) {
@@ -2892,13 +3132,196 @@
   	return Markdown;
   })();
 
+  var OpenGraph = (function () {
+  	function OpenGraph(input, output, options, embeds) {
+  		babelHelpers_classCallCheck(this, OpenGraph);
+
+  		this.input = input;
+  		this.output = output;
+  		this.options = options;
+  		this.embeds = embeds;
+  		this.service = 'opengraph';
+  		this.excludeRegex = new RegExp(['.mp4|.mp3|.gif|.pdf|.doc|.ppt|.docx|.jpg|.jpeg|.ogg'].concat(options.openGraphExclude).join('|'), 'gi');
+  	}
+
+  	babelHelpers_createClass(OpenGraph, [{
+  		key: 'template',
+  		value: function template(data) {
+  			return ejs.template.openGraph(data, this.options) || '<div class="ejs-embed ejs-ogp">\n\t\t<div class="ejs-ogp-thumb" style="background-image:url(' + data.image + ')"></div>\n\t\t<div class="ejs-ogp-details">\n\t\t<div class="ejs-ogp-title"><a href="' + data.url + '" target="' + this.options.linkOptions.target + '">' + data.title + '</a></div>\n\t\t<div class="ejs-ogb-details">' + data.description + '</div></div></div>';
+  		}
+  	}, {
+  		key: 'fetchData',
+  		value: (function () {
+  			var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee(url) {
+  				var api, response, data;
+  				return regeneratorRuntime.wrap(function _callee$(_context) {
+  					while (1) {
+  						switch (_context.prev = _context.next) {
+  							case 0:
+  								_context.prev = 0;
+
+  								url = encodeURIComponent(url);
+  								api = new Function('url', 'return `' + this.options.openGraphEndpoint + '`')(url);
+  								_context.next = 5;
+  								return fetch(api);
+
+  							case 5:
+  								response = _context.sent;
+  								_context.next = 8;
+  								return response.json();
+
+  							case 8:
+  								data = _context.sent;
+  								return _context.abrupt('return', this.options.onOpenGraphFetch(data) || data);
+
+  							case 12:
+  								_context.prev = 12;
+  								_context.t0 = _context['catch'](0);
+
+  								this.options.onOpenGraphFail(_context.t0);
+
+  							case 15:
+  							case 'end':
+  								return _context.stop();
+  						}
+  					}
+  				}, _callee, this, [[0, 12]]);
+  			}));
+  			return function fetchData(_x) {
+  				return ref.apply(this, arguments);
+  			};
+  		})()
+  	}, {
+  		key: 'process',
+  		value: (function () {
+  			var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+  				var match, regexInline, url, _data, text, _data2, template;
+
+  				return regeneratorRuntime.wrap(function _callee2$(_context2) {
+  					while (1) {
+  						switch (_context2.prev = _context2.next) {
+  							case 0:
+  								_context2.prev = 0;
+  								match = undefined;
+
+  								this.regex = utils.urlRegex();
+
+  								if (utils.ifInline(this.options, this.service)) {
+  									_context2.next = 17;
+  									break;
+  								}
+
+  								regexInline = this.options.link ? new RegExp('([^>]*' + this.regex.source + ')</a>', 'gi') : new RegExp('([^\\s]*' + this.regex.source + ')', 'gi');
+
+  							case 5:
+  								if (!((match = utils.matches(regexInline, this.output)) !== null)) {
+  									_context2.next = 15;
+  									break;
+  								}
+
+  								url = this.options.link ? match[0].slice(0, -4) : match[0];
+
+  								if (OpenGraph.ifProcessOGC(url, this.excludeRegex)) {
+  									_context2.next = 9;
+  									break;
+  								}
+
+  								return _context2.abrupt('continue', 5);
+
+  							case 9:
+  								_context2.next = 11;
+  								return this.fetchData(url);
+
+  							case 11:
+  								_data = _context2.sent;
+
+  								if (_data && _data.success) {
+  									text = this.template(_data);
+
+  									if (this.options.link) {
+  										this.output = !this.options.inlineText ? this.output.replace(match[0], text + '</a>') : this.output.replace(match[0], match[0] + text);
+  									} else {
+  										this.output = !this.options.inlineText ? this.output.replace(match[0], text) : this.output.replace(match[0], match[0] + text);
+  									}
+  									this.options.served.push(url);
+  								}
+  								_context2.next = 5;
+  								break;
+
+  							case 15:
+  								_context2.next = 27;
+  								break;
+
+  							case 17:
+  								if (!((match = utils.matches(this.regex, this.input)) !== null)) {
+  									_context2.next = 27;
+  									break;
+  								}
+
+  								url = match[0];
+
+  								if (OpenGraph.ifProcessOGC(url, this.excludeRegex)) {
+  									_context2.next = 21;
+  									break;
+  								}
+
+  								return _context2.abrupt('continue', 17);
+
+  							case 21:
+  								_context2.next = 23;
+  								return this.fetchData(url);
+
+  							case 23:
+  								_data2 = _context2.sent;
+
+  								if (_data2 && _data2.success) {
+  									template = this.template(_data2);
+
+  									this.embeds.push({
+  										text: template,
+  										index: match.index
+  									});
+  									this.options.served.push(url);
+  								}
+  								_context2.next = 17;
+  								break;
+
+  							case 27:
+  								return _context2.abrupt('return', [this.output, this.embeds]);
+
+  							case 30:
+  								_context2.prev = 30;
+  								_context2.t0 = _context2['catch'](0);
+
+  								console.log(_context2.t0);
+
+  							case 33:
+  							case 'end':
+  								return _context2.stop();
+  						}
+  					}
+  				}, _callee2, this, [[0, 30]]);
+  			}));
+  			return function process() {
+  				return ref.apply(this, arguments);
+  			};
+  		})()
+  	}], [{
+  		key: 'ifProcessOGC',
+  		value: function ifProcessOGC(url, excludeRegex) {
+  			return url.match(excludeRegex) ? false : true;
+  		}
+  	}]);
+  	return OpenGraph;
+  })();
+
   var Url = (function () {
   	function Url(input, options) {
   		babelHelpers_classCallCheck(this, Url);
 
   		this.input = input;
   		this.options = options;
-  		this.urlRegex = /((href|src)=["']|)(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])|(?:https?:\/\/)?(?:(?:0rz\.tw)|(?:1link\.in)|(?:1url\.com)|(?:2\.gp)|(?:2big\.at)|(?:2tu\.us)|(?:3\.ly)|(?:307\.to)|(?:4ms\.me)|(?:4sq\.com)|(?:4url\.cc)|(?:6url\.com)|(?:7\.ly)|(?:a\.gg)|(?:a\.nf)|(?:aa\.cx)|(?:abcurl\.net)|(?:ad\.vu)|(?:adf\.ly)|(?:adjix\.com)|(?:afx\.cc)|(?:all\.fuseurl.com)|(?:alturl\.com)|(?:amzn\.to)|(?:ar\.gy)|(?:arst\.ch)|(?:atu\.ca)|(?:azc\.cc)|(?:b23\.ru)|(?:b2l\.me)|(?:bacn\.me)|(?:bcool\.bz)|(?:binged\.it)|(?:bit\.ly)|(?:buff\.ly)|(?:bizj\.us)|(?:bloat\.me)|(?:bravo\.ly)|(?:bsa\.ly)|(?:budurl\.com)|(?:canurl\.com)|(?:chilp\.it)|(?:chzb\.gr)|(?:cl\.lk)|(?:cl\.ly)|(?:clck\.ru)|(?:cli\.gs)|(?:cliccami\.info)|(?:clickthru\.ca)|(?:clop\.in)|(?:conta\.cc)|(?:cort\.as)|(?:cot\.ag)|(?:crks\.me)|(?:ctvr\.us)|(?:cutt\.us)|(?:dai\.ly)|(?:decenturl\.com)|(?:dfl8\.me)|(?:digbig\.com)|(?:digg\.com)|(?:disq\.us)|(?:dld\.bz)|(?:dlvr\.it)|(?:do\.my)|(?:doiop\.com)|(?:dopen\.us)|(?:easyuri\.com)|(?:easyurl\.net)|(?:eepurl\.com)|(?:eweri\.com)|(?:fa\.by)|(?:fav\.me)|(?:fb\.me)|(?:fbshare\.me)|(?:ff\.im)|(?:fff\.to)|(?:fire\.to)|(?:firsturl\.de)|(?:firsturl\.net)|(?:flic\.kr)|(?:flq\.us)|(?:fly2\.ws)|(?:fon\.gs)|(?:freak\.to)|(?:fuseurl\.com)|(?:fuzzy\.to)|(?:fwd4\.me)|(?:fwib\.net)|(?:g\.ro.lt)|(?:gizmo\.do)|(?:gl\.am)|(?:go\.9nl.com)|(?:go\.ign.com)|(?:go\.usa.gov)|(?:goo\.gl)|(?:goshrink\.com)|(?:gurl\.es)|(?:hex\.io)|(?:hiderefer\.com)|(?:hmm\.ph)|(?:href\.in)|(?:hsblinks\.com)|(?:htxt\.it)|(?:huff\.to)|(?:hulu\.com)|(?:hurl\.me)|(?:hurl\.ws)|(?:icanhaz\.com)|(?:idek\.net)|(?:ilix\.in)|(?:is\.gd)|(?:its\.my)|(?:ix\.lt)|(?:j\.mp)|(?:jijr\.com)|(?:kl\.am)|(?:klck\.me)|(?:korta\.nu)|(?:krunchd\.com)|(?:l9k\.net)|(?:lat\.ms)|(?:liip\.to)|(?:liltext\.com)|(?:linkbee\.com)|(?:linkbun\.ch)|(?:liurl\.cn)|(?:ln-s\.net)|(?:ln-s\.ru)|(?:lnk\.gd)|(?:lnk\.ms)|(?:lnkd\.in)|(?:lnkurl\.com)|(?:lru\.jp)|(?:lt\.tl)|(?:lurl\.no)|(?:macte\.ch)|(?:mash\.to)|(?:merky\.de)|(?:migre\.me)|(?:miniurl\.com)|(?:minurl\.fr)|(?:mke\.me)|(?:moby\.to)|(?:moourl\.com)|(?:mrte\.ch)|(?:myloc\.me)|(?:myurl\.in)|(?:n\.pr)|(?:nbc\.co)|(?:nblo\.gs)|(?:nn\.nf)|(?:not\.my)|(?:notlong\.com)|(?:nsfw\.in)|(?:nutshellurl\.com)|(?:nxy\.in)|(?:nyti\.ms)|(?:o-x\.fr)|(?:oc1\.us)|(?:om\.ly)|(?:omf\.gd)|(?:omoikane\.net)|(?:on\.cnn.com)|(?:on\.mktw.net)|(?:onforb\.es)|(?:orz\.se)|(?:ow\.ly)|(?:ping\.fm)|(?:pli\.gs)|(?:pnt\.me)|(?:politi\.co)|(?:post\.ly)|(?:pp\.gg)|(?:profile\.to)|(?:ptiturl\.com)|(?:pub\.vitrue.com)|(?:qlnk\.net)|(?:qte\.me)|(?:qu\.tc)|(?:qy\.fi)|(?:r\.im)|(?:rb6\.me)|(?:read\.bi)|(?:readthis\.ca)|(?:reallytinyurl\.com)|(?:redir\.ec)|(?:redirects\.ca)|(?:redirx\.com)|(?:retwt\.me)|(?:ri\.ms)|(?:rickroll\.it)|(?:riz\.gd)|(?:rt\.nu)|(?:ru\.ly)|(?:rubyurl\.com)|(?:rurl\.org)|(?:rww\.tw)|(?:s4c\.in)|(?:s7y\.us)|(?:safe\.mn)|(?:sameurl\.com)|(?:sdut\.us)|(?:shar\.es)|(?:shink\.de)|(?:shorl\.com)|(?:short\.ie)|(?:short\.to)|(?:shortlinks\.co.uk)|(?:shorturl\.com)|(?:shout\.to)|(?:show\.my)|(?:shrinkify\.com)|(?:shrinkr\.com)|(?:shrt\.fr)|(?:shrt\.st)|(?:shrten\.com)|(?:shrunkin\.com)|(?:simurl\.com)|(?:slate\.me)|(?:smallr\.com)|(?:smsh\.me)|(?:smurl\.name)|(?:sn\.im)|(?:snipr\.com)|(?:snipurl\.com)|(?:snurl\.com)|(?:sp2\.ro)|(?:spedr\.com)|(?:srnk\.net)|(?:srs\.li)|(?:starturl\.com)|(?:su\.pr)|(?:surl\.co.uk)|(?:surl\.hu)|(?:t\.cn)|(?:t\.co)|(?:t\.lh.com)|(?:ta\.gd)|(?:tbd\.ly)|(?:tcrn\.ch)|(?:tgr\.me)|(?:tgr\.ph)|(?:tighturl\.com)|(?:tiniuri\.com)|(?:tiny\.cc)|(?:tiny\.ly)|(?:tiny\.pl)|(?:tinylink\.in)|(?:tinyuri\.ca)|(?:tinyurl\.com)|(?:tl\.gd)|(?:tmi\.me)|(?:tnij\.org)|(?:tnw\.to)|(?:tny\.com)|(?:to\.ly)|(?:togoto\.us)|(?:totc\.us)|(?:toysr\.us)|(?:tpm\.ly)|(?:tr\.im)|(?:tra\.kz)|(?:trunc\.it)|(?:twhub\.com)|(?:twirl\.at)|(?:twitclicks\.com)|(?:twitterurl\.net)|(?:twitterurl\.org)|(?:twiturl\.de)|(?:twurl\.cc)|(?:twurl\.nl)|(?:u\.mavrev.com)|(?:u\.nu)|(?:u76\.org)|(?:ub0\.cc)|(?:ulu\.lu)|(?:updating\.me)|(?:ur1\.ca)|(?:url\.az)|(?:url\.co.uk)|(?:url\.ie)|(?:url360\.me)|(?:url4\.eu)|(?:urlborg\.com)|(?:urlbrief\.com)|(?:urlcover\.com)|(?:urlcut\.com)|(?:urlenco\.de)|(?:urli\.nl)|(?:urls\.im)|(?:urlshorteningservicefortwitter\.com)|(?:urlx\.ie)|(?:urlzen\.com)|(?:usat\.ly)|(?:use\.my)|(?:vb\.ly)|(?:vgn\.am)|(?:vl\.am)|(?:vm\.lc)|(?:w55\.de)|(?:wapo\.st)|(?:wapurl\.co.uk)|(?:wipi\.es)|(?:wp\.me)|(?:x\.vu)|(?:xr\.com)|(?:xrl\.in)|(?:xrl\.us)|(?:xurl\.es)|(?:xurl\.jp)|(?:y\.ahoo.it)|(?:yatuc\.com)|(?:ye\.pe)|(?:yep\.it)|(?:yfrog\.com)|(?:yhoo\.it)|(?:yiyd\.com)|(?:youtu\.be)|(?:yuarel\.com)|(?:z0p\.de)|(?:zi\.ma)|(?:zi\.mu)|(?:zipmyurl\.com)|(?:zud\.me)|(?:zurl\.ws)|(?:zz\.gd)|(?:zzang\.kr)|(?:›\.ws)|(?:✩\.ws)|(?:✿\.ws)|(?:❥\.ws)|(?:➔\.ws)|(?:➞\.ws)|(?:➡\.ws)|(?:➨\.ws)|(?:➯\.ws)|(?:➹\.ws)|(?:➽\.ws))\/[a-z0-9]*/gi;
+  		this.urlRegex = utils.urlRegex();
   	}
 
   	babelHelpers_createClass(Url, [{
@@ -2953,7 +3376,8 @@
   			align: 'none',
   			lang: 'en'
   		},
-  		imageEmbed: true,
+  		openGraphEndpoint: null,
+  		openGraphExclude: [],
   		videoEmbed: true,
   		videoHeight: null,
   		videoWidth: null,
@@ -2982,11 +3406,17 @@
   			visual: false, //Show/hide the big preview image
   			download: false //Show/Hide download buttons
   		},
+  		videoClickClass: 'ejs-video-thumb',
+  		customVideoClickHandler: false,
   		beforeEmbedJSApply: function beforeEmbedJSApply() {},
   		afterEmbedJSApply: function afterEmbedJSApply() {},
   		onVideoShow: function onVideoShow() {},
   		onTweetsLoad: function onTweetsLoad() {},
-  		videojsCallback: function videojsCallback() {}
+  		videojsCallback: function videojsCallback() {},
+  		onOpenGraphFetch: function onOpenGraphFetch() {},
+  		onOpenGraphFail: function onOpenGraphFail() {},
+  		videoClickHandler: function videoClickHandler() {},
+  		served: [] //Private variable used to store processed urls so that they are not processed multiple times.
   	};
 
   	var EmbedJS = (function () {
@@ -3039,7 +3469,7 @@
   			key: 'process',
   			value: (function () {
   				var ref = babelHelpers_asyncToGenerator(regeneratorRuntime$1.mark(function _callee() {
-  					var input, options, embeds, output, _process, _process2, _process3, _process4, _process5, _process6, _process7, _process8, _process9, _process10, _process11, _process12, _process13, _process14, _process15, _process16, _process17, _process18, _process19, _process20, _process21, _process22, _process23, _process24, _ref, _ref2, _ref3, _ref4, _ref5, _ref6, _process25, _process26, _process27, _process28, _process29, _process30, _process31, _process32, _process33, _process34, _process35, _process36, _ref7, _ref8;
+  					var input, options, embeds, output, _ref, _ref2, _process, _process2, _process3, _process4, _process5, _process6, _process7, _process8, _process9, _process10, _process11, _process12, _process13, _process14, _process15, _process16, _process17, _process18, _process19, _process20, _process21, _process22, _process23, _process24, _ref3, _ref4, _ref5, _ref6, _ref7, _ref8, _ref9, _ref10, _process25, _process26, _process27, _process28, _process29, _process30, _process31, _process32, _process33, _process34, _process35, _process36, _ref11, _ref12;
 
   					return regeneratorRuntime$1.wrap(function _callee$(_context) {
   						while (1) {
@@ -3055,6 +3485,22 @@
   									if (true && options.link) {
   										output = new Url(input, options).process();
   									}
+
+  									if (!(true && options.openGraphEndpoint)) {
+  										_context.next = 13;
+  										break;
+  									}
+
+  									_context.next = 9;
+  									return new OpenGraph(input, output, options, embeds).process();
+
+  								case 9:
+  									_ref = _context.sent;
+  									_ref2 = babelHelpers_slicedToArray(_ref, 2);
+  									output = _ref2[0];
+  									embeds = _ref2[1];
+
+  								case 13:
   									if (true && options.marked) {
   										output = new Markdown(output, options).process();
   									}
@@ -3143,27 +3589,12 @@
   									}
 
   									if (!(true && utils.ifEmbed(options, 'youtube') && regeneratorRuntime$1)) {
-  										_context.next = 29;
-  										break;
-  									}
-
-  									_context.next = 25;
-  									return new Youtube(input, output, options, embeds).process();
-
-  								case 25:
-  									_ref = _context.sent;
-  									_ref2 = babelHelpers_slicedToArray(_ref, 2);
-  									output = _ref2[0];
-  									embeds = _ref2[1];
-
-  								case 29:
-  									if (!(true && utils.ifEmbed(options, 'vimeo'))) {
   										_context.next = 36;
   										break;
   									}
 
   									_context.next = 32;
-  									return new Vimeo(input, output, options, embeds).process();
+  									return new Youtube(input, output, options, embeds).process();
 
   								case 32:
   									_ref3 = _context.sent;
@@ -3172,13 +3603,13 @@
   									embeds = _ref4[1];
 
   								case 36:
-  									if (!(true && options.locationEmbed)) {
+  									if (!(true && utils.ifEmbed(options, 'vimeo'))) {
   										_context.next = 43;
   										break;
   									}
 
   									_context.next = 39;
-  									return new Gmap(input, output, options, embeds).process();
+  									return new Vimeo(input, output, options, embeds).process();
 
   								case 39:
   									_ref5 = _context.sent;
@@ -3187,6 +3618,36 @@
   									embeds = _ref6[1];
 
   								case 43:
+  									if (!(true && utils.ifEmbed(options, 'opengraph'))) {
+  										_context.next = 50;
+  										break;
+  									}
+
+  									_context.next = 46;
+  									return new Github(input, output, options, embeds).process();
+
+  								case 46:
+  									_ref7 = _context.sent;
+  									_ref8 = babelHelpers_slicedToArray(_ref7, 2);
+  									output = _ref8[0];
+  									embeds = _ref8[1];
+
+  								case 50:
+  									if (!(true && options.locationEmbed)) {
+  										_context.next = 57;
+  										break;
+  									}
+
+  									_context.next = 53;
+  									return new Gmap(input, output, options, embeds).process();
+
+  								case 53:
+  									_ref9 = _context.sent;
+  									_ref10 = babelHelpers_slicedToArray(_ref9, 2);
+  									output = _ref10[0];
+  									embeds = _ref10[1];
+
+  								case 57:
 
   									if (true && utils.ifEmbed(options, 'soundcloud')) {
   										_process25 = new SoundCloud(input, output, options, embeds).process();
@@ -3227,24 +3688,24 @@
   									}
 
   									if (!(options.tweetsEmbed && true)) {
-  										_context.next = 57;
+  										_context.next = 71;
   										break;
   									}
 
   									this.twitter = new Twitter(input, output, options, embeds);
-  									_context.next = 53;
+  									_context.next = 67;
   									return this.twitter.process();
 
-  								case 53:
-  									_ref7 = _context.sent;
-  									_ref8 = babelHelpers_slicedToArray(_ref7, 2);
-  									output = _ref8[0];
-  									embeds = _ref8[1];
+  								case 67:
+  									_ref11 = _context.sent;
+  									_ref12 = babelHelpers_slicedToArray(_ref11, 2);
+  									output = _ref12[0];
+  									embeds = _ref12[1];
 
-  								case 57:
+  								case 71:
   									return _context.abrupt('return', utils.createText(output, embeds));
 
-  								case 58:
+  								case 72:
   								case 'end':
   									return _context.stop();
   							}
@@ -3292,7 +3753,7 @@
 
   									helper.applyVideoJS(this.options);
 
-  									helper.play('ejs-video-thumb', this.options);
+  									helper.play(this.options);
 
   									event = new Event('rendered');
 
@@ -3428,7 +3889,9 @@
   			detailsYoutube: function detailsYoutube() {},
   			vine: function vine() {},
   			vimeo: function vimeo() {},
-  			youtube: function youtube() {}
+  			youtube: function youtube() {},
+  			openGraph: function openGraph() {},
+  			Github: function Github() {}
   		}
   	};
   	window.EmbedJS = EmbedJS;

@@ -1,6 +1,6 @@
 import utils from '../utils.es6'
 
-export class Smiley {
+export default class Smiley {
     constructor(input, options) {
         this.input = ' ' + input + ' '; //hack to consider the first and last element
 

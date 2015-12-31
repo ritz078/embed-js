@@ -1,7 +1,7 @@
 import utils from '../utils.es6'
 import Base from '../base.es6'
 
-export class Ustream extends Base {
+export default class Ustream extends Base {
     constructor(input, output, options, embeds) {
         super(input, output, options, embeds);
         this.regex = /ustream.tv\/[a-z\/0-9]*/gi;

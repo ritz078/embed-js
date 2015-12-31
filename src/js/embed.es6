@@ -2,38 +2,41 @@ import regeneratorRuntime from './vendor/regeneratorRuntime.js'
 
 import utils from './modules/utils.es6'
 
-import {Emoji}       from './modules/emoticons/emoji.es6'
-import {Smiley}      from './modules/emoticons/smiley.es6'
-import {Url}         from './modules/url.es6'
+import Emoji       from './modules/emoticons/emoji.es6'
+import Smiley      from './modules/emoticons/smiley.es6'
+import Url         from './modules/url.es6'
 
-import {Twitter}     from './modules/twitter/twitter.es6'
-import {Gmap}        from './modules/map/map.es6'
-import {Markdown}    from './modules/markdown.es6'
+import Twitter     from './modules/twitter/twitter.es6'
+import Gmap        from './modules/map/map.es6'
+import Markdown    from './modules/markdown.es6'
 
-import {Highlight}   from './modules/code/highlight.es6'
-import {Ideone}      from './modules/code/ideone.es6'
-import {Plunker}     from './modules/code/plunker.es6'
-import {JsBin}       from './modules/code/jsbin.es6'
-import {CodePen}     from './modules/code/codepen.es6'
-import {JsFiddle}    from './modules/code/jsfiddle.es6'
-import {Gist}        from './modules/code/gist.es6'
+import Highlight   from './modules/code/highlight.es6'
+import Ideone      from './modules/code/ideone.es6'
+import Plunker     from './modules/code/plunker.es6'
+import JsBin       from './modules/code/jsbin.es6'
+import CodePen     from './modules/code/codepen.es6'
+import JsFiddle    from './modules/code/jsfiddle.es6'
+import Gist        from './modules/code/gist.es6'
 
-import {Ted}         from './modules/video/ted.es6'
-import {Dailymotion} from './modules/video/dailymotion.es6'
-import {Ustream}     from './modules/video/ustream.es6'
-import {LiveLeak}    from './modules/video/liveleak.es6'
-import {Vine}        from './modules/video/vine.es6'
-import {Youtube}     from './modules/video/youtube.es6'
-import {Vimeo}       from './modules/video/vimeo.es6'
-import {BasicVideo}  from './modules/video/basic.es6'
+import Ted         from './modules/video/ted.es6'
+import Dailymotion from './modules/video/dailymotion.es6'
+import Ustream     from './modules/video/ustream.es6'
+import LiveLeak    from './modules/video/liveleak.es6'
+import Vine        from './modules/video/vine.es6'
+import Youtube     from './modules/video/youtube.es6'
+import Vimeo       from './modules/video/vimeo.es6'
+import BasicVideo  from './modules/video/basic.es6'
 
-import {SoundCloud}  from './modules/audio/soundcloud.es6'
-import {Spotify}     from './modules/audio/spotify.es6'
-import {BasicAudio}  from './modules/audio/basic.es6'
+import SoundCloud  from './modules/audio/soundcloud.es6'
+import Spotify     from './modules/audio/spotify.es6'
+import BasicAudio  from './modules/audio/basic.es6'
 
-import {Flickr}      from './modules/image/flickr.es6'
-import {Instagram}   from './modules/image/instagram.es6'
-import {Basic}       from './modules/image/basic.es6'
+import Flickr      from './modules/image/flickr.es6'
+import Instagram   from './modules/image/instagram.es6'
+import Basic       from './modules/image/basic.es6'
+
+import OpenGraph   from './modules/openGraph.es6'
+import Github      from './modules/github.es6'
 
 import helper from './modules/video/helper.es6'
 
@@ -71,7 +74,8 @@ import helper from './modules/video/helper.es6'
 			align     : 'none',
 			lang      : 'en'
 		},
-		imageEmbed        : true,
+		openGraphEndpoint : null,
+		openGraphExclude  : [],
 		videoEmbed        : true,
 		videoHeight       : null,
 		videoWidth        : null,
@@ -100,6 +104,8 @@ import helper from './modules/video/helper.es6'
 			visual      : false, //Show/hide the big preview image
 			download    : false //Show/Hide download buttons
 		},
+		videoClickClass : 'ejs-video-thumb',
+		customVideoClickHandler : false,
 		beforeEmbedJSApply: function () {
 		},
 		afterEmbedJSApply : function () {
@@ -109,7 +115,14 @@ import helper from './modules/video/helper.es6'
 		onTweetsLoad      : function () {
 		},
 		videojsCallback   : function () {
-		}
+		},
+		onOpenGraphFetch  : function () {
+		},
+		onOpenGraphFail   : function () {
+		},
+		videoClickHandler : function () {
+		},
+		served            : []   //Private variable used to store processed urls so that they are not processed multiple times.
 	};
 
 	class EmbedJS {
@@ -165,6 +178,9 @@ import helper from './modules/video/helper.es6'
 
 			if (LINK && options.link) {
 				output = new Url(input, options).process()
+			}
+			if (OPENGRAPH && options.openGraphEndpoint) {
+				[output, embeds] = await new OpenGraph(input, output, options, embeds).process()
 			}
 			if (MARKDOWN && options.marked) {
 				output = new Markdown(output, options).process()
@@ -223,6 +239,9 @@ import helper from './modules/video/helper.es6'
 			if (VIMEO && utils.ifEmbed(options, 'vimeo')) {
 				[output, embeds] = await new Vimeo(input, output, options, embeds).process()
 			}
+			if (GITHUB && utils.ifEmbed(options, 'opengraph')){
+				[output, embeds] = await new Github(input, output, options, embeds).process()
+			}
 
 			if (MAP && options.locationEmbed) {
 				[output, embeds] = await new Gmap(input, output, options, embeds).process()
@@ -272,7 +291,7 @@ import helper from './modules/video/helper.es6'
 
 			helper.applyVideoJS(this.options);
 
-			helper.play('ejs-video-thumb', this.options);
+			helper.play(this.options);
 
 			let event = new Event('rendered');
 			this.element.dispatchEvent(event);
@@ -390,7 +409,9 @@ import helper from './modules/video/helper.es6'
 			vimeo(){
 			},
 			youtube(){
-			}
+			},
+			openGraph(){
+			},Github(){}
 		}
 	};
 	window.EmbedJS = EmbedJS

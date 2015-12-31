@@ -1,4 +1,4 @@
-export class Markdown {
+export default class Markdown {
 	constructor(output, options) {
 		if (!window.marked) throw new ReferenceError(`marked.js is not loaded.`);
 		this.output  = output;
