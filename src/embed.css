@@ -3740,6 +3740,7 @@ code {
   background-size: cover;
   background-position: center;
   display: inline-block;
+  background-color: #3498db;
 }
 
 .ejs-ogp-details {
@@ -3755,6 +3756,9 @@ code {
   margin: 10px 0px;
   font-size: 19px;
   margin-top: 6px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 .ejs-ogp-title a {
   color: #000;

@@ -78,7 +78,7 @@ ejs.setOptions({
 		marked:true,
 		link:true,
 		onOpenGraphFetch:function(data){
-			data.hybridGraph.success = data.error ?  false : true
+			data.hybridGraph.success = data.error ?  false : true;
 			return data.hybridGraph;
 		}
 	});

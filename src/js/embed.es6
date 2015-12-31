@@ -120,7 +120,8 @@ import helper from './modules/video/helper.es6'
 		onOpenGraphFail   : function () {
 		},
 		videoClickHandler : function () {
-		}
+		},
+		served            : []   //Private variable used to store processed urls so that they are not processed multiple times.
 	};
 
 	class EmbedJS {
