@@ -12,12 +12,15 @@ class Base {
 		if (!utils.ifInline(this.options, this.service)) {
 			let regexInline = this.options.link ? new RegExp(`([^>]*${this.regex.source})<\/a>`, 'gm') : new RegExp(`([^\\s]*${this.regex.source})`, 'gm');
 			this.output     = this.output.replace(regexInline, (match)=> {
-				if (this.options.served.indexOf(match) === -1) {
+				let url = this.options.link ? match.slice(0, -4) : match;
+				if (this.options.served.indexOf(url) === -1) {
 					if (this.options.link) {
 						return !this.options.inlineText ? this.template(match.slice(0, -4)) + '</a>' : match + this.template(match.slice(0, -4))
 					} else {
 						return !this.options.inlineText ? this.template(match) : match + this.template(match)
 					}
+				} else {
+					return url;
 				}
 			})
 		}
