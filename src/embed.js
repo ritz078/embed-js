@@ -2934,9 +2934,7 @@
   								url = encodeURIComponent(url);
   								api = new Function('url', 'return `' + this.options.openGraphEndpoint + '`')(url);
   								_context.next = 5;
-  								return fetch(api, {
-  									credentials: 'no-cors'
-  								});
+  								return fetch(api);
 
   							case 5:
   								response = _context.sent;

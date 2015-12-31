@@ -26,14 +26,11 @@ export default class OpenGraph {
 		try {
 			url          = encodeURIComponent(url);
 			let api      = new Function('url', 'return `' + this.options.openGraphEndpoint + '`')(url);
-			let response = await fetch(api, {
-				credentials: 'no-cors'
-			});
+			let response = await fetch(api);
 			let data     = await response.json();
 			return this.options.onOpenGraphFetch(data) || data
 		} catch (e) {
 			this.options.onOpenGraphFail(e);
-
 		}
 	}
 
