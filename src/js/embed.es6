@@ -36,6 +36,7 @@ import Instagram   from './modules/image/instagram.es6'
 import Basic       from './modules/image/basic.es6'
 
 import OpenGraph   from './modules/openGraph.es6'
+import Github      from './modules/github.es6'
 
 import helper from './modules/video/helper.es6'
 
@@ -238,6 +239,9 @@ import helper from './modules/video/helper.es6'
 			if (VIMEO && utils.ifEmbed(options, 'vimeo')) {
 				[output, embeds] = await new Vimeo(input, output, options, embeds).process()
 			}
+			if (GITHUB && utils.ifEmbed(options, 'opengraph')){
+				[output, embeds] = await new Github(input, output, options, embeds).process()
+			}
 
 			if (MAP && options.locationEmbed) {
 				[output, embeds] = await new Gmap(input, output, options, embeds).process()
@@ -407,7 +411,7 @@ import helper from './modules/video/helper.es6'
 			youtube(){
 			},
 			openGraph(){
-			}
+			},Github(){}
 		}
 	};
 	window.EmbedJS = EmbedJS

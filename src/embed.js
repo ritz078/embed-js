@@ -1901,6 +1901,183 @@
       return Gmap;
   })();
 
+  var Github = (function () {
+  	function Github(input, output, options, embeds) {
+  		babelHelpers_classCallCheck(this, Github);
+
+  		this.input = input;
+  		this.output = output;
+  		this.options = options;
+  		this.embeds = embeds;
+  		this.service = 'github';
+  		this.regex = /github.com\/([a-zA-Z0-9\.-]+)\/([a-zA-Z0-9\.-]+)/gi;
+  	}
+
+  	babelHelpers_createClass(Github, [{
+  		key: 'template',
+  		value: function template(data) {
+  			return ejs.template.Github(data, this.options) || '<div class="ejs-embed ejs-github">\n\t\t<div class="ejs-ogp-thumb" style="background-image:url(' + data.owner.avatar_url + ')"></div>\n\t\t<div class="ejs-ogp-details">\n\t\t<div class="ejs-ogp-title"><a href="' + data.html_url + '" target="' + this.options.linkOptions.target + '">' + data.full_name + '</a></div>\n\t\t<div class="ejs-ogb-details">' + data.description + '</div><div class="ejs-github-stats">\n        <span>\n        <i class="fa fa-star"></i>' + data.stargazers_count + '\n        </span>\n        <span>\n        <i class="fa fa-code-fork"></i>' + data.network_count + '\n        </span>\n        </div></div></div>';
+  		}
+  	}, {
+  		key: 'fetchRepo',
+  		value: (function () {
+  			var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee(data) {
+  				var api, response;
+  				return regeneratorRuntime.wrap(function _callee$(_context) {
+  					while (1) {
+  						switch (_context.prev = _context.next) {
+  							case 0:
+  								api = 'https://api.github.com/repos/' + data.user + '/' + data.repo;
+  								_context.next = 3;
+  								return fetch(api);
+
+  							case 3:
+  								response = _context.sent;
+  								_context.next = 6;
+  								return response.json();
+
+  							case 6:
+  								return _context.abrupt('return', _context.sent);
+
+  							case 7:
+  							case 'end':
+  								return _context.stop();
+  						}
+  					}
+  				}, _callee, this);
+  			}));
+  			return function fetchRepo(_x) {
+  				return ref.apply(this, arguments);
+  			};
+  		})()
+  	}, {
+  		key: 'process',
+  		value: (function () {
+  			var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+  				var match, regexInline, url, data, value, text;
+  				return regeneratorRuntime.wrap(function _callee2$(_context2) {
+  					while (1) {
+  						switch (_context2.prev = _context2.next) {
+  							case 0:
+  								match = undefined;
+
+  								if (utils.ifInline(this.options, this.service)) {
+  									_context2.next = 20;
+  									break;
+  								}
+
+  								regexInline = this.options.link ? new RegExp('([^>]*' + this.regex.source + ')</a>', 'gi') : new RegExp('([^\\s]*' + this.regex.source + ')', 'gi');
+
+  							case 3:
+  								if (!((match = utils.matches(regexInline, this.output)) !== null)) {
+  									_context2.next = 18;
+  									break;
+  								}
+
+  								url = this.options.link ? match[0].slice(0, -4) : match[0];
+
+  								console.log(match);
+
+  								if (!(this.options.served.indexOf(url) == -1)) {
+  									_context2.next = 16;
+  									break;
+  								}
+
+  								if (match[3]) {
+  									_context2.next = 9;
+  									break;
+  								}
+
+  								return _context2.abrupt('continue', 3);
+
+  							case 9:
+  								//if url doesn't have repo name then don't process it. User profiles are not supported.
+  								data = {
+  									user: match[2],
+  									repo: match[3]
+  								};
+  								_context2.next = 12;
+  								return this.fetchRepo(data);
+
+  							case 12:
+  								value = _context2.sent;
+  								text = this.template(value);
+
+  								if (this.options.link) {
+  									this.output = !this.options.inlineText ? this.output.replace(match[0], text + '</a>') : this.output.replace(match[0], match[0] + text);
+  								} else {
+  									this.output = !this.options.inlineText ? this.output.replace(match[0], text) : this.output.replace(match[0], match[0] + text);
+  								}
+  								this.options.served.push(url);
+
+  							case 16:
+  								_context2.next = 3;
+  								break;
+
+  							case 18:
+  								_context2.next = 33;
+  								break;
+
+  							case 20:
+  								if (!(match = utils.matches(this.regex, this.input))) {
+  									_context2.next = 33;
+  									break;
+  								}
+
+  								url = match[0];
+
+  								if (!(this.options.served.indexOf(url) == -1)) {
+  									_context2.next = 31;
+  									break;
+  								}
+
+  								if (match[3]) {
+  									_context2.next = 25;
+  									break;
+  								}
+
+  								return _context2.abrupt('continue', 20);
+
+  							case 25:
+  								//if url doesn't have repo name then don't process it. User profiles are not supported.
+  								data = {
+  									user: match[2],
+  									repo: match[3]
+  								};
+  								_context2.next = 28;
+  								return this.fetchRepo(data);
+
+  							case 28:
+  								value = _context2.sent;
+  								text = this.template(value);
+
+  								this.embeds.push({
+  									text: text,
+  									index: match.index
+  								});
+
+  							case 31:
+  								_context2.next = 20;
+  								break;
+
+  							case 33:
+  								return _context2.abrupt('return', [this.output, this.embeds]);
+
+  							case 34:
+  							case 'end':
+  								return _context2.stop();
+  						}
+  					}
+  				}, _callee2, this);
+  			}));
+  			return function process() {
+  				return ref.apply(this, arguments);
+  			};
+  		})()
+  	}]);
+  	return Github;
+  })();
+
   var Vimeo = (function () {
       function Vimeo(input, output, options, embeds) {
           babelHelpers_classCallCheck(this, Vimeo);
@@ -3240,7 +3417,7 @@
   			key: 'process',
   			value: (function () {
   				var ref = babelHelpers_asyncToGenerator(regeneratorRuntime$1.mark(function _callee() {
-  					var input, options, embeds, output, _ref, _ref2, _process, _process2, _process3, _process4, _process5, _process6, _process7, _process8, _process9, _process10, _process11, _process12, _process13, _process14, _process15, _process16, _process17, _process18, _process19, _process20, _process21, _process22, _process23, _process24, _ref3, _ref4, _ref5, _ref6, _ref7, _ref8, _process25, _process26, _process27, _process28, _process29, _process30, _process31, _process32, _process33, _process34, _process35, _process36, _ref9, _ref10;
+  					var input, options, embeds, output, _ref, _ref2, _process, _process2, _process3, _process4, _process5, _process6, _process7, _process8, _process9, _process10, _process11, _process12, _process13, _process14, _process15, _process16, _process17, _process18, _process19, _process20, _process21, _process22, _process23, _process24, _ref3, _ref4, _ref5, _ref6, _ref7, _ref8, _ref9, _ref10, _process25, _process26, _process27, _process28, _process29, _process30, _process31, _process32, _process33, _process34, _process35, _process36, _ref11, _ref12;
 
   					return regeneratorRuntime$1.wrap(function _callee$(_context) {
   						while (1) {
@@ -3389,13 +3566,13 @@
   									embeds = _ref6[1];
 
   								case 43:
-  									if (!(true && options.locationEmbed)) {
+  									if (!(true && utils.ifEmbed(options, 'opengraph'))) {
   										_context.next = 50;
   										break;
   									}
 
   									_context.next = 46;
-  									return new Gmap(input, output, options, embeds).process();
+  									return new Github(input, output, options, embeds).process();
 
   								case 46:
   									_ref7 = _context.sent;
@@ -3404,6 +3581,21 @@
   									embeds = _ref8[1];
 
   								case 50:
+  									if (!(true && options.locationEmbed)) {
+  										_context.next = 57;
+  										break;
+  									}
+
+  									_context.next = 53;
+  									return new Gmap(input, output, options, embeds).process();
+
+  								case 53:
+  									_ref9 = _context.sent;
+  									_ref10 = babelHelpers_slicedToArray(_ref9, 2);
+  									output = _ref10[0];
+  									embeds = _ref10[1];
+
+  								case 57:
 
   									if (true && utils.ifEmbed(options, 'soundcloud')) {
   										_process25 = new SoundCloud(input, output, options, embeds).process();
@@ -3444,24 +3636,24 @@
   									}
 
   									if (!(options.tweetsEmbed && true)) {
-  										_context.next = 64;
+  										_context.next = 71;
   										break;
   									}
 
   									this.twitter = new Twitter(input, output, options, embeds);
-  									_context.next = 60;
+  									_context.next = 67;
   									return this.twitter.process();
 
-  								case 60:
-  									_ref9 = _context.sent;
-  									_ref10 = babelHelpers_slicedToArray(_ref9, 2);
-  									output = _ref10[0];
-  									embeds = _ref10[1];
+  								case 67:
+  									_ref11 = _context.sent;
+  									_ref12 = babelHelpers_slicedToArray(_ref11, 2);
+  									output = _ref12[0];
+  									embeds = _ref12[1];
 
-  								case 64:
+  								case 71:
   									return _context.abrupt('return', utils.createText(output, embeds));
 
-  								case 65:
+  								case 72:
   								case 'end':
   									return _context.stop();
   							}
@@ -3646,7 +3838,8 @@
   			vine: function vine() {},
   			vimeo: function vimeo() {},
   			youtube: function youtube() {},
-  			openGraph: function openGraph() {}
+  			openGraph: function openGraph() {},
+  			Github: function Github() {}
   		}
   	};
   	window.EmbedJS = EmbedJS;

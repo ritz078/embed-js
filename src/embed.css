@@ -3522,6 +3522,7 @@
   width: 100%;
   margin: 20px 0;
   box-sizing: border-box;
+  position: relative;
 }
 
 .ejs-embed iframe {
@@ -3663,12 +3664,15 @@ code {
   overflow: auto;
 }
 
-.ejs-video-stats span {
-  padding: 0 15px;
-  float: right;
+.ejs-video-stats, .ejs-github-stats {
+  position: absolute;
+  right: 5px;
+  bottom: 15px;
 }
-
-.ejs-video-stats span i {
+.ejs-video-stats span, .ejs-github-stats span {
+  padding: 0 15px;
+}
+.ejs-video-stats span i, .ejs-github-stats span i {
   margin-right: 10px;
 }
 
@@ -3728,7 +3732,7 @@ code {
   vertical-align: middle;
 }
 
-.ejs-ogp {
+.ejs-ogp, .ejs-github {
   padding: 5px;
   border: 1px solid #eeeeee;
   display: inline-flex;

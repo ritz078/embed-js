@@ -35,5 +35,6 @@
     "BASICIMAGE"    : "true",
     "INSTAGRAM"     : "true",
 
-    "OPENGRAPH"     : "true"
+    "OPENGRAPH"     : "true",
+  	"GITHUB"		: "true"
 }
