@@ -1,3 +1,9 @@
+Version 3.5.0
+-------------
+####Features
+* Opengraph support added
+* Github API integration
+
 Version 3.2.2
 -------------
 ####Bug fixes
