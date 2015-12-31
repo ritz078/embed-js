@@ -7,7 +7,7 @@ export default class OpenGraph {
 		this.options      = options;
 		this.embeds       = embeds;
 		this.service      = 'opengraph';
-		this.excludeRegex = new RegExp(['youtube', 'twitter', 'vimeo', 'unsplash', 'soundcloud', 'spotify', 'instagram','flickr'].concat(options.openGraphExclude).join('|'), 'gi')
+		this.excludeRegex = new RegExp(['.mp4|.mp3|.gif|.pdf|.doc|.ppt|.docx|.jpg|.jpeg|.ogg'].concat(options.openGraphExclude).join('|'), 'gi')
 	}
 
 	static ifProcessOGC(url, excludeRegex) {

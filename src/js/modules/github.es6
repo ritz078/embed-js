@@ -37,7 +37,6 @@ export default class Github {
 			let regexInline = this.options.link ? new RegExp(`([^>]*${this.regex.source})<\/a>`, 'gi') : new RegExp(`([^\\s]*${this.regex.source})`, 'gi');
 			while ((match = utils.matches(regexInline, this.output)) !== null) {
 				let url = this.options.link ? match[0].slice(0, -4) : match[0];
-				console.log(match);
 				if (this.options.served.indexOf(url) == -1) {
 					if (!match[3]) continue;   //if url doesn't have repo name then don't process it. User profiles are not supported.
 					let data  = {

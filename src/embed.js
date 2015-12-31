@@ -1395,168 +1395,185 @@
   })();
 
   var Twitter = (function () {
-      function Twitter(input, output, options, embeds) {
-          babelHelpers_classCallCheck(this, Twitter);
+  	function Twitter(input, output, options, embeds) {
+  		babelHelpers_classCallCheck(this, Twitter);
 
-          this.input = input;
-          this.output = output;
-          this.options = options;
-          this.embeds = embeds;
-          this.regex = /https:\/\/twitter\.com\/\w+\/\w+\/\d+/gi;
-          this.service = 'twitter';
+  		this.input = input;
+  		this.output = output;
+  		this.options = options;
+  		this.embeds = embeds;
+  		this.regex = /https:\/\/twitter\.com\/\w+\/\w+\/\d+/gi;
+  		this.service = 'twitter';
 
-          this.load = this.load.bind(this);
-          this.options.element.addEventListener('rendered', this.load, false);
-      }
+  		this.load = this.load.bind(this);
+  		this.options.element.addEventListener('rendered', this.load, false);
+  	}
 
-      /**
-       * Fetches the data from twitter's oEmbed API
-       * @param  {string} url URL of the tweet
-       * @return {object}     data containing the tweet info
-       */
+  	/**
+    * Fetches the data from twitter's oEmbed API
+    * @param  {string} url URL of the tweet
+    * @return {object}     data containing the tweet info
+    */
 
-      babelHelpers_createClass(Twitter, [{
-          key: 'tweetData',
-          value: (function () {
-              var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee(url) {
-                  var config, apiUrl, response;
-                  return regeneratorRuntime.wrap(function _callee$(_context) {
-                      while (1) {
-                          switch (_context.prev = _context.next) {
-                              case 0:
-                                  config = this.options.tweetOptions;
-                                  apiUrl = 'https://api.twitter.com/1/statuses/oembed.json?omit_script=true&url=' + url + '&maxwidth=' + config.maxWidth + '&hide_media=' + config.hideMedia + '&hide_thread=' + config.hideThread + '&align=' + config.align + '&lang=' + config.lang;
-                                  _context.next = 4;
-                                  return fetchJsonp(apiUrl, {
-                                      credentials: 'include'
-                                  });
+  	babelHelpers_createClass(Twitter, [{
+  		key: 'tweetData',
+  		value: (function () {
+  			var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee(url) {
+  				var config, apiUrl, response;
+  				return regeneratorRuntime.wrap(function _callee$(_context) {
+  					while (1) {
+  						switch (_context.prev = _context.next) {
+  							case 0:
+  								config = this.options.tweetOptions;
+  								apiUrl = 'https://api.twitter.com/1/statuses/oembed.json?omit_script=true&url=' + url + '&maxwidth=' + config.maxWidth + '&hide_media=' + config.hideMedia + '&hide_thread=' + config.hideThread + '&align=' + config.align + '&lang=' + config.lang;
+  								_context.next = 4;
+  								return fetchJsonp(apiUrl, {
+  									credentials: 'include'
+  								});
 
-                              case 4:
-                                  response = _context.sent;
-                                  _context.next = 7;
-                                  return response.json();
+  							case 4:
+  								response = _context.sent;
+  								_context.next = 7;
+  								return response.json();
 
-                              case 7:
-                                  return _context.abrupt('return', _context.sent);
+  							case 7:
+  								return _context.abrupt('return', _context.sent);
 
-                              case 8:
-                              case 'end':
-                                  return _context.stop();
-                          }
-                      }
-                  }, _callee, this);
-              }));
-              return function tweetData(_x) {
-                  return ref.apply(this, arguments);
-              };
-          })()
+  							case 8:
+  							case 'end':
+  								return _context.stop();
+  						}
+  					}
+  				}, _callee, this);
+  			}));
+  			return function tweetData(_x) {
+  				return ref.apply(this, arguments);
+  			};
+  		})()
 
-          /**
-           * Load twitter widgets
-           * @return null
-           */
+  		/**
+     * Load twitter widgets
+     * @return null
+     */
 
-      }, {
-          key: 'load',
-          value: function load() {
-              var _this = this;
+  	}, {
+  		key: 'load',
+  		value: function load() {
+  			var _this = this;
 
-              twttr.widgets.load(this.options.element); //here this refers to the element
+  			twttr.widgets.load(this.options.element); //here this refers to the element
 
-              //Execute the function after the widget is loaded
-              twttr.events.bind('loaded', function () {
-                  _this.options.onTweetsLoad();
-              });
-          }
-      }, {
-          key: 'process',
-          value: (function () {
-              var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
-                  var regexInline, match, url, data, text;
-                  return regeneratorRuntime.wrap(function _callee2$(_context2) {
-                      while (1) {
-                          switch (_context2.prev = _context2.next) {
-                              case 0:
-                                  _context2.prev = 0;
+  			//Execute the function after the widget is loaded
+  			twttr.events.bind('loaded', function () {
+  				_this.options.onTweetsLoad();
+  			});
+  		}
+  	}, {
+  		key: 'process',
+  		value: (function () {
+  			var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+  				var regexInline, match, url, data, text;
+  				return regeneratorRuntime.wrap(function _callee2$(_context2) {
+  					while (1) {
+  						switch (_context2.prev = _context2.next) {
+  							case 0:
+  								_context2.prev = 0;
 
-                                  if (utils.ifInline(this.options, this.service)) {
-                                      _context2.next = 15;
-                                      break;
-                                  }
+  								if (utils.ifInline(this.options, this.service)) {
+  									_context2.next = 17;
+  									break;
+  								}
 
-                                  regexInline = this.options.link ? new RegExp('([^>]*' + this.regex.source + ')</a>', 'gi') : new RegExp('([^\\s]*' + this.regex.source + ')', 'gi');
-                                  match = undefined;
+  								regexInline = this.options.link ? new RegExp('([^>]*' + this.regex.source + ')</a>', 'gi') : new RegExp('([^\\s]*' + this.regex.source + ')', 'gi');
+  								match = undefined;
 
-                              case 4:
-                                  if (!((match = utils.matches(regexInline, this.output)) !== null)) {
-                                      _context2.next = 13;
-                                      break;
-                                  }
+  							case 4:
+  								if (!((match = utils.matches(regexInline, this.output)) !== null)) {
+  									_context2.next = 15;
+  									break;
+  								}
 
-                                  url = this.options.link ? match[0].slice(0, -4) : match[0];
-                                  _context2.next = 8;
-                                  return this.tweetData(url);
+  								url = this.options.link ? match[0].slice(0, -4) : match[0];
 
-                              case 8:
-                                  data = _context2.sent;
-                                  text = data.html;
+  								if (!(this.options.served.indexOf(url) !== -1)) {
+  									_context2.next = 8;
+  									break;
+  								}
 
-                                  if (this.options.link) {
-                                      this.output = !this.options.inlineText ? this.output.replace(match[0], text + '</a>') : this.output.replace(match[0], match[0] + text);
-                                  } else {
-                                      this.output = !this.options.inlineText ? this.output.replace(match[0], text) : this.output.replace(match[0], match[0] + text);
-                                  }
-                                  _context2.next = 4;
-                                  break;
+  								return _context2.abrupt('continue', 4);
 
-                              case 13:
-                                  _context2.next = 23;
-                                  break;
+  							case 8:
+  								_context2.next = 10;
+  								return this.tweetData(url);
 
-                              case 15:
-                                  match = undefined;
+  							case 10:
+  								data = _context2.sent;
+  								text = data.html;
 
-                              case 16:
-                                  if (!((match = utils.matches(this.regex, this.input)) !== null)) {
-                                      _context2.next = 23;
-                                      break;
-                                  }
+  								if (this.options.link) {
+  									this.output = !this.options.inlineText ? this.output.replace(match[0], text + '</a>') : this.output.replace(match[0], match[0] + text);
+  								} else {
+  									this.output = !this.options.inlineText ? this.output.replace(match[0], text) : this.output.replace(match[0], match[0] + text);
+  								}
+  								_context2.next = 4;
+  								break;
 
-                                  _context2.next = 19;
-                                  return this.tweetData(match[0]);
+  							case 15:
+  								_context2.next = 27;
+  								break;
 
-                              case 19:
-                                  data = _context2.sent;
+  							case 17:
+  								match = undefined;
 
-                                  this.embeds.push({
-                                      text: data.html,
-                                      index: match.index
-                                  });
-                                  _context2.next = 16;
-                                  break;
+  							case 18:
+  								if (!((match = utils.matches(this.regex, this.input)) !== null)) {
+  									_context2.next = 27;
+  									break;
+  								}
 
-                              case 23:
-                                  return _context2.abrupt('return', [this.output, this.embeds]);
+  								if (!(this.options.served.indexOf(match[0]) !== -1)) {
+  									_context2.next = 21;
+  									break;
+  								}
 
-                              case 26:
-                                  _context2.prev = 26;
-                                  _context2.t0 = _context2['catch'](0);
+  								return _context2.abrupt('continue', 18);
 
-                                  console.log(_context2.t0);
+  							case 21:
+  								_context2.next = 23;
+  								return this.tweetData(match[0]);
 
-                              case 29:
-                              case 'end':
-                                  return _context2.stop();
-                          }
-                      }
-                  }, _callee2, this, [[0, 26]]);
-              }));
-              return function process() {
-                  return ref.apply(this, arguments);
-              };
-          })()
-      }]);
-      return Twitter;
+  							case 23:
+  								data = _context2.sent;
+
+  								this.embeds.push({
+  									text: data.html,
+  									index: match.index
+  								});
+  								_context2.next = 18;
+  								break;
+
+  							case 27:
+  								return _context2.abrupt('return', [this.output, this.embeds]);
+
+  							case 30:
+  								_context2.prev = 30;
+  								_context2.t0 = _context2['catch'](0);
+
+  								console.log(_context2.t0);
+
+  							case 33:
+  							case 'end':
+  								return _context2.stop();
+  						}
+  					}
+  				}, _callee2, this, [[0, 30]]);
+  			}));
+  			return function process() {
+  				return ref.apply(this, arguments);
+  			};
+  		})()
+  	}]);
+  	return Twitter;
   })();
 
   var Base = (function () {
@@ -1577,12 +1594,15 @@
   			if (!utils.ifInline(this.options, this.service)) {
   				var regexInline = this.options.link ? new RegExp('([^>]*' + this.regex.source + ')</a>', 'gm') : new RegExp('([^\\s]*' + this.regex.source + ')', 'gm');
   				this.output = this.output.replace(regexInline, function (match) {
-  					if (_this.options.served.indexOf(match) === -1) {
+  					var url = _this.options.link ? match.slice(0, -4) : match;
+  					if (_this.options.served.indexOf(url) === -1) {
   						if (_this.options.link) {
   							return !_this.options.inlineText ? _this.template(match.slice(0, -4)) + '</a>' : match + _this.template(match.slice(0, -4));
   						} else {
   							return !_this.options.inlineText ? _this.template(match) : match + _this.template(match);
   						}
+  					} else {
+  						return url;
   					}
   				});
   			} else {
@@ -1962,7 +1982,7 @@
   								match = undefined;
 
   								if (utils.ifInline(this.options, this.service)) {
-  									_context2.next = 20;
+  									_context2.next = 19;
   									break;
   								}
 
@@ -1970,36 +1990,34 @@
 
   							case 3:
   								if (!((match = utils.matches(regexInline, this.output)) !== null)) {
-  									_context2.next = 18;
+  									_context2.next = 17;
   									break;
   								}
 
   								url = this.options.link ? match[0].slice(0, -4) : match[0];
 
-  								console.log(match);
-
   								if (!(this.options.served.indexOf(url) == -1)) {
-  									_context2.next = 16;
+  									_context2.next = 15;
   									break;
   								}
 
   								if (match[3]) {
-  									_context2.next = 9;
+  									_context2.next = 8;
   									break;
   								}
 
   								return _context2.abrupt('continue', 3);
 
-  							case 9:
+  							case 8:
   								//if url doesn't have repo name then don't process it. User profiles are not supported.
   								data = {
   									user: match[2],
   									repo: match[3]
   								};
-  								_context2.next = 12;
+  								_context2.next = 11;
   								return this.fetchRepo(data);
 
-  							case 12:
+  							case 11:
   								value = _context2.sent;
   								text = this.template(value);
 
@@ -2010,44 +2028,44 @@
   								}
   								this.options.served.push(url);
 
-  							case 16:
+  							case 15:
   								_context2.next = 3;
   								break;
 
-  							case 18:
-  								_context2.next = 33;
+  							case 17:
+  								_context2.next = 32;
   								break;
 
-  							case 20:
+  							case 19:
   								if (!(match = utils.matches(this.regex, this.input))) {
-  									_context2.next = 33;
+  									_context2.next = 32;
   									break;
   								}
 
   								url = match[0];
 
   								if (!(this.options.served.indexOf(url) == -1)) {
-  									_context2.next = 31;
+  									_context2.next = 30;
   									break;
   								}
 
   								if (match[3]) {
-  									_context2.next = 25;
+  									_context2.next = 24;
   									break;
   								}
 
-  								return _context2.abrupt('continue', 20);
+  								return _context2.abrupt('continue', 19);
 
-  							case 25:
+  							case 24:
   								//if url doesn't have repo name then don't process it. User profiles are not supported.
   								data = {
   									user: match[2],
   									repo: match[3]
   								};
-  								_context2.next = 28;
+  								_context2.next = 27;
   								return this.fetchRepo(data);
 
-  							case 28:
+  							case 27:
   								value = _context2.sent;
   								text = this.template(value);
 
@@ -2056,14 +2074,14 @@
   									index: match.index
   								});
 
-  							case 31:
-  								_context2.next = 20;
+  							case 30:
+  								_context2.next = 19;
   								break;
 
-  							case 33:
+  							case 32:
   								return _context2.abrupt('return', [this.output, this.embeds]);
 
-  							case 34:
+  							case 33:
   							case 'end':
   								return _context2.stop();
   						}
@@ -2079,391 +2097,425 @@
   })();
 
   var Vimeo = (function () {
-      function Vimeo(input, output, options, embeds) {
-          babelHelpers_classCallCheck(this, Vimeo);
+  	function Vimeo(input, output, options, embeds) {
+  		babelHelpers_classCallCheck(this, Vimeo);
 
-          this.input = input;
-          this.output = output;
-          this.options = options;
-          this.embeds = embeds;
-          this.regex = /https?:\/\/(?:www\.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/([^\/]*)\/videos\/|album\/(\d+)\/video\/|)(\d+)(?:$|\/|\?)*/gi;
-          this.service = 'vimeo';
-      }
+  		this.input = input;
+  		this.output = output;
+  		this.options = options;
+  		this.embeds = embeds;
+  		this.regex = /https?:\/\/(?:www\.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/([^\/]*)\/videos\/|album\/(\d+)\/video\/|)(\d+)(?:$|\/|\?)*/gi;
+  		this.service = 'vimeo';
+  	}
 
-      babelHelpers_createClass(Vimeo, [{
-          key: 'data',
-          value: (function () {
-              var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee(id) {
-                  var url, response, data;
-                  return regeneratorRuntime.wrap(function _callee$(_context) {
-                      while (1) {
-                          switch (_context.prev = _context.next) {
-                              case 0:
-                                  _context.prev = 0;
-                                  url = 'https://vimeo.com/api/v2/video/' + id + '.json';
-                                  _context.next = 4;
-                                  return fetch(url);
+  	babelHelpers_createClass(Vimeo, [{
+  		key: 'data',
+  		value: (function () {
+  			var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee(id) {
+  				var url, response, data;
+  				return regeneratorRuntime.wrap(function _callee$(_context) {
+  					while (1) {
+  						switch (_context.prev = _context.next) {
+  							case 0:
+  								_context.prev = 0;
+  								url = 'https://vimeo.com/api/v2/video/' + id + '.json';
+  								_context.next = 4;
+  								return fetch(url);
 
-                              case 4:
-                                  response = _context.sent;
-                                  _context.next = 7;
-                                  return response.json();
+  							case 4:
+  								response = _context.sent;
+  								_context.next = 7;
+  								return response.json();
 
-                              case 7:
-                                  data = _context.sent;
-                                  return _context.abrupt('return', data[0]);
+  							case 7:
+  								data = _context.sent;
+  								return _context.abrupt('return', data[0]);
 
-                              case 11:
-                                  _context.prev = 11;
-                                  _context.t0 = _context['catch'](0);
+  							case 11:
+  								_context.prev = 11;
+  								_context.t0 = _context['catch'](0);
 
-                                  console.log(_context.t0);
+  								console.log(_context.t0);
 
-                              case 14:
-                              case 'end':
-                                  return _context.stop();
-                          }
-                      }
-                  }, _callee, this, [[0, 11]]);
-              }));
-              return function data(_x) {
-                  return ref.apply(this, arguments);
-              };
-          })()
-      }, {
-          key: 'process',
-          value: (function () {
-              var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
-                  var regexInline, match, id, embedUrl, _data, text, _data2;
+  							case 14:
+  							case 'end':
+  								return _context.stop();
+  						}
+  					}
+  				}, _callee, this, [[0, 11]]);
+  			}));
+  			return function data(_x) {
+  				return ref.apply(this, arguments);
+  			};
+  		})()
+  	}, {
+  		key: 'process',
+  		value: (function () {
+  			var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+  				var regexInline, match, _url, id, embedUrl, _data, text, _data2;
 
-                  return regeneratorRuntime.wrap(function _callee2$(_context2) {
-                      while (1) {
-                          switch (_context2.prev = _context2.next) {
-                              case 0:
-                                  _context2.prev = 0;
+  				return regeneratorRuntime.wrap(function _callee2$(_context2) {
+  					while (1) {
+  						switch (_context2.prev = _context2.next) {
+  							case 0:
+  								_context2.prev = 0;
 
-                                  if (utils.ifInline(this.options, this.service)) {
-                                      _context2.next = 21;
-                                      break;
-                                  }
+  								if (utils.ifInline(this.options, this.service)) {
+  									_context2.next = 24;
+  									break;
+  								}
 
-                                  regexInline = this.options.link ? new RegExp('([^>]*' + this.regex.source + ')</a>', 'gi') : new RegExp('([^\\s]*' + this.regex.source + ')', 'gi');
-                                  match = undefined;
+  								regexInline = this.options.link ? new RegExp('([^>]*' + this.regex.source + ')</a>', 'gi') : new RegExp('([^\\s]*' + this.regex.source + ')', 'gi');
+  								match = undefined;
 
-                              case 4:
-                                  if (!((match = utils.matches(regexInline, this.output)) !== null)) {
-                                      _context2.next = 19;
-                                      break;
-                                  }
+  							case 4:
+  								if (!((match = utils.matches(regexInline, this.output)) !== null)) {
+  									_context2.next = 22;
+  									break;
+  								}
 
-                                  id = this.options.link ? match[0].slice(0, -4).split('/').slice(-1).pop() : match[0].split('/').slice(-1).pop();
-                                  embedUrl = 'https://player.vimeo.com/video/' + id;
-                                  _data = undefined, text = undefined;
+  								_url = this.options.link ? match[0].slice(0, -4) : match[0];
 
-                                  if (!this.options.videoDetails) {
-                                      _context2.next = 15;
-                                      break;
-                                  }
+  								if (!(this.options.served.indexOf(_url) !== -1)) {
+  									_context2.next = 8;
+  									break;
+  								}
 
-                                  _context2.next = 11;
-                                  return this.data(id);
+  								return _context2.abrupt('continue', 4);
 
-                              case 11:
-                                  _data = _context2.sent;
+  							case 8:
+  								id = this.options.link ? match[0].slice(0, -4).split('/').slice(-1).pop() : match[0].split('/').slice(-1).pop();
+  								embedUrl = 'https://player.vimeo.com/video/' + id;
+  								_data = undefined, text = undefined;
 
-                                  text = helper.getDetailsTemplate(Vimeo.formatData(_data, utils), _data, embedUrl);
-                                  _context2.next = 16;
-                                  break;
+  								if (!this.options.videoDetails) {
+  									_context2.next = 18;
+  									break;
+  								}
 
-                              case 15:
-                                  text = helper.template(embedUrl, this.options);
+  								_context2.next = 14;
+  								return this.data(id);
 
-                              case 16:
+  							case 14:
+  								_data = _context2.sent;
 
-                                  if (this.options.link) {
-                                      this.output = !this.options.inlineText ? this.output.replace(match[0], text + '</a>') : this.output.replace(match[0], match[0] + text);
-                                  } else {
-                                      this.output = !this.options.inlineText ? this.output.replace(match[0], text) : this.output.replace(match[0], match[0] + text);
-                                  }
-                                  _context2.next = 4;
-                                  break;
+  								text = helper.getDetailsTemplate(Vimeo.formatData(_data, utils), _data, embedUrl);
+  								_context2.next = 19;
+  								break;
 
-                              case 19:
-                                  _context2.next = 36;
-                                  break;
+  							case 18:
+  								text = helper.template(embedUrl, this.options);
 
-                              case 21:
-                                  match = undefined;
+  							case 19:
 
-                              case 22:
-                                  if (!((match = utils.matches(this.regex, this.input)) !== null)) {
-                                      _context2.next = 36;
-                                      break;
-                                  }
+  								if (this.options.link) {
+  									this.output = !this.options.inlineText ? this.output.replace(match[0], text + '</a>') : this.output.replace(match[0], match[0] + text);
+  								} else {
+  									this.output = !this.options.inlineText ? this.output.replace(match[0], text) : this.output.replace(match[0], match[0] + text);
+  								}
+  								_context2.next = 4;
+  								break;
 
-                                  embedUrl = 'https://player.vimeo.com/video/' + match[3];
-                                  _data2 = undefined, text = undefined;
+  							case 22:
+  								_context2.next = 41;
+  								break;
 
-                                  if (!this.options.videoDetails) {
-                                      _context2.next = 32;
-                                      break;
-                                  }
+  							case 24:
+  								match = undefined;
 
-                                  _context2.next = 28;
-                                  return this.data(match[3]);
+  							case 25:
+  								if (!((match = utils.matches(this.regex, this.input)) !== null)) {
+  									_context2.next = 41;
+  									break;
+  								}
 
-                              case 28:
-                                  _data2 = _context2.sent;
+  								if (!(this.options.served.indexOf(match[0]) !== -1)) {
+  									_context2.next = 28;
+  									break;
+  								}
 
-                                  text = helper.getDetailsTemplate(Vimeo.formatData(_data2, utils), _data2, embedUrl);
-                                  _context2.next = 33;
-                                  break;
+  								return _context2.abrupt('continue', 25);
 
-                              case 32:
-                                  text = helper.template(embedUrl, this.options);
+  							case 28:
+  								embedUrl = 'https://player.vimeo.com/video/' + match[3];
+  								_data2 = undefined, text = undefined;
 
-                              case 33:
+  								if (!this.options.videoDetails) {
+  									_context2.next = 37;
+  									break;
+  								}
 
-                                  this.embeds.push({
-                                      text: text,
-                                      index: match.index
-                                  });
-                                  _context2.next = 22;
-                                  break;
+  								_context2.next = 33;
+  								return this.data(match[3]);
 
-                              case 36:
-                                  return _context2.abrupt('return', [this.output, this.embeds]);
+  							case 33:
+  								_data2 = _context2.sent;
 
-                              case 39:
-                                  _context2.prev = 39;
-                                  _context2.t0 = _context2['catch'](0);
+  								text = helper.getDetailsTemplate(Vimeo.formatData(_data2, utils), _data2, embedUrl);
+  								_context2.next = 38;
+  								break;
 
-                                  console.log(_context2.t0);
+  							case 37:
+  								text = helper.template(embedUrl, this.options);
 
-                              case 42:
-                              case 'end':
-                                  return _context2.stop();
-                          }
-                      }
-                  }, _callee2, this, [[0, 39]]);
-              }));
-              return function process() {
-                  return ref.apply(this, arguments);
-              };
-          })()
-      }], [{
-          key: 'formatData',
-          value: function formatData(data, utils) {
-              return {
-                  title: data.title,
-                  thumbnail: data.thumbnail_medium,
-                  rawDescription: data.description.replace(/\n/g, '<br/>').replace(/&#10;/g, '<br/>'),
-                  views: data.stats_number_of_plays,
-                  likes: data.stats_number_of_likes,
-                  description: utils.truncate(data.description.replace(/((<|&lt;)br\s*\/*(>|&gt;)\r\n)/g, ' '), 150),
-                  url: data.url,
-                  id: data.id,
-                  host: 'vimeo'
-              };
-          }
-      }]);
-      return Vimeo;
+  							case 38:
+
+  								this.embeds.push({
+  									text: text,
+  									index: match.index
+  								});
+  								_context2.next = 25;
+  								break;
+
+  							case 41:
+  								return _context2.abrupt('return', [this.output, this.embeds]);
+
+  							case 44:
+  								_context2.prev = 44;
+  								_context2.t0 = _context2['catch'](0);
+
+  								console.log(_context2.t0);
+
+  							case 47:
+  							case 'end':
+  								return _context2.stop();
+  						}
+  					}
+  				}, _callee2, this, [[0, 44]]);
+  			}));
+  			return function process() {
+  				return ref.apply(this, arguments);
+  			};
+  		})()
+  	}], [{
+  		key: 'formatData',
+  		value: function formatData(data, utils) {
+  			return {
+  				title: data.title,
+  				thumbnail: data.thumbnail_medium,
+  				rawDescription: data.description.replace(/\n/g, '<br/>').replace(/&#10;/g, '<br/>'),
+  				views: data.stats_number_of_plays,
+  				likes: data.stats_number_of_likes,
+  				description: utils.truncate(data.description.replace(/((<|&lt;)br\s*\/*(>|&gt;)\r\n)/g, ' '), 150),
+  				url: data.url,
+  				id: data.id,
+  				host: 'vimeo'
+  			};
+  		}
+  	}]);
+  	return Vimeo;
   })();
 
   var Youtube = (function () {
-      function Youtube(input, output, options, embeds) {
-          babelHelpers_classCallCheck(this, Youtube);
+  	function Youtube(input, output, options, embeds) {
+  		babelHelpers_classCallCheck(this, Youtube);
 
-          this.input = input;
-          this.output = output;
-          this.options = options;
-          this.embeds = embeds;
-          this.regex = /https?:\/\/(?:[0-9A-Z-]+\.)?(?:youtu\.be\/|youtube\.com(?:\/embed\/|\/v\/|\/watch\?v=|\/ytscreeningroom\?v=|\/feeds\/api\/videos\/|\/user\S*[^\w\-\s]|\S*[^\w\-\s]))([\w\-]{11})[?=&+%\w-]*/gi;
-          this.service = 'youtube';
-      }
+  		this.input = input;
+  		this.output = output;
+  		this.options = options;
+  		this.embeds = embeds;
+  		this.regex = /https?:\/\/(?:[0-9A-Z-]+\.)?(?:youtu\.be\/|youtube\.com(?:\/embed\/|\/v\/|\/watch\?v=|\/ytscreeningroom\?v=|\/feeds\/api\/videos\/|\/user\S*[^\w\-\s]|\S*[^\w\-\s]))([\w\-]{11})[?=&+%\w-]*/gi;
+  		this.service = 'youtube';
+  	}
 
-      babelHelpers_createClass(Youtube, [{
-          key: 'data',
-          value: (function () {
-              var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee(id) {
-                  var url, response, data;
-                  return regeneratorRuntime.wrap(function _callee$(_context) {
-                      while (1) {
-                          switch (_context.prev = _context.next) {
-                              case 0:
-                                  _context.prev = 0;
-                                  url = 'https://www.googleapis.com/youtube/v3/videos?id=' + id + '&key=' + this.options.googleAuthKey + '&part=snippet,statistics';
-                                  _context.next = 4;
-                                  return fetch(url);
+  	babelHelpers_createClass(Youtube, [{
+  		key: 'data',
+  		value: (function () {
+  			var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee(id) {
+  				var url, response, data;
+  				return regeneratorRuntime.wrap(function _callee$(_context) {
+  					while (1) {
+  						switch (_context.prev = _context.next) {
+  							case 0:
+  								_context.prev = 0;
+  								url = 'https://www.googleapis.com/youtube/v3/videos?id=' + id + '&key=' + this.options.googleAuthKey + '&part=snippet,statistics';
+  								_context.next = 4;
+  								return fetch(url);
 
-                              case 4:
-                                  response = _context.sent;
-                                  _context.next = 7;
-                                  return response.json();
+  							case 4:
+  								response = _context.sent;
+  								_context.next = 7;
+  								return response.json();
 
-                              case 7:
-                                  data = _context.sent;
-                                  return _context.abrupt('return', data.items[0]);
+  							case 7:
+  								data = _context.sent;
+  								return _context.abrupt('return', data.items[0]);
 
-                              case 11:
-                                  _context.prev = 11;
-                                  _context.t0 = _context['catch'](0);
+  							case 11:
+  								_context.prev = 11;
+  								_context.t0 = _context['catch'](0);
 
-                                  console.log(_context.t0);
+  								console.log(_context.t0);
 
-                              case 14:
-                              case 'end':
-                                  return _context.stop();
-                          }
-                      }
-                  }, _callee, this, [[0, 11]]);
-              }));
-              return function data(_x) {
-                  return ref.apply(this, arguments);
-              };
-          })()
-      }, {
-          key: 'process',
-          value: (function () {
-              var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
-                  var regexInline, match, id, embedUrl, _data, text, _data2;
+  							case 14:
+  							case 'end':
+  								return _context.stop();
+  						}
+  					}
+  				}, _callee, this, [[0, 11]]);
+  			}));
+  			return function data(_x) {
+  				return ref.apply(this, arguments);
+  			};
+  		})()
+  	}, {
+  		key: 'process',
+  		value: (function () {
+  			var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+  				var regexInline, match, id, embedUrl, _data, text, _data2;
 
-                  return regeneratorRuntime.wrap(function _callee2$(_context2) {
-                      while (1) {
-                          switch (_context2.prev = _context2.next) {
-                              case 0:
-                                  _context2.prev = 0;
+  				return regeneratorRuntime.wrap(function _callee2$(_context2) {
+  					while (1) {
+  						switch (_context2.prev = _context2.next) {
+  							case 0:
+  								_context2.prev = 0;
 
-                                  if (utils.ifInline(this.options, this.service)) {
-                                      _context2.next = 21;
-                                      break;
-                                  }
+  								if (utils.ifInline(this.options, this.service)) {
+  									_context2.next = 23;
+  									break;
+  								}
 
-                                  regexInline = this.options.link ? new RegExp('([^>]*' + this.regex.source + ')</a>', 'gi') : new RegExp('([^\\s]*' + this.regex.source + ')', 'gi');
-                                  match = undefined;
+  								regexInline = this.options.link ? new RegExp('([^>]*' + this.regex.source + ')</a>', 'gi') : new RegExp('([^\\s]*' + this.regex.source + ')', 'gi');
+  								match = undefined;
 
-                              case 4:
-                                  if (!((match = utils.matches(regexInline, this.output)) !== null)) {
-                                      _context2.next = 19;
-                                      break;
-                                  }
+  							case 4:
+  								if (!((match = utils.matches(regexInline, this.output)) !== null)) {
+  									_context2.next = 21;
+  									break;
+  								}
 
-                                  id = match[2];
-                                  embedUrl = 'https://www.youtube.com/embed/' + id;
-                                  _data = undefined, text = undefined;
+  								if (!(this.options.served.indexOf(match[1]) !== -1)) {
+  									_context2.next = 7;
+  									break;
+  								}
 
-                                  if (!this.options.videoDetails) {
-                                      _context2.next = 15;
-                                      break;
-                                  }
+  								return _context2.abrupt('continue', 4);
 
-                                  _context2.next = 11;
-                                  return this.data(id);
+  							case 7:
+  								id = match[2];
+  								embedUrl = 'https://www.youtube.com/embed/' + id;
+  								_data = undefined, text = undefined;
 
-                              case 11:
-                                  _data = _context2.sent;
+  								if (!this.options.videoDetails) {
+  									_context2.next = 17;
+  									break;
+  								}
 
-                                  text = helper.getDetailsTemplate(Youtube.formatData(_data, utils), _data, embedUrl);
-                                  _context2.next = 16;
-                                  break;
+  								_context2.next = 13;
+  								return this.data(id);
 
-                              case 15:
-                                  text = helper.template(embedUrl, this.options);
+  							case 13:
+  								_data = _context2.sent;
 
-                              case 16:
-                                  if (this.options.link) {
-                                      this.output = !this.options.inlineText ? this.output.replace(match[0], text + '</a>') : this.output.replace(match[0], match[0] + text);
-                                  } else {
-                                      this.output = !this.options.inlineText ? this.output.replace(match[0], text) : this.output.replace(match[0], match[0] + text);
-                                  }
-                                  _context2.next = 4;
-                                  break;
+  								text = helper.getDetailsTemplate(Youtube.formatData(_data, utils), _data, embedUrl);
+  								_context2.next = 18;
+  								break;
 
-                              case 19:
-                                  _context2.next = 37;
-                                  break;
+  							case 17:
+  								text = helper.template(embedUrl, this.options);
 
-                              case 21:
-                                  match = undefined;
+  							case 18:
+  								if (this.options.link) {
+  									this.output = !this.options.inlineText ? this.output.replace(match[0], text + '</a>') : this.output.replace(match[0], match[0] + text);
+  								} else {
+  									this.output = !this.options.inlineText ? this.output.replace(match[0], text) : this.output.replace(match[0], match[0] + text);
+  								}
+  								_context2.next = 4;
+  								break;
 
-                              case 22:
-                                  if (!((match = utils.matches(this.regex, this.input)) !== null)) {
-                                      _context2.next = 37;
-                                      break;
-                                  }
+  							case 21:
+  								_context2.next = 41;
+  								break;
 
-                                  id = match[1];
-                                  embedUrl = 'https://www.youtube.com/embed/' + id;
-                                  _data2 = undefined, text = undefined;
+  							case 23:
+  								match = undefined;
 
-                                  if (!this.options.videoDetails) {
-                                      _context2.next = 33;
-                                      break;
-                                  }
+  							case 24:
+  								if (!((match = utils.matches(this.regex, this.input)) !== null)) {
+  									_context2.next = 41;
+  									break;
+  								}
 
-                                  _context2.next = 29;
-                                  return this.data(id);
+  								if (!(this.options.served.indexOf(match[0]) !== -1)) {
+  									_context2.next = 27;
+  									break;
+  								}
 
-                              case 29:
-                                  _data2 = _context2.sent;
+  								return _context2.abrupt('continue', 24);
 
-                                  text = helper.getDetailsTemplate(Youtube.formatData(_data2, utils), _data2, embedUrl);
-                                  _context2.next = 34;
-                                  break;
+  							case 27:
+  								id = match[1];
+  								embedUrl = 'https://www.youtube.com/embed/' + id;
+  								_data2 = undefined, text = undefined;
 
-                              case 33:
-                                  text = helper.template(embedUrl, this.options);
+  								if (!this.options.videoDetails) {
+  									_context2.next = 37;
+  									break;
+  								}
 
-                              case 34:
+  								_context2.next = 33;
+  								return this.data(id);
 
-                                  this.embeds.push({
-                                      text: text,
-                                      index: match.index
-                                  });
-                                  _context2.next = 22;
-                                  break;
+  							case 33:
+  								_data2 = _context2.sent;
 
-                              case 37:
-                                  _context2.next = 42;
-                                  break;
+  								text = helper.getDetailsTemplate(Youtube.formatData(_data2, utils), _data2, embedUrl);
+  								_context2.next = 38;
+  								break;
 
-                              case 39:
-                                  _context2.prev = 39;
-                                  _context2.t0 = _context2['catch'](0);
+  							case 37:
+  								text = helper.template(embedUrl, this.options);
 
-                                  console.log(_context2.t0);
+  							case 38:
 
-                              case 42:
-                                  return _context2.abrupt('return', [this.output, this.embeds]);
+  								this.embeds.push({
+  									text: text,
+  									index: match.index
+  								});
+  								_context2.next = 24;
+  								break;
 
-                              case 43:
-                              case 'end':
-                                  return _context2.stop();
-                          }
-                      }
-                  }, _callee2, this, [[0, 39]]);
-              }));
-              return function process() {
-                  return ref.apply(this, arguments);
-              };
-          })()
-      }], [{
-          key: 'formatData',
-          value: function formatData(data, utils) {
-              return {
-                  title: data.snippet.title,
-                  thumbnail: data.snippet.thumbnails.medium.url,
-                  rawDescription: data.snippet.description,
-                  views: data.statistics.viewCount,
-                  likes: data.statistics.likeCount,
-                  description: utils.truncate(data.snippet.description, 150),
-                  url: 'https://www.youtube.com/watch?v=' + data.id,
-                  id: data.id,
-                  host: 'youtube'
-              };
-          }
-      }]);
-      return Youtube;
+  							case 41:
+  								_context2.next = 46;
+  								break;
+
+  							case 43:
+  								_context2.prev = 43;
+  								_context2.t0 = _context2['catch'](0);
+
+  								console.log(_context2.t0);
+
+  							case 46:
+  								return _context2.abrupt('return', [this.output, this.embeds]);
+
+  							case 47:
+  							case 'end':
+  								return _context2.stop();
+  						}
+  					}
+  				}, _callee2, this, [[0, 43]]);
+  			}));
+  			return function process() {
+  				return ref.apply(this, arguments);
+  			};
+  		})()
+  	}], [{
+  		key: 'formatData',
+  		value: function formatData(data, utils) {
+  			return {
+  				title: data.snippet.title,
+  				thumbnail: data.snippet.thumbnails.medium.url,
+  				rawDescription: data.snippet.description,
+  				views: data.statistics.viewCount,
+  				likes: data.statistics.likeCount,
+  				description: utils.truncate(data.snippet.description, 150),
+  				url: 'https://www.youtube.com/watch?v=' + data.id,
+  				id: data.id,
+  				host: 'youtube'
+  			};
+  		}
+  	}]);
+  	return Youtube;
   })();
 
   var Vine = (function (_Base) {
@@ -3089,7 +3141,7 @@
   		this.options = options;
   		this.embeds = embeds;
   		this.service = 'opengraph';
-  		this.excludeRegex = new RegExp(['youtube', 'twitter', 'vimeo', 'unsplash', 'soundcloud', 'spotify', 'instagram', 'flickr'].concat(options.openGraphExclude).join('|'), 'gi');
+  		this.excludeRegex = new RegExp(['.mp4|.mp3|.gif|.pdf|.doc|.ppt|.docx|.jpg|.jpeg|.ogg'].concat(options.openGraphExclude).join('|'), 'gi');
   	}
 
   	babelHelpers_createClass(OpenGraph, [{
