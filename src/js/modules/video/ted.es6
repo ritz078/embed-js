@@ -1,7 +1,7 @@
 import utils from '../utils.es6'
 import Base from '../base.es6'
 
-export class Ted extends Base {
+export default class Ted extends Base {
     constructor(input, output, options, embeds) {
         super(input, output, options, embeds);
         this.regex = /ted.com\/talks\/[a-zA-Z0-9_]+/gi;

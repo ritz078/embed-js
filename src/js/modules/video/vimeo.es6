@@ -3,7 +3,7 @@ import helper from './helper.es6'
 import '../../vendor/fetch.js'
 
 
-export class Vimeo {
+export default class Vimeo {
     constructor(input, output, options, embeds) {
         this.input = input;
         this.output = output;

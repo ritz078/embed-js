@@ -33,5 +33,7 @@
 
     "FLICKR"        : "true",
     "BASICIMAGE"    : "true",
-    "INSTAGRAM"     : "true"
+    "INSTAGRAM"     : "true",
+
+    "OPENGRAPH"     : "true"
 }

@@ -2,7 +2,7 @@ import utils from '../utils.es6'
 import '../../vendor/fetch.js'
 import fetchJsonp from '../../vendor/fetch_jsonp.js'
 
-export class Twitter {
+export default class Twitter {
     constructor(input,output, options, embeds) {
         this.input = input;
         this.output = output;

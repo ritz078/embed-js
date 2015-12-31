@@ -10,16 +10,14 @@
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory() :
   typeof define === 'function' && define.amd ? define(factory) :
-  factory();
+  (factory());
 }(this, function () { 'use strict';
 
-  var babelHelpers = {};
-
-  babelHelpers.typeof = function (obj) {
+  function babelHelpers_typeof (obj) {
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
   };
 
-  babelHelpers.asyncToGenerator = function (fn) {
+  function babelHelpers_asyncToGenerator (fn) {
     return function () {
       var gen = fn.apply(this, arguments);
       return new Promise(function (resolve, reject) {
@@ -48,13 +46,13 @@
     };
   };
 
-  babelHelpers.classCallCheck = function (instance, Constructor) {
+  function babelHelpers_classCallCheck (instance, Constructor) {
     if (!(instance instanceof Constructor)) {
       throw new TypeError("Cannot call a class as a function");
     }
   };
 
-  babelHelpers.createClass = (function () {
+  var babelHelpers_createClass = (function () {
     function defineProperties(target, props) {
       for (var i = 0; i < props.length; i++) {
         var descriptor = props[i];
@@ -72,7 +70,7 @@
     };
   })();
 
-  babelHelpers.inherits = function (subClass, superClass) {
+  function babelHelpers_inherits (subClass, superClass) {
     if (typeof superClass !== "function" && superClass !== null) {
       throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
     }
@@ -88,7 +86,7 @@
     if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
   };
 
-  babelHelpers.possibleConstructorReturn = function (self, call) {
+  function babelHelpers_possibleConstructorReturn (self, call) {
     if (!self) {
       throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
     }
@@ -96,7 +94,7 @@
     return call && (typeof call === "object" || typeof call === "function") ? call : self;
   };
 
-  babelHelpers.slicedToArray = (function () {
+  var babelHelpers_slicedToArray = (function () {
     function sliceIterator(arr, i) {
       var _arr = [];
       var _n = true;
@@ -134,7 +132,6 @@
     };
   })();
 
-  babelHelpers;
   var utils = {
 
       /**
@@ -277,12 +274,16 @@
        * @return {object}     cloned object
        */
       cloneObject: function cloneObject(obj) {
-          if (obj === null || (typeof obj === 'undefined' ? 'undefined' : babelHelpers.typeof(obj)) !== 'object') return obj;
+          if (obj === null || (typeof obj === 'undefined' ? 'undefined' : babelHelpers_typeof(obj)) !== 'object') return obj;
           var temp = obj.constructor(); // give temp the original obj's constructor
           for (var key in obj) {
               temp[key] = this.cloneObject(obj[key]);
           }
           return temp;
+      },
+      urlRegex: function urlRegex() {
+          return (/((href|src)=["']|)(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])|(?:https?:\/\/)?(?:(?:0rz\.tw)|(?:1link\.in)|(?:1url\.com)|(?:2\.gp)|(?:2big\.at)|(?:2tu\.us)|(?:3\.ly)|(?:307\.to)|(?:4ms\.me)|(?:4sq\.com)|(?:4url\.cc)|(?:6url\.com)|(?:7\.ly)|(?:a\.gg)|(?:a\.nf)|(?:aa\.cx)|(?:abcurl\.net)|(?:ad\.vu)|(?:adf\.ly)|(?:adjix\.com)|(?:afx\.cc)|(?:all\.fuseurl.com)|(?:alturl\.com)|(?:amzn\.to)|(?:ar\.gy)|(?:arst\.ch)|(?:atu\.ca)|(?:azc\.cc)|(?:b23\.ru)|(?:b2l\.me)|(?:bacn\.me)|(?:bcool\.bz)|(?:binged\.it)|(?:bit\.ly)|(?:buff\.ly)|(?:bizj\.us)|(?:bloat\.me)|(?:bravo\.ly)|(?:bsa\.ly)|(?:budurl\.com)|(?:canurl\.com)|(?:chilp\.it)|(?:chzb\.gr)|(?:cl\.lk)|(?:cl\.ly)|(?:clck\.ru)|(?:cli\.gs)|(?:cliccami\.info)|(?:clickthru\.ca)|(?:clop\.in)|(?:conta\.cc)|(?:cort\.as)|(?:cot\.ag)|(?:crks\.me)|(?:ctvr\.us)|(?:cutt\.us)|(?:dai\.ly)|(?:decenturl\.com)|(?:dfl8\.me)|(?:digbig\.com)|(?:digg\.com)|(?:disq\.us)|(?:dld\.bz)|(?:dlvr\.it)|(?:do\.my)|(?:doiop\.com)|(?:dopen\.us)|(?:easyuri\.com)|(?:easyurl\.net)|(?:eepurl\.com)|(?:eweri\.com)|(?:fa\.by)|(?:fav\.me)|(?:fb\.me)|(?:fbshare\.me)|(?:ff\.im)|(?:fff\.to)|(?:fire\.to)|(?:firsturl\.de)|(?:firsturl\.net)|(?:flic\.kr)|(?:flq\.us)|(?:fly2\.ws)|(?:fon\.gs)|(?:freak\.to)|(?:fuseurl\.com)|(?:fuzzy\.to)|(?:fwd4\.me)|(?:fwib\.net)|(?:g\.ro.lt)|(?:gizmo\.do)|(?:gl\.am)|(?:go\.9nl.com)|(?:go\.ign.com)|(?:go\.usa.gov)|(?:goo\.gl)|(?:goshrink\.com)|(?:gurl\.es)|(?:hex\.io)|(?:hiderefer\.com)|(?:hmm\.ph)|(?:href\.in)|(?:hsblinks\.com)|(?:htxt\.it)|(?:huff\.to)|(?:hulu\.com)|(?:hurl\.me)|(?:hurl\.ws)|(?:icanhaz\.com)|(?:idek\.net)|(?:ilix\.in)|(?:is\.gd)|(?:its\.my)|(?:ix\.lt)|(?:j\.mp)|(?:jijr\.com)|(?:kl\.am)|(?:klck\.me)|(?:korta\.nu)|(?:krunchd\.com)|(?:l9k\.net)|(?:lat\.ms)|(?:liip\.to)|(?:liltext\.com)|(?:linkbee\.com)|(?:linkbun\.ch)|(?:liurl\.cn)|(?:ln-s\.net)|(?:ln-s\.ru)|(?:lnk\.gd)|(?:lnk\.ms)|(?:lnkd\.in)|(?:lnkurl\.com)|(?:lru\.jp)|(?:lt\.tl)|(?:lurl\.no)|(?:macte\.ch)|(?:mash\.to)|(?:merky\.de)|(?:migre\.me)|(?:miniurl\.com)|(?:minurl\.fr)|(?:mke\.me)|(?:moby\.to)|(?:moourl\.com)|(?:mrte\.ch)|(?:myloc\.me)|(?:myurl\.in)|(?:n\.pr)|(?:nbc\.co)|(?:nblo\.gs)|(?:nn\.nf)|(?:not\.my)|(?:notlong\.com)|(?:nsfw\.in)|(?:nutshellurl\.com)|(?:nxy\.in)|(?:nyti\.ms)|(?:o-x\.fr)|(?:oc1\.us)|(?:om\.ly)|(?:omf\.gd)|(?:omoikane\.net)|(?:on\.cnn.com)|(?:on\.mktw.net)|(?:onforb\.es)|(?:orz\.se)|(?:ow\.ly)|(?:ping\.fm)|(?:pli\.gs)|(?:pnt\.me)|(?:politi\.co)|(?:post\.ly)|(?:pp\.gg)|(?:profile\.to)|(?:ptiturl\.com)|(?:pub\.vitrue.com)|(?:qlnk\.net)|(?:qte\.me)|(?:qu\.tc)|(?:qy\.fi)|(?:r\.im)|(?:rb6\.me)|(?:read\.bi)|(?:readthis\.ca)|(?:reallytinyurl\.com)|(?:redir\.ec)|(?:redirects\.ca)|(?:redirx\.com)|(?:retwt\.me)|(?:ri\.ms)|(?:rickroll\.it)|(?:riz\.gd)|(?:rt\.nu)|(?:ru\.ly)|(?:rubyurl\.com)|(?:rurl\.org)|(?:rww\.tw)|(?:s4c\.in)|(?:s7y\.us)|(?:safe\.mn)|(?:sameurl\.com)|(?:sdut\.us)|(?:shar\.es)|(?:shink\.de)|(?:shorl\.com)|(?:short\.ie)|(?:short\.to)|(?:shortlinks\.co.uk)|(?:shorturl\.com)|(?:shout\.to)|(?:show\.my)|(?:shrinkify\.com)|(?:shrinkr\.com)|(?:shrt\.fr)|(?:shrt\.st)|(?:shrten\.com)|(?:shrunkin\.com)|(?:simurl\.com)|(?:slate\.me)|(?:smallr\.com)|(?:smsh\.me)|(?:smurl\.name)|(?:sn\.im)|(?:snipr\.com)|(?:snipurl\.com)|(?:snurl\.com)|(?:sp2\.ro)|(?:spedr\.com)|(?:srnk\.net)|(?:srs\.li)|(?:starturl\.com)|(?:su\.pr)|(?:surl\.co.uk)|(?:surl\.hu)|(?:t\.cn)|(?:t\.co)|(?:t\.lh.com)|(?:ta\.gd)|(?:tbd\.ly)|(?:tcrn\.ch)|(?:tgr\.me)|(?:tgr\.ph)|(?:tighturl\.com)|(?:tiniuri\.com)|(?:tiny\.cc)|(?:tiny\.ly)|(?:tiny\.pl)|(?:tinylink\.in)|(?:tinyuri\.ca)|(?:tinyurl\.com)|(?:tl\.gd)|(?:tmi\.me)|(?:tnij\.org)|(?:tnw\.to)|(?:tny\.com)|(?:to\.ly)|(?:togoto\.us)|(?:totc\.us)|(?:toysr\.us)|(?:tpm\.ly)|(?:tr\.im)|(?:tra\.kz)|(?:trunc\.it)|(?:twhub\.com)|(?:twirl\.at)|(?:twitclicks\.com)|(?:twitterurl\.net)|(?:twitterurl\.org)|(?:twiturl\.de)|(?:twurl\.cc)|(?:twurl\.nl)|(?:u\.mavrev.com)|(?:u\.nu)|(?:u76\.org)|(?:ub0\.cc)|(?:ulu\.lu)|(?:updating\.me)|(?:ur1\.ca)|(?:url\.az)|(?:url\.co.uk)|(?:url\.ie)|(?:url360\.me)|(?:url4\.eu)|(?:urlborg\.com)|(?:urlbrief\.com)|(?:urlcover\.com)|(?:urlcut\.com)|(?:urlenco\.de)|(?:urli\.nl)|(?:urls\.im)|(?:urlshorteningservicefortwitter\.com)|(?:urlx\.ie)|(?:urlzen\.com)|(?:usat\.ly)|(?:use\.my)|(?:vb\.ly)|(?:vgn\.am)|(?:vl\.am)|(?:vm\.lc)|(?:w55\.de)|(?:wapo\.st)|(?:wapurl\.co.uk)|(?:wipi\.es)|(?:wp\.me)|(?:x\.vu)|(?:xr\.com)|(?:xrl\.in)|(?:xrl\.us)|(?:xurl\.es)|(?:xurl\.jp)|(?:y\.ahoo.it)|(?:yatuc\.com)|(?:ye\.pe)|(?:yep\.it)|(?:yfrog\.com)|(?:yhoo\.it)|(?:yiyd\.com)|(?:youtu\.be)|(?:yuarel\.com)|(?:z0p\.de)|(?:zi\.ma)|(?:zi\.mu)|(?:zipmyurl\.com)|(?:zud\.me)|(?:zurl\.ws)|(?:zz\.gd)|(?:zzang\.kr)|(?:›\.ws)|(?:✩\.ws)|(?:✿\.ws)|(?:❥\.ws)|(?:➔\.ws)|(?:➞\.ws)|(?:➡\.ws)|(?:➨\.ws)|(?:➯\.ws)|(?:➹\.ws)|(?:➽\.ws))\/[a-z0-9]*/gi
+          );
       }
   };
 
@@ -521,7 +522,7 @@
           }
       }
 
-      if ((typeof process === "undefined" ? "undefined" : babelHelpers.typeof(process)) === "object" && process.domain) {
+      if ((typeof process === "undefined" ? "undefined" : babelHelpers_typeof(process)) === "object" && process.domain) {
           invoke = process.domain.bind(invoke);
       }
 
@@ -1395,7 +1396,7 @@
 
   var Twitter = (function () {
       function Twitter(input, output, options, embeds) {
-          babelHelpers.classCallCheck(this, Twitter);
+          babelHelpers_classCallCheck(this, Twitter);
 
           this.input = input;
           this.output = output;
@@ -1414,10 +1415,10 @@
        * @return {object}     data containing the tweet info
        */
 
-      babelHelpers.createClass(Twitter, [{
+      babelHelpers_createClass(Twitter, [{
           key: 'tweetData',
           value: (function () {
-              var ref = babelHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee(url) {
+              var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee(url) {
                   var config, apiUrl, response;
                   return regeneratorRuntime.wrap(function _callee$(_context) {
                       while (1) {
@@ -1470,7 +1471,7 @@
       }, {
           key: 'process',
           value: (function () {
-              var ref = babelHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+              var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
                   var regexInline, match, url, data, text;
                   return regeneratorRuntime.wrap(function _callee2$(_context2) {
                       while (1) {
@@ -1560,7 +1561,7 @@
 
   var Base = (function () {
   	function Base(input, output, options, embeds) {
-  		babelHelpers.classCallCheck(this, Base);
+  		babelHelpers_classCallCheck(this, Base);
 
   		this.input = input;
   		this.output = output;
@@ -1568,7 +1569,7 @@
   		this.embeds = embeds;
   	}
 
-  	babelHelpers.createClass(Base, [{
+  	babelHelpers_createClass(Base, [{
   		key: 'process',
   		value: function process() {
   			var _this = this;
@@ -1576,20 +1577,24 @@
   			if (!utils.ifInline(this.options, this.service)) {
   				var regexInline = this.options.link ? new RegExp('([^>]*' + this.regex.source + ')</a>', 'gm') : new RegExp('([^\\s]*' + this.regex.source + ')', 'gm');
   				this.output = this.output.replace(regexInline, function (match) {
-  					if (_this.options.link) {
-  						return !_this.options.inlineText ? _this.template(match.slice(0, -4)) + '</a>' : match + _this.template(match.slice(0, -4));
-  					} else {
-  						return !_this.options.inlineText ? _this.template(match) : match + _this.template(match);
+  					if (_this.options.served.indexOf(match) === -1) {
+  						if (_this.options.link) {
+  							return !_this.options.inlineText ? _this.template(match.slice(0, -4)) + '</a>' : match + _this.template(match.slice(0, -4));
+  						} else {
+  							return !_this.options.inlineText ? _this.template(match) : match + _this.template(match);
+  						}
   					}
   				});
   			} else {
   				var match = undefined;
   				while ((match = utils.matches(this.regex, this.input)) !== null) {
-  					var text = this.template(match[0]);
-  					this.embeds.push({
-  						text: text,
-  						index: match.index
-  					});
+  					if (this.options.served.indexOf(match[0]) === -1) {
+  						var text = this.template(match[0]);
+  						this.embeds.push({
+  							text: text,
+  							index: match.index
+  						});
+  					}
   				}
   			}
   			return [this.output, this.embeds];
@@ -1599,19 +1604,19 @@
   })();
 
   var Basic = (function (_Base) {
-  	babelHelpers.inherits(Basic, _Base);
+  	babelHelpers_inherits(Basic, _Base);
 
   	function Basic(input, output, options, embeds) {
-  		babelHelpers.classCallCheck(this, Basic);
+  		babelHelpers_classCallCheck(this, Basic);
 
-  		var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(Basic).call(this, input, output, options, embeds));
+  		var _this = babelHelpers_possibleConstructorReturn(this, Object.getPrototypeOf(Basic).call(this, input, output, options, embeds));
 
   		_this.regex = /((?:https?):\/\/\S*\.(?:gif|jpg|jpeg|tiff|png|svg|webp))/gi;
   		_this.service = 'image';
   		return _this;
   	}
 
-  	babelHelpers.createClass(Basic, [{
+  	babelHelpers_createClass(Basic, [{
   		key: 'template',
   		value: function template(match) {
   			return ejs.template.basicImage(match, this.options) || '<div class="ejs-image ejs-embed"><div class="ne-image-wrapper"><img src="' + match + '"/></div></div>';
@@ -1621,19 +1626,19 @@
   })(Base);
 
   var Instagram = (function (_Base) {
-  	babelHelpers.inherits(Instagram, _Base);
+  	babelHelpers_inherits(Instagram, _Base);
 
   	function Instagram(input, output, options, embeds) {
-  		babelHelpers.classCallCheck(this, Instagram);
+  		babelHelpers_classCallCheck(this, Instagram);
 
-  		var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(Instagram).call(this, input, output, options, embeds));
+  		var _this = babelHelpers_possibleConstructorReturn(this, Object.getPrototypeOf(Instagram).call(this, input, output, options, embeds));
 
   		_this.regex = /instagram.com\/p\/[a-zA-Z0-9_\/\?\-\=]+/gi;
   		_this.service = 'instagram';
   		return _this;
   	}
 
-  	babelHelpers.createClass(Instagram, [{
+  	babelHelpers_createClass(Instagram, [{
   		key: 'template',
   		value: function template(match) {
   			var dimensions = utils.dimensions(this.options);
@@ -1644,19 +1649,19 @@
   })(Base);
 
   var Flickr = (function (_Base) {
-  	babelHelpers.inherits(Flickr, _Base);
+  	babelHelpers_inherits(Flickr, _Base);
 
   	function Flickr(input, output, options, embeds) {
-  		babelHelpers.classCallCheck(this, Flickr);
+  		babelHelpers_classCallCheck(this, Flickr);
 
-  		var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(Flickr).call(this, input, output, options, embeds));
+  		var _this = babelHelpers_possibleConstructorReturn(this, Object.getPrototypeOf(Flickr).call(this, input, output, options, embeds));
 
   		_this.regex = /flickr.com\/[a-z]+\/[a-zA-Z@_$!\d\-\]+\/[\d]+/gi;
   		_this.service = 'flickr';
   		return _this;
   	}
 
-  	babelHelpers.createClass(Flickr, [{
+  	babelHelpers_createClass(Flickr, [{
   		key: 'template',
   		value: function template(match) {
   			var dimensions = utils.dimensions(this.options);
@@ -1667,19 +1672,19 @@
   })(Base);
 
   var BasicAudio = (function (_Base) {
-      babelHelpers.inherits(BasicAudio, _Base);
+      babelHelpers_inherits(BasicAudio, _Base);
 
       function BasicAudio(input, output, options, embeds) {
-          babelHelpers.classCallCheck(this, BasicAudio);
+          babelHelpers_classCallCheck(this, BasicAudio);
 
-          var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(BasicAudio).call(this, input, output, options, embeds));
+          var _this = babelHelpers_possibleConstructorReturn(this, Object.getPrototypeOf(BasicAudio).call(this, input, output, options, embeds));
 
           _this.regex = /((?:https?):\/\/\S*\.(?:wav|mp3|ogg))/gi;
           _this.service = 'audio';
           return _this;
       }
 
-      babelHelpers.createClass(BasicAudio, [{
+      babelHelpers_createClass(BasicAudio, [{
           key: 'template',
           value: function template(match) {
               return ejs.template.basicAudio(match) || '<div class="ejs-audio ejs-embed"><audio src="' + match + '" controls class="video-js ejs-video-js"></audio></div>';
@@ -1689,19 +1694,19 @@
   })(Base);
 
   var Spotify = (function (_Base) {
-  	babelHelpers.inherits(Spotify, _Base);
+  	babelHelpers_inherits(Spotify, _Base);
 
   	function Spotify(input, output, options, embeds) {
-  		babelHelpers.classCallCheck(this, Spotify);
+  		babelHelpers_classCallCheck(this, Spotify);
 
-  		var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(Spotify).call(this, input, output, options, embeds));
+  		var _this = babelHelpers_possibleConstructorReturn(this, Object.getPrototypeOf(Spotify).call(this, input, output, options, embeds));
 
   		_this.regex = /spotify.com\/track\/[a-zA-Z0-9_]+/gi;
   		_this.service = 'spotify';
   		return _this;
   	}
 
-  	babelHelpers.createClass(Spotify, [{
+  	babelHelpers_createClass(Spotify, [{
   		key: 'template',
   		value: function template(match) {
   			var a = match.split('/');
@@ -1713,19 +1718,19 @@
   })(Base);
 
   var SoundCloud = (function (_Base) {
-  	babelHelpers.inherits(SoundCloud, _Base);
+  	babelHelpers_inherits(SoundCloud, _Base);
 
   	function SoundCloud(input, output, options, embeds) {
-  		babelHelpers.classCallCheck(this, SoundCloud);
+  		babelHelpers_classCallCheck(this, SoundCloud);
 
-  		var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(SoundCloud).call(this, input, output, options, embeds));
+  		var _this = babelHelpers_possibleConstructorReturn(this, Object.getPrototypeOf(SoundCloud).call(this, input, output, options, embeds));
 
   		_this.regex = /(soundcloud.com)\/[a-zA-Z0-9-_]+\/[a-zA-Z0-9-_]+/gi;
   		_this.service = 'soundcloud';
   		return _this;
   	}
 
-  	babelHelpers.createClass(SoundCloud, [{
+  	babelHelpers_createClass(SoundCloud, [{
   		key: 'template',
   		value: function template(match) {
   			var config = this.options.soundCloudOptions;
@@ -1737,7 +1742,7 @@
 
   var Gmap = (function () {
       function Gmap(input, output, options, embeds) {
-          babelHelpers.classCallCheck(this, Gmap);
+          babelHelpers_classCallCheck(this, Gmap);
 
           this.input = input;
           this.output = output;
@@ -1747,10 +1752,10 @@
           this.regex = /@\((.+)\)/gi;
       }
 
-      babelHelpers.createClass(Gmap, [{
+      babelHelpers_createClass(Gmap, [{
           key: 'getCoordinate',
           value: (function () {
-              var ref = babelHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee(location) {
+              var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee(location) {
                   var url, response, data, latitude, longitude;
                   return regeneratorRuntime.wrap(function _callee$(_context) {
                       while (1) {
@@ -1799,7 +1804,7 @@
       }, {
           key: 'process',
           value: (function () {
-              var ref = babelHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee3() {
+              var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee3() {
                   var _this = this;
 
                   var match, _loop;
@@ -1834,7 +1839,7 @@
 
                                                   case 7:
                                                       _ref = _context2.t0;
-                                                      _ref2 = babelHelpers.slicedToArray(_ref, 2);
+                                                      _ref2 = babelHelpers_slicedToArray(_ref, 2);
                                                       latitude = _ref2[0];
                                                       longitude = _ref2[1];
                                                       text = _this.template(match[0], latitude, longitude);
@@ -1898,7 +1903,7 @@
 
   var Vimeo = (function () {
       function Vimeo(input, output, options, embeds) {
-          babelHelpers.classCallCheck(this, Vimeo);
+          babelHelpers_classCallCheck(this, Vimeo);
 
           this.input = input;
           this.output = output;
@@ -1908,10 +1913,10 @@
           this.service = 'vimeo';
       }
 
-      babelHelpers.createClass(Vimeo, [{
+      babelHelpers_createClass(Vimeo, [{
           key: 'data',
           value: (function () {
-              var ref = babelHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee(id) {
+              var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee(id) {
                   var url, response, data;
                   return regeneratorRuntime.wrap(function _callee$(_context) {
                       while (1) {
@@ -1951,7 +1956,7 @@
       }, {
           key: 'process',
           value: (function () {
-              var ref = babelHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+              var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
                   var regexInline, match, id, embedUrl, _data, text, _data2;
 
                   return regeneratorRuntime.wrap(function _callee2$(_context2) {
@@ -2090,7 +2095,7 @@
 
   var Youtube = (function () {
       function Youtube(input, output, options, embeds) {
-          babelHelpers.classCallCheck(this, Youtube);
+          babelHelpers_classCallCheck(this, Youtube);
 
           this.input = input;
           this.output = output;
@@ -2100,10 +2105,10 @@
           this.service = 'youtube';
       }
 
-      babelHelpers.createClass(Youtube, [{
+      babelHelpers_createClass(Youtube, [{
           key: 'data',
           value: (function () {
-              var ref = babelHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee(id) {
+              var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee(id) {
                   var url, response, data;
                   return regeneratorRuntime.wrap(function _callee$(_context) {
                       while (1) {
@@ -2143,7 +2148,7 @@
       }, {
           key: 'process',
           value: (function () {
-              var ref = babelHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+              var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
                   var regexInline, match, id, embedUrl, _data, text, _data2;
 
                   return regeneratorRuntime.wrap(function _callee2$(_context2) {
@@ -2285,19 +2290,19 @@
   })();
 
   var Vine = (function (_Base) {
-      babelHelpers.inherits(Vine, _Base);
+      babelHelpers_inherits(Vine, _Base);
 
       function Vine(input, output, options, embeds) {
-          babelHelpers.classCallCheck(this, Vine);
+          babelHelpers_classCallCheck(this, Vine);
 
-          var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(Vine).call(this, input, output, options, embeds));
+          var _this = babelHelpers_possibleConstructorReturn(this, Object.getPrototypeOf(Vine).call(this, input, output, options, embeds));
 
           _this.regex = /vine.co\/v\/[a-zA-Z0-9]+/gi;
           _this.service = 'vine';
           return _this;
       }
 
-      babelHelpers.createClass(Vine, [{
+      babelHelpers_createClass(Vine, [{
           key: 'template',
           value: function template(match) {
               var config = this.options.vineOptions;
@@ -2310,19 +2315,19 @@
   })(Base);
 
   var BasicVideo = (function (_Base) {
-  	babelHelpers.inherits(BasicVideo, _Base);
+  	babelHelpers_inherits(BasicVideo, _Base);
 
   	function BasicVideo(input, output, options, embeds) {
-  		babelHelpers.classCallCheck(this, BasicVideo);
+  		babelHelpers_classCallCheck(this, BasicVideo);
 
-  		var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(BasicVideo).call(this, input, output, options, embeds));
+  		var _this = babelHelpers_possibleConstructorReturn(this, Object.getPrototypeOf(BasicVideo).call(this, input, output, options, embeds));
 
   		_this.regex = /(?:https?):\/\/\S*\.(?:ogv|webm|mp4)/gi;
   		_this.service = 'video';
   		return _this;
   	}
 
-  	babelHelpers.createClass(BasicVideo, [{
+  	babelHelpers_createClass(BasicVideo, [{
   		key: 'template',
   		value: function template(match) {
   			return ejs.template.basicVideo(match, this.options) || '<div class="ejs-video ejs-embed">\n\t\t<div class="ejs-video-player">\n\t\t<div class="ejs-player">\n\t\t<video src="' + match + '" class="ejs-video-js video-js" controls></video>\n\t\t</div>\n\t\t</div>\n\t\t</div>';
@@ -2332,19 +2337,19 @@
   })(Base);
 
   var LiveLeak = (function (_Base) {
-      babelHelpers.inherits(LiveLeak, _Base);
+      babelHelpers_inherits(LiveLeak, _Base);
 
       function LiveLeak(input, output, options, embeds) {
-          babelHelpers.classCallCheck(this, LiveLeak);
+          babelHelpers_classCallCheck(this, LiveLeak);
 
-          var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(LiveLeak).call(this, input, output, options, embeds));
+          var _this = babelHelpers_possibleConstructorReturn(this, Object.getPrototypeOf(LiveLeak).call(this, input, output, options, embeds));
 
           _this.regex = /liveleak.com\/view\?i=[a-zA-Z0-9_]+/gi;
           _this.service = 'liveleak';
           return _this;
       }
 
-      babelHelpers.createClass(LiveLeak, [{
+      babelHelpers_createClass(LiveLeak, [{
           key: 'template',
           value: function template(match) {
               var dimensions = utils.dimensions(this.options);
@@ -2355,19 +2360,19 @@
   })(Base);
 
   var Ustream = (function (_Base) {
-      babelHelpers.inherits(Ustream, _Base);
+      babelHelpers_inherits(Ustream, _Base);
 
       function Ustream(input, output, options, embeds) {
-          babelHelpers.classCallCheck(this, Ustream);
+          babelHelpers_classCallCheck(this, Ustream);
 
-          var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(Ustream).call(this, input, output, options, embeds));
+          var _this = babelHelpers_possibleConstructorReturn(this, Object.getPrototypeOf(Ustream).call(this, input, output, options, embeds));
 
           _this.regex = /ustream.tv\/[a-z\/0-9]*/gi;
           _this.service = 'ustream';
           return _this;
       }
 
-      babelHelpers.createClass(Ustream, [{
+      babelHelpers_createClass(Ustream, [{
           key: 'template',
           value: function template(match) {
               var id = match.split('/');
@@ -2380,19 +2385,19 @@
   })(Base);
 
   var Dailymotion = (function (_Base) {
-      babelHelpers.inherits(Dailymotion, _Base);
+      babelHelpers_inherits(Dailymotion, _Base);
 
       function Dailymotion(input, output, options, embeds) {
-          babelHelpers.classCallCheck(this, Dailymotion);
+          babelHelpers_classCallCheck(this, Dailymotion);
 
-          var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(Dailymotion).call(this, input, output, options, embeds));
+          var _this = babelHelpers_possibleConstructorReturn(this, Object.getPrototypeOf(Dailymotion).call(this, input, output, options, embeds));
 
           _this.regex = /dailymotion.com\/video\/[a-zA-Z0-9-_]+/gi;
           _this.service = 'dailymotion';
           return _this;
       }
 
-      babelHelpers.createClass(Dailymotion, [{
+      babelHelpers_createClass(Dailymotion, [{
           key: 'template',
           value: function template(match) {
               var dimensions = utils.dimensions(this.options);
@@ -2405,19 +2410,19 @@
   })(Base);
 
   var Ted = (function (_Base) {
-      babelHelpers.inherits(Ted, _Base);
+      babelHelpers_inherits(Ted, _Base);
 
       function Ted(input, output, options, embeds) {
-          babelHelpers.classCallCheck(this, Ted);
+          babelHelpers_classCallCheck(this, Ted);
 
-          var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(Ted).call(this, input, output, options, embeds));
+          var _this = babelHelpers_possibleConstructorReturn(this, Object.getPrototypeOf(Ted).call(this, input, output, options, embeds));
 
           _this.regex = /ted.com\/talks\/[a-zA-Z0-9_]+/gi;
           _this.service = 'ted';
           return _this;
       }
 
-      babelHelpers.createClass(Ted, [{
+      babelHelpers_createClass(Ted, [{
           key: 'template',
           value: function template(match) {
               var dimensions = utils.dimensions(this.options);
@@ -2430,12 +2435,12 @@
   })(Base);
 
   var Gist = (function (_Base) {
-      babelHelpers.inherits(Gist, _Base);
+      babelHelpers_inherits(Gist, _Base);
 
       function Gist(input, output, options, embeds) {
-          babelHelpers.classCallCheck(this, Gist);
+          babelHelpers_classCallCheck(this, Gist);
 
-          var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(Gist).call(this, input, output, options, embeds));
+          var _this = babelHelpers_possibleConstructorReturn(this, Object.getPrototypeOf(Gist).call(this, input, output, options, embeds));
 
           _this.regex = /gist.github.com\/[a-zA-Z0-9_-]+\/([a-zA-Z0-9]+)/g;
           _this.service = 'gist';
@@ -2446,7 +2451,7 @@
           return _this;
       }
 
-      babelHelpers.createClass(Gist, [{
+      babelHelpers_createClass(Gist, [{
           key: 'template',
           value: function template(match) {
               return '<div class="ejs-gist" data-src="' + match + '"></div>';
@@ -2488,19 +2493,19 @@
   })(Base);
 
   var JsFiddle = (function (_Base) {
-      babelHelpers.inherits(JsFiddle, _Base);
+      babelHelpers_inherits(JsFiddle, _Base);
 
       function JsFiddle(input, output, options, embeds) {
-          babelHelpers.classCallCheck(this, JsFiddle);
+          babelHelpers_classCallCheck(this, JsFiddle);
 
-          var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(JsFiddle).call(this, input, output, options, embeds));
+          var _this = babelHelpers_possibleConstructorReturn(this, Object.getPrototypeOf(JsFiddle).call(this, input, output, options, embeds));
 
           _this.regex = /jsfiddle.net\/[a-zA-Z0-9_]+\/[a-zA-Z0-9_]+/gi;
           _this.service = 'jsfiddle';
           return _this;
       }
 
-      babelHelpers.createClass(JsFiddle, [{
+      babelHelpers_createClass(JsFiddle, [{
           key: 'template',
           value: function template(id) {
               return ejs.template.jsFiddle(id, this.options) || '<div class="ejs-embed ejs-jsfiddle"><iframe height="' + this.options.codeEmbedHeight + '" src="http://' + id + '/embedded"></iframe></div>';
@@ -2510,19 +2515,19 @@
   })(Base);
 
   var CodePen = (function (_Base) {
-      babelHelpers.inherits(CodePen, _Base);
+      babelHelpers_inherits(CodePen, _Base);
 
       function CodePen(input, output, options, embeds) {
-          babelHelpers.classCallCheck(this, CodePen);
+          babelHelpers_classCallCheck(this, CodePen);
 
-          var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(CodePen).call(this, input, output, options, embeds));
+          var _this = babelHelpers_possibleConstructorReturn(this, Object.getPrototypeOf(CodePen).call(this, input, output, options, embeds));
 
           _this.regex = /http:\/\/codepen.io\/([A-Za-z0-9_]+)\/pen\/([A-Za-z0-9_]+)/gi;
           _this.service = 'codepen';
           return _this;
       }
 
-      babelHelpers.createClass(CodePen, [{
+      babelHelpers_createClass(CodePen, [{
           key: 'template',
           value: function template(id) {
               return ejs.template.codePen(id, this.options) || '<div class="ejs-embed ejs-codepen">\n\t\t\t<iframe scrolling="no" height="' + this.options.codeEmbedHeight + '" src="' + id.replace(/\/pen\//, '/embed/') + '/?height=' + this.options.codeEmbedHeight + '"></iframe>\'\n\t\t</div>';
@@ -2532,19 +2537,19 @@
   })(Base);
 
   var JsBin = (function (_Base) {
-      babelHelpers.inherits(JsBin, _Base);
+      babelHelpers_inherits(JsBin, _Base);
 
       function JsBin(input, output, options, embeds) {
-          babelHelpers.classCallCheck(this, JsBin);
+          babelHelpers_classCallCheck(this, JsBin);
 
-          var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(JsBin).call(this, input, output, options, embeds));
+          var _this = babelHelpers_possibleConstructorReturn(this, Object.getPrototypeOf(JsBin).call(this, input, output, options, embeds));
 
           _this.regex = /jsbin.com\/[a-zA-Z0-9_]+\/[0-9_]+/gi;
           _this.service = 'jsbin';
           return _this;
       }
 
-      babelHelpers.createClass(JsBin, [{
+      babelHelpers_createClass(JsBin, [{
           key: 'template',
           value: function template(id) {
               return ejs.template.jsBin(id, this.options) || '<div class="ejs-jsbin ejs-embed">\n\t\t<iframe height="' + this.options.codeEmbedHeight + '" class="jsbin-embed foo" src="http://' + id + '/embed?html,js,output"></iframe>\n\t\t</div>';
@@ -2554,19 +2559,19 @@
   })(Base);
 
   var Plunker = (function (_Base) {
-      babelHelpers.inherits(Plunker, _Base);
+      babelHelpers_inherits(Plunker, _Base);
 
       function Plunker(input, output, options, embeds) {
-          babelHelpers.classCallCheck(this, Plunker);
+          babelHelpers_classCallCheck(this, Plunker);
 
-          var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(Plunker).call(this, input, output, options, embeds));
+          var _this = babelHelpers_possibleConstructorReturn(this, Object.getPrototypeOf(Plunker).call(this, input, output, options, embeds));
 
           _this.regex = /plnkr.co\/edit\/[a-zA-Z0-9\?=]+/gi;
           _this.service = 'plunker';
           return _this;
       }
 
-      babelHelpers.createClass(Plunker, [{
+      babelHelpers_createClass(Plunker, [{
           key: 'template',
           value: function template(match) {
               var a = match.split('?')[0].split('/');
@@ -2578,19 +2583,19 @@
   })(Base);
 
   var Ideone = (function (_Base) {
-      babelHelpers.inherits(Ideone, _Base);
+      babelHelpers_inherits(Ideone, _Base);
 
       function Ideone(input, output, options, embeds) {
-          babelHelpers.classCallCheck(this, Ideone);
+          babelHelpers_classCallCheck(this, Ideone);
 
-          var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(Ideone).call(this, input, output, options, embeds));
+          var _this = babelHelpers_possibleConstructorReturn(this, Object.getPrototypeOf(Ideone).call(this, input, output, options, embeds));
 
           _this.regex = /ideone.com\/[a-zA-Z0-9]{6}/gi;
           _this.service = 'ideone';
           return _this;
       }
 
-      babelHelpers.createClass(Ideone, [{
+      babelHelpers_createClass(Ideone, [{
           key: 'template',
           value: function template(match) {
               return ejs.template.ideone(match, this.options) || '<div class="ejs-ideone ejs-embed"><iframe src="http://ideone.com/embed/' + match.split('/') + '" frameborder="0" height="' + this.options.codeEmbedHeight + '"></iframe></div>';
@@ -2601,7 +2606,7 @@
 
   var Highlight = (function () {
   	function Highlight(output, options) {
-  		babelHelpers.classCallCheck(this, Highlight);
+  		babelHelpers_classCallCheck(this, Highlight);
 
   		if (!hljs) {
   			throw new ReferenceError('\'hljs is not defined. HighlightJS library is needed to highlight code. Visit https://highlightjs.org/\'');
@@ -2619,7 +2624,7 @@
     * @return {string}      The encoded string
     */
 
-  	babelHelpers.createClass(Highlight, [{
+  	babelHelpers_createClass(Highlight, [{
   		key: 'process',
 
   		/**
@@ -2707,7 +2712,7 @@
 
   var Smiley = (function () {
       function Smiley(input, options) {
-          babelHelpers.classCallCheck(this, Smiley);
+          babelHelpers_classCallCheck(this, Smiley);
 
           this.input = ' ' + input + ' '; //hack to consider the first and last element
 
@@ -2792,7 +2797,7 @@
           this.smileyRegex = new RegExp('(' + this.EscapedSymbols.join('|') + ')', 'g');
       }
 
-      babelHelpers.createClass(Smiley, [{
+      babelHelpers_createClass(Smiley, [{
           key: 'process',
           value: function process() {
               var _this = this;
@@ -2811,7 +2816,7 @@
 
   var Emoji = (function () {
       function Emoji(output, options) {
-          babelHelpers.classCallCheck(this, Emoji);
+          babelHelpers_classCallCheck(this, Emoji);
 
           this.output = output;
           this.options = options;
@@ -2823,7 +2828,7 @@
           this.emojiRegex = new RegExp(':(' + this.allEmojiList.join('|') + '):', 'g');
       }
 
-      babelHelpers.createClass(Emoji, [{
+      babelHelpers_createClass(Emoji, [{
           key: 'process',
           value: function process() {
               var _this = this;
@@ -2838,7 +2843,7 @@
 
   var Markdown = (function () {
   	function Markdown(output, options) {
-  		babelHelpers.classCallCheck(this, Markdown);
+  		babelHelpers_classCallCheck(this, Markdown);
 
   		if (!window.marked) throw new ReferenceError('marked.js is not loaded.');
   		this.output = output;
@@ -2846,7 +2851,7 @@
   		this.process();
   	}
 
-  	babelHelpers.createClass(Markdown, [{
+  	babelHelpers_createClass(Markdown, [{
   		key: 'process',
   		value: function process() {
   			var _this = this;
@@ -2898,16 +2903,199 @@
   	return Markdown;
   })();
 
+  var OpenGraph = (function () {
+  	function OpenGraph(input, output, options, embeds) {
+  		babelHelpers_classCallCheck(this, OpenGraph);
+
+  		this.input = input;
+  		this.output = output;
+  		this.options = options;
+  		this.embeds = embeds;
+  		this.service = 'opengraph';
+  		this.excludeRegex = new RegExp(['youtube', 'twitter', 'vimeo', 'unsplash', 'soundcloud', 'spotify', 'instagram', 'flickr'].concat(options.openGraphExclude).join('|'), 'gi');
+  	}
+
+  	babelHelpers_createClass(OpenGraph, [{
+  		key: 'template',
+  		value: function template(data) {
+  			return ejs.template.openGraph(data, this.options) || '<div class="ejs-embed ejs-ogp">\n\t\t<div class="ejs-ogp-thumb" style="background-image:url(' + data.image + ')"></div>\n\t\t<div class="ejs-ogp-details">\n\t\t<div class="ejs-ogp-title"><a href="' + data.url + '" target="' + this.options.linkOptions.target + '">' + data.title + '</a></div>\n\t\t<div class="ejs-ogb-details">' + data.description + '</div></div></div>';
+  		}
+  	}, {
+  		key: 'fetchData',
+  		value: (function () {
+  			var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee(url) {
+  				var api, response, data;
+  				return regeneratorRuntime.wrap(function _callee$(_context) {
+  					while (1) {
+  						switch (_context.prev = _context.next) {
+  							case 0:
+  								_context.prev = 0;
+
+  								url = encodeURIComponent(url);
+  								api = new Function('url', 'return `' + this.options.openGraphEndpoint + '`')(url);
+  								_context.next = 5;
+  								return fetch(api);
+
+  							case 5:
+  								response = _context.sent;
+  								_context.next = 8;
+  								return response.json();
+
+  							case 8:
+  								data = _context.sent;
+  								return _context.abrupt('return', this.options.onOpenGraphFetch(data) || data);
+
+  							case 12:
+  								_context.prev = 12;
+  								_context.t0 = _context['catch'](0);
+
+  								this.options.onOpenGraphFail(_context.t0);
+
+  							case 15:
+  							case 'end':
+  								return _context.stop();
+  						}
+  					}
+  				}, _callee, this, [[0, 12]]);
+  			}));
+  			return function fetchData(_x) {
+  				return ref.apply(this, arguments);
+  			};
+  		})()
+  	}, {
+  		key: 'process',
+  		value: (function () {
+  			var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+  				var match, regexInline, url, _data, text, _data2, template;
+
+  				return regeneratorRuntime.wrap(function _callee2$(_context2) {
+  					while (1) {
+  						switch (_context2.prev = _context2.next) {
+  							case 0:
+  								_context2.prev = 0;
+  								match = undefined;
+
+  								this.regex = utils.urlRegex();
+
+  								if (utils.ifInline(this.options, this.service)) {
+  									_context2.next = 17;
+  									break;
+  								}
+
+  								regexInline = this.options.link ? new RegExp('([^>]*' + this.regex.source + ')</a>', 'gi') : new RegExp('([^\\s]*' + this.regex.source + ')', 'gi');
+
+  							case 5:
+  								if (!((match = utils.matches(regexInline, this.output)) !== null)) {
+  									_context2.next = 15;
+  									break;
+  								}
+
+  								url = this.options.link ? match[0].slice(0, -4) : match[0];
+
+  								if (OpenGraph.ifProcessOGC(url, this.excludeRegex)) {
+  									_context2.next = 9;
+  									break;
+  								}
+
+  								return _context2.abrupt('continue', 5);
+
+  							case 9:
+  								_context2.next = 11;
+  								return this.fetchData(url);
+
+  							case 11:
+  								_data = _context2.sent;
+
+  								if (_data && _data.success) {
+  									text = this.template(_data);
+
+  									if (this.options.link) {
+  										this.output = !this.options.inlineText ? this.output.replace(match[0], text + '</a>') : this.output.replace(match[0], match[0] + text);
+  									} else {
+  										this.output = !this.options.inlineText ? this.output.replace(match[0], text) : this.output.replace(match[0], match[0] + text);
+  									}
+  									this.options.served.push(url);
+  								}
+  								_context2.next = 5;
+  								break;
+
+  							case 15:
+  								_context2.next = 27;
+  								break;
+
+  							case 17:
+  								if (!((match = utils.matches(this.regex, this.input)) !== null)) {
+  									_context2.next = 27;
+  									break;
+  								}
+
+  								url = match[0];
+
+  								if (OpenGraph.ifProcessOGC(url, this.excludeRegex)) {
+  									_context2.next = 21;
+  									break;
+  								}
+
+  								return _context2.abrupt('continue', 17);
+
+  							case 21:
+  								_context2.next = 23;
+  								return this.fetchData(url);
+
+  							case 23:
+  								_data2 = _context2.sent;
+
+  								if (_data2 && _data2.success) {
+  									template = this.template(_data2);
+
+  									this.embeds.push({
+  										text: template,
+  										index: match.index
+  									});
+  									this.options.served.push(url);
+  								}
+  								_context2.next = 17;
+  								break;
+
+  							case 27:
+  								return _context2.abrupt('return', [this.output, this.embeds]);
+
+  							case 30:
+  								_context2.prev = 30;
+  								_context2.t0 = _context2['catch'](0);
+
+  								console.log(_context2.t0);
+
+  							case 33:
+  							case 'end':
+  								return _context2.stop();
+  						}
+  					}
+  				}, _callee2, this, [[0, 30]]);
+  			}));
+  			return function process() {
+  				return ref.apply(this, arguments);
+  			};
+  		})()
+  	}], [{
+  		key: 'ifProcessOGC',
+  		value: function ifProcessOGC(url, excludeRegex) {
+  			return url.match(excludeRegex) ? false : true;
+  		}
+  	}]);
+  	return OpenGraph;
+  })();
+
   var Url = (function () {
   	function Url(input, options) {
-  		babelHelpers.classCallCheck(this, Url);
+  		babelHelpers_classCallCheck(this, Url);
 
   		this.input = input;
   		this.options = options;
-  		this.urlRegex = /((href|src)=["']|)(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])|(?:https?:\/\/)?(?:(?:0rz\.tw)|(?:1link\.in)|(?:1url\.com)|(?:2\.gp)|(?:2big\.at)|(?:2tu\.us)|(?:3\.ly)|(?:307\.to)|(?:4ms\.me)|(?:4sq\.com)|(?:4url\.cc)|(?:6url\.com)|(?:7\.ly)|(?:a\.gg)|(?:a\.nf)|(?:aa\.cx)|(?:abcurl\.net)|(?:ad\.vu)|(?:adf\.ly)|(?:adjix\.com)|(?:afx\.cc)|(?:all\.fuseurl.com)|(?:alturl\.com)|(?:amzn\.to)|(?:ar\.gy)|(?:arst\.ch)|(?:atu\.ca)|(?:azc\.cc)|(?:b23\.ru)|(?:b2l\.me)|(?:bacn\.me)|(?:bcool\.bz)|(?:binged\.it)|(?:bit\.ly)|(?:buff\.ly)|(?:bizj\.us)|(?:bloat\.me)|(?:bravo\.ly)|(?:bsa\.ly)|(?:budurl\.com)|(?:canurl\.com)|(?:chilp\.it)|(?:chzb\.gr)|(?:cl\.lk)|(?:cl\.ly)|(?:clck\.ru)|(?:cli\.gs)|(?:cliccami\.info)|(?:clickthru\.ca)|(?:clop\.in)|(?:conta\.cc)|(?:cort\.as)|(?:cot\.ag)|(?:crks\.me)|(?:ctvr\.us)|(?:cutt\.us)|(?:dai\.ly)|(?:decenturl\.com)|(?:dfl8\.me)|(?:digbig\.com)|(?:digg\.com)|(?:disq\.us)|(?:dld\.bz)|(?:dlvr\.it)|(?:do\.my)|(?:doiop\.com)|(?:dopen\.us)|(?:easyuri\.com)|(?:easyurl\.net)|(?:eepurl\.com)|(?:eweri\.com)|(?:fa\.by)|(?:fav\.me)|(?:fb\.me)|(?:fbshare\.me)|(?:ff\.im)|(?:fff\.to)|(?:fire\.to)|(?:firsturl\.de)|(?:firsturl\.net)|(?:flic\.kr)|(?:flq\.us)|(?:fly2\.ws)|(?:fon\.gs)|(?:freak\.to)|(?:fuseurl\.com)|(?:fuzzy\.to)|(?:fwd4\.me)|(?:fwib\.net)|(?:g\.ro.lt)|(?:gizmo\.do)|(?:gl\.am)|(?:go\.9nl.com)|(?:go\.ign.com)|(?:go\.usa.gov)|(?:goo\.gl)|(?:goshrink\.com)|(?:gurl\.es)|(?:hex\.io)|(?:hiderefer\.com)|(?:hmm\.ph)|(?:href\.in)|(?:hsblinks\.com)|(?:htxt\.it)|(?:huff\.to)|(?:hulu\.com)|(?:hurl\.me)|(?:hurl\.ws)|(?:icanhaz\.com)|(?:idek\.net)|(?:ilix\.in)|(?:is\.gd)|(?:its\.my)|(?:ix\.lt)|(?:j\.mp)|(?:jijr\.com)|(?:kl\.am)|(?:klck\.me)|(?:korta\.nu)|(?:krunchd\.com)|(?:l9k\.net)|(?:lat\.ms)|(?:liip\.to)|(?:liltext\.com)|(?:linkbee\.com)|(?:linkbun\.ch)|(?:liurl\.cn)|(?:ln-s\.net)|(?:ln-s\.ru)|(?:lnk\.gd)|(?:lnk\.ms)|(?:lnkd\.in)|(?:lnkurl\.com)|(?:lru\.jp)|(?:lt\.tl)|(?:lurl\.no)|(?:macte\.ch)|(?:mash\.to)|(?:merky\.de)|(?:migre\.me)|(?:miniurl\.com)|(?:minurl\.fr)|(?:mke\.me)|(?:moby\.to)|(?:moourl\.com)|(?:mrte\.ch)|(?:myloc\.me)|(?:myurl\.in)|(?:n\.pr)|(?:nbc\.co)|(?:nblo\.gs)|(?:nn\.nf)|(?:not\.my)|(?:notlong\.com)|(?:nsfw\.in)|(?:nutshellurl\.com)|(?:nxy\.in)|(?:nyti\.ms)|(?:o-x\.fr)|(?:oc1\.us)|(?:om\.ly)|(?:omf\.gd)|(?:omoikane\.net)|(?:on\.cnn.com)|(?:on\.mktw.net)|(?:onforb\.es)|(?:orz\.se)|(?:ow\.ly)|(?:ping\.fm)|(?:pli\.gs)|(?:pnt\.me)|(?:politi\.co)|(?:post\.ly)|(?:pp\.gg)|(?:profile\.to)|(?:ptiturl\.com)|(?:pub\.vitrue.com)|(?:qlnk\.net)|(?:qte\.me)|(?:qu\.tc)|(?:qy\.fi)|(?:r\.im)|(?:rb6\.me)|(?:read\.bi)|(?:readthis\.ca)|(?:reallytinyurl\.com)|(?:redir\.ec)|(?:redirects\.ca)|(?:redirx\.com)|(?:retwt\.me)|(?:ri\.ms)|(?:rickroll\.it)|(?:riz\.gd)|(?:rt\.nu)|(?:ru\.ly)|(?:rubyurl\.com)|(?:rurl\.org)|(?:rww\.tw)|(?:s4c\.in)|(?:s7y\.us)|(?:safe\.mn)|(?:sameurl\.com)|(?:sdut\.us)|(?:shar\.es)|(?:shink\.de)|(?:shorl\.com)|(?:short\.ie)|(?:short\.to)|(?:shortlinks\.co.uk)|(?:shorturl\.com)|(?:shout\.to)|(?:show\.my)|(?:shrinkify\.com)|(?:shrinkr\.com)|(?:shrt\.fr)|(?:shrt\.st)|(?:shrten\.com)|(?:shrunkin\.com)|(?:simurl\.com)|(?:slate\.me)|(?:smallr\.com)|(?:smsh\.me)|(?:smurl\.name)|(?:sn\.im)|(?:snipr\.com)|(?:snipurl\.com)|(?:snurl\.com)|(?:sp2\.ro)|(?:spedr\.com)|(?:srnk\.net)|(?:srs\.li)|(?:starturl\.com)|(?:su\.pr)|(?:surl\.co.uk)|(?:surl\.hu)|(?:t\.cn)|(?:t\.co)|(?:t\.lh.com)|(?:ta\.gd)|(?:tbd\.ly)|(?:tcrn\.ch)|(?:tgr\.me)|(?:tgr\.ph)|(?:tighturl\.com)|(?:tiniuri\.com)|(?:tiny\.cc)|(?:tiny\.ly)|(?:tiny\.pl)|(?:tinylink\.in)|(?:tinyuri\.ca)|(?:tinyurl\.com)|(?:tl\.gd)|(?:tmi\.me)|(?:tnij\.org)|(?:tnw\.to)|(?:tny\.com)|(?:to\.ly)|(?:togoto\.us)|(?:totc\.us)|(?:toysr\.us)|(?:tpm\.ly)|(?:tr\.im)|(?:tra\.kz)|(?:trunc\.it)|(?:twhub\.com)|(?:twirl\.at)|(?:twitclicks\.com)|(?:twitterurl\.net)|(?:twitterurl\.org)|(?:twiturl\.de)|(?:twurl\.cc)|(?:twurl\.nl)|(?:u\.mavrev.com)|(?:u\.nu)|(?:u76\.org)|(?:ub0\.cc)|(?:ulu\.lu)|(?:updating\.me)|(?:ur1\.ca)|(?:url\.az)|(?:url\.co.uk)|(?:url\.ie)|(?:url360\.me)|(?:url4\.eu)|(?:urlborg\.com)|(?:urlbrief\.com)|(?:urlcover\.com)|(?:urlcut\.com)|(?:urlenco\.de)|(?:urli\.nl)|(?:urls\.im)|(?:urlshorteningservicefortwitter\.com)|(?:urlx\.ie)|(?:urlzen\.com)|(?:usat\.ly)|(?:use\.my)|(?:vb\.ly)|(?:vgn\.am)|(?:vl\.am)|(?:vm\.lc)|(?:w55\.de)|(?:wapo\.st)|(?:wapurl\.co.uk)|(?:wipi\.es)|(?:wp\.me)|(?:x\.vu)|(?:xr\.com)|(?:xrl\.in)|(?:xrl\.us)|(?:xurl\.es)|(?:xurl\.jp)|(?:y\.ahoo.it)|(?:yatuc\.com)|(?:ye\.pe)|(?:yep\.it)|(?:yfrog\.com)|(?:yhoo\.it)|(?:yiyd\.com)|(?:youtu\.be)|(?:yuarel\.com)|(?:z0p\.de)|(?:zi\.ma)|(?:zi\.mu)|(?:zipmyurl\.com)|(?:zud\.me)|(?:zurl\.ws)|(?:zz\.gd)|(?:zzang\.kr)|(?:›\.ws)|(?:✩\.ws)|(?:✿\.ws)|(?:❥\.ws)|(?:➔\.ws)|(?:➞\.ws)|(?:➡\.ws)|(?:➨\.ws)|(?:➯\.ws)|(?:➹\.ws)|(?:➽\.ws))\/[a-z0-9]*/gi;
+  		this.urlRegex = utils.urlRegex();
   	}
 
-  	babelHelpers.createClass(Url, [{
+  	babelHelpers_createClass(Url, [{
   		key: 'process',
   		value: function process() {
   			var _this = this;
@@ -2959,7 +3147,8 @@
   			align: 'none',
   			lang: 'en'
   		},
-  		imageEmbed: true,
+  		openGraphEndpoint: null,
+  		openGraphExclude: [],
   		videoEmbed: true,
   		videoHeight: null,
   		videoWidth: null,
@@ -2995,7 +3184,10 @@
   		onVideoShow: function onVideoShow() {},
   		onTweetsLoad: function onTweetsLoad() {},
   		videojsCallback: function videojsCallback() {},
-  		videoClickHandler: function videoClickHandler() {}
+  		onOpenGraphFetch: function onOpenGraphFetch() {},
+  		onOpenGraphFail: function onOpenGraphFail() {},
+  		videoClickHandler: function videoClickHandler() {},
+  		served: [] //Private variable used to store processed urls so that they are not processed multiple times.
   	};
 
   	var EmbedJS = (function () {
@@ -3011,7 +3203,7 @@
      */
 
   		function EmbedJS(options, input) {
-  			babelHelpers.classCallCheck(this, EmbedJS);
+  			babelHelpers_classCallCheck(this, EmbedJS);
 
   			/**
       * We have created a clone of the original options to make sure that the original object
@@ -3044,11 +3236,11 @@
      * @return {string} The processes resulting string
      */
 
-  		babelHelpers.createClass(EmbedJS, [{
+  		babelHelpers_createClass(EmbedJS, [{
   			key: 'process',
   			value: (function () {
-  				var ref = babelHelpers.asyncToGenerator(regeneratorRuntime$1.mark(function _callee() {
-  					var input, options, embeds, output, _process, _process2, _process3, _process4, _process5, _process6, _process7, _process8, _process9, _process10, _process11, _process12, _process13, _process14, _process15, _process16, _process17, _process18, _process19, _process20, _process21, _process22, _process23, _process24, _ref, _ref2, _ref3, _ref4, _ref5, _ref6, _process25, _process26, _process27, _process28, _process29, _process30, _process31, _process32, _process33, _process34, _process35, _process36, _ref7, _ref8;
+  				var ref = babelHelpers_asyncToGenerator(regeneratorRuntime$1.mark(function _callee() {
+  					var input, options, embeds, output, _ref, _ref2, _process, _process2, _process3, _process4, _process5, _process6, _process7, _process8, _process9, _process10, _process11, _process12, _process13, _process14, _process15, _process16, _process17, _process18, _process19, _process20, _process21, _process22, _process23, _process24, _ref3, _ref4, _ref5, _ref6, _ref7, _ref8, _process25, _process26, _process27, _process28, _process29, _process30, _process31, _process32, _process33, _process34, _process35, _process36, _ref9, _ref10;
 
   					return regeneratorRuntime$1.wrap(function _callee$(_context) {
   						while (1) {
@@ -3064,6 +3256,22 @@
   									if (true && options.link) {
   										output = new Url(input, options).process();
   									}
+
+  									if (!(true && options.openGraphEndpoint)) {
+  										_context.next = 13;
+  										break;
+  									}
+
+  									_context.next = 9;
+  									return new OpenGraph(input, output, options, embeds).process();
+
+  								case 9:
+  									_ref = _context.sent;
+  									_ref2 = babelHelpers_slicedToArray(_ref, 2);
+  									output = _ref2[0];
+  									embeds = _ref2[1];
+
+  								case 13:
   									if (true && options.marked) {
   										output = new Markdown(output, options).process();
   									}
@@ -3079,181 +3287,181 @@
   									}
   									if (true && utils.ifEmbed(options, 'ideone')) {
   										_process = new Ideone(input, output, options, embeds).process();
-  										_process2 = babelHelpers.slicedToArray(_process, 2);
+  										_process2 = babelHelpers_slicedToArray(_process, 2);
   										output = _process2[0];
   										embeds = _process2[1];
   									}
   									if (true && utils.ifEmbed(options, 'plunker')) {
   										_process3 = new Plunker(input, output, options, embeds).process();
-  										_process4 = babelHelpers.slicedToArray(_process3, 2);
+  										_process4 = babelHelpers_slicedToArray(_process3, 2);
   										output = _process4[0];
   										embeds = _process4[1];
   									}
   									if (true && utils.ifEmbed(options, 'jsbin')) {
   										_process5 = new JsBin(input, output, options, embeds).process();
-  										_process6 = babelHelpers.slicedToArray(_process5, 2);
+  										_process6 = babelHelpers_slicedToArray(_process5, 2);
   										output = _process6[0];
   										embeds = _process6[1];
   									}
   									if (true && utils.ifEmbed(options, 'codepen')) {
   										_process7 = new CodePen(input, output, options, embeds).process();
-  										_process8 = babelHelpers.slicedToArray(_process7, 2);
+  										_process8 = babelHelpers_slicedToArray(_process7, 2);
   										output = _process8[0];
   										embeds = _process8[1];
   									}
   									if (true && utils.ifEmbed(options, 'jsfiddle')) {
   										_process9 = new JsFiddle(input, output, options, embeds).process();
-  										_process10 = babelHelpers.slicedToArray(_process9, 2);
+  										_process10 = babelHelpers_slicedToArray(_process9, 2);
   										output = _process10[0];
   										embeds = _process10[1];
   									}
   									if (true && utils.ifEmbed(options, 'gist')) {
   										_process11 = new Gist(input, output, options, embeds).process();
-  										_process12 = babelHelpers.slicedToArray(_process11, 2);
+  										_process12 = babelHelpers_slicedToArray(_process11, 2);
   										output = _process12[0];
   										embeds = _process12[1];
   									}
 
   									if (true && utils.ifEmbed(options, 'ted')) {
   										_process13 = new Ted(input, output, options, embeds).process();
-  										_process14 = babelHelpers.slicedToArray(_process13, 2);
+  										_process14 = babelHelpers_slicedToArray(_process13, 2);
   										output = _process14[0];
   										embeds = _process14[1];
   									}
   									if (true && utils.ifEmbed(options, 'dailymotion')) {
   										_process15 = new Dailymotion(input, output, options, embeds).process();
-  										_process16 = babelHelpers.slicedToArray(_process15, 2);
+  										_process16 = babelHelpers_slicedToArray(_process15, 2);
   										output = _process16[0];
   										embeds = _process16[1];
   									}
   									if (true && utils.ifEmbed(options, 'ustream')) {
   										_process17 = new Ustream(input, output, options, embeds).process();
-  										_process18 = babelHelpers.slicedToArray(_process17, 2);
+  										_process18 = babelHelpers_slicedToArray(_process17, 2);
   										output = _process18[0];
   										embeds = _process18[1];
   									}
   									if (true && utils.ifEmbed(options, 'liveleak')) {
   										_process19 = new LiveLeak(input, output, options, embeds).process();
-  										_process20 = babelHelpers.slicedToArray(_process19, 2);
+  										_process20 = babelHelpers_slicedToArray(_process19, 2);
   										output = _process20[0];
   										embeds = _process20[1];
   									}
   									if (true && options.videoEmbed) {
   										_process21 = new BasicVideo(input, output, options, embeds).process();
-  										_process22 = babelHelpers.slicedToArray(_process21, 2);
+  										_process22 = babelHelpers_slicedToArray(_process21, 2);
   										output = _process22[0];
   										embeds = _process22[1];
   									}
   									if (true && utils.ifEmbed(options, 'vine')) {
   										_process23 = new Vine(input, output, options, embeds).process();
-  										_process24 = babelHelpers.slicedToArray(_process23, 2);
+  										_process24 = babelHelpers_slicedToArray(_process23, 2);
   										output = _process24[0];
   										embeds = _process24[1];
   									}
 
   									if (!(true && utils.ifEmbed(options, 'youtube') && regeneratorRuntime$1)) {
-  										_context.next = 29;
-  										break;
-  									}
-
-  									_context.next = 25;
-  									return new Youtube(input, output, options, embeds).process();
-
-  								case 25:
-  									_ref = _context.sent;
-  									_ref2 = babelHelpers.slicedToArray(_ref, 2);
-  									output = _ref2[0];
-  									embeds = _ref2[1];
-
-  								case 29:
-  									if (!(true && utils.ifEmbed(options, 'vimeo'))) {
   										_context.next = 36;
   										break;
   									}
 
   									_context.next = 32;
-  									return new Vimeo(input, output, options, embeds).process();
+  									return new Youtube(input, output, options, embeds).process();
 
   								case 32:
   									_ref3 = _context.sent;
-  									_ref4 = babelHelpers.slicedToArray(_ref3, 2);
+  									_ref4 = babelHelpers_slicedToArray(_ref3, 2);
   									output = _ref4[0];
   									embeds = _ref4[1];
 
   								case 36:
-  									if (!(true && options.locationEmbed)) {
+  									if (!(true && utils.ifEmbed(options, 'vimeo'))) {
   										_context.next = 43;
   										break;
   									}
 
   									_context.next = 39;
-  									return new Gmap(input, output, options, embeds).process();
+  									return new Vimeo(input, output, options, embeds).process();
 
   								case 39:
   									_ref5 = _context.sent;
-  									_ref6 = babelHelpers.slicedToArray(_ref5, 2);
+  									_ref6 = babelHelpers_slicedToArray(_ref5, 2);
   									output = _ref6[0];
   									embeds = _ref6[1];
 
   								case 43:
+  									if (!(true && options.locationEmbed)) {
+  										_context.next = 50;
+  										break;
+  									}
+
+  									_context.next = 46;
+  									return new Gmap(input, output, options, embeds).process();
+
+  								case 46:
+  									_ref7 = _context.sent;
+  									_ref8 = babelHelpers_slicedToArray(_ref7, 2);
+  									output = _ref8[0];
+  									embeds = _ref8[1];
+
+  								case 50:
 
   									if (true && utils.ifEmbed(options, 'soundcloud')) {
   										_process25 = new SoundCloud(input, output, options, embeds).process();
-  										_process26 = babelHelpers.slicedToArray(_process25, 2);
+  										_process26 = babelHelpers_slicedToArray(_process25, 2);
   										output = _process26[0];
   										embeds = _process26[1];
   									}
   									if (true && utils.ifEmbed(options, 'spotify')) {
   										_process27 = new Spotify(input, output, options, embeds).process();
-  										_process28 = babelHelpers.slicedToArray(_process27, 2);
+  										_process28 = babelHelpers_slicedToArray(_process27, 2);
   										output = _process28[0];
   										embeds = _process28[1];
   									}
   									if (true && options.audioEmbed) {
   										_process29 = new BasicAudio(input, output, options, embeds).process();
-  										_process30 = babelHelpers.slicedToArray(_process29, 2);
+  										_process30 = babelHelpers_slicedToArray(_process29, 2);
   										output = _process30[0];
   										embeds = _process30[1];
   									}
 
   									if (true && utils.ifEmbed(options, 'flickr')) {
   										_process31 = new Flickr(input, output, options, embeds).process();
-  										_process32 = babelHelpers.slicedToArray(_process31, 2);
+  										_process32 = babelHelpers_slicedToArray(_process31, 2);
   										output = _process32[0];
   										embeds = _process32[1];
   									}
   									if (true && utils.ifEmbed(options, 'instagram')) {
   										_process33 = new Instagram(input, output, options, embeds).process();
-  										_process34 = babelHelpers.slicedToArray(_process33, 2);
+  										_process34 = babelHelpers_slicedToArray(_process33, 2);
   										output = _process34[0];
   										embeds = _process34[1];
   									}
   									if (true && options.imageEmbed) {
   										_process35 = new Basic(input, output, options, embeds).process();
-  										_process36 = babelHelpers.slicedToArray(_process35, 2);
+  										_process36 = babelHelpers_slicedToArray(_process35, 2);
   										output = _process36[0];
   										embeds = _process36[1];
   									}
 
   									if (!(options.tweetsEmbed && true)) {
-  										_context.next = 57;
+  										_context.next = 64;
   										break;
   									}
 
   									this.twitter = new Twitter(input, output, options, embeds);
-  									_context.next = 53;
+  									_context.next = 60;
   									return this.twitter.process();
 
-  								case 53:
-  									_ref7 = _context.sent;
-  									_ref8 = babelHelpers.slicedToArray(_ref7, 2);
-  									output = _ref8[0];
-  									embeds = _ref8[1];
+  								case 60:
+  									_ref9 = _context.sent;
+  									_ref10 = babelHelpers_slicedToArray(_ref9, 2);
+  									output = _ref10[0];
+  									embeds = _ref10[1];
 
-  								case 57:
+  								case 64:
   									return _context.abrupt('return', utils.createText(output, embeds));
 
-  								case 58:
+  								case 65:
   								case 'end':
   									return _context.stop();
   							}
@@ -3279,7 +3487,7 @@
   		}, {
   			key: 'render',
   			value: (function () {
-  				var ref = babelHelpers.asyncToGenerator(regeneratorRuntime$1.mark(function _callee2() {
+  				var ref = babelHelpers_asyncToGenerator(regeneratorRuntime$1.mark(function _callee2() {
   					var event;
   					return regeneratorRuntime$1.wrap(function _callee2$(_context2) {
   						while (1) {
@@ -3330,7 +3538,7 @@
   		}, {
   			key: 'text',
   			value: (function () {
-  				var ref = babelHelpers.asyncToGenerator(regeneratorRuntime$1.mark(function _callee3(callback) {
+  				var ref = babelHelpers_asyncToGenerator(regeneratorRuntime$1.mark(function _callee3(callback) {
   					var result;
   					return regeneratorRuntime$1.wrap(function _callee3$(_context3) {
   						while (1) {
@@ -3437,7 +3645,8 @@
   			detailsYoutube: function detailsYoutube() {},
   			vine: function vine() {},
   			vimeo: function vimeo() {},
-  			youtube: function youtube() {}
+  			youtube: function youtube() {},
+  			openGraph: function openGraph() {}
   		}
   	};
   	window.EmbedJS = EmbedJS;

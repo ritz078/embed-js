@@ -31,12 +31,14 @@
 <body>
 
 <h1>Loading embed.js in a block</h1>
-
+<div id="url" class="block">
+Lorem ipsum dolor sit amet, consectetur adipisicing elit. Itaque consectetur iure culpa reiciendis repudiandae vitae quae temporibus eum fugit, porro accusamus https://vimeo.com/119199079 quis quas sapiente, deleniti! Suscipit excepturi ipsa nobis corrupti.
+</div>
 <div id="block">
 
 #embed.js
 
-Lorem ipsum dolor sit amet, :smile: consectetur adipisicing elit. Cum quos numquam, error optio voluptatibus, voluptates debitis dolorum possimus ducimus recusandae cupiditate. Veritatis cumque laboriosam debitis numquam iste amet provident vero. Lorem ipsum dolor **sit amet, consectetur adipisicing** elit. A, cupiditate fugiat, nemo asperiores tempora doloribus neque, molestias, harum consequuntur molestiae magnam officia quos facere tenetur dignissimos ~~animi beatae~~. Eius, ipsum. http://iitr.ac.in Lorem ipsum :+1: dolor sit amet, consectetur adipisicing elit. Fugit porro voluptas, nam doloremque ![abcdefg](https://images.unsplash.com/photo-1443527216320-7e744084f5a7?dpr=2&fit=crop&fm=jpg&h=500&ixlib=rb-0.3.5&q=50&w=1450) , incidunt architecto minima quod vel. Dicta accusantium molestias quaerat ut, nostrum, quidem id sapiente adipisci ullam architecto. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum quos numquam, error optio voluptatibus, voluptates debitis dolorum possimus ducimus https://www.youtube.com/watch?v=bQRLVxZHKPs recusandae cupiditate. Veritatis cumque laboriosam debitis numquam iste amet provident vero. Lorem ipsum dolor sit amet, consectetur adipisicing elit. A, cupiditate fugiat, nemo asperiores tempora doloribus neque, molestias, harum consequuntur molestiae magnam officia quos facere tenetur dignissimos animi beatae. Eius, ipsum. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugit porro voluptas, nam doloremque, incidunt architecto minima quod vel. Dicta accusantium molestias quaerat ut, nostrum, quidem id sapiente adipisci ullam architecto. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum quos numquam, error optio voluptatibus, voluptates debitis dolorum possimus ducimus recusandae http://www.sample-videos.com/video/mp4/240/big_buck_bunny_240p_50mb.mp4 cupiditate. Veritatis cumque laboriosam debitis numquam iste amet provident vero. Lorem ipsum dolor sit amet, consectetur adipisicing elit. A, cupiditate fugiat, nemo asperiores tempora doloribus neque, molestias, harum consequuntur molestiae magnam officia quos facere tenetur dignissimos animi beatae. Eius, ipsum. Lorem ipsum dolor sit amet, consectetur https://twitter.com/IGN/status/652941146054881281 adipisicing elit. Fugit porro voluptas, nam doloremque, incidunt architecto minima quod vel. Dicta accusantium molestias quaerat ut, nostrum, quidem id sapiente adipisci ullam architecto. Lorem ipsum dolor sit amet,
+Lorem ipsum dolor sit amet, :smile: consectetur adipisicing elit. Cum quos numquam, error optio voluptatibus, voluptates debitis dolorum possimus ducimus recusandae cupiditate. http://riteshkr.com/embed.js/ Veritatis cumque laboriosam debitis numquam iste amet provident vero. Lorem ipsum dolor **sit amet, consectetur adipisicing** elit. A, cupiditate fugiat, nemo asperiores tempora doloribus neque, molestias, harum consequuntur molestiae magnam officia quos facere tenetur dignissimos ~~animi beatae~~. Eius, ipsum. Lorem ipsum :+1: dolor sit amet, consectetur adipisicing elit. Fugit porro voluptas, nam doloremque ![abcdefg](https://images.unsplash.com/photo-1443527216320-7e744084f5a7?dpr=2&fit=crop&fm=jpg&h=500&ixlib=rb-0.3.5&q=50&w=1450) , incidunt architecto minima quod vel. Dicta accusantium molestias quaerat ut, nostrum, quidem id sapiente adipisci ullam architecto. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum quos numquam, error optio voluptatibus, voluptates debitis dolorum possimus ducimus https://www.youtube.com/watch?v=bQRLVxZHKPs recusandae cupiditate. Veritatis cumque laboriosam debitis numquam iste amet provident vero. Lorem ipsum dolor sit amet, consectetur adipisicing elit. A, cupiditate fugiat, nemo asperiores tempora doloribus neque, molestias, harum consequuntur molestiae magnam officia quos facere tenetur dignissimos animi beatae. Eius, ipsum. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugit porro voluptas, nam doloremque, incidunt architecto minima quod vel. Dicta accusantium molestias quaerat ut, nostrum, quidem id sapiente adipisci ullam architecto. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum quos numquam, error optio voluptatibus, voluptates debitis dolorum possimus ducimus recusandae http://www.sample-videos.com/video/mp4/240/big_buck_bunny_240p_50mb.mp4 cupiditate. Veritatis cumque laboriosam debitis numquam iste amet provident vero. Lorem ipsum dolor sit amet, consectetur adipisicing elit. A, cupiditate fugiat, nemo asperiores tempora doloribus neque, molestias, harum consequuntur molestiae magnam officia quos facere tenetur dignissimos animi beatae. Eius, ipsum. Lorem ipsum dolor sit amet, consectetur https://twitter.com/IGN/status/652941146054881281 adipisicing elit. Fugit porro voluptas, nam doloremque, incidunt architecto minima quod vel. Dicta accusantium molestias quaerat ut, nostrum, quidem id sapiente adipisci ullam architecto. Lorem ipsum dolor sit amet,
 
 ```
 grade = (student, period=(if b? then 7 else 6)) ->
@@ -69,10 +71,16 @@ ejs.setOptions({
 		videoJS:true,
 		videoWidth:720,
 		videoDetails:true,
+		excludeEmbed:['spotify'],
+		openGraphEndpoint:'https://opengraph.io/api/1.0/site/${url}',
 		googleAuthKey:'AIzaSyCqFouT8h5DKAbxlrTZmjXEmNBjC69f0ts',
 		inlineEmbed:'all',
 		marked:true,
-		link:true
+		link:true,
+		onOpenGraphFetch:function(data){
+			data.hybridGraph.success = data.error ?  false : true;
+			return data.hybridGraph;
+		}
 	});
 	var x = new EmbedJS({
 		element: document.getElementById('block'),
@@ -84,7 +92,14 @@ ejs.setOptions({
 		console.log(data);
 	});
 
+
+	ejs.template.basicAudio = function(match){
+		return 'kjkh'+ match
+	};
+
+
 	ejs.applyEmbedJS(".block");
+
 </script>
 
 </body>

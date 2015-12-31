@@ -1,4 +1,4 @@
-export class Highlight {
+export default class Highlight {
 	constructor(output, options) {
 		if (!hljs) {
 			throw new ReferenceError(

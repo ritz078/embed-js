@@ -3536,7 +3536,7 @@
 
 .ejs-instagram iframe {
   width: auto;
-  border: 1px solid #eee;
+  border: 1px solid #eeeeee;
   height: 372px;
 }
 
@@ -3546,7 +3546,7 @@
 }
 
 .ejs-jsbin iframe {
-  border: 1px solid #eee;
+  border: 1px solid #eeeeee;
   display: block;
 }
 
@@ -3566,7 +3566,7 @@ pre {
 }
 
 code {
-  background-color: #eee;
+  background-color: #eeeeee;
   padding: 3px 10px;
   border-radius: 2px;
 }
@@ -3726,6 +3726,42 @@ code {
   height: 22px;
   width: 22px;
   vertical-align: middle;
+}
+
+.ejs-ogp {
+  padding: 5px;
+  border: 1px solid #eeeeee;
+  display: inline-flex;
+}
+
+.ejs-ogp-thumb {
+  width: 200px;
+  height: 150px;
+  background-size: cover;
+  background-position: center;
+  display: inline-block;
+  background-color: #eeeeee;
+}
+
+.ejs-ogp-details {
+  width: calc(100% - 200px);
+  display: inline-block;
+  margin-left: -4px;
+  vertical-align: top;
+  padding: 0 16px;
+  box-sizing: border-box;
+}
+
+.ejs-ogp-title {
+  margin: 10px 0px;
+  font-size: 19px;
+  margin-top: 6px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.ejs-ogp-title a {
+  color: #000;
 }
 
 /*# sourceMappingURL=embed.css.map */
