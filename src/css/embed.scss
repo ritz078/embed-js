@@ -20,7 +20,8 @@ $border-color: #eeeeee;
 .ejs-embed {
   width: 100%;
   margin: 20px 0;
-  box-sizing: border-box
+  box-sizing: border-box;
+  position: relative;
 }
 
 .ejs-embed iframe {
@@ -162,13 +163,17 @@ code {
   overflow: auto;
 }
 
-.ejs-video-stats span {
-  padding: 0 15px;
-  float: right;
-}
+.ejs-video-stats, .ejs-github-stats {
+  position: absolute;
+  right: 5px;
+  bottom: 15px;
+  span {
+	padding: 0 15px;
+	i {
+	  margin-right: 10px;
+	}
+  }
 
-.ejs-video-stats span i {
-  margin-right: 10px;
 }
 
 .ejs-video-player {
@@ -227,7 +232,7 @@ code {
   vertical-align: middle;
 }
 
-.ejs-ogp {
+.ejs-ogp, .ejs-github {
   padding: 5px;
   border: 1px solid $border-color;
   display: inline-flex;
