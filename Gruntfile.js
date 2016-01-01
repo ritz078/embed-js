@@ -177,8 +177,9 @@ rollup: {
     grunt.loadNpmTasks("grunt-contrib-sass");
     grunt.loadNpmTasks("grunt-contrib-uglify");
     grunt.loadNpmTasks("grunt-contrib-connect");
-    grunt.loadNpmTasks("grunt-rollup")
-    grunt.loadNpmTasks("grunt-eslint")
+    grunt.loadNpmTasks("grunt-rollup");
+    grunt.loadNpmTasks("grunt-eslint");
+	grunt.loadNpmTasks('grunt-release');
 
     grunt.registerTask("default", ["eslint","rollup", "sass", "connect", "watch"]);
     grunt.registerTask("build", ["clean", "build-emoji","eslint", "rollup", "uglify", "postcss"]);

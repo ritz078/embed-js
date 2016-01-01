@@ -57,6 +57,7 @@
     "grunt-contrib-watch": "^0.6.1",
     "grunt-eslint": "^17.3.1",
     "grunt-postcss": "^0.7.1",
+    "grunt-release": "^0.13.0",
     "grunt-retinafy": "^0.1.5",
     "grunt-rollup": "^0.6.1",
     "grunt-spritesmith": "^6.1.0",

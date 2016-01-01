@@ -993,6 +993,13 @@
   			classes[i].onclick = null;
   		}
   	},
+
+  	/**
+    * A helper function for inline embedding
+    * @param _this
+    * @param urlToText
+    * @returns {*}
+    */
   	inlineEmbed: (function () {
   		var ref = babelHelpers_asyncToGenerator(regeneratorRuntime$1.mark(function _callee(_this, urlToText) {
   			var regexInline, match, url, text;

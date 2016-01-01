@@ -110,6 +110,12 @@ var helper = {
 		}
 	},
 
+	/**
+	 * A helper function for inline embedding
+	 * @param _this
+	 * @param urlToText
+	 * @returns {*}
+	 */
 	async inlineEmbed(_this, urlToText){
 		if (!regeneratorRuntime) return _this.output;
 		let regexInline = _this.options.link ? new RegExp(`([^>]*${_this.regex.source})<\/a>`, 'gi') : new RegExp(`([^\\s]*${_this.regex.source})`, 'gi');
