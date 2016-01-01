@@ -287,90 +287,6 @@
       }
   };
 
-  var helper = {
-  	/**
-    * Plays the video after clicking on the thumbnail
-    * @param  {string} className The class name on which click is to be listened
-    * @param  {object} options   Options object
-    * @return {null}
-    */
-
-  	play: function play(options) {
-  		/** Execute the customVideoClickHandler if the user wants to handle it on his own. */
-  		if (options.customVideoClickHandler) return options.videoClickHandler(options, this.template);
-
-  		var classes = document.getElementsByClassName(options.videoClickClass);
-  		var _this = this;
-  		for (var i = 0; i < classes.length; i++) {
-  			classes[i].onclick = function () {
-  				options.onVideoShow();
-  				var url = this.getAttribute('data-ejs-url') + "?autoplay=true";
-  				this.parentNode.parentNode.innerHTML = _this.template(url, options);
-  			};
-  		}
-  	},
-
-  	/**
-    * Common template for vimeo and youtube iframes
-    * @param  {string} url     URL of the embedding video
-    * @param  {object} options Options object
-    * @return {string}         compiled template with variables replaced
-    */
-  	template: function template(url, options) {
-  		var dimensions = utils.dimensions(options);
-  		return ejs.template.vimeo(url, dimensions, options) || ejs.template.youtube(url, dimensions, options) || '<div class="ejs-video-player ejs-embed">\n        <iframe src="' + url + '" frameBorder="0" width="' + dimensions.width + '" height="' + dimensions.height + '"></iframe>\n        </div>';
-  	},
-
-  	/**
-    * Template for showing vimeo and youtube video details
-    * @param  {object} data     Object containing the variable values as key-value pair
-    * @param  {string} embedUrl URL of the video
-    * @return {string}          template with variables replaced
-    */
-  	detailsTemplate: function detailsTemplate(data, embedUrl) {
-  		return '<div class="ejs-video ejs-embed">\n        <div class="ejs-video-preview">\n        <div class="ejs-video-thumb" data-ejs-url="' + embedUrl + '">\n        <div class="ejs-thumb" style="background-image:url(' + data.thumbnail + ')"></div>\n        <i class="fa fa-play-circle-o"></i>\n        </div>\n        <div class="ejs-video-detail">\n        <div class="ejs-video-title">\n        <a href="' + data.url + '">\n        ' + data.title + '\n        </a>\n        </div>\n        <div class="ejs-video-desc">\n        ' + data.description + '\n        </div>\n        <div class="ejs-video-stats">\n        <span>\n        <i class="fa fa-eye"></i>' + data.views + '\n        </span>\n        <span>\n        <i class="fa fa-heart"></i>' + data.likes + '\n        </span>\n        </div>\n        </div>\n        </div>\n        </div>';
-  	},
-  	getDetailsTemplate: function getDetailsTemplate(data, fullData, embedUrl) {
-  		if (data.host === 'vimeo') {
-  			return ejs.template.detailsVimeo(data, fullData, embedUrl) || this.detailsTemplate(data, embedUrl);
-  		} else if (data.host === 'youtube') {
-  			return ejs.template.detailsYoutube(data, fullData, embedUrl) || this.detailsTemplate(data, embedUrl);
-  		}
-  	},
-
-  	/**
-    * Applies video.js to all audio and video dynamically
-    * @param  {object} options Options object
-    * @return {null}
-    */
-  	applyVideoJS: function applyVideoJS(options) {
-  		var dimensions = utils.dimensions(options);
-  		options.videojsOptions.width = dimensions.width;
-  		options.videojsOptions.height = dimensions.height;
-  		if (options.videoJS) {
-  			if (!window.videojs) throw new ReferenceError("You have enabled videojs but you haven't loaded the library.Find it at http://videojs.com/");
-  			var elements = options.element.getElementsByClassName('ejs-video-js');
-  			for (var i = 0; i < elements.length; i++) {
-  				videojs(elements[i], options.videojsOptions, function () {
-  					return options.videojsCallback();
-  				});
-  			}
-  		}
-  	},
-
-  	/**
-    * Destroys the onclick event for opening the video template from the details template
-    * @param  {className} className
-    * @return {null}
-    */
-  	destroy: function destroy(className) {
-  		var classes = document.getElementsByClassName(className);
-  		for (var i = 0; i < classes.length; i++) {
-  			classes[i].onclick = null;
-  		}
-  	}
-  };
-
   var hasOwn = Object.prototype.hasOwnProperty;
   var undefined$1 = void 0; // More compressible than void 0.
   var $Symbol = typeof Symbol === "function" ? Symbol : {};
@@ -995,6 +911,168 @@
   };
   window.regeneratorRuntime = regeneratorRuntime$1;
 
+  var helper = {
+  	/**
+    * Plays the video after clicking on the thumbnail
+    * @param  {string} className The class name on which click is to be listened
+    * @param  {object} options   Options object
+    * @return {null}
+    */
+
+  	play: function play(options) {
+  		/** Execute the customVideoClickHandler if the user wants to handle it on his own. */
+  		if (options.customVideoClickHandler) return options.videoClickHandler(options, this.template);
+
+  		var classes = document.getElementsByClassName(options.videoClickClass);
+  		var _this = this;
+  		for (var i = 0; i < classes.length; i++) {
+  			classes[i].onclick = function () {
+  				options.onVideoShow();
+  				var url = this.getAttribute('data-ejs-url') + "?autoplay=true";
+  				this.parentNode.parentNode.innerHTML = _this.template(url, options);
+  			};
+  		}
+  	},
+
+  	/**
+    * Common template for vimeo and youtube iframes
+    * @param  {string} url     URL of the embedding video
+    * @param  {object} options Options object
+    * @return {string}         compiled template with variables replaced
+    */
+  	template: function template(url, options) {
+  		var dimensions = utils.dimensions(options);
+  		return ejs.template.vimeo(url, dimensions, options) || ejs.template.youtube(url, dimensions, options) || '<div class="ejs-video-player ejs-embed">\n        <iframe src="' + url + '" frameBorder="0" width="' + dimensions.width + '" height="' + dimensions.height + '"></iframe>\n        </div>';
+  	},
+
+  	/**
+    * Template for showing vimeo and youtube video details
+    * @param  {object} data     Object containing the variable values as key-value pair
+    * @param  {string} embedUrl URL of the video
+    * @return {string}          template with variables replaced
+    */
+  	detailsTemplate: function detailsTemplate(data, embedUrl) {
+  		return '<div class="ejs-video ejs-embed">\n        <div class="ejs-video-preview">\n        <div class="ejs-video-thumb" data-ejs-url="' + embedUrl + '">\n        <div class="ejs-thumb" style="background-image:url(' + data.thumbnail + ')"></div>\n        <i class="fa fa-play-circle-o"></i>\n        </div>\n        <div class="ejs-video-detail">\n        <div class="ejs-video-title">\n        <a href="' + data.url + '">\n        ' + data.title + '\n        </a>\n        </div>\n        <div class="ejs-video-desc">\n        ' + data.description + '\n        </div>\n        <div class="ejs-video-stats">\n        <span>\n        <i class="fa fa-eye"></i>' + data.views + '\n        </span>\n        <span>\n        <i class="fa fa-heart"></i>' + data.likes + '\n        </span>\n        </div>\n        </div>\n        </div>\n        </div>';
+  	},
+  	getDetailsTemplate: function getDetailsTemplate(data, fullData, embedUrl) {
+  		if (data.host === 'vimeo') {
+  			return ejs.template.detailsVimeo(data, fullData, embedUrl) || this.detailsTemplate(data, embedUrl);
+  		} else if (data.host === 'youtube') {
+  			return ejs.template.detailsYoutube(data, fullData, embedUrl) || this.detailsTemplate(data, embedUrl);
+  		}
+  	},
+
+  	/**
+    * Applies video.js to all audio and video dynamically
+    * @param  {object} options Options object
+    * @return {null}
+    */
+  	applyVideoJS: function applyVideoJS(options) {
+  		var dimensions = utils.dimensions(options);
+  		options.videojsOptions.width = dimensions.width;
+  		options.videojsOptions.height = dimensions.height;
+  		if (options.videoJS) {
+  			if (!window.videojs) throw new ReferenceError("You have enabled videojs but you haven't loaded the library.Find it at http://videojs.com/");
+  			var elements = options.element.getElementsByClassName('ejs-video-js');
+  			for (var i = 0; i < elements.length; i++) {
+  				videojs(elements[i], options.videojsOptions, function () {
+  					return options.videojsCallback();
+  				});
+  			}
+  		}
+  	},
+
+  	/**
+    * Destroys the onclick event for opening the video template from the details template
+    * @param  {className} className
+    * @return {null}
+    */
+  	destroy: function destroy(className) {
+  		var classes = document.getElementsByClassName(className);
+  		for (var i = 0; i < classes.length; i++) {
+  			classes[i].onclick = null;
+  		}
+  	},
+  	inlineEmbed: (function () {
+  		var ref = babelHelpers_asyncToGenerator(regeneratorRuntime$1.mark(function _callee(_this, urlToText) {
+  			var regexInline, match, url, text;
+  			return regeneratorRuntime$1.wrap(function _callee$(_context) {
+  				while (1) {
+  					switch (_context.prev = _context.next) {
+  						case 0:
+  							if (regeneratorRuntime$1) {
+  								_context.next = 2;
+  								break;
+  							}
+
+  							return _context.abrupt('return', _this.output);
+
+  						case 2:
+  							regexInline = _this.options.link ? new RegExp('([^>]*' + _this.regex.source + ')</a>', 'gi') : new RegExp('([^\\s]*' + _this.regex.source + ')', 'gi');
+  							match = undefined;
+
+  						case 4:
+  							if (!((match = utils.matches(regexInline, _this.output)) !== null)) {
+  								_context.next = 21;
+  								break;
+  							}
+
+  							url = (_this.options.link ? match[0].slice(0, -4) : match[0]) || match[1];
+
+  							if (!(_this.options.served.indexOf(url) !== -1)) {
+  								_context.next = 8;
+  								break;
+  							}
+
+  							return _context.abrupt('continue', 4);
+
+  						case 8:
+  							_context.next = 10;
+  							return urlToText(_this, match, url);
+
+  						case 10:
+  							text = _context.sent;
+
+  							if (text) {
+  								_context.next = 13;
+  								break;
+  							}
+
+  							return _context.abrupt('continue', 4);
+
+  						case 13:
+  							_this.options.served.push(url);
+
+  							if (!_this.options.link) {
+  								_context.next = 18;
+  								break;
+  							}
+
+  							return _context.abrupt('return', !_this.options.inlineText ? _this.output.replace(match[0], text + '</a>') : _this.output.replace(match[0], match[0] + text));
+
+  						case 18:
+  							return _context.abrupt('return', !_this.options.inlineText ? _this.output.replace(match[0], text) : _this.output.replace(match[0], match[0] + text));
+
+  						case 19:
+  							_context.next = 4;
+  							break;
+
+  						case 21:
+  							return _context.abrupt('return', _this.output);
+
+  						case 22:
+  						case 'end':
+  							return _context.stop();
+  					}
+  				}
+  			}, _callee, this);
+  		}));
+  		return function inlineEmbed(_x, _x2) {
+  			return ref.apply(this, arguments);
+  		};
+  	})()
+  };
+
   var defaultOptions = {
       timeout: 5000,
       jsonpCallback: 'callback'
@@ -1459,20 +1537,20 @@
   	}, {
   		key: 'load',
   		value: function load() {
-  			var _this = this;
+  			var _this2 = this;
 
   			twttr.widgets.load(this.options.element); //here this refers to the element
 
   			//Execute the function after the widget is loaded
   			twttr.events.bind('loaded', function () {
-  				_this.options.onTweetsLoad();
+  				_this2.options.onTweetsLoad();
   			});
   		}
   	}, {
   		key: 'process',
   		value: (function () {
   			var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
-  				var regexInline, match, url, data, text;
+  				var match, data;
   				return regeneratorRuntime.wrap(function _callee2$(_context2) {
   					while (1) {
   						switch (_context2.prev = _context2.next) {
@@ -1480,95 +1558,92 @@
   								_context2.prev = 0;
 
   								if (utils.ifInline(this.options, this.service)) {
+  									_context2.next = 7;
+  									break;
+  								}
+
+  								_context2.next = 4;
+  								return helper.inlineEmbed(this, Twitter.urlToText);
+
+  							case 4:
+  								this.output = _context2.sent;
+  								_context2.next = 17;
+  								break;
+
+  							case 7:
+  								match = undefined;
+
+  							case 8:
+  								if (!((match = utils.matches(this.regex, this.input)) !== null)) {
   									_context2.next = 17;
   									break;
   								}
 
-  								regexInline = this.options.link ? new RegExp('([^>]*' + this.regex.source + ')</a>', 'gi') : new RegExp('([^\\s]*' + this.regex.source + ')', 'gi');
-  								match = undefined;
-
-  							case 4:
-  								if (!((match = utils.matches(regexInline, this.output)) !== null)) {
-  									_context2.next = 15;
-  									break;
-  								}
-
-  								url = this.options.link ? match[0].slice(0, -4) : match[0];
-
-  								if (!(this.options.served.indexOf(url) !== -1)) {
-  									_context2.next = 8;
-  									break;
-  								}
-
-  								return _context2.abrupt('continue', 4);
-
-  							case 8:
-  								_context2.next = 10;
-  								return this.tweetData(url);
-
-  							case 10:
-  								data = _context2.sent;
-  								text = data.html;
-
-  								if (this.options.link) {
-  									this.output = !this.options.inlineText ? this.output.replace(match[0], text + '</a>') : this.output.replace(match[0], match[0] + text);
-  								} else {
-  									this.output = !this.options.inlineText ? this.output.replace(match[0], text) : this.output.replace(match[0], match[0] + text);
-  								}
-  								_context2.next = 4;
-  								break;
-
-  							case 15:
-  								_context2.next = 27;
-  								break;
-
-  							case 17:
-  								match = undefined;
-
-  							case 18:
-  								if (!((match = utils.matches(this.regex, this.input)) !== null)) {
-  									_context2.next = 27;
-  									break;
-  								}
-
   								if (!(this.options.served.indexOf(match[0]) !== -1)) {
-  									_context2.next = 21;
+  									_context2.next = 11;
   									break;
   								}
 
-  								return _context2.abrupt('continue', 18);
+  								return _context2.abrupt('continue', 8);
 
-  							case 21:
-  								_context2.next = 23;
+  							case 11:
+  								_context2.next = 13;
   								return this.tweetData(match[0]);
 
-  							case 23:
+  							case 13:
   								data = _context2.sent;
 
   								this.embeds.push({
   									text: data.html,
   									index: match.index
   								});
-  								_context2.next = 18;
+  								_context2.next = 8;
   								break;
 
-  							case 27:
+  							case 17:
   								return _context2.abrupt('return', [this.output, this.embeds]);
 
-  							case 30:
-  								_context2.prev = 30;
+  							case 20:
+  								_context2.prev = 20;
   								_context2.t0 = _context2['catch'](0);
 
   								console.log(_context2.t0);
 
-  							case 33:
+  							case 23:
   							case 'end':
   								return _context2.stop();
   						}
   					}
-  				}, _callee2, this, [[0, 30]]);
+  				}, _callee2, this, [[0, 20]]);
   			}));
   			return function process() {
+  				return ref.apply(this, arguments);
+  			};
+  		})()
+  	}], [{
+  		key: 'urlToText',
+  		value: (function () {
+  			var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee3(_this, match, url) {
+  				var data;
+  				return regeneratorRuntime.wrap(function _callee3$(_context3) {
+  					while (1) {
+  						switch (_context3.prev = _context3.next) {
+  							case 0:
+  								_context3.next = 2;
+  								return _this.tweetData(url);
+
+  							case 2:
+  								data = _context3.sent;
+  								return _context3.abrupt('return', data.html);
+
+  							case 4:
+  							case 'end':
+  								return _context3.stop();
+  						}
+  					}
+  				}, _callee3, this);
+  			}));
+  			return function urlToText(_x2, _x3, _x4) {
   				return ref.apply(this, arguments);
   			};
   		})()
@@ -1773,96 +1848,47 @@
       }
 
       babelHelpers_createClass(Gmap, [{
-          key: 'getCoordinate',
-          value: (function () {
-              var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee(location) {
-                  var url, response, data, latitude, longitude;
-                  return regeneratorRuntime.wrap(function _callee$(_context) {
-                      while (1) {
-                          switch (_context.prev = _context.next) {
-                              case 0:
-                                  url = 'http://maps.googleapis.com/maps/api/geocode/json?address=' + location + '&sensor=false';
-                                  _context.next = 3;
-                                  return fetch(url);
-
-                              case 3:
-                                  response = _context.sent;
-                                  _context.next = 6;
-                                  return response.json();
-
-                              case 6:
-                                  data = _context.sent;
-                                  latitude = data.results[0].geometry.location.lat;
-                                  longitude = data.results[0].geometry.location.lng;
-                                  return _context.abrupt('return', [latitude, longitude]);
-
-                              case 10:
-                              case 'end':
-                                  return _context.stop();
-                          }
-                      }
-                  }, _callee, this);
-              }));
-              return function getCoordinate(_x) {
-                  return ref.apply(this, arguments);
-              };
-          })()
-      }, {
-          key: 'template',
-          value: function template(match, latitude, longitude) {
-              var location = match.split('(')[1].split(')')[0];
-              var config = this.options.mapOptions;
-              var dimensions = utils.dimensions(this.options);
-              if (config.mode === 'place') {
-                  return '<div class="ejs-embed ejs-map"><iframe width="' + dimensions.width + '" height="' + dimensions.height + '" src="https://www.google.com/maps/embed/v1/place?key=' + this.options.googleAuthKey + '&q=' + location + '"></iframe></div>';
-              } else if (config.mode === 'streetview') {
-                  return '<div class="ejs-embed ejs-map"><iframe width="' + dimensions.width + '" height="' + dimensions.height + '" src="https://www.google.com/maps/embed/v1/streetview?key=' + this.options.googleAuthKey + '&location=' + latitude + ',' + longitude + '&heading=210&pitch=10&fov=35"></iframe></div>';
-              } else if (config.mode === 'view') {
-                  return '<div class="ejs-embed ejs-map"><iframe width="' + dimensions.width + '" height="' + dimensions.height + '" src="https://www.google.com/maps/embed/v1/view?key=' + this.options.googleAuthKey + '&center=' + latitude + ',' + longitude + '&zoom=18&maptype=satellite"></iframe></div>';
-              }
-          }
-      }, {
           key: 'process',
           value: (function () {
-              var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee3() {
+              var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
                   var _this = this;
 
                   var match, _loop;
 
-                  return regeneratorRuntime.wrap(function _callee3$(_context3) {
+                  return regeneratorRuntime.wrap(function _callee2$(_context2) {
                       while (1) {
-                          switch (_context3.prev = _context3.next) {
+                          switch (_context2.prev = _context2.next) {
                               case 0:
                                   match = undefined;
-                                  _loop = regeneratorRuntime.mark(function _callee2() {
+                                  _loop = regeneratorRuntime.mark(function _callee() {
                                       var _ref, _ref2, latitude, longitude, text;
 
-                                      return regeneratorRuntime.wrap(function _callee2$(_context2) {
+                                      return regeneratorRuntime.wrap(function _callee$(_context) {
                                           while (1) {
-                                              switch (_context2.prev = _context2.next) {
+                                              switch (_context.prev = _context.next) {
                                                   case 0:
                                                       if (!(_this.options.mapOptions.mode !== 'place')) {
-                                                          _context2.next = 6;
+                                                          _context.next = 6;
                                                           break;
                                                       }
 
-                                                      _context2.next = 3;
-                                                      return _this.getCoordinate(match[0]);
+                                                      _context.next = 3;
+                                                      return Gmap.getCoordinate(match[0]);
 
                                                   case 3:
-                                                      _context2.t0 = _context2.sent;
-                                                      _context2.next = 7;
+                                                      _context.t0 = _context.sent;
+                                                      _context.next = 7;
                                                       break;
 
                                                   case 6:
-                                                      _context2.t0 = [null, null];
+                                                      _context.t0 = [null, null];
 
                                                   case 7:
-                                                      _ref = _context2.t0;
+                                                      _ref = _context.t0;
                                                       _ref2 = babelHelpers_slicedToArray(_ref, 2);
                                                       latitude = _ref2[0];
                                                       longitude = _ref2[1];
-                                                      text = _this.template(match[0], latitude, longitude);
+                                                      text = Gmap.template(match[0], latitude, longitude, _this.options);
 
                                                       if (!utils.ifInline(_this.options, _this.service)) {
                                                           _this.output = _this.output.replace(_this.regex, function (regexMatch) {
@@ -1880,39 +1906,88 @@
 
                                                   case 13:
                                                   case 'end':
-                                                      return _context2.stop();
+                                                      return _context.stop();
                                               }
                                           }
-                                      }, _callee2, _this);
+                                      }, _callee, _this);
                                   });
 
                               case 2:
                                   if (!((match = utils.matches(this.regex, this.output)) !== null)) {
-                                      _context3.next = 6;
+                                      _context2.next = 6;
                                       break;
                                   }
 
-                                  return _context3.delegateYield(_loop(), 't0', 4);
+                                  return _context2.delegateYield(_loop(), 't0', 4);
 
                               case 4:
-                                  _context3.next = 2;
+                                  _context2.next = 2;
                                   break;
 
                               case 6:
-                                  return _context3.abrupt('return', [this.output, this.embeds]);
+                                  return _context2.abrupt('return', [this.output, this.embeds]);
 
                               case 7:
                               case 'end':
-                                  return _context3.stop();
+                                  return _context2.stop();
                           }
                       }
-                  }, _callee3, this);
+                  }, _callee2, this);
               }));
               return function process() {
                   return ref.apply(this, arguments);
               };
           })()
       }], [{
+          key: 'getCoordinate',
+          value: (function () {
+              var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee3(location) {
+                  var url, response, data, latitude, longitude;
+                  return regeneratorRuntime.wrap(function _callee3$(_context3) {
+                      while (1) {
+                          switch (_context3.prev = _context3.next) {
+                              case 0:
+                                  url = 'http://maps.googleapis.com/maps/api/geocode/json?address=' + location + '&sensor=false';
+                                  _context3.next = 3;
+                                  return fetch(url);
+
+                              case 3:
+                                  response = _context3.sent;
+                                  _context3.next = 6;
+                                  return response.json();
+
+                              case 6:
+                                  data = _context3.sent;
+                                  latitude = data.results[0].geometry.location.lat;
+                                  longitude = data.results[0].geometry.location.lng;
+                                  return _context3.abrupt('return', [latitude, longitude]);
+
+                              case 10:
+                              case 'end':
+                                  return _context3.stop();
+                          }
+                      }
+                  }, _callee3, this);
+              }));
+              return function getCoordinate(_x) {
+                  return ref.apply(this, arguments);
+              };
+          })()
+      }, {
+          key: 'template',
+          value: function template(match, latitude, longitude, options) {
+              var location = match.split('(')[1].split(')')[0];
+              var config = options.mapOptions;
+              var dimensions = utils.dimensions(options);
+              if (config.mode === 'place') {
+                  return '<div class="ejs-embed ejs-map"><iframe width="' + dimensions.width + '" height="' + dimensions.height + '" src="https://www.google.com/maps/embed/v1/place?key=' + options.googleAuthKey + '&q=' + location + '"></iframe></div>';
+              } else if (config.mode === 'streetview') {
+                  return '<div class="ejs-embed ejs-map"><iframe width="' + dimensions.width + '" height="' + dimensions.height + '" src="https://www.google.com/maps/embed/v1/streetview?key=' + options.googleAuthKey + '&location=' + latitude + ',' + longitude + '&heading=210&pitch=10&fov=35"></iframe></div>';
+              } else if (config.mode === 'view') {
+                  return '<div class="ejs-embed ejs-map"><iframe width="' + dimensions.width + '" height="' + dimensions.height + '" src="https://www.google.com/maps/embed/v1/view?key=' + options.googleAuthKey + '&center=' + latitude + ',' + longitude + '&zoom=18&maptype=satellite"></iframe></div>';
+              }
+          }
+      }, {
           key: 'locationText',
           value: function locationText(match) {
               return match.split('(')[1].split(')')[0];
@@ -1934,161 +2009,160 @@
   	}
 
   	babelHelpers_createClass(Github, [{
-  		key: 'template',
-  		value: function template(data) {
-  			return ejs.template.Github(data, this.options) || '<div class="ejs-embed ejs-github">\n\t\t<div class="ejs-ogp-thumb" style="background-image:url(' + data.owner.avatar_url + ')"></div>\n\t\t<div class="ejs-ogp-details">\n\t\t<div class="ejs-ogp-title"><a href="' + data.html_url + '" target="' + this.options.linkOptions.target + '">' + data.full_name + '</a></div>\n\t\t<div class="ejs-ogb-details">' + data.description + '</div><div class="ejs-github-stats">\n        <span>\n        <i class="fa fa-star"></i>' + data.stargazers_count + '\n        </span>\n        <span>\n        <i class="fa fa-code-fork"></i>' + data.network_count + '\n        </span>\n        </div></div></div>';
-  		}
-  	}, {
-  		key: 'fetchRepo',
+  		key: 'process',
   		value: (function () {
-  			var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee(data) {
-  				var api, response;
+  			var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+  				var match, url, data, response, text;
   				return regeneratorRuntime.wrap(function _callee$(_context) {
   					while (1) {
   						switch (_context.prev = _context.next) {
   							case 0:
-  								api = 'https://api.github.com/repos/' + data.user + '/' + data.repo;
+  								if (utils.ifInline(this.options, this.service)) {
+  									_context.next = 6;
+  									break;
+  								}
+
   								_context.next = 3;
-  								return fetch(api);
+  								return helper.inlineEmbed(this, Github.urlToText);
 
   							case 3:
-  								response = _context.sent;
-  								_context.next = 6;
-  								return response.json();
+  								this.output = _context.sent;
+  								_context.next = 20;
+  								break;
 
   							case 6:
-  								return _context.abrupt('return', _context.sent);
-
-  							case 7:
-  							case 'end':
-  								return _context.stop();
-  						}
-  					}
-  				}, _callee, this);
-  			}));
-  			return function fetchRepo(_x) {
-  				return ref.apply(this, arguments);
-  			};
-  		})()
-  	}, {
-  		key: 'process',
-  		value: (function () {
-  			var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
-  				var match, regexInline, url, data, value, text;
-  				return regeneratorRuntime.wrap(function _callee2$(_context2) {
-  					while (1) {
-  						switch (_context2.prev = _context2.next) {
-  							case 0:
   								match = undefined;
 
-  								if (utils.ifInline(this.options, this.service)) {
-  									_context2.next = 19;
-  									break;
-  								}
-
-  								regexInline = this.options.link ? new RegExp('([^>]*' + this.regex.source + ')</a>', 'gi') : new RegExp('([^\\s]*' + this.regex.source + ')', 'gi');
-
-  							case 3:
-  								if (!((match = utils.matches(regexInline, this.output)) !== null)) {
-  									_context2.next = 17;
-  									break;
-  								}
-
-  								url = this.options.link ? match[0].slice(0, -4) : match[0];
-
-  								if (!(this.options.served.indexOf(url) == -1)) {
-  									_context2.next = 15;
-  									break;
-  								}
-
-  								if (match[3]) {
-  									_context2.next = 8;
-  									break;
-  								}
-
-  								return _context2.abrupt('continue', 3);
-
-  							case 8:
-  								//if url doesn't have repo name then don't process it. User profiles are not supported.
-  								data = {
-  									user: match[2],
-  									repo: match[3]
-  								};
-  								_context2.next = 11;
-  								return this.fetchRepo(data);
-
-  							case 11:
-  								value = _context2.sent;
-  								text = this.template(value);
-
-  								if (this.options.link) {
-  									this.output = !this.options.inlineText ? this.output.replace(match[0], text + '</a>') : this.output.replace(match[0], match[0] + text);
-  								} else {
-  									this.output = !this.options.inlineText ? this.output.replace(match[0], text) : this.output.replace(match[0], match[0] + text);
-  								}
-  								this.options.served.push(url);
-
-  							case 15:
-  								_context2.next = 3;
-  								break;
-
-  							case 17:
-  								_context2.next = 32;
-  								break;
-
-  							case 19:
+  							case 7:
   								if (!(match = utils.matches(this.regex, this.input))) {
-  									_context2.next = 32;
+  									_context.next = 20;
   									break;
   								}
 
   								url = match[0];
 
   								if (!(this.options.served.indexOf(url) == -1)) {
-  									_context2.next = 30;
+  									_context.next = 18;
   									break;
   								}
 
   								if (match[3]) {
-  									_context2.next = 24;
+  									_context.next = 12;
   									break;
   								}
 
-  								return _context2.abrupt('continue', 19);
+  								return _context.abrupt('continue', 7);
 
-  							case 24:
+  							case 12:
   								//if url doesn't have repo name then don't process it. User profiles are not supported.
   								data = {
   									user: match[2],
   									repo: match[3]
   								};
-  								_context2.next = 27;
-  								return this.fetchRepo(data);
+  								_context.next = 15;
+  								return Github.fetchRepo(data);
 
-  							case 27:
-  								value = _context2.sent;
-  								text = this.template(value);
+  							case 15:
+  								response = _context.sent;
+  								text = Github.template(response, this.options);
 
   								this.embeds.push({
   									text: text,
   									index: match.index
   								});
 
-  							case 30:
-  								_context2.next = 19;
+  							case 18:
+  								_context.next = 7;
   								break;
 
-  							case 32:
-  								return _context2.abrupt('return', [this.output, this.embeds]);
+  							case 20:
+  								return _context.abrupt('return', [this.output, this.embeds]);
 
-  							case 33:
+  							case 21:
+  							case 'end':
+  								return _context.stop();
+  						}
+  					}
+  				}, _callee, this);
+  			}));
+  			return function process() {
+  				return ref.apply(this, arguments);
+  			};
+  		})()
+  	}], [{
+  		key: 'template',
+  		value: function template(data, options) {
+  			return ejs.template.Github(data, options) || '<div class="ejs-embed ejs-github">\n\t\t<div class="ejs-ogp-thumb" style="background-image:url(' + data.owner.avatar_url + ')"></div>\n\t\t<div class="ejs-ogp-details">\n\t\t<div class="ejs-ogp-title"><a href="' + data.html_url + '" target="' + options.linkOptions.target + '">' + data.full_name + '</a></div>\n\t\t<div class="ejs-ogb-details">' + data.description + '</div><div class="ejs-github-stats">\n        <span>\n        <i class="fa fa-star"></i>' + data.stargazers_count + '\n        </span>\n        <span>\n        <i class="fa fa-code-fork"></i>' + data.network_count + '\n        </span>\n        </div></div></div>';
+  		}
+  	}, {
+  		key: 'fetchRepo',
+  		value: (function () {
+  			var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee2(data) {
+  				var api, response;
+  				return regeneratorRuntime.wrap(function _callee2$(_context2) {
+  					while (1) {
+  						switch (_context2.prev = _context2.next) {
+  							case 0:
+  								api = 'https://api.github.com/repos/' + data.user + '/' + data.repo;
+  								_context2.next = 3;
+  								return fetch(api);
+
+  							case 3:
+  								response = _context2.sent;
+  								_context2.next = 6;
+  								return response.json();
+
+  							case 6:
+  								return _context2.abrupt('return', _context2.sent);
+
+  							case 7:
   							case 'end':
   								return _context2.stop();
   						}
   					}
   				}, _callee2, this);
   			}));
-  			return function process() {
+  			return function fetchRepo(_x) {
+  				return ref.apply(this, arguments);
+  			};
+  		})()
+  	}, {
+  		key: 'urlToText',
+  		value: (function () {
+  			var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee3(_this, match) {
+  				var data, response;
+  				return regeneratorRuntime.wrap(function _callee3$(_context3) {
+  					while (1) {
+  						switch (_context3.prev = _context3.next) {
+  							case 0:
+  								data = {
+  									user: match[2],
+  									repo: match[3]
+  								};
+
+  								if (data.repo) {
+  									_context3.next = 3;
+  									break;
+  								}
+
+  								return _context3.abrupt('return');
+
+  							case 3:
+  								_context3.next = 5;
+  								return Github.fetchRepo(data);
+
+  							case 5:
+  								response = _context3.sent;
+  								return _context3.abrupt('return', Github.template(response, _this.options));
+
+  							case 7:
+  							case 'end':
+  								return _context3.stop();
+  						}
+  					}
+  				}, _callee3, this);
+  			}));
+  			return function urlToText(_x2, _x3) {
   				return ref.apply(this, arguments);
   			};
   		})()
@@ -2152,7 +2226,7 @@
   		key: 'process',
   		value: (function () {
   			var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
-  				var regexInline, match, _url, id, embedUrl, _data, text, _data2;
+  				var match, embedUrl, _data, text;
 
   				return regeneratorRuntime.wrap(function _callee2$(_context2) {
   					while (1) {
@@ -2161,127 +2235,80 @@
   								_context2.prev = 0;
 
   								if (utils.ifInline(this.options, this.service)) {
+  									_context2.next = 7;
+  									break;
+  								}
+
+  								_context2.next = 4;
+  								return helper.inlineEmbed(this, Vimeo.urlToText);
+
+  							case 4:
+  								this.output = _context2.sent;
+  								_context2.next = 24;
+  								break;
+
+  							case 7:
+  								match = undefined;
+
+  							case 8:
+  								if (!((match = utils.matches(this.regex, this.input)) !== null)) {
   									_context2.next = 24;
   									break;
   								}
 
-  								regexInline = this.options.link ? new RegExp('([^>]*' + this.regex.source + ')</a>', 'gi') : new RegExp('([^\\s]*' + this.regex.source + ')', 'gi');
-  								match = undefined;
-
-  							case 4:
-  								if (!((match = utils.matches(regexInline, this.output)) !== null)) {
-  									_context2.next = 22;
+  								if (!(this.options.served.indexOf(match[0]) !== -1)) {
+  									_context2.next = 11;
   									break;
   								}
 
-  								_url = this.options.link ? match[0].slice(0, -4) : match[0];
+  								return _context2.abrupt('continue', 8);
 
-  								if (!(this.options.served.indexOf(_url) !== -1)) {
-  									_context2.next = 8;
-  									break;
-  								}
-
-  								return _context2.abrupt('continue', 4);
-
-  							case 8:
-  								id = this.options.link ? match[0].slice(0, -4).split('/').slice(-1).pop() : match[0].split('/').slice(-1).pop();
-  								embedUrl = 'https://player.vimeo.com/video/' + id;
+  							case 11:
+  								embedUrl = 'https://player.vimeo.com/video/' + match[3];
   								_data = undefined, text = undefined;
 
   								if (!this.options.videoDetails) {
-  									_context2.next = 18;
+  									_context2.next = 20;
   									break;
   								}
 
-  								_context2.next = 14;
-  								return this.data(id);
+  								_context2.next = 16;
+  								return this.data(match[3]);
 
-  							case 14:
+  							case 16:
   								_data = _context2.sent;
 
   								text = helper.getDetailsTemplate(Vimeo.formatData(_data, utils), _data, embedUrl);
-  								_context2.next = 19;
+  								_context2.next = 21;
   								break;
 
-  							case 18:
+  							case 20:
   								text = helper.template(embedUrl, this.options);
 
-  							case 19:
-
-  								if (this.options.link) {
-  									this.output = !this.options.inlineText ? this.output.replace(match[0], text + '</a>') : this.output.replace(match[0], match[0] + text);
-  								} else {
-  									this.output = !this.options.inlineText ? this.output.replace(match[0], text) : this.output.replace(match[0], match[0] + text);
-  								}
-  								_context2.next = 4;
-  								break;
-
-  							case 22:
-  								_context2.next = 41;
-  								break;
-
-  							case 24:
-  								match = undefined;
-
-  							case 25:
-  								if (!((match = utils.matches(this.regex, this.input)) !== null)) {
-  									_context2.next = 41;
-  									break;
-  								}
-
-  								if (!(this.options.served.indexOf(match[0]) !== -1)) {
-  									_context2.next = 28;
-  									break;
-  								}
-
-  								return _context2.abrupt('continue', 25);
-
-  							case 28:
-  								embedUrl = 'https://player.vimeo.com/video/' + match[3];
-  								_data2 = undefined, text = undefined;
-
-  								if (!this.options.videoDetails) {
-  									_context2.next = 37;
-  									break;
-  								}
-
-  								_context2.next = 33;
-  								return this.data(match[3]);
-
-  							case 33:
-  								_data2 = _context2.sent;
-
-  								text = helper.getDetailsTemplate(Vimeo.formatData(_data2, utils), _data2, embedUrl);
-  								_context2.next = 38;
-  								break;
-
-  							case 37:
-  								text = helper.template(embedUrl, this.options);
-
-  							case 38:
+  							case 21:
 
   								this.embeds.push({
   									text: text,
   									index: match.index
   								});
-  								_context2.next = 25;
+  								_context2.next = 8;
   								break;
 
-  							case 41:
+  							case 24:
   								return _context2.abrupt('return', [this.output, this.embeds]);
 
-  							case 44:
-  								_context2.prev = 44;
+  							case 27:
+  								_context2.prev = 27;
   								_context2.t0 = _context2['catch'](0);
 
   								console.log(_context2.t0);
 
-  							case 47:
+  							case 30:
   							case 'end':
   								return _context2.stop();
   						}
   					}
-  				}, _callee2, this, [[0, 44]]);
+  				}, _callee2, this, [[0, 27]]);
   			}));
   			return function process() {
   				return ref.apply(this, arguments);
@@ -2302,6 +2329,54 @@
   				host: 'vimeo'
   			};
   		}
+  	}, {
+  		key: 'urlToText',
+  		value: (function () {
+  			var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee3(_this, match) {
+  				var id, embedUrl, data;
+  				return regeneratorRuntime.wrap(function _callee3$(_context3) {
+  					while (1) {
+  						switch (_context3.prev = _context3.next) {
+  							case 0:
+  								id = _this.options.link ? match[0].slice(0, -4).split('/').slice(-1).pop() : match[0].split('/').slice(-1).pop();
+
+  								if (id) {
+  									_context3.next = 3;
+  									break;
+  								}
+
+  								return _context3.abrupt('return');
+
+  							case 3:
+  								embedUrl = 'https://player.vimeo.com/video/' + id;
+  								data = undefined;
+
+  								if (!_this.options.videoDetails) {
+  									_context3.next = 12;
+  									break;
+  								}
+
+  								_context3.next = 8;
+  								return _this.data(id);
+
+  							case 8:
+  								data = _context3.sent;
+  								return _context3.abrupt('return', helper.getDetailsTemplate(Vimeo.formatData(data, utils), data, embedUrl));
+
+  							case 12:
+  								return _context3.abrupt('return', helper.template(embedUrl, _this.options));
+
+  							case 13:
+  							case 'end':
+  								return _context3.stop();
+  						}
+  					}
+  				}, _callee3, this);
+  			}));
+  			return function urlToText(_x2, _x3) {
+  				return ref.apply(this, arguments);
+  			};
+  		})()
   	}]);
   	return Vimeo;
   })();
@@ -2362,7 +2437,7 @@
   		key: 'process',
   		value: (function () {
   			var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
-  				var regexInline, match, id, embedUrl, _data, text, _data2;
+  				var match, id, embedUrl, _data, text;
 
   				return regeneratorRuntime.wrap(function _callee2$(_context2) {
   					while (1) {
@@ -2371,129 +2446,85 @@
   								_context2.prev = 0;
 
   								if (utils.ifInline(this.options, this.service)) {
-  									_context2.next = 23;
-  									break;
-  								}
-
-  								regexInline = this.options.link ? new RegExp('([^>]*' + this.regex.source + ')</a>', 'gi') : new RegExp('([^\\s]*' + this.regex.source + ')', 'gi');
-  								match = undefined;
-
-  							case 4:
-  								if (!((match = utils.matches(regexInline, this.output)) !== null)) {
-  									_context2.next = 21;
-  									break;
-  								}
-
-  								if (!(this.options.served.indexOf(match[1]) !== -1)) {
   									_context2.next = 7;
   									break;
   								}
 
-  								return _context2.abrupt('continue', 4);
+  								_context2.next = 4;
+  								return helper.inlineEmbed(this, Youtube.urlToText);
+
+  							case 4:
+  								this.output = _context2.sent;
+  								_context2.next = 25;
+  								break;
 
   							case 7:
-  								id = match[2];
-  								embedUrl = 'https://www.youtube.com/embed/' + id;
-  								_data = undefined, text = undefined;
-
-  								if (!this.options.videoDetails) {
-  									_context2.next = 17;
-  									break;
-  								}
-
-  								_context2.next = 13;
-  								return this.data(id);
-
-  							case 13:
-  								_data = _context2.sent;
-
-  								text = helper.getDetailsTemplate(Youtube.formatData(_data, utils), _data, embedUrl);
-  								_context2.next = 18;
-  								break;
-
-  							case 17:
-  								text = helper.template(embedUrl, this.options);
-
-  							case 18:
-  								if (this.options.link) {
-  									this.output = !this.options.inlineText ? this.output.replace(match[0], text + '</a>') : this.output.replace(match[0], match[0] + text);
-  								} else {
-  									this.output = !this.options.inlineText ? this.output.replace(match[0], text) : this.output.replace(match[0], match[0] + text);
-  								}
-  								_context2.next = 4;
-  								break;
-
-  							case 21:
-  								_context2.next = 41;
-  								break;
-
-  							case 23:
   								match = undefined;
 
-  							case 24:
+  							case 8:
   								if (!((match = utils.matches(this.regex, this.input)) !== null)) {
-  									_context2.next = 41;
+  									_context2.next = 25;
   									break;
   								}
 
   								if (!(this.options.served.indexOf(match[0]) !== -1)) {
-  									_context2.next = 27;
+  									_context2.next = 11;
   									break;
   								}
 
-  								return _context2.abrupt('continue', 24);
+  								return _context2.abrupt('continue', 8);
 
-  							case 27:
+  							case 11:
   								id = match[1];
   								embedUrl = 'https://www.youtube.com/embed/' + id;
-  								_data2 = undefined, text = undefined;
+  								_data = undefined, text = undefined;
 
   								if (!this.options.videoDetails) {
-  									_context2.next = 37;
+  									_context2.next = 21;
   									break;
   								}
 
-  								_context2.next = 33;
+  								_context2.next = 17;
   								return this.data(id);
 
-  							case 33:
-  								_data2 = _context2.sent;
+  							case 17:
+  								_data = _context2.sent;
 
-  								text = helper.getDetailsTemplate(Youtube.formatData(_data2, utils), _data2, embedUrl);
-  								_context2.next = 38;
+  								text = helper.getDetailsTemplate(Youtube.formatData(_data, utils), _data, embedUrl);
+  								_context2.next = 22;
   								break;
 
-  							case 37:
+  							case 21:
   								text = helper.template(embedUrl, this.options);
 
-  							case 38:
+  							case 22:
 
   								this.embeds.push({
   									text: text,
   									index: match.index
   								});
-  								_context2.next = 24;
+  								_context2.next = 8;
   								break;
 
-  							case 41:
-  								_context2.next = 46;
+  							case 25:
+  								_context2.next = 30;
   								break;
 
-  							case 43:
-  								_context2.prev = 43;
+  							case 27:
+  								_context2.prev = 27;
   								_context2.t0 = _context2['catch'](0);
 
   								console.log(_context2.t0);
 
-  							case 46:
+  							case 30:
   								return _context2.abrupt('return', [this.output, this.embeds]);
 
-  							case 47:
+  							case 31:
   							case 'end':
   								return _context2.stop();
   						}
   					}
-  				}, _callee2, this, [[0, 43]]);
+  				}, _callee2, this, [[0, 27]]);
   			}));
   			return function process() {
   				return ref.apply(this, arguments);
@@ -2514,6 +2545,45 @@
   				host: 'youtube'
   			};
   		}
+  	}, {
+  		key: 'urlToText',
+  		value: (function () {
+  			var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee3(_this, match) {
+  				var id, embedUrl, data;
+  				return regeneratorRuntime.wrap(function _callee3$(_context3) {
+  					while (1) {
+  						switch (_context3.prev = _context3.next) {
+  							case 0:
+  								id = match[2];
+  								embedUrl = 'https://www.youtube.com/embed/' + id;
+  								data = undefined;
+
+  								if (!_this.options.videoDetails) {
+  									_context3.next = 10;
+  									break;
+  								}
+
+  								_context3.next = 6;
+  								return _this.data(id);
+
+  							case 6:
+  								data = _context3.sent;
+  								return _context3.abrupt('return', helper.getDetailsTemplate(Youtube.formatData(data, utils), data, embedUrl));
+
+  							case 10:
+  								return _context3.abrupt('return', helper.template(embedUrl, _this.options));
+
+  							case 11:
+  							case 'end':
+  								return _context3.stop();
+  						}
+  					}
+  				}, _callee3, this);
+  			}));
+  			return function urlToText(_x2, _x3) {
+  				return ref.apply(this, arguments);
+  			};
+  		})()
   	}]);
   	return Youtube;
   })();
@@ -3195,7 +3265,7 @@
   		key: 'process',
   		value: (function () {
   			var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
-  				var match, regexInline, url, _data, text, _data2, template;
+  				var match, url, _data, template;
 
   				return regeneratorRuntime.wrap(function _callee2$(_context2) {
   					while (1) {
@@ -3207,75 +3277,42 @@
   								this.regex = utils.urlRegex();
 
   								if (utils.ifInline(this.options, this.service)) {
-  									_context2.next = 17;
-  									break;
-  								}
-
-  								regexInline = this.options.link ? new RegExp('([^>]*' + this.regex.source + ')</a>', 'gi') : new RegExp('([^\\s]*' + this.regex.source + ')', 'gi');
-
-  							case 5:
-  								if (!((match = utils.matches(regexInline, this.output)) !== null)) {
-  									_context2.next = 15;
-  									break;
-  								}
-
-  								url = this.options.link ? match[0].slice(0, -4) : match[0];
-
-  								if (OpenGraph.ifProcessOGC(url, this.excludeRegex)) {
   									_context2.next = 9;
   									break;
   								}
 
-  								return _context2.abrupt('continue', 5);
+  								_context2.next = 6;
+  								return helper.inlineEmbed(this, OpenGraph.urlToText);
+
+  							case 6:
+  								this.output = _context2.sent;
+  								_context2.next = 19;
+  								break;
 
   							case 9:
-  								_context2.next = 11;
-  								return this.fetchData(url);
-
-  							case 11:
-  								_data = _context2.sent;
-
-  								if (_data && _data.success) {
-  									text = this.template(_data);
-
-  									if (this.options.link) {
-  										this.output = !this.options.inlineText ? this.output.replace(match[0], text + '</a>') : this.output.replace(match[0], match[0] + text);
-  									} else {
-  										this.output = !this.options.inlineText ? this.output.replace(match[0], text) : this.output.replace(match[0], match[0] + text);
-  									}
-  									this.options.served.push(url);
-  								}
-  								_context2.next = 5;
-  								break;
-
-  							case 15:
-  								_context2.next = 27;
-  								break;
-
-  							case 17:
   								if (!((match = utils.matches(this.regex, this.input)) !== null)) {
-  									_context2.next = 27;
+  									_context2.next = 19;
   									break;
   								}
 
   								url = match[0];
 
   								if (OpenGraph.ifProcessOGC(url, this.excludeRegex)) {
-  									_context2.next = 21;
+  									_context2.next = 13;
   									break;
   								}
 
-  								return _context2.abrupt('continue', 17);
+  								return _context2.abrupt('continue', 9);
 
-  							case 21:
-  								_context2.next = 23;
+  							case 13:
+  								_context2.next = 15;
   								return this.fetchData(url);
 
-  							case 23:
-  								_data2 = _context2.sent;
+  							case 15:
+  								_data = _context2.sent;
 
-  								if (_data2 && _data2.success) {
-  									template = this.template(_data2);
+  								if (_data && _data.success) {
+  									template = this.template(_data);
 
   									this.embeds.push({
   										text: template,
@@ -3283,24 +3320,24 @@
   									});
   									this.options.served.push(url);
   								}
-  								_context2.next = 17;
+  								_context2.next = 9;
   								break;
 
-  							case 27:
+  							case 19:
   								return _context2.abrupt('return', [this.output, this.embeds]);
 
-  							case 30:
-  								_context2.prev = 30;
+  							case 22:
+  								_context2.prev = 22;
   								_context2.t0 = _context2['catch'](0);
 
   								console.log(_context2.t0);
 
-  							case 33:
+  							case 25:
   							case 'end':
   								return _context2.stop();
   						}
   					}
-  				}, _callee2, this, [[0, 30]]);
+  				}, _callee2, this, [[0, 22]]);
   			}));
   			return function process() {
   				return ref.apply(this, arguments);
@@ -3311,6 +3348,41 @@
   		value: function ifProcessOGC(url, excludeRegex) {
   			return url.match(excludeRegex) ? false : true;
   		}
+  	}, {
+  		key: 'urlToText',
+  		value: (function () {
+  			var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee3(_this, match, url) {
+  				var data;
+  				return regeneratorRuntime.wrap(function _callee3$(_context3) {
+  					while (1) {
+  						switch (_context3.prev = _context3.next) {
+  							case 0:
+  								if (OpenGraph.ifProcessOGC(url, _this.excludeRegex)) {
+  									_context3.next = 2;
+  									break;
+  								}
+
+  								return _context3.abrupt('return');
+
+  							case 2:
+  								_context3.next = 4;
+  								return _this.fetchData(url);
+
+  							case 4:
+  								data = _context3.sent;
+  								return _context3.abrupt('return', data && data.success ? _this.template(data) : null);
+
+  							case 6:
+  							case 'end':
+  								return _context3.stop();
+  						}
+  					}
+  				}, _callee3, this);
+  			}));
+  			return function urlToText(_x2, _x3, _x4) {
+  				return ref.apply(this, arguments);
+  			};
+  		})()
   	}]);
   	return OpenGraph;
   })();

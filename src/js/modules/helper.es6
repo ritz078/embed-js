@@ -1,4 +1,5 @@
-import utils from '../utils.es6'
+import utils from './utils.es6'
+import regeneratorRuntime from '../vendor/regeneratorRuntime.js'
 
 var helper = {
 	/**
@@ -107,6 +108,25 @@ var helper = {
 		for (let i = 0; i < classes.length; i++) {
 			classes[i].onclick = null
 		}
+	},
+
+	async inlineEmbed(_this, urlToText){
+		if (!regeneratorRuntime) return _this.output;
+		let regexInline = _this.options.link ? new RegExp(`([^>]*${_this.regex.source})<\/a>`, 'gi') : new RegExp(`([^\\s]*${_this.regex.source})`, 'gi');
+		let match;
+		while ((match = utils.matches(regexInline, _this.output)) !== null) {
+			let url = (_this.options.link ? match[0].slice(0, -4) : match[0]) || match[1];
+			if (_this.options.served.indexOf(url) !== -1) continue;
+			let text = await urlToText(_this, match, url);
+			if (!text) continue;
+			_this.options.served.push(url);
+			if (_this.options.link) {
+				return !_this.options.inlineText ? _this.output.replace(match[0], text + '</a>') : _this.output.replace(match[0], match[0] + text)
+			} else {
+				return !_this.options.inlineText ? _this.output.replace(match[0], text) : _this.output.replace(match[0], match[0] + text)
+			}
+		}
+		return _this.output;
 	}
 };
 

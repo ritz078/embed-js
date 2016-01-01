@@ -38,62 +38,62 @@ import Basic       from './modules/image/basic.es6'
 import OpenGraph   from './modules/openGraph.es6'
 import Github      from './modules/github.es6'
 
-import helper from './modules/video/helper.es6'
+import helper from './modules/helper.es6'
 
 (function (window) {
 	var globalOptions = {};
 
 	var defaultOptions = {
-		marked            : false,
-		markedOptions     : {},
-		link              : true,
-		linkOptions       : {
+		marked                 : false,
+		markedOptions          : {},
+		link                   : true,
+		linkOptions            : {
 			target : 'self',
 			exclude: ['pdf'],
 			rel    : ''
 		},
-		emoji             : true,
-		customEmoji       : [],
-		fontIcons         : true,
-		customFontIcons   : [],
-		highlightCode     : false,
-		videoJS           : false,
-		videojsOptions    : {
+		emoji                  : true,
+		customEmoji            : [],
+		fontIcons              : true,
+		customFontIcons        : [],
+		highlightCode          : false,
+		videoJS                : false,
+		videojsOptions         : {
 			fluid  : true,
 			preload: 'metadata'
 		},
-		locationEmbed     : true,
-		mapOptions        : {
+		locationEmbed          : true,
+		mapOptions             : {
 			mode: 'place'
 		},
-		tweetsEmbed       : false,
-		tweetOptions      : {
+		tweetsEmbed            : false,
+		tweetOptions           : {
 			maxWidth  : 550,
 			hideMedia : false,
 			hideThread: false,
 			align     : 'none',
 			lang      : 'en'
 		},
-		openGraphEndpoint : null,
-		openGraphExclude  : [],
-		videoEmbed        : true,
-		videoHeight       : null,
-		videoWidth        : null,
-		videoDetails      : true,
-		audioEmbed        : true,
-		excludeEmbed      : [],
-		inlineEmbed       : [],
-		inlineText        : true,
-		codeEmbedHeight   : 500,
-		vineOptions       : {
+		openGraphEndpoint      : null,
+		openGraphExclude       : [],
+		videoEmbed             : true,
+		videoHeight            : null,
+		videoWidth             : null,
+		videoDetails           : true,
+		audioEmbed             : true,
+		excludeEmbed           : [],
+		inlineEmbed            : [],
+		inlineText             : true,
+		codeEmbedHeight        : 500,
+		vineOptions            : {
 			maxWidth  : null,
 			type      : 'postcard', //'postcard' or 'simple' embedding
 			responsive: true,
 			width     : 350,
 			height    : 460
 		},
-		googleAuthKey     : '',
-		soundCloudOptions : {
+		googleAuthKey          : '',
+		soundCloudOptions      : {
 			height      : 160,
 			themeColor  : 'f50000', //Hex Code of the player theme color
 			autoPlay    : false,
@@ -104,25 +104,25 @@ import helper from './modules/video/helper.es6'
 			visual      : false, //Show/hide the big preview image
 			download    : false //Show/Hide download buttons
 		},
-		videoClickClass : 'ejs-video-thumb',
-		customVideoClickHandler : false,
-		beforeEmbedJSApply: function () {
+		videoClickClass        : 'ejs-video-thumb',
+		customVideoClickHandler: false,
+		beforeEmbedJSApply     : function () {
 		},
-		afterEmbedJSApply : function () {
+		afterEmbedJSApply      : function () {
 		},
-		onVideoShow       : function () {
+		onVideoShow            : function () {
 		},
-		onTweetsLoad      : function () {
+		onTweetsLoad           : function () {
 		},
-		videojsCallback   : function () {
+		videojsCallback        : function () {
 		},
-		onOpenGraphFetch  : function () {
+		onOpenGraphFetch       : function () {
 		},
-		onOpenGraphFail   : function () {
+		onOpenGraphFail        : function () {
 		},
-		videoClickHandler : function () {
+		videoClickHandler      : function () {
 		},
-		served            : []   //Private variable used to store processed urls so that they are not processed multiple times.
+		served                 : []   //Private variable used to store processed urls so that they are not processed multiple times.
 	};
 
 	class EmbedJS {
@@ -239,7 +239,7 @@ import helper from './modules/video/helper.es6'
 			if (VIMEO && utils.ifEmbed(options, 'vimeo')) {
 				[output, embeds] = await new Vimeo(input, output, options, embeds).process()
 			}
-			if (GITHUB && utils.ifEmbed(options, 'opengraph')){
+			if (GITHUB && utils.ifEmbed(options, 'opengraph')) {
 				[output, embeds] = await new Github(input, output, options, embeds).process()
 			}
 
@@ -340,7 +340,7 @@ import helper from './modules/video/helper.es6'
 		 * @return {null}
 		 */
 		applyEmbedJS(className) {
-			if(className.charAt(0) === '.') className = className.substr(1)
+			if (className.charAt(0) === '.') className = className.substr(1)
 			this.elements = document.getElementsByClassName(className);
 			for (let i = 0; i < this.elements.length; i++) {
 				let option        = {
@@ -411,7 +411,8 @@ import helper from './modules/video/helper.es6'
 			youtube(){
 			},
 			openGraph(){
-			},Github(){}
+			}, Github(){
+			}
 		}
 	};
 	window.EmbedJS = EmbedJS

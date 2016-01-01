@@ -1,5 +1,5 @@
 import utils from '../utils.es6'
-import helper from './helper.es6'
+import helper from './../helper.es6'
 import '../../vendor/fetch.js'
 
 export default class Youtube {
@@ -37,28 +37,22 @@ export default class Youtube {
 		}
 	}
 
+	static async urlToText(_this, match){
+		let id = match[2];
+		let embedUrl = `https://www.youtube.com/embed/${id}`;
+		let data;
+		if (_this.options.videoDetails){
+			data = await _this.data(id);
+			return helper.getDetailsTemplate(Youtube.formatData(data, utils), data, embedUrl)
+		} else {
+			return helper.template(embedUrl, _this.options);
+		}
+	}
+
 	async process() {
 		try {
 			if (!utils.ifInline(this.options, this.service)) {
-				let regexInline = this.options.link ? new RegExp(`([^>]*${this.regex.source})<\/a>`, 'gi') : new RegExp(`([^\\s]*${this.regex.source})`, 'gi');
-				let match;
-				while ((match = utils.matches(regexInline, this.output)) !== null) {
-					if (this.options.served.indexOf(match[1]) !== -1) continue;
-					let id       = match[2];
-					let embedUrl = `https://www.youtube.com/embed/${id}`;
-					let data, text;
-					if (this.options.videoDetails) {
-						data = await this.data(id);
-						text = helper.getDetailsTemplate(Youtube.formatData(data, utils), data, embedUrl)
-					} else {
-						text = helper.template(embedUrl, this.options)
-					}
-					if (this.options.link) {
-						this.output = !this.options.inlineText ? this.output.replace(match[0], text + '</a>') : this.output.replace(match[0], match[0] + text)
-					} else {
-						this.output = !this.options.inlineText ? this.output.replace(match[0], text) : this.output.replace(match[0], match[0] + text)
-					}
-				}
+				this.output = await helper.inlineEmbed(this, Youtube.urlToText)
 			} else {
 				let match;
 				while ((match = utils.matches(this.regex, this.input)) !== null) {

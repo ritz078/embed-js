@@ -1,6 +1,7 @@
 import utils from '../utils.es6'
 import '../../vendor/fetch.js'
 import fetchJsonp from '../../vendor/fetch_jsonp.js'
+import helper from '../helper.es6'
 
 export default class Twitter {
 	constructor(input, output, options, embeds) {
@@ -42,22 +43,15 @@ export default class Twitter {
 		});
 	}
 
+	static async urlToText(_this, match, url){
+		let data = await _this.tweetData(url);
+		return data.html;
+	}
+
 	async process() {
 		try {
 			if (!utils.ifInline(this.options, this.service)) {
-				let regexInline = this.options.link ? new RegExp(`([^>]*${this.regex.source})<\/a>`, 'gi') : new RegExp(`([^\\s]*${this.regex.source})`, 'gi');
-				let match;
-				while ((match = utils.matches(regexInline, this.output)) !== null) {
-					let url = this.options.link ? match[0].slice(0, -4) : match[0];
-					if (this.options.served.indexOf(url) !== -1) continue;
-					let data = await this.tweetData(url);
-					let text = data.html;
-					if (this.options.link) {
-						this.output = !this.options.inlineText ? this.output.replace(match[0], text + '</a>') : this.output.replace(match[0], match[0] + text)
-					} else {
-						this.output = !this.options.inlineText ? this.output.replace(match[0], text) : this.output.replace(match[0], match[0] + text)
-					}
-				}
+				this.output = await helper.inlineEmbed(this, Twitter.urlToText);
 			} else {
 				let match;
 				while ((match = utils.matches(this.regex, this.input)) !== null) {
