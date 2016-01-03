@@ -14,7 +14,7 @@ var config = {
         }),
         commonjs({
             include: 'node_modules/**'
-        }),
+        })
     ]
 }
 
