@@ -13,6 +13,8 @@
   (factory());
 }(this, function () { 'use strict';
 
+  var babelHelpers = {};
+
   function babelHelpers_typeof (obj) {
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
   };
@@ -1000,8 +1002,10 @@
     * @param urlToText
     * @returns {*}
     */
-  	inlineEmbed: (function () {
-  		var ref = babelHelpers_asyncToGenerator(regeneratorRuntime$1.mark(function _callee(_this, urlToText) {
+  	inlineEmbed: function inlineEmbed(_this, urlToText) {
+  		var _this2 = this;
+
+  		return babelHelpers_asyncToGenerator(regeneratorRuntime$1.mark(function _callee() {
   			var regexInline, match, url, text;
   			return regeneratorRuntime$1.wrap(function _callee$(_context) {
   				while (1) {
@@ -1072,12 +1076,9 @@
   							return _context.stop();
   					}
   				}
-  			}, _callee, this);
-  		}));
-  		return function inlineEmbed(_x, _x2) {
-  			return ref.apply(this, arguments);
-  		};
-  	})()
+  			}, _callee, _this2);
+  		}))();
+  	}
   };
 
   var defaultOptions = {
