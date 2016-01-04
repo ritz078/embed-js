@@ -1,5 +1,5 @@
 /*
- *  embed-js - v3.5.0
+ *  embed-js - v3.6.2
  *  A JavaScript plugin that analyses the string and embeds emojis, media, tweets, code and services.
  *  http://riteshkr.com/embed.js
  *
@@ -1790,7 +1790,7 @@
       babelHelpers_createClass(BasicAudio, [{
           key: 'template',
           value: function template(match) {
-              return ejs.template.basicAudio(match) || '<div class="ejs-audio ejs-embed"><audio src="' + match + '" controls class="video-js ejs-video-js"></audio></div>';
+              return ejs.template.basicAudio(match, this.options) || '<div class="ejs-audio ejs-embed"><audio src="' + match + '" controls class="video-js ejs-video-js"></audio></div>';
           }
       }]);
       return BasicAudio;
@@ -1814,7 +1814,7 @@
   		value: function template(match) {
   			var a = match.split('/');
   			var id = a[a.length - 1];
-  			return ejs.template.spotify(id) || '<div class="ejs-embed"><iframe src="https://embed.spotify.com/?uri=spotify:track:' + id + '" height="80"></iframe></div>';
+  			return ejs.template.spotify(id, this.options) || '<div class="ejs-embed"><iframe src="https://embed.spotify.com/?uri=spotify:track:' + id + '" height="80"></iframe></div>';
   		}
   	}]);
   	return Spotify;
@@ -1837,7 +1837,7 @@
   		key: 'template',
   		value: function template(match) {
   			var config = this.options.soundCloudOptions;
-  			return ejs.template.soundCloud(match, config) || '<div class="ejs-embed">\n\t\t<iframe height="160" scrolling="no" src="https://w.soundcloud.com/player/?url=' + match + '\n\t\t&auto_play     = ' + config.autoPlay + '\n\t\t&hide_related  = ' + config.hideRelated + '\n\t\t&show_comments = ' + config.showComments + '\n\t\t&show_user     = ' + config.showUser + '\n\t\t&show_reposts  = ' + config.showReposts + '\n\t\t&visual        = ' + config.visual + '\n\t\t&download      = ' + config.download + '\n\t\t&color         = ' + config.themeColor + '\n\t\t&theme_color   = ' + config.themeColor + '"></iframe>\n\t\t</div>';
+  			return ejs.template.soundCloud(match, config, this.options) || '<div class="ejs-embed">\n\t\t<iframe height="160" scrolling="no" src="https://w.soundcloud.com/player/?url=' + match + '\n\t\t&auto_play     = ' + config.autoPlay + '\n\t\t&hide_related  = ' + config.hideRelated + '\n\t\t&show_comments = ' + config.showComments + '\n\t\t&show_user     = ' + config.showUser + '\n\t\t&show_reposts  = ' + config.showReposts + '\n\t\t&visual        = ' + config.visual + '\n\t\t&download      = ' + config.download + '\n\t\t&color         = ' + config.themeColor + '\n\t\t&theme_color   = ' + config.themeColor + '"></iframe>\n\t\t</div>';
   		}
   	}]);
   	return SoundCloud;
