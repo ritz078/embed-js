@@ -13,8 +13,6 @@
   (factory());
 }(this, function () { 'use strict';
 
-  var babelHelpers = {};
-
   function babelHelpers_typeof (obj) {
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
   };
@@ -1727,6 +1725,155 @@
   	}]);
   	return Basic;
   })(Base);
+
+  var SlideShare = (function () {
+      function SlideShare(input, output, options, embeds) {
+          babelHelpers_classCallCheck(this, SlideShare);
+
+          this.input = input;
+          this.output = output;
+          this.options = options;
+          this.embeds = embeds;
+          this.regex = /slideshare.net\/[a-zA-Z0-9_-]*\/[a-zA-Z0-9_-]*/gi;
+          this.service = 'slideshare';
+      }
+
+      babelHelpers_createClass(SlideShare, [{
+          key: 'template',
+          value: function template(html) {
+              return ejs.template.slideShare(html, this.options) || '<div class="ejs-embed ejs-slideshare">' + html + '</div>';
+          }
+      }, {
+          key: 'process',
+          value: (function () {
+              var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+                  var match, html, text;
+                  return regeneratorRuntime.wrap(function _callee$(_context) {
+                      while (1) {
+                          switch (_context.prev = _context.next) {
+                              case 0:
+                                  if (utils.ifInline(this.options, this.service)) {
+                                      _context.next = 6;
+                                      break;
+                                  }
+
+                                  _context.next = 3;
+                                  return helper.inlineEmbed(this, SlideShare.urlToText);
+
+                              case 3:
+                                  this.output = _context.sent;
+                                  _context.next = 16;
+                                  break;
+
+                              case 6:
+                                  match = undefined;
+
+                              case 7:
+                                  if (!((match = utils.matches(this.regex, this.input)) !== null)) {
+                                      _context.next = 16;
+                                      break;
+                                  }
+
+                                  if (!(this.options.served.indexOf(match[0]) === -1)) {
+                                      _context.next = 14;
+                                      break;
+                                  }
+
+                                  _context.next = 11;
+                                  return SlideShare.fetchData(match[0]);
+
+                              case 11:
+                                  html = _context.sent;
+                                  text = this.template(html);
+
+                                  this.embeds.push({
+                                      text: text,
+                                      index: match.index
+                                  });
+
+                              case 14:
+                                  _context.next = 7;
+                                  break;
+
+                              case 16:
+                                  return _context.abrupt('return', [this.output, this.embeds]);
+
+                              case 17:
+                              case 'end':
+                                  return _context.stop();
+                          }
+                      }
+                  }, _callee, this);
+              }));
+              return function process() {
+                  return ref.apply(this, arguments);
+              };
+          })()
+      }], [{
+          key: 'fetchData',
+          value: (function () {
+              var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee2(url) {
+                  var api, response, data;
+                  return regeneratorRuntime.wrap(function _callee2$(_context2) {
+                      while (1) {
+                          switch (_context2.prev = _context2.next) {
+                              case 0:
+                                  api = 'http://www.slideshare.net/api/oembed/2?url=' + url + '&format=jsonp';
+                                  _context2.next = 3;
+                                  return fetchJsonp(api, {
+                                      credentials: 'include'
+                                  });
+
+                              case 3:
+                                  response = _context2.sent;
+                                  _context2.next = 6;
+                                  return response.json();
+
+                              case 6:
+                                  data = _context2.sent;
+                                  return _context2.abrupt('return', data.html);
+
+                              case 8:
+                              case 'end':
+                                  return _context2.stop();
+                          }
+                      }
+                  }, _callee2, this);
+              }));
+              return function fetchData(_x) {
+                  return ref.apply(this, arguments);
+              };
+          })()
+      }, {
+          key: 'urlToText',
+          value: (function () {
+              var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee3(_this, match, url) {
+                  var html;
+                  return regeneratorRuntime.wrap(function _callee3$(_context3) {
+                      while (1) {
+                          switch (_context3.prev = _context3.next) {
+                              case 0:
+                                  _context3.next = 2;
+                                  return SlideShare.fetchData(url);
+
+                              case 2:
+                                  html = _context3.sent;
+                                  return _context3.abrupt('return', _this.template(html));
+
+                              case 4:
+                              case 'end':
+                                  return _context3.stop();
+                          }
+                      }
+                  }, _callee3, this);
+              }));
+              return function urlToText(_x2, _x3, _x4) {
+                  return ref.apply(this, arguments);
+              };
+          })()
+      }]);
+      return SlideShare;
+  })();
 
   var Instagram = (function (_Base) {
   	babelHelpers_inherits(Instagram, _Base);
@@ -3549,7 +3696,7 @@
   			key: 'process',
   			value: (function () {
   				var ref = babelHelpers_asyncToGenerator(regeneratorRuntime$1.mark(function _callee() {
-  					var input, options, embeds, output, _ref, _ref2, _process, _process2, _process3, _process4, _process5, _process6, _process7, _process8, _process9, _process10, _process11, _process12, _process13, _process14, _process15, _process16, _process17, _process18, _process19, _process20, _process21, _process22, _process23, _process24, _ref3, _ref4, _ref5, _ref6, _ref7, _ref8, _ref9, _ref10, _process25, _process26, _process27, _process28, _process29, _process30, _process31, _process32, _process33, _process34, _process35, _process36, _ref11, _ref12;
+  					var input, options, embeds, output, _ref, _ref2, _process, _process2, _process3, _process4, _process5, _process6, _process7, _process8, _process9, _process10, _process11, _process12, _process13, _process14, _process15, _process16, _process17, _process18, _process19, _process20, _process21, _process22, _process23, _process24, _ref3, _ref4, _ref5, _ref6, _ref7, _ref8, _ref9, _ref10, _process25, _process26, _process27, _process28, _process29, _process30, _process31, _process32, _process33, _process34, _ref11, _ref12, _process35, _process36, _ref13, _ref14;
 
   					return regeneratorRuntime$1.wrap(function _callee$(_context) {
   						while (1) {
@@ -3760,6 +3907,22 @@
   										output = _process34[0];
   										embeds = _process34[1];
   									}
+
+  									if (!(true && utils.ifEmbed(options, 'slideshare'))) {
+  										_context.next = 69;
+  										break;
+  									}
+
+  									_context.next = 65;
+  									return new SlideShare(input, output, options, embeds).process();
+
+  								case 65:
+  									_ref11 = _context.sent;
+  									_ref12 = babelHelpers_slicedToArray(_ref11, 2);
+  									output = _ref12[0];
+  									embeds = _ref12[1];
+
+  								case 69:
   									if (true && options.imageEmbed) {
   										_process35 = new Basic(input, output, options, embeds).process();
   										_process36 = babelHelpers_slicedToArray(_process35, 2);
@@ -3768,24 +3931,24 @@
   									}
 
   									if (!(options.tweetsEmbed && true)) {
-  										_context.next = 71;
+  										_context.next = 78;
   										break;
   									}
 
   									this.twitter = new Twitter(input, output, options, embeds);
-  									_context.next = 67;
+  									_context.next = 74;
   									return this.twitter.process();
 
-  								case 67:
-  									_ref11 = _context.sent;
-  									_ref12 = babelHelpers_slicedToArray(_ref11, 2);
-  									output = _ref12[0];
-  									embeds = _ref12[1];
+  								case 74:
+  									_ref13 = _context.sent;
+  									_ref14 = babelHelpers_slicedToArray(_ref13, 2);
+  									output = _ref14[0];
+  									embeds = _ref14[1];
 
-  								case 71:
+  								case 78:
   									return _context.abrupt('return', utils.createText(output, embeds));
 
-  								case 72:
+  								case 79:
   								case 'end':
   									return _context.stop();
   							}
@@ -3971,7 +4134,8 @@
   			vimeo: function vimeo() {},
   			youtube: function youtube() {},
   			openGraph: function openGraph() {},
-  			Github: function Github() {}
+  			Github: function Github() {},
+  			slideShare: function slideShare() {}
   		}
   	};
   	window.EmbedJS = EmbedJS;

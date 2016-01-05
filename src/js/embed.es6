@@ -34,6 +34,7 @@ import BasicAudio  from './modules/audio/basic.es6'
 import Flickr      from './modules/image/flickr.es6'
 import Instagram   from './modules/image/instagram.es6'
 import Basic       from './modules/image/basic.es6'
+import SlideShare  from './modules/image/slideshare.es6'
 
 import OpenGraph   from './modules/openGraph.es6'
 import Github      from './modules/github.es6'
@@ -263,6 +264,9 @@ import helper from './modules/helper.es6'
 			if (INSTAGRAM && utils.ifEmbed(options, 'instagram')) {
 				[output, embeds] = new Instagram(input, output, options, embeds).process()
 			}
+			if (SLIDESHARE && utils.ifEmbed(options, 'slideshare')) {
+				[output, embeds] = await new SlideShare(input, output, options, embeds).process()
+			}
 			if (BASICIMAGE && options.imageEmbed) {
 				[output, embeds] = new Basic(input, output, options, embeds).process()
 			}
@@ -412,7 +416,8 @@ import helper from './modules/helper.es6'
 			},
 			openGraph(){
 			}, Github(){
-			}
+			},
+			slideShare(){}
 		}
 	};
 	window.EmbedJS = EmbedJS
