@@ -53,15 +53,7 @@ export default class Twitter {
 			if (!utils.ifInline(this.options, this.service)) {
 				this.output = await helper.inlineEmbed(this, Twitter.urlToText);
 			} else {
-				let match;
-				while ((match = utils.matches(this.regex, this.input)) !== null) {
-					if (this.options.served.indexOf(match[0]) !== -1) continue;
-					let data = await this.tweetData(match[0]);
-					this.embeds.push({
-						text : data.html,
-						index: match.index
-					})
-				}
+				this.embeds = await helper.normalEmbed(this, Twitter.urlToText);
 			}
 			return [this.output, this.embeds];
 

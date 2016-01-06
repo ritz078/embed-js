@@ -32,11 +32,15 @@ export default class Github {
 		return await response.json();
 	}
 
-	static async urlToText(_this, match){
-		let data = {
+	static async urlToText(_this, match, url, normalEmbed){
+		let data = !normalEmbed ? ({
 			user : match[2],
 			repo : match[3]
-		};
+		}) : ({
+			user : match[1],
+			repo : match[2]
+		});
+
 		if (!data.repo) return;
 		let response = await Github.fetchRepo(data);
 		return Github.template(response, _this.options);
@@ -46,23 +50,7 @@ export default class Github {
 		if (!utils.ifInline(this.options, this.service)) {
 			this.output = await helper.inlineEmbed(this, Github.urlToText);
 		} else {
-			let match;
-			while (match = utils.matches(this.regex, this.input)) {
-				let url = match[0];
-				if (this.options.served.indexOf(url) == -1) {
-					if (!match[3]) continue;   //if url doesn't have repo name then don't process it. User profiles are not supported.
-					let data  = {
-						user: match[2],
-						repo: match[3]
-					};
-					let response = await Github.fetchRepo(data);
-					let text  = Github.template(response, this.options);
-					this.embeds.push({
-						text : text,
-						index: match.index
-					})
-				}
-			}
+			this.embeds = await helper.normalEmbed(this, Github.urlToText)
 		}
 
 		return [this.output, this.embeds]

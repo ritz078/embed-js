@@ -34,6 +34,7 @@
     "FLICKR"        : "true",
     "BASICIMAGE"    : "true",
     "INSTAGRAM"     : "true",
+    "SLIDESHARE"    : "true",
 
     "OPENGRAPH"     : "true",
   	"GITHUB"		: "true"

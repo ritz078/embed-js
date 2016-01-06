@@ -7,7 +7,7 @@
 	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 	<link href="http://vjs.zencdn.net/5.0.0/video-js.css" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css"/>
-	<link rel="stylesheet" href="../dist/embed.min.css"/>
+	<link rel="stylesheet" href="../src/embed.css"/>
 	<style>
 		body {
 			width: 50%;
@@ -56,14 +56,14 @@ grade = (student, period=(if b? then 7 else 6)) ->
 Cur rumor nocere?Emeritis adelphis satis perderes domina est.Gloss cadunt in bi-color brema!
 @(IIT Roorkee) Bi-color habitio virtualiter imitaris amicitia est.Teres tatas ducunt ad racana.Genetrixs
 prarere in
-rugensis civitas! :) Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut numquam asperiores nobis repellat modi iusto, possimus excepturi atque, quae doloribus nihil corrupti minima quasi, sed? Vero labore cumque laudantium quisquam! https://www.instagram.com/p/_JHaOcjJ7h/?taken-by=9gag Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique blanditiis architecto tempore minima vero adipisci reiciendis ratione numquam quas perferendis maxime iste, commodi cumque quis praesentium quasi, a neque temporibus? https://www.instagram.com/p/-mIWFsIVV-/?taken-by=natgeo Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto quis vitae cupiditate quam accusamus facere maxime ab distinctio tempore, voluptates itaque culpa amet placeat alias provident corporis, blanditiis explicabo perspiciatis. https://www.flickr.com/photos/43301211@N03/23331635460/in/explore-2015-12-09/
+rugensis civitas! :) Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut numquam asperiores nobis repellat modi iusto, possimus excepturi atque, quae doloribus nihil corrupti minima quasi, sed? Vero labore cumque laudantium quisquam! https://www.instagram.com/p/_JHaOcjJ7h/?taken-by=9gag Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique blanditiis architecto tempore minima vero adipisci reiciendis ratione numquam quas perferendis maxime iste, commodi cumque quis praesentium quasi, a neque temporibus? https://www.instagram.com/p/-mIWFsIVV-/?taken-by=natgeo Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto quis vitae cupiditate quam accusamus facere maxime ab distinctio tempore, voluptates itaque culpa amet placeat alias provident corporis, blanditiis explicabo perspiciatis. https://www.flickr.com/photos/43301211@N03/23331635460/in/explore-2015-12-09/ Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum quasi sit et nam magni ab asperiores tempore, http://www.slideshare.net/haraldf/business-quotes-for-2011 impedit, tempora officiis rerum modi labore vitae explicabo eos aperiam sequi facilis neque.
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
 <script src="//platform.twitter.com/widgets.js"></script>
 <script src="http://vjs.zencdn.net/5.0.0/video.js"></script>
-<script src="../dist/embed.min.js"></script>
+<script src="../src/embed.js"></script>
 <script>
 ejs.setOptions({
 		// element: document.getElementById('block'),
@@ -71,10 +71,10 @@ ejs.setOptions({
 		videoWidth:720,
 		videoDetails:true,
 		excludeEmbed:['spotify'],
-		openGraphEndpoint:'https://opengraph.io/api/1.0/site/${url}',
+		// openGraphEndpoint:'https://opengraph.io/api/1.0/site/${url}',
 		openGraphExclude:['github'],
 		googleAuthKey:'AIzaSyCqFouT8h5DKAbxlrTZmjXEmNBjC69f0ts',
-		inlineEmbed:'all',
+		// inlineEmbed:'all',
 		marked:true,
 		link:true,
 		onOpenGraphFetch:function(data){

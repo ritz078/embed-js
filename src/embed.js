@@ -13,8 +13,6 @@
   (factory());
 }(this, function () { 'use strict';
 
-  var babelHelpers = {};
-
   function babelHelpers_typeof (obj) {
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
   };
@@ -136,157 +134,157 @@
 
   var utils = {
 
-      /**
-       * Trucates the string and adds ellipsis at the end.
-       * @param string        The string to be truncated
-       * @param n             Length to which it should be truncated
-       * @returns {string}    The truncated string
-       */
+  	/**
+    * Trucates the string and adds ellipsis at the end.
+    * @param string        The string to be truncated
+    * @param n             Length to which it should be truncated
+    * @returns {string}    The truncated string
+    */
 
-      truncate: function truncate(string, n) {
-          return string.substr(0, n - 1) + (string.length > n ? '...' : '');
-      },
+  	truncate: function truncate(string, n) {
+  		return string.substr(0, n - 1) + (string.length > n ? '...' : '');
+  	},
 
-      /**
-       * Returns an array after removing the duplicates.
-       * @param array         The array containing the duplicates
-       * @returns {Array}     Array with unique values.
-       */
-      getUnique: function getUnique(array) {
-          var u = {},
-              a = [];
+  	/**
+    * Returns an array after removing the duplicates.
+    * @param array         The array containing the duplicates
+    * @returns {Array}     Array with unique values.
+    */
+  	getUnique: function getUnique(array) {
+  		var u = {},
+  		    a = [];
 
-          array.forEach(function (value) {
-              if (!u.hasOwnProperty(value)) {
-                  a.push(value);
-                  u[value] = 1;
-              }
-          });
-          return a;
-      },
+  		array.forEach(function (value) {
+  			if (!u.hasOwnProperty(value)) {
+  				a.push(value);
+  				u[value] = 1;
+  			}
+  		});
+  		return a;
+  	},
 
-      /**
-       * Converts a string into legitimate url.
-       * @param string
-       */
-      toUrl: function toUrl(string) {
-          return string.indexOf('//') === -1 ? '//' + string : string;
-      },
+  	/**
+    * Converts a string into legitimate url.
+    * @param string
+    */
+  	toUrl: function toUrl(string) {
+  		return string.indexOf('//') === -1 ? '//' + string : string;
+  	},
 
-      /**
-       * Extends an Object
-       * @param destination
-       * @param source
-       * @returns {*}
-       */
-      deepExtend: function deepExtend(destination, source) {
-          for (var property in source) {
-              if (source[property] && source[property].constructor === Object) {
-                  destination[property] = destination[property] || {};
-                  this.deepExtend(destination[property], source[property]);
-              } else {
-                  destination[property] = source[property];
-              }
-          }
-          return destination;
-      },
-      escapeRegExp: function escapeRegExp(str) {
-          return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
-      },
+  	/**
+    * Extends an Object
+    * @param destination
+    * @param source
+    * @returns {*}
+    */
+  	deepExtend: function deepExtend(destination, source) {
+  		for (var property in source) {
+  			if (source[property] && source[property].constructor === Object) {
+  				destination[property] = destination[property] || {};
+  				this.deepExtend(destination[property], source[property]);
+  			} else {
+  				destination[property] = source[property];
+  			}
+  		}
+  		return destination;
+  	},
+  	escapeRegExp: function escapeRegExp(str) {
+  		return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
+  	},
 
-      /**
-       * Sort an array of objects based on the index value
-       * @param  {Array} arr Array to be sorted
-       * @return {Array}     Sorted array
-       */
-      sortObject: function sortObject(arr) {
-          return arr.sort(function (a, b) {
-              return a.index - b.index;
-          });
-      },
+  	/**
+    * Sort an array of objects based on the index value
+    * @param  {Array} arr Array to be sorted
+    * @return {Array}     Sorted array
+    */
+  	sortObject: function sortObject(arr) {
+  		return arr.sort(function (a, b) {
+  			return a.index - b.index;
+  		});
+  	},
 
-      /**
-       * Creates the string of the iframes after sorting them and finally returning a string
-       * @param  {sring} str    String to which the created text has to be added
-       * @param  {object} embeds Sorted array of iframe html
-       * @return {string}        String to be rendered
-       */
-      createText: function createText(str, embeds) {
-          var sortedEmbeds = this.sortObject(embeds);
-          for (var i = 0; i < sortedEmbeds.length; i++) {
-              str += ' ' + sortedEmbeds[i].text;
-          }
-          return str;
-      },
+  	/**
+    * Creates the string of the iframes after sorting them and finally returning a string
+    * @param  {sring} str    String to which the created text has to be added
+    * @param  {object} embeds Sorted array of iframe html
+    * @return {string}        String to be rendered
+    */
+  	createText: function createText(str, embeds) {
+  		var sortedEmbeds = this.sortObject(embeds);
+  		for (var i = 0; i < sortedEmbeds.length; i++) {
+  			str += ' ' + sortedEmbeds[i].text;
+  		}
+  		return str;
+  	},
 
-      /**
-       * Matches the string and finds the substrings matching to the provided regex pattern
-       * @param  {object} regex Regex pattern
-       * @param  {string} input The string to be analyzed
-       * @return {object}       Returns the matched substring with their corresponding positions
-       */
-      matches: function matches(regex, input) {
-          return regex.exec(input);
-      },
+  	/**
+    * Matches the string and finds the substrings matching to the provided regex pattern
+    * @param  {object} regex Regex pattern
+    * @param  {string} input The string to be analyzed
+    * @return {object}       Returns the matched substring with their corresponding positions
+    */
+  	matches: function matches(regex, input) {
+  		return regex.exec(input);
+  	},
 
-      /**
-       * Checks wheteher a particular service should be embedded or not based on
-       * the setting provided by the user
-       * @param  {object} options The options provided by the user
-       * @param  {string} service Name of the service for which the condition is to be analyzed
-       * @return {boolean}        True if it should be embedded
-       */
-      ifEmbed: function ifEmbed(options, service) {
-          return options.excludeEmbed.indexOf(service) == -1 && options.excludeEmbed !== 'all';
-      },
-      ifInline: function ifInline(options, service) {
-          return options.inlineEmbed.indexOf(service) == -1 && options.inlineEmbed !== 'all';
-      },
+  	/**
+    * Checks wheteher a particular service should be embedded or not based on
+    * the setting provided by the user
+    * @param  {object} options The options provided by the user
+    * @param  {string} service Name of the service for which the condition is to be analyzed
+    * @return {boolean}        True if it should be embedded
+    */
+  	ifEmbed: function ifEmbed(options, service) {
+  		return options.excludeEmbed.indexOf(service) == -1 && options.excludeEmbed !== 'all';
+  	},
+  	ifInline: function ifInline(options, service) {
+  		return options.inlineEmbed.indexOf(service) == -1 && options.inlineEmbed !== 'all';
+  	},
 
-      /**
-       * Calculates the dimensions for the elements based on a aspect ratio
-       * @param  {object} options Plugin options
-       * @return {object}         The width and height of the elements
-       */
-      dimensions: function dimensions(options) {
-          var dimensions = {
-              width: options.videoWidth,
-              height: options.videoHeight
-          };
-          if (options.videoHeight && options.videoWidth) {
-              return dimensions;
-          } else if (options.videoHeight) {
-              dimensions.width = options.videoHeight / 3 * 4;
-              return dimensions;
-          } else if (options.videoWidth) {
-              dimensions.height = dimensions.width / 4 * 3;
-              return dimensions;
-          } else {
-              var _ref = [800, 600];
-              dimensions.width = _ref[0];
-              dimensions.height = _ref[1];
+  	/**
+    * Calculates the dimensions for the elements based on a aspect ratio
+    * @param  {object} options Plugin options
+    * @return {object}         The width and height of the elements
+    */
+  	dimensions: function dimensions(options) {
+  		var dimensions = {
+  			width: options.videoWidth,
+  			height: options.videoHeight
+  		};
+  		if (options.videoHeight && options.videoWidth) {
+  			return dimensions;
+  		} else if (options.videoHeight) {
+  			dimensions.width = options.videoHeight / 3 * 4;
+  			return dimensions;
+  		} else if (options.videoWidth) {
+  			dimensions.height = dimensions.width / 4 * 3;
+  			return dimensions;
+  		} else {
+  			var _ref = [800, 600];
+  			dimensions.width = _ref[0];
+  			dimensions.height = _ref[1];
 
-              return dimensions;
-          }
-      },
+  			return dimensions;
+  		}
+  	},
 
-      /**
-       * Returns a cloned object
-       * @param  {object} obj
-       * @return {object}     cloned object
-       */
-      cloneObject: function cloneObject(obj) {
-          if (obj === null || (typeof obj === 'undefined' ? 'undefined' : babelHelpers_typeof(obj)) !== 'object') return obj;
-          var temp = obj.constructor(); // give temp the original obj's constructor
-          for (var key in obj) {
-              temp[key] = this.cloneObject(obj[key]);
-          }
-          return temp;
-      },
-      urlRegex: function urlRegex() {
-          return (/((href|src)=["']|)(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])|(?:https?:\/\/)?(?:(?:0rz\.tw)|(?:1link\.in)|(?:1url\.com)|(?:2\.gp)|(?:2big\.at)|(?:2tu\.us)|(?:3\.ly)|(?:307\.to)|(?:4ms\.me)|(?:4sq\.com)|(?:4url\.cc)|(?:6url\.com)|(?:7\.ly)|(?:a\.gg)|(?:a\.nf)|(?:aa\.cx)|(?:abcurl\.net)|(?:ad\.vu)|(?:adf\.ly)|(?:adjix\.com)|(?:afx\.cc)|(?:all\.fuseurl.com)|(?:alturl\.com)|(?:amzn\.to)|(?:ar\.gy)|(?:arst\.ch)|(?:atu\.ca)|(?:azc\.cc)|(?:b23\.ru)|(?:b2l\.me)|(?:bacn\.me)|(?:bcool\.bz)|(?:binged\.it)|(?:bit\.ly)|(?:buff\.ly)|(?:bizj\.us)|(?:bloat\.me)|(?:bravo\.ly)|(?:bsa\.ly)|(?:budurl\.com)|(?:canurl\.com)|(?:chilp\.it)|(?:chzb\.gr)|(?:cl\.lk)|(?:cl\.ly)|(?:clck\.ru)|(?:cli\.gs)|(?:cliccami\.info)|(?:clickthru\.ca)|(?:clop\.in)|(?:conta\.cc)|(?:cort\.as)|(?:cot\.ag)|(?:crks\.me)|(?:ctvr\.us)|(?:cutt\.us)|(?:dai\.ly)|(?:decenturl\.com)|(?:dfl8\.me)|(?:digbig\.com)|(?:digg\.com)|(?:disq\.us)|(?:dld\.bz)|(?:dlvr\.it)|(?:do\.my)|(?:doiop\.com)|(?:dopen\.us)|(?:easyuri\.com)|(?:easyurl\.net)|(?:eepurl\.com)|(?:eweri\.com)|(?:fa\.by)|(?:fav\.me)|(?:fb\.me)|(?:fbshare\.me)|(?:ff\.im)|(?:fff\.to)|(?:fire\.to)|(?:firsturl\.de)|(?:firsturl\.net)|(?:flic\.kr)|(?:flq\.us)|(?:fly2\.ws)|(?:fon\.gs)|(?:freak\.to)|(?:fuseurl\.com)|(?:fuzzy\.to)|(?:fwd4\.me)|(?:fwib\.net)|(?:g\.ro.lt)|(?:gizmo\.do)|(?:gl\.am)|(?:go\.9nl.com)|(?:go\.ign.com)|(?:go\.usa.gov)|(?:goo\.gl)|(?:goshrink\.com)|(?:gurl\.es)|(?:hex\.io)|(?:hiderefer\.com)|(?:hmm\.ph)|(?:href\.in)|(?:hsblinks\.com)|(?:htxt\.it)|(?:huff\.to)|(?:hulu\.com)|(?:hurl\.me)|(?:hurl\.ws)|(?:icanhaz\.com)|(?:idek\.net)|(?:ilix\.in)|(?:is\.gd)|(?:its\.my)|(?:ix\.lt)|(?:j\.mp)|(?:jijr\.com)|(?:kl\.am)|(?:klck\.me)|(?:korta\.nu)|(?:krunchd\.com)|(?:l9k\.net)|(?:lat\.ms)|(?:liip\.to)|(?:liltext\.com)|(?:linkbee\.com)|(?:linkbun\.ch)|(?:liurl\.cn)|(?:ln-s\.net)|(?:ln-s\.ru)|(?:lnk\.gd)|(?:lnk\.ms)|(?:lnkd\.in)|(?:lnkurl\.com)|(?:lru\.jp)|(?:lt\.tl)|(?:lurl\.no)|(?:macte\.ch)|(?:mash\.to)|(?:merky\.de)|(?:migre\.me)|(?:miniurl\.com)|(?:minurl\.fr)|(?:mke\.me)|(?:moby\.to)|(?:moourl\.com)|(?:mrte\.ch)|(?:myloc\.me)|(?:myurl\.in)|(?:n\.pr)|(?:nbc\.co)|(?:nblo\.gs)|(?:nn\.nf)|(?:not\.my)|(?:notlong\.com)|(?:nsfw\.in)|(?:nutshellurl\.com)|(?:nxy\.in)|(?:nyti\.ms)|(?:o-x\.fr)|(?:oc1\.us)|(?:om\.ly)|(?:omf\.gd)|(?:omoikane\.net)|(?:on\.cnn.com)|(?:on\.mktw.net)|(?:onforb\.es)|(?:orz\.se)|(?:ow\.ly)|(?:ping\.fm)|(?:pli\.gs)|(?:pnt\.me)|(?:politi\.co)|(?:post\.ly)|(?:pp\.gg)|(?:profile\.to)|(?:ptiturl\.com)|(?:pub\.vitrue.com)|(?:qlnk\.net)|(?:qte\.me)|(?:qu\.tc)|(?:qy\.fi)|(?:r\.im)|(?:rb6\.me)|(?:read\.bi)|(?:readthis\.ca)|(?:reallytinyurl\.com)|(?:redir\.ec)|(?:redirects\.ca)|(?:redirx\.com)|(?:retwt\.me)|(?:ri\.ms)|(?:rickroll\.it)|(?:riz\.gd)|(?:rt\.nu)|(?:ru\.ly)|(?:rubyurl\.com)|(?:rurl\.org)|(?:rww\.tw)|(?:s4c\.in)|(?:s7y\.us)|(?:safe\.mn)|(?:sameurl\.com)|(?:sdut\.us)|(?:shar\.es)|(?:shink\.de)|(?:shorl\.com)|(?:short\.ie)|(?:short\.to)|(?:shortlinks\.co.uk)|(?:shorturl\.com)|(?:shout\.to)|(?:show\.my)|(?:shrinkify\.com)|(?:shrinkr\.com)|(?:shrt\.fr)|(?:shrt\.st)|(?:shrten\.com)|(?:shrunkin\.com)|(?:simurl\.com)|(?:slate\.me)|(?:smallr\.com)|(?:smsh\.me)|(?:smurl\.name)|(?:sn\.im)|(?:snipr\.com)|(?:snipurl\.com)|(?:snurl\.com)|(?:sp2\.ro)|(?:spedr\.com)|(?:srnk\.net)|(?:srs\.li)|(?:starturl\.com)|(?:su\.pr)|(?:surl\.co.uk)|(?:surl\.hu)|(?:t\.cn)|(?:t\.co)|(?:t\.lh.com)|(?:ta\.gd)|(?:tbd\.ly)|(?:tcrn\.ch)|(?:tgr\.me)|(?:tgr\.ph)|(?:tighturl\.com)|(?:tiniuri\.com)|(?:tiny\.cc)|(?:tiny\.ly)|(?:tiny\.pl)|(?:tinylink\.in)|(?:tinyuri\.ca)|(?:tinyurl\.com)|(?:tl\.gd)|(?:tmi\.me)|(?:tnij\.org)|(?:tnw\.to)|(?:tny\.com)|(?:to\.ly)|(?:togoto\.us)|(?:totc\.us)|(?:toysr\.us)|(?:tpm\.ly)|(?:tr\.im)|(?:tra\.kz)|(?:trunc\.it)|(?:twhub\.com)|(?:twirl\.at)|(?:twitclicks\.com)|(?:twitterurl\.net)|(?:twitterurl\.org)|(?:twiturl\.de)|(?:twurl\.cc)|(?:twurl\.nl)|(?:u\.mavrev.com)|(?:u\.nu)|(?:u76\.org)|(?:ub0\.cc)|(?:ulu\.lu)|(?:updating\.me)|(?:ur1\.ca)|(?:url\.az)|(?:url\.co.uk)|(?:url\.ie)|(?:url360\.me)|(?:url4\.eu)|(?:urlborg\.com)|(?:urlbrief\.com)|(?:urlcover\.com)|(?:urlcut\.com)|(?:urlenco\.de)|(?:urli\.nl)|(?:urls\.im)|(?:urlshorteningservicefortwitter\.com)|(?:urlx\.ie)|(?:urlzen\.com)|(?:usat\.ly)|(?:use\.my)|(?:vb\.ly)|(?:vgn\.am)|(?:vl\.am)|(?:vm\.lc)|(?:w55\.de)|(?:wapo\.st)|(?:wapurl\.co.uk)|(?:wipi\.es)|(?:wp\.me)|(?:x\.vu)|(?:xr\.com)|(?:xrl\.in)|(?:xrl\.us)|(?:xurl\.es)|(?:xurl\.jp)|(?:y\.ahoo.it)|(?:yatuc\.com)|(?:ye\.pe)|(?:yep\.it)|(?:yfrog\.com)|(?:yhoo\.it)|(?:yiyd\.com)|(?:youtu\.be)|(?:yuarel\.com)|(?:z0p\.de)|(?:zi\.ma)|(?:zi\.mu)|(?:zipmyurl\.com)|(?:zud\.me)|(?:zurl\.ws)|(?:zz\.gd)|(?:zzang\.kr)|(?:›\.ws)|(?:✩\.ws)|(?:✿\.ws)|(?:❥\.ws)|(?:➔\.ws)|(?:➞\.ws)|(?:➡\.ws)|(?:➨\.ws)|(?:➯\.ws)|(?:➹\.ws)|(?:➽\.ws))\/[a-z0-9]*/gi
-          );
-      }
+  	/**
+    * Returns a cloned object
+    * @param  {object} obj
+    * @return {object}     cloned object
+    */
+  	cloneObject: function cloneObject(obj) {
+  		if (obj === null || (typeof obj === 'undefined' ? 'undefined' : babelHelpers_typeof(obj)) !== 'object') return obj;
+  		var temp = obj.constructor(); // give temp the original obj's constructor
+  		for (var key in obj) {
+  			temp[key] = this.cloneObject(obj[key]);
+  		}
+  		return temp;
+  	},
+  	urlRegex: function urlRegex() {
+  		return (/((href|src)=["']|)(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])|(?:https?:\/\/)?(?:(?:0rz\.tw)|(?:1link\.in)|(?:1url\.com)|(?:2\.gp)|(?:2big\.at)|(?:2tu\.us)|(?:3\.ly)|(?:307\.to)|(?:4ms\.me)|(?:4sq\.com)|(?:4url\.cc)|(?:6url\.com)|(?:7\.ly)|(?:a\.gg)|(?:a\.nf)|(?:aa\.cx)|(?:abcurl\.net)|(?:ad\.vu)|(?:adf\.ly)|(?:adjix\.com)|(?:afx\.cc)|(?:all\.fuseurl.com)|(?:alturl\.com)|(?:amzn\.to)|(?:ar\.gy)|(?:arst\.ch)|(?:atu\.ca)|(?:azc\.cc)|(?:b23\.ru)|(?:b2l\.me)|(?:bacn\.me)|(?:bcool\.bz)|(?:binged\.it)|(?:bit\.ly)|(?:buff\.ly)|(?:bizj\.us)|(?:bloat\.me)|(?:bravo\.ly)|(?:bsa\.ly)|(?:budurl\.com)|(?:canurl\.com)|(?:chilp\.it)|(?:chzb\.gr)|(?:cl\.lk)|(?:cl\.ly)|(?:clck\.ru)|(?:cli\.gs)|(?:cliccami\.info)|(?:clickthru\.ca)|(?:clop\.in)|(?:conta\.cc)|(?:cort\.as)|(?:cot\.ag)|(?:crks\.me)|(?:ctvr\.us)|(?:cutt\.us)|(?:dai\.ly)|(?:decenturl\.com)|(?:dfl8\.me)|(?:digbig\.com)|(?:digg\.com)|(?:disq\.us)|(?:dld\.bz)|(?:dlvr\.it)|(?:do\.my)|(?:doiop\.com)|(?:dopen\.us)|(?:easyuri\.com)|(?:easyurl\.net)|(?:eepurl\.com)|(?:eweri\.com)|(?:fa\.by)|(?:fav\.me)|(?:fb\.me)|(?:fbshare\.me)|(?:ff\.im)|(?:fff\.to)|(?:fire\.to)|(?:firsturl\.de)|(?:firsturl\.net)|(?:flic\.kr)|(?:flq\.us)|(?:fly2\.ws)|(?:fon\.gs)|(?:freak\.to)|(?:fuseurl\.com)|(?:fuzzy\.to)|(?:fwd4\.me)|(?:fwib\.net)|(?:g\.ro.lt)|(?:gizmo\.do)|(?:gl\.am)|(?:go\.9nl.com)|(?:go\.ign.com)|(?:go\.usa.gov)|(?:goo\.gl)|(?:goshrink\.com)|(?:gurl\.es)|(?:hex\.io)|(?:hiderefer\.com)|(?:hmm\.ph)|(?:href\.in)|(?:hsblinks\.com)|(?:htxt\.it)|(?:huff\.to)|(?:hulu\.com)|(?:hurl\.me)|(?:hurl\.ws)|(?:icanhaz\.com)|(?:idek\.net)|(?:ilix\.in)|(?:is\.gd)|(?:its\.my)|(?:ix\.lt)|(?:j\.mp)|(?:jijr\.com)|(?:kl\.am)|(?:klck\.me)|(?:korta\.nu)|(?:krunchd\.com)|(?:l9k\.net)|(?:lat\.ms)|(?:liip\.to)|(?:liltext\.com)|(?:linkbee\.com)|(?:linkbun\.ch)|(?:liurl\.cn)|(?:ln-s\.net)|(?:ln-s\.ru)|(?:lnk\.gd)|(?:lnk\.ms)|(?:lnkd\.in)|(?:lnkurl\.com)|(?:lru\.jp)|(?:lt\.tl)|(?:lurl\.no)|(?:macte\.ch)|(?:mash\.to)|(?:merky\.de)|(?:migre\.me)|(?:miniurl\.com)|(?:minurl\.fr)|(?:mke\.me)|(?:moby\.to)|(?:moourl\.com)|(?:mrte\.ch)|(?:myloc\.me)|(?:myurl\.in)|(?:n\.pr)|(?:nbc\.co)|(?:nblo\.gs)|(?:nn\.nf)|(?:not\.my)|(?:notlong\.com)|(?:nsfw\.in)|(?:nutshellurl\.com)|(?:nxy\.in)|(?:nyti\.ms)|(?:o-x\.fr)|(?:oc1\.us)|(?:om\.ly)|(?:omf\.gd)|(?:omoikane\.net)|(?:on\.cnn.com)|(?:on\.mktw.net)|(?:onforb\.es)|(?:orz\.se)|(?:ow\.ly)|(?:ping\.fm)|(?:pli\.gs)|(?:pnt\.me)|(?:politi\.co)|(?:post\.ly)|(?:pp\.gg)|(?:profile\.to)|(?:ptiturl\.com)|(?:pub\.vitrue.com)|(?:qlnk\.net)|(?:qte\.me)|(?:qu\.tc)|(?:qy\.fi)|(?:r\.im)|(?:rb6\.me)|(?:read\.bi)|(?:readthis\.ca)|(?:reallytinyurl\.com)|(?:redir\.ec)|(?:redirects\.ca)|(?:redirx\.com)|(?:retwt\.me)|(?:ri\.ms)|(?:rickroll\.it)|(?:riz\.gd)|(?:rt\.nu)|(?:ru\.ly)|(?:rubyurl\.com)|(?:rurl\.org)|(?:rww\.tw)|(?:s4c\.in)|(?:s7y\.us)|(?:safe\.mn)|(?:sameurl\.com)|(?:sdut\.us)|(?:shar\.es)|(?:shink\.de)|(?:shorl\.com)|(?:short\.ie)|(?:short\.to)|(?:shortlinks\.co.uk)|(?:shorturl\.com)|(?:shout\.to)|(?:show\.my)|(?:shrinkify\.com)|(?:shrinkr\.com)|(?:shrt\.fr)|(?:shrt\.st)|(?:shrten\.com)|(?:shrunkin\.com)|(?:simurl\.com)|(?:slate\.me)|(?:smallr\.com)|(?:smsh\.me)|(?:smurl\.name)|(?:sn\.im)|(?:snipr\.com)|(?:snipurl\.com)|(?:snurl\.com)|(?:sp2\.ro)|(?:spedr\.com)|(?:srnk\.net)|(?:srs\.li)|(?:starturl\.com)|(?:su\.pr)|(?:surl\.co.uk)|(?:surl\.hu)|(?:t\.cn)|(?:t\.co)|(?:t\.lh.com)|(?:ta\.gd)|(?:tbd\.ly)|(?:tcrn\.ch)|(?:tgr\.me)|(?:tgr\.ph)|(?:tighturl\.com)|(?:tiniuri\.com)|(?:tiny\.cc)|(?:tiny\.ly)|(?:tiny\.pl)|(?:tinylink\.in)|(?:tinyuri\.ca)|(?:tinyurl\.com)|(?:tl\.gd)|(?:tmi\.me)|(?:tnij\.org)|(?:tnw\.to)|(?:tny\.com)|(?:to\.ly)|(?:togoto\.us)|(?:totc\.us)|(?:toysr\.us)|(?:tpm\.ly)|(?:tr\.im)|(?:tra\.kz)|(?:trunc\.it)|(?:twhub\.com)|(?:twirl\.at)|(?:twitclicks\.com)|(?:twitterurl\.net)|(?:twitterurl\.org)|(?:twiturl\.de)|(?:twurl\.cc)|(?:twurl\.nl)|(?:u\.mavrev.com)|(?:u\.nu)|(?:u76\.org)|(?:ub0\.cc)|(?:ulu\.lu)|(?:updating\.me)|(?:ur1\.ca)|(?:url\.az)|(?:url\.co.uk)|(?:url\.ie)|(?:url360\.me)|(?:url4\.eu)|(?:urlborg\.com)|(?:urlbrief\.com)|(?:urlcover\.com)|(?:urlcut\.com)|(?:urlenco\.de)|(?:urli\.nl)|(?:urls\.im)|(?:urlshorteningservicefortwitter\.com)|(?:urlx\.ie)|(?:urlzen\.com)|(?:usat\.ly)|(?:use\.my)|(?:vb\.ly)|(?:vgn\.am)|(?:vl\.am)|(?:vm\.lc)|(?:w55\.de)|(?:wapo\.st)|(?:wapurl\.co.uk)|(?:wipi\.es)|(?:wp\.me)|(?:x\.vu)|(?:xr\.com)|(?:xrl\.in)|(?:xrl\.us)|(?:xurl\.es)|(?:xurl\.jp)|(?:y\.ahoo.it)|(?:yatuc\.com)|(?:ye\.pe)|(?:yep\.it)|(?:yfrog\.com)|(?:yhoo\.it)|(?:yiyd\.com)|(?:youtu\.be)|(?:yuarel\.com)|(?:z0p\.de)|(?:zi\.ma)|(?:zi\.mu)|(?:zipmyurl\.com)|(?:zud\.me)|(?:zurl\.ws)|(?:zz\.gd)|(?:zzang\.kr)|(?:›\.ws)|(?:✩\.ws)|(?:✿\.ws)|(?:❥\.ws)|(?:➔\.ws)|(?:➞\.ws)|(?:➡\.ws)|(?:➨\.ws)|(?:➯\.ws)|(?:➹\.ws)|(?:➽\.ws))\/[a-z0-9]*/gi
+  		);
+  	}
   };
 
   var hasOwn = Object.prototype.hasOwnProperty;
@@ -914,171 +912,247 @@
   window.regeneratorRuntime = regeneratorRuntime$1;
 
   var helper = {
-  	/**
-    * Plays the video after clicking on the thumbnail
-    * @param  {string} className The class name on which click is to be listened
-    * @param  {object} options   Options object
-    * @return {null}
-    */
+      /**
+       * Plays the video after clicking on the thumbnail
+       * @param  {string} className The class name on which click is to be listened
+       * @param  {object} options   Options object
+       * @return {null}
+       */
 
-  	play: function play(options) {
-  		/** Execute the customVideoClickHandler if the user wants to handle it on his own. */
-  		if (options.customVideoClickHandler) return options.videoClickHandler(options, this.template);
+      play: function play(options) {
+          /** Execute the customVideoClickHandler if the user wants to handle it on his own. */
+          if (options.customVideoClickHandler) return options.videoClickHandler(options, this.template);
 
-  		var classes = document.getElementsByClassName(options.videoClickClass);
-  		var _this = this;
-  		for (var i = 0; i < classes.length; i++) {
-  			classes[i].onclick = function () {
-  				options.onVideoShow();
-  				var url = this.getAttribute('data-ejs-url') + "?autoplay=true";
-  				this.parentNode.parentNode.innerHTML = _this.template(url, options);
-  			};
-  		}
-  	},
+          var classes = document.getElementsByClassName(options.videoClickClass);
+          var _this = this;
+          for (var i = 0; i < classes.length; i++) {
+              classes[i].onclick = function () {
+                  options.onVideoShow();
+                  var url = this.getAttribute('data-ejs-url') + "?autoplay=true";
+                  this.parentNode.parentNode.innerHTML = _this.template(url, options);
+              };
+          }
+      },
 
-  	/**
-    * Common template for vimeo and youtube iframes
-    * @param  {string} url     URL of the embedding video
-    * @param  {object} options Options object
-    * @return {string}         compiled template with variables replaced
-    */
-  	template: function template(url, options) {
-  		var dimensions = utils.dimensions(options);
-  		return ejs.template.vimeo(url, dimensions, options) || ejs.template.youtube(url, dimensions, options) || '<div class="ejs-video-player ejs-embed">\n        <iframe src="' + url + '" frameBorder="0" width="' + dimensions.width + '" height="' + dimensions.height + '"></iframe>\n        </div>';
-  	},
+      /**
+       * Common template for vimeo and youtube iframes
+       * @param  {string} url     URL of the embedding video
+       * @param  {object} options Options object
+       * @return {string}         compiled template with variables replaced
+       */
+      template: function template(url, options) {
+          var dimensions = utils.dimensions(options);
+          return ejs.template.vimeo(url, dimensions, options) || ejs.template.youtube(url, dimensions, options) || '<div class="ejs-video-player ejs-embed">\n        <iframe src="' + url + '" frameBorder="0" width="' + dimensions.width + '" height="' + dimensions.height + '"></iframe>\n        </div>';
+      },
 
-  	/**
-    * Template for showing vimeo and youtube video details
-    * @param  {object} data     Object containing the variable values as key-value pair
-    * @param  {string} embedUrl URL of the video
-    * @return {string}          template with variables replaced
-    */
-  	detailsTemplate: function detailsTemplate(data, embedUrl) {
-  		return '<div class="ejs-video ejs-embed">\n        <div class="ejs-video-preview">\n        <div class="ejs-video-thumb" data-ejs-url="' + embedUrl + '">\n        <div class="ejs-thumb" style="background-image:url(' + data.thumbnail + ')"></div>\n        <i class="fa fa-play-circle-o"></i>\n        </div>\n        <div class="ejs-video-detail">\n        <div class="ejs-video-title">\n        <a href="' + data.url + '">\n        ' + data.title + '\n        </a>\n        </div>\n        <div class="ejs-video-desc">\n        ' + data.description + '\n        </div>\n        <div class="ejs-video-stats">\n        <span>\n        <i class="fa fa-eye"></i>' + data.views + '\n        </span>\n        <span>\n        <i class="fa fa-heart"></i>' + data.likes + '\n        </span>\n        </div>\n        </div>\n        </div>\n        </div>';
-  	},
-  	getDetailsTemplate: function getDetailsTemplate(data, fullData, embedUrl) {
-  		if (data.host === 'vimeo') {
-  			return ejs.template.detailsVimeo(data, fullData, embedUrl) || this.detailsTemplate(data, embedUrl);
-  		} else if (data.host === 'youtube') {
-  			return ejs.template.detailsYoutube(data, fullData, embedUrl) || this.detailsTemplate(data, embedUrl);
-  		}
-  	},
+      /**
+       * Template for showing vimeo and youtube video details
+       * @param  {object} data     Object containing the variable values as key-value pair
+       * @param  {string} embedUrl URL of the video
+       * @return {string}          template with variables replaced
+       */
+      detailsTemplate: function detailsTemplate(data, embedUrl) {
+          return '<div class="ejs-video ejs-embed">\n        <div class="ejs-video-preview">\n        <div class="ejs-video-thumb" data-ejs-url="' + embedUrl + '">\n        <div class="ejs-thumb" style="background-image:url(' + data.thumbnail + ')"></div>\n        <i class="fa fa-play-circle-o"></i>\n        </div>\n        <div class="ejs-video-detail">\n        <div class="ejs-video-title">\n        <a href="' + data.url + '">\n        ' + data.title + '\n        </a>\n        </div>\n        <div class="ejs-video-desc">\n        ' + data.description + '\n        </div>\n        <div class="ejs-video-stats">\n        <span>\n        <i class="fa fa-eye"></i>' + data.views + '\n        </span>\n        <span>\n        <i class="fa fa-heart"></i>' + data.likes + '\n        </span>\n        </div>\n        </div>\n        </div>\n        </div>';
+      },
+      getDetailsTemplate: function getDetailsTemplate(data, fullData, embedUrl) {
+          if (data.host === 'vimeo') {
+              return ejs.template.detailsVimeo(data, fullData, embedUrl) || this.detailsTemplate(data, embedUrl);
+          } else if (data.host === 'youtube') {
+              return ejs.template.detailsYoutube(data, fullData, embedUrl) || this.detailsTemplate(data, embedUrl);
+          }
+      },
 
-  	/**
-    * Applies video.js to all audio and video dynamically
-    * @param  {object} options Options object
-    * @return {null}
-    */
-  	applyVideoJS: function applyVideoJS(options) {
-  		var dimensions = utils.dimensions(options);
-  		options.videojsOptions.width = dimensions.width;
-  		options.videojsOptions.height = dimensions.height;
-  		if (options.videoJS) {
-  			if (!window.videojs) throw new ReferenceError("You have enabled videojs but you haven't loaded the library.Find it at http://videojs.com/");
-  			var elements = options.element.getElementsByClassName('ejs-video-js');
-  			for (var i = 0; i < elements.length; i++) {
-  				videojs(elements[i], options.videojsOptions, function () {
-  					return options.videojsCallback();
-  				});
-  			}
-  		}
-  	},
+      /**
+       * Applies video.js to all audio and video dynamically
+       * @param  {object} options Options object
+       * @return {null}
+       */
+      applyVideoJS: function applyVideoJS(options) {
+          var dimensions = utils.dimensions(options);
+          options.videojsOptions.width = dimensions.width;
+          options.videojsOptions.height = dimensions.height;
+          if (options.videoJS) {
+              if (!window.videojs) throw new ReferenceError("You have enabled videojs but you haven't loaded the library.Find it at http://videojs.com/");
+              var elements = options.element.getElementsByClassName('ejs-video-js');
+              for (var i = 0; i < elements.length; i++) {
+                  videojs(elements[i], options.videojsOptions, function () {
+                      return options.videojsCallback();
+                  });
+              }
+          }
+      },
 
-  	/**
-    * Destroys the onclick event for opening the video template from the details template
-    * @param  {className} className
-    * @return {null}
-    */
-  	destroy: function destroy(className) {
-  		var classes = document.getElementsByClassName(className);
-  		for (var i = 0; i < classes.length; i++) {
-  			classes[i].onclick = null;
-  		}
-  	},
+      /**
+       * Destroys the onclick event for opening the video template from the details template
+       * @param  {className} className
+       * @return {null}
+       */
+      destroy: function destroy(className) {
+          var classes = document.getElementsByClassName(className);
+          for (var i = 0; i < classes.length; i++) {
+              classes[i].onclick = null;
+          }
+      },
 
-  	/**
-    * A helper function for inline embedding
-    * @param _this
-    * @param urlToText
-    * @returns {*}
-    */
-  	inlineEmbed: function inlineEmbed(_this, urlToText) {
-  		var _this2 = this;
+      /**
+       * A helper function for inline embedding
+       * @param _this
+       * @param urlToText
+       * @returns {*}
+       */
+      inlineEmbed: function inlineEmbed(_this, urlToText) {
+          var _this2 = this;
 
-  		return babelHelpers_asyncToGenerator(regeneratorRuntime$1.mark(function _callee() {
-  			var regexInline, match, url, text;
-  			return regeneratorRuntime$1.wrap(function _callee$(_context) {
-  				while (1) {
-  					switch (_context.prev = _context.next) {
-  						case 0:
-  							if (regeneratorRuntime$1) {
-  								_context.next = 2;
-  								break;
-  							}
+          return babelHelpers_asyncToGenerator(regeneratorRuntime$1.mark(function _callee() {
+              var regexInline, match, url, text;
+              return regeneratorRuntime$1.wrap(function _callee$(_context) {
+                  while (1) {
+                      switch (_context.prev = _context.next) {
+                          case 0:
+                              if (regeneratorRuntime$1) {
+                                  _context.next = 2;
+                                  break;
+                              }
 
-  							return _context.abrupt('return', _this.output);
+                              return _context.abrupt('return', _this.output);
 
-  						case 2:
-  							regexInline = _this.options.link ? new RegExp('([^>]*' + _this.regex.source + ')</a>', 'gi') : new RegExp('([^\\s]*' + _this.regex.source + ')', 'gi');
-  							match = undefined;
+                          case 2:
+                              regexInline = _this.options.link ? new RegExp('([^>]*' + _this.regex.source + ')</a>', 'gi') : new RegExp('([^\\s]*' + _this.regex.source + ')', 'gi');
+                              match = undefined;
 
-  						case 4:
-  							if (!((match = utils.matches(regexInline, _this.output)) !== null)) {
-  								_context.next = 21;
-  								break;
-  							}
+                          case 4:
+                              if (!((match = utils.matches(regexInline, _this.output)) !== null)) {
+                                  _context.next = 21;
+                                  break;
+                              }
 
-  							url = (_this.options.link ? match[0].slice(0, -4) : match[0]) || match[1];
+                              url = (_this.options.link ? match[0].slice(0, -4) : match[0]) || match[1];
 
-  							if (!(_this.options.served.indexOf(url) !== -1)) {
-  								_context.next = 8;
-  								break;
-  							}
+                              if (!(_this.options.served.indexOf(url) !== -1)) {
+                                  _context.next = 8;
+                                  break;
+                              }
 
-  							return _context.abrupt('continue', 4);
+                              return _context.abrupt('continue', 4);
 
-  						case 8:
-  							_context.next = 10;
-  							return urlToText(_this, match, url);
+                          case 8:
+                              _context.next = 10;
+                              return urlToText(_this, match, url);
 
-  						case 10:
-  							text = _context.sent;
+                          case 10:
+                              text = _context.sent;
 
-  							if (text) {
-  								_context.next = 13;
-  								break;
-  							}
+                              if (text) {
+                                  _context.next = 13;
+                                  break;
+                              }
 
-  							return _context.abrupt('continue', 4);
+                              return _context.abrupt('continue', 4);
 
-  						case 13:
-  							_this.options.served.push(url);
+                          case 13:
+                              _this.options.served.push(url);
 
-  							if (!_this.options.link) {
-  								_context.next = 18;
-  								break;
-  							}
+                              if (!_this.options.link) {
+                                  _context.next = 18;
+                                  break;
+                              }
 
-  							return _context.abrupt('return', !_this.options.inlineText ? _this.output.replace(match[0], text + '</a>') : _this.output.replace(match[0], match[0] + text));
+                              return _context.abrupt('return', !_this.options.inlineText ? _this.output.replace(match[0], text + '</a>') : _this.output.replace(match[0], match[0] + text));
 
-  						case 18:
-  							return _context.abrupt('return', !_this.options.inlineText ? _this.output.replace(match[0], text) : _this.output.replace(match[0], match[0] + text));
+                          case 18:
+                              return _context.abrupt('return', !_this.options.inlineText ? _this.output.replace(match[0], text) : _this.output.replace(match[0], match[0] + text));
 
-  						case 19:
-  							_context.next = 4;
-  							break;
+                          case 19:
+                              _context.next = 4;
+                              break;
 
-  						case 21:
-  							return _context.abrupt('return', _this.output);
+                          case 21:
+                              return _context.abrupt('return', _this.output);
 
-  						case 22:
-  						case 'end':
-  							return _context.stop();
-  					}
-  				}
-  			}, _callee, _this2);
-  		}))();
-  	}
+                          case 22:
+                          case 'end':
+                              return _context.stop();
+                      }
+                  }
+              }, _callee, _this2);
+          }))();
+      },
+
+      /**
+       * A helper function for normal embedding
+       * @param  {object} _this
+       * @param  {function} urlToText
+       * @return {array}
+       */
+      normalEmbed: function normalEmbed(_this, urlToText) {
+          var _this3 = this;
+
+          return babelHelpers_asyncToGenerator(regeneratorRuntime$1.mark(function _callee2() {
+              var match, _url, _text;
+
+              return regeneratorRuntime$1.wrap(function _callee2$(_context2) {
+                  while (1) {
+                      switch (_context2.prev = _context2.next) {
+                          case 0:
+                              if (regeneratorRuntime$1) {
+                                  _context2.next = 2;
+                                  break;
+                              }
+
+                              return _context2.abrupt('return', _this.output);
+
+                          case 2:
+                              match = undefined;
+
+                          case 3:
+                              if (!((match = utils.matches(_this.regex, _this.input)) !== null)) {
+                                  _context2.next = 16;
+                                  break;
+                              }
+
+                              _url = match[0];
+
+                              if (!(!_this.options.served.indexOf(_url) === -1)) {
+                                  _context2.next = 7;
+                                  break;
+                              }
+
+                              return _context2.abrupt('continue', 3);
+
+                          case 7:
+                              _context2.next = 9;
+                              return urlToText(_this, match, _url, true);
+
+                          case 9:
+                              _text = _context2.sent;
+
+                              if (_text) {
+                                  _context2.next = 12;
+                                  break;
+                              }
+
+                              return _context2.abrupt('continue', 3);
+
+                          case 12:
+                              _this.options.served.push(_url);
+                              _this.embeds.push({
+                                  text: _text,
+                                  index: match.index
+                              });
+                              _context2.next = 3;
+                              break;
+
+                          case 16:
+                              return _context2.abrupt('return', _this.embeds);
+
+                          case 17:
+                          case 'end':
+                              return _context2.stop();
+                      }
+                  }
+              }, _callee2, _this3);
+          }))();
+      }
   };
 
   var defaultOptions = {
@@ -1558,7 +1632,6 @@
   		key: 'process',
   		value: (function () {
   			var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
-  				var match, data;
   				return regeneratorRuntime.wrap(function _callee2$(_context2) {
   					while (1) {
   						switch (_context2.prev = _context2.next) {
@@ -1575,54 +1648,31 @@
 
   							case 4:
   								this.output = _context2.sent;
-  								_context2.next = 17;
+  								_context2.next = 10;
   								break;
 
   							case 7:
-  								match = undefined;
+  								_context2.next = 9;
+  								return helper.normalEmbed(this, Twitter.urlToText);
 
-  							case 8:
-  								if (!((match = utils.matches(this.regex, this.input)) !== null)) {
-  									_context2.next = 17;
-  									break;
-  								}
+  							case 9:
+  								this.embeds = _context2.sent;
 
-  								if (!(this.options.served.indexOf(match[0]) !== -1)) {
-  									_context2.next = 11;
-  									break;
-  								}
-
-  								return _context2.abrupt('continue', 8);
-
-  							case 11:
-  								_context2.next = 13;
-  								return this.tweetData(match[0]);
-
-  							case 13:
-  								data = _context2.sent;
-
-  								this.embeds.push({
-  									text: data.html,
-  									index: match.index
-  								});
-  								_context2.next = 8;
-  								break;
-
-  							case 17:
+  							case 10:
   								return _context2.abrupt('return', [this.output, this.embeds]);
 
-  							case 20:
-  								_context2.prev = 20;
+  							case 13:
+  								_context2.prev = 13;
   								_context2.t0 = _context2['catch'](0);
 
   								console.log(_context2.t0);
 
-  							case 23:
+  							case 16:
   							case 'end':
   								return _context2.stop();
   						}
   					}
-  				}, _callee2, this, [[0, 20]]);
+  				}, _callee2, this, [[0, 13]]);
   			}));
   			return function process() {
   				return ref.apply(this, arguments);
@@ -1660,50 +1710,51 @@
   })();
 
   var Base = (function () {
-  	function Base(input, output, options, embeds) {
-  		babelHelpers_classCallCheck(this, Base);
+      function Base(input, output, options, embeds) {
+          babelHelpers_classCallCheck(this, Base);
 
-  		this.input = input;
-  		this.output = output;
-  		this.options = options;
-  		this.embeds = embeds;
-  	}
+          this.input = input;
+          this.output = output;
+          this.options = options;
+          this.embeds = embeds;
+      }
 
-  	babelHelpers_createClass(Base, [{
-  		key: 'process',
-  		value: function process() {
-  			var _this = this;
+      babelHelpers_createClass(Base, [{
+          key: 'process',
+          value: function process() {
+              var _this = this;
 
-  			if (!utils.ifInline(this.options, this.service)) {
-  				var regexInline = this.options.link ? new RegExp('([^>]*' + this.regex.source + ')</a>', 'gm') : new RegExp('([^\\s]*' + this.regex.source + ')', 'gm');
-  				this.output = this.output.replace(regexInline, function (match) {
-  					var url = _this.options.link ? match.slice(0, -4) : match;
-  					if (_this.options.served.indexOf(url) === -1) {
-  						if (_this.options.link) {
-  							return !_this.options.inlineText ? _this.template(match.slice(0, -4)) + '</a>' : match + _this.template(match.slice(0, -4));
-  						} else {
-  							return !_this.options.inlineText ? _this.template(match) : match + _this.template(match);
-  						}
-  					} else {
-  						return url;
-  					}
-  				});
-  			} else {
-  				var match = undefined;
-  				while ((match = utils.matches(this.regex, this.input)) !== null) {
-  					if (this.options.served.indexOf(match[0]) === -1) {
-  						var text = this.template(match[0]);
-  						this.embeds.push({
-  							text: text,
-  							index: match.index
-  						});
-  					}
-  				}
-  			}
-  			return [this.output, this.embeds];
-  		}
-  	}]);
-  	return Base;
+              if (!utils.ifInline(this.options, this.service)) {
+                  var regexInline = this.options.link ? new RegExp('([^>]*' + this.regex.source + ')</a>', 'gm') : new RegExp('([^\\s]*' + this.regex.source + ')', 'gm');
+                  this.output = this.output.replace(regexInline, function (match) {
+                      var url = _this.options.link ? match.slice(0, -4) : match;
+                      if (_this.options.served.indexOf(url) === -1) {
+                          _this.options.served.push(url);
+                          if (_this.options.link) {
+                              return !_this.options.inlineText ? _this.template(match.slice(0, -4)) + '</a>' : match + _this.template(match.slice(0, -4));
+                          } else {
+                              return !_this.options.inlineText ? _this.template(match) : match + _this.template(match);
+                          }
+                      } else {
+                          return url;
+                      }
+                  });
+              } else {
+                  var match = undefined;
+                  while ((match = utils.matches(this.regex, this.input)) !== null) {
+                      if (this.options.served.indexOf(match[0]) === -1) {
+                          var text = this.template(match[0]);
+                          this.embeds.push({
+                              text: text,
+                              index: match.index
+                          });
+                      }
+                  }
+              }
+              return [this.output, this.embeds];
+          }
+      }]);
+      return Base;
   })();
 
   var Basic = (function (_Base) {
@@ -1727,6 +1778,132 @@
   	}]);
   	return Basic;
   })(Base);
+
+  var SlideShare = (function () {
+  	function SlideShare(input, output, options, embeds) {
+  		babelHelpers_classCallCheck(this, SlideShare);
+
+  		this.input = input;
+  		this.output = output;
+  		this.options = options;
+  		this.embeds = embeds;
+  		this.regex = /slideshare.net\/[a-zA-Z0-9_-]*\/[a-zA-Z0-9_-]*/gi;
+  		this.service = 'slideshare';
+  	}
+
+  	babelHelpers_createClass(SlideShare, [{
+  		key: 'template',
+  		value: function template(html) {
+  			return ejs.template.slideShare(html, this.options) || '<div class="ejs-embed ejs-slideshare">' + html + '</div>';
+  		}
+  	}, {
+  		key: 'process',
+  		value: (function () {
+  			var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+  				return regeneratorRuntime.wrap(function _callee$(_context) {
+  					while (1) {
+  						switch (_context.prev = _context.next) {
+  							case 0:
+  								if (utils.ifInline(this.options, this.service)) {
+  									_context.next = 6;
+  									break;
+  								}
+
+  								_context.next = 3;
+  								return helper.inlineEmbed(this, SlideShare.urlToText);
+
+  							case 3:
+  								this.output = _context.sent;
+  								_context.next = 9;
+  								break;
+
+  							case 6:
+  								_context.next = 8;
+  								return helper.normalEmbed(this, SlideShare.urlToText);
+
+  							case 8:
+  								this.embeds = _context.sent;
+
+  							case 9:
+  								return _context.abrupt('return', [this.output, this.embeds]);
+
+  							case 10:
+  							case 'end':
+  								return _context.stop();
+  						}
+  					}
+  				}, _callee, this);
+  			}));
+  			return function process() {
+  				return ref.apply(this, arguments);
+  			};
+  		})()
+  	}], [{
+  		key: 'fetchData',
+  		value: (function () {
+  			var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee2(_this, url) {
+  				var dimensions, api, response, data;
+  				return regeneratorRuntime.wrap(function _callee2$(_context2) {
+  					while (1) {
+  						switch (_context2.prev = _context2.next) {
+  							case 0:
+  								dimensions = utils.dimensions(_this.options);
+  								api = 'http://www.slideshare.net/api/oembed/2?url=' + url + '&format=jsonp&maxwidth=' + dimensions.width + '&maxheight=' + dimensions.height;
+  								_context2.next = 4;
+  								return fetchJsonp(api, {
+  									credentials: 'include'
+  								});
+
+  							case 4:
+  								response = _context2.sent;
+  								_context2.next = 7;
+  								return response.json();
+
+  							case 7:
+  								data = _context2.sent;
+  								return _context2.abrupt('return', data.html);
+
+  							case 9:
+  							case 'end':
+  								return _context2.stop();
+  						}
+  					}
+  				}, _callee2, this);
+  			}));
+  			return function fetchData(_x, _x2) {
+  				return ref.apply(this, arguments);
+  			};
+  		})()
+  	}, {
+  		key: 'urlToText',
+  		value: (function () {
+  			var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee3(_this, match, url) {
+  				var html;
+  				return regeneratorRuntime.wrap(function _callee3$(_context3) {
+  					while (1) {
+  						switch (_context3.prev = _context3.next) {
+  							case 0:
+  								_context3.next = 2;
+  								return SlideShare.fetchData(_this, url);
+
+  							case 2:
+  								html = _context3.sent;
+  								return _context3.abrupt('return', _this.template(html));
+
+  							case 4:
+  							case 'end':
+  								return _context3.stop();
+  						}
+  					}
+  				}, _callee3, this);
+  			}));
+  			return function urlToText(_x3, _x4, _x5) {
+  				return ref.apply(this, arguments);
+  			};
+  		})()
+  	}]);
+  	return SlideShare;
+  })();
 
   var Instagram = (function (_Base) {
   	babelHelpers_inherits(Instagram, _Base);
@@ -2020,7 +2197,6 @@
   		key: 'process',
   		value: (function () {
   			var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-  				var match, url, data, response, text;
   				return regeneratorRuntime.wrap(function _callee$(_context) {
   					while (1) {
   						switch (_context.prev = _context.next) {
@@ -2035,58 +2211,20 @@
 
   							case 3:
   								this.output = _context.sent;
-  								_context.next = 20;
+  								_context.next = 9;
   								break;
 
   							case 6:
-  								match = undefined;
+  								_context.next = 8;
+  								return helper.normalEmbed(this, Github.urlToText);
 
-  							case 7:
-  								if (!(match = utils.matches(this.regex, this.input))) {
-  									_context.next = 20;
-  									break;
-  								}
+  							case 8:
+  								this.embeds = _context.sent;
 
-  								url = match[0];
-
-  								if (!(this.options.served.indexOf(url) == -1)) {
-  									_context.next = 18;
-  									break;
-  								}
-
-  								if (match[3]) {
-  									_context.next = 12;
-  									break;
-  								}
-
-  								return _context.abrupt('continue', 7);
-
-  							case 12:
-  								//if url doesn't have repo name then don't process it. User profiles are not supported.
-  								data = {
-  									user: match[2],
-  									repo: match[3]
-  								};
-  								_context.next = 15;
-  								return Github.fetchRepo(data);
-
-  							case 15:
-  								response = _context.sent;
-  								text = Github.template(response, this.options);
-
-  								this.embeds.push({
-  									text: text,
-  									index: match.index
-  								});
-
-  							case 18:
-  								_context.next = 7;
-  								break;
-
-  							case 20:
+  							case 9:
   								return _context.abrupt('return', [this.output, this.embeds]);
 
-  							case 21:
+  							case 10:
   							case 'end':
   								return _context.stop();
   						}
@@ -2137,15 +2275,18 @@
   	}, {
   		key: 'urlToText',
   		value: (function () {
-  			var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee3(_this, match) {
+  			var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee3(_this, match, url, normalEmbed) {
   				var data, response;
   				return regeneratorRuntime.wrap(function _callee3$(_context3) {
   					while (1) {
   						switch (_context3.prev = _context3.next) {
   							case 0:
-  								data = {
+  								data = !normalEmbed ? {
   									user: match[2],
   									repo: match[3]
+  								} : {
+  									user: match[1],
+  									repo: match[2]
   								};
 
   								if (data.repo) {
@@ -2170,7 +2311,7 @@
   					}
   				}, _callee3, this);
   			}));
-  			return function urlToText(_x2, _x3) {
+  			return function urlToText(_x2, _x3, _x4, _x5) {
   				return ref.apply(this, arguments);
   			};
   		})()
@@ -2179,214 +2320,178 @@
   })();
 
   var Vimeo = (function () {
-  	function Vimeo(input, output, options, embeds) {
-  		babelHelpers_classCallCheck(this, Vimeo);
+      function Vimeo(input, output, options, embeds) {
+          babelHelpers_classCallCheck(this, Vimeo);
 
-  		this.input = input;
-  		this.output = output;
-  		this.options = options;
-  		this.embeds = embeds;
-  		this.regex = /https?:\/\/(?:www\.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/([^\/]*)\/videos\/|album\/(\d+)\/video\/|)(\d+)(?:$|\/|\?)*/gi;
-  		this.service = 'vimeo';
-  	}
+          this.input = input;
+          this.output = output;
+          this.options = options;
+          this.embeds = embeds;
+          this.regex = /https?:\/\/(?:www\.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/([^\/]*)\/videos\/|album\/(\d+)\/video\/|)(\d+)(?:$|\/|\?)*/gi;
+          this.service = 'vimeo';
+      }
 
-  	babelHelpers_createClass(Vimeo, [{
-  		key: 'data',
-  		value: (function () {
-  			var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee(id) {
-  				var url, response, data;
-  				return regeneratorRuntime.wrap(function _callee$(_context) {
-  					while (1) {
-  						switch (_context.prev = _context.next) {
-  							case 0:
-  								_context.prev = 0;
-  								url = 'https://vimeo.com/api/v2/video/' + id + '.json';
-  								_context.next = 4;
-  								return fetch(url);
+      babelHelpers_createClass(Vimeo, [{
+          key: 'data',
+          value: (function () {
+              var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee(id) {
+                  var url, response, data;
+                  return regeneratorRuntime.wrap(function _callee$(_context) {
+                      while (1) {
+                          switch (_context.prev = _context.next) {
+                              case 0:
+                                  _context.prev = 0;
+                                  url = 'https://vimeo.com/api/v2/video/' + id + '.json';
+                                  _context.next = 4;
+                                  return fetch(url);
 
-  							case 4:
-  								response = _context.sent;
-  								_context.next = 7;
-  								return response.json();
+                              case 4:
+                                  response = _context.sent;
+                                  _context.next = 7;
+                                  return response.json();
 
-  							case 7:
-  								data = _context.sent;
-  								return _context.abrupt('return', data[0]);
+                              case 7:
+                                  data = _context.sent;
+                                  return _context.abrupt('return', data[0]);
 
-  							case 11:
-  								_context.prev = 11;
-  								_context.t0 = _context['catch'](0);
+                              case 11:
+                                  _context.prev = 11;
+                                  _context.t0 = _context['catch'](0);
 
-  								console.log(_context.t0);
+                                  console.log(_context.t0);
 
-  							case 14:
-  							case 'end':
-  								return _context.stop();
-  						}
-  					}
-  				}, _callee, this, [[0, 11]]);
-  			}));
-  			return function data(_x) {
-  				return ref.apply(this, arguments);
-  			};
-  		})()
-  	}, {
-  		key: 'process',
-  		value: (function () {
-  			var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
-  				var match, embedUrl, _data, text;
+                              case 14:
+                              case 'end':
+                                  return _context.stop();
+                          }
+                      }
+                  }, _callee, this, [[0, 11]]);
+              }));
+              return function data(_x) {
+                  return ref.apply(this, arguments);
+              };
+          })()
+      }, {
+          key: 'process',
+          value: (function () {
+              var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+                  return regeneratorRuntime.wrap(function _callee2$(_context2) {
+                      while (1) {
+                          switch (_context2.prev = _context2.next) {
+                              case 0:
+                                  _context2.prev = 0;
 
-  				return regeneratorRuntime.wrap(function _callee2$(_context2) {
-  					while (1) {
-  						switch (_context2.prev = _context2.next) {
-  							case 0:
-  								_context2.prev = 0;
+                                  if (utils.ifInline(this.options, this.service)) {
+                                      _context2.next = 7;
+                                      break;
+                                  }
 
-  								if (utils.ifInline(this.options, this.service)) {
-  									_context2.next = 7;
-  									break;
-  								}
+                                  _context2.next = 4;
+                                  return helper.inlineEmbed(this, Vimeo.urlToText);
 
-  								_context2.next = 4;
-  								return helper.inlineEmbed(this, Vimeo.urlToText);
+                              case 4:
+                                  this.output = _context2.sent;
+                                  _context2.next = 10;
+                                  break;
 
-  							case 4:
-  								this.output = _context2.sent;
-  								_context2.next = 24;
-  								break;
+                              case 7:
+                                  _context2.next = 9;
+                                  return helper.normalEmbed(this, Vimeo.urlToText);
 
-  							case 7:
-  								match = undefined;
+                              case 9:
+                                  this.embeds = _context2.sent;
 
-  							case 8:
-  								if (!((match = utils.matches(this.regex, this.input)) !== null)) {
-  									_context2.next = 24;
-  									break;
-  								}
+                              case 10:
+                                  return _context2.abrupt('return', [this.output, this.embeds]);
 
-  								if (!(this.options.served.indexOf(match[0]) !== -1)) {
-  									_context2.next = 11;
-  									break;
-  								}
+                              case 13:
+                                  _context2.prev = 13;
+                                  _context2.t0 = _context2['catch'](0);
 
-  								return _context2.abrupt('continue', 8);
+                                  console.log(_context2.t0);
 
-  							case 11:
-  								embedUrl = 'https://player.vimeo.com/video/' + match[3];
-  								_data = undefined, text = undefined;
+                              case 16:
+                              case 'end':
+                                  return _context2.stop();
+                          }
+                      }
+                  }, _callee2, this, [[0, 13]]);
+              }));
+              return function process() {
+                  return ref.apply(this, arguments);
+              };
+          })()
+      }], [{
+          key: 'formatData',
+          value: function formatData(data, utils) {
+              return {
+                  title: data.title,
+                  thumbnail: data.thumbnail_medium,
+                  rawDescription: data.description.replace(/\n/g, '<br/>').replace(/&#10;/g, '<br/>'),
+                  views: data.stats_number_of_plays,
+                  likes: data.stats_number_of_likes,
+                  description: utils.truncate(data.description.replace(/((<|&lt;)br\s*\/*(>|&gt;)\r\n)/g, ' '), 150),
+                  url: data.url,
+                  id: data.id,
+                  host: 'vimeo'
+              };
+          }
+      }, {
+          key: 'urlToText',
+          value: (function () {
+              var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee3(_this, match, url, normalEmbed) {
+                  var id, embedUrl, data;
+                  return regeneratorRuntime.wrap(function _callee3$(_context3) {
+                      while (1) {
+                          switch (_context3.prev = _context3.next) {
+                              case 0:
+                                  id = undefined;
 
-  								if (!this.options.videoDetails) {
-  									_context2.next = 20;
-  									break;
-  								}
+                                  if (!normalEmbed) {
+                                      id = _this.options.link ? match[0].slice(0, -4).split('/').slice(-1).pop() : match[0].split('/').slice(-1).pop();
+                                  } else {
+                                      id = match[3];
+                                  }
 
-  								_context2.next = 16;
-  								return this.data(match[3]);
+                                  if (id) {
+                                      _context3.next = 4;
+                                      break;
+                                  }
 
-  							case 16:
-  								_data = _context2.sent;
+                                  return _context3.abrupt('return');
 
-  								text = helper.getDetailsTemplate(Vimeo.formatData(_data, utils), _data, embedUrl);
-  								_context2.next = 21;
-  								break;
+                              case 4:
+                                  embedUrl = 'https://player.vimeo.com/video/' + id;
+                                  data = undefined;
 
-  							case 20:
-  								text = helper.template(embedUrl, this.options);
+                                  if (!_this.options.videoDetails) {
+                                      _context3.next = 13;
+                                      break;
+                                  }
 
-  							case 21:
+                                  _context3.next = 9;
+                                  return _this.data(id);
 
-  								this.embeds.push({
-  									text: text,
-  									index: match.index
-  								});
-  								_context2.next = 8;
-  								break;
+                              case 9:
+                                  data = _context3.sent;
+                                  return _context3.abrupt('return', helper.getDetailsTemplate(Vimeo.formatData(data, utils), data, embedUrl));
 
-  							case 24:
-  								return _context2.abrupt('return', [this.output, this.embeds]);
+                              case 13:
+                                  return _context3.abrupt('return', helper.template(embedUrl, _this.options));
 
-  							case 27:
-  								_context2.prev = 27;
-  								_context2.t0 = _context2['catch'](0);
-
-  								console.log(_context2.t0);
-
-  							case 30:
-  							case 'end':
-  								return _context2.stop();
-  						}
-  					}
-  				}, _callee2, this, [[0, 27]]);
-  			}));
-  			return function process() {
-  				return ref.apply(this, arguments);
-  			};
-  		})()
-  	}], [{
-  		key: 'formatData',
-  		value: function formatData(data, utils) {
-  			return {
-  				title: data.title,
-  				thumbnail: data.thumbnail_medium,
-  				rawDescription: data.description.replace(/\n/g, '<br/>').replace(/&#10;/g, '<br/>'),
-  				views: data.stats_number_of_plays,
-  				likes: data.stats_number_of_likes,
-  				description: utils.truncate(data.description.replace(/((<|&lt;)br\s*\/*(>|&gt;)\r\n)/g, ' '), 150),
-  				url: data.url,
-  				id: data.id,
-  				host: 'vimeo'
-  			};
-  		}
-  	}, {
-  		key: 'urlToText',
-  		value: (function () {
-  			var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee3(_this, match) {
-  				var id, embedUrl, data;
-  				return regeneratorRuntime.wrap(function _callee3$(_context3) {
-  					while (1) {
-  						switch (_context3.prev = _context3.next) {
-  							case 0:
-  								id = _this.options.link ? match[0].slice(0, -4).split('/').slice(-1).pop() : match[0].split('/').slice(-1).pop();
-
-  								if (id) {
-  									_context3.next = 3;
-  									break;
-  								}
-
-  								return _context3.abrupt('return');
-
-  							case 3:
-  								embedUrl = 'https://player.vimeo.com/video/' + id;
-  								data = undefined;
-
-  								if (!_this.options.videoDetails) {
-  									_context3.next = 12;
-  									break;
-  								}
-
-  								_context3.next = 8;
-  								return _this.data(id);
-
-  							case 8:
-  								data = _context3.sent;
-  								return _context3.abrupt('return', helper.getDetailsTemplate(Vimeo.formatData(data, utils), data, embedUrl));
-
-  							case 12:
-  								return _context3.abrupt('return', helper.template(embedUrl, _this.options));
-
-  							case 13:
-  							case 'end':
-  								return _context3.stop();
-  						}
-  					}
-  				}, _callee3, this);
-  			}));
-  			return function urlToText(_x2, _x3) {
-  				return ref.apply(this, arguments);
-  			};
-  		})()
-  	}]);
-  	return Vimeo;
+                              case 14:
+                              case 'end':
+                                  return _context3.stop();
+                          }
+                      }
+                  }, _callee3, this);
+              }));
+              return function urlToText(_x2, _x3, _x4, _x5) {
+                  return ref.apply(this, arguments);
+              };
+          })()
+      }]);
+      return Vimeo;
   })();
 
   var Youtube = (function () {
@@ -2445,8 +2550,6 @@
   		key: 'process',
   		value: (function () {
   			var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
-  				var match, id, embedUrl, _data, text;
-
   				return regeneratorRuntime.wrap(function _callee2$(_context2) {
   					while (1) {
   						switch (_context2.prev = _context2.next) {
@@ -2463,76 +2566,35 @@
 
   							case 4:
   								this.output = _context2.sent;
-  								_context2.next = 25;
+  								_context2.next = 10;
   								break;
 
   							case 7:
-  								match = undefined;
+  								_context2.next = 9;
+  								return helper.normalEmbed(this, Youtube.urlToText);
 
-  							case 8:
-  								if (!((match = utils.matches(this.regex, this.input)) !== null)) {
-  									_context2.next = 25;
-  									break;
-  								}
+  							case 9:
+  								this.embeds = _context2.sent;
 
-  								if (!(this.options.served.indexOf(match[0]) !== -1)) {
-  									_context2.next = 11;
-  									break;
-  								}
-
-  								return _context2.abrupt('continue', 8);
-
-  							case 11:
-  								id = match[1];
-  								embedUrl = 'https://www.youtube.com/embed/' + id;
-  								_data = undefined, text = undefined;
-
-  								if (!this.options.videoDetails) {
-  									_context2.next = 21;
-  									break;
-  								}
-
-  								_context2.next = 17;
-  								return this.data(id);
-
-  							case 17:
-  								_data = _context2.sent;
-
-  								text = helper.getDetailsTemplate(Youtube.formatData(_data, utils), _data, embedUrl);
-  								_context2.next = 22;
+  							case 10:
+  								_context2.next = 15;
   								break;
 
-  							case 21:
-  								text = helper.template(embedUrl, this.options);
-
-  							case 22:
-
-  								this.embeds.push({
-  									text: text,
-  									index: match.index
-  								});
-  								_context2.next = 8;
-  								break;
-
-  							case 25:
-  								_context2.next = 30;
-  								break;
-
-  							case 27:
-  								_context2.prev = 27;
+  							case 12:
+  								_context2.prev = 12;
   								_context2.t0 = _context2['catch'](0);
 
   								console.log(_context2.t0);
 
-  							case 30:
+  							case 15:
   								return _context2.abrupt('return', [this.output, this.embeds]);
 
-  							case 31:
+  							case 16:
   							case 'end':
   								return _context2.stop();
   						}
   					}
-  				}, _callee2, this, [[0, 27]]);
+  				}, _callee2, this, [[0, 12]]);
   			}));
   			return function process() {
   				return ref.apply(this, arguments);
@@ -2556,13 +2618,13 @@
   	}, {
   		key: 'urlToText',
   		value: (function () {
-  			var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee3(_this, match) {
+  			var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee3(_this, match, url, normalEmbed) {
   				var id, embedUrl, data;
   				return regeneratorRuntime.wrap(function _callee3$(_context3) {
   					while (1) {
   						switch (_context3.prev = _context3.next) {
   							case 0:
-  								id = match[2];
+  								id = normalEmbed ? match[1] : match[2];
   								embedUrl = 'https://www.youtube.com/embed/' + id;
   								data = undefined;
 
@@ -2588,7 +2650,7 @@
   					}
   				}, _callee3, this);
   			}));
-  			return function urlToText(_x2, _x3) {
+  			return function urlToText(_x2, _x3, _x4, _x5) {
   				return ref.apply(this, arguments);
   			};
   		})()
@@ -3549,7 +3611,7 @@
   			key: 'process',
   			value: (function () {
   				var ref = babelHelpers_asyncToGenerator(regeneratorRuntime$1.mark(function _callee() {
-  					var input, options, embeds, output, _ref, _ref2, _process, _process2, _process3, _process4, _process5, _process6, _process7, _process8, _process9, _process10, _process11, _process12, _process13, _process14, _process15, _process16, _process17, _process18, _process19, _process20, _process21, _process22, _process23, _process24, _ref3, _ref4, _ref5, _ref6, _ref7, _ref8, _ref9, _ref10, _process25, _process26, _process27, _process28, _process29, _process30, _process31, _process32, _process33, _process34, _process35, _process36, _ref11, _ref12;
+  					var input, options, embeds, output, _ref, _ref2, _process, _process2, _process3, _process4, _process5, _process6, _process7, _process8, _process9, _process10, _process11, _process12, _process13, _process14, _process15, _process16, _process17, _process18, _process19, _process20, _process21, _process22, _process23, _process24, _ref3, _ref4, _ref5, _ref6, _ref7, _ref8, _ref9, _ref10, _process25, _process26, _process27, _process28, _process29, _process30, _process31, _process32, _process33, _process34, _ref11, _ref12, _process35, _process36, _ref13, _ref14;
 
   					return regeneratorRuntime$1.wrap(function _callee$(_context) {
   						while (1) {
@@ -3760,6 +3822,22 @@
   										output = _process34[0];
   										embeds = _process34[1];
   									}
+
+  									if (!(true && utils.ifEmbed(options, 'slideshare'))) {
+  										_context.next = 69;
+  										break;
+  									}
+
+  									_context.next = 65;
+  									return new SlideShare(input, output, options, embeds).process();
+
+  								case 65:
+  									_ref11 = _context.sent;
+  									_ref12 = babelHelpers_slicedToArray(_ref11, 2);
+  									output = _ref12[0];
+  									embeds = _ref12[1];
+
+  								case 69:
   									if (true && options.imageEmbed) {
   										_process35 = new Basic(input, output, options, embeds).process();
   										_process36 = babelHelpers_slicedToArray(_process35, 2);
@@ -3768,24 +3846,24 @@
   									}
 
   									if (!(options.tweetsEmbed && true)) {
-  										_context.next = 71;
+  										_context.next = 78;
   										break;
   									}
 
   									this.twitter = new Twitter(input, output, options, embeds);
-  									_context.next = 67;
+  									_context.next = 74;
   									return this.twitter.process();
 
-  								case 67:
-  									_ref11 = _context.sent;
-  									_ref12 = babelHelpers_slicedToArray(_ref11, 2);
-  									output = _ref12[0];
-  									embeds = _ref12[1];
+  								case 74:
+  									_ref13 = _context.sent;
+  									_ref14 = babelHelpers_slicedToArray(_ref13, 2);
+  									output = _ref14[0];
+  									embeds = _ref14[1];
 
-  								case 71:
+  								case 78:
   									return _context.abrupt('return', utils.createText(output, embeds));
 
-  								case 72:
+  								case 79:
   								case 'end':
   									return _context.stop();
   							}
@@ -3971,7 +4049,8 @@
   			vimeo: function vimeo() {},
   			youtube: function youtube() {},
   			openGraph: function openGraph() {},
-  			Github: function Github() {}
+  			Github: function Github() {},
+  			slideShare: function slideShare() {}
   		}
   	};
   	window.EmbedJS = EmbedJS;

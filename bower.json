@@ -3,7 +3,7 @@
   "version": "3.6.2",
   "description": "A JavaScript plugin that analyses the string and embeds emojis, media, tweets, code and services.",
   "main": [
-    ".dist/embed.min.css",
+    "./dist/embed.min.css",
     "./dist/embed.min.js"
   ],
   "authors": [

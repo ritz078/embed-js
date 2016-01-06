@@ -61,6 +61,7 @@
     "INSTAGRAM": true,
     "OPENGRAPH": true,
     "ejs": true,
-	"GITHUB":true
+	"GITHUB":true,
+	"SLIDESHARE":true
   }
 }
