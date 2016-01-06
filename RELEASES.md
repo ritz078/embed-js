@@ -1,3 +1,8 @@
+Version 3.7.0
+-------------
+####Feature
+* Added Slideshare embedding.
+
 Version 3.5.0
 -------------
 ####Features
