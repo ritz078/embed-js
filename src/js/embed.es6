@@ -415,9 +415,11 @@ import helper from './modules/helper.es6'
 			youtube(){
 			},
 			openGraph(){
-			}, Github(){
 			},
-			slideShare(){}
+			Github(){
+			},
+			slideShare(){
+			}
 		}
 	};
 	window.EmbedJS = EmbedJS

@@ -10,7 +10,7 @@ var helper = {
      */
     play(options) {
             /** Execute the customVideoClickHandler if the user wants to handle it on his own. */
-            if (options.customVideoClickHandler) return options.videoClickHandler(options, this.template)
+            if (options.customVideoClickHandler) return options.videoClickHandler(options, this.template);
 
             let classes = document.getElementsByClassName(options.videoClickClass);
             let _this = this;
@@ -146,7 +146,7 @@ var helper = {
             while ((match = utils.matches(_this.regex, _this.input)) !== null) {
                 let url = match[0];
                 if (!_this.options.served.indexOf(url) === -1) continue;
-                let text = await urlToText(_this, match, url, true)
+                let text = await urlToText(_this, match, url, true);
                 if (!text) continue;
                 _this.options.served.push(url);
                 _this.embeds.push({

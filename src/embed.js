@@ -134,157 +134,157 @@
 
   var utils = {
 
-      /**
-       * Trucates the string and adds ellipsis at the end.
-       * @param string        The string to be truncated
-       * @param n             Length to which it should be truncated
-       * @returns {string}    The truncated string
-       */
+  	/**
+    * Trucates the string and adds ellipsis at the end.
+    * @param string        The string to be truncated
+    * @param n             Length to which it should be truncated
+    * @returns {string}    The truncated string
+    */
 
-      truncate: function truncate(string, n) {
-          return string.substr(0, n - 1) + (string.length > n ? '...' : '');
-      },
+  	truncate: function truncate(string, n) {
+  		return string.substr(0, n - 1) + (string.length > n ? '...' : '');
+  	},
 
-      /**
-       * Returns an array after removing the duplicates.
-       * @param array         The array containing the duplicates
-       * @returns {Array}     Array with unique values.
-       */
-      getUnique: function getUnique(array) {
-          var u = {},
-              a = [];
+  	/**
+    * Returns an array after removing the duplicates.
+    * @param array         The array containing the duplicates
+    * @returns {Array}     Array with unique values.
+    */
+  	getUnique: function getUnique(array) {
+  		var u = {},
+  		    a = [];
 
-          array.forEach(function (value) {
-              if (!u.hasOwnProperty(value)) {
-                  a.push(value);
-                  u[value] = 1;
-              }
-          });
-          return a;
-      },
+  		array.forEach(function (value) {
+  			if (!u.hasOwnProperty(value)) {
+  				a.push(value);
+  				u[value] = 1;
+  			}
+  		});
+  		return a;
+  	},
 
-      /**
-       * Converts a string into legitimate url.
-       * @param string
-       */
-      toUrl: function toUrl(string) {
-          return string.indexOf('//') === -1 ? '//' + string : string;
-      },
+  	/**
+    * Converts a string into legitimate url.
+    * @param string
+    */
+  	toUrl: function toUrl(string) {
+  		return string.indexOf('//') === -1 ? '//' + string : string;
+  	},
 
-      /**
-       * Extends an Object
-       * @param destination
-       * @param source
-       * @returns {*}
-       */
-      deepExtend: function deepExtend(destination, source) {
-          for (var property in source) {
-              if (source[property] && source[property].constructor === Object) {
-                  destination[property] = destination[property] || {};
-                  this.deepExtend(destination[property], source[property]);
-              } else {
-                  destination[property] = source[property];
-              }
-          }
-          return destination;
-      },
-      escapeRegExp: function escapeRegExp(str) {
-          return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
-      },
+  	/**
+    * Extends an Object
+    * @param destination
+    * @param source
+    * @returns {*}
+    */
+  	deepExtend: function deepExtend(destination, source) {
+  		for (var property in source) {
+  			if (source[property] && source[property].constructor === Object) {
+  				destination[property] = destination[property] || {};
+  				this.deepExtend(destination[property], source[property]);
+  			} else {
+  				destination[property] = source[property];
+  			}
+  		}
+  		return destination;
+  	},
+  	escapeRegExp: function escapeRegExp(str) {
+  		return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
+  	},
 
-      /**
-       * Sort an array of objects based on the index value
-       * @param  {Array} arr Array to be sorted
-       * @return {Array}     Sorted array
-       */
-      sortObject: function sortObject(arr) {
-          return arr.sort(function (a, b) {
-              return a.index - b.index;
-          });
-      },
+  	/**
+    * Sort an array of objects based on the index value
+    * @param  {Array} arr Array to be sorted
+    * @return {Array}     Sorted array
+    */
+  	sortObject: function sortObject(arr) {
+  		return arr.sort(function (a, b) {
+  			return a.index - b.index;
+  		});
+  	},
 
-      /**
-       * Creates the string of the iframes after sorting them and finally returning a string
-       * @param  {sring} str    String to which the created text has to be added
-       * @param  {object} embeds Sorted array of iframe html
-       * @return {string}        String to be rendered
-       */
-      createText: function createText(str, embeds) {
-          var sortedEmbeds = this.sortObject(embeds);
-          for (var i = 0; i < sortedEmbeds.length; i++) {
-              str += ' ' + sortedEmbeds[i].text;
-          }
-          return str;
-      },
+  	/**
+    * Creates the string of the iframes after sorting them and finally returning a string
+    * @param  {sring} str    String to which the created text has to be added
+    * @param  {object} embeds Sorted array of iframe html
+    * @return {string}        String to be rendered
+    */
+  	createText: function createText(str, embeds) {
+  		var sortedEmbeds = this.sortObject(embeds);
+  		for (var i = 0; i < sortedEmbeds.length; i++) {
+  			str += ' ' + sortedEmbeds[i].text;
+  		}
+  		return str;
+  	},
 
-      /**
-       * Matches the string and finds the substrings matching to the provided regex pattern
-       * @param  {object} regex Regex pattern
-       * @param  {string} input The string to be analyzed
-       * @return {object}       Returns the matched substring with their corresponding positions
-       */
-      matches: function matches(regex, input) {
-          return regex.exec(input);
-      },
+  	/**
+    * Matches the string and finds the substrings matching to the provided regex pattern
+    * @param  {object} regex Regex pattern
+    * @param  {string} input The string to be analyzed
+    * @return {object}       Returns the matched substring with their corresponding positions
+    */
+  	matches: function matches(regex, input) {
+  		return regex.exec(input);
+  	},
 
-      /**
-       * Checks wheteher a particular service should be embedded or not based on
-       * the setting provided by the user
-       * @param  {object} options The options provided by the user
-       * @param  {string} service Name of the service for which the condition is to be analyzed
-       * @return {boolean}        True if it should be embedded
-       */
-      ifEmbed: function ifEmbed(options, service) {
-          return options.excludeEmbed.indexOf(service) == -1 && options.excludeEmbed !== 'all';
-      },
-      ifInline: function ifInline(options, service) {
-          return options.inlineEmbed.indexOf(service) == -1 && options.inlineEmbed !== 'all';
-      },
+  	/**
+    * Checks wheteher a particular service should be embedded or not based on
+    * the setting provided by the user
+    * @param  {object} options The options provided by the user
+    * @param  {string} service Name of the service for which the condition is to be analyzed
+    * @return {boolean}        True if it should be embedded
+    */
+  	ifEmbed: function ifEmbed(options, service) {
+  		return options.excludeEmbed.indexOf(service) == -1 && options.excludeEmbed !== 'all';
+  	},
+  	ifInline: function ifInline(options, service) {
+  		return options.inlineEmbed.indexOf(service) == -1 && options.inlineEmbed !== 'all';
+  	},
 
-      /**
-       * Calculates the dimensions for the elements based on a aspect ratio
-       * @param  {object} options Plugin options
-       * @return {object}         The width and height of the elements
-       */
-      dimensions: function dimensions(options) {
-          var dimensions = {
-              width: options.videoWidth,
-              height: options.videoHeight
-          };
-          if (options.videoHeight && options.videoWidth) {
-              return dimensions;
-          } else if (options.videoHeight) {
-              dimensions.width = options.videoHeight / 3 * 4;
-              return dimensions;
-          } else if (options.videoWidth) {
-              dimensions.height = dimensions.width / 4 * 3;
-              return dimensions;
-          } else {
-              var _ref = [800, 600];
-              dimensions.width = _ref[0];
-              dimensions.height = _ref[1];
+  	/**
+    * Calculates the dimensions for the elements based on a aspect ratio
+    * @param  {object} options Plugin options
+    * @return {object}         The width and height of the elements
+    */
+  	dimensions: function dimensions(options) {
+  		var dimensions = {
+  			width: options.videoWidth,
+  			height: options.videoHeight
+  		};
+  		if (options.videoHeight && options.videoWidth) {
+  			return dimensions;
+  		} else if (options.videoHeight) {
+  			dimensions.width = options.videoHeight / 3 * 4;
+  			return dimensions;
+  		} else if (options.videoWidth) {
+  			dimensions.height = dimensions.width / 4 * 3;
+  			return dimensions;
+  		} else {
+  			var _ref = [800, 600];
+  			dimensions.width = _ref[0];
+  			dimensions.height = _ref[1];
 
-              return dimensions;
-          }
-      },
+  			return dimensions;
+  		}
+  	},
 
-      /**
-       * Returns a cloned object
-       * @param  {object} obj
-       * @return {object}     cloned object
-       */
-      cloneObject: function cloneObject(obj) {
-          if (obj === null || (typeof obj === 'undefined' ? 'undefined' : babelHelpers_typeof(obj)) !== 'object') return obj;
-          var temp = obj.constructor(); // give temp the original obj's constructor
-          for (var key in obj) {
-              temp[key] = this.cloneObject(obj[key]);
-          }
-          return temp;
-      },
-      urlRegex: function urlRegex() {
-          return (/((href|src)=["']|)(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])|(?:https?:\/\/)?(?:(?:0rz\.tw)|(?:1link\.in)|(?:1url\.com)|(?:2\.gp)|(?:2big\.at)|(?:2tu\.us)|(?:3\.ly)|(?:307\.to)|(?:4ms\.me)|(?:4sq\.com)|(?:4url\.cc)|(?:6url\.com)|(?:7\.ly)|(?:a\.gg)|(?:a\.nf)|(?:aa\.cx)|(?:abcurl\.net)|(?:ad\.vu)|(?:adf\.ly)|(?:adjix\.com)|(?:afx\.cc)|(?:all\.fuseurl.com)|(?:alturl\.com)|(?:amzn\.to)|(?:ar\.gy)|(?:arst\.ch)|(?:atu\.ca)|(?:azc\.cc)|(?:b23\.ru)|(?:b2l\.me)|(?:bacn\.me)|(?:bcool\.bz)|(?:binged\.it)|(?:bit\.ly)|(?:buff\.ly)|(?:bizj\.us)|(?:bloat\.me)|(?:bravo\.ly)|(?:bsa\.ly)|(?:budurl\.com)|(?:canurl\.com)|(?:chilp\.it)|(?:chzb\.gr)|(?:cl\.lk)|(?:cl\.ly)|(?:clck\.ru)|(?:cli\.gs)|(?:cliccami\.info)|(?:clickthru\.ca)|(?:clop\.in)|(?:conta\.cc)|(?:cort\.as)|(?:cot\.ag)|(?:crks\.me)|(?:ctvr\.us)|(?:cutt\.us)|(?:dai\.ly)|(?:decenturl\.com)|(?:dfl8\.me)|(?:digbig\.com)|(?:digg\.com)|(?:disq\.us)|(?:dld\.bz)|(?:dlvr\.it)|(?:do\.my)|(?:doiop\.com)|(?:dopen\.us)|(?:easyuri\.com)|(?:easyurl\.net)|(?:eepurl\.com)|(?:eweri\.com)|(?:fa\.by)|(?:fav\.me)|(?:fb\.me)|(?:fbshare\.me)|(?:ff\.im)|(?:fff\.to)|(?:fire\.to)|(?:firsturl\.de)|(?:firsturl\.net)|(?:flic\.kr)|(?:flq\.us)|(?:fly2\.ws)|(?:fon\.gs)|(?:freak\.to)|(?:fuseurl\.com)|(?:fuzzy\.to)|(?:fwd4\.me)|(?:fwib\.net)|(?:g\.ro.lt)|(?:gizmo\.do)|(?:gl\.am)|(?:go\.9nl.com)|(?:go\.ign.com)|(?:go\.usa.gov)|(?:goo\.gl)|(?:goshrink\.com)|(?:gurl\.es)|(?:hex\.io)|(?:hiderefer\.com)|(?:hmm\.ph)|(?:href\.in)|(?:hsblinks\.com)|(?:htxt\.it)|(?:huff\.to)|(?:hulu\.com)|(?:hurl\.me)|(?:hurl\.ws)|(?:icanhaz\.com)|(?:idek\.net)|(?:ilix\.in)|(?:is\.gd)|(?:its\.my)|(?:ix\.lt)|(?:j\.mp)|(?:jijr\.com)|(?:kl\.am)|(?:klck\.me)|(?:korta\.nu)|(?:krunchd\.com)|(?:l9k\.net)|(?:lat\.ms)|(?:liip\.to)|(?:liltext\.com)|(?:linkbee\.com)|(?:linkbun\.ch)|(?:liurl\.cn)|(?:ln-s\.net)|(?:ln-s\.ru)|(?:lnk\.gd)|(?:lnk\.ms)|(?:lnkd\.in)|(?:lnkurl\.com)|(?:lru\.jp)|(?:lt\.tl)|(?:lurl\.no)|(?:macte\.ch)|(?:mash\.to)|(?:merky\.de)|(?:migre\.me)|(?:miniurl\.com)|(?:minurl\.fr)|(?:mke\.me)|(?:moby\.to)|(?:moourl\.com)|(?:mrte\.ch)|(?:myloc\.me)|(?:myurl\.in)|(?:n\.pr)|(?:nbc\.co)|(?:nblo\.gs)|(?:nn\.nf)|(?:not\.my)|(?:notlong\.com)|(?:nsfw\.in)|(?:nutshellurl\.com)|(?:nxy\.in)|(?:nyti\.ms)|(?:o-x\.fr)|(?:oc1\.us)|(?:om\.ly)|(?:omf\.gd)|(?:omoikane\.net)|(?:on\.cnn.com)|(?:on\.mktw.net)|(?:onforb\.es)|(?:orz\.se)|(?:ow\.ly)|(?:ping\.fm)|(?:pli\.gs)|(?:pnt\.me)|(?:politi\.co)|(?:post\.ly)|(?:pp\.gg)|(?:profile\.to)|(?:ptiturl\.com)|(?:pub\.vitrue.com)|(?:qlnk\.net)|(?:qte\.me)|(?:qu\.tc)|(?:qy\.fi)|(?:r\.im)|(?:rb6\.me)|(?:read\.bi)|(?:readthis\.ca)|(?:reallytinyurl\.com)|(?:redir\.ec)|(?:redirects\.ca)|(?:redirx\.com)|(?:retwt\.me)|(?:ri\.ms)|(?:rickroll\.it)|(?:riz\.gd)|(?:rt\.nu)|(?:ru\.ly)|(?:rubyurl\.com)|(?:rurl\.org)|(?:rww\.tw)|(?:s4c\.in)|(?:s7y\.us)|(?:safe\.mn)|(?:sameurl\.com)|(?:sdut\.us)|(?:shar\.es)|(?:shink\.de)|(?:shorl\.com)|(?:short\.ie)|(?:short\.to)|(?:shortlinks\.co.uk)|(?:shorturl\.com)|(?:shout\.to)|(?:show\.my)|(?:shrinkify\.com)|(?:shrinkr\.com)|(?:shrt\.fr)|(?:shrt\.st)|(?:shrten\.com)|(?:shrunkin\.com)|(?:simurl\.com)|(?:slate\.me)|(?:smallr\.com)|(?:smsh\.me)|(?:smurl\.name)|(?:sn\.im)|(?:snipr\.com)|(?:snipurl\.com)|(?:snurl\.com)|(?:sp2\.ro)|(?:spedr\.com)|(?:srnk\.net)|(?:srs\.li)|(?:starturl\.com)|(?:su\.pr)|(?:surl\.co.uk)|(?:surl\.hu)|(?:t\.cn)|(?:t\.co)|(?:t\.lh.com)|(?:ta\.gd)|(?:tbd\.ly)|(?:tcrn\.ch)|(?:tgr\.me)|(?:tgr\.ph)|(?:tighturl\.com)|(?:tiniuri\.com)|(?:tiny\.cc)|(?:tiny\.ly)|(?:tiny\.pl)|(?:tinylink\.in)|(?:tinyuri\.ca)|(?:tinyurl\.com)|(?:tl\.gd)|(?:tmi\.me)|(?:tnij\.org)|(?:tnw\.to)|(?:tny\.com)|(?:to\.ly)|(?:togoto\.us)|(?:totc\.us)|(?:toysr\.us)|(?:tpm\.ly)|(?:tr\.im)|(?:tra\.kz)|(?:trunc\.it)|(?:twhub\.com)|(?:twirl\.at)|(?:twitclicks\.com)|(?:twitterurl\.net)|(?:twitterurl\.org)|(?:twiturl\.de)|(?:twurl\.cc)|(?:twurl\.nl)|(?:u\.mavrev.com)|(?:u\.nu)|(?:u76\.org)|(?:ub0\.cc)|(?:ulu\.lu)|(?:updating\.me)|(?:ur1\.ca)|(?:url\.az)|(?:url\.co.uk)|(?:url\.ie)|(?:url360\.me)|(?:url4\.eu)|(?:urlborg\.com)|(?:urlbrief\.com)|(?:urlcover\.com)|(?:urlcut\.com)|(?:urlenco\.de)|(?:urli\.nl)|(?:urls\.im)|(?:urlshorteningservicefortwitter\.com)|(?:urlx\.ie)|(?:urlzen\.com)|(?:usat\.ly)|(?:use\.my)|(?:vb\.ly)|(?:vgn\.am)|(?:vl\.am)|(?:vm\.lc)|(?:w55\.de)|(?:wapo\.st)|(?:wapurl\.co.uk)|(?:wipi\.es)|(?:wp\.me)|(?:x\.vu)|(?:xr\.com)|(?:xrl\.in)|(?:xrl\.us)|(?:xurl\.es)|(?:xurl\.jp)|(?:y\.ahoo.it)|(?:yatuc\.com)|(?:ye\.pe)|(?:yep\.it)|(?:yfrog\.com)|(?:yhoo\.it)|(?:yiyd\.com)|(?:youtu\.be)|(?:yuarel\.com)|(?:z0p\.de)|(?:zi\.ma)|(?:zi\.mu)|(?:zipmyurl\.com)|(?:zud\.me)|(?:zurl\.ws)|(?:zz\.gd)|(?:zzang\.kr)|(?:›\.ws)|(?:✩\.ws)|(?:✿\.ws)|(?:❥\.ws)|(?:➔\.ws)|(?:➞\.ws)|(?:➡\.ws)|(?:➨\.ws)|(?:➯\.ws)|(?:➹\.ws)|(?:➽\.ws))\/[a-z0-9]*/gi
-          );
-      }
+  	/**
+    * Returns a cloned object
+    * @param  {object} obj
+    * @return {object}     cloned object
+    */
+  	cloneObject: function cloneObject(obj) {
+  		if (obj === null || (typeof obj === 'undefined' ? 'undefined' : babelHelpers_typeof(obj)) !== 'object') return obj;
+  		var temp = obj.constructor(); // give temp the original obj's constructor
+  		for (var key in obj) {
+  			temp[key] = this.cloneObject(obj[key]);
+  		}
+  		return temp;
+  	},
+  	urlRegex: function urlRegex() {
+  		return (/((href|src)=["']|)(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])|(?:https?:\/\/)?(?:(?:0rz\.tw)|(?:1link\.in)|(?:1url\.com)|(?:2\.gp)|(?:2big\.at)|(?:2tu\.us)|(?:3\.ly)|(?:307\.to)|(?:4ms\.me)|(?:4sq\.com)|(?:4url\.cc)|(?:6url\.com)|(?:7\.ly)|(?:a\.gg)|(?:a\.nf)|(?:aa\.cx)|(?:abcurl\.net)|(?:ad\.vu)|(?:adf\.ly)|(?:adjix\.com)|(?:afx\.cc)|(?:all\.fuseurl.com)|(?:alturl\.com)|(?:amzn\.to)|(?:ar\.gy)|(?:arst\.ch)|(?:atu\.ca)|(?:azc\.cc)|(?:b23\.ru)|(?:b2l\.me)|(?:bacn\.me)|(?:bcool\.bz)|(?:binged\.it)|(?:bit\.ly)|(?:buff\.ly)|(?:bizj\.us)|(?:bloat\.me)|(?:bravo\.ly)|(?:bsa\.ly)|(?:budurl\.com)|(?:canurl\.com)|(?:chilp\.it)|(?:chzb\.gr)|(?:cl\.lk)|(?:cl\.ly)|(?:clck\.ru)|(?:cli\.gs)|(?:cliccami\.info)|(?:clickthru\.ca)|(?:clop\.in)|(?:conta\.cc)|(?:cort\.as)|(?:cot\.ag)|(?:crks\.me)|(?:ctvr\.us)|(?:cutt\.us)|(?:dai\.ly)|(?:decenturl\.com)|(?:dfl8\.me)|(?:digbig\.com)|(?:digg\.com)|(?:disq\.us)|(?:dld\.bz)|(?:dlvr\.it)|(?:do\.my)|(?:doiop\.com)|(?:dopen\.us)|(?:easyuri\.com)|(?:easyurl\.net)|(?:eepurl\.com)|(?:eweri\.com)|(?:fa\.by)|(?:fav\.me)|(?:fb\.me)|(?:fbshare\.me)|(?:ff\.im)|(?:fff\.to)|(?:fire\.to)|(?:firsturl\.de)|(?:firsturl\.net)|(?:flic\.kr)|(?:flq\.us)|(?:fly2\.ws)|(?:fon\.gs)|(?:freak\.to)|(?:fuseurl\.com)|(?:fuzzy\.to)|(?:fwd4\.me)|(?:fwib\.net)|(?:g\.ro.lt)|(?:gizmo\.do)|(?:gl\.am)|(?:go\.9nl.com)|(?:go\.ign.com)|(?:go\.usa.gov)|(?:goo\.gl)|(?:goshrink\.com)|(?:gurl\.es)|(?:hex\.io)|(?:hiderefer\.com)|(?:hmm\.ph)|(?:href\.in)|(?:hsblinks\.com)|(?:htxt\.it)|(?:huff\.to)|(?:hulu\.com)|(?:hurl\.me)|(?:hurl\.ws)|(?:icanhaz\.com)|(?:idek\.net)|(?:ilix\.in)|(?:is\.gd)|(?:its\.my)|(?:ix\.lt)|(?:j\.mp)|(?:jijr\.com)|(?:kl\.am)|(?:klck\.me)|(?:korta\.nu)|(?:krunchd\.com)|(?:l9k\.net)|(?:lat\.ms)|(?:liip\.to)|(?:liltext\.com)|(?:linkbee\.com)|(?:linkbun\.ch)|(?:liurl\.cn)|(?:ln-s\.net)|(?:ln-s\.ru)|(?:lnk\.gd)|(?:lnk\.ms)|(?:lnkd\.in)|(?:lnkurl\.com)|(?:lru\.jp)|(?:lt\.tl)|(?:lurl\.no)|(?:macte\.ch)|(?:mash\.to)|(?:merky\.de)|(?:migre\.me)|(?:miniurl\.com)|(?:minurl\.fr)|(?:mke\.me)|(?:moby\.to)|(?:moourl\.com)|(?:mrte\.ch)|(?:myloc\.me)|(?:myurl\.in)|(?:n\.pr)|(?:nbc\.co)|(?:nblo\.gs)|(?:nn\.nf)|(?:not\.my)|(?:notlong\.com)|(?:nsfw\.in)|(?:nutshellurl\.com)|(?:nxy\.in)|(?:nyti\.ms)|(?:o-x\.fr)|(?:oc1\.us)|(?:om\.ly)|(?:omf\.gd)|(?:omoikane\.net)|(?:on\.cnn.com)|(?:on\.mktw.net)|(?:onforb\.es)|(?:orz\.se)|(?:ow\.ly)|(?:ping\.fm)|(?:pli\.gs)|(?:pnt\.me)|(?:politi\.co)|(?:post\.ly)|(?:pp\.gg)|(?:profile\.to)|(?:ptiturl\.com)|(?:pub\.vitrue.com)|(?:qlnk\.net)|(?:qte\.me)|(?:qu\.tc)|(?:qy\.fi)|(?:r\.im)|(?:rb6\.me)|(?:read\.bi)|(?:readthis\.ca)|(?:reallytinyurl\.com)|(?:redir\.ec)|(?:redirects\.ca)|(?:redirx\.com)|(?:retwt\.me)|(?:ri\.ms)|(?:rickroll\.it)|(?:riz\.gd)|(?:rt\.nu)|(?:ru\.ly)|(?:rubyurl\.com)|(?:rurl\.org)|(?:rww\.tw)|(?:s4c\.in)|(?:s7y\.us)|(?:safe\.mn)|(?:sameurl\.com)|(?:sdut\.us)|(?:shar\.es)|(?:shink\.de)|(?:shorl\.com)|(?:short\.ie)|(?:short\.to)|(?:shortlinks\.co.uk)|(?:shorturl\.com)|(?:shout\.to)|(?:show\.my)|(?:shrinkify\.com)|(?:shrinkr\.com)|(?:shrt\.fr)|(?:shrt\.st)|(?:shrten\.com)|(?:shrunkin\.com)|(?:simurl\.com)|(?:slate\.me)|(?:smallr\.com)|(?:smsh\.me)|(?:smurl\.name)|(?:sn\.im)|(?:snipr\.com)|(?:snipurl\.com)|(?:snurl\.com)|(?:sp2\.ro)|(?:spedr\.com)|(?:srnk\.net)|(?:srs\.li)|(?:starturl\.com)|(?:su\.pr)|(?:surl\.co.uk)|(?:surl\.hu)|(?:t\.cn)|(?:t\.co)|(?:t\.lh.com)|(?:ta\.gd)|(?:tbd\.ly)|(?:tcrn\.ch)|(?:tgr\.me)|(?:tgr\.ph)|(?:tighturl\.com)|(?:tiniuri\.com)|(?:tiny\.cc)|(?:tiny\.ly)|(?:tiny\.pl)|(?:tinylink\.in)|(?:tinyuri\.ca)|(?:tinyurl\.com)|(?:tl\.gd)|(?:tmi\.me)|(?:tnij\.org)|(?:tnw\.to)|(?:tny\.com)|(?:to\.ly)|(?:togoto\.us)|(?:totc\.us)|(?:toysr\.us)|(?:tpm\.ly)|(?:tr\.im)|(?:tra\.kz)|(?:trunc\.it)|(?:twhub\.com)|(?:twirl\.at)|(?:twitclicks\.com)|(?:twitterurl\.net)|(?:twitterurl\.org)|(?:twiturl\.de)|(?:twurl\.cc)|(?:twurl\.nl)|(?:u\.mavrev.com)|(?:u\.nu)|(?:u76\.org)|(?:ub0\.cc)|(?:ulu\.lu)|(?:updating\.me)|(?:ur1\.ca)|(?:url\.az)|(?:url\.co.uk)|(?:url\.ie)|(?:url360\.me)|(?:url4\.eu)|(?:urlborg\.com)|(?:urlbrief\.com)|(?:urlcover\.com)|(?:urlcut\.com)|(?:urlenco\.de)|(?:urli\.nl)|(?:urls\.im)|(?:urlshorteningservicefortwitter\.com)|(?:urlx\.ie)|(?:urlzen\.com)|(?:usat\.ly)|(?:use\.my)|(?:vb\.ly)|(?:vgn\.am)|(?:vl\.am)|(?:vm\.lc)|(?:w55\.de)|(?:wapo\.st)|(?:wapurl\.co.uk)|(?:wipi\.es)|(?:wp\.me)|(?:x\.vu)|(?:xr\.com)|(?:xrl\.in)|(?:xrl\.us)|(?:xurl\.es)|(?:xurl\.jp)|(?:y\.ahoo.it)|(?:yatuc\.com)|(?:ye\.pe)|(?:yep\.it)|(?:yfrog\.com)|(?:yhoo\.it)|(?:yiyd\.com)|(?:youtu\.be)|(?:yuarel\.com)|(?:z0p\.de)|(?:zi\.ma)|(?:zi\.mu)|(?:zipmyurl\.com)|(?:zud\.me)|(?:zurl\.ws)|(?:zz\.gd)|(?:zzang\.kr)|(?:›\.ws)|(?:✩\.ws)|(?:✿\.ws)|(?:❥\.ws)|(?:➔\.ws)|(?:➞\.ws)|(?:➡\.ws)|(?:➨\.ws)|(?:➯\.ws)|(?:➹\.ws)|(?:➽\.ws))\/[a-z0-9]*/gi
+  		);
+  	}
   };
 
   var hasOwn = Object.prototype.hasOwnProperty;
@@ -1780,128 +1780,129 @@
   })(Base);
 
   var SlideShare = (function () {
-      function SlideShare(input, output, options, embeds) {
-          babelHelpers_classCallCheck(this, SlideShare);
+  	function SlideShare(input, output, options, embeds) {
+  		babelHelpers_classCallCheck(this, SlideShare);
 
-          this.input = input;
-          this.output = output;
-          this.options = options;
-          this.embeds = embeds;
-          this.regex = /slideshare.net\/[a-zA-Z0-9_-]*\/[a-zA-Z0-9_-]*/gi;
-          this.service = 'slideshare';
-      }
+  		this.input = input;
+  		this.output = output;
+  		this.options = options;
+  		this.embeds = embeds;
+  		this.regex = /slideshare.net\/[a-zA-Z0-9_-]*\/[a-zA-Z0-9_-]*/gi;
+  		this.service = 'slideshare';
+  	}
 
-      babelHelpers_createClass(SlideShare, [{
-          key: 'template',
-          value: function template(html) {
-              return ejs.template.slideShare(html, this.options) || '<div class="ejs-embed ejs-slideshare">' + html + '</div>';
-          }
-      }, {
-          key: 'process',
-          value: (function () {
-              var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-                  return regeneratorRuntime.wrap(function _callee$(_context) {
-                      while (1) {
-                          switch (_context.prev = _context.next) {
-                              case 0:
-                                  if (utils.ifInline(this.options, this.service)) {
-                                      _context.next = 6;
-                                      break;
-                                  }
+  	babelHelpers_createClass(SlideShare, [{
+  		key: 'template',
+  		value: function template(html) {
+  			return ejs.template.slideShare(html, this.options) || '<div class="ejs-embed ejs-slideshare">' + html + '</div>';
+  		}
+  	}, {
+  		key: 'process',
+  		value: (function () {
+  			var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+  				return regeneratorRuntime.wrap(function _callee$(_context) {
+  					while (1) {
+  						switch (_context.prev = _context.next) {
+  							case 0:
+  								if (utils.ifInline(this.options, this.service)) {
+  									_context.next = 6;
+  									break;
+  								}
 
-                                  _context.next = 3;
-                                  return helper.inlineEmbed(this, SlideShare.urlToText);
+  								_context.next = 3;
+  								return helper.inlineEmbed(this, SlideShare.urlToText);
 
-                              case 3:
-                                  this.output = _context.sent;
-                                  _context.next = 9;
-                                  break;
+  							case 3:
+  								this.output = _context.sent;
+  								_context.next = 9;
+  								break;
 
-                              case 6:
-                                  _context.next = 8;
-                                  return helper.normalEmbed(this, SlideShare.urlToText);
+  							case 6:
+  								_context.next = 8;
+  								return helper.normalEmbed(this, SlideShare.urlToText);
 
-                              case 8:
-                                  this.embeds = _context.sent;
+  							case 8:
+  								this.embeds = _context.sent;
 
-                              case 9:
-                                  return _context.abrupt('return', [this.output, this.embeds]);
+  							case 9:
+  								return _context.abrupt('return', [this.output, this.embeds]);
 
-                              case 10:
-                              case 'end':
-                                  return _context.stop();
-                          }
-                      }
-                  }, _callee, this);
-              }));
-              return function process() {
-                  return ref.apply(this, arguments);
-              };
-          })()
-      }], [{
-          key: 'fetchData',
-          value: (function () {
-              var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee2(url) {
-                  var api, response, data;
-                  return regeneratorRuntime.wrap(function _callee2$(_context2) {
-                      while (1) {
-                          switch (_context2.prev = _context2.next) {
-                              case 0:
-                                  api = 'http://www.slideshare.net/api/oembed/2?url=' + url + '&format=jsonp';
-                                  _context2.next = 3;
-                                  return fetchJsonp(api, {
-                                      credentials: 'include'
-                                  });
+  							case 10:
+  							case 'end':
+  								return _context.stop();
+  						}
+  					}
+  				}, _callee, this);
+  			}));
+  			return function process() {
+  				return ref.apply(this, arguments);
+  			};
+  		})()
+  	}], [{
+  		key: 'fetchData',
+  		value: (function () {
+  			var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee2(_this, url) {
+  				var dimensions, api, response, data;
+  				return regeneratorRuntime.wrap(function _callee2$(_context2) {
+  					while (1) {
+  						switch (_context2.prev = _context2.next) {
+  							case 0:
+  								dimensions = utils.dimensions(_this.options);
+  								api = 'http://www.slideshare.net/api/oembed/2?url=' + url + '&format=jsonp&maxwidth=' + dimensions.width + '&maxheight=' + dimensions.height;
+  								_context2.next = 4;
+  								return fetchJsonp(api, {
+  									credentials: 'include'
+  								});
 
-                              case 3:
-                                  response = _context2.sent;
-                                  _context2.next = 6;
-                                  return response.json();
+  							case 4:
+  								response = _context2.sent;
+  								_context2.next = 7;
+  								return response.json();
 
-                              case 6:
-                                  data = _context2.sent;
-                                  return _context2.abrupt('return', data.html);
+  							case 7:
+  								data = _context2.sent;
+  								return _context2.abrupt('return', data.html);
 
-                              case 8:
-                              case 'end':
-                                  return _context2.stop();
-                          }
-                      }
-                  }, _callee2, this);
-              }));
-              return function fetchData(_x) {
-                  return ref.apply(this, arguments);
-              };
-          })()
-      }, {
-          key: 'urlToText',
-          value: (function () {
-              var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee3(_this, match, url) {
-                  var html;
-                  return regeneratorRuntime.wrap(function _callee3$(_context3) {
-                      while (1) {
-                          switch (_context3.prev = _context3.next) {
-                              case 0:
-                                  _context3.next = 2;
-                                  return SlideShare.fetchData(url);
+  							case 9:
+  							case 'end':
+  								return _context2.stop();
+  						}
+  					}
+  				}, _callee2, this);
+  			}));
+  			return function fetchData(_x, _x2) {
+  				return ref.apply(this, arguments);
+  			};
+  		})()
+  	}, {
+  		key: 'urlToText',
+  		value: (function () {
+  			var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee3(_this, match, url) {
+  				var html;
+  				return regeneratorRuntime.wrap(function _callee3$(_context3) {
+  					while (1) {
+  						switch (_context3.prev = _context3.next) {
+  							case 0:
+  								_context3.next = 2;
+  								return SlideShare.fetchData(_this, url);
 
-                              case 2:
-                                  html = _context3.sent;
-                                  return _context3.abrupt('return', _this.template(html));
+  							case 2:
+  								html = _context3.sent;
+  								return _context3.abrupt('return', _this.template(html));
 
-                              case 4:
-                              case 'end':
-                                  return _context3.stop();
-                          }
-                      }
-                  }, _callee3, this);
-              }));
-              return function urlToText(_x2, _x3, _x4) {
-                  return ref.apply(this, arguments);
-              };
-          })()
-      }]);
-      return SlideShare;
+  							case 4:
+  							case 'end':
+  								return _context3.stop();
+  						}
+  					}
+  				}, _callee3, this);
+  			}));
+  			return function urlToText(_x3, _x4, _x5) {
+  				return ref.apply(this, arguments);
+  			};
+  		})()
+  	}]);
+  	return SlideShare;
   })();
 
   var Instagram = (function (_Base) {

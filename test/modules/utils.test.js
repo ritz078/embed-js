@@ -193,3 +193,17 @@ describe('dimensions() method', function() {
 
     });
 });
+
+describe('urlRegex() method', function(){
+    it('should return a regex', function(){
+        expect(utils.urlRegex()).to.be.an.instanceof(RegExp);
+    });
+
+    it('should match url like http://rkritesh.com/embed.js', function(){
+        expect('http://rkritesh.com/embed.js').to.match(utils.urlRegex())
+    });
+
+    it('should match url like ftp://something.com', function(){
+        expect('ftp://something.com').to.match(utils.urlRegex())
+    });
+})

@@ -16,6 +16,6 @@ var config = {
             include: 'node_modules/**'
         })
     ]
-}
+};
 
-module.exports = config
+module.exports = config;

@@ -1,12 +1,9 @@
 'use strict';
 
-var babelHelpers = {};
-
-babelHelpers.typeof = function (obj) {
+function babelHelpers_typeof (obj) {
   return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
 
-babelHelpers;
 var utils = {
 
     /**
@@ -149,7 +146,7 @@ var utils = {
      * @return {object}     cloned object
      */
     cloneObject: function cloneObject(obj) {
-        if (obj === null || (typeof obj === 'undefined' ? 'undefined' : babelHelpers.typeof(obj)) !== 'object') return obj;
+        if (obj === null || (typeof obj === 'undefined' ? 'undefined' : babelHelpers_typeof(obj)) !== 'object') return obj;
         var temp = obj.constructor(); // give temp the original obj's constructor
         for (var key in obj) {
             temp[key] = this.cloneObject(obj[key]);
@@ -357,5 +354,19 @@ describe('dimensions() method', function () {
         };
 
         expect(utils.dimensions(options2)).to.eql(result);
+    });
+});
+
+describe('urlRegex() method', function () {
+    it('should return a regex', function () {
+        expect(utils.urlRegex()).to.be.an.instanceof(RegExp);
+    });
+
+    it('should match url like http://rkritesh.com/embed.js', function () {
+        expect('http://rkritesh.com/embed.js').to.match(utils.urlRegex());
+    });
+
+    it('should match url like ftp://something.com', function () {
+        expect('ftp://something.com').to.match(utils.urlRegex());
     });
 });
