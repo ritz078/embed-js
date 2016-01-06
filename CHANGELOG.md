@@ -1,3 +1,13 @@
+<a name="3.7.0"></a>
+# [3.7.0](https://github.com/ritz078/embed.js/compare/v3.7.0...v3.7.0) (2016-01-06)
+
+
+### Bug Fixes
+
+* **release:** fix version number in build files ([aea6b89](https://github.com/ritz078/embed.js/commit/aea6b89))
+
+
+
 Version 3.7.0
 -------------
 ####Feature

@@ -212,6 +212,18 @@ module.exports = function (grunt) {
 				pushTo       : 'origin',
 				updateConfigs: ['pkg']
 			}
+		},
+
+		conventionalChangelog: {
+			options: {
+				changelogOpts: {
+					// conventional-changelog options go here
+					preset: 'angular'
+				}
+			},
+			release: {
+				src: 'CHANGELOG.md'
+			}
 		}
 	});
 
@@ -228,13 +240,15 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-bump');
 	grunt.loadNpmTasks("grunt-contrib-copy");
 	grunt.loadNpmTasks("grunt-string-replace");
+	grunt.loadNpmTasks('grunt-conventional-changelog');
 
 	grunt.registerTask("default", ["eslint", "rollup", "sass", "connect", "watch"]);
 	grunt.registerTask("build", ["clean", "build-emoji", "eslint", "rollup", "sass", "uglify", "string-replace", "postcss", "copy"]);
 	grunt.registerTask("build-emoji", ["retinafy", "sprite", "sass"]);
 	grunt.registerTask("dist", ["clean", "eslint", "rollup", "sass", "uglify", "string-replace", "postcss", "copy"]);
+
 	grunt.registerTask("release", function (option) {
-		grunt.task.run(["bump-only:" + option, "dist","changelog", "bump-commit"]);
+		grunt.task.run(["bump-only:" + option, "dist","conventionalChangelog", "bump-commit"]);
 		exec('npm publish', function (err, stdout, stderr) {
 			if (err) {
 				grunt.fatal('Can not publish to NPM:\n  ' + stderr);
