@@ -6,6 +6,8 @@ module.exports = function (grunt) {
 	var replace  = require('rollup-plugin-replace');
 	var build    = require('./build.json');
 
+	var exec = require('child_process').exec;
+
 	grunt.initConfig({
 
 		// Import package manifest
@@ -205,9 +207,10 @@ module.exports = function (grunt) {
 
 		bump: {
 			options: {
-				files             : ['package.json','bower.json'],
-				commitFiles       : ['-a'],
-				pushTo            : 'origin'
+				files        : ['package.json', 'bower.json'],
+				commitFiles  : ['-a'],
+				pushTo       : 'origin',
+				updateConfigs: ['pkg']
 			}
 		}
 	});
@@ -230,7 +233,13 @@ module.exports = function (grunt) {
 	grunt.registerTask("build", ["clean", "build-emoji", "eslint", "rollup", "sass", "uglify", "string-replace", "postcss", "copy"]);
 	grunt.registerTask("build-emoji", ["retinafy", "sprite", "sass"]);
 	grunt.registerTask("dist", ["clean", "eslint", "rollup", "sass", "uglify", "string-replace", "postcss", "copy"]);
-	grunt.registerTask("release", function(option){
-		grunt.task.run(["bump-only:"+ option, "dist", "bump-commit"])
+	grunt.registerTask("release", function (option) {
+		grunt.task.run(["bump-only:" + option, "dist","changelog", "bump-commit"]);
+		exec('npm publish', function (err, stdout, stderr) {
+			if (err) {
+				grunt.fatal('Can not publish to NPM:\n  ' + stderr);
+			}
+			grunt.log.ok('Published to NPM ');
+		});
 	})
 };
