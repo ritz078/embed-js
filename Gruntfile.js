@@ -231,6 +231,6 @@ module.exports = function (grunt) {
 	grunt.registerTask("build-emoji", ["retinafy", "sprite", "sass"]);
 	grunt.registerTask("dist", ["clean", "eslint", "rollup", "sass", "uglify", "string-replace", "postcss", "copy"]);
 	grunt.registerTask("release", function(option){
-		return ["bump-only:"+ option, "dist", "bump-commit"]
+		grunt.task.run(["bump-only:"+ option, "dist", "bump-commit"])
 	})
 };
