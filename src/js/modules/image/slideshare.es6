@@ -1,7 +1,7 @@
-import utils from '../utils.es6'
+import utils                   from '../utils.es6'
 import '../../vendor/fetch.js'
-import helper from './../helper.es6'
-import fetchJsonp from '../../vendor/fetch_jsonp.js'
+import helper                  from './../helper.es6'
+import fetchJsonp              from '../../vendor/fetch_jsonp.js'
 
 export default class SlideShare {
     constructor(input, output, options, embeds) {
@@ -35,17 +35,7 @@ export default class SlideShare {
         if (!utils.ifInline(this.options, this.service)) {
             this.output = await helper.inlineEmbed(this, SlideShare.urlToText);
         } else {
-            let match;
-            while ((match = utils.matches(this.regex, this.input)) !== null) {
-                if (this.options.served.indexOf(match[0]) === -1) {
-                    let html = await SlideShare.fetchData(match[0])
-                    let text = this.template(html);
-                    this.embeds.push({
-                        text: text,
-                        index: match.index
-                    })
-                }
-            }
+            this.embeds = await helper.normalEmbed(this, SlideShare.urlToText);
         }
         return [this.output, this.embeds]
     }

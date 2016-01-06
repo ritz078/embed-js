@@ -37,8 +37,8 @@ export default class Youtube {
 		}
 	}
 
-	static async urlToText(_this, match){
-		let id = match[2];
+	static async urlToText(_this, match, url, normalEmbed){
+		let id = normalEmbed ? match[1] : match[2];
 		let embedUrl = `https://www.youtube.com/embed/${id}`;
 		let data;
 		if (_this.options.videoDetails){
@@ -54,24 +54,7 @@ export default class Youtube {
 			if (!utils.ifInline(this.options, this.service)) {
 				this.output = await helper.inlineEmbed(this, Youtube.urlToText)
 			} else {
-				let match;
-				while ((match = utils.matches(this.regex, this.input)) !== null) {
-					if (this.options.served.indexOf(match[0]) !== -1) continue;
-					let id       = match[1];
-					let embedUrl = `https://www.youtube.com/embed/${id}`;
-					let data, text;
-					if (this.options.videoDetails) {
-						data = await this.data(id);
-						text = helper.getDetailsTemplate(Youtube.formatData(data, utils), data, embedUrl);
-					} else {
-						text = helper.template(embedUrl, this.options);
-					}
-
-					this.embeds.push({
-						text : text,
-						index: match.index
-					})
-				}
+				this.embeds = await helper.normalEmbed(this, Youtube.urlToText)
 			}
 
 		} catch (error) {
