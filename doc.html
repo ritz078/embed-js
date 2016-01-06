@@ -59,6 +59,13 @@
             visual             : false, //Show/hide the big preview image
             download           : false //Show/Hide download buttons
         },
+        openGraphEndpoint : 'http://127.0.0.1/${url}', // This may be even url of opengraph.io
+        openGraphExclude : ['youtube', 'github'],
+        onOpenGraphFetch : function(data){
+          // data is the response received from the server.
+          // Change to proper format and return the data
+          // {success:true, title:'', description:'', image:'',url:''}
+        }
         beforeEmbedJSApply : function() {},
         afterEmbedJSApply  : function() {},
         onVideoShow        : function() {},
@@ -101,7 +108,15 @@
     showReposts        : false,
     visual             : false, //Show/hide the big preview image
     download           : false //Show/Hide download buttons
-}</code></pre> <p>Options for soundcloud embedding.</p> <h5 id=beforeEmbedJSApply>beforeEmbedJSApply</h5> <span><b>Type</b> : Function</span> <br> <span><b>Default</b> : <code>function(){}</code></span> <p>A function to be executed before the plugin is executed.</p> <h5 id=afterEmbedJSApply>afterEmbedJSApply</h5> <span><b>Type</b> : Function</span> <br> <span><b>Default</b> : <code>function(){}</code></span> <p>A function to be executed after the plugin is executed.</p> <h5 id=onTweetsLoad>onTweetsLoad</h5> <span><b>Type</b> : Function</span> <br> <span><b>Default</b> : <code>function(){}</code></span> <p>A function to be executed after the tweets have been embedded.</p> <h5 id=videojsCallback>videojsCallback</h5> <span><b>Type</b> : Function</span> <br> <span><b>Default</b> : <code>function(){}</code></span> <p>A function to be executed after video.js has been applied.</p> </span></span></div> <footer> <span>Copyright &copy; 2015 &nbsp; | &nbsp; Made by <a href=https://twitter.com/ritz078 target=_blank>Ritesh Kumar</a></span> </footer>  <script src=scripts/vendor_docs.a6236245.js></script> <script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/highlight.min.js></script> <script src=scripts/docs.71c9fdfd.js></script> <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. --> <script>(function (b, o, i, l, e, r) {
+}</code></pre> <p>Options for soundcloud embedding.</p> <h5 id=openGraphEndpoint>openGraphEndpoint</h5> <span><b>Type</b> : string</span> <br> <span><b>Default</b> : <code>''</code></span> <p>For using the open graph support (fetching site's meta data) , you will have to set up your own server due to cross domain restrictions. This option takes the api template as the string where <code>url</code> is a variable. </p> <h5 id=openGraphExclude>openGraphExclude</h5> <span><b>Type</b> : array</span> <br> <span><b>Default</b> : <code>[]</code></span> <p>Urls that have the array items in their string won't be processed by the openGraph API.</p> <h5 id=openGraphFetch>openGraphFetch</h5> <span><b>Type</b> : Function</span> <br> <span><b>Default</b> : <code>function(data)</code></span> <p>The data received from the server may need some modifications in structure that is supported by embed.js before being processed. You can do those changes here. The supported structure for success is <code> <pre>
+{
+  success:true,
+  title:string,
+  description:string,
+  image:string,
+  url:string
+}
+            </pre> </code> For error the structure is <code>{success:false}</code> </p> <h5 id=beforeEmbedJSApply>beforeEmbedJSApply</h5> <span><b>Type</b> : Function</span> <br> <span><b>Default</b> : <code>function(){}</code></span> <p>A function to be executed before the plugin is executed.</p> <h5 id=afterEmbedJSApply>afterEmbedJSApply</h5> <span><b>Type</b> : Function</span> <br> <span><b>Default</b> : <code>function(){}</code></span> <p>A function to be executed after the plugin is executed.</p> <h5 id=onTweetsLoad>onTweetsLoad</h5> <span><b>Type</b> : Function</span> <br> <span><b>Default</b> : <code>function(){}</code></span> <p>A function to be executed after the tweets have been embedded.</p> <h5 id=videojsCallback>videojsCallback</h5> <span><b>Type</b> : Function</span> <br> <span><b>Default</b> : <code>function(){}</code></span> <p>A function to be executed after video.js has been applied.</p> </span></span></div> <footer> <span>Copyright &copy; 2015 &nbsp; | &nbsp; Made by <a href=https://twitter.com/ritz078 target=_blank>Ritesh Kumar</a></span> </footer>  <script src=scripts/vendor_docs.a6236245.js></script> <script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/highlight.min.js></script> <script src=scripts/docs.71c9fdfd.js></script> <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. --> <script>(function (b, o, i, l, e, r) {
     b.GoogleAnalyticsObject = l;
     b[l] || (b[l] =
       function () {
