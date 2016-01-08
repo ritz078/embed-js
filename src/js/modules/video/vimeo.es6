@@ -1,5 +1,5 @@
 import utils from '../utils.es6'
-import helper from './../helper.es6'
+import { getDetailsTemplate, template, inlineEmbed, normalEmbed } from './../helper.es6'
 import '../../vendor/fetch.js'
 
 
@@ -51,9 +51,9 @@ export default class Vimeo {
         let data;
         if (_this.options.videoDetails) {
             data = await _this.data(id);
-            return helper.getDetailsTemplate(Vimeo.formatData(data, utils), data, embedUrl)
+            return getDetailsTemplate(Vimeo.formatData(data, utils), data, embedUrl)
         } else {
-            return helper.template(embedUrl, _this.options)
+            return template(embedUrl, _this.options)
         }
 
     }
@@ -61,9 +61,9 @@ export default class Vimeo {
     async process() {
         try {
             if (!utils.ifInline(this.options, this.service)) {
-                this.output = await helper.inlineEmbed(this, Vimeo.urlToText);
+                this.output = await inlineEmbed(this, Vimeo.urlToText);
             } else {
-                this.embeds = await helper.normalEmbed(this, Vimeo.urlToText);
+                this.embeds = await normalEmbed(this, Vimeo.urlToText);
             }
 
             return [this.output, this.embeds];

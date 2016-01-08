@@ -39,7 +39,7 @@ import SlideShare  from './modules/image/slideshare.es6'
 import OpenGraph   from './modules/openGraph.es6'
 import Github      from './modules/github.es6'
 
-import helper from './modules/helper.es6'
+import { applyVideoJS, playVideo, destroyVideos } from './modules/helper.es6'
 
 (function (window) {
 	var globalOptions = {};
@@ -293,9 +293,9 @@ import helper from './modules/helper.es6'
 			if (!this.element) throw new Error(`You didn't pass an element while creating this instance. render() method can't work without an element`);
 			this.element.innerHTML = await this.process();
 
-			helper.applyVideoJS(this.options);
+			applyVideoJS(this.options);
 
-			helper.play(this.options);
+			playVideo(this.options);
 
 			let event = new Event('rendered');
 			this.element.dispatchEvent(event);
@@ -320,7 +320,7 @@ import helper from './modules/helper.es6'
 		 */
 		destroy() {
 			if (!this.element) throw new Error(`destroy() method only if an element had been passed in the options object`);
-			helper.destroy('ejs-video-thumb');
+			destroyVideos('ejs-video-thumb');
 			this.element.removeEventListener('rendered', this.twitter.load(), false);
 			this.element.innerHTML = this.input
 		}

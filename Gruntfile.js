@@ -227,20 +227,7 @@ module.exports = function (grunt) {
 		}
 	});
 
-	grunt.loadNpmTasks("grunt-contrib-watch");
-	grunt.loadNpmTasks("grunt-postcss");
-	grunt.loadNpmTasks("grunt-contrib-clean");
-	grunt.loadNpmTasks("grunt-spritesmith");
-	grunt.loadNpmTasks('grunt-retinafy');
-	grunt.loadNpmTasks("grunt-contrib-sass");
-	grunt.loadNpmTasks("grunt-contrib-uglify");
-	grunt.loadNpmTasks("grunt-contrib-connect");
-	grunt.loadNpmTasks("grunt-rollup");
-	grunt.loadNpmTasks("grunt-eslint");
-	grunt.loadNpmTasks('grunt-bump');
-	grunt.loadNpmTasks("grunt-contrib-copy");
-	grunt.loadNpmTasks("grunt-string-replace");
-	grunt.loadNpmTasks('grunt-conventional-changelog');
+	require('load-grunt-tasks')(grunt);
 
 	grunt.registerTask("default", ["eslint", "rollup", "sass", "connect", "watch"]);
 	grunt.registerTask("build", ["clean", "build-emoji", "eslint", "rollup", "sass", "uglify", "string-replace", "postcss", "copy"]);

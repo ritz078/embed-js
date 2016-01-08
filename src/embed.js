@@ -13,11 +13,13 @@
   (factory());
 }(this, function () { 'use strict';
 
-  function babelHelpers_typeof (obj) {
-    return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
+  var babelHelpers_typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
+    return typeof obj;
+  } : function (obj) {
+    return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj;
   };
 
-  function babelHelpers_asyncToGenerator (fn) {
+  var babelHelpers_asyncToGenerator = function (fn) {
     return function () {
       var gen = fn.apply(this, arguments);
       return new Promise(function (resolve, reject) {
@@ -46,13 +48,13 @@
     };
   };
 
-  function babelHelpers_classCallCheck (instance, Constructor) {
+  var babelHelpers_classCallCheck = function (instance, Constructor) {
     if (!(instance instanceof Constructor)) {
       throw new TypeError("Cannot call a class as a function");
     }
   };
 
-  var babelHelpers_createClass = (function () {
+  var babelHelpers_createClass = function () {
     function defineProperties(target, props) {
       for (var i = 0; i < props.length; i++) {
         var descriptor = props[i];
@@ -68,9 +70,9 @@
       if (staticProps) defineProperties(Constructor, staticProps);
       return Constructor;
     };
-  })();
+  }();
 
-  function babelHelpers_inherits (subClass, superClass) {
+  var babelHelpers_inherits = function (subClass, superClass) {
     if (typeof superClass !== "function" && superClass !== null) {
       throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
     }
@@ -86,7 +88,7 @@
     if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
   };
 
-  function babelHelpers_possibleConstructorReturn (self, call) {
+  var babelHelpers_possibleConstructorReturn = function (self, call) {
     if (!self) {
       throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
     }
@@ -94,7 +96,7 @@
     return call && (typeof call === "object" || typeof call === "function") ? call : self;
   };
 
-  var babelHelpers_slicedToArray = (function () {
+  var babelHelpers_slicedToArray = function () {
     function sliceIterator(arr, i) {
       var _arr = [];
       var _n = true;
@@ -130,7 +132,7 @@
         throw new TypeError("Invalid attempt to destructure non-iterable instance");
       }
     };
-  })();
+  }();
 
   var utils = {
 
@@ -911,249 +913,248 @@
   };
   window.regeneratorRuntime = regeneratorRuntime$1;
 
-  var helper = {
-      /**
-       * Plays the video after clicking on the thumbnail
-       * @param  {string} className The class name on which click is to be listened
-       * @param  {object} options   Options object
-       * @return {null}
-       */
+  /**
+   * Plays the video after clicking on the thumbnail
+   * @param  {string} className The class name on which click is to be listened
+   * @param  {object} options   Options object
+   * @return {null}
+   */
+  function playVideo(options) {
+      /** Execute the customVideoClickHandler if the user wants to handle it on his own. */
+      if (options.customVideoClickHandler) return options.videoClickHandler(options, template);
 
-      play: function play(options) {
-          /** Execute the customVideoClickHandler if the user wants to handle it on his own. */
-          if (options.customVideoClickHandler) return options.videoClickHandler(options, this.template);
-
-          var classes = document.getElementsByClassName(options.videoClickClass);
-          var _this = this;
-          for (var i = 0; i < classes.length; i++) {
-              classes[i].onclick = function () {
-                  options.onVideoShow();
-                  var url = this.getAttribute('data-ejs-url') + "?autoplay=true";
-                  this.parentNode.parentNode.innerHTML = _this.template(url, options);
-              };
-          }
-      },
-
-      /**
-       * Common template for vimeo and youtube iframes
-       * @param  {string} url     URL of the embedding video
-       * @param  {object} options Options object
-       * @return {string}         compiled template with variables replaced
-       */
-      template: function template(url, options) {
-          var dimensions = utils.dimensions(options);
-          return ejs.template.vimeo(url, dimensions, options) || ejs.template.youtube(url, dimensions, options) || '<div class="ejs-video-player ejs-embed">\n        <iframe src="' + url + '" frameBorder="0" width="' + dimensions.width + '" height="' + dimensions.height + '"></iframe>\n        </div>';
-      },
-
-      /**
-       * Template for showing vimeo and youtube video details
-       * @param  {object} data     Object containing the variable values as key-value pair
-       * @param  {string} embedUrl URL of the video
-       * @return {string}          template with variables replaced
-       */
-      detailsTemplate: function detailsTemplate(data, embedUrl) {
-          return '<div class="ejs-video ejs-embed">\n        <div class="ejs-video-preview">\n        <div class="ejs-video-thumb" data-ejs-url="' + embedUrl + '">\n        <div class="ejs-thumb" style="background-image:url(' + data.thumbnail + ')"></div>\n        <i class="fa fa-play-circle-o"></i>\n        </div>\n        <div class="ejs-video-detail">\n        <div class="ejs-video-title">\n        <a href="' + data.url + '">\n        ' + data.title + '\n        </a>\n        </div>\n        <div class="ejs-video-desc">\n        ' + data.description + '\n        </div>\n        <div class="ejs-video-stats">\n        <span>\n        <i class="fa fa-eye"></i>' + data.views + '\n        </span>\n        <span>\n        <i class="fa fa-heart"></i>' + data.likes + '\n        </span>\n        </div>\n        </div>\n        </div>\n        </div>';
-      },
-      getDetailsTemplate: function getDetailsTemplate(data, fullData, embedUrl) {
-          if (data.host === 'vimeo') {
-              return ejs.template.detailsVimeo(data, fullData, embedUrl) || this.detailsTemplate(data, embedUrl);
-          } else if (data.host === 'youtube') {
-              return ejs.template.detailsYoutube(data, fullData, embedUrl) || this.detailsTemplate(data, embedUrl);
-          }
-      },
-
-      /**
-       * Applies video.js to all audio and video dynamically
-       * @param  {object} options Options object
-       * @return {null}
-       */
-      applyVideoJS: function applyVideoJS(options) {
-          var dimensions = utils.dimensions(options);
-          options.videojsOptions.width = dimensions.width;
-          options.videojsOptions.height = dimensions.height;
-          if (options.videoJS) {
-              if (!window.videojs) throw new ReferenceError("You have enabled videojs but you haven't loaded the library.Find it at http://videojs.com/");
-              var elements = options.element.getElementsByClassName('ejs-video-js');
-              for (var i = 0; i < elements.length; i++) {
-                  videojs(elements[i], options.videojsOptions, function () {
-                      return options.videojsCallback();
-                  });
-              }
-          }
-      },
-
-      /**
-       * Destroys the onclick event for opening the video template from the details template
-       * @param  {className} className
-       * @return {null}
-       */
-      destroy: function destroy(className) {
-          var classes = document.getElementsByClassName(className);
-          for (var i = 0; i < classes.length; i++) {
-              classes[i].onclick = null;
-          }
-      },
-
-      /**
-       * A helper function for inline embedding
-       * @param _this
-       * @param urlToText
-       * @returns {*}
-       */
-      inlineEmbed: function inlineEmbed(_this, urlToText) {
-          var _this2 = this;
-
-          return babelHelpers_asyncToGenerator(regeneratorRuntime$1.mark(function _callee() {
-              var regexInline, match, url, text;
-              return regeneratorRuntime$1.wrap(function _callee$(_context) {
-                  while (1) {
-                      switch (_context.prev = _context.next) {
-                          case 0:
-                              if (regeneratorRuntime$1) {
-                                  _context.next = 2;
-                                  break;
-                              }
-
-                              return _context.abrupt('return', _this.output);
-
-                          case 2:
-                              regexInline = _this.options.link ? new RegExp('([^>]*' + _this.regex.source + ')</a>', 'gi') : new RegExp('([^\\s]*' + _this.regex.source + ')', 'gi');
-                              match = undefined;
-
-                          case 4:
-                              if (!((match = utils.matches(regexInline, _this.output)) !== null)) {
-                                  _context.next = 21;
-                                  break;
-                              }
-
-                              url = (_this.options.link ? match[0].slice(0, -4) : match[0]) || match[1];
-
-                              if (!(_this.options.served.indexOf(url) !== -1)) {
-                                  _context.next = 8;
-                                  break;
-                              }
-
-                              return _context.abrupt('continue', 4);
-
-                          case 8:
-                              _context.next = 10;
-                              return urlToText(_this, match, url);
-
-                          case 10:
-                              text = _context.sent;
-
-                              if (text) {
-                                  _context.next = 13;
-                                  break;
-                              }
-
-                              return _context.abrupt('continue', 4);
-
-                          case 13:
-                              _this.options.served.push(url);
-
-                              if (!_this.options.link) {
-                                  _context.next = 18;
-                                  break;
-                              }
-
-                              return _context.abrupt('return', !_this.options.inlineText ? _this.output.replace(match[0], text + '</a>') : _this.output.replace(match[0], match[0] + text));
-
-                          case 18:
-                              return _context.abrupt('return', !_this.options.inlineText ? _this.output.replace(match[0], text) : _this.output.replace(match[0], match[0] + text));
-
-                          case 19:
-                              _context.next = 4;
-                              break;
-
-                          case 21:
-                              return _context.abrupt('return', _this.output);
-
-                          case 22:
-                          case 'end':
-                              return _context.stop();
-                      }
-                  }
-              }, _callee, _this2);
-          }))();
-      },
-
-      /**
-       * A helper function for normal embedding
-       * @param  {object} _this
-       * @param  {function} urlToText
-       * @return {array}
-       */
-      normalEmbed: function normalEmbed(_this, urlToText) {
-          var _this3 = this;
-
-          return babelHelpers_asyncToGenerator(regeneratorRuntime$1.mark(function _callee2() {
-              var match, _url, _text;
-
-              return regeneratorRuntime$1.wrap(function _callee2$(_context2) {
-                  while (1) {
-                      switch (_context2.prev = _context2.next) {
-                          case 0:
-                              if (regeneratorRuntime$1) {
-                                  _context2.next = 2;
-                                  break;
-                              }
-
-                              return _context2.abrupt('return', _this.output);
-
-                          case 2:
-                              match = undefined;
-
-                          case 3:
-                              if (!((match = utils.matches(_this.regex, _this.input)) !== null)) {
-                                  _context2.next = 16;
-                                  break;
-                              }
-
-                              _url = match[0];
-
-                              if (!(!_this.options.served.indexOf(_url) === -1)) {
-                                  _context2.next = 7;
-                                  break;
-                              }
-
-                              return _context2.abrupt('continue', 3);
-
-                          case 7:
-                              _context2.next = 9;
-                              return urlToText(_this, match, _url, true);
-
-                          case 9:
-                              _text = _context2.sent;
-
-                              if (_text) {
-                                  _context2.next = 12;
-                                  break;
-                              }
-
-                              return _context2.abrupt('continue', 3);
-
-                          case 12:
-                              _this.options.served.push(_url);
-                              _this.embeds.push({
-                                  text: _text,
-                                  index: match.index
-                              });
-                              _context2.next = 3;
-                              break;
-
-                          case 16:
-                              return _context2.abrupt('return', _this.embeds);
-
-                          case 17:
-                          case 'end':
-                              return _context2.stop();
-                      }
-                  }
-              }, _callee2, _this3);
-          }))();
+      var classes = document.getElementsByClassName(options.videoClickClass);
+      for (var i = 0; i < classes.length; i++) {
+          classes[i].onclick = function () {
+              options.onVideoShow();
+              var url = this.getAttribute('data-ejs-url') + "?autoplay=true";
+              this.parentNode.parentNode.innerHTML = template(url, options);
+          };
       }
-  };
+  }
+
+  /**
+   * Common template for vimeo and youtube iframes
+   * @param  {string} url     URL of the embedding video
+   * @param  {object} options Options object
+   * @return {string}         compiled template with variables replaced
+   */
+  function template(url, options) {
+      var dimensions = utils.dimensions(options);
+      return ejs.template.vimeo(url, dimensions, options) || ejs.template.youtube(url, dimensions, options) || '<div class="ejs-video-player ejs-embed">\n        <iframe src="' + url + '" frameBorder="0" width="' + dimensions.width + '" height="' + dimensions.height + '"></iframe>\n        </div>';
+  }
+
+  /**
+   * Template for showing vimeo and youtube video details
+   * @param  {object} data     Object containing the variable values as key-value pair
+   * @param  {string} embedUrl URL of the video
+   * @return {string}          template with variables replaced
+   */
+  function detailsTemplate(data, embedUrl) {
+      return '<div class="ejs-video ejs-embed">\n        <div class="ejs-video-preview">\n        <div class="ejs-video-thumb" data-ejs-url="' + embedUrl + '">\n        <div class="ejs-thumb" style="background-image:url(' + data.thumbnail + ')"></div>\n        <i class="fa fa-play-circle-o"></i>\n        </div>\n        <div class="ejs-video-detail">\n        <div class="ejs-video-title">\n        <a href="' + data.url + '">\n        ' + data.title + '\n        </a>\n        </div>\n        <div class="ejs-video-desc">\n        ' + data.description + '\n        </div>\n        <div class="ejs-video-stats">\n        <span>\n        <i class="fa fa-eye"></i>' + data.views + '\n        </span>\n        <span>\n        <i class="fa fa-heart"></i>' + data.likes + '\n        </span>\n        </div>\n        </div>\n        </div>\n        </div>';
+  }
+
+  function getDetailsTemplate(data, fullData, embedUrl) {
+      if (data.host === 'vimeo') {
+          return ejs.template.detailsVimeo(data, fullData, embedUrl) || detailsTemplate(data, embedUrl);
+      } else if (data.host === 'youtube') {
+          return ejs.template.detailsYoutube(data, fullData, embedUrl) || detailsTemplate(data, embedUrl);
+      }
+  }
+
+  /**
+   * Applies video.js to all audio and video dynamically
+   * @param  {object} options Options object
+   * @return {null}
+   */
+  function applyVideoJS(options) {
+      var dimensions = utils.dimensions(options);
+      options.videojsOptions.width = dimensions.width;
+      options.videojsOptions.height = dimensions.height;
+      if (options.videoJS) {
+          if (!window.videojs) throw new ReferenceError("You have enabled videojs but you haven't loaded the library.Find it at http://videojs.com/");
+          var elements = options.element.getElementsByClassName('ejs-video-js');
+          for (var i = 0; i < elements.length; i++) {
+              videojs(elements[i], options.videojsOptions, function () {
+                  return options.videojsCallback();
+              });
+          }
+      }
+  }
+
+  /**
+   * Destroys the onclick event for opening the video template from the details template
+   * @param  {className} className
+   * @return {null}
+   */
+  function destroyVideos(className) {
+      var classes = document.getElementsByClassName(className);
+      for (var i = 0; i < classes.length; i++) {
+          classes[i].onclick = null;
+      }
+  }
+
+  /**
+   * A helper function for inline embedding
+   * @param _this
+   * @param urlToText
+   * @returns {*}
+   */
+  var inlineEmbed = function () {
+      var ref = babelHelpers_asyncToGenerator(regeneratorRuntime$1.mark(function _callee(_this, urlToText) {
+          var regexInline, match, url, text;
+          return regeneratorRuntime$1.wrap(function _callee$(_context) {
+              while (1) {
+                  switch (_context.prev = _context.next) {
+                      case 0:
+                          if (regeneratorRuntime$1) {
+                              _context.next = 2;
+                              break;
+                          }
+
+                          return _context.abrupt('return', _this.output);
+
+                      case 2:
+                          regexInline = _this.options.link ? new RegExp('([^>]*' + _this.regex.source + ')</a>', 'gi') : new RegExp('([^\\s]*' + _this.regex.source + ')', 'gi');
+                          match = undefined;
+
+                      case 4:
+                          if (!((match = utils.matches(regexInline, _this.output)) !== null)) {
+                              _context.next = 21;
+                              break;
+                          }
+
+                          url = (_this.options.link ? match[0].slice(0, -4) : match[0]) || match[1];
+
+                          if (!(_this.options.served.indexOf(url) !== -1)) {
+                              _context.next = 8;
+                              break;
+                          }
+
+                          return _context.abrupt('continue', 4);
+
+                      case 8:
+                          _context.next = 10;
+                          return urlToText(_this, match, url);
+
+                      case 10:
+                          text = _context.sent;
+
+                          if (text) {
+                              _context.next = 13;
+                              break;
+                          }
+
+                          return _context.abrupt('continue', 4);
+
+                      case 13:
+                          _this.options.served.push(url);
+
+                          if (!_this.options.link) {
+                              _context.next = 18;
+                              break;
+                          }
+
+                          return _context.abrupt('return', !_this.options.inlineText ? _this.output.replace(match[0], text + '</a>') : _this.output.replace(match[0], match[0] + text));
+
+                      case 18:
+                          return _context.abrupt('return', !_this.options.inlineText ? _this.output.replace(match[0], text) : _this.output.replace(match[0], match[0] + text));
+
+                      case 19:
+                          _context.next = 4;
+                          break;
+
+                      case 21:
+                          return _context.abrupt('return', _this.output);
+
+                      case 22:
+                      case 'end':
+                          return _context.stop();
+                  }
+              }
+          }, _callee, this);
+      }));
+      return function inlineEmbed(_x, _x2) {
+          return ref.apply(this, arguments);
+      };
+  }();
+
+  /**
+   * A helper function for normal embedding
+   * @param  {object} _this
+   * @param  {function} urlToText
+   * @return {array}
+   */
+  var normalEmbed = function () {
+      var ref = babelHelpers_asyncToGenerator(regeneratorRuntime$1.mark(function _callee2(_this, urlToText) {
+          var match, _url, _text;
+
+          return regeneratorRuntime$1.wrap(function _callee2$(_context2) {
+              while (1) {
+                  switch (_context2.prev = _context2.next) {
+                      case 0:
+                          if (regeneratorRuntime$1) {
+                              _context2.next = 2;
+                              break;
+                          }
+
+                          return _context2.abrupt('return', _this.output);
+
+                      case 2:
+                          match = undefined;
+
+                      case 3:
+                          if (!((match = utils.matches(_this.regex, _this.input)) !== null)) {
+                              _context2.next = 16;
+                              break;
+                          }
+
+                          _url = match[0];
+
+                          if (!(!_this.options.served.indexOf(_url) === -1)) {
+                              _context2.next = 7;
+                              break;
+                          }
+
+                          return _context2.abrupt('continue', 3);
+
+                      case 7:
+                          _context2.next = 9;
+                          return urlToText(_this, match, _url, true);
+
+                      case 9:
+                          _text = _context2.sent;
+
+                          if (_text) {
+                              _context2.next = 12;
+                              break;
+                          }
+
+                          return _context2.abrupt('continue', 3);
+
+                      case 12:
+                          _this.options.served.push(_url);
+                          _this.embeds.push({
+                              text: _text,
+                              index: match.index
+                          });
+                          _context2.next = 3;
+                          break;
+
+                      case 16:
+                          return _context2.abrupt('return', _this.embeds);
+
+                      case 17:
+                      case 'end':
+                          return _context2.stop();
+                  }
+              }
+          }, _callee2, this);
+      }));
+      return function normalEmbed(_x3, _x4) {
+          return ref.apply(this, arguments);
+      };
+  }();
 
   var defaultOptions = {
       timeout: 5000,
@@ -1334,14 +1335,14 @@
     }
 
     var support = {
-      blob: 'FileReader' in self && 'Blob' in self && (function () {
+      blob: 'FileReader' in self && 'Blob' in self && function () {
         try {
           new Blob();
           return true;
         } catch (e) {
           return false;
         }
-      })(),
+      }(),
       formData: 'FormData' in self
     };
 
@@ -1554,7 +1555,7 @@
     self.fetch.polyfill = true;
   })();
 
-  var Twitter = (function () {
+  var Twitter = function () {
   	function Twitter(input, output, options, embeds) {
   		babelHelpers_classCallCheck(this, Twitter);
 
@@ -1577,7 +1578,7 @@
 
   	babelHelpers_createClass(Twitter, [{
   		key: 'tweetData',
-  		value: (function () {
+  		value: function () {
   			var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee(url) {
   				var config, apiUrl, response;
   				return regeneratorRuntime.wrap(function _callee$(_context) {
@@ -1609,7 +1610,7 @@
   			return function tweetData(_x) {
   				return ref.apply(this, arguments);
   			};
-  		})()
+  		}()
 
   		/**
      * Load twitter widgets
@@ -1630,7 +1631,7 @@
   		}
   	}, {
   		key: 'process',
-  		value: (function () {
+  		value: function () {
   			var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
   				return regeneratorRuntime.wrap(function _callee2$(_context2) {
   					while (1) {
@@ -1644,7 +1645,7 @@
   								}
 
   								_context2.next = 4;
-  								return helper.inlineEmbed(this, Twitter.urlToText);
+  								return inlineEmbed(this, Twitter.urlToText);
 
   							case 4:
   								this.output = _context2.sent;
@@ -1653,7 +1654,7 @@
 
   							case 7:
   								_context2.next = 9;
-  								return helper.normalEmbed(this, Twitter.urlToText);
+  								return normalEmbed(this, Twitter.urlToText);
 
   							case 9:
   								this.embeds = _context2.sent;
@@ -1677,10 +1678,10 @@
   			return function process() {
   				return ref.apply(this, arguments);
   			};
-  		})()
+  		}()
   	}], [{
   		key: 'urlToText',
-  		value: (function () {
+  		value: function () {
   			var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee3(_this, match, url) {
   				var data;
   				return regeneratorRuntime.wrap(function _callee3$(_context3) {
@@ -1704,12 +1705,12 @@
   			return function urlToText(_x2, _x3, _x4) {
   				return ref.apply(this, arguments);
   			};
-  		})()
+  		}()
   	}]);
   	return Twitter;
-  })();
+  }();
 
-  var Base = (function () {
+  var Base = function () {
       function Base(input, output, options, embeds) {
           babelHelpers_classCallCheck(this, Base);
 
@@ -1755,9 +1756,9 @@
           }
       }]);
       return Base;
-  })();
+  }();
 
-  var Basic = (function (_Base) {
+  var Basic = function (_Base) {
   	babelHelpers_inherits(Basic, _Base);
 
   	function Basic(input, output, options, embeds) {
@@ -1777,9 +1778,9 @@
   		}
   	}]);
   	return Basic;
-  })(Base);
+  }(Base);
 
-  var SlideShare = (function () {
+  var SlideShare = function () {
   	function SlideShare(input, output, options, embeds) {
   		babelHelpers_classCallCheck(this, SlideShare);
 
@@ -1798,7 +1799,7 @@
   		}
   	}, {
   		key: 'process',
-  		value: (function () {
+  		value: function () {
   			var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee() {
   				return regeneratorRuntime.wrap(function _callee$(_context) {
   					while (1) {
@@ -1810,7 +1811,7 @@
   								}
 
   								_context.next = 3;
-  								return helper.inlineEmbed(this, SlideShare.urlToText);
+  								return inlineEmbed(this, SlideShare.urlToText);
 
   							case 3:
   								this.output = _context.sent;
@@ -1819,7 +1820,7 @@
 
   							case 6:
   								_context.next = 8;
-  								return helper.normalEmbed(this, SlideShare.urlToText);
+  								return normalEmbed(this, SlideShare.urlToText);
 
   							case 8:
   								this.embeds = _context.sent;
@@ -1837,10 +1838,10 @@
   			return function process() {
   				return ref.apply(this, arguments);
   			};
-  		})()
+  		}()
   	}], [{
   		key: 'fetchData',
-  		value: (function () {
+  		value: function () {
   			var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee2(_this, url) {
   				var dimensions, api, response, data;
   				return regeneratorRuntime.wrap(function _callee2$(_context2) {
@@ -1873,10 +1874,10 @@
   			return function fetchData(_x, _x2) {
   				return ref.apply(this, arguments);
   			};
-  		})()
+  		}()
   	}, {
   		key: 'urlToText',
-  		value: (function () {
+  		value: function () {
   			var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee3(_this, match, url) {
   				var html;
   				return regeneratorRuntime.wrap(function _callee3$(_context3) {
@@ -1900,12 +1901,12 @@
   			return function urlToText(_x3, _x4, _x5) {
   				return ref.apply(this, arguments);
   			};
-  		})()
+  		}()
   	}]);
   	return SlideShare;
-  })();
+  }();
 
-  var Instagram = (function (_Base) {
+  var Instagram = function (_Base) {
   	babelHelpers_inherits(Instagram, _Base);
 
   	function Instagram(input, output, options, embeds) {
@@ -1926,9 +1927,9 @@
   		}
   	}]);
   	return Instagram;
-  })(Base);
+  }(Base);
 
-  var Flickr = (function (_Base) {
+  var Flickr = function (_Base) {
   	babelHelpers_inherits(Flickr, _Base);
 
   	function Flickr(input, output, options, embeds) {
@@ -1949,9 +1950,9 @@
   		}
   	}]);
   	return Flickr;
-  })(Base);
+  }(Base);
 
-  var BasicAudio = (function (_Base) {
+  var BasicAudio = function (_Base) {
       babelHelpers_inherits(BasicAudio, _Base);
 
       function BasicAudio(input, output, options, embeds) {
@@ -1971,9 +1972,9 @@
           }
       }]);
       return BasicAudio;
-  })(Base);
+  }(Base);
 
-  var Spotify = (function (_Base) {
+  var Spotify = function (_Base) {
   	babelHelpers_inherits(Spotify, _Base);
 
   	function Spotify(input, output, options, embeds) {
@@ -1995,9 +1996,9 @@
   		}
   	}]);
   	return Spotify;
-  })(Base);
+  }(Base);
 
-  var SoundCloud = (function (_Base) {
+  var SoundCloud = function (_Base) {
   	babelHelpers_inherits(SoundCloud, _Base);
 
   	function SoundCloud(input, output, options, embeds) {
@@ -2018,9 +2019,9 @@
   		}
   	}]);
   	return SoundCloud;
-  })(Base);
+  }(Base);
 
-  var Gmap = (function () {
+  var Gmap = function () {
       function Gmap(input, output, options, embeds) {
           babelHelpers_classCallCheck(this, Gmap);
 
@@ -2034,7 +2035,7 @@
 
       babelHelpers_createClass(Gmap, [{
           key: 'process',
-          value: (function () {
+          value: function () {
               var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
                   var _this = this;
 
@@ -2122,10 +2123,10 @@
               return function process() {
                   return ref.apply(this, arguments);
               };
-          })()
+          }()
       }], [{
           key: 'getCoordinate',
-          value: (function () {
+          value: function () {
               var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee3(location) {
                   var url, response, data, latitude, longitude;
                   return regeneratorRuntime.wrap(function _callee3$(_context3) {
@@ -2157,7 +2158,7 @@
               return function getCoordinate(_x) {
                   return ref.apply(this, arguments);
               };
-          })()
+          }()
       }, {
           key: 'template',
           value: function template(match, latitude, longitude, options) {
@@ -2179,9 +2180,9 @@
           }
       }]);
       return Gmap;
-  })();
+  }();
 
-  var Github = (function () {
+  var Github = function () {
   	function Github(input, output, options, embeds) {
   		babelHelpers_classCallCheck(this, Github);
 
@@ -2195,7 +2196,7 @@
 
   	babelHelpers_createClass(Github, [{
   		key: 'process',
-  		value: (function () {
+  		value: function () {
   			var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee() {
   				return regeneratorRuntime.wrap(function _callee$(_context) {
   					while (1) {
@@ -2207,7 +2208,7 @@
   								}
 
   								_context.next = 3;
-  								return helper.inlineEmbed(this, Github.urlToText);
+  								return inlineEmbed(this, Github.urlToText);
 
   							case 3:
   								this.output = _context.sent;
@@ -2216,7 +2217,7 @@
 
   							case 6:
   								_context.next = 8;
-  								return helper.normalEmbed(this, Github.urlToText);
+  								return normalEmbed(this, Github.urlToText);
 
   							case 8:
   								this.embeds = _context.sent;
@@ -2234,7 +2235,7 @@
   			return function process() {
   				return ref.apply(this, arguments);
   			};
-  		})()
+  		}()
   	}], [{
   		key: 'template',
   		value: function template(data, options) {
@@ -2242,7 +2243,7 @@
   		}
   	}, {
   		key: 'fetchRepo',
-  		value: (function () {
+  		value: function () {
   			var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee2(data) {
   				var api, response;
   				return regeneratorRuntime.wrap(function _callee2$(_context2) {
@@ -2271,10 +2272,10 @@
   			return function fetchRepo(_x) {
   				return ref.apply(this, arguments);
   			};
-  		})()
+  		}()
   	}, {
   		key: 'urlToText',
-  		value: (function () {
+  		value: function () {
   			var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee3(_this, match, url, normalEmbed) {
   				var data, response;
   				return regeneratorRuntime.wrap(function _callee3$(_context3) {
@@ -2314,12 +2315,12 @@
   			return function urlToText(_x2, _x3, _x4, _x5) {
   				return ref.apply(this, arguments);
   			};
-  		})()
+  		}()
   	}]);
   	return Github;
-  })();
+  }();
 
-  var Vimeo = (function () {
+  var Vimeo = function () {
       function Vimeo(input, output, options, embeds) {
           babelHelpers_classCallCheck(this, Vimeo);
 
@@ -2333,7 +2334,7 @@
 
       babelHelpers_createClass(Vimeo, [{
           key: 'data',
-          value: (function () {
+          value: function () {
               var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee(id) {
                   var url, response, data;
                   return regeneratorRuntime.wrap(function _callee$(_context) {
@@ -2370,10 +2371,10 @@
               return function data(_x) {
                   return ref.apply(this, arguments);
               };
-          })()
+          }()
       }, {
           key: 'process',
-          value: (function () {
+          value: function () {
               var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
                   return regeneratorRuntime.wrap(function _callee2$(_context2) {
                       while (1) {
@@ -2387,7 +2388,7 @@
                                   }
 
                                   _context2.next = 4;
-                                  return helper.inlineEmbed(this, Vimeo.urlToText);
+                                  return inlineEmbed(this, Vimeo.urlToText);
 
                               case 4:
                                   this.output = _context2.sent;
@@ -2396,7 +2397,7 @@
 
                               case 7:
                                   _context2.next = 9;
-                                  return helper.normalEmbed(this, Vimeo.urlToText);
+                                  return normalEmbed(this, Vimeo.urlToText);
 
                               case 9:
                                   this.embeds = _context2.sent;
@@ -2420,7 +2421,7 @@
               return function process() {
                   return ref.apply(this, arguments);
               };
-          })()
+          }()
       }], [{
           key: 'formatData',
           value: function formatData(data, utils) {
@@ -2438,7 +2439,7 @@
           }
       }, {
           key: 'urlToText',
-          value: (function () {
+          value: function () {
               var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee3(_this, match, url, normalEmbed) {
                   var id, embedUrl, data;
                   return regeneratorRuntime.wrap(function _callee3$(_context3) {
@@ -2474,10 +2475,10 @@
 
                               case 9:
                                   data = _context3.sent;
-                                  return _context3.abrupt('return', helper.getDetailsTemplate(Vimeo.formatData(data, utils), data, embedUrl));
+                                  return _context3.abrupt('return', getDetailsTemplate(Vimeo.formatData(data, utils), data, embedUrl));
 
                               case 13:
-                                  return _context3.abrupt('return', helper.template(embedUrl, _this.options));
+                                  return _context3.abrupt('return', template(embedUrl, _this.options));
 
                               case 14:
                               case 'end':
@@ -2489,12 +2490,12 @@
               return function urlToText(_x2, _x3, _x4, _x5) {
                   return ref.apply(this, arguments);
               };
-          })()
+          }()
       }]);
       return Vimeo;
-  })();
+  }();
 
-  var Youtube = (function () {
+  var Youtube = function () {
   	function Youtube(input, output, options, embeds) {
   		babelHelpers_classCallCheck(this, Youtube);
 
@@ -2508,7 +2509,7 @@
 
   	babelHelpers_createClass(Youtube, [{
   		key: 'data',
-  		value: (function () {
+  		value: function () {
   			var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee(id) {
   				var url, response, data;
   				return regeneratorRuntime.wrap(function _callee$(_context) {
@@ -2545,10 +2546,10 @@
   			return function data(_x) {
   				return ref.apply(this, arguments);
   			};
-  		})()
+  		}()
   	}, {
   		key: 'process',
-  		value: (function () {
+  		value: function () {
   			var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
   				return regeneratorRuntime.wrap(function _callee2$(_context2) {
   					while (1) {
@@ -2562,7 +2563,7 @@
   								}
 
   								_context2.next = 4;
-  								return helper.inlineEmbed(this, Youtube.urlToText);
+  								return inlineEmbed(this, Youtube.urlToText);
 
   							case 4:
   								this.output = _context2.sent;
@@ -2571,7 +2572,7 @@
 
   							case 7:
   								_context2.next = 9;
-  								return helper.normalEmbed(this, Youtube.urlToText);
+  								return normalEmbed(this, Youtube.urlToText);
 
   							case 9:
   								this.embeds = _context2.sent;
@@ -2599,7 +2600,7 @@
   			return function process() {
   				return ref.apply(this, arguments);
   			};
-  		})()
+  		}()
   	}], [{
   		key: 'formatData',
   		value: function formatData(data, utils) {
@@ -2617,7 +2618,7 @@
   		}
   	}, {
   		key: 'urlToText',
-  		value: (function () {
+  		value: function () {
   			var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee3(_this, match, url, normalEmbed) {
   				var id, embedUrl, data;
   				return regeneratorRuntime.wrap(function _callee3$(_context3) {
@@ -2638,10 +2639,10 @@
 
   							case 6:
   								data = _context3.sent;
-  								return _context3.abrupt('return', helper.getDetailsTemplate(Youtube.formatData(data, utils), data, embedUrl));
+  								return _context3.abrupt('return', getDetailsTemplate(Youtube.formatData(data, utils), data, embedUrl));
 
   							case 10:
-  								return _context3.abrupt('return', helper.template(embedUrl, _this.options));
+  								return _context3.abrupt('return', template(embedUrl, _this.options));
 
   							case 11:
   							case 'end':
@@ -2653,12 +2654,12 @@
   			return function urlToText(_x2, _x3, _x4, _x5) {
   				return ref.apply(this, arguments);
   			};
-  		})()
+  		}()
   	}]);
   	return Youtube;
-  })();
+  }();
 
-  var Vine = (function (_Base) {
+  var Vine = function (_Base) {
       babelHelpers_inherits(Vine, _Base);
 
       function Vine(input, output, options, embeds) {
@@ -2681,9 +2682,9 @@
           }
       }]);
       return Vine;
-  })(Base);
+  }(Base);
 
-  var BasicVideo = (function (_Base) {
+  var BasicVideo = function (_Base) {
   	babelHelpers_inherits(BasicVideo, _Base);
 
   	function BasicVideo(input, output, options, embeds) {
@@ -2703,9 +2704,9 @@
   		}
   	}]);
   	return BasicVideo;
-  })(Base);
+  }(Base);
 
-  var LiveLeak = (function (_Base) {
+  var LiveLeak = function (_Base) {
       babelHelpers_inherits(LiveLeak, _Base);
 
       function LiveLeak(input, output, options, embeds) {
@@ -2726,9 +2727,9 @@
           }
       }]);
       return LiveLeak;
-  })(Base);
+  }(Base);
 
-  var Ustream = (function (_Base) {
+  var Ustream = function (_Base) {
       babelHelpers_inherits(Ustream, _Base);
 
       function Ustream(input, output, options, embeds) {
@@ -2751,9 +2752,9 @@
           }
       }]);
       return Ustream;
-  })(Base);
+  }(Base);
 
-  var Dailymotion = (function (_Base) {
+  var Dailymotion = function (_Base) {
       babelHelpers_inherits(Dailymotion, _Base);
 
       function Dailymotion(input, output, options, embeds) {
@@ -2776,9 +2777,9 @@
           }
       }]);
       return Dailymotion;
-  })(Base);
+  }(Base);
 
-  var Ted = (function (_Base) {
+  var Ted = function (_Base) {
       babelHelpers_inherits(Ted, _Base);
 
       function Ted(input, output, options, embeds) {
@@ -2801,9 +2802,9 @@
           }
       }]);
       return Ted;
-  })(Base);
+  }(Base);
 
-  var Gist = (function (_Base) {
+  var Gist = function (_Base) {
       babelHelpers_inherits(Gist, _Base);
 
       function Gist(input, output, options, embeds) {
@@ -2859,9 +2860,9 @@
           }
       }]);
       return Gist;
-  })(Base);
+  }(Base);
 
-  var JsFiddle = (function (_Base) {
+  var JsFiddle = function (_Base) {
       babelHelpers_inherits(JsFiddle, _Base);
 
       function JsFiddle(input, output, options, embeds) {
@@ -2881,9 +2882,9 @@
           }
       }]);
       return JsFiddle;
-  })(Base);
+  }(Base);
 
-  var CodePen = (function (_Base) {
+  var CodePen = function (_Base) {
       babelHelpers_inherits(CodePen, _Base);
 
       function CodePen(input, output, options, embeds) {
@@ -2903,9 +2904,9 @@
           }
       }]);
       return CodePen;
-  })(Base);
+  }(Base);
 
-  var JsBin = (function (_Base) {
+  var JsBin = function (_Base) {
       babelHelpers_inherits(JsBin, _Base);
 
       function JsBin(input, output, options, embeds) {
@@ -2925,9 +2926,9 @@
           }
       }]);
       return JsBin;
-  })(Base);
+  }(Base);
 
-  var Plunker = (function (_Base) {
+  var Plunker = function (_Base) {
       babelHelpers_inherits(Plunker, _Base);
 
       function Plunker(input, output, options, embeds) {
@@ -2949,9 +2950,9 @@
           }
       }]);
       return Plunker;
-  })(Base);
+  }(Base);
 
-  var Ideone = (function (_Base) {
+  var Ideone = function (_Base) {
       babelHelpers_inherits(Ideone, _Base);
 
       function Ideone(input, output, options, embeds) {
@@ -2971,9 +2972,9 @@
           }
       }]);
       return Ideone;
-  })(Base);
+  }(Base);
 
-  var Highlight = (function () {
+  var Highlight = function () {
   	function Highlight(output, options) {
   		babelHelpers_classCallCheck(this, Highlight);
 
@@ -3077,9 +3078,9 @@
   		}
   	}]);
   	return Highlight;
-  })();
+  }();
 
-  var Smiley = (function () {
+  var Smiley = function () {
       function Smiley(input, options) {
           babelHelpers_classCallCheck(this, Smiley);
 
@@ -3181,9 +3182,9 @@
           }
       }]);
       return Smiley;
-  })();
+  }();
 
-  var Emoji = (function () {
+  var Emoji = function () {
       function Emoji(output, options) {
           babelHelpers_classCallCheck(this, Emoji);
 
@@ -3208,9 +3209,9 @@
           }
       }]);
       return Emoji;
-  })();
+  }();
 
-  var Markdown = (function () {
+  var Markdown = function () {
   	function Markdown(output, options) {
   		babelHelpers_classCallCheck(this, Markdown);
 
@@ -3270,9 +3271,9 @@
   		}
   	}]);
   	return Markdown;
-  })();
+  }();
 
-  var OpenGraph = (function () {
+  var OpenGraph = function () {
   	function OpenGraph(input, output, options, embeds) {
   		babelHelpers_classCallCheck(this, OpenGraph);
 
@@ -3291,7 +3292,7 @@
   		}
   	}, {
   		key: 'fetchData',
-  		value: (function () {
+  		value: function () {
   			var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee(url) {
   				var api, response, data;
   				return regeneratorRuntime.wrap(function _callee$(_context) {
@@ -3330,10 +3331,10 @@
   			return function fetchData(_x) {
   				return ref.apply(this, arguments);
   			};
-  		})()
+  		}()
   	}, {
   		key: 'process',
-  		value: (function () {
+  		value: function () {
   			var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
   				var match, url, _data, template;
 
@@ -3352,7 +3353,7 @@
   								}
 
   								_context2.next = 6;
-  								return helper.inlineEmbed(this, OpenGraph.urlToText);
+  								return inlineEmbed(this, OpenGraph.urlToText);
 
   							case 6:
   								this.output = _context2.sent;
@@ -3412,7 +3413,7 @@
   			return function process() {
   				return ref.apply(this, arguments);
   			};
-  		})()
+  		}()
   	}], [{
   		key: 'ifProcessOGC',
   		value: function ifProcessOGC(url, excludeRegex) {
@@ -3420,7 +3421,7 @@
   		}
   	}, {
   		key: 'urlToText',
-  		value: (function () {
+  		value: function () {
   			var ref = babelHelpers_asyncToGenerator(regeneratorRuntime.mark(function _callee3(_this, match, url) {
   				var data;
   				return regeneratorRuntime.wrap(function _callee3$(_context3) {
@@ -3452,12 +3453,12 @@
   			return function urlToText(_x2, _x3, _x4) {
   				return ref.apply(this, arguments);
   			};
-  		})()
+  		}()
   	}]);
   	return OpenGraph;
-  })();
+  }();
 
-  var Url = (function () {
+  var Url = function () {
   	function Url(input, options) {
   		babelHelpers_classCallCheck(this, Url);
 
@@ -3482,7 +3483,7 @@
   		}
   	}]);
   	return Url;
-  })();
+  }();
 
   (function (window) {
   	var globalOptions = {};
@@ -3561,7 +3562,7 @@
   		served: [] //Private variable used to store processed urls so that they are not processed multiple times.
   	};
 
-  	var EmbedJS = (function () {
+  	var EmbedJS = function () {
   		/**
      * The constructor takes two arguements. The first one is the options object and the second one is the
      * optional string . If the user wants to provide a string directly instead of the element, he can do that.
@@ -3609,7 +3610,7 @@
 
   		babelHelpers_createClass(EmbedJS, [{
   			key: 'process',
-  			value: (function () {
+  			value: function () {
   				var ref = babelHelpers_asyncToGenerator(regeneratorRuntime$1.mark(function _callee() {
   					var input, options, embeds, output, _ref, _ref2, _process, _process2, _process3, _process4, _process5, _process6, _process7, _process8, _process9, _process10, _process11, _process12, _process13, _process14, _process15, _process16, _process17, _process18, _process19, _process20, _process21, _process22, _process23, _process24, _ref3, _ref4, _ref5, _ref6, _ref7, _ref8, _ref9, _ref10, _process25, _process26, _process27, _process28, _process29, _process30, _process31, _process32, _process33, _process34, _ref11, _ref12, _process35, _process36, _ref13, _ref14;
 
@@ -3873,7 +3874,7 @@
   				return function process() {
   					return ref.apply(this, arguments);
   				};
-  			})()
+  			}()
 
   			/**
       * First processes the data by calling the .process() and then renders the data in the div
@@ -3888,7 +3889,7 @@
 
   		}, {
   			key: 'render',
-  			value: (function () {
+  			value: function () {
   				var ref = babelHelpers_asyncToGenerator(regeneratorRuntime$1.mark(function _callee2() {
   					var event;
   					return regeneratorRuntime$1.wrap(function _callee2$(_context2) {
@@ -3909,9 +3910,9 @@
   								case 4:
   									this.element.innerHTML = _context2.sent;
 
-  									helper.applyVideoJS(this.options);
+  									applyVideoJS(this.options);
 
-  									helper.play(this.options);
+  									playVideo(this.options);
 
   									event = new Event('rendered');
 
@@ -3929,7 +3930,7 @@
   				return function render() {
   					return ref.apply(this, arguments);
   				};
-  			})()
+  			}()
 
   			/**
       * returns the resulting string based on the input and the options passed by the user.
@@ -3939,7 +3940,7 @@
 
   		}, {
   			key: 'text',
-  			value: (function () {
+  			value: function () {
   				var ref = babelHelpers_asyncToGenerator(regeneratorRuntime$1.mark(function _callee3(callback) {
   					var result;
   					return regeneratorRuntime$1.wrap(function _callee3$(_context3) {
@@ -3964,7 +3965,7 @@
   				return function text(_x) {
   					return ref.apply(this, arguments);
   				};
-  			})()
+  			}()
 
   			/**
       * The destroy method destroys all the listeners and replaces the rih text with the original text in the
@@ -3976,13 +3977,13 @@
   			key: 'destroy',
   			value: function destroy() {
   				if (!this.element) throw new Error('destroy() method only if an element had been passed in the options object');
-  				helper.destroy('ejs-video-thumb');
+  				destroyVideos('ejs-video-thumb');
   				this.element.removeEventListener('rendered', this.twitter.load(), false);
   				this.element.innerHTML = this.input;
   			}
   		}]);
   		return EmbedJS;
-  	})();
+  	}();
 
   	window.ejs = {
   		instances: [],
