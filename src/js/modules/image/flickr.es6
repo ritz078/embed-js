@@ -1,4 +1,4 @@
-import utils from '../utils.es6'
+import { getDimensions , toUrl} from '../utils.es6'
 import Base from '../base.es6'
 
 export default class Flickr extends Base{
@@ -9,10 +9,10 @@ export default class Flickr extends Base{
 	}
 
 	template(match){
-		let dimensions = utils.dimensions(this.options);
+		let dimensions = getDimensions(this.options);
 		return ejs.template.flickr(match, dimensions, this.options) || `<div class="ejs-embed">
 			<div class="ne-image-wrapper">
-				<iframe src="${utils.toUrl(match.split('/?')[0])}/player/" width="${dimensions.width}" height="${dimensions.height}"></iframe>
+				<iframe src="${toUrl(match.split('/?')[0])}/player/" width="${dimensions.width}" height="${dimensions.height}"></iframe>
 			</div>
 		</div>`
 	}

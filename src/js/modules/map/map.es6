@@ -1,4 +1,4 @@
-import utils from '../utils.es6'
+import { ifInline, matches, getDimensions } from '../utils.es6'
 
 export default class Gmap {
     constructor(input, output, options, embeds) {
@@ -21,7 +21,7 @@ export default class Gmap {
     static template(match, latitude, longitude, options) {
         let location = match.split('(')[1].split(')')[0];
         let config = options.mapOptions;
-        const dimensions = utils.dimensions(options);
+        const dimensions = getDimensions(options);
         if (config.mode === 'place') {
             return `<div class="ejs-embed ejs-map"><iframe width="${dimensions.width}" height="${dimensions.height}" src="https://www.google.com/maps/embed/v1/place?key=${options.googleAuthKey}&q=${location}"></iframe></div>`;
         } else if (config.mode === 'streetview') {
@@ -37,10 +37,10 @@ export default class Gmap {
 
     async process() {
         let match;
-        while ((match = utils.matches(this.regex, this.output)) !== null) {
+        while ((match = matches(this.regex, this.output)) !== null) {
             let [latitude, longitude] = this.options.mapOptions.mode !== 'place' ? await Gmap.getCoordinate(match[0]) : [null, null];
             let text = Gmap.template(match[0], latitude, longitude, this.options);
-            if (!utils.ifInline(this.options, this.service)) {
+            if (!ifInline(this.options, this.service)) {
                 this.output = this.output.replace(this.regex, (regexMatch) => {
                     return `<span class="ejs-location">${Gmap.locationText(regexMatch)}</span>${text}`
                 })

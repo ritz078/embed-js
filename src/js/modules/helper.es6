@@ -1,4 +1,4 @@
-import utils from './utils.es6'
+import { getDimensions, matches } from './utils.es6'
 import regeneratorRuntime from '../vendor/regeneratorRuntime.js'
 
 /**
@@ -28,7 +28,7 @@ export function playVideo(options) {
  * @return {string}         compiled template with variables replaced
  */
 export function template(url, options) {
-    let dimensions = utils.dimensions(options);
+    let dimensions = getDimensions(options);
     return ejs.template.vimeo(url, dimensions, options) || ejs.template.youtube(url, dimensions, options) || `<div class="ejs-video-player ejs-embed">
         <iframe src="${url}" frameBorder="0" width="${dimensions.width}" height="${dimensions.height}"></iframe>
         </div>`
@@ -83,7 +83,7 @@ export function getDetailsTemplate(data, fullData, embedUrl) {
  * @return {null}
  */
 export function applyVideoJS(options) {
-    let dimensions = utils.dimensions(options);
+    let dimensions = getDimensions(options);
     options.videojsOptions.width = dimensions.width;
     options.videojsOptions.height = dimensions.height;
     if (options.videoJS) {
@@ -117,7 +117,7 @@ export async function inlineEmbed(_this, urlToText) {
     if (!regeneratorRuntime) return _this.output;
     let regexInline = _this.options.link ? new RegExp(`([^>]*${_this.regex.source})<\/a>`, 'gi') : new RegExp(`([^\\s]*${_this.regex.source})`, 'gi');
     let match;
-    while ((match = utils.matches(regexInline, _this.output)) !== null) {
+    while ((match = matches(regexInline, _this.output)) !== null) {
         let url = (_this.options.link ? match[0].slice(0, -4) : match[0]) || match[1];
         if (_this.options.served.indexOf(url) !== -1) continue;
         let text = await urlToText(_this, match, url);
@@ -141,7 +141,7 @@ export async function inlineEmbed(_this, urlToText) {
 export async function normalEmbed(_this, urlToText) {
     if (!regeneratorRuntime) return _this.output;
     let match;
-    while ((match = utils.matches(_this.regex, _this.input)) !== null) {
+    while ((match = matches(_this.regex, _this.input)) !== null) {
         let url = match[0];
         if (!_this.options.served.indexOf(url) === -1) continue;
         let text = await urlToText(_this, match, url, true);

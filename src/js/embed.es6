@@ -1,6 +1,6 @@
 import regeneratorRuntime from './vendor/regeneratorRuntime.js'
 
-import utils from './modules/utils.es6'
+import { cloneObject, deepExtend, ifEmbed, createText } from './modules/utils.es6'
 
 import Emoji       from './modules/emoticons/emoji.es6'
 import Smiley      from './modules/emoticons/smiley.es6'
@@ -142,15 +142,15 @@ import { applyVideoJS, playVideo, destroyVideos } from './modules/helper.es6'
 			 * We have created a clone of the original options to make sure that the original object
 			 * isn't altered.
 			 */
-			let defOpts  = utils.cloneObject(defaultOptions);
-			let globOpts = utils.cloneObject(globalOptions);
+			let defOpts  = cloneObject(defaultOptions);
+			let globOpts = cloneObject(globalOptions);
 
 			//merge global options with the default options
-			let globOptions = utils.deepExtend(defOpts, globOpts);
+			let globOptions = deepExtend(defOpts, globOpts);
 
 			//merge global options with the overriding options provided by the user as an options
 			//object while creating a new instance of embed.js
-			this.options = utils.deepExtend(globOptions, options);
+			this.options = deepExtend(globOptions, options);
 
 			if (!this.options.element && !input) throw ReferenceError("You need to pass an element or the string that needs to be processed");
 
@@ -196,51 +196,51 @@ import { applyVideoJS, playVideo, destroyVideos } from './modules/helper.es6'
 			if (HIGHLIGHTCODE && options.highlightCode && !options.marked) {
 				output = new Highlight(output, options).process()
 			}
-			if (IDEONE && utils.ifEmbed(options, 'ideone')) {
+			if (IDEONE && ifEmbed(options, 'ideone')) {
 				[output, embeds] = new Ideone(input, output, options, embeds).process()
 			}
-			if (PLUNKER && utils.ifEmbed(options, 'plunker')) {
+			if (PLUNKER && ifEmbed(options, 'plunker')) {
 				[output, embeds] = new Plunker(input, output, options, embeds).process()
 			}
-			if (JSBIN && utils.ifEmbed(options, 'jsbin')) {
+			if (JSBIN && ifEmbed(options, 'jsbin')) {
 				[output, embeds] = new JsBin(input, output, options, embeds).process()
 			}
-			if (CODEPEN && utils.ifEmbed(options, 'codepen')) {
+			if (CODEPEN && ifEmbed(options, 'codepen')) {
 				[output, embeds] = new CodePen(input, output, options, embeds).process()
 			}
-			if (JSFIDDLE && utils.ifEmbed(options, 'jsfiddle')) {
+			if (JSFIDDLE && ifEmbed(options, 'jsfiddle')) {
 				[output, embeds] = new JsFiddle(input, output, options, embeds).process()
 			}
-			if (GIST && utils.ifEmbed(options, 'gist')) {
+			if (GIST && ifEmbed(options, 'gist')) {
 				[output, embeds] = new Gist(input, output, options, embeds).process()
 			}
 
 
-			if (TED && utils.ifEmbed(options, 'ted')) {
+			if (TED && ifEmbed(options, 'ted')) {
 				[output, embeds] = new Ted(input, output, options, embeds).process()
 			}
-			if (DAILYMOTION && utils.ifEmbed(options, 'dailymotion')) {
+			if (DAILYMOTION && ifEmbed(options, 'dailymotion')) {
 				[output, embeds] = new Dailymotion(input, output, options, embeds).process()
 			}
-			if (USTREAM && utils.ifEmbed(options, 'ustream')) {
+			if (USTREAM && ifEmbed(options, 'ustream')) {
 				[output, embeds] = new Ustream(input, output, options, embeds).process()
 			}
-			if (LIVELEAK && utils.ifEmbed(options, 'liveleak')) {
+			if (LIVELEAK && ifEmbed(options, 'liveleak')) {
 				[output, embeds] = new LiveLeak(input, output, options, embeds).process()
 			}
 			if (BASICVIDEO && options.videoEmbed) {
 				[output, embeds] = new BasicVideo(input, output, options, embeds).process()
 			}
-			if (VINE && utils.ifEmbed(options, 'vine')) {
+			if (VINE && ifEmbed(options, 'vine')) {
 				[output, embeds] = new Vine(input, output, options, embeds).process()
 			}
-			if (YOUTUBE && utils.ifEmbed(options, 'youtube') && regeneratorRuntime) {
+			if (YOUTUBE && ifEmbed(options, 'youtube') && regeneratorRuntime) {
 				[output, embeds] = await new Youtube(input, output, options, embeds).process()
 			}
-			if (VIMEO && utils.ifEmbed(options, 'vimeo')) {
+			if (VIMEO && ifEmbed(options, 'vimeo')) {
 				[output, embeds] = await new Vimeo(input, output, options, embeds).process()
 			}
-			if (GITHUB && utils.ifEmbed(options, 'opengraph')) {
+			if (GITHUB && ifEmbed(options, 'opengraph')) {
 				[output, embeds] = await new Github(input, output, options, embeds).process()
 			}
 
@@ -248,23 +248,23 @@ import { applyVideoJS, playVideo, destroyVideos } from './modules/helper.es6'
 				[output, embeds] = await new Gmap(input, output, options, embeds).process()
 			}
 
-			if (SOUNDCLOUD && utils.ifEmbed(options, 'soundcloud')) {
+			if (SOUNDCLOUD && ifEmbed(options, 'soundcloud')) {
 				[output, embeds] = new SoundCloud(input, output, options, embeds).process()
 			}
-			if (SPOTIFY && utils.ifEmbed(options, 'spotify')) {
+			if (SPOTIFY && ifEmbed(options, 'spotify')) {
 				[output, embeds] = new Spotify(input, output, options, embeds).process()
 			}
 			if (BASICAUDIO && options.audioEmbed) {
 				[output, embeds] = new BasicAudio(input, output, options, embeds).process()
 			}
 
-			if (FLICKR && utils.ifEmbed(options, 'flickr')) {
+			if (FLICKR && ifEmbed(options, 'flickr')) {
 				[output, embeds] = new Flickr(input, output, options, embeds).process()
 			}
-			if (INSTAGRAM && utils.ifEmbed(options, 'instagram')) {
+			if (INSTAGRAM && ifEmbed(options, 'instagram')) {
 				[output, embeds] = new Instagram(input, output, options, embeds).process()
 			}
-			if (SLIDESHARE && utils.ifEmbed(options, 'slideshare')) {
+			if (SLIDESHARE && ifEmbed(options, 'slideshare')) {
 				[output, embeds] = await new SlideShare(input, output, options, embeds).process()
 			}
 			if (BASICIMAGE && options.imageEmbed) {
@@ -276,7 +276,7 @@ import { applyVideoJS, playVideo, destroyVideos } from './modules/helper.es6'
 				[output, embeds] = await (this.twitter.process());
 			}
 
-			return utils.createText(output, embeds);
+			return createText(output, embeds);
 		}
 
 		/**
@@ -335,7 +335,7 @@ import { applyVideoJS, playVideo, destroyVideos } from './modules/helper.es6'
 		 * @param {object} options
 		 */
 		setOptions(options) {
-			globalOptions = utils.deepExtend(defaultOptions, options)
+			globalOptions = deepExtend(defaultOptions, options)
 		},
 
 		/**

@@ -1,4 +1,4 @@
-import utils from '../utils.es6'
+import { ifInline } from '../utils.es6'
 import '../../vendor/fetch.js'
 import fetchJsonp from '../../vendor/fetch_jsonp.js'
 import {inlineEmbed, normalEmbed} from '../helper.es6'
@@ -50,7 +50,7 @@ export default class Twitter {
 
 	async process() {
 		try {
-			if (!utils.ifInline(this.options, this.service)) {
+			if (!ifInline(this.options, this.service)) {
 				this.output = await inlineEmbed(this, Twitter.urlToText);
 			} else {
 				this.embeds = await normalEmbed(this, Twitter.urlToText);

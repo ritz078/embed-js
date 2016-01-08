@@ -1,4 +1,4 @@
-import utils from './utils.es6'
+import { ifInline, matches } from './utils.es6'
 
 class Base {
     constructor(input, output, options, embeds) {
@@ -9,7 +9,7 @@ class Base {
     }
 
     process() {
-        if (!utils.ifInline(this.options, this.service)) {
+        if (!ifInline(this.options, this.service)) {
             let regexInline = this.options.link ? new RegExp(`([^>]*${this.regex.source})<\/a>`, 'gm') : new RegExp(`([^\\s]*${this.regex.source})`, 'gm');
             this.output = this.output.replace(regexInline, (match) => {
                 let url = this.options.link ? match.slice(0, -4) : match;
@@ -26,7 +26,7 @@ class Base {
             })
         } else {
             let match;
-            while ((match = utils.matches(this.regex, this.input)) !== null) {
+            while ((match = matches(this.regex, this.input)) !== null) {
                 if (this.options.served.indexOf(match[0]) === -1) {
                     let text = this.template(match[0]);
                     this.embeds.push({

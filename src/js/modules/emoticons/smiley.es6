@@ -1,4 +1,4 @@
-import utils from '../utils.es6'
+import { escapeRegExp } from '../utils.es6'
 
 export default class Smiley {
     constructor(input, options) {
@@ -79,7 +79,7 @@ export default class Smiley {
         this.icons = options.customFontIcons.length ? options.customFontIcons : defaultIcons ;
 
         this.EscapedSymbols = this.icons.map((val) => {
-            return `${utils.escapeRegExp(val.text)}`;
+            return `${escapeRegExp(val.text)}`;
         });
 
         this.smileyRegex = new RegExp(`(${this.EscapedSymbols.join('|')})`, 'g');
@@ -87,7 +87,7 @@ export default class Smiley {
 
     process() {
         var processedString = this.input.replace(this.smileyRegex, (match, text) => {
-            let index = this.EscapedSymbols.indexOf(utils.escapeRegExp(text));
+            let index = this.EscapedSymbols.indexOf(escapeRegExp(text));
             let code = this.icons[index].code;
             return ejs.template.smiley(text, code, this.options) || ` <span class="icon-emoticon" title="${text}">${code}</span> `;
         });

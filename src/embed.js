@@ -134,160 +134,141 @@
     };
   }();
 
-  var utils = {
+  /**
+   * Trucates the string and adds ellipsis at the end.
+   * @param string        The string to be truncated
+   * @param n             Length to which it should be truncated
+   * @returns {string}    The truncated string
+   */
+  function truncate(string, n) {
+      return string.substr(0, n - 1) + (string.length > n ? '...' : '');
+  }
 
-  	/**
-    * Trucates the string and adds ellipsis at the end.
-    * @param string        The string to be truncated
-    * @param n             Length to which it should be truncated
-    * @returns {string}    The truncated string
-    */
+  /**
+   * Converts a string into legitimate url.
+   * @param string
+   */
+  function toUrl(string) {
+      return string.indexOf('//') === -1 ? '//' + string : string;
+  }
 
-  	truncate: function truncate(string, n) {
-  		return string.substr(0, n - 1) + (string.length > n ? '...' : '');
-  	},
+  /**
+   * Extends an Object
+   * @param destination
+   * @param source
+   * @returns {*}
+   */
+  function deepExtend(destination, source) {
+      for (var property in source) {
+          if (source[property] && source[property].constructor === Object) {
+              destination[property] = destination[property] || {};
+              deepExtend(destination[property], source[property]);
+          } else {
+              destination[property] = source[property];
+          }
+      }
+      return destination;
+  }
 
-  	/**
-    * Returns an array after removing the duplicates.
-    * @param array         The array containing the duplicates
-    * @returns {Array}     Array with unique values.
-    */
-  	getUnique: function getUnique(array) {
-  		var u = {},
-  		    a = [];
+  function escapeRegExp(str) {
+      return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
+  }
 
-  		array.forEach(function (value) {
-  			if (!u.hasOwnProperty(value)) {
-  				a.push(value);
-  				u[value] = 1;
-  			}
-  		});
-  		return a;
-  	},
+  /**
+   * Sort an array of objects based on the index value
+   * @param  {Array} arr Array to be sorted
+   * @return {Array}     Sorted array
+   */
+  function sortObject(arr) {
+      return arr.sort(function (a, b) {
+          return a.index - b.index;
+      });
+  }
 
-  	/**
-    * Converts a string into legitimate url.
-    * @param string
-    */
-  	toUrl: function toUrl(string) {
-  		return string.indexOf('//') === -1 ? '//' + string : string;
-  	},
+  /**
+   * Creates the string of the iframes after sorting them and finally returning a string
+   * @param  {sring} str    String to which the created text has to be added
+   * @param  {object} embeds Sorted array of iframe html
+   * @return {string}        String to be rendered
+   */
+  function createText(str, embeds) {
+      var sortedEmbeds = sortObject(embeds);
+      for (var i = 0; i < sortedEmbeds.length; i++) {
+          str += ' ' + sortedEmbeds[i].text;
+      }
+      return str;
+  }
 
-  	/**
-    * Extends an Object
-    * @param destination
-    * @param source
-    * @returns {*}
-    */
-  	deepExtend: function deepExtend(destination, source) {
-  		for (var property in source) {
-  			if (source[property] && source[property].constructor === Object) {
-  				destination[property] = destination[property] || {};
-  				this.deepExtend(destination[property], source[property]);
-  			} else {
-  				destination[property] = source[property];
-  			}
-  		}
-  		return destination;
-  	},
-  	escapeRegExp: function escapeRegExp(str) {
-  		return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
-  	},
+  /**
+   * Matches the string and finds the substrings matching to the provided regex pattern
+   * @param  {object} regex Regex pattern
+   * @param  {string} input The string to be analyzed
+   * @return {object}       Returns the matched substring with their corresponding positions
+   */
+  function matches(regex, input) {
+      return regex.exec(input);
+  }
 
-  	/**
-    * Sort an array of objects based on the index value
-    * @param  {Array} arr Array to be sorted
-    * @return {Array}     Sorted array
-    */
-  	sortObject: function sortObject(arr) {
-  		return arr.sort(function (a, b) {
-  			return a.index - b.index;
-  		});
-  	},
+  /**
+   * Checks wheteher a particular service should be embedded or not based on
+   * the setting provided by the user
+   * @param  {object} options The options provided by the user
+   * @param  {string} service Name of the service for which the condition is to be analyzed
+   * @return {boolean}        True if it should be embedded
+   */
+  function ifEmbed(options, service) {
+      return options.excludeEmbed.indexOf(service) == -1 && options.excludeEmbed !== 'all';
+  }
 
-  	/**
-    * Creates the string of the iframes after sorting them and finally returning a string
-    * @param  {sring} str    String to which the created text has to be added
-    * @param  {object} embeds Sorted array of iframe html
-    * @return {string}        String to be rendered
-    */
-  	createText: function createText(str, embeds) {
-  		var sortedEmbeds = this.sortObject(embeds);
-  		for (var i = 0; i < sortedEmbeds.length; i++) {
-  			str += ' ' + sortedEmbeds[i].text;
-  		}
-  		return str;
-  	},
+  function ifInline(options, service) {
+      return options.inlineEmbed.indexOf(service) == -1 && options.inlineEmbed !== 'all';
+  }
 
-  	/**
-    * Matches the string and finds the substrings matching to the provided regex pattern
-    * @param  {object} regex Regex pattern
-    * @param  {string} input The string to be analyzed
-    * @return {object}       Returns the matched substring with their corresponding positions
-    */
-  	matches: function matches(regex, input) {
-  		return regex.exec(input);
-  	},
+  /**
+   * Calculates the dimensions for the elements based on a aspect ratio
+   * @param  {object} options Plugin options
+   * @return {object}         The width and height of the elements
+   */
+  function getDimensions(options) {
+      var dimensions = {
+          width: options.videoWidth,
+          height: options.videoHeight
+      };
+      if (options.videoHeight && options.videoWidth) {
+          return dimensions;
+      } else if (options.videoHeight) {
+          dimensions.width = options.videoHeight / 3 * 4;
+          return dimensions;
+      } else if (options.videoWidth) {
+          dimensions.height = dimensions.width / 4 * 3;
+          return dimensions;
+      } else {
+          var _ref = [800, 600];
+          dimensions.width = _ref[0];
+          dimensions.height = _ref[1];
 
-  	/**
-    * Checks wheteher a particular service should be embedded or not based on
-    * the setting provided by the user
-    * @param  {object} options The options provided by the user
-    * @param  {string} service Name of the service for which the condition is to be analyzed
-    * @return {boolean}        True if it should be embedded
-    */
-  	ifEmbed: function ifEmbed(options, service) {
-  		return options.excludeEmbed.indexOf(service) == -1 && options.excludeEmbed !== 'all';
-  	},
-  	ifInline: function ifInline(options, service) {
-  		return options.inlineEmbed.indexOf(service) == -1 && options.inlineEmbed !== 'all';
-  	},
+          return dimensions;
+      }
+  }
 
-  	/**
-    * Calculates the dimensions for the elements based on a aspect ratio
-    * @param  {object} options Plugin options
-    * @return {object}         The width and height of the elements
-    */
-  	dimensions: function dimensions(options) {
-  		var dimensions = {
-  			width: options.videoWidth,
-  			height: options.videoHeight
-  		};
-  		if (options.videoHeight && options.videoWidth) {
-  			return dimensions;
-  		} else if (options.videoHeight) {
-  			dimensions.width = options.videoHeight / 3 * 4;
-  			return dimensions;
-  		} else if (options.videoWidth) {
-  			dimensions.height = dimensions.width / 4 * 3;
-  			return dimensions;
-  		} else {
-  			var _ref = [800, 600];
-  			dimensions.width = _ref[0];
-  			dimensions.height = _ref[1];
+  /**
+   * Returns a cloned object
+   * @param  {object} obj
+   * @return {object}     cloned object
+   */
+  function cloneObject(obj) {
+      if (obj === null || (typeof obj === 'undefined' ? 'undefined' : babelHelpers_typeof(obj)) !== 'object') return obj;
+      var temp = obj.constructor(); // give temp the original obj's constructor
+      for (var key in obj) {
+          temp[key] = cloneObject(obj[key]);
+      }
+      return temp;
+  }
 
-  			return dimensions;
-  		}
-  	},
-
-  	/**
-    * Returns a cloned object
-    * @param  {object} obj
-    * @return {object}     cloned object
-    */
-  	cloneObject: function cloneObject(obj) {
-  		if (obj === null || (typeof obj === 'undefined' ? 'undefined' : babelHelpers_typeof(obj)) !== 'object') return obj;
-  		var temp = obj.constructor(); // give temp the original obj's constructor
-  		for (var key in obj) {
-  			temp[key] = this.cloneObject(obj[key]);
-  		}
-  		return temp;
-  	},
-  	urlRegex: function urlRegex() {
-  		return (/((href|src)=["']|)(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])|(?:https?:\/\/)?(?:(?:0rz\.tw)|(?:1link\.in)|(?:1url\.com)|(?:2\.gp)|(?:2big\.at)|(?:2tu\.us)|(?:3\.ly)|(?:307\.to)|(?:4ms\.me)|(?:4sq\.com)|(?:4url\.cc)|(?:6url\.com)|(?:7\.ly)|(?:a\.gg)|(?:a\.nf)|(?:aa\.cx)|(?:abcurl\.net)|(?:ad\.vu)|(?:adf\.ly)|(?:adjix\.com)|(?:afx\.cc)|(?:all\.fuseurl.com)|(?:alturl\.com)|(?:amzn\.to)|(?:ar\.gy)|(?:arst\.ch)|(?:atu\.ca)|(?:azc\.cc)|(?:b23\.ru)|(?:b2l\.me)|(?:bacn\.me)|(?:bcool\.bz)|(?:binged\.it)|(?:bit\.ly)|(?:buff\.ly)|(?:bizj\.us)|(?:bloat\.me)|(?:bravo\.ly)|(?:bsa\.ly)|(?:budurl\.com)|(?:canurl\.com)|(?:chilp\.it)|(?:chzb\.gr)|(?:cl\.lk)|(?:cl\.ly)|(?:clck\.ru)|(?:cli\.gs)|(?:cliccami\.info)|(?:clickthru\.ca)|(?:clop\.in)|(?:conta\.cc)|(?:cort\.as)|(?:cot\.ag)|(?:crks\.me)|(?:ctvr\.us)|(?:cutt\.us)|(?:dai\.ly)|(?:decenturl\.com)|(?:dfl8\.me)|(?:digbig\.com)|(?:digg\.com)|(?:disq\.us)|(?:dld\.bz)|(?:dlvr\.it)|(?:do\.my)|(?:doiop\.com)|(?:dopen\.us)|(?:easyuri\.com)|(?:easyurl\.net)|(?:eepurl\.com)|(?:eweri\.com)|(?:fa\.by)|(?:fav\.me)|(?:fb\.me)|(?:fbshare\.me)|(?:ff\.im)|(?:fff\.to)|(?:fire\.to)|(?:firsturl\.de)|(?:firsturl\.net)|(?:flic\.kr)|(?:flq\.us)|(?:fly2\.ws)|(?:fon\.gs)|(?:freak\.to)|(?:fuseurl\.com)|(?:fuzzy\.to)|(?:fwd4\.me)|(?:fwib\.net)|(?:g\.ro.lt)|(?:gizmo\.do)|(?:gl\.am)|(?:go\.9nl.com)|(?:go\.ign.com)|(?:go\.usa.gov)|(?:goo\.gl)|(?:goshrink\.com)|(?:gurl\.es)|(?:hex\.io)|(?:hiderefer\.com)|(?:hmm\.ph)|(?:href\.in)|(?:hsblinks\.com)|(?:htxt\.it)|(?:huff\.to)|(?:hulu\.com)|(?:hurl\.me)|(?:hurl\.ws)|(?:icanhaz\.com)|(?:idek\.net)|(?:ilix\.in)|(?:is\.gd)|(?:its\.my)|(?:ix\.lt)|(?:j\.mp)|(?:jijr\.com)|(?:kl\.am)|(?:klck\.me)|(?:korta\.nu)|(?:krunchd\.com)|(?:l9k\.net)|(?:lat\.ms)|(?:liip\.to)|(?:liltext\.com)|(?:linkbee\.com)|(?:linkbun\.ch)|(?:liurl\.cn)|(?:ln-s\.net)|(?:ln-s\.ru)|(?:lnk\.gd)|(?:lnk\.ms)|(?:lnkd\.in)|(?:lnkurl\.com)|(?:lru\.jp)|(?:lt\.tl)|(?:lurl\.no)|(?:macte\.ch)|(?:mash\.to)|(?:merky\.de)|(?:migre\.me)|(?:miniurl\.com)|(?:minurl\.fr)|(?:mke\.me)|(?:moby\.to)|(?:moourl\.com)|(?:mrte\.ch)|(?:myloc\.me)|(?:myurl\.in)|(?:n\.pr)|(?:nbc\.co)|(?:nblo\.gs)|(?:nn\.nf)|(?:not\.my)|(?:notlong\.com)|(?:nsfw\.in)|(?:nutshellurl\.com)|(?:nxy\.in)|(?:nyti\.ms)|(?:o-x\.fr)|(?:oc1\.us)|(?:om\.ly)|(?:omf\.gd)|(?:omoikane\.net)|(?:on\.cnn.com)|(?:on\.mktw.net)|(?:onforb\.es)|(?:orz\.se)|(?:ow\.ly)|(?:ping\.fm)|(?:pli\.gs)|(?:pnt\.me)|(?:politi\.co)|(?:post\.ly)|(?:pp\.gg)|(?:profile\.to)|(?:ptiturl\.com)|(?:pub\.vitrue.com)|(?:qlnk\.net)|(?:qte\.me)|(?:qu\.tc)|(?:qy\.fi)|(?:r\.im)|(?:rb6\.me)|(?:read\.bi)|(?:readthis\.ca)|(?:reallytinyurl\.com)|(?:redir\.ec)|(?:redirects\.ca)|(?:redirx\.com)|(?:retwt\.me)|(?:ri\.ms)|(?:rickroll\.it)|(?:riz\.gd)|(?:rt\.nu)|(?:ru\.ly)|(?:rubyurl\.com)|(?:rurl\.org)|(?:rww\.tw)|(?:s4c\.in)|(?:s7y\.us)|(?:safe\.mn)|(?:sameurl\.com)|(?:sdut\.us)|(?:shar\.es)|(?:shink\.de)|(?:shorl\.com)|(?:short\.ie)|(?:short\.to)|(?:shortlinks\.co.uk)|(?:shorturl\.com)|(?:shout\.to)|(?:show\.my)|(?:shrinkify\.com)|(?:shrinkr\.com)|(?:shrt\.fr)|(?:shrt\.st)|(?:shrten\.com)|(?:shrunkin\.com)|(?:simurl\.com)|(?:slate\.me)|(?:smallr\.com)|(?:smsh\.me)|(?:smurl\.name)|(?:sn\.im)|(?:snipr\.com)|(?:snipurl\.com)|(?:snurl\.com)|(?:sp2\.ro)|(?:spedr\.com)|(?:srnk\.net)|(?:srs\.li)|(?:starturl\.com)|(?:su\.pr)|(?:surl\.co.uk)|(?:surl\.hu)|(?:t\.cn)|(?:t\.co)|(?:t\.lh.com)|(?:ta\.gd)|(?:tbd\.ly)|(?:tcrn\.ch)|(?:tgr\.me)|(?:tgr\.ph)|(?:tighturl\.com)|(?:tiniuri\.com)|(?:tiny\.cc)|(?:tiny\.ly)|(?:tiny\.pl)|(?:tinylink\.in)|(?:tinyuri\.ca)|(?:tinyurl\.com)|(?:tl\.gd)|(?:tmi\.me)|(?:tnij\.org)|(?:tnw\.to)|(?:tny\.com)|(?:to\.ly)|(?:togoto\.us)|(?:totc\.us)|(?:toysr\.us)|(?:tpm\.ly)|(?:tr\.im)|(?:tra\.kz)|(?:trunc\.it)|(?:twhub\.com)|(?:twirl\.at)|(?:twitclicks\.com)|(?:twitterurl\.net)|(?:twitterurl\.org)|(?:twiturl\.de)|(?:twurl\.cc)|(?:twurl\.nl)|(?:u\.mavrev.com)|(?:u\.nu)|(?:u76\.org)|(?:ub0\.cc)|(?:ulu\.lu)|(?:updating\.me)|(?:ur1\.ca)|(?:url\.az)|(?:url\.co.uk)|(?:url\.ie)|(?:url360\.me)|(?:url4\.eu)|(?:urlborg\.com)|(?:urlbrief\.com)|(?:urlcover\.com)|(?:urlcut\.com)|(?:urlenco\.de)|(?:urli\.nl)|(?:urls\.im)|(?:urlshorteningservicefortwitter\.com)|(?:urlx\.ie)|(?:urlzen\.com)|(?:usat\.ly)|(?:use\.my)|(?:vb\.ly)|(?:vgn\.am)|(?:vl\.am)|(?:vm\.lc)|(?:w55\.de)|(?:wapo\.st)|(?:wapurl\.co.uk)|(?:wipi\.es)|(?:wp\.me)|(?:x\.vu)|(?:xr\.com)|(?:xrl\.in)|(?:xrl\.us)|(?:xurl\.es)|(?:xurl\.jp)|(?:y\.ahoo.it)|(?:yatuc\.com)|(?:ye\.pe)|(?:yep\.it)|(?:yfrog\.com)|(?:yhoo\.it)|(?:yiyd\.com)|(?:youtu\.be)|(?:yuarel\.com)|(?:z0p\.de)|(?:zi\.ma)|(?:zi\.mu)|(?:zipmyurl\.com)|(?:zud\.me)|(?:zurl\.ws)|(?:zz\.gd)|(?:zzang\.kr)|(?:›\.ws)|(?:✩\.ws)|(?:✿\.ws)|(?:❥\.ws)|(?:➔\.ws)|(?:➞\.ws)|(?:➡\.ws)|(?:➨\.ws)|(?:➯\.ws)|(?:➹\.ws)|(?:➽\.ws))\/[a-z0-9]*/gi
-  		);
-  	}
-  };
+  function urlRegex() {
+      return (/((href|src)=["']|)(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])|(?:https?:\/\/)?(?:(?:0rz\.tw)|(?:1link\.in)|(?:1url\.com)|(?:2\.gp)|(?:2big\.at)|(?:2tu\.us)|(?:3\.ly)|(?:307\.to)|(?:4ms\.me)|(?:4sq\.com)|(?:4url\.cc)|(?:6url\.com)|(?:7\.ly)|(?:a\.gg)|(?:a\.nf)|(?:aa\.cx)|(?:abcurl\.net)|(?:ad\.vu)|(?:adf\.ly)|(?:adjix\.com)|(?:afx\.cc)|(?:all\.fuseurl.com)|(?:alturl\.com)|(?:amzn\.to)|(?:ar\.gy)|(?:arst\.ch)|(?:atu\.ca)|(?:azc\.cc)|(?:b23\.ru)|(?:b2l\.me)|(?:bacn\.me)|(?:bcool\.bz)|(?:binged\.it)|(?:bit\.ly)|(?:buff\.ly)|(?:bizj\.us)|(?:bloat\.me)|(?:bravo\.ly)|(?:bsa\.ly)|(?:budurl\.com)|(?:canurl\.com)|(?:chilp\.it)|(?:chzb\.gr)|(?:cl\.lk)|(?:cl\.ly)|(?:clck\.ru)|(?:cli\.gs)|(?:cliccami\.info)|(?:clickthru\.ca)|(?:clop\.in)|(?:conta\.cc)|(?:cort\.as)|(?:cot\.ag)|(?:crks\.me)|(?:ctvr\.us)|(?:cutt\.us)|(?:dai\.ly)|(?:decenturl\.com)|(?:dfl8\.me)|(?:digbig\.com)|(?:digg\.com)|(?:disq\.us)|(?:dld\.bz)|(?:dlvr\.it)|(?:do\.my)|(?:doiop\.com)|(?:dopen\.us)|(?:easyuri\.com)|(?:easyurl\.net)|(?:eepurl\.com)|(?:eweri\.com)|(?:fa\.by)|(?:fav\.me)|(?:fb\.me)|(?:fbshare\.me)|(?:ff\.im)|(?:fff\.to)|(?:fire\.to)|(?:firsturl\.de)|(?:firsturl\.net)|(?:flic\.kr)|(?:flq\.us)|(?:fly2\.ws)|(?:fon\.gs)|(?:freak\.to)|(?:fuseurl\.com)|(?:fuzzy\.to)|(?:fwd4\.me)|(?:fwib\.net)|(?:g\.ro.lt)|(?:gizmo\.do)|(?:gl\.am)|(?:go\.9nl.com)|(?:go\.ign.com)|(?:go\.usa.gov)|(?:goo\.gl)|(?:goshrink\.com)|(?:gurl\.es)|(?:hex\.io)|(?:hiderefer\.com)|(?:hmm\.ph)|(?:href\.in)|(?:hsblinks\.com)|(?:htxt\.it)|(?:huff\.to)|(?:hulu\.com)|(?:hurl\.me)|(?:hurl\.ws)|(?:icanhaz\.com)|(?:idek\.net)|(?:ilix\.in)|(?:is\.gd)|(?:its\.my)|(?:ix\.lt)|(?:j\.mp)|(?:jijr\.com)|(?:kl\.am)|(?:klck\.me)|(?:korta\.nu)|(?:krunchd\.com)|(?:l9k\.net)|(?:lat\.ms)|(?:liip\.to)|(?:liltext\.com)|(?:linkbee\.com)|(?:linkbun\.ch)|(?:liurl\.cn)|(?:ln-s\.net)|(?:ln-s\.ru)|(?:lnk\.gd)|(?:lnk\.ms)|(?:lnkd\.in)|(?:lnkurl\.com)|(?:lru\.jp)|(?:lt\.tl)|(?:lurl\.no)|(?:macte\.ch)|(?:mash\.to)|(?:merky\.de)|(?:migre\.me)|(?:miniurl\.com)|(?:minurl\.fr)|(?:mke\.me)|(?:moby\.to)|(?:moourl\.com)|(?:mrte\.ch)|(?:myloc\.me)|(?:myurl\.in)|(?:n\.pr)|(?:nbc\.co)|(?:nblo\.gs)|(?:nn\.nf)|(?:not\.my)|(?:notlong\.com)|(?:nsfw\.in)|(?:nutshellurl\.com)|(?:nxy\.in)|(?:nyti\.ms)|(?:o-x\.fr)|(?:oc1\.us)|(?:om\.ly)|(?:omf\.gd)|(?:omoikane\.net)|(?:on\.cnn.com)|(?:on\.mktw.net)|(?:onforb\.es)|(?:orz\.se)|(?:ow\.ly)|(?:ping\.fm)|(?:pli\.gs)|(?:pnt\.me)|(?:politi\.co)|(?:post\.ly)|(?:pp\.gg)|(?:profile\.to)|(?:ptiturl\.com)|(?:pub\.vitrue.com)|(?:qlnk\.net)|(?:qte\.me)|(?:qu\.tc)|(?:qy\.fi)|(?:r\.im)|(?:rb6\.me)|(?:read\.bi)|(?:readthis\.ca)|(?:reallytinyurl\.com)|(?:redir\.ec)|(?:redirects\.ca)|(?:redirx\.com)|(?:retwt\.me)|(?:ri\.ms)|(?:rickroll\.it)|(?:riz\.gd)|(?:rt\.nu)|(?:ru\.ly)|(?:rubyurl\.com)|(?:rurl\.org)|(?:rww\.tw)|(?:s4c\.in)|(?:s7y\.us)|(?:safe\.mn)|(?:sameurl\.com)|(?:sdut\.us)|(?:shar\.es)|(?:shink\.de)|(?:shorl\.com)|(?:short\.ie)|(?:short\.to)|(?:shortlinks\.co.uk)|(?:shorturl\.com)|(?:shout\.to)|(?:show\.my)|(?:shrinkify\.com)|(?:shrinkr\.com)|(?:shrt\.fr)|(?:shrt\.st)|(?:shrten\.com)|(?:shrunkin\.com)|(?:simurl\.com)|(?:slate\.me)|(?:smallr\.com)|(?:smsh\.me)|(?:smurl\.name)|(?:sn\.im)|(?:snipr\.com)|(?:snipurl\.com)|(?:snurl\.com)|(?:sp2\.ro)|(?:spedr\.com)|(?:srnk\.net)|(?:srs\.li)|(?:starturl\.com)|(?:su\.pr)|(?:surl\.co.uk)|(?:surl\.hu)|(?:t\.cn)|(?:t\.co)|(?:t\.lh.com)|(?:ta\.gd)|(?:tbd\.ly)|(?:tcrn\.ch)|(?:tgr\.me)|(?:tgr\.ph)|(?:tighturl\.com)|(?:tiniuri\.com)|(?:tiny\.cc)|(?:tiny\.ly)|(?:tiny\.pl)|(?:tinylink\.in)|(?:tinyuri\.ca)|(?:tinyurl\.com)|(?:tl\.gd)|(?:tmi\.me)|(?:tnij\.org)|(?:tnw\.to)|(?:tny\.com)|(?:to\.ly)|(?:togoto\.us)|(?:totc\.us)|(?:toysr\.us)|(?:tpm\.ly)|(?:tr\.im)|(?:tra\.kz)|(?:trunc\.it)|(?:twhub\.com)|(?:twirl\.at)|(?:twitclicks\.com)|(?:twitterurl\.net)|(?:twitterurl\.org)|(?:twiturl\.de)|(?:twurl\.cc)|(?:twurl\.nl)|(?:u\.mavrev.com)|(?:u\.nu)|(?:u76\.org)|(?:ub0\.cc)|(?:ulu\.lu)|(?:updating\.me)|(?:ur1\.ca)|(?:url\.az)|(?:url\.co.uk)|(?:url\.ie)|(?:url360\.me)|(?:url4\.eu)|(?:urlborg\.com)|(?:urlbrief\.com)|(?:urlcover\.com)|(?:urlcut\.com)|(?:urlenco\.de)|(?:urli\.nl)|(?:urls\.im)|(?:urlshorteningservicefortwitter\.com)|(?:urlx\.ie)|(?:urlzen\.com)|(?:usat\.ly)|(?:use\.my)|(?:vb\.ly)|(?:vgn\.am)|(?:vl\.am)|(?:vm\.lc)|(?:w55\.de)|(?:wapo\.st)|(?:wapurl\.co.uk)|(?:wipi\.es)|(?:wp\.me)|(?:x\.vu)|(?:xr\.com)|(?:xrl\.in)|(?:xrl\.us)|(?:xurl\.es)|(?:xurl\.jp)|(?:y\.ahoo.it)|(?:yatuc\.com)|(?:ye\.pe)|(?:yep\.it)|(?:yfrog\.com)|(?:yhoo\.it)|(?:yiyd\.com)|(?:youtu\.be)|(?:yuarel\.com)|(?:z0p\.de)|(?:zi\.ma)|(?:zi\.mu)|(?:zipmyurl\.com)|(?:zud\.me)|(?:zurl\.ws)|(?:zz\.gd)|(?:zzang\.kr)|(?:›\.ws)|(?:✩\.ws)|(?:✿\.ws)|(?:❥\.ws)|(?:➔\.ws)|(?:➞\.ws)|(?:➡\.ws)|(?:➨\.ws)|(?:➯\.ws)|(?:➹\.ws)|(?:➽\.ws))\/[a-z0-9]*/gi
+      );
+  }
 
   var hasOwn = Object.prototype.hasOwnProperty;
   var undefined$1 = void 0; // More compressible than void 0.
@@ -940,7 +921,7 @@
    * @return {string}         compiled template with variables replaced
    */
   function template(url, options) {
-      var dimensions = utils.dimensions(options);
+      var dimensions = getDimensions(options);
       return ejs.template.vimeo(url, dimensions, options) || ejs.template.youtube(url, dimensions, options) || '<div class="ejs-video-player ejs-embed">\n        <iframe src="' + url + '" frameBorder="0" width="' + dimensions.width + '" height="' + dimensions.height + '"></iframe>\n        </div>';
   }
 
@@ -968,7 +949,7 @@
    * @return {null}
    */
   function applyVideoJS(options) {
-      var dimensions = utils.dimensions(options);
+      var dimensions = getDimensions(options);
       options.videojsOptions.width = dimensions.width;
       options.videojsOptions.height = dimensions.height;
       if (options.videoJS) {
@@ -1019,7 +1000,7 @@
                           match = undefined;
 
                       case 4:
-                          if (!((match = utils.matches(regexInline, _this.output)) !== null)) {
+                          if (!((match = matches(regexInline, _this.output)) !== null)) {
                               _context.next = 21;
                               break;
                           }
@@ -1104,7 +1085,7 @@
                           match = undefined;
 
                       case 3:
-                          if (!((match = utils.matches(_this.regex, _this.input)) !== null)) {
+                          if (!((match = matches(_this.regex, _this.input)) !== null)) {
                               _context2.next = 16;
                               break;
                           }
@@ -1639,7 +1620,7 @@
   							case 0:
   								_context2.prev = 0;
 
-  								if (utils.ifInline(this.options, this.service)) {
+  								if (ifInline(this.options, this.service)) {
   									_context2.next = 7;
   									break;
   								}
@@ -1725,7 +1706,7 @@
           value: function process() {
               var _this = this;
 
-              if (!utils.ifInline(this.options, this.service)) {
+              if (!ifInline(this.options, this.service)) {
                   var regexInline = this.options.link ? new RegExp('([^>]*' + this.regex.source + ')</a>', 'gm') : new RegExp('([^\\s]*' + this.regex.source + ')', 'gm');
                   this.output = this.output.replace(regexInline, function (match) {
                       var url = _this.options.link ? match.slice(0, -4) : match;
@@ -1742,7 +1723,7 @@
                   });
               } else {
                   var match = undefined;
-                  while ((match = utils.matches(this.regex, this.input)) !== null) {
+                  while ((match = matches(this.regex, this.input)) !== null) {
                       if (this.options.served.indexOf(match[0]) === -1) {
                           var text = this.template(match[0]);
                           this.embeds.push({
@@ -1805,7 +1786,7 @@
   					while (1) {
   						switch (_context.prev = _context.next) {
   							case 0:
-  								if (utils.ifInline(this.options, this.service)) {
+  								if (ifInline(this.options, this.service)) {
   									_context.next = 6;
   									break;
   								}
@@ -1848,7 +1829,7 @@
   					while (1) {
   						switch (_context2.prev = _context2.next) {
   							case 0:
-  								dimensions = utils.dimensions(_this.options);
+  								dimensions = getDimensions(_this.options);
   								api = 'http://www.slideshare.net/api/oembed/2?url=' + url + '&format=jsonp&maxwidth=' + dimensions.width + '&maxheight=' + dimensions.height;
   								_context2.next = 4;
   								return fetchJsonp(api, {
@@ -1922,8 +1903,8 @@
   	babelHelpers_createClass(Instagram, [{
   		key: 'template',
   		value: function template(match) {
-  			var dimensions = utils.dimensions(this.options);
-  			return ejs.template.instagram(match, dimensions, this.options) || '<div class="ejs-embed ejs-instagram"><iframe src="' + utils.toUrl(match.split('/?')[0]) + '/embed/" height="' + dimensions.height + '"></iframe></div>';
+  			var dimensions = getDimensions(this.options);
+  			return ejs.template.instagram(match, dimensions, this.options) || '<div class="ejs-embed ejs-instagram"><iframe src="' + toUrl(match.split('/?')[0]) + '/embed/" height="' + dimensions.height + '"></iframe></div>';
   		}
   	}]);
   	return Instagram;
@@ -1945,8 +1926,8 @@
   	babelHelpers_createClass(Flickr, [{
   		key: 'template',
   		value: function template(match) {
-  			var dimensions = utils.dimensions(this.options);
-  			return ejs.template.flickr(match, dimensions, this.options) || '<div class="ejs-embed">\n\t\t\t<div class="ne-image-wrapper">\n\t\t\t\t<iframe src="' + utils.toUrl(match.split('/?')[0]) + '/player/" width="' + dimensions.width + '" height="' + dimensions.height + '"></iframe>\n\t\t\t</div>\n\t\t</div>';
+  			var dimensions = getDimensions(this.options);
+  			return ejs.template.flickr(match, dimensions, this.options) || '<div class="ejs-embed">\n\t\t\t<div class="ne-image-wrapper">\n\t\t\t\t<iframe src="' + toUrl(match.split('/?')[0]) + '/player/" width="' + dimensions.width + '" height="' + dimensions.height + '"></iframe>\n\t\t\t</div>\n\t\t</div>';
   		}
   	}]);
   	return Flickr;
@@ -2076,7 +2057,7 @@
                                                       longitude = _ref2[1];
                                                       text = Gmap.template(match[0], latitude, longitude, _this.options);
 
-                                                      if (!utils.ifInline(_this.options, _this.service)) {
+                                                      if (!ifInline(_this.options, _this.service)) {
                                                           _this.output = _this.output.replace(_this.regex, function (regexMatch) {
                                                               return '<span class="ejs-location">' + Gmap.locationText(regexMatch) + '</span>' + text;
                                                           });
@@ -2099,7 +2080,7 @@
                                   });
 
                               case 2:
-                                  if (!((match = utils.matches(this.regex, this.output)) !== null)) {
+                                  if (!((match = matches(this.regex, this.output)) !== null)) {
                                       _context2.next = 6;
                                       break;
                                   }
@@ -2164,7 +2145,7 @@
           value: function template(match, latitude, longitude, options) {
               var location = match.split('(')[1].split(')')[0];
               var config = options.mapOptions;
-              var dimensions = utils.dimensions(options);
+              var dimensions = getDimensions(options);
               if (config.mode === 'place') {
                   return '<div class="ejs-embed ejs-map"><iframe width="' + dimensions.width + '" height="' + dimensions.height + '" src="https://www.google.com/maps/embed/v1/place?key=' + options.googleAuthKey + '&q=' + location + '"></iframe></div>';
               } else if (config.mode === 'streetview') {
@@ -2202,7 +2183,7 @@
   					while (1) {
   						switch (_context.prev = _context.next) {
   							case 0:
-  								if (utils.ifInline(this.options, this.service)) {
+  								if (ifInline(this.options, this.service)) {
   									_context.next = 6;
   									break;
   								}
@@ -2382,7 +2363,7 @@
                               case 0:
                                   _context2.prev = 0;
 
-                                  if (utils.ifInline(this.options, this.service)) {
+                                  if (ifInline(this.options, this.service)) {
                                       _context2.next = 7;
                                       break;
                                   }
@@ -2424,14 +2405,14 @@
           }()
       }], [{
           key: 'formatData',
-          value: function formatData(data, utils) {
+          value: function formatData(data, truncate) {
               return {
                   title: data.title,
                   thumbnail: data.thumbnail_medium,
                   rawDescription: data.description.replace(/\n/g, '<br/>').replace(/&#10;/g, '<br/>'),
                   views: data.stats_number_of_plays,
                   likes: data.stats_number_of_likes,
-                  description: utils.truncate(data.description.replace(/((<|&lt;)br\s*\/*(>|&gt;)\r\n)/g, ' '), 150),
+                  description: truncate(data.description.replace(/((<|&lt;)br\s*\/*(>|&gt;)\r\n)/g, ' '), 150),
                   url: data.url,
                   id: data.id,
                   host: 'vimeo'
@@ -2475,7 +2456,7 @@
 
                               case 9:
                                   data = _context3.sent;
-                                  return _context3.abrupt('return', getDetailsTemplate(Vimeo.formatData(data, utils), data, embedUrl));
+                                  return _context3.abrupt('return', getDetailsTemplate(Vimeo.formatData(data, truncate), data, embedUrl));
 
                               case 13:
                                   return _context3.abrupt('return', template(embedUrl, _this.options));
@@ -2557,7 +2538,7 @@
   							case 0:
   								_context2.prev = 0;
 
-  								if (utils.ifInline(this.options, this.service)) {
+  								if (ifInline(this.options, this.service)) {
   									_context2.next = 7;
   									break;
   								}
@@ -2603,14 +2584,14 @@
   		}()
   	}], [{
   		key: 'formatData',
-  		value: function formatData(data, utils) {
+  		value: function formatData(data, truncate) {
   			return {
   				title: data.snippet.title,
   				thumbnail: data.snippet.thumbnails.medium.url,
   				rawDescription: data.snippet.description,
   				views: data.statistics.viewCount,
   				likes: data.statistics.likeCount,
-  				description: utils.truncate(data.snippet.description, 150),
+  				description: truncate(data.snippet.description, 150),
   				url: 'https://www.youtube.com/watch?v=' + data.id,
   				id: data.id,
   				host: 'youtube'
@@ -2639,7 +2620,7 @@
 
   							case 6:
   								data = _context3.sent;
-  								return _context3.abrupt('return', getDetailsTemplate(Youtube.formatData(data, utils), data, embedUrl));
+  								return _context3.abrupt('return', getDetailsTemplate(Youtube.formatData(data, truncate), data, embedUrl));
 
   							case 10:
   								return _context3.abrupt('return', template(embedUrl, _this.options));
@@ -2722,7 +2703,7 @@
       babelHelpers_createClass(LiveLeak, [{
           key: 'template',
           value: function template(match) {
-              var dimensions = utils.dimensions(this.options);
+              var dimensions = getDimensions(this.options);
               return ejs.template.liveLeak(match, dimensions, this.options) || '<div class="ejs-video ejs-embed"><iframe src="http://www.liveleak.com/e/' + match.split('=')[1] + '" height="' + dimensions.height + '" width="' + dimensions.width + '"></iframe></div>';
           }
       }]);
@@ -2747,7 +2728,7 @@
           value: function template(match) {
               var id = match.split('/');
               id.splice(1, 0, 'embed');
-              var dimensions = utils.dimensions(this.options);
+              var dimensions = getDimensions(this.options);
               return ejs.template.ustream(id, dimensions, this.options) || '<div class="ejs-embed ejs-ustream"><iframe src="//www.' + id.join('/') + '" height="' + dimensions.height + '" width="' + dimensions.width + '"></iframe></div>';
           }
       }]);
@@ -2770,7 +2751,7 @@
       babelHelpers_createClass(Dailymotion, [{
           key: 'template',
           value: function template(match) {
-              var dimensions = utils.dimensions(this.options);
+              var dimensions = getDimensions(this.options);
               var a = match.split('/');
               var id = a[a.length - 1];
               return ejs.template.dailymotion(id, dimensions, this.options) || '<div class="ejs-video ejs-embed">\n\t\t<iframe src="http://www.dailymotion.com/embed/video/' + id + '" height="' + dimensions.height + '" width="' + dimensions.width + '"></iframe>\n\t\t</div>';
@@ -2795,7 +2776,7 @@
       babelHelpers_createClass(Ted, [{
           key: 'template',
           value: function template(match) {
-              var dimensions = utils.dimensions(this.options);
+              var dimensions = getDimensions(this.options);
               var a = match.split('/');
               var id = a[a.length - 1];
               return ejs.template.ted(id, dimensions, this.options) || '<div class="ejs-embed ejs-ted"><iframe src="http://embed.ted.com/talks/' + id + '.html" height="' + dimensions.height + '" width="' + dimensions.width + '"></iframe></div>';
@@ -3161,7 +3142,7 @@
           this.icons = options.customFontIcons.length ? options.customFontIcons : defaultIcons;
 
           this.EscapedSymbols = this.icons.map(function (val) {
-              return '' + utils.escapeRegExp(val.text);
+              return '' + escapeRegExp(val.text);
           });
 
           this.smileyRegex = new RegExp('(' + this.EscapedSymbols.join('|') + ')', 'g');
@@ -3173,7 +3154,7 @@
               var _this = this;
 
               var processedString = this.input.replace(this.smileyRegex, function (match, text) {
-                  var index = _this.EscapedSymbols.indexOf(utils.escapeRegExp(text));
+                  var index = _this.EscapedSymbols.indexOf(escapeRegExp(text));
                   var code = _this.icons[index].code;
                   return ejs.template.smiley(text, code, _this.options) || ' <span class="icon-emoticon" title="' + text + '">' + code + '</span> ';
               });
@@ -3345,9 +3326,9 @@
   								_context2.prev = 0;
   								match = undefined;
 
-  								this.regex = utils.urlRegex();
+  								this.regex = urlRegex();
 
-  								if (utils.ifInline(this.options, this.service)) {
+  								if (ifInline(this.options, this.service)) {
   									_context2.next = 9;
   									break;
   								}
@@ -3361,7 +3342,7 @@
   								break;
 
   							case 9:
-  								if (!((match = utils.matches(this.regex, this.input)) !== null)) {
+  								if (!((match = matches(this.regex, this.input)) !== null)) {
   									_context2.next = 19;
   									break;
   								}
@@ -3464,7 +3445,7 @@
 
   		this.input = input;
   		this.options = options;
-  		this.urlRegex = utils.urlRegex();
+  		this.urlRegex = urlRegex();
   	}
 
   	babelHelpers_createClass(Url, [{
@@ -3476,7 +3457,7 @@
   			return this.input.replace(this.urlRegex, function (match) {
   				var extension = match.split('.')[match.split('.').length - 1];
   				if (config.exclude.indexOf(extension) === -1) {
-  					return ejs.template.url(match, _this.options) || '<a href="' + utils.toUrl(match) + '" rel="' + config.rel + '" target="' + config.target + '">' + match + '</a>';
+  					return ejs.template.url(match, _this.options) || '<a href="' + toUrl(match) + '" rel="' + config.rel + '" target="' + config.target + '">' + match + '</a>';
   				}
   				return match;
   			});
@@ -3581,15 +3562,15 @@
       * We have created a clone of the original options to make sure that the original object
       * isn't altered.
       */
-  			var defOpts = utils.cloneObject(defaultOptions);
-  			var globOpts = utils.cloneObject(globalOptions);
+  			var defOpts = cloneObject(defaultOptions);
+  			var globOpts = cloneObject(globalOptions);
 
   			//merge global options with the default options
-  			var globOptions = utils.deepExtend(defOpts, globOpts);
+  			var globOptions = deepExtend(defOpts, globOpts);
 
   			//merge global options with the overriding options provided by the user as an options
   			//object while creating a new instance of embed.js
-  			this.options = utils.deepExtend(globOptions, options);
+  			this.options = deepExtend(globOptions, options);
 
   			if (!this.options.element && !input) throw ReferenceError("You need to pass an element or the string that needs to be processed");
 
@@ -3657,62 +3638,62 @@
   									if (true && options.highlightCode && !options.marked) {
   										output = new Highlight(output, options).process();
   									}
-  									if (true && utils.ifEmbed(options, 'ideone')) {
+  									if (true && ifEmbed(options, 'ideone')) {
   										_process = new Ideone(input, output, options, embeds).process();
   										_process2 = babelHelpers_slicedToArray(_process, 2);
   										output = _process2[0];
   										embeds = _process2[1];
   									}
-  									if (true && utils.ifEmbed(options, 'plunker')) {
+  									if (true && ifEmbed(options, 'plunker')) {
   										_process3 = new Plunker(input, output, options, embeds).process();
   										_process4 = babelHelpers_slicedToArray(_process3, 2);
   										output = _process4[0];
   										embeds = _process4[1];
   									}
-  									if (true && utils.ifEmbed(options, 'jsbin')) {
+  									if (true && ifEmbed(options, 'jsbin')) {
   										_process5 = new JsBin(input, output, options, embeds).process();
   										_process6 = babelHelpers_slicedToArray(_process5, 2);
   										output = _process6[0];
   										embeds = _process6[1];
   									}
-  									if (true && utils.ifEmbed(options, 'codepen')) {
+  									if (true && ifEmbed(options, 'codepen')) {
   										_process7 = new CodePen(input, output, options, embeds).process();
   										_process8 = babelHelpers_slicedToArray(_process7, 2);
   										output = _process8[0];
   										embeds = _process8[1];
   									}
-  									if (true && utils.ifEmbed(options, 'jsfiddle')) {
+  									if (true && ifEmbed(options, 'jsfiddle')) {
   										_process9 = new JsFiddle(input, output, options, embeds).process();
   										_process10 = babelHelpers_slicedToArray(_process9, 2);
   										output = _process10[0];
   										embeds = _process10[1];
   									}
-  									if (true && utils.ifEmbed(options, 'gist')) {
+  									if (true && ifEmbed(options, 'gist')) {
   										_process11 = new Gist(input, output, options, embeds).process();
   										_process12 = babelHelpers_slicedToArray(_process11, 2);
   										output = _process12[0];
   										embeds = _process12[1];
   									}
 
-  									if (true && utils.ifEmbed(options, 'ted')) {
+  									if (true && ifEmbed(options, 'ted')) {
   										_process13 = new Ted(input, output, options, embeds).process();
   										_process14 = babelHelpers_slicedToArray(_process13, 2);
   										output = _process14[0];
   										embeds = _process14[1];
   									}
-  									if (true && utils.ifEmbed(options, 'dailymotion')) {
+  									if (true && ifEmbed(options, 'dailymotion')) {
   										_process15 = new Dailymotion(input, output, options, embeds).process();
   										_process16 = babelHelpers_slicedToArray(_process15, 2);
   										output = _process16[0];
   										embeds = _process16[1];
   									}
-  									if (true && utils.ifEmbed(options, 'ustream')) {
+  									if (true && ifEmbed(options, 'ustream')) {
   										_process17 = new Ustream(input, output, options, embeds).process();
   										_process18 = babelHelpers_slicedToArray(_process17, 2);
   										output = _process18[0];
   										embeds = _process18[1];
   									}
-  									if (true && utils.ifEmbed(options, 'liveleak')) {
+  									if (true && ifEmbed(options, 'liveleak')) {
   										_process19 = new LiveLeak(input, output, options, embeds).process();
   										_process20 = babelHelpers_slicedToArray(_process19, 2);
   										output = _process20[0];
@@ -3724,14 +3705,14 @@
   										output = _process22[0];
   										embeds = _process22[1];
   									}
-  									if (true && utils.ifEmbed(options, 'vine')) {
+  									if (true && ifEmbed(options, 'vine')) {
   										_process23 = new Vine(input, output, options, embeds).process();
   										_process24 = babelHelpers_slicedToArray(_process23, 2);
   										output = _process24[0];
   										embeds = _process24[1];
   									}
 
-  									if (!(true && utils.ifEmbed(options, 'youtube') && regeneratorRuntime$1)) {
+  									if (!(true && ifEmbed(options, 'youtube') && regeneratorRuntime$1)) {
   										_context.next = 36;
   										break;
   									}
@@ -3746,7 +3727,7 @@
   									embeds = _ref4[1];
 
   								case 36:
-  									if (!(true && utils.ifEmbed(options, 'vimeo'))) {
+  									if (!(true && ifEmbed(options, 'vimeo'))) {
   										_context.next = 43;
   										break;
   									}
@@ -3761,7 +3742,7 @@
   									embeds = _ref6[1];
 
   								case 43:
-  									if (!(true && utils.ifEmbed(options, 'opengraph'))) {
+  									if (!(true && ifEmbed(options, 'opengraph'))) {
   										_context.next = 50;
   										break;
   									}
@@ -3792,13 +3773,13 @@
 
   								case 57:
 
-  									if (true && utils.ifEmbed(options, 'soundcloud')) {
+  									if (true && ifEmbed(options, 'soundcloud')) {
   										_process25 = new SoundCloud(input, output, options, embeds).process();
   										_process26 = babelHelpers_slicedToArray(_process25, 2);
   										output = _process26[0];
   										embeds = _process26[1];
   									}
-  									if (true && utils.ifEmbed(options, 'spotify')) {
+  									if (true && ifEmbed(options, 'spotify')) {
   										_process27 = new Spotify(input, output, options, embeds).process();
   										_process28 = babelHelpers_slicedToArray(_process27, 2);
   										output = _process28[0];
@@ -3811,20 +3792,20 @@
   										embeds = _process30[1];
   									}
 
-  									if (true && utils.ifEmbed(options, 'flickr')) {
+  									if (true && ifEmbed(options, 'flickr')) {
   										_process31 = new Flickr(input, output, options, embeds).process();
   										_process32 = babelHelpers_slicedToArray(_process31, 2);
   										output = _process32[0];
   										embeds = _process32[1];
   									}
-  									if (true && utils.ifEmbed(options, 'instagram')) {
+  									if (true && ifEmbed(options, 'instagram')) {
   										_process33 = new Instagram(input, output, options, embeds).process();
   										_process34 = babelHelpers_slicedToArray(_process33, 2);
   										output = _process34[0];
   										embeds = _process34[1];
   									}
 
-  									if (!(true && utils.ifEmbed(options, 'slideshare'))) {
+  									if (!(true && ifEmbed(options, 'slideshare'))) {
   										_context.next = 69;
   										break;
   									}
@@ -3862,7 +3843,7 @@
   									embeds = _ref14[1];
 
   								case 78:
-  									return _context.abrupt('return', utils.createText(output, embeds));
+  									return _context.abrupt('return', createText(output, embeds));
 
   								case 79:
   								case 'end':
@@ -3994,7 +3975,7 @@
      * @param {object} options
      */
   		setOptions: function setOptions(options) {
-  			globalOptions = utils.deepExtend(defaultOptions, options);
+  			globalOptions = deepExtend(defaultOptions, options);
   		},
 
   		/**

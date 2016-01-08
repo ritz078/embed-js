@@ -1,4 +1,4 @@
-import utils from './utils.es6'
+import { urlRegex, ifInline, matches } from './utils.es6'
 import {inlineEmbed} from './helper.es6'
 
 export default class OpenGraph {
@@ -45,12 +45,12 @@ export default class OpenGraph {
 	async process() {
 		try {
 			let match;
-			this.regex = utils.urlRegex();
-			if (!utils.ifInline(this.options, this.service)) {
+			this.regex = urlRegex();
+			if (!ifInline(this.options, this.service)) {
 				this.output = await inlineEmbed(this, OpenGraph.urlToText)
 
 			} else {
-				while ((match = utils.matches(this.regex, this.input)) !== null) {
+				while ((match = matches(this.regex, this.input)) !== null) {
 					let url = match[0];
 					if (!OpenGraph.ifProcessOGC(url, this.excludeRegex)) continue;
 					let data = await this.fetchData(url);

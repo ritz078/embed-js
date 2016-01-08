@@ -1,4 +1,4 @@
-import utils from '../utils.es6'
+import { truncate, ifInline } from '../utils.es6'
 import { getDetailsTemplate, template, inlineEmbed, normalEmbed } from './../helper.es6'
 import '../../vendor/fetch.js'
 
@@ -13,14 +13,14 @@ export default class Vimeo {
         this.service = 'vimeo'
     }
 
-    static formatData(data, utils) {
+    static formatData(data, truncate) {
         return {
             title: data.title,
             thumbnail: data.thumbnail_medium,
             rawDescription: data.description.replace(/\n/g, '<br/>').replace(/&#10;/g, '<br/>'),
             views: data.stats_number_of_plays,
             likes: data.stats_number_of_likes,
-            description: utils.truncate(data.description.replace(/((<|&lt;)br\s*\/*(>|&gt;)\r\n)/g, ' '), 150),
+            description: truncate(data.description.replace(/((<|&lt;)br\s*\/*(>|&gt;)\r\n)/g, ' '), 150),
             url: data.url,
             id: data.id,
             host: 'vimeo'
@@ -51,7 +51,7 @@ export default class Vimeo {
         let data;
         if (_this.options.videoDetails) {
             data = await _this.data(id);
-            return getDetailsTemplate(Vimeo.formatData(data, utils), data, embedUrl)
+            return getDetailsTemplate(Vimeo.formatData(data, truncate), data, embedUrl)
         } else {
             return template(embedUrl, _this.options)
         }
@@ -60,7 +60,7 @@ export default class Vimeo {
 
     async process() {
         try {
-            if (!utils.ifInline(this.options, this.service)) {
+            if (!ifInline(this.options, this.service)) {
                 this.output = await inlineEmbed(this, Vimeo.urlToText);
             } else {
                 this.embeds = await normalEmbed(this, Vimeo.urlToText);
