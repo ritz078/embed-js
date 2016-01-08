@@ -6,6 +6,44 @@ var babelHelpers_typeof = typeof Symbol === "function" && typeof Symbol.iterator
   return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
 
+var babelHelpers_slicedToArray = function () {
+  function sliceIterator(arr, i) {
+    var _arr = [];
+    var _n = true;
+    var _d = false;
+    var _e = undefined;
+
+    try {
+      for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
+        _arr.push(_s.value);
+
+        if (i && _arr.length === i) break;
+      }
+    } catch (err) {
+      _d = true;
+      _e = err;
+    } finally {
+      try {
+        if (!_n && _i["return"]) _i["return"]();
+      } finally {
+        if (_d) throw _e;
+      }
+    }
+
+    return _arr;
+  }
+
+  return function (arr, i) {
+    if (Array.isArray(arr)) {
+      return arr;
+    } else if (Symbol.iterator in Object(arr)) {
+      return sliceIterator(arr, i);
+    } else {
+      throw new TypeError("Invalid attempt to destructure non-iterable instance");
+    }
+  };
+}();
+
 /**
  * Trucates the string and adds ellipsis at the end.
  * @param string        The string to be truncated
@@ -123,15 +161,20 @@ function getDimensions(options) {
     if (options.videoHeight && options.videoWidth) {
         return dimensions;
     } else if (options.videoHeight) {
-        dimensions.width = options.videoHeight / 3 * 4;
+        options.videoWidth = dimensions.width = options.videoHeight / 3 * 4;
         return dimensions;
     } else if (options.videoWidth) {
-        dimensions.height = dimensions.width / 4 * 3;
+        options.videoHeight = dimensions.height = dimensions.width / 4 * 3;
         return dimensions;
     } else {
-        var _ref = [800, 600];
-        dimensions.width = _ref[0];
-        dimensions.height = _ref[1];
+        var _ref3;
+
+        var _ref = (_ref3 = [800, 600], dimensions.width = _ref3[0], dimensions.height = _ref3[1], _ref3);
+
+        var _ref2 = babelHelpers_slicedToArray(_ref, 2);
+
+        options.videoWidth = _ref2[0];
+        options.videoHeight = _ref2[1];
 
         return dimensions;
     }

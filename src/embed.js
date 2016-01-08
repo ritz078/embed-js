@@ -237,15 +237,20 @@
       if (options.videoHeight && options.videoWidth) {
           return dimensions;
       } else if (options.videoHeight) {
-          dimensions.width = options.videoHeight / 3 * 4;
+          options.videoWidth = dimensions.width = options.videoHeight / 3 * 4;
           return dimensions;
       } else if (options.videoWidth) {
-          dimensions.height = dimensions.width / 4 * 3;
+          options.videoHeight = dimensions.height = dimensions.width / 4 * 3;
           return dimensions;
       } else {
-          var _ref = [800, 600];
-          dimensions.width = _ref[0];
-          dimensions.height = _ref[1];
+          var _ref3;
+
+          var _ref = (_ref3 = [800, 600], dimensions.width = _ref3[0], dimensions.height = _ref3[1], _ref3);
+
+          var _ref2 = babelHelpers_slicedToArray(_ref, 2);
+
+          options.videoWidth = _ref2[0];
+          options.videoHeight = _ref2[1];
 
           return dimensions;
       }

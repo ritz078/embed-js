@@ -117,13 +117,13 @@ export function getDimensions(options) {
     if (options.videoHeight && options.videoWidth) {
         return dimensions;
     } else if (options.videoHeight) {
-        dimensions.width = ((options.videoHeight) / 3) * 4;
+        options.videoWidth = dimensions.width = ((options.videoHeight) / 3) * 4;
         return dimensions;
     } else if (options.videoWidth) {
-        dimensions.height = ((dimensions.width) / 4) * 3;
+        options.videoHeight = dimensions.height = ((dimensions.width) / 4) * 3;
         return dimensions;
     } else {
-        [dimensions.width, dimensions.height] = [800, 600];
+        [options.videoWidth, options.videoHeight] = [dimensions.width, dimensions.height] = [800, 600];
         return dimensions;
     }
 }
