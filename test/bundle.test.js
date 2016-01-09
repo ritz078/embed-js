@@ -209,84 +209,19 @@ function urlRegex() {
     );
 }
 
-var Url = function () {
-	function Url(input, options) {
-		babelHelpers_classCallCheck(this, Url);
-
-		this.input = input;
-		this.options = options;
-		this.urlRegex = urlRegex();
-	}
-
-	babelHelpers_createClass(Url, [{
-		key: 'process',
-		value: function process() {
-			var _this = this;
-
-			var config = this.options.linkOptions;
-			return this.input.replace(this.urlRegex, function (match) {
-				var extension = match.split('.')[match.split('.').length - 1];
-				if (config.exclude.indexOf(extension) === -1) {
-					return ejs.template.url(match, _this.options) || '<a href="' + toUrl(match) + '" rel="' + config.rel + '" target="' + config.target + '">' + match + '</a>';
-				}
-				return match;
-			});
-		}
-	}]);
-	return Url;
-}();
-
 var expect = chai.expect;
-
-describe('Class Url unit test', function () {
-	describe('should return a valid url', function () {
-
-		var options = {
-			link: true,
-			linkOptions: {
-				target: 'self',
-				exclude: ['pdf'],
-				rel: ''
-			}
-		};
-
-		it('should return a valid anchor tag for http://xyz.com/abc', function () {
-			var input = 'http://xyz.com/abc';
-			var result = new Url(input, options).process();
-			expect(result).to.be.a('string');
-			expect(result).to.equal('<a href="http://xyz.com/abc" rel="" target="self">http://xyz.com/abc</a>');
-		});
-
-		it('should exclude the urls with excluded extensions', function () {
-			var input = 'https://something.pdf http://a.jpg';
-			var result = new Url(input, options).process();
-			expect(result).to.be.a('string');
-			expect(result).to.equal('https://something.pdf <a href="http://a.jpg" rel="" target="self">http://a.jpg</a>');
-		});
-
-		it('should support shortened urls like bit.ly/abc', function () {
-			var input = 'bit.ly/abc';
-			var url = new Url(input, options);
-			var result = url.process();
-			expect(result).to.be.a('string');
-			expect(result).to.equal('<a href="//bit.ly/abc" rel="" target="self">bit.ly/abc</a>');
-		});
-	});
-});
-
-var expect$1 = chai.expect;
 
 describe('utility methods unit tests', function () {
 	describe('toUrl() method', function () {
 		"use strict";
 
 		it('should convert string into a valid url', function () {
-			expect$1(toUrl('github.com')).to.equal('//github.com');
-			expect$1(toUrl('//github.com')).to.equal('//github.com');
+			expect(toUrl('github.com')).to.equal('//github.com');
+			expect(toUrl('//github.com')).to.equal('//github.com');
 		});
 
 		it('should return a string', function () {
-			expect$1(toUrl('github.com')).to.be.a('string');
+			expect(toUrl('github.com')).to.be.a('string');
 		});
 	});
 
@@ -294,15 +229,15 @@ describe('utility methods unit tests', function () {
 		"use strict";
 
 		it('should return a string', function () {
-			expect$1(truncate('Est fidelis fuga', 10)).to.be.a('string');
+			expect(truncate('Est fidelis fuga', 10)).to.be.a('string');
 		});
 
 		it('should trucate the string if its longer than n', function () {
-			expect$1(truncate('Est fidelis fuga', 10)).to.equal('Est fidel...');
+			expect(truncate('Est fidelis fuga', 10)).to.equal('Est fidel...');
 		});
 
 		it('should not truncate the string if its size is smaller than n', function () {
-			expect$1(truncate('Est', 10)).to.equal('Est');
+			expect(truncate('Est', 10)).to.equal('Est');
 		});
 	});
 
@@ -311,11 +246,11 @@ describe('utility methods unit tests', function () {
 
 		var arr = [1, 3, 'a', 'a', 1, 5];
 		it('should return an array', function () {
-			expect$1(getUnique(arr)).to.be.a('Array');
+			expect(getUnique(arr)).to.be.a('Array');
 		});
 
 		it('should return an array of unique values', function () {
-			expect$1(getUnique([1, 3, 'a', 'a', 1, 5])).to.eql([1, 3, 'a', 5]);
+			expect(getUnique([1, 3, 'a', 'a', 1, 5])).to.eql([1, 3, 'a', 5]);
 		});
 	});
 
@@ -348,11 +283,11 @@ describe('utility methods unit tests', function () {
 		};
 
 		it('should correctly extend the object', function () {
-			expect$1(deepExtend(defaults, opts)).to.eql(expected);
+			expect(deepExtend(defaults, opts)).to.eql(expected);
 		});
 
 		it('should return an object', function () {
-			expect$1(deepExtend(opts, defaults)).to.be.a('object');
+			expect(deepExtend(opts, defaults)).to.be.a('object');
 		});
 	});
 
@@ -362,7 +297,7 @@ describe('utility methods unit tests', function () {
 		var x = ':):/';
 		it('should return a valid regex pattern', function () {
 			var reg = new RegExp(escapeRegExp(x), 'g');
-			expect$1(x).to.match(reg);
+			expect(x).to.match(reg);
 		});
 	});
 
@@ -382,11 +317,11 @@ describe('utility methods unit tests', function () {
 		}];
 
 		it('should return a string', function () {
-			expect$1(createText(str, embeds)).to.be.a("string");
+			expect(createText(str, embeds)).to.be.a("string");
 		});
 
 		it('should return a string after concatenating the embeds in correct order', function () {
-			expect$1(createText(str, embeds)).to.equal('This is embed.js bar john foo');
+			expect(createText(str, embeds)).to.equal('This is embed.js bar john foo');
 		});
 	});
 
@@ -395,11 +330,11 @@ describe('utility methods unit tests', function () {
 		var input = 'The documentation is available at http://someurl.jpg';
 		var match = matches(regex, input);
 		it('should return an object', function () {
-			expect$1(match).to.be.a("array");
+			expect(match).to.be.a("array");
 		});
 
 		it('should return the location index of the matching substring', function () {
-			expect$1(match.index).to.exist;
+			expect(match.index).to.exist;
 		});
 	});
 
@@ -411,11 +346,11 @@ describe('utility methods unit tests', function () {
 		var service2 = "everything";
 
 		it('should return true if the service is excluded', function () {
-			expect$1(ifEmbed(options, 'everything')).to.be.true;
+			expect(ifEmbed(options, 'everything')).to.be.true;
 		});
 
 		it('should return false if the service is not excluded', function () {
-			expect$1(ifEmbed(options, 'something')).to.be.false;
+			expect(ifEmbed(options, 'something')).to.be.false;
 		});
 	});
 
@@ -432,28 +367,337 @@ describe('utility methods unit tests', function () {
 				width: 600
 			};
 
-			expect$1(getDimensions(options)).to.eql(result);
+			expect(getDimensions(options)).to.eql(result);
 
 			var options2 = {
 				videoHeight: 450,
 				videoWidth: null
 			};
 
-			expect$1(getDimensions(options2)).to.eql(result);
+			expect(getDimensions(options2)).to.eql(result);
 		});
 	});
 
 	describe('urlRegex() method', function () {
 		it('should return a regex', function () {
-			expect$1(urlRegex()).to.be.an.instanceof(RegExp);
+			expect(urlRegex()).to.be.an.instanceof(RegExp);
 		});
 
 		it('should match url like http://rkritesh.com/embed.js', function () {
-			expect$1('http://rkritesh.com/embed.js').to.match(urlRegex());
+			expect('http://rkritesh.com/embed.js').to.match(urlRegex());
 		});
 
 		it('should match url like ftp://something.com', function () {
-			expect$1('ftp://something.com').to.match(urlRegex());
+			expect('ftp://something.com').to.match(urlRegex());
+		});
+	});
+});
+
+var Url = function () {
+	function Url(input, options) {
+		babelHelpers_classCallCheck(this, Url);
+
+		this.input = input;
+		this.options = options;
+		this.urlRegex = urlRegex();
+	}
+
+	babelHelpers_createClass(Url, [{
+		key: 'process',
+		value: function process() {
+			var _this = this;
+
+			var config = this.options.linkOptions;
+			return this.input.replace(this.urlRegex, function (match) {
+				var extension = match.split('.')[match.split('.').length - 1];
+				if (config.exclude.indexOf(extension) === -1) {
+					return ejs.template.url(match, _this.options) || '<a href="' + toUrl(match) + '" rel="' + config.rel + '" target="' + config.target + '">' + match + '</a>';
+				}
+				return match;
+			});
+		}
+	}]);
+	return Url;
+}();
+
+var expect$1 = chai.expect;
+
+describe('Class Url unit test', function () {
+	describe('should return a valid url', function () {
+
+		var options = {
+			link: true,
+			linkOptions: {
+				target: 'self',
+				exclude: ['pdf'],
+				rel: ''
+			}
+		};
+
+		it('should return a valid anchor tag for http://xyz.com/abc', function () {
+			var input = 'http://xyz.com/abc';
+			var result = new Url(input, options).process();
+			expect$1(result).to.be.a('string');
+			expect$1(result).to.equal('<a href="http://xyz.com/abc" rel="" target="self">http://xyz.com/abc</a>');
+		});
+
+		it('should exclude the urls with excluded extensions', function () {
+			var input = 'https://something.pdf http://a.jpg';
+			var result = new Url(input, options).process();
+			expect$1(result).to.be.a('string');
+			expect$1(result).to.equal('https://something.pdf <a href="http://a.jpg" rel="" target="self">http://a.jpg</a>');
+		});
+
+		it('should support shortened urls like bit.ly/abc', function () {
+			var input = 'bit.ly/abc';
+			var url = new Url(input, options);
+			var result = url.process();
+			expect$1(result).to.be.a('string');
+			expect$1(result).to.equal('<a href="//bit.ly/abc" rel="" target="self">bit.ly/abc</a>');
+		});
+	});
+});
+
+var Smiley = function () {
+    function Smiley(input, options) {
+        babelHelpers_classCallCheck(this, Smiley);
+
+        this.input = ' ' + input + ' '; //hack to consider the first and last element
+
+        var defaultIcons = [{
+            'text': ' :) ',
+            'code': '&#xe60a'
+        }, {
+            'text': ' :D ',
+            'code': '&#xe608'
+        }, {
+            'text': ' :d ',
+            'code': '&#xe608'
+        }, {
+            'text': ' :( ',
+            'code': '&#xe60e'
+        }, {
+            'text': ' :/ ',
+            'code': '&#xe620'
+
+        }, {
+            'text': ' :P ',
+            'code': '&#xe60c'
+        }, {
+            'text': ' :p ',
+            'code': '&#xe60c'
+        }, {
+            'text': ' 3:) ',
+            'code': '&#xe618'
+        }, {
+            'text': ' (^) ',
+            'code': '&#xe607'
+        }, {
+            'text': ' ;) ',
+            'code': '&#xe610'
+        }, {
+            'text': ' :o ',
+            'code': '&#xe61a'
+        }, {
+            'text': ' -_- ',
+            'code': '&#xe61e'
+        }, {
+            'text': ' (y) ',
+            'code': '&#xe606'
+        }, {
+            'text': ' :* ',
+            'code': '&#xe604'
+        }, {
+            'text': ' &lt;3 ',
+            'code': '&#xe604'
+        }, {
+            'text': ' <3 ',
+            'code': '&#xe604'
+        }, {
+            'text': ' &lt;/3 ',
+            'code': '&#xe605'
+        }, {
+            'text': ' </3 ',
+            'code': '&#xe605'
+        }, {
+            'text': ' ^_^ ',
+            'code': '&#xe612'
+        }, {
+            'text': ' 8-) ',
+            'code': '&#xe614'
+        }, {
+            'text': ' 8| ',
+            'code': '&#xe614'
+        }, {
+            'text': ' :S ',
+            'code': '&#xe61c'
+        }, {
+            'text': ' :s ',
+            'code': '&#xe61c'
+        }];
+
+        this.icons = options.customFontIcons.length ? options.customFontIcons : defaultIcons;
+
+        this.EscapedSymbols = this.icons.map(function (val) {
+            return '' + escapeRegExp(val.text);
+        });
+
+        this.smileyRegex = new RegExp('(' + this.EscapedSymbols.join('|') + ')', 'g');
+    }
+
+    babelHelpers_createClass(Smiley, [{
+        key: 'process',
+        value: function process() {
+            var _this = this;
+
+            var processedString = this.input.replace(this.smileyRegex, function (match, text) {
+                var index = _this.EscapedSymbols.indexOf(escapeRegExp(text));
+                var code = _this.icons[index].code;
+                return ejs.template.smiley(text, code, _this.options) || ' <span class="icon-emoticon" title="' + text + '">' + code + '</span> ';
+            });
+
+            return processedString.substring(1, processedString.length - 1);
+        }
+    }]);
+    return Smiley;
+}();
+
+var options = {
+	marked: false,
+	markedOptions: {},
+	link: true,
+	linkOptions: {
+		target: 'self',
+		exclude: ['pdf'],
+		rel: ''
+	},
+	emoji: true,
+	customEmoji: [],
+	fontIcons: true,
+	customFontIcons: [],
+	highlightCode: false,
+	videoJS: false,
+	videojsOptions: {
+		fluid: true,
+		preload: 'metadata'
+	},
+	locationEmbed: true,
+	mapOptions: {
+		mode: 'place'
+	},
+	tweetsEmbed: false,
+	tweetOptions: {
+		maxWidth: 550,
+		hideMedia: false,
+		hideThread: false,
+		align: 'none',
+		lang: 'en'
+	},
+	openGraphEndpoint: null,
+	openGraphExclude: [],
+	videoEmbed: true,
+	videoHeight: null,
+	videoWidth: null,
+	videoDetails: true,
+	audioEmbed: true,
+	excludeEmbed: [],
+	inlineEmbed: [],
+	inlineText: true,
+	codeEmbedHeight: 500,
+	vineOptions: {
+		maxWidth: null,
+		type: 'postcard', //'postcard' or 'simple' embedding
+		responsive: true,
+		width: 350,
+		height: 460
+	},
+	googleAuthKey: '',
+	soundCloudOptions: {
+		height: 160,
+		themeColor: 'f50000', //Hex Code of the player theme color
+		autoPlay: false,
+		hideRelated: false,
+		showComments: true,
+		showUser: true,
+		showReposts: false,
+		visual: false, //Show/hide the big preview image
+		download: false //Show/Hide download buttons
+	},
+	videoClickClass: 'ejs-video-thumb',
+	customVideoClickHandler: false,
+	beforeEmbedJSApply: function beforeEmbedJSApply() {},
+	afterEmbedJSApply: function afterEmbedJSApply() {},
+	onVideoShow: function onVideoShow() {},
+	onTweetsLoad: function onTweetsLoad() {},
+	videojsCallback: function videojsCallback() {},
+	onOpenGraphFetch: function onOpenGraphFetch() {},
+	onOpenGraphFail: function onOpenGraphFail() {},
+	videoClickHandler: function videoClickHandler() {},
+	served: [] //Private variable used to store processed urls so that they are not processed multiple times.
+};
+
+var expect$2 = chai.expect;
+
+describe('Smiley Unit Test', function () {
+	"use strict";
+
+	var string = 'Hello :)';
+
+	it('should return a string', function () {
+		var smiley = new Smiley(string, options);
+		expect$2(smiley.process()).to.be.a('string');
+	});
+
+	it('should insert a font smiley', function () {
+		var smiley = new Smiley(string, options);
+		expect$2(smiley.process()).to.equal('Hello <span class="icon-emoticon" title=" :) ">&#xe60a</span>');
+	});
+});
+
+var Emoji = function () {
+    function Emoji(output, options) {
+        babelHelpers_classCallCheck(this, Emoji);
+
+        this.output = output;
+        this.options = options;
+
+        this.emojiList = ['bowtie', 'smile', 'laughing', 'blush', 'smiley', 'relaxed', 'smirk', 'heart_eyes', 'kissing_heart', 'kissing_closed_eyes', 'flushed', 'relieved', 'satisfied', 'grin', 'wink', 'stuck_out_tongue_winking_eye', 'stuck_out_tongue_closed_eyes', 'grinning', 'kissing', 'winky_face', 'kissing_smiling_eyes', 'stuck_out_tongue', 'sleeping', 'worried', 'frowning', 'anguished', 'open_mouth', 'grimacing', 'confused', 'hushed', 'expressionless', 'unamused', 'sweat_smile', 'sweat', 'wow', 'disappointed_relieved', 'weary', 'pensive', 'disappointed', 'confounded', 'fearful', 'cold_sweat', 'persevere', 'cry', 'sob', 'joy', 'astonished', 'scream', 'neckbeard', 'tired_face', 'angry', 'rage', 'triumph', 'sleepy', 'yum', 'mask', 'sunglasses', 'dizzy_face', 'imp', 'smiling_imp', 'neutral_face', 'no_mouth', 'innocent', 'alien', 'yellow_heart', 'blue_heart', 'purple_heart', 'heart', 'green_heart', 'broken_heart', 'heartbeat', 'heartpulse', 'two_hearts', 'revolving_hearts', 'cupid', 'sparkling_heart', 'sparkles', 'star', 'star2', 'dizzy', 'boom', 'collision', 'anger', 'exclamation', 'question', 'grey_exclamation', 'grey_question', 'zzz', 'dash', 'sweat_drops', 'notes', 'musical_note', 'fire', 'hankey', 'poop', 'shit', '\\+1', 'thumbsup', '-1', 'thumbsdown', 'ok_hand', 'punch', 'facepunch', 'fist', 'v', 'wave', 'hand', 'raised_hand', 'open_hands', 'point_up', 'point_down', 'point_left', 'point_right', 'raised_hands', 'pray', 'point_up_2', 'clap', 'muscle', 'metal', 'fu', 'walking', 'runner', 'running', 'couple', 'family', 'two_men_holding_hands', 'two_women_holding_hands', 'dancer', 'dancers', 'ok_woman', 'no_good', 'information_desk_person', 'raising_hand', 'bride_with_veil', 'person_with_pouting_face', 'person_frowning', 'bow', 'couplekiss', 'couple_with_heart', 'massage', 'haircut', 'nail_care', 'boy', 'girl', 'woman', 'man', 'baby', 'older_woman', 'older_man', 'person_with_blond_hair', 'man_with_gua_pi_mao', 'man_with_turban', 'construction_worker', 'cop', 'angel', 'princess', 'smiley_cat', 'smile_cat', 'heart_eyes_cat', 'kissing_cat', 'smirk_cat', 'scream_cat', 'crying_cat_face', 'joy_cat', 'pouting_cat', 'japanese_ogre', 'japanese_goblin', 'see_no_evil', 'hear_no_evil', 'speak_no_evil', 'guardsman', 'skull', 'feet', 'lips', 'kiss', 'droplet', 'ear', 'eyes', 'nose', 'tongue', 'love_letter', 'bust_in_silhouette', 'busts_in_silhouette', 'speech_balloon', 'thought_balloon', 'feelsgood', 'finnadie', 'goberserk', 'godmode', 'hurtrealbad', 'rage1', 'rage2', 'rage3', 'rage4', 'suspect', 'trollface', 'sunny', 'umbrella', 'cloud', 'snowflake', 'snowman', 'zap', 'cyclone', 'foggy', 'ocean', 'cat', 'dog', 'mouse', 'hamster', 'rabbit', 'wolf', 'frog', 'tiger', 'koala', 'bear', 'pig', 'pig_nose', 'cow', 'boar', 'monkey_face', 'monkey', 'horse', 'racehorse', 'camel', 'sheep', 'elephant', 'panda_face', 'snake', 'bird', 'baby_chick', 'hatched_chick', 'hatching_chick', 'chicken', 'penguin', 'turtle', 'bug', 'honeybee', 'ant', 'beetle', 'snail', 'octopus', 'tropical_fish', 'fish', 'whale', 'whale2', 'dolphin', 'cow2', 'ram', 'rat', 'water_buffalo', 'tiger2', 'rabbit2', 'dragon', 'goat', 'rooster', 'dog2', 'pig2', 'mouse2', 'ox', 'dragon_face', 'blowfish', 'crocodile', 'dromedary_camel', 'leopard', 'cat2', 'poodle', 'paw_prints', 'bouquet', 'cherry_blossom', 'tulip', 'four_leaf_clover', 'rose', 'sunflower', 'hibiscus', 'maple_leaf', 'leaves', 'fallen_leaf', 'herb', 'mushroom', 'cactus', 'palm_tree', 'evergreen_tree', 'deciduous_tree', 'chestnut', 'seedling', 'blossom', 'ear_of_rice', 'shell', 'globe_with_meridians', 'sun_with_face', 'full_moon_with_face', 'new_moon_with_face', 'new_moon', 'waxing_crescent_moon', 'first_quarter_moon', 'waxing_gibbous_moon', 'full_moon', 'waning_gibbous_moon', 'last_quarter_moon', 'waning_crescent_moon', 'last_quarter_moon_with_face', 'first_quarter_moon_with_face', 'moon', 'earth_africa', 'earth_americas', 'earth_asia', 'volcano', 'milky_way', 'partly_sunny', 'octocat', 'squirrel', 'bamboo', 'gift_heart', 'dolls', 'school_satchel', 'mortar_board', 'flags', 'fireworks', 'sparkler', 'wind_chime', 'rice_scene', 'jack_o_lantern', 'ghost', 'santa', 'christmas_tree', 'gift', 'bell', 'no_bell', 'tanabata_tree', 'tada', 'confetti_ball', 'balloon', 'crystal_ball', 'cd', 'dvd', 'floppy_disk', 'camera', 'video_camera', 'movie_camera', 'computer', 'tv', 'iphone', 'phone', 'telephone', 'telephone_receiver', 'pager', 'fax', 'minidisc', 'vhs', 'sound', 'speaker', 'mute', 'loudspeaker', 'mega', 'hourglass', 'hourglass_flowing_sand', 'alarm_clock', 'watch', 'radio', 'satellite', 'loop', 'mag', 'mag_right', 'unlock', 'lock', 'lock_with_ink_pen', 'closed_lock_with_key', 'key', 'bulb', 'flashlight', 'high_brightness', 'low_brightness', 'electric_plug', 'battery', 'calling', 'email', 'mailbox', 'postbox', 'bath', 'bathtub', 'shower', 'toilet', 'wrench', 'nut_and_bolt', 'hammer', 'seat', 'moneybag', 'yen', 'dollar', 'pound', 'euro', 'credit_card', 'money_with_wings', 'e-mail', 'inbox_tray', 'outbox_tray', 'envelope', 'incoming_envelope', 'postal_horn', 'mailbox_closed', 'mailbox_with_mail', 'mailbox_with_no_mail', 'door', 'smoking', 'bomb', 'gun', 'hocho', 'pill', 'syringe', 'page_facing_up', 'page_with_curl', 'bookmark_tabs', 'bar_chart', 'chart_with_upwards_trend', 'chart_with_downwards_trend', 'scroll', 'clipboard', 'calendar', 'date', 'card_index', 'file_folder', 'open_file_folder', 'scissors', 'pushpin', 'paperclip', 'black_nib', 'pencil2', 'straight_ruler', 'triangular_ruler', 'closed_book', 'green_book', 'blue_book', 'orange_book', 'notebook', 'notebook_with_decorative_cover', 'ledger', 'books', 'bookmark', 'name_badge', 'microscope', 'telescope', 'newspaper', 'football', 'basketball', 'soccer', 'baseball', 'tennis', '8ball', 'rugby_football', 'bowling', 'golf', 'mountain_bicyclist', 'bicyclist', 'horse_racing', 'snowboarder', 'swimmer', 'surfer', 'ski', 'spades', 'hearts', 'clubs', 'diamonds', 'gem', 'ring', 'trophy', 'musical_score', 'musical_keyboard', 'violin', 'space_invader', 'video_game', 'black_joker', 'flower_playing_cards', 'game_die', 'dart', 'mahjong', 'clapper', 'memo', 'pencil', 'book', 'art', 'microphone', 'headphones', 'trumpet', 'saxophone', 'guitar', 'shoe', 'sandal', 'high_heel', 'lipstick', 'boot', 'shirt', 'tshirt', 'necktie', 'womans_clothes', 'dress', 'running_shirt_with_sash', 'jeans', 'kimono', 'bikini', 'ribbon', 'tophat', 'crown', 'womans_hat', 'mans_shoe', 'closed_umbrella', 'briefcase', 'handbag', 'pouch', 'purse', 'eyeglasses', 'fishing_pole_and_fish', 'coffee', 'tea', 'sake', 'baby_bottle', 'beer', 'beers', 'cocktail', 'tropical_drink', 'wine_glass', 'fork_and_knife', 'pizza', 'hamburger', 'fries', 'poultry_leg', 'meat_on_bone', 'spaghetti', 'curry', 'fried_shrimp', 'bento', 'sushi', 'fish_cake', 'rice_ball', 'rice_cracker', 'rice', 'ramen', 'stew', 'oden', 'dango', 'egg', 'bread', 'doughnut', 'custard', 'icecream', 'ice_cream', 'shaved_ice', 'birthday', 'cake', 'cookie', 'chocolate_bar', 'candy', 'lollipop', 'honey_pot', 'apple', 'green_apple', 'tangerine', 'lemon', 'cherries', 'grapes', 'watermelon', 'strawberry', 'peach', 'melon', 'banana', 'pear', 'pineapple', 'sweet_potato', 'eggplant', 'tomato', 'corn', 'house', 'house_with_garden', 'school', 'office', 'post_office', 'hospital', 'bank', 'convenience_store', 'love_hotel', 'hotel', 'wedding', 'church', 'department_store', 'european_post_office', 'city_sunrise', 'city_sunset', 'japanese_castle', 'european_castle', 'tent', 'factory', 'tokyo_tower', 'japan', 'mount_fuji', 'sunrise_over_mountains', 'sunrise', 'stars', 'themoreyouknow', 'tmyk', 'statue_of_liberty', 'bridge_at_night', 'carousel_horse', 'rainbow', 'ferris_wheel', 'fountain', 'roller_coaster', 'ship', 'speedboat', 'boat', 'sailboat', 'rowboat', 'anchor', 'rocket', 'airplane', 'helicopter', 'steam_locomotive', 'tram', 'mountain_railway', 'bike', 'aerial_tramway', 'suspension_railway', 'mountain_cableway', 'tractor', 'blue_car', 'oncoming_automobile', 'car', 'red_car', 'taxi', 'oncoming_taxi', 'articulated_lorry', 'bus', 'oncoming_bus', 'rotating_light', 'police_car', 'oncoming_police_car', 'fire_engine', 'ambulance', 'minibus', 'truck', 'train', 'station', 'train2', 'bullettrain_front', 'bullettrain_side', 'light_rail', 'monorail', 'railway_car', 'trolleybus', 'ticket', 'fuelpump', 'vertical_traffic_light', 'traffic_light', 'warning', 'construction', 'beginner', 'atm', 'slot_machine', 'busstop', 'barber', 'hotsprings', 'checkered_flag', 'crossed_flags', 'izakaya_lantern', 'moyai', 'circus_tent', 'performing_arts', 'round_pushpin', 'triangular_flag_on_post', 'jp', 'kr', 'cn', 'us', 'fr', 'es', 'it', 'ru', 'gb', 'uk', 'de', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'keycap_ten', '1234', 'zero', 'hash', 'symbols', 'arrow_backward', 'arrow_down', 'arrow_forward', 'arrow_left', 'capital_abcd', 'abcd', 'abc', 'arrow_lower_left', 'arrow_lower_right', 'arrow_right', 'arrow_up', 'arrow_upper_left', 'arrow_upper_right', 'arrow_double_down', 'arrow_double_up', 'arrow_down_small', 'arrow_heading_down', 'arrow_heading_up', 'leftwards_arrow_with_hook', 'arrow_right_hook', 'left_right_arrow', 'arrow_up_down', 'arrow_up_small', 'arrows_clockwise', 'arrows_counterclockwise', 'rewind', 'fast_forward', 'information_source', 'ok', 'twisted_rightwards_arrows', 'repeat', 'repeat_one', 'new', 'top', 'up', 'cool', 'free', 'ng', 'cinema', 'koko', 'signal_strength', 'u5272', 'u5408', 'u55b6', 'u6307', 'u6708', 'u6709', 'u6e80', 'u7121', 'u7533', 'u7a7a', 'u7981', 'sa', 'restroom', 'mens', 'womens', 'baby_symbol', 'no_smoking', 'parking', 'wheelchair', 'metro', 'baggage_claim', 'accept', 'wc', 'potable_water', 'put_litter_in_its_place', 'secret', 'congratulations', 'm', 'passport_control', 'left_luggage', 'customs', 'ideograph_advantage', 'cl', 'sos', 'id', 'no_entry_sign', 'underage', 'no_mobile_phones', 'do_not_litter', 'non-potable_water', 'no_bicycles', 'no_pedestrians', 'children_crossing', 'no_entry', 'eight_spoked_asterisk', 'eight_pointed_black_star', 'heart_decoration', 'vs', 'vibration_mode', 'mobile_phone_off', 'chart', 'currency_exchange', 'aries', 'taurus', 'gemini', 'cancer', 'leo', 'virgo', 'libra', 'scorpius', 'sagittarius', 'capricorn', 'aquarius', 'pisces', 'ophiuchus', 'six_pointed_star', 'negative_squared_cross_mark', 'a', 'b', 'ab', 'o2', 'diamond_shape_with_a_dot_inside', 'recycle', 'end', 'on', 'soon', 'clock1', 'clock130', 'clock10', 'clock1030', 'clock11', 'clock1130', 'clock12', 'clock1230', 'clock2', 'clock230', 'clock3', 'clock330', 'clock4', 'clock430', 'clock5', 'clock530', 'clock6', 'clock630', 'clock7', 'clock730', 'clock8', 'clock830', 'clock9', 'clock930', 'heavy_dollar_sign', 'copyright', 'registered', 'tm', 'x', 'heavy_exclamation_mark', 'bangbang', 'interrobang', 'o', 'heavy_multiplication_x', 'heavy_plus_sign', 'heavy_minus_sign', 'heavy_division_sign', 'white_flower', '100', 'heavy_check_mark', 'ballot_box_with_check', 'radio_button', 'link', 'curly_loop', 'wavy_dash', 'part_alternation_mark', 'trident', 'black_square', 'white_square', 'white_check_mark', 'black_square_button', 'white_square_button', 'black_circle', 'white_circle', 'red_circle', 'large_blue_circle', 'large_blue_diamond', 'large_orange_diamond', 'small_blue_diamond', 'small_orange_diamond', 'small_red_triangle', 'small_red_triangle_down', 'shipit'];
+
+        this.allEmojiList = this.emojiList.concat(this.options.customEmoji);
+
+        this.emojiRegex = new RegExp(':(' + this.allEmojiList.join('|') + '):', 'g');
+    }
+
+    babelHelpers_createClass(Emoji, [{
+        key: 'process',
+        value: function process() {
+            var _this = this;
+
+            return this.output.replace(this.emojiRegex, function (match, text) {
+                return ejs.template.emoji(text, _this.options) || '<span class="emoticon emoticon-' + text + '" title=":' + text + ':"></span>';
+            });
+        }
+    }]);
+    return Emoji;
+}();
+
+var expect$3 = chai.expect;
+
+describe('Emoji Unit test', function () {
+	var string = 'I am happy :smile:';
+	var string2 = 'I am happy :smile: :+1:';
+
+	describe('should pass all tests', function () {
+		it('should return a string', function () {
+			var emoji = new Emoji(string, options);
+			expect$3(emoji.process()).to.be.a('string');
+		});
+
+		it('should convert a emoji text into emoji', function () {
+			var emoji = new Emoji(string, options);
+			var emoji2 = new Emoji(string2, options);
+			expect$3(emoji.process()).to.equal('I am happy <span class="emoticon emoticon-smile" title=":smile:"></span>');
+			expect$3(emoji2.process()).to.equal('I am happy <span class="emoticon emoticon-smile" title=":smile:"></span> <span class="emoticon emoticon-+1" title=":+1:"></span>');
 		});
 	});
 });
