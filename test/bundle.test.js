@@ -731,51 +731,50 @@ describe('Emoji Unit test', function () {
 });
 
 var Base = function () {
-    function Base(input, output, options, embeds) {
-        babelHelpers_classCallCheck(this, Base);
+	function Base(input, output, options, embeds) {
+		babelHelpers_classCallCheck(this, Base);
 
-        this.input = input;
-        this.output = output;
-        this.options = options;
-        this.embeds = embeds;
-    }
+		this.input = input;
+		this.output = output;
+		this.options = options;
+		this.embeds = embeds;
+	}
 
-    babelHelpers_createClass(Base, [{
-        key: 'process',
-        value: function process() {
-            var _this = this;
+	babelHelpers_createClass(Base, [{
+		key: 'process',
+		value: function process() {
+			var _this = this;
 
-            if (!ifInline(this.options, this.service)) {
-                var regexInline = this.options.link ? new RegExp('([^>]*' + this.regex.source + ')</a>', 'gm') : new RegExp('([^\\s]*' + this.regex.source + ')', 'gm');
-                this.output = this.output.replace(regexInline, function (match) {
-                    var url = _this.options.link ? match.slice(0, -4) : match;
-                    if (_this.options.served.indexOf(url) === -1) {
-                        _this.options.served.push(url);
-                        if (_this.options.link) {
-                            return !_this.options.inlineText ? _this.template(match.slice(0, -4)) + '</a>' : match + _this.template(match.slice(0, -4));
-                        } else {
-                            return !_this.options.inlineText ? _this.template(match) : match + _this.template(match);
-                        }
-                    } else {
-                        return url;
-                    }
-                });
-            } else {
-                var match = undefined;
-                while ((match = matches(this.regex, this.input)) !== null) {
-                    if (this.options.served.indexOf(match[0]) === -1) {
-                        var text = this.template(match[0]);
-                        this.embeds.push({
-                            text: text,
-                            index: match.index
-                        });
-                    }
-                }
-            }
-            return [this.output, this.embeds];
-        }
-    }]);
-    return Base;
+			if (!ifInline(this.options, this.service)) {
+				var regexInline = this.options.link ? new RegExp('([^>]*' + this.regex.source + ')</a>', 'gm') : new RegExp('([^\\s]*' + this.regex.source + ')', 'gm');
+				this.output = this.output.replace(regexInline, function (match) {
+					var url = _this.options.link ? match.slice(0, -4) : match;
+					if (_this.options.served.indexOf(url) === -1) {
+						_this.options.served.push(url);
+						if (_this.options.link) {
+							return !_this.options.inlineText ? _this.template(match.slice(0, -4)) + '</a>' : match + _this.template(match.slice(0, -4));
+						} else {
+							return !_this.options.inlineText ? _this.template(match) : match + _this.template(match);
+						}
+					} else {
+						return url;
+					}
+				});
+			} else {
+				var match = undefined;
+				while ((match = matches(this.regex, this.input)) !== null) {
+					if (!(this.options.served.indexOf(match[0]) === -1)) continue;
+					var text = this.template(match[0]);
+					this.embeds.push({
+						text: text,
+						index: match.index
+					});
+				}
+			}
+			return [this.output, this.embeds];
+		}
+	}]);
+	return Base;
 }();
 
 var Plunker = function (_Base) {
@@ -819,11 +818,60 @@ describe('Class Plunker => unit test', function () {
 		output = _plunker$process2[0];
 		embeds = _plunker$process2[1];
 
+		console.log(embeds);
+
 		expect$4(output).to.be.a('string');
 		expect$4(embeds).to.be.a('array');
 
 		expect$4(embeds[0].index).to.equal(33);
 
 		expect$4(embeds[0].text.replace(/\t|\n/gi, '')).to.equal('<div class="ejs-embed ejs-plunker"><iframe class="ne-plunker" src="http://embed.plnkr.co/nVCmukG5abpi1Y4ZHkrq" height="500"></iframe></div>');
+	});
+});
+
+var CodePen = function (_Base) {
+    babelHelpers_inherits(CodePen, _Base);
+
+    function CodePen(input, output, options, embeds) {
+        babelHelpers_classCallCheck(this, CodePen);
+
+        var _this = babelHelpers_possibleConstructorReturn(this, Object.getPrototypeOf(CodePen).call(this, input, output, options, embeds));
+
+        _this.regex = /http:\/\/codepen.io\/([A-Za-z0-9_]+)\/pen\/([A-Za-z0-9_]+)/gi;
+        _this.service = 'codepen';
+        return _this;
+    }
+
+    babelHelpers_createClass(CodePen, [{
+        key: 'template',
+        value: function template(id) {
+            return ejs.template.codePen(id, this.options) || '<div class="ejs-embed ejs-codepen">\n\t\t\t<iframe scrolling="no" height="' + this.options.codeEmbedHeight + '" src="' + id.replace(/\/pen\//, '/embed/') + '/?height=' + this.options.codeEmbedHeight + '"></iframe>\n\t\t</div>';
+        }
+    }]);
+    return CodePen;
+}(Base);
+
+var expect$5 = chai.expect;
+
+describe('Class Codepen => unit test', function () {
+	it('should return a valid plunked embedding url', function () {
+
+		var output = undefined;
+		var embeds = [];
+		var input = output = 'Sunt castores desiderium http://codepen.io/enxaneta/pen/meYEzO#0 grandis, pius zetaes.Cur luna persuadere?';
+		var codepen = new CodePen(input, output, options, embeds);
+
+		var _codepen$process = codepen.process();
+
+		var _codepen$process2 = babelHelpers_slicedToArray(_codepen$process, 2);
+
+		output = _codepen$process2[0];
+		embeds = _codepen$process2[1];
+
+		console.log(embeds);
+		expect$5(output).to.be.a('string');
+		expect$5(embeds).to.be.a('array');
+
+		expect$5(embeds[0].text.replace(/(\r\n|\n|\r|\t)/gm, '')).to.equal('<div class="ejs-embed ejs-codepen"><iframe scrolling="no" height="500" src="http://codepen.io/enxaneta/embed/meYEzO/?height=500"></iframe></div>');
 	});
 });

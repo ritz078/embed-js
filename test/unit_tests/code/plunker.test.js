@@ -9,6 +9,7 @@ describe('Class Plunker => unit test', function(){
 		let embeds = [];
 		let input = output = `Sunt castores desiderium https://plnkr.co/edit/nVCmukG5abpi1Y4ZHkrq?p=preview grandis, pius zetaes.Cur luna persuadere?`;
 		let plunker = new Plunker(input, output, options, embeds);
+
 		[output, embeds] = plunker.process();
 
 		expect(output).to.be.a('string');
