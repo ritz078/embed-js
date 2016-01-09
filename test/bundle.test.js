@@ -709,7 +709,7 @@ var Emoji = function () {
     return Emoji;
 }();
 
-var expect$4 = chai.expect;
+var expect$3 = chai.expect;
 
 describe('Emoji Unit test', function () {
 	var string = 'I am happy :smile:';
@@ -718,14 +718,14 @@ describe('Emoji Unit test', function () {
 	describe('should pass all tests', function () {
 		it('should return a string', function () {
 			var emoji = new Emoji(string, options);
-			expect$4(emoji.process()).to.be.a('string');
+			expect$3(emoji.process()).to.be.a('string');
 		});
 
 		it('should convert a emoji text into emoji', function () {
 			var emoji = new Emoji(string, options);
 			var emoji2 = new Emoji(string2, options);
-			expect$4(emoji.process()).to.equal('I am happy <span class="emoticon emoticon-smile" title=":smile:"></span>');
-			expect$4(emoji2.process()).to.equal('I am happy <span class="emoticon emoticon-smile" title=":smile:"></span> <span class="emoticon emoticon-+1" title=":+1:"></span>');
+			expect$3(emoji.process()).to.equal('I am happy <span class="emoticon emoticon-smile" title=":smile:"></span>');
+			expect$3(emoji2.process()).to.equal('I am happy <span class="emoticon emoticon-smile" title=":smile:"></span> <span class="emoticon emoticon-+1" title=":+1:"></span>');
 		});
 	});
 });
@@ -802,7 +802,7 @@ var Plunker = function (_Base) {
     return Plunker;
 }(Base);
 
-var expect$3 = chai.expect;
+var expect$4 = chai.expect;
 
 describe('Class Plunker => unit test', function () {
 	it('should return a valid plunked embedding url', function () {
@@ -819,11 +819,11 @@ describe('Class Plunker => unit test', function () {
 		output = _plunker$process2[0];
 		embeds = _plunker$process2[1];
 
-		expect$3(output).to.be.a('string');
-		expect$3(embeds).to.be.a('array');
+		expect$4(output).to.be.a('string');
+		expect$4(embeds).to.be.a('array');
 
-		expect$3(embeds[0].index).to.equal(33);
+		expect$4(embeds[0].index).to.equal(33);
 
-		expect$3(embeds[0].text.replace(/\t|\n/gi, '')).to.equal('<div class="ejs-embed ejs-plunker"><iframe class="ne-plunker" src="http://embed.plnkr.co/nVCmukG5abpi1Y4ZHkrq" height="500"></iframe></div>');
+		expect$4(embeds[0].text.replace(/\t|\n/gi, '')).to.equal('<div class="ejs-embed ejs-plunker"><iframe class="ne-plunker" src="http://embed.plnkr.co/nVCmukG5abpi1Y4ZHkrq" height="500"></iframe></div>');
 	});
 });
