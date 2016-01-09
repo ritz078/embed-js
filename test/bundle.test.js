@@ -6,6 +6,30 @@ var babelHelpers_typeof = typeof Symbol === "function" && typeof Symbol.iterator
   return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
 
+var babelHelpers_classCallCheck = function (instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+};
+
+var babelHelpers_createClass = function () {
+  function defineProperties(target, props) {
+    for (var i = 0; i < props.length; i++) {
+      var descriptor = props[i];
+      descriptor.enumerable = descriptor.enumerable || false;
+      descriptor.configurable = true;
+      if ("value" in descriptor) descriptor.writable = true;
+      Object.defineProperty(target, descriptor.key, descriptor);
+    }
+  }
+
+  return function (Constructor, protoProps, staticProps) {
+    if (protoProps) defineProperties(Constructor.prototype, protoProps);
+    if (staticProps) defineProperties(Constructor, staticProps);
+    return Constructor;
+  };
+}();
+
 var babelHelpers_slicedToArray = function () {
   function sliceIterator(arr, i) {
     var _arr = [];
@@ -185,184 +209,251 @@ function urlRegex() {
     );
 }
 
-var expect = require('chai').expect;
+var Url = function () {
+	function Url(input, options) {
+		babelHelpers_classCallCheck(this, Url);
 
-describe('toUrl() method', function () {
-    "use strict";
+		this.input = input;
+		this.options = options;
+		this.urlRegex = urlRegex();
+	}
 
-    it('should convert string into a valid url', function () {
-        expect(toUrl('github.com')).to.equal('//github.com');
-        expect(toUrl('//github.com')).to.equal('//github.com');
-    });
+	babelHelpers_createClass(Url, [{
+		key: 'process',
+		value: function process() {
+			var _this = this;
 
-    it('should return a string', function () {
-        expect(toUrl('github.com')).to.be.a('string');
-    });
+			var config = this.options.linkOptions;
+			return this.input.replace(this.urlRegex, function (match) {
+				var extension = match.split('.')[match.split('.').length - 1];
+				if (config.exclude.indexOf(extension) === -1) {
+					return ejs.template.url(match, _this.options) || '<a href="' + toUrl(match) + '" rel="' + config.rel + '" target="' + config.target + '">' + match + '</a>';
+				}
+				return match;
+			});
+		}
+	}]);
+	return Url;
+}();
+
+var expect = chai.expect;
+
+describe('Class Url unit test', function () {
+	describe('should return a valid url', function () {
+
+		var options = {
+			link: true,
+			linkOptions: {
+				target: 'self',
+				exclude: ['pdf'],
+				rel: ''
+			}
+		};
+
+		it('should return a valid anchor tag for http://xyz.com/abc', function () {
+			var input = 'http://xyz.com/abc';
+			var result = new Url(input, options).process();
+			expect(result).to.be.a('string');
+			expect(result).to.equal('<a href="http://xyz.com/abc" rel="" target="self">http://xyz.com/abc</a>');
+		});
+
+		it('should exclude the urls with excluded extensions', function () {
+			var input = 'https://something.pdf http://a.jpg';
+			var result = new Url(input, options).process();
+			expect(result).to.be.a('string');
+			expect(result).to.equal('https://something.pdf <a href="http://a.jpg" rel="" target="self">http://a.jpg</a>');
+		});
+
+		it('should support shortened urls like bit.ly/abc', function () {
+			var input = 'bit.ly/abc';
+			var url = new Url(input, options);
+			var result = url.process();
+			expect(result).to.be.a('string');
+			expect(result).to.equal('<a href="//bit.ly/abc" rel="" target="self">bit.ly/abc</a>');
+		});
+	});
 });
 
-describe('truncate() method', function () {
-    "use strict";
+var expect$1 = chai.expect;
 
-    it('should return a string', function () {
-        expect(truncate('Est fidelis fuga', 10)).to.be.a('string');
-    });
+describe('utility methods unit tests', function () {
+	describe('toUrl() method', function () {
+		"use strict";
 
-    it('should trucate the string if its longer than n', function () {
-        expect(truncate('Est fidelis fuga', 10)).to.equal('Est fidel...');
-    });
+		it('should convert string into a valid url', function () {
+			expect$1(toUrl('github.com')).to.equal('//github.com');
+			expect$1(toUrl('//github.com')).to.equal('//github.com');
+		});
 
-    it('should not truncate the string if its size is smaller than n', function () {
-        expect(truncate('Est', 10)).to.equal('Est');
-    });
-});
+		it('should return a string', function () {
+			expect$1(toUrl('github.com')).to.be.a('string');
+		});
+	});
 
-describe('getUnique() method', function () {
-    "use strict";
+	describe('truncate() method', function () {
+		"use strict";
 
-    var arr = [1, 3, 'a', 'a', 1, 5];
-    it('should return an array', function () {
-        expect(getUnique(arr)).to.be.a('Array');
-    });
+		it('should return a string', function () {
+			expect$1(truncate('Est fidelis fuga', 10)).to.be.a('string');
+		});
 
-    it('should return an array of unique values', function () {
-        expect(getUnique([1, 3, 'a', 'a', 1, 5])).to.eql([1, 3, 'a', 5]);
-    });
-});
+		it('should trucate the string if its longer than n', function () {
+			expect$1(truncate('Est fidelis fuga', 10)).to.equal('Est fidel...');
+		});
 
-describe('deepExtend() method', function () {
-    "use strict";
+		it('should not truncate the string if its size is smaller than n', function () {
+			expect$1(truncate('Est', 10)).to.equal('Est');
+		});
+	});
 
-    var defaults = {
-        a: 1,
-        b: 'hello',
-        c: {
-            d: 2,
-            e: true
-        }
-    };
+	describe('getUnique() method', function () {
+		"use strict";
 
-    var opts = {
-        a: 3,
-        c: {
-            e: false
-        }
-    };
+		var arr = [1, 3, 'a', 'a', 1, 5];
+		it('should return an array', function () {
+			expect$1(getUnique(arr)).to.be.a('Array');
+		});
 
-    var expected = {
-        a: 3,
-        b: 'hello',
-        c: {
-            d: 2,
-            e: false
-        }
-    };
+		it('should return an array of unique values', function () {
+			expect$1(getUnique([1, 3, 'a', 'a', 1, 5])).to.eql([1, 3, 'a', 5]);
+		});
+	});
 
-    it('should correctly extend the object', function () {
-        expect(deepExtend(defaults, opts)).to.eql(expected);
-    });
+	describe('deepExtend() method', function () {
+		"use strict";
 
-    it('should return an object', function () {
-        expect(deepExtend(opts, defaults)).to.be.a('object');
-    });
-});
+		var defaults = {
+			a: 1,
+			b: 'hello',
+			c: {
+				d: 2,
+				e: true
+			}
+		};
 
-describe('escapeRegExp() method', function () {
-    "use strict";
+		var opts = {
+			a: 3,
+			c: {
+				e: false
+			}
+		};
 
-    var x = ':):/';
-    it('should return a valid regex pattern', function () {
-        var reg = new RegExp(escapeRegExp(x), 'g');
-        expect(x).to.match(reg);
-    });
-});
+		var expected = {
+			a: 3,
+			b: 'hello',
+			c: {
+				d: 2,
+				e: false
+			}
+		};
 
-describe('createText() method', function () {
-    "use-strict";
+		it('should correctly extend the object', function () {
+			expect$1(deepExtend(defaults, opts)).to.eql(expected);
+		});
 
-    var str = 'This is embed.js';
-    var embeds = [{
-        index: 3,
-        text: 'foo'
-    }, {
-        index: 1,
-        text: 'bar'
-    }, {
-        index: 2,
-        text: 'john'
-    }];
+		it('should return an object', function () {
+			expect$1(deepExtend(opts, defaults)).to.be.a('object');
+		});
+	});
 
-    it('should return a string', function () {
-        expect(createText(str, embeds)).to.be.a("string");
-    });
+	describe('escapeRegExp() method', function () {
+		"use strict";
 
-    it('should return a string after concatenating the embeds in correct order', function () {
-        expect(createText(str, embeds)).to.equal('This is embed.js bar john foo');
-    });
-});
+		var x = ':):/';
+		it('should return a valid regex pattern', function () {
+			var reg = new RegExp(escapeRegExp(x), 'g');
+			expect$1(x).to.match(reg);
+		});
+	});
 
-describe('matches() method', function () {
-    var regex = /((?:https?):\/\/\S*\.(?:gif|jpg|jpeg|tiff|png|svg|webp))/gi;
-    var input = 'The documentation is available at http://someurl.jpg';
-    var match = matches(regex, input);
-    it('should return an object', function () {
-        expect(match).to.be.a("array");
-    });
+	describe('createText() method', function () {
+		"use-strict";
 
-    it('should return the location index of the matching substring', function () {
-        expect(match.index).to.exist;
-    });
-});
+		var str = 'This is embed.js';
+		var embeds = [{
+			index: 3,
+			text: 'foo'
+		}, {
+			index: 1,
+			text: 'bar'
+		}, {
+			index: 2,
+			text: 'john'
+		}];
 
-describe('ifEmbed() method', function () {
-    var options = {
-        excludeEmbed: ["something"]
-    };
-    var service1 = "something";
-    var service2 = "everything";
+		it('should return a string', function () {
+			expect$1(createText(str, embeds)).to.be.a("string");
+		});
 
-    it('should return true if the service is excluded', function () {
-        expect(ifEmbed(options, 'everything')).to.be.true;
-    });
+		it('should return a string after concatenating the embeds in correct order', function () {
+			expect$1(createText(str, embeds)).to.equal('This is embed.js bar john foo');
+		});
+	});
 
-    it('should return false if the service is not excluded', function () {
-        expect(ifEmbed(options, 'something')).to.be.false;
-    });
-});
+	describe('matches() method', function () {
+		var regex = /((?:https?):\/\/\S*\.(?:gif|jpg|jpeg|tiff|png|svg|webp))/gi;
+		var input = 'The documentation is available at http://someurl.jpg';
+		var match = matches(regex, input);
+		it('should return an object', function () {
+			expect$1(match).to.be.a("array");
+		});
 
-describe('getDimensions() method', function () {
+		it('should return the location index of the matching substring', function () {
+			expect$1(match.index).to.exist;
+		});
+	});
 
-    it('should return the height 450 if height is 600 and vice versa', function () {
-        var options = {
-            videoWidth: 600,
-            videoHeight: null
-        };
+	describe('ifEmbed() method', function () {
+		var options = {
+			excludeEmbed: ["something"]
+		};
+		var service1 = "something";
+		var service2 = "everything";
 
-        var result = {
-            height: 450,
-            width: 600
-        };
+		it('should return true if the service is excluded', function () {
+			expect$1(ifEmbed(options, 'everything')).to.be.true;
+		});
 
-        expect(getDimensions(options)).to.eql(result);
+		it('should return false if the service is not excluded', function () {
+			expect$1(ifEmbed(options, 'something')).to.be.false;
+		});
+	});
 
-        var options2 = {
-            videoHeight: 450,
-            videoWidth: null
-        };
+	describe('getDimensions() method', function () {
 
-        expect(getDimensions(options2)).to.eql(result);
-    });
-});
+		it('should return the height 450 if height is 600 and vice versa', function () {
+			var options = {
+				videoWidth: 600,
+				videoHeight: null
+			};
 
-describe('urlRegex() method', function () {
-    it('should return a regex', function () {
-        expect(urlRegex()).to.be.an.instanceof(RegExp);
-    });
+			var result = {
+				height: 450,
+				width: 600
+			};
 
-    it('should match url like http://rkritesh.com/embed.js', function () {
-        expect('http://rkritesh.com/embed.js').to.match(urlRegex());
-    });
+			expect$1(getDimensions(options)).to.eql(result);
 
-    it('should match url like ftp://something.com', function () {
-        expect('ftp://something.com').to.match(urlRegex());
-    });
+			var options2 = {
+				videoHeight: 450,
+				videoWidth: null
+			};
+
+			expect$1(getDimensions(options2)).to.eql(result);
+		});
+	});
+
+	describe('urlRegex() method', function () {
+		it('should return a regex', function () {
+			expect$1(urlRegex()).to.be.an.instanceof(RegExp);
+		});
+
+		it('should match url like http://rkritesh.com/embed.js', function () {
+			expect$1('http://rkritesh.com/embed.js').to.match(urlRegex());
+		});
+
+		it('should match url like ftp://something.com', function () {
+			expect$1('ftp://something.com').to.match(urlRegex());
+		});
+	});
 });

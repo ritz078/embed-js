@@ -231,6 +231,15 @@ module.exports = function (grunt) {
 			release: {
 				src: 'CHANGELOG.md'
 			}
+		},
+
+		mocha: {
+			test: {
+				src: ['test/testrunner.html'],
+				options:{
+					run:true
+				}
+			}
 		}
 	});
 
@@ -249,5 +258,7 @@ module.exports = function (grunt) {
 			}
 			grunt.log.ok('Published to NPM ');
 		});
-	})
+	});
+
+	grunt.registerTask("test",["mocha"]);
 };
