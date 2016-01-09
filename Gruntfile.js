@@ -67,7 +67,14 @@ module.exports = function (grunt) {
 				destCss        : 'src/css/_emojis.scss',
 				retinaDest     : './assets/images/emojis@2x.png',
 				cssFormat      : 'css',
-				cssTemplate    : 'sprite.handlebars'
+				cssTemplate    : 'sprite.handlebars',
+				cssHandlebarsHelpers : {
+					escape : function(name){
+						var x = ['+', '-', '/', '*'];
+						if(x.indexOf(name[0]) !== -1) return '\\'+name;
+						return name;
+					}
+				}
 			}
 		},
 
@@ -173,7 +180,7 @@ module.exports = function (grunt) {
 		'string-replace': {
 			dist: {
 				files  : {
-					'.tmp/embed.css': 'src/embed.css',
+					'.tmp/embed.css': 'src/embed.css'
 				},
 				options: {
 					replacements: [{
@@ -224,23 +231,19 @@ module.exports = function (grunt) {
 			release: {
 				src: 'CHANGELOG.md'
 			}
+		},
+
+		mocha: {
+			test: {
+				src: ['test/testrunner.html'],
+				options:{
+					run:true
+				}
+			}
 		}
 	});
 
-	grunt.loadNpmTasks("grunt-contrib-watch");
-	grunt.loadNpmTasks("grunt-postcss");
-	grunt.loadNpmTasks("grunt-contrib-clean");
-	grunt.loadNpmTasks("grunt-spritesmith");
-	grunt.loadNpmTasks('grunt-retinafy');
-	grunt.loadNpmTasks("grunt-contrib-sass");
-	grunt.loadNpmTasks("grunt-contrib-uglify");
-	grunt.loadNpmTasks("grunt-contrib-connect");
-	grunt.loadNpmTasks("grunt-rollup");
-	grunt.loadNpmTasks("grunt-eslint");
-	grunt.loadNpmTasks('grunt-bump');
-	grunt.loadNpmTasks("grunt-contrib-copy");
-	grunt.loadNpmTasks("grunt-string-replace");
-	grunt.loadNpmTasks('grunt-conventional-changelog');
+	require('load-grunt-tasks')(grunt);
 
 	grunt.registerTask("default", ["eslint", "rollup", "sass", "connect", "watch"]);
 	grunt.registerTask("build", ["clean", "build-emoji", "eslint", "rollup", "sass", "uglify", "string-replace", "postcss", "copy"]);
@@ -255,5 +258,7 @@ module.exports = function (grunt) {
 			}
 			grunt.log.ok('Published to NPM ');
 		});
-	})
+	});
+
+	grunt.registerTask("test",["mocha"]);
 };

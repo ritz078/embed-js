@@ -1,10 +1,10 @@
-import utils from './utils.es6'
+import { urlRegex, toUrl } from './utils.es6'
 
 export default class Url{
 	constructor(input,options){
 		this.input = input;
 		this.options = options;
-		this.urlRegex =  utils.urlRegex();
+		this.urlRegex =  urlRegex();
 	}
 
 	process(){
@@ -12,7 +12,7 @@ export default class Url{
 		return this.input.replace(this.urlRegex,(match)=>{
 			let extension = match.split('.')[match.split('.').length - 1];
 			if(config.exclude.indexOf(extension) === -1){
-				return ejs.template.url(match, this.options) || `<a href="${utils.toUrl(match)}" rel="${config.rel}" target="${config.target}">${match}</a>`;
+				return ejs.template.url(match, this.options) || `<a href="${toUrl(match)}" rel="${config.rel}" target="${config.target}">${match}</a>`;
 			}
 			return match;
 		});

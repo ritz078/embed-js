@@ -1,4 +1,4 @@
-import utils from '../utils.es6'
+import { getDimensions , toUrl } from '../utils.es6'
 import Base from '../base.es6'
 
 export default class Instagram extends Base{
@@ -9,8 +9,8 @@ export default class Instagram extends Base{
 	}
 
 	template(match){
-		let dimensions = utils.dimensions(this.options);
-		return ejs.template.instagram(match, dimensions, this.options) || `<div class="ejs-embed ejs-instagram"><iframe src="${utils.toUrl(match.split('/?')[0])}/embed/" height="${dimensions.height}"></iframe></div>`
+		let dimensions = getDimensions(this.options);
+		return ejs.template.instagram(match, dimensions, this.options) || `<div class="ejs-embed ejs-instagram"><iframe src="${toUrl(match.split('/?')[0])}/embed/" height="${dimensions.height}"></iframe></div>`
 	}
 }
 

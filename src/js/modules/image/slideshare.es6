@@ -1,6 +1,6 @@
-import utils                   from '../utils.es6'
+import { getDimensions , ifInline }                   from '../utils.es6'
 import '../../vendor/fetch.js'
-import helper                  from './../helper.es6'
+import { inlineEmbed, normalEmbed }                  from './../helper.es6'
 import fetchJsonp              from '../../vendor/fetch_jsonp.js'
 
 export default class SlideShare {
@@ -14,7 +14,7 @@ export default class SlideShare {
 	}
 
 	static async fetchData(_this, url) {
-		const dimensions = utils.dimensions(_this.options);
+		const dimensions = getDimensions(_this.options);
 		let api          = `http://www.slideshare.net/api/oembed/2?url=${url}&format=jsonp&maxwidth=${dimensions.width}&maxheight=${dimensions.height}`;
 		let response     = await fetchJsonp(api, {
 			credentials: 'include'
@@ -33,10 +33,10 @@ export default class SlideShare {
 	}
 
 	async process() {
-		if (!utils.ifInline(this.options, this.service)) {
-			this.output = await helper.inlineEmbed(this, SlideShare.urlToText);
+		if (!ifInline(this.options, this.service)) {
+			this.output = await inlineEmbed(this, SlideShare.urlToText);
 		} else {
-			this.embeds = await helper.normalEmbed(this, SlideShare.urlToText);
+			this.embeds = await normalEmbed(this, SlideShare.urlToText);
 		}
 		return [this.output, this.embeds]
 	}

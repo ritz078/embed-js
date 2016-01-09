@@ -1,5 +1,5 @@
-import utils from './utils.es6'
-import helper from './helper.es6'
+import { ifInline } from './utils.es6'
+import {inlineEmbed, normalEmbed} from './helper.es6'
 
 export default class Github {
 	constructor(input, output, options, embeds) {
@@ -47,10 +47,10 @@ export default class Github {
 	}
 
 	async process() {
-		if (!utils.ifInline(this.options, this.service)) {
-			this.output = await helper.inlineEmbed(this, Github.urlToText);
+		if (!ifInline(this.options, this.service)) {
+			this.output = await inlineEmbed(this, Github.urlToText);
 		} else {
-			this.embeds = await helper.normalEmbed(this, Github.urlToText)
+			this.embeds = await normalEmbed(this, Github.urlToText)
 		}
 
 		return [this.output, this.embeds]

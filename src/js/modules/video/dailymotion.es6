@@ -1,4 +1,4 @@
-import utils from '../utils.es6'
+import { getDimensions } from '../utils.es6'
 import Base from '../base.es6'
 
 export default class Dailymotion extends Base {
@@ -9,7 +9,7 @@ export default class Dailymotion extends Base {
     }
 
     template(match) {
-        const dimensions = utils.dimensions(this.options);
+        const dimensions = getDimensions(this.options);
         const a = match.split('/');
         const id = a[a.length - 1]
         return ejs.template.dailymotion(id, dimensions, this.options) || `<div class="ejs-video ejs-embed">

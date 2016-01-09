@@ -1,5 +1,5 @@
-import utils from '../utils.es6'
-import helper from './../helper.es6'
+import { truncate, ifInline } from '../utils.es6'
+import { getDetailsTemplate, template, inlineEmbed, normalEmbed } from './../helper.es6'
 import '../../vendor/fetch.js'
 
 
@@ -13,14 +13,14 @@ export default class Vimeo {
         this.service = 'vimeo'
     }
 
-    static formatData(data, utils) {
+    static formatData(data, truncate) {
         return {
             title: data.title,
             thumbnail: data.thumbnail_medium,
             rawDescription: data.description.replace(/\n/g, '<br/>').replace(/&#10;/g, '<br/>'),
             views: data.stats_number_of_plays,
             likes: data.stats_number_of_likes,
-            description: utils.truncate(data.description.replace(/((<|&lt;)br\s*\/*(>|&gt;)\r\n)/g, ' '), 150),
+            description: truncate(data.description.replace(/((<|&lt;)br\s*\/*(>|&gt;)\r\n)/g, ' '), 150),
             url: data.url,
             id: data.id,
             host: 'vimeo'
@@ -51,19 +51,19 @@ export default class Vimeo {
         let data;
         if (_this.options.videoDetails) {
             data = await _this.data(id);
-            return helper.getDetailsTemplate(Vimeo.formatData(data, utils), data, embedUrl)
+            return getDetailsTemplate(Vimeo.formatData(data, truncate), data, embedUrl)
         } else {
-            return helper.template(embedUrl, _this.options)
+            return template(embedUrl, _this.options)
         }
 
     }
 
     async process() {
         try {
-            if (!utils.ifInline(this.options, this.service)) {
-                this.output = await helper.inlineEmbed(this, Vimeo.urlToText);
+            if (!ifInline(this.options, this.service)) {
+                this.output = await inlineEmbed(this, Vimeo.urlToText);
             } else {
-                this.embeds = await helper.normalEmbed(this, Vimeo.urlToText);
+                this.embeds = await normalEmbed(this, Vimeo.urlToText);
             }
 
             return [this.output, this.embeds];

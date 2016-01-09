@@ -8,8 +8,8 @@ export default class Plunker extends Base {
     }
 
     template(match) {
-        let a = match.split('?')[0].split('/')
-        const id = a[a.length - 1]
+        let a = match.split('?')[0].split('/');
+        const id = a[a.length - 1];
         return ejs.template.plunker(id, this.options) || `<div class="ejs-embed ejs-plunker">
 		<iframe class="ne-plunker" src="http://embed.plnkr.co/${id}" height="${this.options.codeEmbedHeight}"></iframe>
 		</div>`

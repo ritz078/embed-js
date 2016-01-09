@@ -13,6 +13,7 @@ branches:
 node_js:
   - iojs
 before_install:
+  - npm i -g grunt-cli
   - npm i -g npm@^2.0.0
   - npm i -g rollup
 before_script:

@@ -1,5 +1,5 @@
-import utils from '../utils.es6'
-import helper from './../helper.es6'
+import { truncate, ifInline } from '../utils.es6'
+import { getDetailsTemplate, template, inlineEmbed, normalEmbed } from './../helper.es6'
 import '../../vendor/fetch.js'
 
 export default class Youtube {
@@ -12,14 +12,14 @@ export default class Youtube {
 		this.service = 'youtube'
 	}
 
-	static formatData(data, utils) {
+	static formatData(data, truncate) {
 		return {
 			title         : data.snippet.title,
 			thumbnail     : data.snippet.thumbnails.medium.url,
 			rawDescription: data.snippet.description,
 			views         : data.statistics.viewCount,
 			likes         : data.statistics.likeCount,
-			description   : utils.truncate(data.snippet.description, 150),
+			description   : truncate(data.snippet.description, 150),
 			url           : `https://www.youtube.com/watch?v=${data.id}`,
 			id            : data.id,
 			host          : 'youtube'
@@ -43,18 +43,18 @@ export default class Youtube {
 		let data;
 		if (_this.options.videoDetails){
 			data = await _this.data(id);
-			return helper.getDetailsTemplate(Youtube.formatData(data, utils), data, embedUrl)
+			return getDetailsTemplate(Youtube.formatData(data, truncate), data, embedUrl)
 		} else {
-			return helper.template(embedUrl, _this.options);
+			return template(embedUrl, _this.options);
 		}
 	}
 
 	async process() {
 		try {
-			if (!utils.ifInline(this.options, this.service)) {
-				this.output = await helper.inlineEmbed(this, Youtube.urlToText)
+			if (!ifInline(this.options, this.service)) {
+				this.output = await inlineEmbed(this, Youtube.urlToText)
 			} else {
-				this.embeds = await helper.normalEmbed(this, Youtube.urlToText)
+				this.embeds = await normalEmbed(this, Youtube.urlToText)
 			}
 
 		} catch (error) {
