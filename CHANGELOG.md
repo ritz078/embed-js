@@ -1,3 +1,23 @@
+<a name="3.7.2"></a>
+## [3.7.2](https://github.com/ritz078/embed.js/compare/v3.7.1...v3.7.2) (2016-01-10)
+
+
+### Bug Fixes
+
+* **build:** removed duplicate YOUTUBE key ([5b3a42a](https://github.com/ritz078/embed.js/commit/5b3a42a))
+* **helpers:** changed helper functioned into named exports ([a9633da](https://github.com/ritz078/embed.js/commit/a9633da))
+* **ideone:** corrected the src url formed for the iframe ([e3cda9e](https://github.com/ritz078/embed.js/commit/e3cda9e))
+* **jsfiddle:** inline embedding of jsfiddle having / in url ([3add245](https://github.com/ritz078/embed.js/commit/3add245))
+* **package:** updated package.json ([6913738](https://github.com/ritz078/embed.js/commit/6913738))
+* **travis:** added grunt-cli installation to before-install step ([d23e6f8](https://github.com/ritz078/embed.js/commit/d23e6f8))
+
+### Performance Improvements
+
+* **css:** optimized css and reduced file size ([f3f65c3](https://github.com/ritz078/embed.js/commit/f3f65c3))
+* **dimensions:** avoid recalculation of dimensions for each services ([3fb29d3](https://github.com/ritz078/embed.js/commit/3fb29d3))
+
+
+
 <a name="3.7.1"></a>
 ## [3.7.1](https://github.com/ritz078/embed.js/compare/v3.7.0...v3.7.1) (2016-01-06)
 
