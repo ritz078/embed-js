@@ -10,7 +10,7 @@ describe('Class Codepen => unit test', function(){
 		let input = output = `Sunt castores desiderium http://codepen.io/enxaneta/pen/meYEzO#0 grandis, pius zetaes.Cur luna persuadere?`;
 		let codepen = new Codepen(input, output, options, embeds);
 		[output, embeds] = codepen.process();
-		console.log(embeds);
+
 		expect(output).to.be.a('string');
 		expect(embeds).to.be.a('array');
 
