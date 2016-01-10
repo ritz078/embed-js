@@ -2848,25 +2848,27 @@
   }(Base);
 
   var JsFiddle = function (_Base) {
-      babelHelpers_inherits(JsFiddle, _Base);
+  	babelHelpers_inherits(JsFiddle, _Base);
 
-      function JsFiddle(input, output, options, embeds) {
-          babelHelpers_classCallCheck(this, JsFiddle);
+  	function JsFiddle(input, output, options, embeds) {
+  		babelHelpers_classCallCheck(this, JsFiddle);
 
-          var _this = babelHelpers_possibleConstructorReturn(this, Object.getPrototypeOf(JsFiddle).call(this, input, output, options, embeds));
+  		var _this = babelHelpers_possibleConstructorReturn(this, Object.getPrototypeOf(JsFiddle).call(this, input, output, options, embeds));
 
-          _this.regex = /jsfiddle.net\/[a-zA-Z0-9_]+\/[a-zA-Z0-9_]+/gi;
-          _this.service = 'jsfiddle';
-          return _this;
-      }
+  		_this.regex = /jsfiddle.net\/[a-zA-Z0-9_]+\/[a-zA-Z0-9_\/]+/gi;
+  		_this.service = 'jsfiddle';
+  		return _this;
+  	}
 
-      babelHelpers_createClass(JsFiddle, [{
-          key: 'template',
-          value: function template(id) {
-              return ejs.template.jsFiddle(id, this.options) || '<div class="ejs-embed ejs-jsfiddle"><iframe height="' + this.options.codeEmbedHeight + '" src="http://' + id + '/embedded"></iframe></div>';
-          }
-      }]);
-      return JsFiddle;
+  	babelHelpers_createClass(JsFiddle, [{
+  		key: 'template',
+  		value: function template(id) {
+  			id = id[id.length - 1] == '/' ? id.slice(0, -1) : id;
+  			id = id.indexOf('//') !== -1 ? id : '//' + id;
+  			return ejs.template.jsFiddle(id, this.options) || '<div class="ejs-embed ejs-jsfiddle"><iframe height="' + this.options.codeEmbedHeight + '" src="' + id + '/embedded"></iframe></div>';
+  		}
+  	}]);
+  	return JsFiddle;
   }(Base);
 
   var CodePen = function (_Base) {
@@ -3460,6 +3462,7 @@
   			var config = this.options.linkOptions;
   			return this.input.replace(this.urlRegex, function (match) {
   				var extension = match.split('.')[match.split('.').length - 1];
+  				match = match[match.length - 1] == '/' ? match.slice(0, -1) : match;
   				if (config.exclude.indexOf(extension) === -1) {
   					return ejs.template.url(match, _this.options) || '<a href="' + toUrl(match) + '" rel="' + config.rel + '" target="' + config.target + '">' + match + '</a>';
   				}
