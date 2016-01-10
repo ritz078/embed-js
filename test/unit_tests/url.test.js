@@ -15,7 +15,7 @@ describe('Class Url unit test', function () {
 
 
 		it('should return a valid anchor tag for http://xyz.com/abc', function () {
-			let input   = `http://xyz.com/abc`;
+			let input   = `http://xyz.com/abc/`;
 			let result     = new Url(input, options).process();
 			expect(result).to.be.a('string');
 			expect(result).to.equal('<a href="http://xyz.com/abc" rel="" target="self">http://xyz.com/abc</a>');

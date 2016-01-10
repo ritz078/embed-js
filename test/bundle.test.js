@@ -232,6 +232,20 @@ function getDimensions(options) {
     }
 }
 
+/**
+ * Returns a cloned object
+ * @param  {object} obj
+ * @return {object}     cloned object
+ */
+function cloneObject(obj) {
+    if (obj === null || (typeof obj === 'undefined' ? 'undefined' : babelHelpers_typeof(obj)) !== 'object') return obj;
+    var temp = obj.constructor(); // give temp the original obj's constructor
+    for (var key in obj) {
+        temp[key] = cloneObject(obj[key]);
+    }
+    return temp;
+}
+
 function urlRegex() {
     return (/((href|src)=["']|)(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])|(?:https?:\/\/)?(?:(?:0rz\.tw)|(?:1link\.in)|(?:1url\.com)|(?:2\.gp)|(?:2big\.at)|(?:2tu\.us)|(?:3\.ly)|(?:307\.to)|(?:4ms\.me)|(?:4sq\.com)|(?:4url\.cc)|(?:6url\.com)|(?:7\.ly)|(?:a\.gg)|(?:a\.nf)|(?:aa\.cx)|(?:abcurl\.net)|(?:ad\.vu)|(?:adf\.ly)|(?:adjix\.com)|(?:afx\.cc)|(?:all\.fuseurl.com)|(?:alturl\.com)|(?:amzn\.to)|(?:ar\.gy)|(?:arst\.ch)|(?:atu\.ca)|(?:azc\.cc)|(?:b23\.ru)|(?:b2l\.me)|(?:bacn\.me)|(?:bcool\.bz)|(?:binged\.it)|(?:bit\.ly)|(?:buff\.ly)|(?:bizj\.us)|(?:bloat\.me)|(?:bravo\.ly)|(?:bsa\.ly)|(?:budurl\.com)|(?:canurl\.com)|(?:chilp\.it)|(?:chzb\.gr)|(?:cl\.lk)|(?:cl\.ly)|(?:clck\.ru)|(?:cli\.gs)|(?:cliccami\.info)|(?:clickthru\.ca)|(?:clop\.in)|(?:conta\.cc)|(?:cort\.as)|(?:cot\.ag)|(?:crks\.me)|(?:ctvr\.us)|(?:cutt\.us)|(?:dai\.ly)|(?:decenturl\.com)|(?:dfl8\.me)|(?:digbig\.com)|(?:digg\.com)|(?:disq\.us)|(?:dld\.bz)|(?:dlvr\.it)|(?:do\.my)|(?:doiop\.com)|(?:dopen\.us)|(?:easyuri\.com)|(?:easyurl\.net)|(?:eepurl\.com)|(?:eweri\.com)|(?:fa\.by)|(?:fav\.me)|(?:fb\.me)|(?:fbshare\.me)|(?:ff\.im)|(?:fff\.to)|(?:fire\.to)|(?:firsturl\.de)|(?:firsturl\.net)|(?:flic\.kr)|(?:flq\.us)|(?:fly2\.ws)|(?:fon\.gs)|(?:freak\.to)|(?:fuseurl\.com)|(?:fuzzy\.to)|(?:fwd4\.me)|(?:fwib\.net)|(?:g\.ro.lt)|(?:gizmo\.do)|(?:gl\.am)|(?:go\.9nl.com)|(?:go\.ign.com)|(?:go\.usa.gov)|(?:goo\.gl)|(?:goshrink\.com)|(?:gurl\.es)|(?:hex\.io)|(?:hiderefer\.com)|(?:hmm\.ph)|(?:href\.in)|(?:hsblinks\.com)|(?:htxt\.it)|(?:huff\.to)|(?:hulu\.com)|(?:hurl\.me)|(?:hurl\.ws)|(?:icanhaz\.com)|(?:idek\.net)|(?:ilix\.in)|(?:is\.gd)|(?:its\.my)|(?:ix\.lt)|(?:j\.mp)|(?:jijr\.com)|(?:kl\.am)|(?:klck\.me)|(?:korta\.nu)|(?:krunchd\.com)|(?:l9k\.net)|(?:lat\.ms)|(?:liip\.to)|(?:liltext\.com)|(?:linkbee\.com)|(?:linkbun\.ch)|(?:liurl\.cn)|(?:ln-s\.net)|(?:ln-s\.ru)|(?:lnk\.gd)|(?:lnk\.ms)|(?:lnkd\.in)|(?:lnkurl\.com)|(?:lru\.jp)|(?:lt\.tl)|(?:lurl\.no)|(?:macte\.ch)|(?:mash\.to)|(?:merky\.de)|(?:migre\.me)|(?:miniurl\.com)|(?:minurl\.fr)|(?:mke\.me)|(?:moby\.to)|(?:moourl\.com)|(?:mrte\.ch)|(?:myloc\.me)|(?:myurl\.in)|(?:n\.pr)|(?:nbc\.co)|(?:nblo\.gs)|(?:nn\.nf)|(?:not\.my)|(?:notlong\.com)|(?:nsfw\.in)|(?:nutshellurl\.com)|(?:nxy\.in)|(?:nyti\.ms)|(?:o-x\.fr)|(?:oc1\.us)|(?:om\.ly)|(?:omf\.gd)|(?:omoikane\.net)|(?:on\.cnn.com)|(?:on\.mktw.net)|(?:onforb\.es)|(?:orz\.se)|(?:ow\.ly)|(?:ping\.fm)|(?:pli\.gs)|(?:pnt\.me)|(?:politi\.co)|(?:post\.ly)|(?:pp\.gg)|(?:profile\.to)|(?:ptiturl\.com)|(?:pub\.vitrue.com)|(?:qlnk\.net)|(?:qte\.me)|(?:qu\.tc)|(?:qy\.fi)|(?:r\.im)|(?:rb6\.me)|(?:read\.bi)|(?:readthis\.ca)|(?:reallytinyurl\.com)|(?:redir\.ec)|(?:redirects\.ca)|(?:redirx\.com)|(?:retwt\.me)|(?:ri\.ms)|(?:rickroll\.it)|(?:riz\.gd)|(?:rt\.nu)|(?:ru\.ly)|(?:rubyurl\.com)|(?:rurl\.org)|(?:rww\.tw)|(?:s4c\.in)|(?:s7y\.us)|(?:safe\.mn)|(?:sameurl\.com)|(?:sdut\.us)|(?:shar\.es)|(?:shink\.de)|(?:shorl\.com)|(?:short\.ie)|(?:short\.to)|(?:shortlinks\.co.uk)|(?:shorturl\.com)|(?:shout\.to)|(?:show\.my)|(?:shrinkify\.com)|(?:shrinkr\.com)|(?:shrt\.fr)|(?:shrt\.st)|(?:shrten\.com)|(?:shrunkin\.com)|(?:simurl\.com)|(?:slate\.me)|(?:smallr\.com)|(?:smsh\.me)|(?:smurl\.name)|(?:sn\.im)|(?:snipr\.com)|(?:snipurl\.com)|(?:snurl\.com)|(?:sp2\.ro)|(?:spedr\.com)|(?:srnk\.net)|(?:srs\.li)|(?:starturl\.com)|(?:su\.pr)|(?:surl\.co.uk)|(?:surl\.hu)|(?:t\.cn)|(?:t\.co)|(?:t\.lh.com)|(?:ta\.gd)|(?:tbd\.ly)|(?:tcrn\.ch)|(?:tgr\.me)|(?:tgr\.ph)|(?:tighturl\.com)|(?:tiniuri\.com)|(?:tiny\.cc)|(?:tiny\.ly)|(?:tiny\.pl)|(?:tinylink\.in)|(?:tinyuri\.ca)|(?:tinyurl\.com)|(?:tl\.gd)|(?:tmi\.me)|(?:tnij\.org)|(?:tnw\.to)|(?:tny\.com)|(?:to\.ly)|(?:togoto\.us)|(?:totc\.us)|(?:toysr\.us)|(?:tpm\.ly)|(?:tr\.im)|(?:tra\.kz)|(?:trunc\.it)|(?:twhub\.com)|(?:twirl\.at)|(?:twitclicks\.com)|(?:twitterurl\.net)|(?:twitterurl\.org)|(?:twiturl\.de)|(?:twurl\.cc)|(?:twurl\.nl)|(?:u\.mavrev.com)|(?:u\.nu)|(?:u76\.org)|(?:ub0\.cc)|(?:ulu\.lu)|(?:updating\.me)|(?:ur1\.ca)|(?:url\.az)|(?:url\.co.uk)|(?:url\.ie)|(?:url360\.me)|(?:url4\.eu)|(?:urlborg\.com)|(?:urlbrief\.com)|(?:urlcover\.com)|(?:urlcut\.com)|(?:urlenco\.de)|(?:urli\.nl)|(?:urls\.im)|(?:urlshorteningservicefortwitter\.com)|(?:urlx\.ie)|(?:urlzen\.com)|(?:usat\.ly)|(?:use\.my)|(?:vb\.ly)|(?:vgn\.am)|(?:vl\.am)|(?:vm\.lc)|(?:w55\.de)|(?:wapo\.st)|(?:wapurl\.co.uk)|(?:wipi\.es)|(?:wp\.me)|(?:x\.vu)|(?:xr\.com)|(?:xrl\.in)|(?:xrl\.us)|(?:xurl\.es)|(?:xurl\.jp)|(?:y\.ahoo.it)|(?:yatuc\.com)|(?:ye\.pe)|(?:yep\.it)|(?:yfrog\.com)|(?:yhoo\.it)|(?:yiyd\.com)|(?:youtu\.be)|(?:yuarel\.com)|(?:z0p\.de)|(?:zi\.ma)|(?:zi\.mu)|(?:zipmyurl\.com)|(?:zud\.me)|(?:zurl\.ws)|(?:zz\.gd)|(?:zzang\.kr)|(?:›\.ws)|(?:✩\.ws)|(?:✿\.ws)|(?:❥\.ws)|(?:➔\.ws)|(?:➞\.ws)|(?:➡\.ws)|(?:➨\.ws)|(?:➯\.ws)|(?:➹\.ws)|(?:➽\.ws))\/[a-z0-9]*/gi
     );
@@ -438,6 +452,7 @@ var Url = function () {
 			var config = this.options.linkOptions;
 			return this.input.replace(this.urlRegex, function (match) {
 				var extension = match.split('.')[match.split('.').length - 1];
+				match = match[match.length - 1] == '/' ? match.slice(0, -1) : match;
 				if (config.exclude.indexOf(extension) === -1) {
 					return ejs.template.url(match, _this.options) || '<a href="' + toUrl(match) + '" rel="' + config.rel + '" target="' + config.target + '">' + match + '</a>';
 				}
@@ -463,7 +478,7 @@ describe('Class Url unit test', function () {
 		};
 
 		it('should return a valid anchor tag for http://xyz.com/abc', function () {
-			var input = 'http://xyz.com/abc';
+			var input = 'http://xyz.com/abc/';
 			var result = new Url(input, options).process();
 			expect$1(result).to.be.a('string');
 			expect$1(result).to.equal('<a href="http://xyz.com/abc" rel="" target="self">http://xyz.com/abc</a>');
@@ -818,8 +833,6 @@ describe('Class Plunker => unit test', function () {
 		output = _plunker$process2[0];
 		embeds = _plunker$process2[1];
 
-		console.log(embeds);
-
 		expect$4(output).to.be.a('string');
 		expect$4(embeds).to.be.a('array');
 
@@ -853,25 +866,766 @@ var CodePen = function (_Base) {
 
 var expect$5 = chai.expect;
 
+function init(input, output) {
+	var opts = arguments.length <= 2 || arguments[2] === undefined ? options : arguments[2];
+	var embeds = arguments.length <= 3 || arguments[3] === undefined ? [] : arguments[3];
+
+	output = opts.link === true ? new Url(input, options).process() : output;
+	return new CodePen(input, output, opts, embeds).process();
+}
+
 describe('Class Codepen => unit test', function () {
-	it('should return a valid plunked embedding url', function () {
+	describe('test with single matching', function () {
 
-		var output = undefined;
-		var embeds = [];
-		var input = output = 'Sunt castores desiderium http://codepen.io/enxaneta/pen/meYEzO#0 grandis, pius zetaes.Cur luna persuadere?';
-		var codepen = new CodePen(input, output, options, embeds);
+		describe('normal embedding', function () {
 
-		var _codepen$process = codepen.process();
+			var output = undefined,
+			    embeds = undefined;
+			var input = output = 'Sunt castores desiderium http://codepen.io/ritz078/pen/ZQeaaG grandis, pius zetaes.Cur luna persuadere?';
 
-		var _codepen$process2 = babelHelpers_slicedToArray(_codepen$process, 2);
+			var _init = init(input, output);
 
-		output = _codepen$process2[0];
-		embeds = _codepen$process2[1];
+			var _init2 = babelHelpers_slicedToArray(_init, 2);
 
-		console.log(embeds);
-		expect$5(output).to.be.a('string');
-		expect$5(embeds).to.be.a('array');
+			output = _init2[0];
+			embeds = _init2[1];
 
-		expect$5(embeds[0].text.replace(/(\r\n|\n|\r|\t)/gm, '')).to.equal('<div class="ejs-embed ejs-codepen"><iframe scrolling="no" height="500" src="http://codepen.io/enxaneta/embed/meYEzO/?height=500"></iframe></div>');
+			it('should return a valid embedding url', function () {
+
+				expect$5(output).to.be.a('string');
+				expect$5(embeds).to.be.a('array');
+				expect$5(embeds[0].text.replace(/(\r\n|\n|\r|\t)/gm, '')).to.equal('<div class="ejs-embed ejs-codepen"><iframe scrolling="no" height="500" src="http://codepen.io/ritz078/embed/ZQeaaG/?height=500"></iframe></div>');
+			});
+		});
+
+		describe('inline embedding', function () {
+			it('should return correct result with link => true && inlineText => true', function () {
+				var input = undefined,
+				    output = undefined,
+				    embeds = undefined;
+
+				var opts = cloneObject(options);
+				opts.inlineEmbed = 'all';
+
+				input = output = 'Sunt castores desiderium http://codepen.io/ritz078/pen/ZQeaaG grandis, pius zetaes.Cur luna persuadere?';
+
+				var _init3 = init(input, output, opts);
+
+				var _init4 = babelHelpers_slicedToArray(_init3, 2);
+
+				output = _init4[0];
+				embeds = _init4[1];
+
+				expect$5(embeds).to.be.empty;
+				expect$5(output.replace(/(\r\n|\n|\r|\t)/gm, '')).to.equal('Sunt castores desiderium <a href="http://codepen.io/ritz078/pen/ZQeaaG" rel="" target="self">http://codepen.io/ritz078/pen/ZQeaaG</a><div class="ejs-embed ejs-codepen"><iframe scrolling="no" height="500" src="http://codepen.io/ritz078/embed/ZQeaaG/?height=500"></iframe></div> grandis, pius zetaes.Cur luna persuadere?');
+			});
+
+			it('should return correct result with link => false && inlineText => true', function () {
+				var input = undefined,
+				    output = undefined,
+				    embeds = undefined;
+				var opts = cloneObject(options);
+				opts.inlineEmbed = 'all';
+				opts.link = false;
+
+				input = output = 'Sunt castores desiderium http://codepen.io/ritz078/pen/ZQeaaG grandis, pius zetaes.Cur luna persuadere?';
+
+				var _init5 = init(input, output, opts);
+
+				var _init6 = babelHelpers_slicedToArray(_init5, 2);
+
+				output = _init6[0];
+				embeds = _init6[1];
+
+				expect$5(embeds).to.be.empty;
+				expect$5(output.replace(/(\r\n|\n|\r|\t)/gm, '')).to.equal('Sunt castores desiderium http://codepen.io/ritz078/pen/ZQeaaG<div class="ejs-embed ejs-codepen"><iframe scrolling="no" height="500" src="http://codepen.io/ritz078/embed/ZQeaaG/?height=500"></iframe></div> grandis, pius zetaes.Cur luna persuadere?');
+			});
+
+			it('should return correct result with link => false && inlineText => false', function () {
+				var input = undefined,
+				    output = undefined,
+				    embeds = undefined;
+
+				var opts = cloneObject(options);
+				opts.inlineEmbed = 'all';
+				opts.link = false;
+				opts.inlineText = false;
+
+				input = output = 'Sunt castores desiderium http://codepen.io/ritz078/pen/ZQeaaG grandis, pius zetaes.Cur luna persuadere?';
+
+				var _init7 = init(input, output, opts);
+
+				var _init8 = babelHelpers_slicedToArray(_init7, 2);
+
+				output = _init8[0];
+				embeds = _init8[1];
+
+				expect$5(embeds).to.be.empty;
+				expect$5(output.replace(/(\r\n|\n|\r|\t)/gm, '')).to.equal('Sunt castores desiderium <div class="ejs-embed ejs-codepen"><iframe scrolling="no" height="500" src="http://codepen.io/ritz078/embed/ZQeaaG/?height=500"></iframe></div> grandis, pius zetaes.Cur luna persuadere?');
+			});
+
+			it('should return correct result with link => true && inlineText => false', function () {
+				var input = undefined,
+				    output = undefined,
+				    embeds = undefined;
+				var opts = cloneObject(options);
+				opts.inlineEmbed = 'all';
+				opts.link = true;
+				opts.inlineText = false;
+
+				input = 'Sunt castores desiderium http://codepen.io/ritz078/pen/ZQeaaG grandis, pius zetaes.Cur luna persuadere?';
+
+				var _init9 = init(input, output, opts);
+
+				var _init10 = babelHelpers_slicedToArray(_init9, 2);
+
+				output = _init10[0];
+				embeds = _init10[1];
+
+				expect$5(embeds).to.be.empty;
+				expect$5(output.replace(/(\r\n|\n|\r|\t)/gm, '')).to.equal('Sunt castores desiderium <a href="http://codepen.io/ritz078/pen/ZQeaaG" rel="" target="self"><div class="ejs-embed ejs-codepen"><iframe scrolling="no" height="500" src="http://codepen.io/ritz078/embed/ZQeaaG/?height=500"></iframe></div></a> grandis, pius zetaes.Cur luna persuadere?');
+			});
+		});
+	});
+
+	describe('test with multiple matching', function () {
+
+		describe('normal embedding', function () {
+
+			var input = undefined,
+			    output = undefined,
+			    embeds = undefined;
+			input = output = 'Sunt castores desiderium http://codepen.io/ritz078/pen/ZQeaaG grandis, pius zetaes http://codepen.io/ritz078/pen/JGRpPX .Cur luna persuadere?';
+
+			var _init11 = init(input, output);
+
+			var _init12 = babelHelpers_slicedToArray(_init11, 2);
+
+			output = _init12[0];
+			embeds = _init12[1];
+
+			it('should return correct results for multiple embeds', function () {
+				expect$5(embeds).to.have.length(2);
+				expect$5(output).to.not.be.undefined;
+			});
+		});
+
+		describe('inline embedding', function () {
+			it('should return correct result with link => true && inlineText => false', function () {
+				var input = undefined,
+				    output = undefined,
+				    embeds = undefined;
+				input = output = 'Sunt castores desiderium http://codepen.io/ritz078/pen/ZQeaaG grandis, pius zetaes http://codepen.io/ritz078/pen/JGRpPX .Cur luna persuadere?';
+				var opts = cloneObject(options);
+				opts.inlineEmbed = 'all';
+				opts.inlineText = false;
+
+				var _init13 = init(input, output, opts);
+
+				var _init14 = babelHelpers_slicedToArray(_init13, 2);
+
+				output = _init14[0];
+				embeds = _init14[1];
+
+				expect$5(embeds).to.be.empty;
+				expect$5(output).to.not.be.undefined;
+				expect$5(output.replace(/(\r\n|\n|\r|\t)/gm, '')).to.equal('Sunt castores desiderium <a href="http://codepen.io/ritz078/pen/ZQeaaG" rel="" target="self"><div class="ejs-embed ejs-codepen"><iframe scrolling="no" height="500" src="http://codepen.io/ritz078/embed/ZQeaaG/?height=500"></iframe></div></a> grandis, pius zetaes <a href="http://codepen.io/ritz078/pen/JGRpPX" rel="" target="self"><div class="ejs-embed ejs-codepen"><iframe scrolling="no" height="500" src="http://codepen.io/ritz078/embed/JGRpPX/?height=500"></iframe></div></a> .Cur luna persuadere?');
+			});
+
+			it('should return correct result with link => false && inlineText => false', function () {
+				var input = undefined,
+				    output = undefined,
+				    embeds = undefined;
+				input = output = 'Sunt castores desiderium http://codepen.io/ritz078/pen/ZQeaaG grandis, pius zetaes http://codepen.io/ritz078/pen/JGRpPX .Cur luna persuadere?';
+
+				var opts = cloneObject(options);
+
+				opts.link = false;
+				opts.inlineEmbed = 'all';
+				opts.inlineText = false;
+
+				var _init15 = init(input, output, opts);
+
+				var _init16 = babelHelpers_slicedToArray(_init15, 2);
+
+				output = _init16[0];
+				embeds = _init16[1];
+
+				expect$5(embeds).to.be.empty;
+				expect$5(output).to.not.be.undefined;
+				expect$5(output.replace(/(\r\n|\n|\r|\t)/gm, '')).to.equal('Sunt castores desiderium <div class="ejs-embed ejs-codepen"><iframe scrolling="no" height="500" src="http://codepen.io/ritz078/embed/ZQeaaG/?height=500"></iframe></div> grandis, pius zetaes <div class="ejs-embed ejs-codepen"><iframe scrolling="no" height="500" src="http://codepen.io/ritz078/embed/JGRpPX/?height=500"></iframe></div> .Cur luna persuadere?');
+			});
+
+			it('should return correct result with link => false && inlineText => true', function () {
+				var input = undefined,
+				    output = undefined,
+				    embeds = undefined;
+				input = output = 'Sunt castores desiderium http://codepen.io/ritz078/pen/ZQeaaG grandis, pius zetaes http://codepen.io/ritz078/pen/JGRpPX .Cur luna persuadere?';
+
+				var opts = cloneObject(options);
+
+				opts.link = false;
+				opts.inlineEmbed = 'all';
+
+				var _init17 = init(input, output, opts);
+
+				var _init18 = babelHelpers_slicedToArray(_init17, 2);
+
+				output = _init18[0];
+				embeds = _init18[1];
+
+				expect$5(embeds).to.be.empty;
+				expect$5(output).to.not.be.undefined;
+				expect$5(output.replace(/(\r\n|\n|\r|\t)/gm, '')).to.equal('Sunt castores desiderium http://codepen.io/ritz078/pen/ZQeaaG<div class="ejs-embed ejs-codepen"><iframe scrolling="no" height="500" src="http://codepen.io/ritz078/embed/ZQeaaG/?height=500"></iframe></div> grandis, pius zetaes http://codepen.io/ritz078/pen/JGRpPX<div class="ejs-embed ejs-codepen"><iframe scrolling="no" height="500" src="http://codepen.io/ritz078/embed/JGRpPX/?height=500"></iframe></div> .Cur luna persuadere?');
+			});
+
+			it('should return correct result with link => true && inlineText => true', function () {
+				var input = undefined,
+				    output = undefined,
+				    embeds = undefined;
+				input = output = 'Sunt castores desiderium http://codepen.io/ritz078/pen/ZQeaaG grandis, pius zetaes http://codepen.io/ritz078/pen/JGRpPX .Cur luna persuadere?';
+
+				var opts = cloneObject(options);
+
+				opts.inlineEmbed = 'all';
+
+				var _init19 = init(input, output, opts);
+
+				var _init20 = babelHelpers_slicedToArray(_init19, 2);
+
+				output = _init20[0];
+				embeds = _init20[1];
+
+				expect$5(embeds).to.be.empty;
+				expect$5(output).to.not.be.undefined;
+				expect$5(output.replace(/(\r\n|\n|\r|\t)/gm, '')).to.equal('Sunt castores desiderium <a href="http://codepen.io/ritz078/pen/ZQeaaG" rel="" target="self">http://codepen.io/ritz078/pen/ZQeaaG</a><div class="ejs-embed ejs-codepen"><iframe scrolling="no" height="500" src="http://codepen.io/ritz078/embed/ZQeaaG/?height=500"></iframe></div> grandis, pius zetaes <a href="http://codepen.io/ritz078/pen/JGRpPX" rel="" target="self">http://codepen.io/ritz078/pen/JGRpPX</a><div class="ejs-embed ejs-codepen"><iframe scrolling="no" height="500" src="http://codepen.io/ritz078/embed/JGRpPX/?height=500"></iframe></div> .Cur luna persuadere?');
+			});
+		});
+	});
+});
+
+var Ideone = function (_Base) {
+    babelHelpers_inherits(Ideone, _Base);
+
+    function Ideone(input, output, options, embeds) {
+        babelHelpers_classCallCheck(this, Ideone);
+
+        var _this = babelHelpers_possibleConstructorReturn(this, Object.getPrototypeOf(Ideone).call(this, input, output, options, embeds));
+
+        _this.regex = /ideone.com\/[a-zA-Z0-9]{6}/gi;
+        _this.service = 'ideone';
+        return _this;
+    }
+
+    babelHelpers_createClass(Ideone, [{
+        key: 'template',
+        value: function template(match) {
+            return ejs.template.ideone(match, this.options) || '<div class="ejs-ideone ejs-embed"><iframe src="http://ideone.com/embed/' + match.split('/')[1] + '" frameborder="0" height="' + this.options.codeEmbedHeight + '"></iframe></div>';
+        }
+    }]);
+    return Ideone;
+}(Base);
+
+var expect$6 = chai.expect;
+
+function init$1(input, output) {
+	var opts = arguments.length <= 2 || arguments[2] === undefined ? options : arguments[2];
+	var embeds = arguments.length <= 3 || arguments[3] === undefined ? [] : arguments[3];
+
+	output = opts.link === true ? new Url(input, options).process() : output;
+	return new Ideone(input, output, opts, embeds).process();
+}
+
+describe('Class Ideone => unit test', function () {
+	describe('test with single matching', function () {
+
+		describe('normal embedding', function () {
+
+			var output = undefined,
+			    embeds = undefined;
+			var input = output = 'Sunt castores desiderium http://ideone.com/HH8rmZ grandis, pius zetaes.Cur luna persuadere?';
+
+			var _init = init$1(input, output);
+
+			var _init2 = babelHelpers_slicedToArray(_init, 2);
+
+			output = _init2[0];
+			embeds = _init2[1];
+
+			it('should return a valid embedding url', function () {
+
+				expect$6(output).to.be.a('string');
+				expect$6(embeds).to.be.a('array');
+				expect$6(embeds[0].text.replace(/(\r\n|\n|\r|\t)/gm, '')).to.equal('<div class="ejs-ideone ejs-embed"><iframe src="http://ideone.com/embed/HH8rmZ" frameborder="0" height="500"></iframe></div>');
+			});
+		});
+
+		describe('inline embedding', function () {
+			it('should return correct result with link => true && inlineText => true', function () {
+				var input = undefined,
+				    output = undefined,
+				    embeds = undefined;
+
+				var opts = cloneObject(options);
+				opts.inlineEmbed = 'all';
+
+				input = output = 'Sunt castores desiderium http://ideone.com/HH8rmZ grandis, pius zetaes.Cur luna persuadere?';
+
+				var _init3 = init$1(input, output, opts);
+
+				var _init4 = babelHelpers_slicedToArray(_init3, 2);
+
+				output = _init4[0];
+				embeds = _init4[1];
+
+				expect$6(embeds).to.be.empty;
+				expect$6(output.replace(/(\r\n|\n|\r|\t)/gm, '')).to.equal('Sunt castores desiderium <a href="http://ideone.com/HH8rmZ" rel="" target="self">http://ideone.com/HH8rmZ</a><div class="ejs-ideone ejs-embed"><iframe src="http://ideone.com/embed/" frameborder="0" height="500"></iframe></div> grandis, pius zetaes.Cur luna persuadere?');
+			});
+
+			it('should return correct result with link => false && inlineText => true', function () {
+				var input = undefined,
+				    output = undefined,
+				    embeds = undefined;
+				var opts = cloneObject(options);
+				opts.inlineEmbed = 'all';
+				opts.link = false;
+
+				input = output = 'Sunt castores desiderium http://ideone.com/HH8rmZ grandis, pius zetaes.Cur luna persuadere?';
+
+				var _init5 = init$1(input, output, opts);
+
+				var _init6 = babelHelpers_slicedToArray(_init5, 2);
+
+				output = _init6[0];
+				embeds = _init6[1];
+
+				expect$6(embeds).to.be.empty;
+				expect$6(output.replace(/(\r\n|\n|\r|\t)/gm, '')).to.equal('Sunt castores desiderium http://ideone.com/HH8rmZ<div class="ejs-ideone ejs-embed"><iframe src="http://ideone.com/embed/" frameborder="0" height="500"></iframe></div> grandis, pius zetaes.Cur luna persuadere?');
+			});
+
+			it('should return correct result with link => false && inlineText => false', function () {
+				var input = undefined,
+				    output = undefined,
+				    embeds = undefined;
+
+				var opts = cloneObject(options);
+				opts.inlineEmbed = 'all';
+				opts.link = false;
+				opts.inlineText = false;
+
+				input = output = 'Sunt castores desiderium http://ideone.com/HH8rmZ grandis, pius zetaes.Cur luna persuadere?';
+
+				var _init7 = init$1(input, output, opts);
+
+				var _init8 = babelHelpers_slicedToArray(_init7, 2);
+
+				output = _init8[0];
+				embeds = _init8[1];
+
+				expect$6(embeds).to.be.empty;
+				expect$6(output.replace(/(\r\n|\n|\r|\t)/gm, '')).to.equal('Sunt castores desiderium <div class="ejs-ideone ejs-embed"><iframe src="http://ideone.com/embed/" frameborder="0" height="500"></iframe></div> grandis, pius zetaes.Cur luna persuadere?');
+			});
+
+			it('should return correct result with link => true && inlineText => false', function () {
+				var input = undefined,
+				    output = undefined,
+				    embeds = undefined;
+				var opts = cloneObject(options);
+				opts.inlineEmbed = 'all';
+				opts.link = true;
+				opts.inlineText = false;
+
+				input = 'Sunt castores desiderium http://ideone.com/HH8rmZ grandis, pius zetaes.Cur luna persuadere?';
+
+				var _init9 = init$1(input, output, opts);
+
+				var _init10 = babelHelpers_slicedToArray(_init9, 2);
+
+				output = _init10[0];
+				embeds = _init10[1];
+
+				expect$6(embeds).to.be.empty;
+				expect$6(output.replace(/(\r\n|\n|\r|\t)/gm, '')).to.equal('Sunt castores desiderium <a href="http://ideone.com/HH8rmZ" rel="" target="self"><div class="ejs-ideone ejs-embed"><iframe src="http://ideone.com/embed/" frameborder="0" height="500"></iframe></div></a> grandis, pius zetaes.Cur luna persuadere?');
+			});
+		});
+	});
+
+	describe('test with multiple matching', function () {
+
+		describe('normal embedding', function () {
+
+			var input = undefined,
+			    output = undefined,
+			    embeds = undefined;
+			input = output = 'Sunt castores desiderium http://ideone.com/HH8rmZ grandis, pius zetaes http://ideone.com/ETAZsa .Cur luna persuadere?';
+
+			var _init11 = init$1(input, output);
+
+			var _init12 = babelHelpers_slicedToArray(_init11, 2);
+
+			output = _init12[0];
+			embeds = _init12[1];
+
+			it('should return correct results for multiple embeds', function () {
+				expect$6(embeds).to.have.length(2);
+				expect$6(output).to.not.be.undefined;
+			});
+		});
+
+		describe('inline embedding', function () {
+			it('should return correct result with link => true && inlineText => false', function () {
+				var input = undefined,
+				    output = undefined,
+				    embeds = undefined;
+				input = output = 'Sunt castores desiderium http://ideone.com/HH8rmZ grandis, pius zetaes http://ideone.com/ETAZsa .Cur luna persuadere?';
+				var opts = cloneObject(options);
+				opts.inlineEmbed = 'all';
+				opts.inlineText = false;
+
+				var _init13 = init$1(input, output, opts);
+
+				var _init14 = babelHelpers_slicedToArray(_init13, 2);
+
+				output = _init14[0];
+				embeds = _init14[1];
+
+				expect$6(embeds).to.be.empty;
+				expect$6(output).to.not.be.undefined;
+				expect$6(output.replace(/(\r\n|\n|\r|\t)/gm, '')).to.equal('Sunt castores desiderium <a href="http://ideone.com/HH8rmZ" rel="" target="self"><div class="ejs-ideone ejs-embed"><iframe src="http://ideone.com/embed/" frameborder="0" height="500"></iframe></div></a> grandis, pius zetaes <a href="http://ideone.com/ETAZsa" rel="" target="self"><div class="ejs-ideone ejs-embed"><iframe src="http://ideone.com/embed/" frameborder="0" height="500"></iframe></div></a> .Cur luna persuadere?');
+			});
+
+			it('should return correct result with link => false && inlineText => false', function () {
+				var input = undefined,
+				    output = undefined,
+				    embeds = undefined;
+				input = output = 'Sunt castores desiderium http://ideone.com/HH8rmZ grandis, pius zetaes http://ideone.com/ETAZsa .Cur luna persuadere?';
+
+				var opts = cloneObject(options);
+
+				opts.link = false;
+				opts.inlineEmbed = 'all';
+				opts.inlineText = false;
+
+				var _init15 = init$1(input, output, opts);
+
+				var _init16 = babelHelpers_slicedToArray(_init15, 2);
+
+				output = _init16[0];
+				embeds = _init16[1];
+
+				expect$6(embeds).to.be.empty;
+				expect$6(output).to.not.be.undefined;
+				expect$6(output.replace(/(\r\n|\n|\r|\t)/gm, '')).to.equal('Sunt castores desiderium <div class="ejs-ideone ejs-embed"><iframe src="http://ideone.com/embed/" frameborder="0" height="500"></iframe></div> grandis, pius zetaes <div class="ejs-ideone ejs-embed"><iframe src="http://ideone.com/embed/" frameborder="0" height="500"></iframe></div> .Cur luna persuadere?');
+			});
+
+			it('should return correct result with link => false && inlineText => true', function () {
+				var input = undefined,
+				    output = undefined,
+				    embeds = undefined;
+				input = output = 'Sunt castores desiderium http://ideone.com/HH8rmZ grandis, pius zetaes http://ideone.com/ETAZsa .Cur luna persuadere?';
+
+				var opts = cloneObject(options);
+
+				opts.link = false;
+				opts.inlineEmbed = 'all';
+
+				var _init17 = init$1(input, output, opts);
+
+				var _init18 = babelHelpers_slicedToArray(_init17, 2);
+
+				output = _init18[0];
+				embeds = _init18[1];
+
+				expect$6(embeds).to.be.empty;
+				expect$6(output).to.not.be.undefined;
+				expect$6(output.replace(/(\r\n|\n|\r|\t)/gm, '')).to.equal('Sunt castores desiderium http://ideone.com/HH8rmZ<div class="ejs-ideone ejs-embed"><iframe src="http://ideone.com/embed/" frameborder="0" height="500"></iframe></div> grandis, pius zetaes http://ideone.com/ETAZsa<div class="ejs-ideone ejs-embed"><iframe src="http://ideone.com/embed/" frameborder="0" height="500"></iframe></div> .Cur luna persuadere?');
+			});
+
+			it('should return correct result with link => true && inlineText => true', function () {
+				var input = undefined,
+				    output = undefined,
+				    embeds = undefined;
+				input = output = 'Sunt castores desiderium http://ideone.com/HH8rmZ grandis, pius zetaes http://ideone.com/ETAZsa .Cur luna persuadere?';
+
+				var opts = cloneObject(options);
+
+				opts.inlineEmbed = 'all';
+
+				var _init19 = init$1(input, output, opts);
+
+				var _init20 = babelHelpers_slicedToArray(_init19, 2);
+
+				output = _init20[0];
+				embeds = _init20[1];
+
+				expect$6(embeds).to.be.empty;
+				expect$6(output).to.not.be.undefined;
+				expect$6(output.replace(/(\r\n|\n|\r|\t)/gm, '')).to.equal('Sunt castores desiderium <a href="http://ideone.com/HH8rmZ" rel="" target="self">http://ideone.com/HH8rmZ</a><div class="ejs-ideone ejs-embed"><iframe src="http://ideone.com/embed/" frameborder="0" height="500"></iframe></div> grandis, pius zetaes <a href="http://ideone.com/ETAZsa" rel="" target="self">http://ideone.com/ETAZsa</a><div class="ejs-ideone ejs-embed"><iframe src="http://ideone.com/embed/" frameborder="0" height="500"></iframe></div> .Cur luna persuadere?');
+			});
+		});
+	});
+});
+
+var JsFiddle = function (_Base) {
+	babelHelpers_inherits(JsFiddle, _Base);
+
+	function JsFiddle(input, output, options, embeds) {
+		babelHelpers_classCallCheck(this, JsFiddle);
+
+		var _this = babelHelpers_possibleConstructorReturn(this, Object.getPrototypeOf(JsFiddle).call(this, input, output, options, embeds));
+
+		_this.regex = /jsfiddle.net\/[a-zA-Z0-9_]+\/[a-zA-Z0-9_\/]+/gi;
+		_this.service = 'jsfiddle';
+		return _this;
+	}
+
+	babelHelpers_createClass(JsFiddle, [{
+		key: 'template',
+		value: function template(id) {
+			id = id[id.length - 1] == '/' ? id.slice(0, -1) : id;
+			id = id.indexOf('//') !== -1 ? id : '//' + id;
+			return ejs.template.jsFiddle(id, this.options) || '<div class="ejs-embed ejs-jsfiddle"><iframe height="' + this.options.codeEmbedHeight + '" src="' + id + '/embedded"></iframe></div>';
+		}
+	}]);
+	return JsFiddle;
+}(Base);
+
+var expect$7 = chai.expect;
+
+function init$2(input, output) {
+	var opts = arguments.length <= 2 || arguments[2] === undefined ? options : arguments[2];
+	var embeds = arguments.length <= 3 || arguments[3] === undefined ? [] : arguments[3];
+
+	output = opts.link === true ? new Url(input, options).process() : output;
+	return new JsFiddle(input, output, opts, embeds).process();
+}
+
+describe('Class JsFiddle => unit test', function () {
+	describe('test with single matching', function () {
+
+		describe('normal embedding', function () {
+
+			var output = undefined,
+			    embeds = undefined;
+			var input = output = 'Sunt castores desiderium http://jsfiddle.net/rwaldron/88M6b/ grandis, pius zetaes.Cur luna persuadere?';
+
+			var _init = init$2(input, output);
+
+			var _init2 = babelHelpers_slicedToArray(_init, 2);
+
+			output = _init2[0];
+			embeds = _init2[1];
+
+			it('should return a valid embedding url', function () {
+
+				expect$7(output).to.be.a('string');
+				expect$7(embeds).to.be.a('array');
+				expect$7(embeds[0].text.replace(/(\r\n|\n|\r|\t)/gm, '')).to.equal('<div class="ejs-embed ejs-jsfiddle"><iframe height="500" src="//jsfiddle.net/rwaldron/88M6b/embedded"></iframe></div>');
+			});
+		});
+
+		describe('inline embedding', function () {
+			it('should return correct result with link => true && inlineText => true', function () {
+				var input = undefined,
+				    output = undefined,
+				    embeds = undefined;
+
+				var opts = cloneObject(options);
+				opts.inlineEmbed = 'all';
+
+				input = output = 'Sunt castores desiderium http://jsfiddle.net/rwaldron/88M6b/ grandis, pius zetaes.Cur luna persuadere?';
+
+				var _init3 = init$2(input, output, opts);
+
+				var _init4 = babelHelpers_slicedToArray(_init3, 2);
+
+				output = _init4[0];
+				embeds = _init4[1];
+
+				expect$7(embeds).to.be.empty;
+				expect$7(output.replace(/(\r\n|\n|\r|\t)/gm, '')).to.equal('Sunt castores desiderium <a href="http://jsfiddle.net/rwaldron/88M6b" rel="" target="self">http://jsfiddle.net/rwaldron/88M6b</a><div class="ejs-embed ejs-jsfiddle"><iframe height="500" src="http://jsfiddle.net/rwaldron/88M6b/embedded"></iframe></div> grandis, pius zetaes.Cur luna persuadere?');
+			});
+
+			it('should return correct result with link => false && inlineText => true', function () {
+				var input = undefined,
+				    output = undefined,
+				    embeds = undefined;
+				var opts = cloneObject(options);
+				opts.inlineEmbed = 'all';
+				opts.link = false;
+
+				input = output = 'Sunt castores desiderium http://jsfiddle.net/rwaldron/88M6b/ grandis, pius zetaes.Cur luna persuadere?';
+
+				var _init5 = init$2(input, output, opts);
+
+				var _init6 = babelHelpers_slicedToArray(_init5, 2);
+
+				output = _init6[0];
+				embeds = _init6[1];
+
+				expect$7(embeds).to.be.empty;
+				expect$7(output.replace(/(\r\n|\n|\r|\t)/gm, '')).to.equal('Sunt castores desiderium http://jsfiddle.net/rwaldron/88M6b/<div class="ejs-embed ejs-jsfiddle"><iframe height="500" src="http://jsfiddle.net/rwaldron/88M6b/embedded"></iframe></div> grandis, pius zetaes.Cur luna persuadere?');
+			});
+
+			it('should return correct result with link => false && inlineText => false', function () {
+				var input = undefined,
+				    output = undefined,
+				    embeds = undefined;
+
+				var opts = cloneObject(options);
+				opts.inlineEmbed = 'all';
+				opts.link = false;
+				opts.inlineText = false;
+
+				input = output = 'Sunt castores desiderium http://jsfiddle.net/rwaldron/88M6b/ grandis, pius zetaes.Cur luna persuadere?';
+
+				var _init7 = init$2(input, output, opts);
+
+				var _init8 = babelHelpers_slicedToArray(_init7, 2);
+
+				output = _init8[0];
+				embeds = _init8[1];
+
+				expect$7(embeds).to.be.empty;
+				expect$7(output.replace(/(\r\n|\n|\r|\t)/gm, '')).to.equal('Sunt castores desiderium <div class="ejs-embed ejs-jsfiddle"><iframe height="500" src="http://jsfiddle.net/rwaldron/88M6b/embedded"></iframe></div> grandis, pius zetaes.Cur luna persuadere?');
+			});
+
+			it('should return correct result with link => true && inlineText => false', function () {
+				var input = undefined,
+				    output = undefined,
+				    embeds = undefined;
+				var opts = cloneObject(options);
+				opts.inlineEmbed = 'all';
+				opts.link = true;
+				opts.inlineText = false;
+
+				input = 'Sunt castores desiderium http://jsfiddle.net/rwaldron/88M6b/ grandis, pius zetaes.Cur luna persuadere?';
+
+				var _init9 = init$2(input, output, opts);
+
+				var _init10 = babelHelpers_slicedToArray(_init9, 2);
+
+				output = _init10[0];
+				embeds = _init10[1];
+
+				expect$7(embeds).to.be.empty;
+				expect$7(output.replace(/(\r\n|\n|\r|\t)/gm, '')).to.equal('Sunt castores desiderium <a href="http://jsfiddle.net/rwaldron/88M6b" rel="" target="self"><div class="ejs-embed ejs-jsfiddle"><iframe height="500" src="http://jsfiddle.net/rwaldron/88M6b/embedded"></iframe></div></a> grandis, pius zetaes.Cur luna persuadere?');
+			});
+		});
+	});
+
+	describe('test with multiple matching', function () {
+
+		describe('normal embedding', function () {
+
+			var input = undefined,
+			    output = undefined,
+			    embeds = undefined;
+			input = output = 'Sunt castores desiderium http://jsfiddle.net/rwaldron/88M6b grandis, pius zetaes https://jsfiddle.net/ritz078/n5dL6ogd/4/ .Cur luna persuadere?';
+
+			var _init11 = init$2(input, output);
+
+			var _init12 = babelHelpers_slicedToArray(_init11, 2);
+
+			output = _init12[0];
+			embeds = _init12[1];
+
+			it('should return correct results for multiple embeds', function () {
+				expect$7(embeds).to.have.length(2);
+				expect$7(output).to.not.be.undefined;
+			});
+		});
+
+		describe('inline embedding', function () {
+			it('should return correct result with link => true && inlineText => false', function () {
+				var input = undefined,
+				    output = undefined,
+				    embeds = undefined;
+				input = output = 'Sunt castores desiderium http://jsfiddle.net/rwaldron/88M6b grandis, pius zetaes https://jsfiddle.net/ritz078/n5dL6ogd/4/ .Cur luna persuadere?';
+				var opts = cloneObject(options);
+				opts.inlineEmbed = 'all';
+				opts.inlineText = false;
+
+				var _init13 = init$2(input, output, opts);
+
+				var _init14 = babelHelpers_slicedToArray(_init13, 2);
+
+				output = _init14[0];
+				embeds = _init14[1];
+
+				expect$7(embeds).to.be.empty;
+				expect$7(output).to.not.be.undefined;
+				expect$7(output.replace(/(\r\n|\n|\r|\t)/gm, '')).to.equal('Sunt castores desiderium <a href="http://jsfiddle.net/rwaldron/88M6b" rel="" target="self"><div class="ejs-embed ejs-jsfiddle"><iframe height="500" src="http://jsfiddle.net/rwaldron/88M6b/embedded"></iframe></div></a> grandis, pius zetaes <a href="https://jsfiddle.net/ritz078/n5dL6ogd/4" rel="" target="self"><div class="ejs-embed ejs-jsfiddle"><iframe height="500" src="https://jsfiddle.net/ritz078/n5dL6ogd/4/embedded"></iframe></div></a> .Cur luna persuadere?');
+			});
+
+			it('should return correct result with link => false && inlineText => false', function () {
+				var input = undefined,
+				    output = undefined,
+				    embeds = undefined;
+				input = output = 'Sunt castores desiderium http://jsfiddle.net/rwaldron/88M6b grandis, pius zetaes https://jsfiddle.net/ritz078/n5dL6ogd/4/ .Cur luna persuadere?';
+
+				var opts = cloneObject(options);
+
+				opts.link = false;
+				opts.inlineEmbed = 'all';
+				opts.inlineText = false;
+
+				var _init15 = init$2(input, output, opts);
+
+				var _init16 = babelHelpers_slicedToArray(_init15, 2);
+
+				output = _init16[0];
+				embeds = _init16[1];
+
+				expect$7(embeds).to.be.empty;
+				expect$7(output).to.not.be.undefined;
+				expect$7(output.replace(/(\r\n|\n|\r|\t)/gm, '')).to.equal('Sunt castores desiderium <div class="ejs-embed ejs-jsfiddle"><iframe height="500" src="http://jsfiddle.net/rwaldron/88M6b/embedded"></iframe></div> grandis, pius zetaes <div class="ejs-embed ejs-jsfiddle"><iframe height="500" src="https://jsfiddle.net/ritz078/n5dL6ogd/4/embedded"></iframe></div> .Cur luna persuadere?');
+			});
+
+			it('should return correct result with link => false && inlineText => true', function () {
+				var input = undefined,
+				    output = undefined,
+				    embeds = undefined;
+				input = output = 'Sunt castores desiderium http://jsfiddle.net/rwaldron/88M6b grandis, pius zetaes https://jsfiddle.net/ritz078/n5dL6ogd/4/ .Cur luna persuadere?';
+
+				var opts = cloneObject(options);
+
+				opts.link = false;
+				opts.inlineEmbed = 'all';
+
+				var _init17 = init$2(input, output, opts);
+
+				var _init18 = babelHelpers_slicedToArray(_init17, 2);
+
+				output = _init18[0];
+				embeds = _init18[1];
+
+				expect$7(embeds).to.be.empty;
+				expect$7(output).to.not.be.undefined;
+				expect$7(output.replace(/(\r\n|\n|\r|\t)/gm, '')).to.equal('Sunt castores desiderium http://jsfiddle.net/rwaldron/88M6b<div class="ejs-embed ejs-jsfiddle"><iframe height="500" src="http://jsfiddle.net/rwaldron/88M6b/embedded"></iframe></div> grandis, pius zetaes https://jsfiddle.net/ritz078/n5dL6ogd/4/<div class="ejs-embed ejs-jsfiddle"><iframe height="500" src="https://jsfiddle.net/ritz078/n5dL6ogd/4/embedded"></iframe></div> .Cur luna persuadere?');
+			});
+
+			it('should return correct result with link => true && inlineText => true', function () {
+				var input = undefined,
+				    output = undefined,
+				    embeds = undefined;
+				input = output = 'Sunt castores desiderium http://jsfiddle.net/rwaldron/88M6b grandis, pius zetaes https://jsfiddle.net/ritz078/n5dL6ogd/4/ .Cur luna persuadere?';
+
+				var opts = cloneObject(options);
+
+				opts.inlineEmbed = 'all';
+
+				var _init19 = init$2(input, output, opts);
+
+				var _init20 = babelHelpers_slicedToArray(_init19, 2);
+
+				output = _init20[0];
+				embeds = _init20[1];
+
+				expect$7(embeds).to.be.empty;
+				expect$7(output).to.not.be.undefined;
+				expect$7(output.replace(/(\r\n|\n|\r|\t)/gm, '')).to.equal('Sunt castores desiderium <a href="http://jsfiddle.net/rwaldron/88M6b" rel="" target="self">http://jsfiddle.net/rwaldron/88M6b</a><div class="ejs-embed ejs-jsfiddle"><iframe height="500" src="http://jsfiddle.net/rwaldron/88M6b/embedded"></iframe></div> grandis, pius zetaes <a href="https://jsfiddle.net/ritz078/n5dL6ogd/4" rel="" target="self">https://jsfiddle.net/ritz078/n5dL6ogd/4</a><div class="ejs-embed ejs-jsfiddle"><iframe height="500" src="https://jsfiddle.net/ritz078/n5dL6ogd/4/embedded"></iframe></div> .Cur luna persuadere?');
+			});
+		});
 	});
 });

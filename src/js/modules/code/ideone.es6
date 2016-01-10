@@ -8,6 +8,6 @@ export default class Ideone extends Base {
     }
 
     template(match) {
-        return ejs.template.ideone(match, this.options) || `<div class="ejs-ideone ejs-embed"><iframe src="http://ideone.com/embed/${match.split('/')}" frameborder="0" height="${this.options.codeEmbedHeight}"></iframe></div>`
+        return ejs.template.ideone(match, this.options) || `<div class="ejs-ideone ejs-embed"><iframe src="http://ideone.com/embed/${match.split('/')[1]}" frameborder="0" height="${this.options.codeEmbedHeight}"></iframe></div>`
     }
 }

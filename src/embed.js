@@ -1697,51 +1697,50 @@
   }();
 
   var Base = function () {
-      function Base(input, output, options, embeds) {
-          babelHelpers_classCallCheck(this, Base);
+  	function Base(input, output, options, embeds) {
+  		babelHelpers_classCallCheck(this, Base);
 
-          this.input = input;
-          this.output = output;
-          this.options = options;
-          this.embeds = embeds;
-      }
+  		this.input = input;
+  		this.output = output;
+  		this.options = options;
+  		this.embeds = embeds;
+  	}
 
-      babelHelpers_createClass(Base, [{
-          key: 'process',
-          value: function process() {
-              var _this = this;
+  	babelHelpers_createClass(Base, [{
+  		key: 'process',
+  		value: function process() {
+  			var _this = this;
 
-              if (!ifInline(this.options, this.service)) {
-                  var regexInline = this.options.link ? new RegExp('([^>]*' + this.regex.source + ')</a>', 'gm') : new RegExp('([^\\s]*' + this.regex.source + ')', 'gm');
-                  this.output = this.output.replace(regexInline, function (match) {
-                      var url = _this.options.link ? match.slice(0, -4) : match;
-                      if (_this.options.served.indexOf(url) === -1) {
-                          _this.options.served.push(url);
-                          if (_this.options.link) {
-                              return !_this.options.inlineText ? _this.template(match.slice(0, -4)) + '</a>' : match + _this.template(match.slice(0, -4));
-                          } else {
-                              return !_this.options.inlineText ? _this.template(match) : match + _this.template(match);
-                          }
-                      } else {
-                          return url;
-                      }
-                  });
-              } else {
-                  var match = undefined;
-                  while ((match = matches(this.regex, this.input)) !== null) {
-                      if (this.options.served.indexOf(match[0]) === -1) {
-                          var text = this.template(match[0]);
-                          this.embeds.push({
-                              text: text,
-                              index: match.index
-                          });
-                      }
-                  }
-              }
-              return [this.output, this.embeds];
-          }
-      }]);
-      return Base;
+  			if (!ifInline(this.options, this.service)) {
+  				var regexInline = this.options.link ? new RegExp('([^>]*' + this.regex.source + ')</a>', 'gm') : new RegExp('([^\\s]*' + this.regex.source + ')', 'gm');
+  				this.output = this.output.replace(regexInline, function (match) {
+  					var url = _this.options.link ? match.slice(0, -4) : match;
+  					if (_this.options.served.indexOf(url) === -1) {
+  						_this.options.served.push(url);
+  						if (_this.options.link) {
+  							return !_this.options.inlineText ? _this.template(match.slice(0, -4)) + '</a>' : match + _this.template(match.slice(0, -4));
+  						} else {
+  							return !_this.options.inlineText ? _this.template(match) : match + _this.template(match);
+  						}
+  					} else {
+  						return url;
+  					}
+  				});
+  			} else {
+  				var match = undefined;
+  				while ((match = matches(this.regex, this.input)) !== null) {
+  					if (!(this.options.served.indexOf(match[0]) === -1)) continue;
+  					var text = this.template(match[0]);
+  					this.embeds.push({
+  						text: text,
+  						index: match.index
+  					});
+  				}
+  			}
+  			return [this.output, this.embeds];
+  		}
+  	}]);
+  	return Base;
   }();
 
   var Basic = function (_Base) {
@@ -2849,25 +2848,27 @@
   }(Base);
 
   var JsFiddle = function (_Base) {
-      babelHelpers_inherits(JsFiddle, _Base);
+  	babelHelpers_inherits(JsFiddle, _Base);
 
-      function JsFiddle(input, output, options, embeds) {
-          babelHelpers_classCallCheck(this, JsFiddle);
+  	function JsFiddle(input, output, options, embeds) {
+  		babelHelpers_classCallCheck(this, JsFiddle);
 
-          var _this = babelHelpers_possibleConstructorReturn(this, Object.getPrototypeOf(JsFiddle).call(this, input, output, options, embeds));
+  		var _this = babelHelpers_possibleConstructorReturn(this, Object.getPrototypeOf(JsFiddle).call(this, input, output, options, embeds));
 
-          _this.regex = /jsfiddle.net\/[a-zA-Z0-9_]+\/[a-zA-Z0-9_]+/gi;
-          _this.service = 'jsfiddle';
-          return _this;
-      }
+  		_this.regex = /jsfiddle.net\/[a-zA-Z0-9_]+\/[a-zA-Z0-9_\/]+/gi;
+  		_this.service = 'jsfiddle';
+  		return _this;
+  	}
 
-      babelHelpers_createClass(JsFiddle, [{
-          key: 'template',
-          value: function template(id) {
-              return ejs.template.jsFiddle(id, this.options) || '<div class="ejs-embed ejs-jsfiddle"><iframe height="' + this.options.codeEmbedHeight + '" src="http://' + id + '/embedded"></iframe></div>';
-          }
-      }]);
-      return JsFiddle;
+  	babelHelpers_createClass(JsFiddle, [{
+  		key: 'template',
+  		value: function template(id) {
+  			id = id[id.length - 1] == '/' ? id.slice(0, -1) : id;
+  			id = id.indexOf('//') !== -1 ? id : '//' + id;
+  			return ejs.template.jsFiddle(id, this.options) || '<div class="ejs-embed ejs-jsfiddle"><iframe height="' + this.options.codeEmbedHeight + '" src="' + id + '/embedded"></iframe></div>';
+  		}
+  	}]);
+  	return JsFiddle;
   }(Base);
 
   var CodePen = function (_Base) {
@@ -2886,7 +2887,7 @@
       babelHelpers_createClass(CodePen, [{
           key: 'template',
           value: function template(id) {
-              return ejs.template.codePen(id, this.options) || '<div class="ejs-embed ejs-codepen">\n\t\t\t<iframe scrolling="no" height="' + this.options.codeEmbedHeight + '" src="' + id.replace(/\/pen\//, '/embed/') + '/?height=' + this.options.codeEmbedHeight + '"></iframe>\'\n\t\t</div>';
+              return ejs.template.codePen(id, this.options) || '<div class="ejs-embed ejs-codepen">\n\t\t\t<iframe scrolling="no" height="' + this.options.codeEmbedHeight + '" src="' + id.replace(/\/pen\//, '/embed/') + '/?height=' + this.options.codeEmbedHeight + '"></iframe>\n\t\t</div>';
           }
       }]);
       return CodePen;
@@ -2954,7 +2955,7 @@
       babelHelpers_createClass(Ideone, [{
           key: 'template',
           value: function template(match) {
-              return ejs.template.ideone(match, this.options) || '<div class="ejs-ideone ejs-embed"><iframe src="http://ideone.com/embed/' + match.split('/') + '" frameborder="0" height="' + this.options.codeEmbedHeight + '"></iframe></div>';
+              return ejs.template.ideone(match, this.options) || '<div class="ejs-ideone ejs-embed"><iframe src="http://ideone.com/embed/' + match.split('/')[1] + '" frameborder="0" height="' + this.options.codeEmbedHeight + '"></iframe></div>';
           }
       }]);
       return Ideone;
@@ -3461,6 +3462,7 @@
   			var config = this.options.linkOptions;
   			return this.input.replace(this.urlRegex, function (match) {
   				var extension = match.split('.')[match.split('.').length - 1];
+  				match = match[match.length - 1] == '/' ? match.slice(0, -1) : match;
   				if (config.exclude.indexOf(extension) === -1) {
   					return ejs.template.url(match, _this.options) || '<a href="' + toUrl(match) + '" rel="' + config.rel + '" target="' + config.target + '">' + match + '</a>';
   				}
