@@ -29,13 +29,13 @@ describe('Class Ideone => unit test', function () {
 
 
 		describe('inline embedding', function () {
-			it('should return correct result for inline embedding with url embed enabled', function () {
-				let output, embeds;
+			it('should return correct result with link => true && inlineText => true', function () {
+				let input, output, embeds;
 
 				let opts         = cloneObject(options);
 				opts.inlineEmbed = 'all';
 
-				let input = `Sunt castores desiderium http://ideone.com/HH8rmZ grandis, pius zetaes.Cur luna persuadere?`;
+				input = output = `Sunt castores desiderium http://ideone.com/HH8rmZ grandis, pius zetaes.Cur luna persuadere?`;
 
 				[output, embeds] = init(input, output, opts);
 
@@ -44,7 +44,7 @@ describe('Class Ideone => unit test', function () {
 			});
 
 
-			it('should return correct result for inline embedding with url embed disabled', function () {
+			it('should return correct result with link => false && inlineText => true', function () {
 				let input, output, embeds;
 				let opts         = cloneObject(options);
 				opts.inlineEmbed = 'all';
@@ -58,7 +58,7 @@ describe('Class Ideone => unit test', function () {
 				expect(output.replace(/(\r\n|\n|\r|\t)/gm, '')).to.equal('Sunt castores desiderium http://ideone.com/HH8rmZ<div class="ejs-ideone ejs-embed"><iframe src="http://ideone.com/embed/" frameborder="0" height="500"></iframe></div> grandis, pius zetaes.Cur luna persuadere?')
 			});
 
-			it('should return correct result for inline embedding with inlineText and link disabled', function () {
+			it('should return correct result with link => false && inlineText => false', function () {
 				let input, output, embeds;
 
 				let opts         = cloneObject(options);
@@ -74,7 +74,7 @@ describe('Class Ideone => unit test', function () {
 				expect(output.replace(/(\r\n|\n|\r|\t)/gm, '')).to.equal('Sunt castores desiderium <div class="ejs-ideone ejs-embed"><iframe src="http://ideone.com/embed/" frameborder="0" height="500"></iframe></div> grandis, pius zetaes.Cur luna persuadere?')
 			});
 
-			it('should return correct result for inline embedding with inlineText disabled and link enabled', function () {
+			it('should return correct result with link => true && inlineText => false', function () {
 				let input, output, embeds;
 				let opts         = cloneObject(options);
 				opts.inlineEmbed = 'all';
@@ -111,7 +111,7 @@ describe('Class Ideone => unit test', function () {
 
 
 		describe('inline embedding', function () {
-			it('should return correct result with link enabled and inlineText disabled', function () {
+			it('should return correct result with link => true && inlineText => false', function () {
 				let input, output, embeds;
 				input = output = `Sunt castores desiderium http://ideone.com/HH8rmZ grandis, pius zetaes http://ideone.com/ETAZsa .Cur luna persuadere?`;
 				let opts        = cloneObject(options);
@@ -127,7 +127,7 @@ describe('Class Ideone => unit test', function () {
 				)
 			});
 
-			it('should return correct result with link disabled and inlineText disabled', function () {
+			it('should return correct result with link => false && inlineText => false', function () {
 				let input, output, embeds;
 				input = output = `Sunt castores desiderium http://ideone.com/HH8rmZ grandis, pius zetaes http://ideone.com/ETAZsa .Cur luna persuadere?`;
 
@@ -146,7 +146,7 @@ describe('Class Ideone => unit test', function () {
 				)
 			});
 
-			it('should return correct result with link disabled and inlineText enabled', function () {
+			it('should return correct result with link => false && inlineText => true', function () {
 				let input, output, embeds;
 				input = output = `Sunt castores desiderium http://ideone.com/HH8rmZ grandis, pius zetaes http://ideone.com/ETAZsa .Cur luna persuadere?`;
 
@@ -164,7 +164,7 @@ describe('Class Ideone => unit test', function () {
 				)
 			});
 
-			it('should return correct result with link enabled and inlineText enabled', function () {
+			it('should return correct result with link => true && inlineText => true', function () {
 				let input, output, embeds;
 				input = output = `Sunt castores desiderium http://ideone.com/HH8rmZ grandis, pius zetaes http://ideone.com/ETAZsa .Cur luna persuadere?`;
 
