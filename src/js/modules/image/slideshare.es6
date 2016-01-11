@@ -24,7 +24,7 @@ export default class SlideShare {
 	}
 
 	template(html) {
-		return ejs.template.slideShare(html, this.options) || `<div class="ejs-embed ejs-slideshare">${html}</div>`;
+		return this.options.template.slideShare(html, this.options)
 	}
 
 	static async urlToText(_this, match, url) {

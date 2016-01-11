@@ -154,6 +154,7 @@ module.exports = function (grunt) {
 				externals    : ['regeneratorRuntime'],
 				sourceMap    : true,
 				useStrict    : true,
+				moduleName   : 'EmbedJS',
 				sourceMapFile: 'src/embed.js',
 				plugins      : [
 					npm({

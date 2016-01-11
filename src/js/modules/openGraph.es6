@@ -16,11 +16,7 @@ export default class OpenGraph {
 	}
 
 	template(data) {
-		return ejs.template.openGraph(data, this.options) || `<div class="ejs-embed ejs-ogp">
-		<div class="ejs-ogp-thumb" style="background-image:url(${data.image})"></div>
-		<div class="ejs-ogp-details">
-		<div class="ejs-ogp-title"><a href="${data.url}" target="${this.options.linkOptions.target}">${data.title}</a></div>
-		<div class="ejs-ogb-details">${data.description}</div></div></div>`
+		return this.options.template.openGraph(data, this.options)
 	}
 
 	async fetchData(url) {

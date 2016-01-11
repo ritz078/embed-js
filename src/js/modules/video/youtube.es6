@@ -43,7 +43,7 @@ export default class Youtube {
 		let data;
 		if (_this.options.videoDetails){
 			data = await _this.data(id);
-			return getDetailsTemplate(Youtube.formatData(data, truncate), data, embedUrl)
+			return getDetailsTemplate(Youtube.formatData(data, truncate), data, embedUrl,_this.options)
 		} else {
 			return template(embedUrl, _this.options);
 		}

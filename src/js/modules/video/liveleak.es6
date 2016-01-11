@@ -10,6 +10,6 @@ export default class LiveLeak extends Base {
 
     template(match) {
         const dimensions = getDimensions(this.options);
-        return ejs.template.liveLeak(match, dimensions, this.options) || `<div class="ejs-video ejs-embed"><iframe src="http://www.liveleak.com/e/${match.split('=')[1]}" height="${dimensions.height}" width="${dimensions.width}"></iframe></div>`
+        return this.options.template.liveLeak(match, dimensions, this.options)
     }
 }

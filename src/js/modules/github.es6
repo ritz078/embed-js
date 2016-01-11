@@ -12,18 +12,7 @@ export default class Github {
 	}
 
 	static template(data, options) {
-		return ejs.template.Github(data, options) || `<div class="ejs-embed ejs-github">
-		<div class="ejs-ogp-thumb" style="background-image:url(${data.owner.avatar_url})"></div>
-		<div class="ejs-ogp-details">
-		<div class="ejs-ogp-title"><a href="${data.html_url}" target="${options.linkOptions.target}">${data.full_name}</a></div>
-		<div class="ejs-ogb-details">${data.description}</div><div class="ejs-github-stats">
-        <span>
-        <i class="fa fa-star"></i>${data.stargazers_count}
-        </span>
-        <span>
-        <i class="fa fa-code-fork"></i>${data.network_count}
-        </span>
-        </div></div></div>`
+		return this.options.template.github(data, options);
 	}
 
 	static async fetchRepo(data) {

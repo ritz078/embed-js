@@ -29,51 +29,14 @@ export function playVideo(options) {
  */
 export function template(url, options) {
     let dimensions = getDimensions(options);
-    return ejs.template.vimeo(url, dimensions, options) || ejs.template.youtube(url, dimensions, options) || `<div class="ejs-video-player ejs-embed">
-        <iframe src="${url}" frameBorder="0" width="${dimensions.width}" height="${dimensions.height}"></iframe>
-        </div>`
+    return options.template.vimeo(url, dimensions, options) || options.template.youtube(url, dimensions, options)
 }
 
-/**
- * Template for showing vimeo and youtube video details
- * @param  {object} data     Object containing the variable values as key-value pair
- * @param  {string} embedUrl URL of the video
- * @return {string}          template with variables replaced
- */
-export function detailsTemplate(data, embedUrl) {
-    return `<div class="ejs-video ejs-embed">
-        <div class="ejs-video-preview">
-        <div class="ejs-video-thumb" data-ejs-url="${embedUrl}">
-        <div class="ejs-thumb" style="background-image:url(${data.thumbnail})"></div>
-        <i class="fa fa-play-circle-o"></i>
-        </div>
-        <div class="ejs-video-detail">
-        <div class="ejs-video-title">
-        <a href="${data.url}">
-        ${data.title}
-        </a>
-        </div>
-        <div class="ejs-video-desc">
-        ${data.description}
-        </div>
-        <div class="ejs-video-stats">
-        <span>
-        <i class="fa fa-eye"></i>${data.views}
-        </span>
-        <span>
-        <i class="fa fa-heart"></i>${data.likes}
-        </span>
-        </div>
-        </div>
-        </div>
-        </div>`
-}
-
-export function getDetailsTemplate(data, fullData, embedUrl) {
+export function getDetailsTemplate(data, fullData, embedUrl, options) {
     if (data.host === 'vimeo') {
-        return ejs.template.detailsVimeo(data, fullData, embedUrl) || detailsTemplate(data, embedUrl)
+        return options.template.detailsVimeo(data, fullData, embedUrl, options)
     } else if (data.host === 'youtube') {
-        return ejs.template.detailsYoutube(data, fullData, embedUrl) || detailsTemplate(data, embedUrl)
+        return options.template.detailsYoutube(data, fullData, embedUrl, options)
     }
 }
 

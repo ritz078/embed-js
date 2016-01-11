@@ -8,7 +8,7 @@ export default class BasicAudio extends Base {
     }
 
     template(match) {
-        return ejs.template.basicAudio(match, this.options) || `<div class="ejs-audio ejs-embed"><audio src="${match}" controls class="video-js ejs-video-js"></audio></div>`
+        return this.options.template.basicAudio(match, this.options);
     }
 }
 

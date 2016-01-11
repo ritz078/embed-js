@@ -884,9 +884,7 @@ export default class Emoji {
     }
 
     process() {
-        return this.output.replace(this.emojiRegex, (match, text) => {
-            return ejs.template.emoji(text, this.options) || `<span class="emoticon emoticon-${text}" title=":${text}:"></span>`;
-        });
+        return this.output.replace(this.emojiRegex, (match, text) => this.options.template.emoji(text, this.options));
     }
 }
 

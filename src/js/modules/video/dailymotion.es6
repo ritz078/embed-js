@@ -12,9 +12,7 @@ export default class Dailymotion extends Base {
         const dimensions = getDimensions(this.options);
         const a = match.split('/');
         const id = a[a.length - 1]
-        return ejs.template.dailymotion(id, dimensions, this.options) || `<div class="ejs-video ejs-embed">
-		<iframe src="http://www.dailymotion.com/embed/video/${id}" height="${dimensions.height}" width="${dimensions.width}"></iframe>
-		</div>`
+        return this.options.template.dailymotion(id, dimensions, this.options)
     }
 }
 
