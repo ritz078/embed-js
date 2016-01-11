@@ -74,7 +74,7 @@ export default class Template{
 		return `<div class="ejs-embed ejs-instagram"><iframe src="${toUrl(match.split('/?')[0])}/embed/" height="${dimensions.height}"></iframe></div>`;
 	}
 
-	slideshare(html){
+	slideShare(html){
 		return `<div class="ejs-embed ejs-slideshare">${html}</div>`;
 	}
 

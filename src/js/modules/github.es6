@@ -12,7 +12,7 @@ export default class Github {
 	}
 
 	static template(data, options) {
-		return this.options.template.github(data, options);
+		return options.template.github(data, options);
 	}
 
 	static async fetchRepo(data) {

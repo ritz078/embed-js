@@ -355,8 +355,8 @@
   			return '<div class="ejs-embed ejs-instagram"><iframe src="' + toUrl(match.split('/?')[0]) + '/embed/" height="' + dimensions.height + '"></iframe></div>';
   		}
   	}, {
-  		key: 'slideshare',
-  		value: function slideshare(html) {
+  		key: 'slideShare',
+  		value: function slideShare(html) {
   			return '<div class="ejs-embed ejs-slideshare">' + html + '</div>';
   		}
   	}, {
@@ -2362,7 +2362,7 @@
   	}], [{
   		key: 'template',
   		value: function template(data, options) {
-  			return this.options.template.github(data, options);
+  			return options.template.github(data, options);
   		}
   	}, {
   		key: 'fetchRepo',
@@ -3209,6 +3209,7 @@
           babelHelpers_classCallCheck(this, Smiley);
 
           this.input = ' ' + input + ' '; //hack to consider the first and last element
+          this.options = options;
 
           var defaultIcons = [{
               'text': ' :) ',
