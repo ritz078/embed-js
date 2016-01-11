@@ -3600,7 +3600,6 @@
   			return this.input.replace(this.urlRegex, function (match) {
   				var extension = match.split('.')[match.split('.').length - 1];
   				match = match[match.length - 1] == '/' ? match.slice(0, -1) : match;
-  				console.log(_this);
   				if (config.exclude.indexOf(extension) === -1) return _this.options.template.url(match, _this.options);
   				return match;
   			});
