@@ -42,7 +42,7 @@
     "babel-preset-es2015-rollup": "^1.0.0",
     "babel-preset-stage-2": "^6.3.13",
     "chai": "^3.2.0",
-    "commitizen": "^2.4.6",
+    "commitizen": "^2.5.0",
     "cssnano": "^3.4.0",
     "cz-conventional-changelog": "^1.1.5",
     "es6-promise": "^3.0.2",
