@@ -1098,7 +1098,7 @@
       options.videojsOptions.height = dimensions.height;
       if (options.videoJS) {
           if (!window.videojs) throw new ReferenceError("You have enabled videojs but you haven't loaded the library.Find it at http://videojs.com/");
-          var elements = options.element.getElementsByClassName('ejs-video-js');
+          var elements = options.input.getElementsByClassName('ejs-video-js');
           for (var i = 0; i < elements.length; i++) {
               videojs(elements[i], options.videojsOptions, function () {
                   return options.videojsCallback();
@@ -1692,7 +1692,7 @@
   		this.service = 'twitter';
 
   		this.load = this.load.bind(this);
-  		this.options.element.addEventListener('rendered', this.load, false);
+  		this.options.input.addEventListener('rendered', this.load, false);
   	}
 
   	/**
@@ -2937,7 +2937,7 @@
           _this.regex = /gist.github.com\/[a-zA-Z0-9_-]+\/([a-zA-Z0-9]+)/g;
           _this.service = 'gist';
 
-          _this.options.element.addEventListener('rendered', function () {
+          _this.options.input.addEventListener('rendered', function () {
               _this.load();
           });
           return _this;
@@ -2951,7 +2951,7 @@
       }, {
           key: 'load',
           value: function load() {
-              var gists = this.options.element.getElementsByClassName('ejs-gist');
+              var gists = this.options.input.getElementsByClassName('ejs-gist');
               for (var i = 0; i < gists.length; i++) {
                   var gistFrame = document.createElement("iframe");
                   gistFrame.setAttribute("width", "100%");
@@ -3700,7 +3700,7 @@
     * @return {null}
     */
 
-  	function EmbedJS(options, input, renderer) {
+  	function EmbedJS(options, renderer) {
   		babelHelpers_classCallCheck(this, EmbedJS);
 
   		/**
@@ -3719,14 +3719,9 @@
 
   		this.options.template = renderer || new Template();
 
-  		if (!this.options.element && !input) throw ReferenceError("You need to pass an element or the string that needs to be processed");
+  		if (!this.options.input || !(typeof this.options.input === 'string' || babelHelpers_typeof(this.options.input) === 'object')) throw ReferenceError("You need to pass an element or the string that needs to be processed");
 
-  		if (this.options.element) {
-  			this.element = this.options.element;
-  			this.input = this.element.innerHTML;
-  		} else {
-  			this.input = input;
-  		}
+  		this.input = babelHelpers_typeof(this.options.input) === 'object' ? this.options.input.innerHTML : this.options.input;
   	}
 
   	/**
@@ -4024,19 +4019,27 @@
   					while (1) {
   						switch (_context2.prev = _context2.next) {
   							case 0:
-  								if (this.element) {
+  								if (!(typeof this.options.input === 'string')) {
   									_context2.next = 2;
   									break;
   								}
 
-  								throw new Error('You didn\'t pass an element while creating this instance. render() method can\'t work without an element');
+  								throw new Error('You cannot call render method for a string');
 
   							case 2:
-  								_context2.next = 4;
-  								return this.process();
+  								if (this.options.input) {
+  									_context2.next = 4;
+  									break;
+  								}
+
+  								throw new Error('You didn\'t pass an element while creating this instance. render() method can\'t work without an input element');
 
   							case 4:
-  								this.element.innerHTML = _context2.sent;
+  								_context2.next = 6;
+  								return this.process();
+
+  							case 6:
+  								this.options.input.innerHTML = _context2.sent;
 
   								applyVideoJS(this.options);
 
@@ -4044,11 +4047,11 @@
 
   								event = new Event('rendered');
 
-  								this.element.dispatchEvent(event);
+  								this.options.input.dispatchEvent(event);
 
   								this.options.afterEmbedJSApply();
 
-  							case 10:
+  							case 12:
   							case 'end':
   								return _context2.stop();
   						}
@@ -4129,14 +4132,12 @@
 
   	}, {
   		key: 'applyEmbedJS',
-  		value: function applyEmbedJS(className) {
-  			if (className.charAt(0) === '.') className = className.substr(1);
-  			elements = document.getElementsByClassName(className);
+  		value: function applyEmbedJS(selectorName, options, renderer) {
+  			var elements = document.querySelectorAll(selectorName);
+  			renderer = renderer || new Template();
   			for (var i = 0; i < elements.length; i++) {
-  				var option = {
-  					element: elements[i]
-  				};
-  				instances[i] = new EmbedJS(option);
+  				options.input = elements[i];
+  				instances[i] = new EmbedJS(options, renderer);
   				instances[i].render();
   			}
   		}

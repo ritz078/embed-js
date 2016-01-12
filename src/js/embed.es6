@@ -141,7 +141,7 @@ export default class EmbedJS {
 	 * @param  {string} input   [optional] The string to be processed
 	 * @return {null}
 	 */
-	constructor(options, input, renderer) {
+	constructor(options, renderer) {
 		/**
 		 * We have created a clone of the original options to make sure that the original object
 		 * isn't altered.
@@ -158,14 +158,9 @@ export default class EmbedJS {
 
 		this.options.template = renderer || new Template();
 
-		if (!this.options.element && !input) throw ReferenceError("You need to pass an element or the string that needs to be processed");
+		if (!this.options.input || !(typeof this.options.input === 'string' || typeof this.options.input === 'object')) throw ReferenceError("You need to pass an element or the string that needs to be processed");
 
-		if (this.options.element) {
-			this.element = this.options.element;
-			this.input   = this.element.innerHTML;
-		} else {
-			this.input = input;
-		}
+		this.input = typeof this.options.input === 'object' ? this.options.input.innerHTML : this.options.input
 
 	}
 
@@ -296,15 +291,16 @@ export default class EmbedJS {
 	 * @return null
 	 */
 	async render() {
-		if (!this.element) throw new Error(`You didn't pass an element while creating this instance. render() method can't work without an element`);
-		this.element.innerHTML = await this.process();
+		if (typeof this.options.input === 'string') throw new Error(`You cannot call render method for a string`)
+		if (!this.options.input) throw new Error(`You didn't pass an element while creating this instance. render() method can't work without an input element`);
+		this.options.input.innerHTML = await this.process();
 
 		applyVideoJS(this.options);
 
 		playVideo(this.options);
 
 		let event = new Event('rendered');
-		this.element.dispatchEvent(event);
+		this.options.input.dispatchEvent(event);
 
 		this.options.afterEmbedJSApply();
 	}
@@ -344,14 +340,12 @@ export default class EmbedJS {
 	 * @param  {string} className
 	 * @return {null}
 	 */
-	static applyEmbedJS(className) {
-		if (className.charAt(0) === '.') className = className.substr(1)
-		elements = document.getElementsByClassName(className);
+	static applyEmbedJS(selectorName, options, renderer) {
+		let elements = document.querySelectorAll(selectorName);
+		renderer = renderer || new Template();
 		for (let i = 0; i < elements.length; i++) {
-			let option        = {
-				element: elements[i]
-			};
-			instances[i] = new EmbedJS(option);
+			options.input = elements[i];
+			instances[i] = new EmbedJS(options, renderer);
 			instances[i].render()
 		}
 	}

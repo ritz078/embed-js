@@ -13,7 +13,7 @@ export default class Twitter {
 		this.service = 'twitter';
 
 		this.load = this.load.bind(this);
-		this.options.element.addEventListener('rendered', this.load, false);
+		this.options.input.addEventListener('rendered', this.load, false);
 	}
 
 	/**

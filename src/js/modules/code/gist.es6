@@ -6,7 +6,7 @@ export default class Gist extends Base {
         this.regex = /gist.github.com\/[a-zA-Z0-9_-]+\/([a-zA-Z0-9]+)/g;
         this.service = 'gist';
 
-        this.options.element.addEventListener('rendered', () => {
+        this.options.input.addEventListener('rendered', () => {
             this.load()
         })
     }
@@ -16,7 +16,7 @@ export default class Gist extends Base {
     }
 
     load() {
-        let gists = this.options.element.getElementsByClassName('ejs-gist');
+        let gists = this.options.input.getElementsByClassName('ejs-gist');
         for (let i = 0; i < gists.length; i++) {
             let gistFrame = document.createElement("iframe");
             gistFrame.setAttribute("width", "100%");

@@ -151,7 +151,6 @@ module.exports = function (grunt) {
 			options: {
 				format       : 'umd',
 				banner       : "<%= meta.banner %>",
-				externals    : ['regeneratorRuntime'],
 				sourceMap    : true,
 				useStrict    : true,
 				moduleName   : 'EmbedJS',

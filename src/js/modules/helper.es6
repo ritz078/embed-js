@@ -51,7 +51,7 @@ export function applyVideoJS(options) {
     options.videojsOptions.height = dimensions.height;
     if (options.videoJS) {
         if (!window.videojs) throw new ReferenceError("You have enabled videojs but you haven't loaded the library.Find it at http://videojs.com/");
-        let elements = options.element.getElementsByClassName('ejs-video-js');
+        let elements = options.input.getElementsByClassName('ejs-video-js');
         for (let i = 0; i < elements.length; i++) {
             videojs(elements[i], options.videojsOptions, () => options.videojsCallback());
         }
