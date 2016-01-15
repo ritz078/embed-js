@@ -1,5 +1,5 @@
 import { ifInline } from './utils.es6'
-import {inlineEmbed, normalEmbed} from './helper.es6'
+import { inlineEmbed, normalEmbed } from './helper.es6'
 
 export default class Github {
 	constructor(input, output, options, embeds) {

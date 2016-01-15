@@ -79,16 +79,14 @@ export default class Smiley {
 
         this.icons = options.customFontIcons.length ? options.customFontIcons : defaultIcons ;
 
-        this.EscapedSymbols = this.icons.map((val) => {
-            return `${escapeRegExp(val.text)}`;
-        });
+        this.escapedSymbols = this.icons.map((val) => escapeRegExp(val.text));
 
-        this.smileyRegex = new RegExp(`(${this.EscapedSymbols.join('|')})`, 'g');
+        this.smileyRegex = new RegExp(`(${this.escapedSymbols.join('|')})`, 'g');
     }
 
     process() {
         var processedString = this.input.replace(this.smileyRegex, (match, text) => {
-            let index = this.EscapedSymbols.indexOf(escapeRegExp(text));
+            let index = this.escapedSymbols.indexOf(escapeRegExp(text));
             let code = this.icons[index].code;
             return this.options.template.smiley(text, code, this.options);
         });

@@ -355,11 +355,43 @@ export default class EmbedJS {
 	 * @return {null}
 	 */
 	static destroyEmbedJS() {
-		for (let i = 0; i < elements.length; i++) {
+		for (let i = 0; i < instances.length; i++) {
 			instances[i].destroy()
 		}
 	}
 
+	/**
+	 * Destroys all instances of EmbedJS on the page
+	 * @return {null}
+	 */
+	static destroyAll() {
+		for (let i=0; i < allInstances.length; i++){
+			allInstances[i].destroy()
+		}
+	}
+
+	/**
+	 * Creates a new instance of the Template constructor. This has been done so that multiple
+	 * templates of a single service can be used by creating different instances of the Template.
+	 *
+	 * The usage of the plugin is described below.
+	 *
+	 * => Create a new Instance of the template by using .Renderer() method of EmbedJS.
+	 *
+	 * 		var renderer = EmbedJS.Renderer()
+	 *
+	 * => Now create different templates for different service names.
+	 *
+	 * 		renderer.url = function(match, options){
+	 * 			return '<a href=" + match + "> + match + </a>'
+	 * 		}
+	 *
+	 * 		renderer.instagram = function(match, dimensions, options){
+	 * 			var config = options.soundCloudOptions;
+	 * 			return `<div class="ejs-embed ejs-instagram"><iframe src="${toUrl(match.split('/?')[0])}/embed/" height="${dimensions.height}"></iframe></div>`;
+	 * 		}
+	 *
+	 */
 	static Renderer() {
 		return new Template();
 	}

@@ -10,16 +10,30 @@ export default class Gmap {
         this.regex   = /@\((.+)\)/gi
     }
 
+    /**
+     * Takes the location name and returns the coordinates of that location using the Google
+     * Map API v3. This is an async function so it will return a promise.
+     * @param  {string} location The name of any location
+     * @return {array}           Returns an array in the form [latitude, longitude]
+     */
     static async getCoordinate(location) {
         let url = `http://maps.googleapis.com/maps/api/geocode/json?address=${location}&sensor=false`;
         let response = await fetch(url);
         let data = await response.json();
-        let [latitude, longitude] = [data.results[0].geometry.location.lat, data.results[0].geometry.location.lng];
-        return [latitude, longitude]
+        return [data.results[0].geometry.location.lat, data.results[0].geometry.location.lng];
     }
 
+    /**
+     * Returns the template of the Map widget. The source of the iframe is based on whether the
+     * mode set in options is 'place', 'streetview' or 'view'.
+     * @param  {string} match     The matching string in the form of @(location name).
+     * @param  {number} latitude  Latitude of the location
+     * @param  {number} longitude Longitude of the location
+     * @param  {object} options   plugin options
+     * @return {string}           Template of the map widget.
+     */
     static template(match, latitude, longitude, options) {
-        let location = match.split('(')[1].split(')')[0];
+        let location = Gmap.locationText(match);
         let config = options.mapOptions;
         const dimensions = getDimensions(options);
         if (config.mode === 'place') {
@@ -31,6 +45,11 @@ export default class Gmap {
         }
     }
 
+    /**
+     * Extracts out the location name from the format @(locationName)
+     * @param  {string} match The string in the supported format. Eg : @(Delhi)
+     * @return {string}       Only the location name removing @ and brackets. Eg: Delhi
+     */
     static locationText(match){
         return match.split('(')[1].split(')')[0]
     }

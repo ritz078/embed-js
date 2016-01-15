@@ -44,8 +44,12 @@ export default class Twitter {
 	}
 
 	static async urlToText(_this, match, url){
-		let data = await _this.tweetData(url);
-		return data.html;
+		try{
+			let data = await _this.tweetData(url);
+			return data.html;
+		} catch(error) {
+			console.log(error);
+		}
 	}
 
 	async process() {
