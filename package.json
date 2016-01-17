@@ -69,7 +69,7 @@
     "mocha": "^2.3.4",
     "phantomjs": "^1.9.19",
     "promise": "^7.1.1",
-    "rollup": "^0.24.1",
+    "rollup": "^0.25.0",
     "rollup-plugin-babel": "^2.3.8",
     "rollup-plugin-commonjs": "^2.1.0",
     "rollup-plugin-npm": "^1.2.1",
