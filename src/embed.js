@@ -1810,8 +1810,7 @@
   							case 13:
   								_context2.prev = 13;
   								_context2.t0 = _context2['catch'](0);
-
-  								console.log(_context2.t0);
+  								return _context2.abrupt('return', [this.output, this.embeds]);
 
   							case 16:
   							case 'end':
