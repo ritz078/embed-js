@@ -1,3 +1,9 @@
+<a name="3.7.3"></a>
+## [3.7.3](https://github.com/ritz078/embed.js/compare/v3.7.2...v3.7.3) (2016-01-19)
+
+
+
+
 <a name="3.7.2"></a>
 ## [3.7.2](https://github.com/ritz078/embed.js/compare/v3.7.1...v3.7.2) (2016-01-10)
 
