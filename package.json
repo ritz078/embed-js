@@ -1,6 +1,6 @@
 {
   "name": "embed-js",
-  "version": "3.7.3",
+  "version": "3.7.4",
   "description": "A JavaScript plugin that analyses the string and embeds emojis, media, tweets, code and services.",
   "keywords": [
     "JavaScript-plugin",
@@ -63,6 +63,7 @@
     "grunt-postcss": "^0.7.1",
     "grunt-retinafy": "^0.1.5",
     "grunt-rollup": "^0.6.1",
+    "grunt-shell": "^1.1.2",
     "grunt-spritesmith": "^6.1.1",
     "grunt-string-replace": "^1.2.1",
     "load-grunt-tasks": "^3.4.0",
