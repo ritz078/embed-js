@@ -2,7 +2,7 @@ import regeneratorRuntime from './vendor/regeneratorRuntime.js'
 
 import { ifEmbed, createText, deepExtend, cloneObject } from './modules/utils.es6'
 
-import Template    from './modules/template.es6'
+import Renderer    from './modules/renderer.es6'
 
 import Emoji       from './modules/emoticons/emoji.es6'
 import Smiley      from './modules/emoticons/smiley.es6'
@@ -128,7 +128,8 @@ var defaultOptions = {
 };
 
 let instances = [];
-let allInstances = []
+let allInstances = [];
+let promises = [];
 
 export default class EmbedJS {
 	/**
@@ -141,7 +142,7 @@ export default class EmbedJS {
 	 * @param  {string} input   [optional] The string to be processed
 	 * @return {null}
 	 */
-	constructor(options, renderer) {
+	constructor(options, template) {
 		/**
 		 * We have created a clone of the original options to make sure that the original object
 		 * isn't altered.
@@ -156,11 +157,11 @@ export default class EmbedJS {
 		//object while creating a new instance of embed.js
 		this.options = deepExtend(globOptions, options);
 
-		this.options.template = renderer || new Template();
+		this.options.template = template || new Renderer();
 
 		if (!this.options.input || !(typeof this.options.input === 'string' || typeof this.options.input === 'object')) throw ReferenceError("You need to pass an element or the string that needs to be processed");
 
-		this.input = typeof this.options.input === 'object' ? this.options.input.innerHTML : this.options.input
+		this.input = (typeof this.options.input === 'object') ? this.options.input.innerHTML : this.options.input
 
 	}
 
@@ -277,6 +278,22 @@ export default class EmbedJS {
 			[output, embeds] = await (this.twitter.process());
 		}
 
+		this.data = {
+			input       : options.input,
+			output      : output,
+			options     : options,
+			inputString : this.input,
+			/**
+
+				TODO:
+				- Restructure served urls structure with services name
+
+			 */
+
+			services    : options.served,
+			template    : options.template
+		}
+
 		return createText(output, embeds);
 	}
 
@@ -303,6 +320,8 @@ export default class EmbedJS {
 		this.options.input.dispatchEvent(event);
 
 		this.options.afterEmbedJSApply();
+
+		return new Promise((resolve, reject) => (this.data.output ? resolve(this.data) : reject('error')))
 	}
 
 	/**
@@ -310,9 +329,9 @@ export default class EmbedJS {
 	 * @param  {Function} callback Function that is executed once the data is ready
 	 * @return null
 	 */
-	async text(callback) {
+	async text() {
 		let result = await this.process();
-		callback(result, this.input);
+		return new Promise((resolve, reject) => (result ? resolve(this.data) : reject('error')))
 	}
 
 	/**
@@ -340,14 +359,18 @@ export default class EmbedJS {
 	 * @param  {string} className
 	 * @return {null}
 	 */
-	static applyEmbedJS(selectorName, options, renderer) {
+	static applyEmbedJS(selectorName, options = {}, template = (new Renderer())) {
 		let elements = document.querySelectorAll(selectorName);
-		renderer = renderer || new Template();
 		for (let i = 0; i < elements.length; i++) {
 			options.input = elements[i];
-			instances[i] = new EmbedJS(options, renderer);
-			instances[i].render()
+			instances[i] = new EmbedJS(options, template);
+			promises[i] = instances[i].render()
 		}
+		return new Promise((resolve) => {
+			Promise.all(promises).then(function(val){
+				resolve(val);
+			})
+		})
 	}
 
 	/**
@@ -376,24 +399,24 @@ export default class EmbedJS {
 	 *
 	 * The usage of the plugin is described below.
 	 *
-	 * => Create a new Instance of the template by using .Renderer() method of EmbedJS.
+	 * => Create a new Instance of the template by using .Template() method of EmbedJS.
 	 *
-	 * 		var renderer = EmbedJS.Renderer()
+	 * 		var template = EmbedJS.Template()
 	 *
 	 * => Now create different templates for different service names.
 	 *
-	 * 		renderer.url = function(match, options){
+	 * 		template.url = function(match, options){
 	 * 			return '<a href=" + match + "> + match + </a>'
 	 * 		}
 	 *
-	 * 		renderer.instagram = function(match, dimensions, options){
+	 * 		template.instagram = function(match, dimensions, options){
 	 * 			var config = options.soundCloudOptions;
 	 * 			return `<div class="ejs-embed ejs-instagram"><iframe src="${toUrl(match.split('/?')[0])}/embed/" height="${dimensions.height}"></iframe></div>`;
 	 * 		}
 	 *
 	 */
-	static Renderer() {
-		return new Template();
+	static Template() {
+		return new Renderer();
 	}
 }
 

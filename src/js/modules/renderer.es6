@@ -1,6 +1,6 @@
 import { toUrl } from './utils.es6'
 
-export default class Template{
+export default class Renderer{
 	constructor(options){
 		this.options = options || {}
 	}

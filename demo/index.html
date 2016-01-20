@@ -93,11 +93,13 @@ EmbedJS.setOptions({
 		input: document.getElementById('block'),
 		tweetsEmbed:true
 	});
-	x.render();
-
-	x.text(function(data){
+	x.render().then(function(data){
 		console.log(data);
 	});
+
+	x.text().then(function(data){
+		console.log(data)
+	})
 
 
 	// EmbedJS.template.basicAudio = function(match){
@@ -105,7 +107,9 @@ EmbedJS.setOptions({
 	// };
 
 
-	EmbedJS.applyEmbedJS(".block",{});
+	EmbedJS.applyEmbedJS(".block").then(function(data){
+		console.log(data)
+	})
 
 </script>
 

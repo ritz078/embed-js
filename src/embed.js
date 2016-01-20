@@ -902,14 +902,14 @@
       );
   }
 
-  var Template = function () {
-  	function Template(options) {
-  		babelHelpers.classCallCheck(this, Template);
+  var Renderer = function () {
+  	function Renderer(options) {
+  		babelHelpers.classCallCheck(this, Renderer);
 
   		this.options = options || {};
   	}
 
-  	babelHelpers.createClass(Template, [{
+  	babelHelpers.createClass(Renderer, [{
   		key: 'url',
   		value: function url(match, options) {
   			var config = options.linkOptions;
@@ -1048,7 +1048,7 @@
   			return '<div class="ejs-embed ejs-github"><div class="ejs-ogp-thumb" style="background-image:url(' + data.owner.avatar_url + ')"></div><div class="ejs-ogp-details"><div class="ejs-ogp-title"><a href="' + data.html_url + '" target="' + options.linkOptions.target + '">' + data.full_name + '</a></div><div class="ejs-ogb-details">' + data.description + '</div><div class="ejs-github-stats"><span><i class="fa fa-star"></i>' + data.stargazers_count + '</span><span><i class="fa fa-code-fork"></i>' + data.network_count + '</span></div></div></div>';
   		}
   	}]);
-  	return Template;
+  	return Renderer;
   }();
 
   var Emoji = function () {
@@ -3719,6 +3719,7 @@
 
   var instances = [];
   var allInstances = [];
+  var promises = [];
 
   var EmbedJS = function () {
   	/**
@@ -3732,7 +3733,7 @@
     * @return {null}
     */
 
-  	function EmbedJS(options, renderer) {
+  	function EmbedJS(options, template) {
   		babelHelpers.classCallCheck(this, EmbedJS);
 
   		/**
@@ -3749,7 +3750,7 @@
   		//object while creating a new instance of embed.js
   		this.options = deepExtend(globOptions, options);
 
-  		this.options.template = renderer || new Template();
+  		this.options.template = template || new Renderer();
 
   		if (!this.options.input || !(typeof this.options.input === 'string' || babelHelpers.typeof(this.options.input) === 'object')) throw ReferenceError("You need to pass an element or the string that needs to be processed");
 
@@ -4017,9 +4018,24 @@
   								embeds = _ref14[1];
 
   							case 78:
+
+  								this.data = {
+  									input: options.input,
+  									output: output,
+  									options: options,
+  									inputString: this.input,
+  									/**
+           		TODO:
+           	- Restructure served urls structure with services name
+           	 */
+
+  									services: options.served,
+  									template: options.template
+  								};
+
   								return _context.abrupt('return', createText(output, embeds));
 
-  							case 79:
+  							case 80:
   							case 'end':
   								return _context.stop();
   						}
@@ -4046,6 +4062,8 @@
   		key: 'render',
   		value: function () {
   			var ref = babelHelpers.asyncToGenerator(regeneratorRuntime$1.mark(function _callee2() {
+  				var _this = this;
+
   				var event;
   				return regeneratorRuntime$1.wrap(function _callee2$(_context2) {
   					while (1) {
@@ -4083,7 +4101,11 @@
 
   								this.options.afterEmbedJSApply();
 
-  							case 12:
+  								return _context2.abrupt('return', new Promise(function (resolve, reject) {
+  									return _this.data.output ? resolve(_this.data) : reject('error');
+  								}));
+
+  							case 13:
   							case 'end':
   								return _context2.stop();
   						}
@@ -4104,7 +4126,9 @@
   	}, {
   		key: 'text',
   		value: function () {
-  			var ref = babelHelpers.asyncToGenerator(regeneratorRuntime$1.mark(function _callee3(callback) {
+  			var ref = babelHelpers.asyncToGenerator(regeneratorRuntime$1.mark(function _callee3() {
+  				var _this2 = this;
+
   				var result;
   				return regeneratorRuntime$1.wrap(function _callee3$(_context3) {
   					while (1) {
@@ -4115,8 +4139,9 @@
 
   							case 2:
   								result = _context3.sent;
-
-  								callback(result, this.input);
+  								return _context3.abrupt('return', new Promise(function (resolve, reject) {
+  									return result ? resolve(_this2.data) : reject('error');
+  								}));
 
   							case 4:
   							case 'end':
@@ -4125,7 +4150,7 @@
   					}
   				}, _callee3, this);
   			}));
-  			return function text(_x) {
+  			return function text() {
   				return ref.apply(this, arguments);
   			};
   		}()
@@ -4164,14 +4189,21 @@
 
   	}, {
   		key: 'applyEmbedJS',
-  		value: function applyEmbedJS(selectorName, options, renderer) {
+  		value: function applyEmbedJS(selectorName) {
+  			var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+  			var template = arguments.length <= 2 || arguments[2] === undefined ? new Renderer() : arguments[2];
+
   			var elements = document.querySelectorAll(selectorName);
-  			renderer = renderer || new Template();
   			for (var i = 0; i < elements.length; i++) {
   				options.input = elements[i];
-  				instances[i] = new EmbedJS(options, renderer);
-  				instances[i].render();
+  				instances[i] = new EmbedJS(options, template);
+  				promises[i] = instances[i].render();
   			}
+  			return new Promise(function (resolve) {
+  				Promise.all(promises).then(function (val) {
+  					resolve(val);
+  				});
+  			});
   		}
 
   		/**
@@ -4206,17 +4238,17 @@
      *
      * The usage of the plugin is described below.
      *
-     * => Create a new Instance of the template by using .Renderer() method of EmbedJS.
+     * => Create a new Instance of the template by using .Template() method of EmbedJS.
      *
-     * 		var renderer = EmbedJS.Renderer()
+     * 		var template = EmbedJS.Template()
      *
      * => Now create different templates for different service names.
      *
-     * 		renderer.url = function(match, options){
+     * 		template.url = function(match, options){
      * 			return '<a href=" + match + "> + match + </a>'
      * 		}
      *
-     * 		renderer.instagram = function(match, dimensions, options){
+     * 		template.instagram = function(match, dimensions, options){
      * 			var config = options.soundCloudOptions;
      * 			return `<div class="ejs-embed ejs-instagram"><iframe src="${toUrl(match.split('/?')[0])}/embed/" height="${dimensions.height}"></iframe></div>`;
      * 		}
@@ -4224,9 +4256,9 @@
      */
 
   	}, {
-  		key: 'Renderer',
-  		value: function Renderer() {
-  			return new Template();
+  		key: 'Template',
+  		value: function Template() {
+  			return new Renderer();
   		}
   	}]);
   	return EmbedJS;
