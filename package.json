@@ -12,6 +12,7 @@
     "jquery-embed"
   ],
   "main": "./src/embed.js",
+  "jsnext:main": "./src/embed.es2015.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/ritz078/embed.js.git"
@@ -62,7 +63,6 @@
     "grunt-mocha": "^0.4.15",
     "grunt-postcss": "^0.7.1",
     "grunt-retinafy": "^0.1.5",
-    "grunt-rollup": "^0.6.1",
     "grunt-shell": "^1.1.2",
     "grunt-spritesmith": "^6.1.1",
     "grunt-string-replace": "^1.2.1",
@@ -78,7 +78,7 @@
   },
   "scripts": {
     "commit": "git-cz",
-    "test": "rollup -c && grunt test"
+    "test": "rollup -c test/rollup.config.js && grunt test"
   },
   "config": {
     "commitizen": {
