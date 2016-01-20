@@ -1,10 +1,10 @@
 {
   "name": "embed-js",
-  "version": "3.7.2",
+  "version": "3.7.4",
   "description": "A JavaScript plugin that analyses the string and embeds emojis, media, tweets, code and services.",
   "main": [
-    "./dist/embed.min.css",
-    "./dist/embed.min.js"
+    "./src/embed.css",
+    "./src/embed.js"
   ],
   "authors": [
     "Ritesh Kumar <rkritesh078@gmail.com>"

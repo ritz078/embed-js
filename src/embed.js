@@ -1,5 +1,5 @@
 /*
- *  embed-js - v3.7.2
+ *  embed-js - v3.7.4
  *  A JavaScript plugin that analyses the string and embeds emojis, media, tweets, code and services.
  *  http://riteshkr.com/embed.js
  *
@@ -1951,8 +1951,7 @@
   							case 13:
   								_context2.prev = 13;
   								_context2.t0 = _context2['catch'](0);
-
-  								console.log(_context2.t0);
+  								return _context2.abrupt('return', [this.output, this.embeds]);
 
   							case 16:
   							case 'end':

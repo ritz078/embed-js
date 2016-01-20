@@ -240,6 +240,12 @@ module.exports = function (grunt) {
 					run:true
 				}
 			}
+		},
+
+		shell:{
+			publish : {
+				command : 'npm publish'
+			}
 		}
 	});
 
@@ -251,13 +257,7 @@ module.exports = function (grunt) {
 	grunt.registerTask("dist", ["clean", "eslint", "rollup", "sass", "uglify", "string-replace", "postcss", "copy"]);
 
 	grunt.registerTask("release", function (option) {
-		grunt.task.run(["bump-only:" + option, "dist","conventionalChangelog", "bump-commit"]);
-		exec('npm publish', function (err, stdout, stderr) {
-			if (err) {
-				grunt.fatal('Can not publish to NPM:\n  ' + stderr);
-			}
-			grunt.log.ok('Published to NPM ');
-		});
+		grunt.task.run(["bump-only:" + option, "dist","conventionalChangelog", "bump-commit","shell"]);
 	});
 
 	grunt.registerTask("test",["mocha"]);

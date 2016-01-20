@@ -1,3 +1,21 @@
+<a name="3.7.4"></a>
+## [3.7.4](https://github.com/ritz078/embed.js/compare/v3.7.3...v3.7.4) (2016-01-19)
+
+
+### Bug Fixes
+
+* **npm:** Fixed npm dist issue and updated packages ([0e0d232](https://github.com/ritz078/embed.js/commit/0e0d232)), closes [#114](https://github.com/ritz078/embed.js/issues/114)
+* **npmignore:** updated .npmignore ([6ce6f46](https://github.com/ritz078/embed.js/commit/6ce6f46))
+* **package:** corrected main file path ([f49326b](https://github.com/ritz078/embed.js/commit/f49326b))
+
+
+
+<a name="3.7.3"></a>
+## [3.7.3](https://github.com/ritz078/embed.js/compare/v3.7.2...v3.7.3) (2016-01-19)
+
+
+
+
 <a name="3.7.2"></a>
 ## [3.7.2](https://github.com/ritz078/embed.js/compare/v3.7.1...v3.7.2) (2016-01-10)
 

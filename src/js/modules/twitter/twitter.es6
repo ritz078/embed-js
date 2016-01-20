@@ -61,8 +61,8 @@ export default class Twitter {
 			}
 			return [this.output, this.embeds];
 
-		} catch (error) {
-			console.log(error);
+		} catch (e) {
+			return [this.output, this.embeds];
 		}
 	}
 }
