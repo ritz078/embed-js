@@ -127,8 +127,8 @@ var defaultOptions = {
 	served                 : []   //Private variable used to store processed urls so that they are not processed multiple times.
 };
 
-let elements = [];
-let instances = []
+let instances = [];
+let allInstances = []
 
 export default class EmbedJS {
 	/**
