@@ -20,35 +20,6 @@
     return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj;
   };
 
-  babelHelpers.asyncToGenerator = function (fn) {
-    return function () {
-      var gen = fn.apply(this, arguments);
-      return new Promise(function (resolve, reject) {
-        function step(key, arg) {
-          try {
-            var info = gen[key](arg);
-            var value = info.value;
-          } catch (error) {
-            reject(error);
-            return;
-          }
-
-          if (info.done) {
-            resolve(value);
-          } else {
-            Promise.resolve(value).then(function (value) {
-              step("next", value);
-            }, function (err) {
-              step("throw", err);
-            });
-          }
-        }
-
-        step("next");
-      });
-    };
-  };
-
   babelHelpers.classCallCheck = function (instance, Constructor) {
     if (!(instance instanceof Constructor)) {
       throw new TypeError("Cannot call a class as a function");
@@ -427,630 +398,6 @@
   	return Renderer;
   }();
 
-  var hasOwn = Object.prototype.hasOwnProperty;
-  var undefined$1 = void 0; // More compressible than void 0.
-  var $Symbol = typeof Symbol === "function" ? Symbol : {};
-  var iteratorSymbol = $Symbol.iterator || "@@iterator";
-  var toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
-
-  var regeneratorRuntime$1 = {};
-
-  function wrap(innerFn, outerFn, self, tryLocsList) {
-      // If outerFn provided, then outerFn.prototype instanceof Generator.
-      var generator = Object.create((outerFn || Generator).prototype);
-      var context = new Context(tryLocsList || []);
-
-      // The ._invoke method unifies the implementations of the .next,
-      // .throw, and .return methods.
-      generator._invoke = makeInvokeMethod(innerFn, self, context);
-
-      return generator;
-  }
-  regeneratorRuntime$1.wrap = wrap;
-
-  // Try/catch helper to minimize deoptimizations. Returns a completion
-  // record like context.tryEntries[i].completion. This interface could
-  // have been (and was previously) designed to take a closure to be
-  // invoked without arguments, but in all the cases we care about we
-  // already have an existing method we want to call, so there's no need
-  // to create a new function object. We can even get away with assuming
-  // the method takes exactly one argument, since that happens to be true
-  // in every case, so we don't have to touch the arguments object. The
-  // only additional allocation required is the completion record, which
-  // has a stable shape and so hopefully should be cheap to allocate.
-  function tryCatch(fn, obj, arg) {
-      try {
-          return {
-              type: "normal",
-              arg: fn.call(obj, arg)
-          };
-      } catch (err) {
-          return {
-              type: "throw",
-              arg: err
-          };
-      }
-  }
-
-  var GenStateSuspendedStart = "suspendedStart";
-  var GenStateSuspendedYield = "suspendedYield";
-  var GenStateExecuting = "executing";
-  var GenStateCompleted = "completed";
-
-  // Returning this object from the innerFn has the same effect as
-  // breaking out of the dispatch switch statement.
-  var ContinueSentinel = {};
-
-  // Dummy constructor functions that we use as the .constructor and
-  // .constructor.prototype properties for functions that return Generator
-  // objects. For full spec compliance, you may wish to configure your
-  // minifier not to mangle the names of these two functions.
-  function Generator() {}
-
-  function GeneratorFunction() {}
-
-  function GeneratorFunctionPrototype() {}
-
-  var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype;
-  GeneratorFunction.prototype = Gp.constructor = GeneratorFunctionPrototype;
-  GeneratorFunctionPrototype.constructor = GeneratorFunction;
-  GeneratorFunctionPrototype[toStringTagSymbol] = GeneratorFunction.displayName = "GeneratorFunction";
-
-  // Helper for defining the .next, .throw, and .return methods of the
-  // Iterator interface in terms of a single ._invoke method.
-  function defineIteratorMethods(prototype) {
-      ["next", "throw", "return"].forEach(function (method) {
-          prototype[method] = function (arg) {
-              return this._invoke(method, arg);
-          };
-      });
-  }
-
-  regeneratorRuntime$1.isGeneratorFunction = function (genFun) {
-      var ctor = typeof genFun === "function" && genFun.constructor;
-      return ctor ? ctor === GeneratorFunction ||
-      // For the native GeneratorFunction constructor, the best we can
-      // do is to check its .name property.
-      (ctor.displayName || ctor.name) === "GeneratorFunction" : false;
-  };
-
-  regeneratorRuntime$1.mark = function (genFun) {
-      if (Object.setPrototypeOf) {
-          Object.setPrototypeOf(genFun, GeneratorFunctionPrototype);
-      } else {
-          genFun.__proto__ = GeneratorFunctionPrototype;
-          if (!(toStringTagSymbol in genFun)) {
-              genFun[toStringTagSymbol] = "GeneratorFunction";
-          }
-      }
-      genFun.prototype = Object.create(Gp);
-      return genFun;
-  };
-
-  // Within the body of any async function, `await x` is transformed to
-  // `yield regeneratorregeneratorRuntime.awrap(x)`, so that the regeneratorRuntime can test
-  // `value instanceof AwaitArgument` to determine if the yielded value is
-  // meant to be awaited. Some may consider the name of this method too
-  // cutesy, but they are curmudgeons.
-  regeneratorRuntime$1.awrap = function (arg) {
-      return new AwaitArgument(arg);
-  };
-
-  function AwaitArgument(arg) {
-      this.arg = arg;
-  }
-
-  function AsyncIterator(generator) {
-      function invoke(method, arg, resolve, reject) {
-          var record = tryCatch(generator[method], generator, arg);
-          if (record.type === "throw") {
-              reject(record.arg);
-          } else {
-              var result = record.arg;
-              var value = result.value;
-              if (value instanceof AwaitArgument) {
-                  return Promise.resolve(value.arg).then(function (value) {
-                      invoke("next", value, resolve, reject);
-                  }, function (err) {
-                      invoke("throw", err, resolve, reject);
-                  });
-              }
-
-              return Promise.resolve(value).then(function (unwrapped) {
-                  // When a yielded Promise is resolved, its final value becomes
-                  // the .value of the Promise<{value,done}> result for the
-                  // current iteration. If the Promise is rejected, however, the
-                  // result for this iteration will be rejected with the same
-                  // reason. Note that rejections of yielded Promises are not
-                  // thrown back into the generator function, as is the case
-                  // when an awaited Promise is rejected. This difference in
-                  // behavior between yield and await is important, because it
-                  // allows the consumer to decide what to do with the yielded
-                  // rejection (swallow it and continue, manually .throw it back
-                  // into the generator, abandon iteration, whatever). With
-                  // await, by contrast, there is no opportunity to examine the
-                  // rejection reason outside the generator function, so the
-                  // only option is to throw it from the await expression, and
-                  // let the generator function handle the exception.
-                  result.value = unwrapped;
-                  resolve(result);
-              }, reject);
-          }
-      }
-
-      if ((typeof process === "undefined" ? "undefined" : babelHelpers.typeof(process)) === "object" && process.domain) {
-          invoke = process.domain.bind(invoke);
-      }
-
-      var previousPromise;
-
-      function enqueue(method, arg) {
-          function callInvokeWithMethodAndArg() {
-              return new Promise(function (resolve, reject) {
-                  invoke(method, arg, resolve, reject);
-              });
-          }
-
-          return previousPromise =
-          // If enqueue has been called before, then we want to wait until
-          // all previous Promises have been resolved before calling invoke,
-          // so that results are always delivered in the correct order. If
-          // enqueue has not been called before, then it is important to
-          // call invoke immediately, without waiting on a callback to fire,
-          // so that the async generator function has the opportunity to do
-          // any necessary setup in a predictable way. This predictability
-          // is why the Promise constructor synchronously invokes its
-          // executor callback, and why async functions synchronously
-          // execute code before the first await. Since we implement simple
-          // async functions in terms of async generators, it is especially
-          // important to get this right, even though it requires care.
-          previousPromise ? previousPromise.then(callInvokeWithMethodAndArg,
-          // Avoid propagating failures to Promises returned by later
-          // invocations of the iterator.
-          callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg();
-      }
-
-      // Define the unified helper method that is used to implement .next,
-      // .throw, and .return (see defineIteratorMethods).
-      this._invoke = enqueue;
-  }
-
-  defineIteratorMethods(AsyncIterator.prototype);
-
-  // Note that simple async functions are implemented on top of
-  // AsyncIterator objects; they just return a Promise for the value of
-  // the final result produced by the iterator.
-  regeneratorRuntime$1.async = function (innerFn, outerFn, self, tryLocsList) {
-      var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList));
-
-      return regeneratorRuntime$1.isGeneratorFunction(outerFn) ? iter // If outerFn is a generator, return the full iterator.
-      : iter.next().then(function (result) {
-          return result.done ? result.value : iter.next();
-      });
-  };
-
-  function makeInvokeMethod(innerFn, self, context) {
-      var state = GenStateSuspendedStart;
-
-      return function invoke(method, arg) {
-          if (state === GenStateExecuting) {
-              throw new Error("Generator is already running");
-          }
-
-          if (state === GenStateCompleted) {
-              if (method === "throw") {
-                  throw arg;
-              }
-
-              // Be forgiving, per 25.3.3.3.3 of the spec:
-              // https://people.mozilla.org/~jorendorff/es6-draft.html#sec-generatorresume
-              return doneResult();
-          }
-
-          while (true) {
-              var delegate = context.delegate;
-              if (delegate) {
-                  if (method === "return" || method === "throw" && delegate.iterator[method] === undefined$1) {
-                      // A return or throw (when the delegate iterator has no throw
-                      // method) always terminates the yield* loop.
-                      context.delegate = null;
-
-                      // If the delegate iterator has a return method, give it a
-                      // chance to clean up.
-                      var returnMethod = delegate.iterator["return"];
-                      if (returnMethod) {
-                          var record = tryCatch(returnMethod, delegate.iterator, arg);
-                          if (record.type === "throw") {
-                              // If the return method threw an exception, let that
-                              // exception prevail over the original return or throw.
-                              method = "throw";
-                              arg = record.arg;
-                              continue;
-                          }
-                      }
-
-                      if (method === "return") {
-                          // Continue with the outer return, now that the delegate
-                          // iterator has been terminated.
-                          continue;
-                      }
-                  }
-
-                  var record = tryCatch(delegate.iterator[method], delegate.iterator, arg);
-
-                  if (record.type === "throw") {
-                      context.delegate = null;
-
-                      // Like returning generator.throw(uncaught), but without the
-                      // overhead of an extra function call.
-                      method = "throw";
-                      arg = record.arg;
-                      continue;
-                  }
-
-                  // Delegate generator ran and handled its own exceptions so
-                  // regardless of what the method was, we continue as if it is
-                  // "next" with an undefined arg.
-                  method = "next";
-                  arg = undefined$1;
-
-                  var info = record.arg;
-                  if (info.done) {
-                      context[delegate.resultName] = info.value;
-                      context.next = delegate.nextLoc;
-                  } else {
-                      state = GenStateSuspendedYield;
-                      return info;
-                  }
-
-                  context.delegate = null;
-              }
-
-              if (method === "next") {
-                  if (state === GenStateSuspendedYield) {
-                      context.sent = arg;
-                  } else {
-                      context.sent = undefined$1;
-                  }
-              } else if (method === "throw") {
-                  if (state === GenStateSuspendedStart) {
-                      state = GenStateCompleted;
-                      throw arg;
-                  }
-
-                  if (context.dispatchException(arg)) {
-                      // If the dispatched exception was caught by a catch block,
-                      // then let that catch block handle the exception normally.
-                      method = "next";
-                      arg = undefined$1;
-                  }
-              } else if (method === "return") {
-                  context.abrupt("return", arg);
-              }
-
-              state = GenStateExecuting;
-
-              var record = tryCatch(innerFn, self, context);
-              if (record.type === "normal") {
-                  // If an exception is thrown from innerFn, we leave state ===
-                  // GenStateExecuting and loop back for another invocation.
-                  state = context.done ? GenStateCompleted : GenStateSuspendedYield;
-
-                  var info = {
-                      value: record.arg,
-                      done: context.done
-                  };
-
-                  if (record.arg === ContinueSentinel) {
-                      if (context.delegate && method === "next") {
-                          // Deliberately forget the last sent value so that we don't
-                          // accidentally pass it on to the delegate.
-                          arg = undefined$1;
-                      }
-                  } else {
-                      return info;
-                  }
-              } else if (record.type === "throw") {
-                  state = GenStateCompleted;
-                  // Dispatch the exception by looping back around to the
-                  // context.dispatchException(arg) call above.
-                  method = "throw";
-                  arg = record.arg;
-              }
-          }
-      };
-  }
-
-  // Define Generator.prototype.{next,throw,return} in terms of the
-  // unified ._invoke helper method.
-  defineIteratorMethods(Gp);
-
-  Gp[iteratorSymbol] = function () {
-      return this;
-  };
-
-  Gp[toStringTagSymbol] = "Generator";
-
-  Gp.toString = function () {
-      return "[object Generator]";
-  };
-
-  function pushTryEntry(locs) {
-      var entry = {
-          tryLoc: locs[0]
-      };
-
-      if (1 in locs) {
-          entry.catchLoc = locs[1];
-      }
-
-      if (2 in locs) {
-          entry.finallyLoc = locs[2];
-          entry.afterLoc = locs[3];
-      }
-
-      this.tryEntries.push(entry);
-  }
-
-  function resetTryEntry(entry) {
-      var record = entry.completion || {};
-      record.type = "normal";
-      delete record.arg;
-      entry.completion = record;
-  }
-
-  function Context(tryLocsList) {
-      // The root entry object (effectively a try statement without a catch
-      // or a finally block) gives us a place to store values thrown from
-      // locations where there is no enclosing try statement.
-      this.tryEntries = [{
-          tryLoc: "root"
-      }];
-      tryLocsList.forEach(pushTryEntry, this);
-      this.reset(true);
-  }
-
-  regeneratorRuntime$1.keys = function (object) {
-      var keys = [];
-      for (var key in object) {
-          keys.push(key);
-      }
-      keys.reverse();
-
-      // Rather than returning an object with a next method, we keep
-      // things simple and return the next function itself.
-      return function next() {
-          while (keys.length) {
-              var key = keys.pop();
-              if (key in object) {
-                  next.value = key;
-                  next.done = false;
-                  return next;
-              }
-          }
-
-          // To avoid creating an additional object, we just hang the .value
-          // and .done properties off the next function object itself. This
-          // also ensures that the minifier will not anonymize the function.
-          next.done = true;
-          return next;
-      };
-  };
-
-  function values(iterable) {
-      if (iterable) {
-          var iteratorMethod = iterable[iteratorSymbol];
-          if (iteratorMethod) {
-              return iteratorMethod.call(iterable);
-          }
-
-          if (typeof iterable.next === "function") {
-              return iterable;
-          }
-
-          if (!isNaN(iterable.length)) {
-              var i = -1,
-                  next = function next() {
-                  while (++i < iterable.length) {
-                      if (hasOwn.call(iterable, i)) {
-                          next.value = iterable[i];
-                          next.done = false;
-                          return next;
-                      }
-                  }
-
-                  next.value = undefined$1;
-                  next.done = true;
-
-                  return next;
-              };
-
-              return next.next = next;
-          }
-      }
-
-      // Return an iterator with no values.
-      return {
-          next: doneResult
-      };
-  }
-  regeneratorRuntime$1.values = values;
-
-  function doneResult() {
-      return {
-          value: undefined$1,
-          done: true
-      };
-  }
-
-  Context.prototype = {
-      constructor: Context,
-
-      reset: function reset(skipTempReset) {
-          this.prev = 0;
-          this.next = 0;
-          this.sent = undefined$1;
-          this.done = false;
-          this.delegate = null;
-
-          this.tryEntries.forEach(resetTryEntry);
-
-          if (!skipTempReset) {
-              for (var name in this) {
-                  // Not sure about the optimal order of these conditions:
-                  if (name.charAt(0) === "t" && hasOwn.call(this, name) && !isNaN(+name.slice(1))) {
-                      this[name] = undefined$1;
-                  }
-              }
-          }
-      },
-
-      stop: function stop() {
-          this.done = true;
-
-          var rootEntry = this.tryEntries[0];
-          var rootRecord = rootEntry.completion;
-          if (rootRecord.type === "throw") {
-              throw rootRecord.arg;
-          }
-
-          return this.rval;
-      },
-
-      dispatchException: function dispatchException(exception) {
-          if (this.done) {
-              throw exception;
-          }
-
-          var context = this;
-
-          function handle(loc, caught) {
-              record.type = "throw";
-              record.arg = exception;
-              context.next = loc;
-              return !!caught;
-          }
-
-          for (var i = this.tryEntries.length - 1; i >= 0; --i) {
-              var entry = this.tryEntries[i];
-              var record = entry.completion;
-
-              if (entry.tryLoc === "root") {
-                  // Exception thrown outside of any try block that could handle
-                  // it, so set the completion value of the entire function to
-                  // throw the exception.
-                  return handle("end");
-              }
-
-              if (entry.tryLoc <= this.prev) {
-                  var hasCatch = hasOwn.call(entry, "catchLoc");
-                  var hasFinally = hasOwn.call(entry, "finallyLoc");
-
-                  if (hasCatch && hasFinally) {
-                      if (this.prev < entry.catchLoc) {
-                          return handle(entry.catchLoc, true);
-                      } else if (this.prev < entry.finallyLoc) {
-                          return handle(entry.finallyLoc);
-                      }
-                  } else if (hasCatch) {
-                      if (this.prev < entry.catchLoc) {
-                          return handle(entry.catchLoc, true);
-                      }
-                  } else if (hasFinally) {
-                      if (this.prev < entry.finallyLoc) {
-                          return handle(entry.finallyLoc);
-                      }
-                  } else {
-                      throw new Error("try statement without catch or finally");
-                  }
-              }
-          }
-      },
-
-      abrupt: function abrupt(type, arg) {
-          for (var i = this.tryEntries.length - 1; i >= 0; --i) {
-              var entry = this.tryEntries[i];
-              if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) {
-                  var finallyEntry = entry;
-                  break;
-              }
-          }
-
-          if (finallyEntry && (type === "break" || type === "continue") && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc) {
-              // Ignore the finally entry if control is not jumping to a
-              // location outside the try/catch block.
-              finallyEntry = null;
-          }
-
-          var record = finallyEntry ? finallyEntry.completion : {};
-          record.type = type;
-          record.arg = arg;
-
-          if (finallyEntry) {
-              this.next = finallyEntry.finallyLoc;
-          } else {
-              this.complete(record);
-          }
-
-          return ContinueSentinel;
-      },
-
-      complete: function complete(record, afterLoc) {
-          if (record.type === "throw") {
-              throw record.arg;
-          }
-
-          if (record.type === "break" || record.type === "continue") {
-              this.next = record.arg;
-          } else if (record.type === "return") {
-              this.rval = record.arg;
-              this.next = "end";
-          } else if (record.type === "normal" && afterLoc) {
-              this.next = afterLoc;
-          }
-      },
-
-      finish: function finish(finallyLoc) {
-          for (var i = this.tryEntries.length - 1; i >= 0; --i) {
-              var entry = this.tryEntries[i];
-              if (entry.finallyLoc === finallyLoc) {
-                  this.complete(entry.completion, entry.afterLoc);
-                  resetTryEntry(entry);
-                  return ContinueSentinel;
-              }
-          }
-      },
-
-      "catch": function _catch(tryLoc) {
-          for (var i = this.tryEntries.length - 1; i >= 0; --i) {
-              var entry = this.tryEntries[i];
-              if (entry.tryLoc === tryLoc) {
-                  var record = entry.completion;
-                  if (record.type === "throw") {
-                      var thrown = record.arg;
-                      resetTryEntry(entry);
-                  }
-                  return thrown;
-              }
-          }
-
-          // The context.catch method must only be called with a location
-          // argument that corresponds to a known catch block.
-          throw new Error("illegal catch attempt");
-      },
-
-      delegateYield: function delegateYield(iterable, resultName, nextLoc) {
-          this.delegate = {
-              iterator: values(iterable),
-              resultName: resultName,
-              nextLoc: nextLoc
-          };
-
-          return ContinueSentinel;
-      }
-  };
-  window.regeneratorRuntime = regeneratorRuntime$1;
-
   /**
    * Plays the video after clicking on the thumbnail
    * @param  {string} className The class name on which click is to be listened
@@ -1123,89 +470,71 @@
   }
 
   /**
+   * This is a private function which is used to get the actual text to be replaced for
+   * a particular url in inline embedding. This returns a promise
+   * @param  {object} _this     reference to this
+   * @param  {function} urlToText The function that converts url to replaceable text
+   * @param  {object} match     object containing info of matching string
+   * @return {Promise}           resolves to the text
+   */
+  function getInlineData(_this, urlToText, match) {
+      var url = (_this.options.link ? match[0].slice(0, -4) : match[0]) || match[1];
+      if (_this.options.served.indexOf(url) !== -1) return;
+
+      return new Promise(function (resolve) {
+          urlToText(_this, match, url).then(function (text) {
+              if (!text) return resolve();
+              _this.options.served.push(url);
+              resolve(text);
+          });
+      });
+  }
+
+  /**
    * A helper function for inline embedding
    * @param _this
    * @param urlToText
    * @returns {*}
    */
-  var inlineEmbed = function () {
-      var ref = babelHelpers.asyncToGenerator(regeneratorRuntime$1.mark(function _callee(_this, urlToText) {
-          var regexInline, match, url, text;
-          return regeneratorRuntime$1.wrap(function _callee$(_context) {
-              while (1) {
-                  switch (_context.prev = _context.next) {
-                      case 0:
-                          if (regeneratorRuntime$1) {
-                              _context.next = 2;
-                              break;
-                          }
+  function inlineEmbed(_this, urlToText) {
+      var regexInline = _this.options.link ? new RegExp('([^>]*' + _this.regex.source + ')</a>', 'gi') : new RegExp('([^\\s]*' + _this.regex.source + ')', 'gi');
+      var match = undefined,
+          allMatches = [],
+          promises = [];
 
-                          return _context.abrupt('return', _this.output);
+      while ((match = matches(regexInline, _this.output)) !== null) {
+          allMatches.push(match);
+          promises.push(getInlineData(_this, urlToText, match));
+      }
 
-                      case 2:
-                          regexInline = _this.options.link ? new RegExp('([^>]*' + _this.regex.source + ')</a>', 'gi') : new RegExp('([^\\s]*' + _this.regex.source + ')', 'gi');
-                          match = undefined;
+      return new Promise(function (resolve) {
+          if (matches.length) Promise.all(promises).then(function (data) {
+              var i = 0;
+              _this.output = _this.output.replace(regexInline, function (match) {
+                  if (_this.options.link) return !_this.options.inlineText ? data[i] + '</a>' : match + data[i];else return !_this.options.inlineText ? data[i] : match + data[i];
+                  i++;
+              });
+              resolve(_this.output);
+          });else resolve(_this.output);
+      });
+  }
 
-                      case 4:
-                          if (!((match = matches(regexInline, _this.output)) !== null)) {
-                              _context.next = 21;
-                              break;
-                          }
+  function getNormalData(_this, urlToText, match) {
+      var url = match[0];
+      if (!_this.options.served.indexOf(url) === -1) return;
 
-                          url = (_this.options.link ? match[0].slice(0, -4) : match[0]) || match[1];
-
-                          if (!(_this.options.served.indexOf(url) !== -1)) {
-                              _context.next = 8;
-                              break;
-                          }
-
-                          return _context.abrupt('continue', 4);
-
-                      case 8:
-                          _context.next = 10;
-                          return urlToText(_this, match, url);
-
-                      case 10:
-                          text = _context.sent;
-
-                          if (text) {
-                              _context.next = 13;
-                              break;
-                          }
-
-                          return _context.abrupt('continue', 4);
-
-                      case 13:
-                          _this.options.served.push(url);
-
-                          if (!_this.options.link) {
-                              _context.next = 18;
-                              break;
-                          }
-
-                          return _context.abrupt('return', !_this.options.inlineText ? _this.output.replace(match[0], text + '</a>') : _this.output.replace(match[0], match[0] + text));
-
-                      case 18:
-                          return _context.abrupt('return', !_this.options.inlineText ? _this.output.replace(match[0], text) : _this.output.replace(match[0], match[0] + text));
-
-                      case 19:
-                          _context.next = 4;
-                          break;
-
-                      case 21:
-                          return _context.abrupt('return', _this.output);
-
-                      case 22:
-                      case 'end':
-                          return _context.stop();
-                  }
-              }
-          }, _callee, this);
-      }));
-      return function inlineEmbed(_x, _x2) {
-          return ref.apply(this, arguments);
-      };
-  }();
+      return new Promise(function (resolve) {
+          urlToText(_this, match, url, true).then(function (text) {
+              if (!text) resolve();
+              _this.options.served.push(url);
+              _this.embeds.push({
+                  text: text,
+                  index: match.index
+              });
+              resolve();
+          });
+      });
+  }
 
   /**
    * A helper function for normal embedding
@@ -1213,76 +542,22 @@
    * @param  {function} urlToText
    * @return {array}
    */
-  var normalEmbed = function () {
-      var ref = babelHelpers.asyncToGenerator(regeneratorRuntime$1.mark(function _callee2(_this, urlToText) {
-          var match, _url, _text;
+  function normalEmbed(_this, urlToText) {
+      var match = undefined,
+          allMatches = [],
+          promises = [];
 
-          return regeneratorRuntime$1.wrap(function _callee2$(_context2) {
-              while (1) {
-                  switch (_context2.prev = _context2.next) {
-                      case 0:
-                          if (regeneratorRuntime$1) {
-                              _context2.next = 2;
-                              break;
-                          }
+      while ((match = matches(_this.regex, _this.input)) !== null) {
+          allMatches.push(match);
+          promises.push(getNormalData(_this, urlToText, match));
+      }
 
-                          return _context2.abrupt('return', _this.output);
-
-                      case 2:
-                          match = undefined;
-
-                      case 3:
-                          if (!((match = matches(_this.regex, _this.input)) !== null)) {
-                              _context2.next = 16;
-                              break;
-                          }
-
-                          _url = match[0];
-
-                          if (!(!_this.options.served.indexOf(_url) === -1)) {
-                              _context2.next = 7;
-                              break;
-                          }
-
-                          return _context2.abrupt('continue', 3);
-
-                      case 7:
-                          _context2.next = 9;
-                          return urlToText(_this, match, _url, true);
-
-                      case 9:
-                          _text = _context2.sent;
-
-                          if (_text) {
-                              _context2.next = 12;
-                              break;
-                          }
-
-                          return _context2.abrupt('continue', 3);
-
-                      case 12:
-                          _this.options.served.push(_url);
-                          _this.embeds.push({
-                              text: _text,
-                              index: match.index
-                          });
-                          _context2.next = 3;
-                          break;
-
-                      case 16:
-                          return _context2.abrupt('return', _this.embeds);
-
-                      case 17:
-                      case 'end':
-                          return _context2.stop();
-                  }
-              }
-          }, _callee2, this);
-      }));
-      return function normalEmbed(_x3, _x4) {
-          return ref.apply(this, arguments);
-      };
-  }();
+      return new Promise(function (resolve) {
+          if (allMatches.length) Promise.all(promises).then(function () {
+              resolve(_this.embeds);
+          });else resolve(_this.embeds);
+      });
+  }
 
   var defaultOptions$1 = {
       timeout: 5000,
@@ -1706,39 +981,17 @@
 
   	babelHelpers.createClass(Twitter, [{
   		key: 'tweetData',
-  		value: function () {
-  			var ref = babelHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee(url) {
-  				var config, apiUrl, response;
-  				return regeneratorRuntime.wrap(function _callee$(_context) {
-  					while (1) {
-  						switch (_context.prev = _context.next) {
-  							case 0:
-  								config = this.options.tweetOptions;
-  								apiUrl = 'https://api.twitter.com/1/statuses/oembed.json?omit_script=true&url=' + url + '&maxwidth=' + config.maxWidth + '&hide_media=' + config.hideMedia + '&hide_thread=' + config.hideThread + '&align=' + config.align + '&lang=' + config.lang;
-  								_context.next = 4;
-  								return fetchJsonp(apiUrl, {
-  									credentials: 'include'
-  								});
-
-  							case 4:
-  								response = _context.sent;
-  								_context.next = 7;
-  								return response.json();
-
-  							case 7:
-  								return _context.abrupt('return', _context.sent);
-
-  							case 8:
-  							case 'end':
-  								return _context.stop();
-  						}
-  					}
-  				}, _callee, this);
-  			}));
-  			return function tweetData(_x) {
-  				return ref.apply(this, arguments);
-  			};
-  		}()
+  		value: function tweetData(url) {
+  			var config = this.options.tweetOptions;
+  			var apiUrl = 'https://api.twitter.com/1/statuses/oembed.json?omit_script=true&url=' + url + '&maxwidth=' + config.maxWidth + '&hide_media=' + config.hideMedia + '&hide_thread=' + config.hideThread + '&align=' + config.align + '&lang=' + config.lang;
+  			return new Promise(function (resolve) {
+  				fetchJsonp(apiUrl, { credentials: 'include' }).then(function (data) {
+  					return data.json();
+  				}).then(function (json) {
+  					return resolve(json);
+  				});
+  			});
+  		}
 
   		/**
      * Load twitter widgets
@@ -1759,89 +1012,441 @@
   		}
   	}, {
   		key: 'process',
-  		value: function () {
-  			var ref = babelHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
-  				return regeneratorRuntime.wrap(function _callee2$(_context2) {
-  					while (1) {
-  						switch (_context2.prev = _context2.next) {
-  							case 0:
-  								_context2.prev = 0;
+  		value: function process() {
+  			var _this3 = this;
 
-  								if (ifInline(this.options, this.service)) {
-  									_context2.next = 7;
-  									break;
-  								}
-
-  								_context2.next = 4;
-  								return inlineEmbed(this, Twitter.urlToText);
-
-  							case 4:
-  								this.output = _context2.sent;
-  								_context2.next = 10;
-  								break;
-
-  							case 7:
-  								_context2.next = 9;
-  								return normalEmbed(this, Twitter.urlToText);
-
-  							case 9:
-  								this.embeds = _context2.sent;
-
-  							case 10:
-  								return _context2.abrupt('return', [this.output, this.embeds]);
-
-  							case 13:
-  								_context2.prev = 13;
-  								_context2.t0 = _context2['catch'](0);
-  								return _context2.abrupt('return', [this.output, this.embeds]);
-
-  							case 16:
-  							case 'end':
-  								return _context2.stop();
-  						}
-  					}
-  				}, _callee2, this, [[0, 13]]);
-  			}));
-  			return function process() {
-  				return ref.apply(this, arguments);
-  			};
-  		}()
+  			return new Promise(function (resolve) {
+  				if (!ifInline(_this3.options, _this3.service)) {
+  					inlineEmbed(_this3, Twitter.urlToText).then(function (response) {
+  						resolve([response, _this3.embeds]);
+  					});
+  				} else {
+  					normalEmbed(_this3, Twitter.urlToText).then(function (embeds) {
+  						resolve([_this3.output, embeds]);
+  					});
+  				}
+  			});
+  		}
   	}], [{
   		key: 'urlToText',
-  		value: function () {
-  			var ref = babelHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee3(_this, match, url) {
-  				var data;
-  				return regeneratorRuntime.wrap(function _callee3$(_context3) {
-  					while (1) {
-  						switch (_context3.prev = _context3.next) {
-  							case 0:
-  								_context3.prev = 0;
-  								_context3.next = 3;
-  								return _this.tweetData(url);
-
-  							case 3:
-  								data = _context3.sent;
-  								return _context3.abrupt('return', data.html);
-
-  							case 7:
-  								_context3.prev = 7;
-  								_context3.t0 = _context3['catch'](0);
-
-  								console.log(_context3.t0);
-
-  							case 10:
-  							case 'end':
-  								return _context3.stop();
-  						}
-  					}
-  				}, _callee3, this, [[0, 7]]);
-  			}));
-  			return function urlToText(_x2, _x3, _x4) {
-  				return ref.apply(this, arguments);
-  			};
-  		}()
+  		value: function urlToText(_this, match, url) {
+  			return new Promise(function (resolve) {
+  				_this.tweetData(url).then(function (data) {
+  					return resolve(data.html);
+  				});
+  			});
+  		}
   	}]);
   	return Twitter;
+  }();
+
+  var SlideShare = function () {
+  	function SlideShare(input, output, options, embeds) {
+  		babelHelpers.classCallCheck(this, SlideShare);
+
+  		this.input = input;
+  		this.output = output;
+  		this.options = options;
+  		this.embeds = embeds;
+  		this.regex = /slideshare.net\/[a-zA-Z0-9_-]*\/[a-zA-Z0-9_-]*/gi;
+  		this.service = 'slideshare';
+  	}
+
+  	babelHelpers.createClass(SlideShare, [{
+  		key: 'template',
+  		value: function template(html) {
+  			return this.options.template.slideShare(html, this.options);
+  		}
+  	}, {
+  		key: 'process',
+  		value: function process() {
+  			var _this2 = this;
+
+  			return new Promise(function (resolve) {
+  				if (!ifInline(_this2.options, _this2.service)) {
+  					inlineEmbed(_this2, SlideShare.urlToText).then(function (response) {
+  						resolve([response, _this2.embeds]);
+  					});
+  				} else {
+  					normalEmbed(_this2, SlideShare.urlToText).then(function (embeds) {
+  						resolve([_this2.output, embeds]);
+  					});
+  				}
+  			});
+  		}
+  	}], [{
+  		key: 'fetchData',
+  		value: function fetchData(_this, url) {
+  			var dimensions = getDimensions(_this.options);
+  			var api = 'http://www.slideshare.net/api/oembed/2?url=' + url + '&format=jsonp&maxwidth=' + dimensions.width + '&maxheight=' + dimensions.height;
+  			return new Promise(function (resolve) {
+  				fetchJsonp(api, { credentials: 'include' }).then(function (data) {
+  					return data.json();
+  				}).then(function (json) {
+  					return resolve(json.html);
+  				});
+  			});
+  		}
+  	}, {
+  		key: 'urlToText',
+  		value: function urlToText(_this, match, url) {
+  			return new Promise(function (resolve) {
+  				SlideShare.fetchData(_this, url).then(function (html) {
+  					return resolve(_this.template(html));
+  				});
+  			});
+  		}
+  	}]);
+  	return SlideShare;
+  }();
+
+  var Gmap = function () {
+      function Gmap(input, output, options, embeds) {
+          babelHelpers.classCallCheck(this, Gmap);
+
+          this.input = input;
+          this.output = output;
+          this.options = options;
+          this.embeds = embeds;
+          this.service = 'map';
+          this.regex = /@\((.+)\)/gi;
+      }
+
+      /**
+       * Takes the location name and returns the coordinates of that location using the Google
+       * Map API v3. This is an async function so it will return a promise.
+       * @param  {string} location The name of any location
+       * @return {array}           Returns an array in the form [latitude, longitude]
+       */
+
+      babelHelpers.createClass(Gmap, [{
+          key: 'process',
+          value: function process() {
+              var _this = this;
+
+              var match = undefined,
+                  promises = [],
+                  allMatches = [];
+              while ((match = matches(this.regex, this.output)) !== null) {
+                  var promise = this.options.mapOptions.mode !== 'place' ? Gmap.getCoordinate(match[0]) : Promise.resolve([null, null]);
+                  promises.push(promise);
+                  allMatches.push(match);
+              }
+
+              return new Promise(function (resolve) {
+                  if (allMatches.length) {
+                      Promise.all(promises).then(function (coordinatesArr) {
+                          var _loop = function _loop() {
+                              var _coordinatesArr$i = babelHelpers.slicedToArray(coordinatesArr[i], 2);
+
+                              var latitude = _coordinatesArr$i[0];
+                              var longitude = _coordinatesArr$i[1];
+
+                              var text = Gmap.template(allMatches[i][0], latitude, longitude, _this.options);
+                              if (!ifInline(_this.options, _this.service)) {
+                                  _this.output = _this.output.replace(_this.regex, function (regexMatch) {
+                                      return '<span class="ejs-location">' + Gmap.locationText(regexMatch) + '</span>' + text;
+                                  });
+                              } else {
+                                  _this.embeds.push({
+                                      text: text,
+                                      index: allMatches[i][0].index
+                                  });
+                                  _this.output = _this.output.replace(_this.regex, function (regexMatch) {
+                                      return '<span class="ejs-location">' + Gmap.locationText(regexMatch) + '</span>';
+                                  });
+                              }
+                          };
+
+                          for (var i in promises) {
+                              _loop();
+                          }
+                          resolve([_this.output, _this.embeds]);
+                      });
+                  } else {
+                      resolve([_this.output, _this.embeds]);
+                  }
+              });
+          }
+      }], [{
+          key: 'getCoordinate',
+          value: function getCoordinate(location) {
+              var url = 'http://maps.googleapis.com/maps/api/geocode/json?address=' + location + '&sensor=false';
+              return new Promise(function (resolve) {
+                  fetch(url).then(function (data) {
+                      return data.json();
+                  }).then(function (json) {
+                      return resolve([json.results[0].geometry.location.lat, json.results[0].geometry.location.lng]);
+                  });
+              });
+          }
+
+          /**
+           * Returns the template of the Map widget. The source of the iframe is based on whether the
+           * mode set in options is 'place', 'streetview' or 'view'.
+           * @param  {string} match     The matching string in the form of @(location name).
+           * @param  {number} latitude  Latitude of the location
+           * @param  {number} longitude Longitude of the location
+           * @param  {object} options   plugin options
+           * @return {string}           Template of the map widget.
+           */
+
+      }, {
+          key: 'template',
+          value: function template(match, latitude, longitude, options) {
+              var location = Gmap.locationText(match);
+              var config = options.mapOptions;
+              var dimensions = getDimensions(options);
+              if (config.mode === 'place') {
+                  return '<div class="ejs-embed ejs-map"><iframe width="' + dimensions.width + '" height="' + dimensions.height + '" src="https://www.google.com/maps/embed/v1/place?key=' + options.googleAuthKey + '&q=' + location + '"></iframe></div>';
+              } else if (config.mode === 'streetview') {
+                  return '<div class="ejs-embed ejs-map"><iframe width="' + dimensions.width + '" height="' + dimensions.height + '" src="https://www.google.com/maps/embed/v1/streetview?key=' + options.googleAuthKey + '&location=' + latitude + ',' + longitude + '&heading=210&pitch=10&fov=35"></iframe></div>';
+              } else if (config.mode === 'view') {
+                  return '<div class="ejs-embed ejs-map"><iframe width="' + dimensions.width + '" height="' + dimensions.height + '" src="https://www.google.com/maps/embed/v1/view?key=' + options.googleAuthKey + '&center=' + latitude + ',' + longitude + '&zoom=18&maptype=satellite"></iframe></div>';
+              }
+          }
+
+          /**
+           * Extracts out the location name from the format @(locationName)
+           * @param  {string} match The string in the supported format. Eg : @(Delhi)
+           * @return {string}       Only the location name removing @ and brackets. Eg: Delhi
+           */
+
+      }, {
+          key: 'locationText',
+          value: function locationText(match) {
+              return match.split('(')[1].split(')')[0];
+          }
+      }]);
+      return Gmap;
+  }();
+
+  var Github = function () {
+  	function Github(input, output, options, embeds) {
+  		babelHelpers.classCallCheck(this, Github);
+
+  		this.input = input;
+  		this.output = output;
+  		this.options = options;
+  		this.embeds = embeds;
+  		this.service = 'github';
+  		this.regex = /github.com\/([a-zA-Z0-9\.-]+)\/([a-zA-Z0-9\.-]+)/gi;
+  	}
+
+  	babelHelpers.createClass(Github, [{
+  		key: 'process',
+  		value: function process() {
+  			var _this2 = this;
+
+  			return new Promise(function (resolve) {
+  				if (!ifInline(_this2.options, _this2.service)) {
+  					inlineEmbed(_this2, Github.urlToText).then(function (response) {
+  						resolve([response, _this2.embeds]);
+  					});
+  				} else {
+  					normalEmbed(_this2, Github.urlToText).then(function (embeds) {
+  						resolve([_this2.output, embeds]);
+  					});
+  				}
+  			});
+  		}
+  	}], [{
+  		key: 'fetchRepo',
+  		value: function fetchRepo(data) {
+  			var api = 'https://api.github.com/repos/' + data.user + '/' + data.repo;
+  			return new Promise(function (resolve) {
+  				fetch(api).then(function (data) {
+  					return data.json();
+  				}).then(function (json) {
+  					return resolve(json);
+  				});
+  			});
+  		}
+  	}, {
+  		key: 'template',
+  		value: function template(data, options) {
+  			return options.template.github(data, options);
+  		}
+  	}, {
+  		key: 'urlToText',
+  		value: function urlToText(_this, match, url, normalEmbed) {
+  			var data = !normalEmbed ? {
+  				user: match[2],
+  				repo: match[3]
+  			} : {
+  				user: match[1],
+  				repo: match[2]
+  			};
+
+  			if (!data.repo) return;
+  			return new Promise(function (resolve) {
+  				Github.fetchRepo(data).then(function (response) {
+  					return resolve(Github.template(response, _this.options));
+  				});
+  			});
+  		}
+  	}]);
+  	return Github;
+  }();
+
+  var Vimeo = function () {
+  	function Vimeo(input, output, options, embeds) {
+  		babelHelpers.classCallCheck(this, Vimeo);
+
+  		this.input = input;
+  		this.output = output;
+  		this.options = options;
+  		this.embeds = embeds;
+  		this.regex = /https?:\/\/(?:www\.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/([^\/]*)\/videos\/|album\/(\d+)\/video\/|)(\d+)(?:$|\/|\?)*/gi;
+  		this.service = 'vimeo';
+  	}
+
+  	babelHelpers.createClass(Vimeo, [{
+  		key: 'data',
+  		value: function data(id) {
+  			var url = 'https://vimeo.com/api/v2/video/' + id + '.json';
+  			return new Promise(function (resolve) {
+  				fetch(url).then(function (data) {
+  					return data.json();
+  				}).then(function (json) {
+  					return resolve(json[0]);
+  				});
+  			});
+  		}
+  	}, {
+  		key: 'process',
+  		value: function process() {
+  			var _this2 = this;
+
+  			return new Promise(function (resolve) {
+  				if (!ifInline(_this2.options, _this2.service)) {
+  					inlineEmbed(_this2, Vimeo.urlToText).then(function (response) {
+  						resolve([response, _this2.embeds]);
+  					});
+  				} else {
+  					normalEmbed(_this2, Vimeo.urlToText).then(function (embeds) {
+  						resolve([_this2.output, embeds]);
+  					});
+  				}
+  			});
+  		}
+  	}], [{
+  		key: 'formatData',
+  		value: function formatData(data, truncate) {
+  			return {
+  				title: data.title,
+  				thumbnail: data.thumbnail_medium,
+  				rawDescription: data.description.replace(/\n/g, '<br/>').replace(/&#10;/g, '<br/>'),
+  				views: data.stats_number_of_plays,
+  				likes: data.stats_number_of_likes,
+  				description: truncate(data.description.replace(/((<|&lt;)br\s*\/*(>|&gt;)\r\n)/g, ' '), 150),
+  				url: data.url,
+  				id: data.id,
+  				host: 'vimeo'
+  			};
+  		}
+  	}, {
+  		key: 'urlToText',
+  		value: function urlToText(_this, match, url, normalEmbed) {
+  			var id = undefined;
+  			if (!normalEmbed) {
+  				id = _this.options.link ? match[0].slice(0, -4).split('/').slice(-1).pop() : match[0].split('/').slice(-1).pop();
+  			} else {
+  				id = match[3];
+  			}
+  			if (!id) return;
+  			var embedUrl = 'https://player.vimeo.com/video/' + id;
+  			if (_this.options.videoDetails) {
+  				return new Promise(function (resolve) {
+  					_this.data(id).then(function (data) {
+  						return resolve(getDetailsTemplate(Vimeo.formatData(data, truncate), data, embedUrl, _this.options));
+  					});
+  				});
+  			} else {
+  				return new Promise(function (resolve) {
+  					return resolve(template(embedUrl, _this.options));
+  				});
+  			}
+  		}
+  	}]);
+  	return Vimeo;
+  }();
+
+  var Youtube = function () {
+  	function Youtube(input, output, options, embeds) {
+  		babelHelpers.classCallCheck(this, Youtube);
+
+  		this.input = input;
+  		this.output = output;
+  		this.options = options;
+  		this.embeds = embeds;
+  		this.regex = /https?:\/\/(?:[0-9A-Z-]+\.)?(?:youtu\.be\/|youtube\.com(?:\/embed\/|\/v\/|\/watch\?v=|\/ytscreeningroom\?v=|\/feeds\/api\/videos\/|\/user\S*[^\w\-\s]|\S*[^\w\-\s]))([\w\-]{11})[?=&+%\w-]*/gi;
+  		this.service = 'youtube';
+  	}
+
+  	babelHelpers.createClass(Youtube, [{
+  		key: 'data',
+  		value: function data(id) {
+  			var url = 'https://www.googleapis.com/youtube/v3/videos?id=' + id + '&key=' + this.options.googleAuthKey + '&part=snippet,statistics';
+  			return new Promise(function (resolve) {
+  				fetch(url).then(function (data) {
+  					return data.json();
+  				}).then(function (json) {
+  					return resolve(json.items[0]);
+  				});
+  			});
+  		}
+  	}, {
+  		key: 'process',
+  		value: function process() {
+  			var _this2 = this;
+
+  			return new Promise(function (resolve) {
+  				if (!ifInline(_this2.options, _this2.service)) {
+  					inlineEmbed(_this2, Youtube.urlToText).then(function (output) {
+  						resolve([output, _this2.embeds]);
+  					});
+  				} else {
+  					normalEmbed(_this2, Youtube.urlToText).then(function (embeds) {
+  						resolve([_this2.output, embeds]);
+  					});
+  				}
+  			});
+  		}
+  	}], [{
+  		key: 'formatData',
+  		value: function formatData(data, truncate) {
+  			return {
+  				title: data.snippet.title,
+  				thumbnail: data.snippet.thumbnails.medium.url,
+  				rawDescription: data.snippet.description,
+  				views: data.statistics.viewCount,
+  				likes: data.statistics.likeCount,
+  				description: truncate(data.snippet.description, 150),
+  				url: 'https://www.youtube.com/watch?v=' + data.id,
+  				id: data.id,
+  				host: 'youtube'
+  			};
+  		}
+  	}, {
+  		key: 'urlToText',
+  		value: function urlToText(_this, match, url, normalEmbed) {
+  			var id = normalEmbed ? match[1] : match[2];
+  			var embedUrl = 'https://www.youtube.com/embed/' + id;
+  			if (_this.options.videoDetails) {
+  				return new Promise(function (resolve) {
+  					_this.data(id).then(function (data) {
+  						return resolve(getDetailsTemplate(Youtube.formatData(data, truncate), data, embedUrl, _this.options));
+  					});
+  				});
+  			} else {
+  				return new Promise(function (resolve) {
+  					return resolve(template(embedUrl, _this.options));
+  				});
+  			}
+  		}
+  	}]);
+  	return Youtube;
   }();
 
   var Base = function () {
@@ -1912,132 +1517,6 @@
   	}]);
   	return Basic;
   }(Base);
-
-  var SlideShare = function () {
-  	function SlideShare(input, output, options, embeds) {
-  		babelHelpers.classCallCheck(this, SlideShare);
-
-  		this.input = input;
-  		this.output = output;
-  		this.options = options;
-  		this.embeds = embeds;
-  		this.regex = /slideshare.net\/[a-zA-Z0-9_-]*\/[a-zA-Z0-9_-]*/gi;
-  		this.service = 'slideshare';
-  	}
-
-  	babelHelpers.createClass(SlideShare, [{
-  		key: 'template',
-  		value: function template(html) {
-  			return this.options.template.slideShare(html, this.options);
-  		}
-  	}, {
-  		key: 'process',
-  		value: function () {
-  			var ref = babelHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-  				return regeneratorRuntime.wrap(function _callee$(_context) {
-  					while (1) {
-  						switch (_context.prev = _context.next) {
-  							case 0:
-  								if (ifInline(this.options, this.service)) {
-  									_context.next = 6;
-  									break;
-  								}
-
-  								_context.next = 3;
-  								return inlineEmbed(this, SlideShare.urlToText);
-
-  							case 3:
-  								this.output = _context.sent;
-  								_context.next = 9;
-  								break;
-
-  							case 6:
-  								_context.next = 8;
-  								return normalEmbed(this, SlideShare.urlToText);
-
-  							case 8:
-  								this.embeds = _context.sent;
-
-  							case 9:
-  								return _context.abrupt('return', [this.output, this.embeds]);
-
-  							case 10:
-  							case 'end':
-  								return _context.stop();
-  						}
-  					}
-  				}, _callee, this);
-  			}));
-  			return function process() {
-  				return ref.apply(this, arguments);
-  			};
-  		}()
-  	}], [{
-  		key: 'fetchData',
-  		value: function () {
-  			var ref = babelHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee2(_this, url) {
-  				var dimensions, api, response, data;
-  				return regeneratorRuntime.wrap(function _callee2$(_context2) {
-  					while (1) {
-  						switch (_context2.prev = _context2.next) {
-  							case 0:
-  								dimensions = getDimensions(_this.options);
-  								api = 'http://www.slideshare.net/api/oembed/2?url=' + url + '&format=jsonp&maxwidth=' + dimensions.width + '&maxheight=' + dimensions.height;
-  								_context2.next = 4;
-  								return fetchJsonp(api, {
-  									credentials: 'include'
-  								});
-
-  							case 4:
-  								response = _context2.sent;
-  								_context2.next = 7;
-  								return response.json();
-
-  							case 7:
-  								data = _context2.sent;
-  								return _context2.abrupt('return', data.html);
-
-  							case 9:
-  							case 'end':
-  								return _context2.stop();
-  						}
-  					}
-  				}, _callee2, this);
-  			}));
-  			return function fetchData(_x, _x2) {
-  				return ref.apply(this, arguments);
-  			};
-  		}()
-  	}, {
-  		key: 'urlToText',
-  		value: function () {
-  			var ref = babelHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee3(_this, match, url) {
-  				var html;
-  				return regeneratorRuntime.wrap(function _callee3$(_context3) {
-  					while (1) {
-  						switch (_context3.prev = _context3.next) {
-  							case 0:
-  								_context3.next = 2;
-  								return SlideShare.fetchData(_this, url);
-
-  							case 2:
-  								html = _context3.sent;
-  								return _context3.abrupt('return', _this.template(html));
-
-  							case 4:
-  							case 'end':
-  								return _context3.stop();
-  						}
-  					}
-  				}, _callee3, this);
-  			}));
-  			return function urlToText(_x3, _x4, _x5) {
-  				return ref.apply(this, arguments);
-  			};
-  		}()
-  	}]);
-  	return SlideShare;
-  }();
 
   var Instagram = function (_Base) {
   	babelHelpers.inherits(Instagram, _Base);
@@ -2152,667 +1631,6 @@
   	}]);
   	return SoundCloud;
   }(Base);
-
-  var Gmap = function () {
-      function Gmap(input, output, options, embeds) {
-          babelHelpers.classCallCheck(this, Gmap);
-
-          this.input = input;
-          this.output = output;
-          this.options = options;
-          this.embeds = embeds;
-          this.service = 'map';
-          this.regex = /@\((.+)\)/gi;
-      }
-
-      /**
-       * Takes the location name and returns the coordinates of that location using the Google
-       * Map API v3. This is an async function so it will return a promise.
-       * @param  {string} location The name of any location
-       * @return {array}           Returns an array in the form [latitude, longitude]
-       */
-
-      babelHelpers.createClass(Gmap, [{
-          key: 'process',
-          value: function () {
-              var ref = babelHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
-                  var _this = this;
-
-                  var match, _loop;
-
-                  return regeneratorRuntime.wrap(function _callee2$(_context2) {
-                      while (1) {
-                          switch (_context2.prev = _context2.next) {
-                              case 0:
-                                  match = undefined;
-                                  _loop = regeneratorRuntime.mark(function _callee() {
-                                      var _ref, _ref2, latitude, longitude, text;
-
-                                      return regeneratorRuntime.wrap(function _callee$(_context) {
-                                          while (1) {
-                                              switch (_context.prev = _context.next) {
-                                                  case 0:
-                                                      if (!(_this.options.mapOptions.mode !== 'place')) {
-                                                          _context.next = 6;
-                                                          break;
-                                                      }
-
-                                                      _context.next = 3;
-                                                      return Gmap.getCoordinate(match[0]);
-
-                                                  case 3:
-                                                      _context.t0 = _context.sent;
-                                                      _context.next = 7;
-                                                      break;
-
-                                                  case 6:
-                                                      _context.t0 = [null, null];
-
-                                                  case 7:
-                                                      _ref = _context.t0;
-                                                      _ref2 = babelHelpers.slicedToArray(_ref, 2);
-                                                      latitude = _ref2[0];
-                                                      longitude = _ref2[1];
-                                                      text = Gmap.template(match[0], latitude, longitude, _this.options);
-
-                                                      if (!ifInline(_this.options, _this.service)) {
-                                                          _this.output = _this.output.replace(_this.regex, function (regexMatch) {
-                                                              return '<span class="ejs-location">' + Gmap.locationText(regexMatch) + '</span>' + text;
-                                                          });
-                                                      } else {
-                                                          _this.embeds.push({
-                                                              text: text,
-                                                              index: match.index
-                                                          });
-                                                          _this.output = _this.output.replace(_this.regex, function (regexMatch) {
-                                                              return '<span class="ejs-location">' + Gmap.locationText(regexMatch) + '</span>';
-                                                          });
-                                                      }
-
-                                                  case 13:
-                                                  case 'end':
-                                                      return _context.stop();
-                                              }
-                                          }
-                                      }, _callee, _this);
-                                  });
-
-                              case 2:
-                                  if (!((match = matches(this.regex, this.output)) !== null)) {
-                                      _context2.next = 6;
-                                      break;
-                                  }
-
-                                  return _context2.delegateYield(_loop(), 't0', 4);
-
-                              case 4:
-                                  _context2.next = 2;
-                                  break;
-
-                              case 6:
-                                  return _context2.abrupt('return', [this.output, this.embeds]);
-
-                              case 7:
-                              case 'end':
-                                  return _context2.stop();
-                          }
-                      }
-                  }, _callee2, this);
-              }));
-              return function process() {
-                  return ref.apply(this, arguments);
-              };
-          }()
-      }], [{
-          key: 'getCoordinate',
-          value: function () {
-              var ref = babelHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee3(location) {
-                  var url, response, data;
-                  return regeneratorRuntime.wrap(function _callee3$(_context3) {
-                      while (1) {
-                          switch (_context3.prev = _context3.next) {
-                              case 0:
-                                  url = 'http://maps.googleapis.com/maps/api/geocode/json?address=' + location + '&sensor=false';
-                                  _context3.next = 3;
-                                  return fetch(url);
-
-                              case 3:
-                                  response = _context3.sent;
-                                  _context3.next = 6;
-                                  return response.json();
-
-                              case 6:
-                                  data = _context3.sent;
-                                  return _context3.abrupt('return', [data.results[0].geometry.location.lat, data.results[0].geometry.location.lng]);
-
-                              case 8:
-                              case 'end':
-                                  return _context3.stop();
-                          }
-                      }
-                  }, _callee3, this);
-              }));
-              return function getCoordinate(_x) {
-                  return ref.apply(this, arguments);
-              };
-          }()
-
-          /**
-           * Returns the template of the Map widget. The source of the iframe is based on whether the
-           * mode set in options is 'place', 'streetview' or 'view'.
-           * @param  {string} match     The matching string in the form of @(location name).
-           * @param  {number} latitude  Latitude of the location
-           * @param  {number} longitude Longitude of the location
-           * @param  {object} options   plugin options
-           * @return {string}           Template of the map widget.
-           */
-
-      }, {
-          key: 'template',
-          value: function template(match, latitude, longitude, options) {
-              var location = Gmap.locationText(match);
-              var config = options.mapOptions;
-              var dimensions = getDimensions(options);
-              if (config.mode === 'place') {
-                  return '<div class="ejs-embed ejs-map"><iframe width="' + dimensions.width + '" height="' + dimensions.height + '" src="https://www.google.com/maps/embed/v1/place?key=' + options.googleAuthKey + '&q=' + location + '"></iframe></div>';
-              } else if (config.mode === 'streetview') {
-                  return '<div class="ejs-embed ejs-map"><iframe width="' + dimensions.width + '" height="' + dimensions.height + '" src="https://www.google.com/maps/embed/v1/streetview?key=' + options.googleAuthKey + '&location=' + latitude + ',' + longitude + '&heading=210&pitch=10&fov=35"></iframe></div>';
-              } else if (config.mode === 'view') {
-                  return '<div class="ejs-embed ejs-map"><iframe width="' + dimensions.width + '" height="' + dimensions.height + '" src="https://www.google.com/maps/embed/v1/view?key=' + options.googleAuthKey + '&center=' + latitude + ',' + longitude + '&zoom=18&maptype=satellite"></iframe></div>';
-              }
-          }
-
-          /**
-           * Extracts out the location name from the format @(locationName)
-           * @param  {string} match The string in the supported format. Eg : @(Delhi)
-           * @return {string}       Only the location name removing @ and brackets. Eg: Delhi
-           */
-
-      }, {
-          key: 'locationText',
-          value: function locationText(match) {
-              return match.split('(')[1].split(')')[0];
-          }
-      }]);
-      return Gmap;
-  }();
-
-  var Github = function () {
-  	function Github(input, output, options, embeds) {
-  		babelHelpers.classCallCheck(this, Github);
-
-  		this.input = input;
-  		this.output = output;
-  		this.options = options;
-  		this.embeds = embeds;
-  		this.service = 'github';
-  		this.regex = /github.com\/([a-zA-Z0-9\.-]+)\/([a-zA-Z0-9\.-]+)/gi;
-  	}
-
-  	babelHelpers.createClass(Github, [{
-  		key: 'process',
-  		value: function () {
-  			var ref = babelHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-  				return regeneratorRuntime.wrap(function _callee$(_context) {
-  					while (1) {
-  						switch (_context.prev = _context.next) {
-  							case 0:
-  								if (ifInline(this.options, this.service)) {
-  									_context.next = 6;
-  									break;
-  								}
-
-  								_context.next = 3;
-  								return inlineEmbed(this, Github.urlToText);
-
-  							case 3:
-  								this.output = _context.sent;
-  								_context.next = 9;
-  								break;
-
-  							case 6:
-  								_context.next = 8;
-  								return normalEmbed(this, Github.urlToText);
-
-  							case 8:
-  								this.embeds = _context.sent;
-
-  							case 9:
-  								return _context.abrupt('return', [this.output, this.embeds]);
-
-  							case 10:
-  							case 'end':
-  								return _context.stop();
-  						}
-  					}
-  				}, _callee, this);
-  			}));
-  			return function process() {
-  				return ref.apply(this, arguments);
-  			};
-  		}()
-  	}], [{
-  		key: 'template',
-  		value: function template(data, options) {
-  			return options.template.github(data, options);
-  		}
-  	}, {
-  		key: 'fetchRepo',
-  		value: function () {
-  			var ref = babelHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee2(data) {
-  				var api, response;
-  				return regeneratorRuntime.wrap(function _callee2$(_context2) {
-  					while (1) {
-  						switch (_context2.prev = _context2.next) {
-  							case 0:
-  								api = 'https://api.github.com/repos/' + data.user + '/' + data.repo;
-  								_context2.next = 3;
-  								return fetch(api);
-
-  							case 3:
-  								response = _context2.sent;
-  								_context2.next = 6;
-  								return response.json();
-
-  							case 6:
-  								return _context2.abrupt('return', _context2.sent);
-
-  							case 7:
-  							case 'end':
-  								return _context2.stop();
-  						}
-  					}
-  				}, _callee2, this);
-  			}));
-  			return function fetchRepo(_x) {
-  				return ref.apply(this, arguments);
-  			};
-  		}()
-  	}, {
-  		key: 'urlToText',
-  		value: function () {
-  			var ref = babelHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee3(_this, match, url, normalEmbed) {
-  				var data, response;
-  				return regeneratorRuntime.wrap(function _callee3$(_context3) {
-  					while (1) {
-  						switch (_context3.prev = _context3.next) {
-  							case 0:
-  								data = !normalEmbed ? {
-  									user: match[2],
-  									repo: match[3]
-  								} : {
-  									user: match[1],
-  									repo: match[2]
-  								};
-
-  								if (data.repo) {
-  									_context3.next = 3;
-  									break;
-  								}
-
-  								return _context3.abrupt('return');
-
-  							case 3:
-  								_context3.next = 5;
-  								return Github.fetchRepo(data);
-
-  							case 5:
-  								response = _context3.sent;
-  								return _context3.abrupt('return', Github.template(response, _this.options));
-
-  							case 7:
-  							case 'end':
-  								return _context3.stop();
-  						}
-  					}
-  				}, _callee3, this);
-  			}));
-  			return function urlToText(_x2, _x3, _x4, _x5) {
-  				return ref.apply(this, arguments);
-  			};
-  		}()
-  	}]);
-  	return Github;
-  }();
-
-  var Vimeo = function () {
-      function Vimeo(input, output, options, embeds) {
-          babelHelpers.classCallCheck(this, Vimeo);
-
-          this.input = input;
-          this.output = output;
-          this.options = options;
-          this.embeds = embeds;
-          this.regex = /https?:\/\/(?:www\.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/([^\/]*)\/videos\/|album\/(\d+)\/video\/|)(\d+)(?:$|\/|\?)*/gi;
-          this.service = 'vimeo';
-      }
-
-      babelHelpers.createClass(Vimeo, [{
-          key: 'data',
-          value: function () {
-              var ref = babelHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee(id) {
-                  var url, response, data;
-                  return regeneratorRuntime.wrap(function _callee$(_context) {
-                      while (1) {
-                          switch (_context.prev = _context.next) {
-                              case 0:
-                                  _context.prev = 0;
-                                  url = 'https://vimeo.com/api/v2/video/' + id + '.json';
-                                  _context.next = 4;
-                                  return fetch(url);
-
-                              case 4:
-                                  response = _context.sent;
-                                  _context.next = 7;
-                                  return response.json();
-
-                              case 7:
-                                  data = _context.sent;
-                                  return _context.abrupt('return', data[0]);
-
-                              case 11:
-                                  _context.prev = 11;
-                                  _context.t0 = _context['catch'](0);
-
-                                  console.log(_context.t0);
-
-                              case 14:
-                              case 'end':
-                                  return _context.stop();
-                          }
-                      }
-                  }, _callee, this, [[0, 11]]);
-              }));
-              return function data(_x) {
-                  return ref.apply(this, arguments);
-              };
-          }()
-      }, {
-          key: 'process',
-          value: function () {
-              var ref = babelHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
-                  return regeneratorRuntime.wrap(function _callee2$(_context2) {
-                      while (1) {
-                          switch (_context2.prev = _context2.next) {
-                              case 0:
-                                  _context2.prev = 0;
-
-                                  if (ifInline(this.options, this.service)) {
-                                      _context2.next = 7;
-                                      break;
-                                  }
-
-                                  _context2.next = 4;
-                                  return inlineEmbed(this, Vimeo.urlToText);
-
-                              case 4:
-                                  this.output = _context2.sent;
-                                  _context2.next = 10;
-                                  break;
-
-                              case 7:
-                                  _context2.next = 9;
-                                  return normalEmbed(this, Vimeo.urlToText);
-
-                              case 9:
-                                  this.embeds = _context2.sent;
-
-                              case 10:
-                                  return _context2.abrupt('return', [this.output, this.embeds]);
-
-                              case 13:
-                                  _context2.prev = 13;
-                                  _context2.t0 = _context2['catch'](0);
-
-                                  console.log(_context2.t0);
-
-                              case 16:
-                              case 'end':
-                                  return _context2.stop();
-                          }
-                      }
-                  }, _callee2, this, [[0, 13]]);
-              }));
-              return function process() {
-                  return ref.apply(this, arguments);
-              };
-          }()
-      }], [{
-          key: 'formatData',
-          value: function formatData(data, truncate) {
-              return {
-                  title: data.title,
-                  thumbnail: data.thumbnail_medium,
-                  rawDescription: data.description.replace(/\n/g, '<br/>').replace(/&#10;/g, '<br/>'),
-                  views: data.stats_number_of_plays,
-                  likes: data.stats_number_of_likes,
-                  description: truncate(data.description.replace(/((<|&lt;)br\s*\/*(>|&gt;)\r\n)/g, ' '), 150),
-                  url: data.url,
-                  id: data.id,
-                  host: 'vimeo'
-              };
-          }
-      }, {
-          key: 'urlToText',
-          value: function () {
-              var ref = babelHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee3(_this, match, url, normalEmbed) {
-                  var id, embedUrl, data;
-                  return regeneratorRuntime.wrap(function _callee3$(_context3) {
-                      while (1) {
-                          switch (_context3.prev = _context3.next) {
-                              case 0:
-                                  id = undefined;
-
-                                  if (!normalEmbed) {
-                                      id = _this.options.link ? match[0].slice(0, -4).split('/').slice(-1).pop() : match[0].split('/').slice(-1).pop();
-                                  } else {
-                                      id = match[3];
-                                  }
-
-                                  if (id) {
-                                      _context3.next = 4;
-                                      break;
-                                  }
-
-                                  return _context3.abrupt('return');
-
-                              case 4:
-                                  embedUrl = 'https://player.vimeo.com/video/' + id;
-                                  data = undefined;
-
-                                  if (!_this.options.videoDetails) {
-                                      _context3.next = 13;
-                                      break;
-                                  }
-
-                                  _context3.next = 9;
-                                  return _this.data(id);
-
-                              case 9:
-                                  data = _context3.sent;
-                                  return _context3.abrupt('return', getDetailsTemplate(Vimeo.formatData(data, truncate), data, embedUrl, _this.options));
-
-                              case 13:
-                                  return _context3.abrupt('return', template(embedUrl, _this.options));
-
-                              case 14:
-                              case 'end':
-                                  return _context3.stop();
-                          }
-                      }
-                  }, _callee3, this);
-              }));
-              return function urlToText(_x2, _x3, _x4, _x5) {
-                  return ref.apply(this, arguments);
-              };
-          }()
-      }]);
-      return Vimeo;
-  }();
-
-  var Youtube = function () {
-  	function Youtube(input, output, options, embeds) {
-  		babelHelpers.classCallCheck(this, Youtube);
-
-  		this.input = input;
-  		this.output = output;
-  		this.options = options;
-  		this.embeds = embeds;
-  		this.regex = /https?:\/\/(?:[0-9A-Z-]+\.)?(?:youtu\.be\/|youtube\.com(?:\/embed\/|\/v\/|\/watch\?v=|\/ytscreeningroom\?v=|\/feeds\/api\/videos\/|\/user\S*[^\w\-\s]|\S*[^\w\-\s]))([\w\-]{11})[?=&+%\w-]*/gi;
-  		this.service = 'youtube';
-  	}
-
-  	babelHelpers.createClass(Youtube, [{
-  		key: 'data',
-  		value: function () {
-  			var ref = babelHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee(id) {
-  				var url, response, data;
-  				return regeneratorRuntime.wrap(function _callee$(_context) {
-  					while (1) {
-  						switch (_context.prev = _context.next) {
-  							case 0:
-  								_context.prev = 0;
-  								url = 'https://www.googleapis.com/youtube/v3/videos?id=' + id + '&key=' + this.options.googleAuthKey + '&part=snippet,statistics';
-  								_context.next = 4;
-  								return fetch(url);
-
-  							case 4:
-  								response = _context.sent;
-  								_context.next = 7;
-  								return response.json();
-
-  							case 7:
-  								data = _context.sent;
-  								return _context.abrupt('return', data.items[0]);
-
-  							case 11:
-  								_context.prev = 11;
-  								_context.t0 = _context['catch'](0);
-
-  								console.log(_context.t0);
-
-  							case 14:
-  							case 'end':
-  								return _context.stop();
-  						}
-  					}
-  				}, _callee, this, [[0, 11]]);
-  			}));
-  			return function data(_x) {
-  				return ref.apply(this, arguments);
-  			};
-  		}()
-  	}, {
-  		key: 'process',
-  		value: function () {
-  			var ref = babelHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
-  				return regeneratorRuntime.wrap(function _callee2$(_context2) {
-  					while (1) {
-  						switch (_context2.prev = _context2.next) {
-  							case 0:
-  								_context2.prev = 0;
-
-  								if (ifInline(this.options, this.service)) {
-  									_context2.next = 7;
-  									break;
-  								}
-
-  								_context2.next = 4;
-  								return inlineEmbed(this, Youtube.urlToText);
-
-  							case 4:
-  								this.output = _context2.sent;
-  								_context2.next = 10;
-  								break;
-
-  							case 7:
-  								_context2.next = 9;
-  								return normalEmbed(this, Youtube.urlToText);
-
-  							case 9:
-  								this.embeds = _context2.sent;
-
-  							case 10:
-  								_context2.next = 15;
-  								break;
-
-  							case 12:
-  								_context2.prev = 12;
-  								_context2.t0 = _context2['catch'](0);
-
-  								console.log(_context2.t0);
-
-  							case 15:
-  								return _context2.abrupt('return', [this.output, this.embeds]);
-
-  							case 16:
-  							case 'end':
-  								return _context2.stop();
-  						}
-  					}
-  				}, _callee2, this, [[0, 12]]);
-  			}));
-  			return function process() {
-  				return ref.apply(this, arguments);
-  			};
-  		}()
-  	}], [{
-  		key: 'formatData',
-  		value: function formatData(data, truncate) {
-  			return {
-  				title: data.snippet.title,
-  				thumbnail: data.snippet.thumbnails.medium.url,
-  				rawDescription: data.snippet.description,
-  				views: data.statistics.viewCount,
-  				likes: data.statistics.likeCount,
-  				description: truncate(data.snippet.description, 150),
-  				url: 'https://www.youtube.com/watch?v=' + data.id,
-  				id: data.id,
-  				host: 'youtube'
-  			};
-  		}
-  	}, {
-  		key: 'urlToText',
-  		value: function () {
-  			var ref = babelHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee3(_this, match, url, normalEmbed) {
-  				var id, embedUrl, data;
-  				return regeneratorRuntime.wrap(function _callee3$(_context3) {
-  					while (1) {
-  						switch (_context3.prev = _context3.next) {
-  							case 0:
-  								id = normalEmbed ? match[1] : match[2];
-  								embedUrl = 'https://www.youtube.com/embed/' + id;
-  								data = undefined;
-
-  								if (!_this.options.videoDetails) {
-  									_context3.next = 10;
-  									break;
-  								}
-
-  								_context3.next = 6;
-  								return _this.data(id);
-
-  							case 6:
-  								data = _context3.sent;
-  								return _context3.abrupt('return', getDetailsTemplate(Youtube.formatData(data, truncate), data, embedUrl, _this.options));
-
-  							case 10:
-  								return _context3.abrupt('return', template(embedUrl, _this.options));
-
-  							case 11:
-  							case 'end':
-  								return _context3.stop();
-  						}
-  					}
-  				}, _callee3, this);
-  			}));
-  			return function urlToText(_x2, _x3, _x4, _x5) {
-  				return ref.apply(this, arguments);
-  			};
-  		}()
-  	}]);
-  	return Youtube;
-  }();
 
   var Vine = function (_Base) {
       babelHelpers.inherits(Vine, _Base);
@@ -3439,6 +2257,7 @@
   		this.options = options;
   		this.embeds = embeds;
   		this.service = 'opengraph';
+  		this.regex = urlRegex();
   		this.excludeRegex = new RegExp(['.mp4|.mp3|.gif|.pdf|.doc|.ppt|.docx|.jpg|.jpeg|.ogg'].concat(options.openGraphExclude).join('|'), 'gi');
   	}
 
@@ -3449,128 +2268,36 @@
   		}
   	}, {
   		key: 'fetchData',
-  		value: function () {
-  			var ref = babelHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee(url) {
-  				var api, response, data;
-  				return regeneratorRuntime.wrap(function _callee$(_context) {
-  					while (1) {
-  						switch (_context.prev = _context.next) {
-  							case 0:
-  								_context.prev = 0;
+  		value: function fetchData(url) {
+  			var _this2 = this;
 
-  								url = encodeURIComponent(url);
-  								api = new Function('url', 'return `' + this.options.openGraphEndpoint + '`')(url);
-  								_context.next = 5;
-  								return fetch(api);
-
-  							case 5:
-  								response = _context.sent;
-  								_context.next = 8;
-  								return response.json();
-
-  							case 8:
-  								data = _context.sent;
-  								return _context.abrupt('return', this.options.onOpenGraphFetch(data) || data);
-
-  							case 12:
-  								_context.prev = 12;
-  								_context.t0 = _context['catch'](0);
-
-  								this.options.onOpenGraphFail(_context.t0);
-
-  							case 15:
-  							case 'end':
-  								return _context.stop();
-  						}
-  					}
-  				}, _callee, this, [[0, 12]]);
-  			}));
-  			return function fetchData(_x) {
-  				return ref.apply(this, arguments);
-  			};
-  		}()
+  			url = encodeURIComponent(url);
+  			var api = new Function('url', 'return `' + this.options.openGraphEndpoint + '`')(url);
+  			return new Promise(function (resolve) {
+  				fetch(api).then(function (res) {
+  					return res.json();
+  				}).then(function (json) {
+  					return resolve(_this2.options.onOpenGraphFetch(json) || json);
+  				});
+  			});
+  		}
   	}, {
   		key: 'process',
-  		value: function () {
-  			var ref = babelHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
-  				var match, url, _data, template;
+  		value: function process() {
+  			var _this3 = this;
 
-  				return regeneratorRuntime.wrap(function _callee2$(_context2) {
-  					while (1) {
-  						switch (_context2.prev = _context2.next) {
-  							case 0:
-  								_context2.prev = 0;
-  								match = undefined;
-
-  								this.regex = urlRegex();
-
-  								if (ifInline(this.options, this.service)) {
-  									_context2.next = 9;
-  									break;
-  								}
-
-  								_context2.next = 6;
-  								return inlineEmbed(this, OpenGraph.urlToText);
-
-  							case 6:
-  								this.output = _context2.sent;
-  								_context2.next = 19;
-  								break;
-
-  							case 9:
-  								if (!((match = matches(this.regex, this.input)) !== null)) {
-  									_context2.next = 19;
-  									break;
-  								}
-
-  								url = match[0];
-
-  								if (OpenGraph.ifProcessOGC(url, this.excludeRegex)) {
-  									_context2.next = 13;
-  									break;
-  								}
-
-  								return _context2.abrupt('continue', 9);
-
-  							case 13:
-  								_context2.next = 15;
-  								return this.fetchData(url);
-
-  							case 15:
-  								_data = _context2.sent;
-
-  								if (_data && _data.success) {
-  									template = this.template(_data);
-
-  									this.embeds.push({
-  										text: template,
-  										index: match.index
-  									});
-  									this.options.served.push(url);
-  								}
-  								_context2.next = 9;
-  								break;
-
-  							case 19:
-  								return _context2.abrupt('return', [this.output, this.embeds]);
-
-  							case 22:
-  								_context2.prev = 22;
-  								_context2.t0 = _context2['catch'](0);
-
-  								console.log(_context2.t0);
-
-  							case 25:
-  							case 'end':
-  								return _context2.stop();
-  						}
-  					}
-  				}, _callee2, this, [[0, 22]]);
-  			}));
-  			return function process() {
-  				return ref.apply(this, arguments);
-  			};
-  		}()
+  			return new Promise(function (resolve) {
+  				if (!ifInline(_this3.options, _this3.service)) {
+  					inlineEmbed(_this3, OpenGraph.urlToText).then(function (output) {
+  						resolve([output, _this3.embeds]);
+  					});
+  				} else {
+  					normalEmbed(_this3, OpenGraph.urlToText).then(function (embeds) {
+  						resolve([_this3.output, embeds]);
+  					});
+  				}
+  			});
+  		}
   	}], [{
   		key: 'ifProcessOGC',
   		value: function ifProcessOGC(url, excludeRegex) {
@@ -3578,39 +2305,15 @@
   		}
   	}, {
   		key: 'urlToText',
-  		value: function () {
-  			var ref = babelHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee3(_this, match, url) {
-  				var data;
-  				return regeneratorRuntime.wrap(function _callee3$(_context3) {
-  					while (1) {
-  						switch (_context3.prev = _context3.next) {
-  							case 0:
-  								if (OpenGraph.ifProcessOGC(url, _this.excludeRegex)) {
-  									_context3.next = 2;
-  									break;
-  								}
+  		value: function urlToText(_this, match, url) {
+  			if (!OpenGraph.ifProcessOGC(url, _this.excludeRegex)) return;
 
-  								return _context3.abrupt('return');
-
-  							case 2:
-  								_context3.next = 4;
-  								return _this.fetchData(url);
-
-  							case 4:
-  								data = _context3.sent;
-  								return _context3.abrupt('return', data && data.success ? _this.template(data) : null);
-
-  							case 6:
-  							case 'end':
-  								return _context3.stop();
-  						}
-  					}
-  				}, _callee3, this);
-  			}));
-  			return function urlToText(_x2, _x3, _x4) {
-  				return ref.apply(this, arguments);
-  			};
-  		}()
+  			return new Promise(function (resolve) {
+  				_this.fetchData(url).then(function (data) {
+  					return resolve(data && data.success ? _this.template(data) : null);
+  				});
+  			});
+  		}
   	}]);
   	return OpenGraph;
   }();
@@ -3644,77 +2347,77 @@
   var globalOptions = {};
 
   var defaultOptions = {
-  	marked: false,
-  	markedOptions: {},
-  	link: true,
-  	linkOptions: {
-  		target: 'self',
-  		exclude: ['pdf'],
-  		rel: ''
-  	},
-  	emoji: true,
-  	customEmoji: [],
-  	fontIcons: true,
-  	customFontIcons: [],
-  	highlightCode: false,
-  	videoJS: false,
-  	videojsOptions: {
-  		fluid: true,
-  		preload: 'metadata'
-  	},
-  	locationEmbed: true,
-  	mapOptions: {
-  		mode: 'place'
-  	},
-  	tweetsEmbed: false,
-  	tweetOptions: {
-  		maxWidth: 550,
-  		hideMedia: false,
-  		hideThread: false,
-  		align: 'none',
-  		lang: 'en'
-  	},
-  	openGraphEndpoint: null,
-  	openGraphExclude: [],
-  	videoEmbed: true,
-  	videoHeight: null,
-  	videoWidth: null,
-  	videoDetails: true,
-  	audioEmbed: true,
-  	excludeEmbed: [],
-  	inlineEmbed: [],
-  	inlineText: true,
-  	codeEmbedHeight: 500,
-  	vineOptions: {
-  		maxWidth: null,
-  		type: 'postcard', //'postcard' or 'simple' embedding
-  		responsive: true,
-  		width: 350,
-  		height: 460
-  	},
-  	googleAuthKey: '',
-  	soundCloudOptions: {
-  		height: 160,
-  		themeColor: 'f50000', //Hex Code of the player theme color
-  		autoPlay: false,
-  		hideRelated: false,
-  		showComments: true,
-  		showUser: true,
-  		showReposts: false,
-  		visual: false, //Show/hide the big preview image
-  		download: false //Show/Hide download buttons
-  	},
-  	videoClickClass: 'ejs-video-thumb',
-  	customVideoClickHandler: false,
-  	beforeEmbedJSApply: function beforeEmbedJSApply() {},
-  	afterEmbedJSApply: function afterEmbedJSApply() {},
-  	onVideoShow: function onVideoShow() {},
-  	onTweetsLoad: function onTweetsLoad() {},
-  	videojsCallback: function videojsCallback() {},
-  	onOpenGraphFetch: function onOpenGraphFetch() {},
-  	onOpenGraphFail: function onOpenGraphFail() {},
-  	videoClickHandler: function videoClickHandler() {},
-  	served: [] //Private variable used to store processed urls so that they are not processed multiple times.
+      marked: false,
+      markedOptions: {},
+      link: true,
+      linkOptions: {
+          target: 'self',
+          exclude: ['pdf'],
+          rel: ''
+      },
+      emoji: true,
+      customEmoji: [],
+      fontIcons: true,
+      customFontIcons: [],
+      highlightCode: false,
+      videoJS: false,
+      videojsOptions: {
+          fluid: true,
+          preload: 'metadata'
+      },
+      locationEmbed: true,
+      mapOptions: {
+          mode: 'place'
+      },
+      tweetsEmbed: false,
+      tweetOptions: {
+          maxWidth: 550,
+          hideMedia: false,
+          hideThread: false,
+          align: 'none',
+          lang: 'en'
+      },
+      openGraphEndpoint: null,
+      openGraphExclude: [],
+      videoEmbed: true,
+      videoHeight: null,
+      videoWidth: null,
+      videoDetails: true,
+      audioEmbed: true,
+      excludeEmbed: [],
+      inlineEmbed: [],
+      inlineText: true,
+      codeEmbedHeight: 500,
+      vineOptions: {
+          maxWidth: null,
+          type: 'postcard', //'postcard' or 'simple' embedding
+          responsive: true,
+          width: 350,
+          height: 460
+      },
+      googleAuthKey: '',
+      soundCloudOptions: {
+          height: 160,
+          themeColor: 'f50000', //Hex Code of the player theme color
+          autoPlay: false,
+          hideRelated: false,
+          showComments: true,
+          showUser: true,
+          showReposts: false,
+          visual: false, //Show/hide the big preview image
+          download: false //Show/Hide download buttons
+      },
+      videoClickClass: 'ejs-video-thumb',
+      customVideoClickHandler: false,
+      beforeEmbedJSApply: function beforeEmbedJSApply() {},
+      afterEmbedJSApply: function afterEmbedJSApply() {},
+      onVideoShow: function onVideoShow() {},
+      onTweetsLoad: function onTweetsLoad() {},
+      videojsCallback: function videojsCallback() {},
+      onOpenGraphFetch: function onOpenGraphFetch() {},
+      onOpenGraphFail: function onOpenGraphFail() {},
+      videoClickHandler: function videoClickHandler() {},
+      served: [] //Private variable used to store processed urls so that they are not processed multiple times.
   };
 
   var instances = [];
@@ -3722,546 +2425,467 @@
   var promises = [];
 
   var EmbedJS = function () {
-  	/**
-    * The constructor takes two arguements. The first one is the options object and the second one is the
-    * optional string . If the user wants to provide a string directly instead of the element, he can do that.
-    * In case the user provides both the input element and the string, the input string will be taken from the element
-    * and the provided string won't be processed.
-    *
-    * @param  {object} options The options object
-    * @param  {string} input   [optional] The string to be processed
-    * @return {null}
-    */
-
-  	function EmbedJS(options, template) {
-  		babelHelpers.classCallCheck(this, EmbedJS);
-
-  		/**
-     * We have created a clone of the original options to make sure that the original object
-     * isn't altered.
-     */
-  		var defOpts = cloneObject(defaultOptions);
-  		var globOpts = cloneObject(globalOptions);
-
-  		//merge global options with the default options
-  		var globOptions = deepExtend(defOpts, globOpts);
-
-  		//deepExtend global options with the overriding options provided by the user as an options
-  		//object while creating a new instance of embed.js
-  		this.options = deepExtend(globOptions, options);
-
-  		this.options.template = template || new Renderer();
-
-  		if (!this.options.input || !(typeof this.options.input === 'string' || babelHelpers.typeof(this.options.input) === 'object')) throw ReferenceError("You need to pass an element or the string that needs to be processed");
-
-  		this.input = babelHelpers.typeof(this.options.input) === 'object' ? this.options.input.innerHTML : this.options.input;
-  	}
-
-  	/**
-    * Processes the string and performs all the insertions and manipulations based on
-    * the options and the input provided by the user. This is an asynchronous function using the async/await
-    * feature of ES7 and this returns a promise which is resolved once the result data is ready
-    * @return {string} The processes resulting string
-    */
-
-  	babelHelpers.createClass(EmbedJS, [{
-  		key: 'process',
-  		value: function () {
-  			var ref = babelHelpers.asyncToGenerator(regeneratorRuntime$1.mark(function _callee() {
-  				var input, options, embeds, output, _ref, _ref2, _process, _process2, _process3, _process4, _process5, _process6, _process7, _process8, _process9, _process10, _process11, _process12, _process13, _process14, _process15, _process16, _process17, _process18, _process19, _process20, _process21, _process22, _process23, _process24, _ref3, _ref4, _ref5, _ref6, _ref7, _ref8, _ref9, _ref10, _process25, _process26, _process27, _process28, _process29, _process30, _process31, _process32, _process33, _process34, _ref11, _ref12, _process35, _process36, _ref13, _ref14;
-
-  				return regeneratorRuntime$1.wrap(function _callee$(_context) {
-  					while (1) {
-  						switch (_context.prev = _context.next) {
-  							case 0:
-  								input = this.input;
-  								options = this.options;
-  								embeds = [];
-  								output = '';
-
-  								this.options.beforeEmbedJSApply();
-
-  								if (true && options.link) {
-  									output = new Url(input, options).process();
-  								}
-
-  								if (!(true && options.openGraphEndpoint)) {
-  									_context.next = 13;
-  									break;
-  								}
-
-  								_context.next = 9;
-  								return new OpenGraph(input, output, options, embeds).process();
-
-  							case 9:
-  								_ref = _context.sent;
-  								_ref2 = babelHelpers.slicedToArray(_ref, 2);
-  								output = _ref2[0];
-  								embeds = _ref2[1];
-
-  							case 13:
-  								if (true && options.marked) {
-  									output = new Markdown(output, options).process();
-  								}
-  								if (true && options.emoji) {
-  									output = new Emoji(output, options).process();
-  								}
-  								if (true && options.fontIcons) {
-  									output = new Smiley(output, options).process();
-  								}
-
-  								if (true && options.highlightCode && !options.marked) {
-  									output = new Highlight(output, options).process();
-  								}
-  								if (true && ifEmbed(options, 'ideone')) {
-  									_process = new Ideone(input, output, options, embeds).process();
-  									_process2 = babelHelpers.slicedToArray(_process, 2);
-  									output = _process2[0];
-  									embeds = _process2[1];
-  								}
-  								if (true && ifEmbed(options, 'plunker')) {
-  									_process3 = new Plunker(input, output, options, embeds).process();
-  									_process4 = babelHelpers.slicedToArray(_process3, 2);
-  									output = _process4[0];
-  									embeds = _process4[1];
-  								}
-  								if (true && ifEmbed(options, 'jsbin')) {
-  									_process5 = new JsBin(input, output, options, embeds).process();
-  									_process6 = babelHelpers.slicedToArray(_process5, 2);
-  									output = _process6[0];
-  									embeds = _process6[1];
-  								}
-  								if (true && ifEmbed(options, 'codepen')) {
-  									_process7 = new CodePen(input, output, options, embeds).process();
-  									_process8 = babelHelpers.slicedToArray(_process7, 2);
-  									output = _process8[0];
-  									embeds = _process8[1];
-  								}
-  								if (true && ifEmbed(options, 'jsfiddle')) {
-  									_process9 = new JsFiddle(input, output, options, embeds).process();
-  									_process10 = babelHelpers.slicedToArray(_process9, 2);
-  									output = _process10[0];
-  									embeds = _process10[1];
-  								}
-  								if (true && ifEmbed(options, 'gist')) {
-  									_process11 = new Gist(input, output, options, embeds).process();
-  									_process12 = babelHelpers.slicedToArray(_process11, 2);
-  									output = _process12[0];
-  									embeds = _process12[1];
-  								}
-
-  								if (true && ifEmbed(options, 'ted')) {
-  									_process13 = new Ted(input, output, options, embeds).process();
-  									_process14 = babelHelpers.slicedToArray(_process13, 2);
-  									output = _process14[0];
-  									embeds = _process14[1];
-  								}
-  								if (true && ifEmbed(options, 'dailymotion')) {
-  									_process15 = new Dailymotion(input, output, options, embeds).process();
-  									_process16 = babelHelpers.slicedToArray(_process15, 2);
-  									output = _process16[0];
-  									embeds = _process16[1];
-  								}
-  								if (true && ifEmbed(options, 'ustream')) {
-  									_process17 = new Ustream(input, output, options, embeds).process();
-  									_process18 = babelHelpers.slicedToArray(_process17, 2);
-  									output = _process18[0];
-  									embeds = _process18[1];
-  								}
-  								if (true && ifEmbed(options, 'liveleak')) {
-  									_process19 = new LiveLeak(input, output, options, embeds).process();
-  									_process20 = babelHelpers.slicedToArray(_process19, 2);
-  									output = _process20[0];
-  									embeds = _process20[1];
-  								}
-  								if (true && options.videoEmbed) {
-  									_process21 = new BasicVideo(input, output, options, embeds).process();
-  									_process22 = babelHelpers.slicedToArray(_process21, 2);
-  									output = _process22[0];
-  									embeds = _process22[1];
-  								}
-  								if (true && ifEmbed(options, 'vine')) {
-  									_process23 = new Vine(input, output, options, embeds).process();
-  									_process24 = babelHelpers.slicedToArray(_process23, 2);
-  									output = _process24[0];
-  									embeds = _process24[1];
-  								}
-
-  								if (!(true && ifEmbed(options, 'youtube') && regeneratorRuntime$1)) {
-  									_context.next = 36;
-  									break;
-  								}
-
-  								_context.next = 32;
-  								return new Youtube(input, output, options, embeds).process();
-
-  							case 32:
-  								_ref3 = _context.sent;
-  								_ref4 = babelHelpers.slicedToArray(_ref3, 2);
-  								output = _ref4[0];
-  								embeds = _ref4[1];
-
-  							case 36:
-  								if (!(true && ifEmbed(options, 'vimeo'))) {
-  									_context.next = 43;
-  									break;
-  								}
-
-  								_context.next = 39;
-  								return new Vimeo(input, output, options, embeds).process();
-
-  							case 39:
-  								_ref5 = _context.sent;
-  								_ref6 = babelHelpers.slicedToArray(_ref5, 2);
-  								output = _ref6[0];
-  								embeds = _ref6[1];
-
-  							case 43:
-  								if (!(true && ifEmbed(options, 'opengraph'))) {
-  									_context.next = 50;
-  									break;
-  								}
-
-  								_context.next = 46;
-  								return new Github(input, output, options, embeds).process();
-
-  							case 46:
-  								_ref7 = _context.sent;
-  								_ref8 = babelHelpers.slicedToArray(_ref7, 2);
-  								output = _ref8[0];
-  								embeds = _ref8[1];
-
-  							case 50:
-  								if (!(true && options.locationEmbed)) {
-  									_context.next = 57;
-  									break;
-  								}
-
-  								_context.next = 53;
-  								return new Gmap(input, output, options, embeds).process();
-
-  							case 53:
-  								_ref9 = _context.sent;
-  								_ref10 = babelHelpers.slicedToArray(_ref9, 2);
-  								output = _ref10[0];
-  								embeds = _ref10[1];
-
-  							case 57:
-
-  								if (true && ifEmbed(options, 'soundcloud')) {
-  									_process25 = new SoundCloud(input, output, options, embeds).process();
-  									_process26 = babelHelpers.slicedToArray(_process25, 2);
-  									output = _process26[0];
-  									embeds = _process26[1];
-  								}
-  								if (true && ifEmbed(options, 'spotify')) {
-  									_process27 = new Spotify(input, output, options, embeds).process();
-  									_process28 = babelHelpers.slicedToArray(_process27, 2);
-  									output = _process28[0];
-  									embeds = _process28[1];
-  								}
-  								if (true && options.audioEmbed) {
-  									_process29 = new BasicAudio(input, output, options, embeds).process();
-  									_process30 = babelHelpers.slicedToArray(_process29, 2);
-  									output = _process30[0];
-  									embeds = _process30[1];
-  								}
-
-  								if (true && ifEmbed(options, 'flickr')) {
-  									_process31 = new Flickr(input, output, options, embeds).process();
-  									_process32 = babelHelpers.slicedToArray(_process31, 2);
-  									output = _process32[0];
-  									embeds = _process32[1];
-  								}
-  								if (true && ifEmbed(options, 'instagram')) {
-  									_process33 = new Instagram(input, output, options, embeds).process();
-  									_process34 = babelHelpers.slicedToArray(_process33, 2);
-  									output = _process34[0];
-  									embeds = _process34[1];
-  								}
-
-  								if (!(true && ifEmbed(options, 'slideshare'))) {
-  									_context.next = 69;
-  									break;
-  								}
-
-  								_context.next = 65;
-  								return new SlideShare(input, output, options, embeds).process();
-
-  							case 65:
-  								_ref11 = _context.sent;
-  								_ref12 = babelHelpers.slicedToArray(_ref11, 2);
-  								output = _ref12[0];
-  								embeds = _ref12[1];
-
-  							case 69:
-  								if (true && options.imageEmbed) {
-  									_process35 = new Basic(input, output, options, embeds).process();
-  									_process36 = babelHelpers.slicedToArray(_process35, 2);
-  									output = _process36[0];
-  									embeds = _process36[1];
-  								}
-
-  								if (!(options.tweetsEmbed && true)) {
-  									_context.next = 78;
-  									break;
-  								}
-
-  								this.twitter = new Twitter(input, output, options, embeds);
-  								_context.next = 74;
-  								return this.twitter.process();
-
-  							case 74:
-  								_ref13 = _context.sent;
-  								_ref14 = babelHelpers.slicedToArray(_ref13, 2);
-  								output = _ref14[0];
-  								embeds = _ref14[1];
-
-  							case 78:
-
-  								this.data = {
-  									input: options.input,
-  									output: output,
-  									options: options,
-  									inputString: this.input,
-  									/**
-           		TODO:
-           	- Restructure served urls structure with services name
-           	 */
-
-  									services: options.served,
-  									template: options.template
-  								};
-
-  								return _context.abrupt('return', createText(output, embeds));
-
-  							case 80:
-  							case 'end':
-  								return _context.stop();
-  						}
-  					}
-  				}, _callee, this);
-  			}));
-  			return function process() {
-  				return ref.apply(this, arguments);
-  			};
-  		}()
-
-  		/**
-     * First processes the data by calling the .process() and then renders the data in the div
-     * => Loads the twitter widgets
-     * => Executes the onTweetsLoad() once all the tweets have been rendered
-     * => Applies video.js on the media (both audio and video)
-     * => Triggers video loading on click of the video preview
-     * => Executes afterEmbedJSApply() once everything is done.
-     *
-     * @return null
-     */
-
-  	}, {
-  		key: 'render',
-  		value: function () {
-  			var ref = babelHelpers.asyncToGenerator(regeneratorRuntime$1.mark(function _callee2() {
-  				var _this = this;
-
-  				var event;
-  				return regeneratorRuntime$1.wrap(function _callee2$(_context2) {
-  					while (1) {
-  						switch (_context2.prev = _context2.next) {
-  							case 0:
-  								if (!(typeof this.options.input === 'string')) {
-  									_context2.next = 2;
-  									break;
-  								}
-
-  								throw new Error('You cannot call render method for a string');
-
-  							case 2:
-  								if (this.options.input) {
-  									_context2.next = 4;
-  									break;
-  								}
-
-  								throw new Error('You didn\'t pass an element while creating this instance. render() method can\'t work without an input element');
-
-  							case 4:
-  								_context2.next = 6;
-  								return this.process();
-
-  							case 6:
-  								this.options.input.innerHTML = _context2.sent;
-
-  								applyVideoJS(this.options);
-
-  								playVideo(this.options);
-
-  								event = new Event('rendered');
-
-  								this.options.input.dispatchEvent(event);
-
-  								this.options.afterEmbedJSApply();
-
-  								return _context2.abrupt('return', new Promise(function (resolve, reject) {
-  									return _this.data.output ? resolve(_this.data) : reject('error');
-  								}));
-
-  							case 13:
-  							case 'end':
-  								return _context2.stop();
-  						}
-  					}
-  				}, _callee2, this);
-  			}));
-  			return function render() {
-  				return ref.apply(this, arguments);
-  			};
-  		}()
-
-  		/**
-     * returns the resulting string based on the input and the options passed by the user.
-     * @param  {Function} callback Function that is executed once the data is ready
-     * @return null
-     */
-
-  	}, {
-  		key: 'text',
-  		value: function () {
-  			var ref = babelHelpers.asyncToGenerator(regeneratorRuntime$1.mark(function _callee3() {
-  				var _this2 = this;
-
-  				var result;
-  				return regeneratorRuntime$1.wrap(function _callee3$(_context3) {
-  					while (1) {
-  						switch (_context3.prev = _context3.next) {
-  							case 0:
-  								_context3.next = 2;
-  								return this.process();
-
-  							case 2:
-  								result = _context3.sent;
-  								return _context3.abrupt('return', new Promise(function (resolve, reject) {
-  									return result ? resolve(_this2.data) : reject('error');
-  								}));
-
-  							case 4:
-  							case 'end':
-  								return _context3.stop();
-  						}
-  					}
-  				}, _callee3, this);
-  			}));
-  			return function text() {
-  				return ref.apply(this, arguments);
-  			};
-  		}()
-
-  		/**
-     * The destroy method destroys all the listeners and replaces the rih text with the original text in the
-     * element.
-     * @return {null}
-     */
-
-  	}, {
-  		key: 'destroy',
-  		value: function destroy() {
-  			if (!this.element) throw new Error('destroy() method only if an element had been passed in the options object');
-  			destroyVideos('ejs-video-thumb');
-  			this.element.removeEventListener('rendered', this.twitter.load(), false);
-  			this.element.innerHTML = this.input;
-  		}
-
-  		/**
-     * Sets options globally
-     * @param {object} options
-     */
-
-  	}], [{
-  		key: 'setOptions',
-  		value: function setOptions(options) {
-  			globalOptions = deepExtend(defaultOptions, options);
-  		}
-
-  		/**
-     * Applies embed.js to all the elements with the class name provided as option
-     * @param  {string} className
-     * @return {null}
-     */
-
-  	}, {
-  		key: 'applyEmbedJS',
-  		value: function applyEmbedJS(selectorName) {
-  			var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
-  			var template = arguments.length <= 2 || arguments[2] === undefined ? new Renderer() : arguments[2];
-
-  			var elements = document.querySelectorAll(selectorName);
-  			for (var i = 0; i < elements.length; i++) {
-  				options.input = elements[i];
-  				instances[i] = new EmbedJS(options, template);
-  				promises[i] = instances[i].render();
-  			}
-  			return new Promise(function (resolve) {
-  				Promise.all(promises).then(function (val) {
-  					resolve(val);
-  				});
-  			});
-  		}
-
-  		/**
-     * Destroys all the instances of EmbedJS created by using applyEmbedJS() method.
-     * @return {null}
-     */
-
-  	}, {
-  		key: 'destroyEmbedJS',
-  		value: function destroyEmbedJS() {
-  			for (var i = 0; i < instances.length; i++) {
-  				instances[i].destroy();
-  			}
-  		}
-
-  		/**
-     * Destroys all instances of EmbedJS on the page
-     * @return {null}
-     */
-
-  	}, {
-  		key: 'destroyAll',
-  		value: function destroyAll() {
-  			for (var i = 0; i < allInstances.length; i++) {
-  				allInstances[i].destroy();
-  			}
-  		}
-
-  		/**
-     * Creates a new instance of the Template constructor. This has been done so that multiple
-     * templates of a single service can be used by creating different instances of the Template.
-     *
-     * The usage of the plugin is described below.
-     *
-     * => Create a new Instance of the template by using .Template() method of EmbedJS.
-     *
-     * 		var template = EmbedJS.Template()
-     *
-     * => Now create different templates for different service names.
-     *
-     * 		template.url = function(match, options){
-     * 			return '<a href=" + match + "> + match + </a>'
-     * 		}
-     *
-     * 		template.instagram = function(match, dimensions, options){
-     * 			var config = options.soundCloudOptions;
-     * 			return `<div class="ejs-embed ejs-instagram"><iframe src="${toUrl(match.split('/?')[0])}/embed/" height="${dimensions.height}"></iframe></div>`;
-     * 		}
-     *
-     */
-
-  	}, {
-  		key: 'Template',
-  		value: function Template() {
-  			return new Renderer();
-  		}
-  	}]);
-  	return EmbedJS;
+      /**
+       * The constructor takes two arguements. The first one is the options object and the second one is the
+       * optional string . If the user wants to provide a string directly instead of the element, he can do that.
+       * In case the user provides both the input element and the string, the input string will be taken from the element
+       * and the provided string won't be processed.
+       *
+       * @param  {object} options The options object
+       * @param  {string} input   [optional] The string to be processed
+       * @return {null}
+       */
+
+      function EmbedJS(options, template) {
+          babelHelpers.classCallCheck(this, EmbedJS);
+
+          /**
+           * We have created a clone of the original options to make sure that the original object
+           * isn't altered.
+           */
+          var defOpts = cloneObject(defaultOptions);
+          var globOpts = cloneObject(globalOptions);
+
+          //merge global options with the default options
+          var globOptions = deepExtend(defOpts, globOpts);
+
+          //deepExtend global options with the overriding options provided by the user as an options
+          //object while creating a new instance of embed.js
+          this.options = deepExtend(globOptions, options);
+
+          this.options.template = template || new Renderer();
+
+          if (!this.options.input || !(typeof this.options.input === 'string' || babelHelpers.typeof(this.options.input) === 'object')) throw ReferenceError("You need to pass an element or the string that needs to be processed");
+
+          this.input = babelHelpers.typeof(this.options.input) === 'object' ? this.options.input.innerHTML : this.options.input;
+      }
+
+      /**
+       * Processes the string and performs all the insertions and manipulations based on
+       * the options and the input provided by the user. This is an asynchronous function using the async/await
+       * feature of ES7 and this returns a promise which is resolved once the result data is ready
+       * @return {string} The processes resulting string
+       */
+
+      babelHelpers.createClass(EmbedJS, [{
+          key: 'process',
+          value: function process() {
+              var _this = this;
+
+              var input = this.input;
+              var options = this.options;
+              var embeds = [];
+              var output = '';
+
+              this.options.beforeEmbedJSApply();
+
+              return new Promise(function (resolve) {
+                  if (options.link) {
+                      output = new Url(input, options).process();
+                  }
+
+                  var openGraphPromise = true && options.openGraphEndpoint ? new OpenGraph(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
+
+                  openGraphPromise.then(function (_ref) {
+                      var _ref2 = babelHelpers.slicedToArray(_ref, 2);
+
+                      var output = _ref2[0];
+                      var embeds = _ref2[1];
+
+                      if (true && options.marked) {
+                          output = new Markdown(output, options).process();
+                      }
+                      if (true && options.emoji) {
+                          output = new Emoji(output, options).process();
+                      }
+                      if (true && options.fontIcons) {
+                          output = new Smiley(output, options).process();
+                      }
+
+                      if (true && options.highlightCode && !options.marked) {
+                          output = new Highlight(output, options).process();
+                      }
+                      if (true && ifEmbed(options, 'ideone')) {
+                          var _process = new Ideone(input, output, options, embeds).process();
+
+                          var _process2 = babelHelpers.slicedToArray(_process, 2);
+
+                          output = _process2[0];
+                          embeds = _process2[1];
+                      }
+                      if (true && ifEmbed(options, 'plunker')) {
+                          var _process3 = new Plunker(input, output, options, embeds).process();
+
+                          var _process4 = babelHelpers.slicedToArray(_process3, 2);
+
+                          output = _process4[0];
+                          embeds = _process4[1];
+                      }
+                      if (true && ifEmbed(options, 'jsbin')) {
+                          var _process5 = new JsBin(input, output, options, embeds).process();
+
+                          var _process6 = babelHelpers.slicedToArray(_process5, 2);
+
+                          output = _process6[0];
+                          embeds = _process6[1];
+                      }
+                      if (true && ifEmbed(options, 'codepen')) {
+                          var _process7 = new CodePen(input, output, options, embeds).process();
+
+                          var _process8 = babelHelpers.slicedToArray(_process7, 2);
+
+                          output = _process8[0];
+                          embeds = _process8[1];
+                      }
+                      if (true && ifEmbed(options, 'jsfiddle')) {
+                          var _process9 = new JsFiddle(input, output, options, embeds).process();
+
+                          var _process10 = babelHelpers.slicedToArray(_process9, 2);
+
+                          output = _process10[0];
+                          embeds = _process10[1];
+                      }
+                      if (true && ifEmbed(options, 'gist')) {
+                          var _process11 = new Gist(input, output, options, embeds).process();
+
+                          var _process12 = babelHelpers.slicedToArray(_process11, 2);
+
+                          output = _process12[0];
+                          embeds = _process12[1];
+                      }
+
+                      if (true && ifEmbed(options, 'ted')) {
+                          var _process13 = new Ted(input, output, options, embeds).process();
+
+                          var _process14 = babelHelpers.slicedToArray(_process13, 2);
+
+                          output = _process14[0];
+                          embeds = _process14[1];
+                      }
+                      if (true && ifEmbed(options, 'dailymotion')) {
+                          var _process15 = new Dailymotion(input, output, options, embeds).process();
+
+                          var _process16 = babelHelpers.slicedToArray(_process15, 2);
+
+                          output = _process16[0];
+                          embeds = _process16[1];
+                      }
+                      if (true && ifEmbed(options, 'ustream')) {
+                          var _process17 = new Ustream(input, output, options, embeds).process();
+
+                          var _process18 = babelHelpers.slicedToArray(_process17, 2);
+
+                          output = _process18[0];
+                          embeds = _process18[1];
+                      }
+                      if (true && ifEmbed(options, 'liveleak')) {
+                          var _process19 = new LiveLeak(input, output, options, embeds).process();
+
+                          var _process20 = babelHelpers.slicedToArray(_process19, 2);
+
+                          output = _process20[0];
+                          embeds = _process20[1];
+                      }
+                      if (true && options.videoEmbed) {
+                          var _process21 = new BasicVideo(input, output, options, embeds).process();
+
+                          var _process22 = babelHelpers.slicedToArray(_process21, 2);
+
+                          output = _process22[0];
+                          embeds = _process22[1];
+                      }
+                      if (true && ifEmbed(options, 'vine')) {
+                          var _process23 = new Vine(input, output, options, embeds).process();
+
+                          var _process24 = babelHelpers.slicedToArray(_process23, 2);
+
+                          output = _process24[0];
+                          embeds = _process24[1];
+                      }
+
+                      if (true && ifEmbed(options, 'soundcloud')) {
+                          var _process25 = new SoundCloud(input, output, options, embeds).process();
+
+                          var _process26 = babelHelpers.slicedToArray(_process25, 2);
+
+                          output = _process26[0];
+                          embeds = _process26[1];
+                      }
+                      if (true && ifEmbed(options, 'spotify')) {
+                          var _process27 = new Spotify(input, output, options, embeds).process();
+
+                          var _process28 = babelHelpers.slicedToArray(_process27, 2);
+
+                          output = _process28[0];
+                          embeds = _process28[1];
+                      }
+                      if (true && options.audioEmbed) {
+                          var _process29 = new BasicAudio(input, output, options, embeds).process();
+
+                          var _process30 = babelHelpers.slicedToArray(_process29, 2);
+
+                          output = _process30[0];
+                          embeds = _process30[1];
+                      }
+
+                      if (true && ifEmbed(options, 'flickr')) {
+                          var _process31 = new Flickr(input, output, options, embeds).process();
+
+                          var _process32 = babelHelpers.slicedToArray(_process31, 2);
+
+                          output = _process32[0];
+                          embeds = _process32[1];
+                      }
+                      if (true && ifEmbed(options, 'instagram')) {
+                          var _process33 = new Instagram(input, output, options, embeds).process();
+
+                          var _process34 = babelHelpers.slicedToArray(_process33, 2);
+
+                          output = _process34[0];
+                          embeds = _process34[1];
+                      }
+                      if (true && options.imageEmbed) {
+                          var _process35 = new Basic(input, output, options, embeds).process();
+
+                          var _process36 = babelHelpers.slicedToArray(_process35, 2);
+
+                          output = _process36[0];
+                          embeds = _process36[1];
+                      }
+
+                      var youtubePromise = true && ifEmbed(options, 'youtube') ? new Youtube(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
+
+                      return youtubePromise;
+                  }).then(function (_ref3) {
+                      var _ref4 = babelHelpers.slicedToArray(_ref3, 2);
+
+                      var output = _ref4[0];
+                      var embeds = _ref4[1];
+
+                      var vimeoPromise = true && ifEmbed(options, 'vimeo') ? new Vimeo(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
+                      return vimeoPromise;
+                  }).then(function (_ref5) {
+                      var _ref6 = babelHelpers.slicedToArray(_ref5, 2);
+
+                      var output = _ref6[0];
+                      var embeds = _ref6[1];
+
+                      var githubPromise = true && ifEmbed(options, 'opengraph') ? new Github(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
+                      return githubPromise;
+                  }).then(function (_ref7) {
+                      var _ref8 = babelHelpers.slicedToArray(_ref7, 2);
+
+                      var output = _ref8[0];
+                      var embeds = _ref8[1];
+
+                      var mapPromise = true && options.locationEmbed ? new Gmap(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
+                      return mapPromise;
+                  }).then(function (_ref9) {
+                      var _ref10 = babelHelpers.slicedToArray(_ref9, 2);
+
+                      var output = _ref10[0];
+                      var embeds = _ref10[1];
+
+                      var slideSharePromise = true && ifEmbed(options, 'slideshare') ? new SlideShare(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
+                      return slideSharePromise;
+                  }).then(function (_ref11) {
+                      var _ref12 = babelHelpers.slicedToArray(_ref11, 2);
+
+                      var output = _ref12[0];
+                      var embeds = _ref12[1];
+
+                      if (options.tweetsEmbed && true) {
+                          _this.twitter = new Twitter(input, output, options, embeds);
+                          return _this.twitter.process();
+                      } else {
+                          return Promise.resolve([output, embeds]);
+                      }
+                  }).then(function (_ref13) {
+                      var _ref14 = babelHelpers.slicedToArray(_ref13, 2);
+
+                      var output = _ref14[0];
+                      var embeds = _ref14[1];
+
+                      _this.data = {
+                          input: options.input,
+                          output: output,
+                          options: options,
+                          inputString: _this.input,
+                          /**
+                           	TODO:
+                          	- Restructure served urls structure with services name
+                            */
+
+                          services: options.served,
+                          template: options.template
+                      };
+
+                      resolve(createText(output, embeds));
+                  });
+              });
+          }
+
+          /**
+           * First processes the data by calling the .process() and then renders the data in the div
+           * => Loads the twitter widgets
+           * => Executes the onTweetsLoad() once all the tweets have been rendered
+           * => Applies video.js on the media (both audio and video)
+           * => Triggers video loading on click of the video preview
+           * => Executes afterEmbedJSApply() once everything is done.
+           *
+           * @return null
+           */
+
+      }, {
+          key: 'render',
+          value: function render() {
+              var _this2 = this;
+
+              if (typeof this.options.input === 'string') throw new Error('You cannot call render method for a string');
+              if (!this.options.input) throw new Error('You didn\'t pass an element while creating this instance. render() method can\'t work without an input element');
+
+              return new Promise(function (resolve) {
+                  _this2.process().then(function (data) {
+                      _this2.options.input.innerHTML = data;
+                      applyVideoJS(_this2.options);
+
+                      playVideo(_this2.options);
+
+                      var event = new Event('rendered');
+                      _this2.options.input.dispatchEvent(event);
+
+                      _this2.options.afterEmbedJSApply();
+
+                      resolve(_this2.data);
+                  });
+              });
+          }
+
+          /**
+           * returns the resulting string based on the input and the options passed by the user.
+           * @param  {Function} callback Function that is executed once the data is ready
+           * @return null
+           */
+
+      }, {
+          key: 'text',
+          value: function text() {
+              var _this3 = this;
+
+              return new Promise(function (resolve) {
+                  _this3.process().then(function () {
+                      resolve(_this3.data);
+                  });
+              });
+          }
+
+          /**
+           * The destroy method destroys all the listeners and replaces the rih text with the original text in the
+           * element.
+           * @return {null}
+           */
+
+      }, {
+          key: 'destroy',
+          value: function destroy() {
+              if (!this.element) throw new Error('destroy() method only if an element had been passed in the options object');
+              destroyVideos('ejs-video-thumb');
+              this.element.removeEventListener('rendered', this.twitter.load(), false);
+              this.element.innerHTML = this.input;
+          }
+
+          /**
+           * Sets options globally
+           * @param {object} options
+           */
+
+      }], [{
+          key: 'setOptions',
+          value: function setOptions(options) {
+              globalOptions = deepExtend(defaultOptions, options);
+          }
+
+          /**
+           * Applies embed.js to all the elements with the class name provided as option
+           * @param  {string} className
+           * @return {null}
+           */
+
+      }, {
+          key: 'applyEmbedJS',
+          value: function applyEmbedJS(selectorName) {
+              var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+              var template = arguments.length <= 2 || arguments[2] === undefined ? new Renderer() : arguments[2];
+
+              var elements = document.querySelectorAll(selectorName);
+              for (var i = 0; i < elements.length; i++) {
+                  options.input = elements[i];
+                  instances[i] = new EmbedJS(options, template);
+                  promises[i] = instances[i].render();
+              }
+              return new Promise(function (resolve) {
+                  Promise.all(promises).then(function (val) {
+                      resolve(val);
+                  });
+              });
+          }
+
+          /**
+           * Destroys all the instances of EmbedJS created by using applyEmbedJS() method.
+           * @return {null}
+           */
+
+      }, {
+          key: 'destroyEmbedJS',
+          value: function destroyEmbedJS() {
+              for (var i = 0; i < instances.length; i++) {
+                  instances[i].destroy();
+              }
+          }
+
+          /**
+           * Destroys all instances of EmbedJS on the page
+           * @return {null}
+           */
+
+      }, {
+          key: 'destroyAll',
+          value: function destroyAll() {
+              for (var i = 0; i < allInstances.length; i++) {
+                  allInstances[i].destroy();
+              }
+          }
+
+          /**
+           * Creates a new instance of the Template constructor. This has been done so that multiple
+           * templates of a single service can be used by creating different instances of the Template.
+           *
+           * The usage of the plugin is described below.
+           *
+           * => Create a new Instance of the template by using .Template() method of EmbedJS.
+           *
+           * 		var template = EmbedJS.Template()
+           *
+           * => Now create different templates for different service names.
+           *
+           * 		template.url = function(match, options){
+           * 			return '<a href=" + match + "> + match + </a>'
+           * 		}
+           *
+           * 		template.instagram = function(match, dimensions, options){
+           * 			var config = options.soundCloudOptions;
+           * 			return `<div class="ejs-embed ejs-instagram"><iframe src="${toUrl(match.split('/?')[0])}/embed/" height="${dimensions.height}"></iframe></div>`;
+           * 		}
+           *
+           */
+
+      }, {
+          key: 'Template',
+          value: function Template() {
+              return new Renderer();
+          }
+      }]);
+      return EmbedJS;
   }();
 
   return EmbedJS;

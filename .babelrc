@@ -1,4 +1,3 @@
 {
-    presets:['es2015-rollup','stage-2'],
-    plugins:['transform-regenerator']
+    presets:['es2015-rollup']
 }

@@ -26,42 +26,39 @@ export default class Youtube {
 		}
 	}
 
-	async data(id) {
-		try {
-			let url      = `https://www.googleapis.com/youtube/v3/videos?id=${id}&key=${this.options.googleAuthKey}&part=snippet,statistics`;
-			let response = await fetch(url);
-			let data     = await response.json();
-			return data.items[0];
-		} catch (error) {
-			console.log(error);
-		}
+	data(id) {
+		let url      = `https://www.googleapis.com/youtube/v3/videos?id=${id}&key=${this.options.googleAuthKey}&part=snippet,statistics`;
+		return new Promise((resolve) => {
+			fetch(url)
+			.then((data) => data.json())
+			.then((json) => resolve(json.items[0]))
+		})
 	}
 
-	static async urlToText(_this, match, url, normalEmbed){
-		let id = normalEmbed ? match[1] : match[2];
+	static urlToText(_this, match, url, normalEmbed) {
+		let id       = normalEmbed ? match[1] : match[2];
 		let embedUrl = `https://www.youtube.com/embed/${id}`;
-		let data;
-		if (_this.options.videoDetails){
-			data = await _this.data(id);
-			return getDetailsTemplate(Youtube.formatData(data, truncate), data, embedUrl,_this.options)
+		if (_this.options.videoDetails) {
+			return new Promise((resolve) => {
+				_this.data(id).then((data) => resolve(getDetailsTemplate(Youtube.formatData(data, truncate), data, embedUrl, _this.options)))
+			})
 		} else {
-			return template(embedUrl, _this.options);
+			return new Promise((resolve) => resolve(template(embedUrl, _this.options)))
 		}
 	}
 
-	async process() {
-		try {
+	process() {
+		return new Promise((resolve) => {
 			if (!ifInline(this.options, this.service)) {
-				this.output = await inlineEmbed(this, Youtube.urlToText)
+				inlineEmbed(this, Youtube.urlToText).then((output) => {
+					resolve([output, this.embeds])
+				})
 			} else {
-				this.embeds = await normalEmbed(this, Youtube.urlToText)
+				normalEmbed(this, Youtube.urlToText).then((embeds) => {
+					resolve([this.output, embeds])
+				})
 			}
-
-		} catch (error) {
-			console.log(error)
-		}
-
-		return [this.output, this.embeds];
+		})
 	}
 }
 

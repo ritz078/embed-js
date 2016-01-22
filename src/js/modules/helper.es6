@@ -1,5 +1,4 @@
 import { getDimensions, matches } from './utils.es6'
-import regeneratorRuntime from '../vendor/regeneratorRuntime.js'
 
 /**
  * Plays the video after clicking on the thumbnail
@@ -71,28 +70,76 @@ export function destroyVideos(className) {
 }
 
 /**
+ * This is a private function which is used to get the actual text to be replaced for
+ * a particular url in inline embedding. This returns a promise
+ * @param  {object} _this     reference to this
+ * @param  {function} urlToText The function that converts url to replaceable text
+ * @param  {object} match     object containing info of matching string
+ * @return {Promise}           resolves to the text
+ */
+function getInlineData(_this, urlToText, match) {
+    let url = (_this.options.link ? match[0].slice(0, -4) : match[0]) || match[1];
+    if (_this.options.served.indexOf(url) !== -1) return;
+
+    return new Promise((resolve) => {
+        urlToText(_this, match, url).then((text) => {
+            if (!text) return resolve()
+            _this.options.served.push(url);
+            resolve(text);
+        })
+    })
+}
+
+/**
  * A helper function for inline embedding
  * @param _this
  * @param urlToText
  * @returns {*}
  */
-export async function inlineEmbed(_this, urlToText) {
-    if (!regeneratorRuntime) return _this.output;
+export function inlineEmbed(_this, urlToText) {
     let regexInline = _this.options.link ? new RegExp(`([^>]*${_this.regex.source})<\/a>`, 'gi') : new RegExp(`([^\\s]*${_this.regex.source})`, 'gi');
-    let match;
+    let match, allMatches = [],
+        promises = [];
+
     while ((match = matches(regexInline, _this.output)) !== null) {
-        let url = (_this.options.link ? match[0].slice(0, -4) : match[0]) || match[1];
-        if (_this.options.served.indexOf(url) !== -1) continue;
-        let text = await urlToText(_this, match, url);
-        if (!text) continue;
-        _this.options.served.push(url);
-        if (_this.options.link) {
-            return !_this.options.inlineText ? _this.output.replace(match[0], text + '</a>') : _this.output.replace(match[0], match[0] + text)
-        } else {
-            return !_this.options.inlineText ? _this.output.replace(match[0], text) : _this.output.replace(match[0], match[0] + text)
-        }
+        allMatches.push(match)
+        promises.push(getInlineData(_this, urlToText, match))
     }
-    return _this.output;
+
+    return new Promise((resolve) => {
+        if (matches.length)
+            Promise.all(promises).then((data) => {
+                let i = 0;
+                _this.output = _this.output.replace(regexInline, (match) => {
+                    if (_this.options.link)
+                        return !_this.options.inlineText ? data[i] + '</a>' : match + data[i]
+                    else
+                        return !_this.options.inlineText ? data[i] : match + data[i];
+                    i++
+                })
+                resolve(_this.output)
+            })
+        else
+            resolve(_this.output)
+    })
+}
+
+
+function getNormalData(_this, urlToText, match) {
+    let url = match[0];
+    if (!_this.options.served.indexOf(url) === -1) return;
+
+    return new Promise((resolve) => {
+        urlToText(_this, match, url, true).then(function(text) {
+            if (!text) resolve()
+            _this.options.served.push(url);
+            _this.embeds.push({
+                text: text,
+                index: match.index
+            })
+            resolve()
+        })
+    })
 }
 
 /**
@@ -101,19 +148,21 @@ export async function inlineEmbed(_this, urlToText) {
  * @param  {function} urlToText
  * @return {array}
  */
-export async function normalEmbed(_this, urlToText) {
-    if (!regeneratorRuntime) return _this.output;
-    let match;
+export function normalEmbed(_this, urlToText) {
+    let match, allMatches = [],
+        promises = [];
+
     while ((match = matches(_this.regex, _this.input)) !== null) {
-        let url = match[0];
-        if (!_this.options.served.indexOf(url) === -1) continue;
-        let text = await urlToText(_this, match, url, true);
-        if (!text) continue;
-        _this.options.served.push(url);
-        _this.embeds.push({
-            text: text,
-            index: match.index
-        })
+        allMatches.push(match);
+        promises.push(getNormalData(_this, urlToText, match))
     }
-    return _this.embeds;
+
+    return new Promise(function(resolve) {
+        if (allMatches.length)
+            Promise.all(promises).then(function() {
+                resolve(_this.embeds)
+            })
+        else
+            resolve(_this.embeds)
+    })
 }

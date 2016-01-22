@@ -21,13 +21,14 @@ export default class Twitter {
 	 * @param  {string} url URL of the tweet
 	 * @return {object}     data containing the tweet info
 	 */
-	async tweetData(url) {
-		let config   = this.options.tweetOptions;
-		let apiUrl   = `https://api.twitter.com/1/statuses/oembed.json?omit_script=true&url=${url}&maxwidth=${config.maxWidth}&hide_media=${config.hideMedia}&hide_thread=${config.hideThread}&align=${config.align}&lang=${config.lang}`;
-		let response = await fetchJsonp(apiUrl, {
-			credentials: 'include'
-		});
-		return await response.json();
+	tweetData(url) {
+		let config = this.options.tweetOptions;
+		let apiUrl = `https://api.twitter.com/1/statuses/oembed.json?omit_script=true&url=${url}&maxwidth=${config.maxWidth}&hide_media=${config.hideMedia}&hide_thread=${config.hideThread}&align=${config.align}&lang=${config.lang}`;
+		return new Promise((resolve) => {
+			fetchJsonp(apiUrl, {credentials: 'include'})
+				.then((data)=>data.json())
+				.then((json)=>resolve(json))
+		})
 	}
 
 	/**
@@ -43,26 +44,23 @@ export default class Twitter {
 		});
 	}
 
-	static async urlToText(_this, match, url){
-		try{
-			let data = await _this.tweetData(url);
-			return data.html;
-		} catch(error) {
-			console.log(error);
-		}
+	static urlToText(_this, match, url) {
+		return new Promise((resolve) => {
+			_this.tweetData(url).then((data) => resolve(data.html))
+		})
 	}
 
-	async process() {
-		try {
+	process() {
+		return new Promise((resolve) => {
 			if (!ifInline(this.options, this.service)) {
-				this.output = await inlineEmbed(this, Twitter.urlToText);
+				inlineEmbed(this, Twitter.urlToText).then((response) => {
+					resolve([response, this.embeds])
+				})
 			} else {
-				this.embeds = await normalEmbed(this, Twitter.urlToText);
+				normalEmbed(this, Twitter.urlToText).then((embeds) => {
+					resolve([this.output, embeds])
+				})
 			}
-			return [this.output, this.embeds];
-
-		} catch (e) {
-			return [this.output, this.embeds];
-		}
+		})
 	}
 }

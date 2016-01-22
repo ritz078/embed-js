@@ -1,6 +1,6 @@
-import { getDimensions , ifInline }                   from '../utils.es6'
+import { getDimensions , ifInline } from '../utils.es6'
 import '../../vendor/fetch.js'
-import { inlineEmbed, normalEmbed }                  from './../helper.es6'
+import { inlineEmbed, normalEmbed } from './../helper.es6'
 import fetchJsonp              from '../../vendor/fetch_jsonp.js'
 
 export default class SlideShare {
@@ -13,31 +13,37 @@ export default class SlideShare {
 		this.service = 'slideshare';
 	}
 
-	static async fetchData(_this, url) {
+	static fetchData(_this, url) {
 		const dimensions = getDimensions(_this.options);
 		let api          = `http://www.slideshare.net/api/oembed/2?url=${url}&format=jsonp&maxwidth=${dimensions.width}&maxheight=${dimensions.height}`;
-		let response     = await fetchJsonp(api, {
-			credentials: 'include'
-		});
-		let data         = await response.json();
-		return data.html;
+		return new Promise((resolve) => {
+			fetchJsonp(api, {credentials: 'include'})
+				.then((data) => data.json())
+				.then((json) => resolve(json.html))
+		})
 	}
 
 	template(html) {
 		return this.options.template.slideShare(html, this.options)
 	}
 
-	static async urlToText(_this, match, url) {
-		let html = await SlideShare.fetchData(_this, url);
-		return _this.template(html);
+	static urlToText(_this, match, url) {
+		return new Promise((resolve) => {
+			SlideShare.fetchData(_this, url).then((html) => resolve(_this.template(html)))
+		})
 	}
 
-	async process() {
-		if (!ifInline(this.options, this.service)) {
-			this.output = await inlineEmbed(this, SlideShare.urlToText);
-		} else {
-			this.embeds = await normalEmbed(this, SlideShare.urlToText);
-		}
-		return [this.output, this.embeds]
+	process() {
+		return new Promise((resolve) => {
+			if (!ifInline(this.options, this.service)) {
+				inlineEmbed(this, SlideShare.urlToText).then((response) => {
+					resolve([response, this.embeds])
+				})
+			} else {
+				normalEmbed(this, SlideShare.urlToText).then((embeds) => {
+					resolve([this.output, embeds])
+				})
+			}
+		})
 	}
 }

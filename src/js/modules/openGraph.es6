@@ -1,5 +1,5 @@
-import { urlRegex, ifInline, matches } from './utils.es6'
-import {inlineEmbed} from './helper.es6'
+import { urlRegex, ifInline } from './utils.es6'
+import { inlineEmbed, normalEmbed } from './helper.es6'
 
 export default class OpenGraph {
 	constructor(input, output, options, embeds) {
@@ -8,6 +8,7 @@ export default class OpenGraph {
 		this.options      = options;
 		this.embeds       = embeds;
 		this.service      = 'opengraph';
+		this.regex        = urlRegex();
 		this.excludeRegex = new RegExp(['.mp4|.mp3|.gif|.pdf|.doc|.ppt|.docx|.jpg|.jpeg|.ogg'].concat(options.openGraphExclude).join('|'), 'gi')
 	}
 
@@ -19,51 +20,39 @@ export default class OpenGraph {
 		return this.options.template.openGraph(data, this.options)
 	}
 
-	async fetchData(url) {
-		try {
-			url          = encodeURIComponent(url);
-			let api      = new Function('url', 'return `' + this.options.openGraphEndpoint + '`')(url);
-			let response = await fetch(api);
-			let data     = await response.json();
-			return this.options.onOpenGraphFetch(data) || data
-		} catch (e) {
-			this.options.onOpenGraphFail(e);
-		}
+	fetchData(url) {
+		url     = encodeURIComponent(url);
+		let api = new Function('url', 'return `' + this.options.openGraphEndpoint + '`')(url);
+		return new Promise((resolve) => {
+			fetch(api)
+				.then((res)=>res.json())
+				.then((json)=>resolve(this.options.onOpenGraphFetch(json) || json))
+		})
 	}
 
-	static async urlToText(_this, match, url) {
+	static urlToText(_this, match, url) {
 		if (!OpenGraph.ifProcessOGC(url, _this.excludeRegex)) return;
-		let data = await _this.fetchData(url);
-		return data && data.success ? _this.template(data) : null;
+
+		return new Promise((resolve) => {
+			_this.fetchData(url)
+			.then((data) => resolve(data && data.success ? _this.template(data) : null))
+		})
 	}
 
 
-	async process() {
-		try {
-			let match;
-			this.regex = urlRegex();
+	process() {
+		return new Promise((resolve) => {
 			if (!ifInline(this.options, this.service)) {
-				this.output = await inlineEmbed(this, OpenGraph.urlToText)
-
+				inlineEmbed(this, OpenGraph.urlToText).then((output) => {
+					resolve([output, this.embeds])
+				})
 			} else {
-				while ((match = matches(this.regex, this.input)) !== null) {
-					let url = match[0];
-					if (!OpenGraph.ifProcessOGC(url, this.excludeRegex)) continue;
-					let data = await this.fetchData(url);
-					if (data && data.success) {
-						let template = this.template(data);
-						this.embeds.push({
-							text : template,
-							index: match.index
-						});
-						this.options.served.push(url);
-					}
-				}
+				normalEmbed(this, OpenGraph.urlToText).then((embeds) => {
+					resolve([this.output, embeds])
+				})
 			}
-			return [this.output, this.embeds]
-		} catch (e) {
-			console.log(e)
-		}
+		})
+
 
 	}
 }

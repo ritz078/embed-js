@@ -1,13 +1,14 @@
-import { ifInline, matches, getDimensions } from '../utils.es6'
+import { ifInline, matches, getDimensions }
+from '../utils.es6'
 
 export default class Gmap {
     constructor(input, output, options, embeds) {
-        this.input   = input;
-        this.output  = output;
+        this.input = input;
+        this.output = output;
         this.options = options;
-        this.embeds  = embeds;
+        this.embeds = embeds;
         this.service = 'map';
-        this.regex   = /@\((.+)\)/gi
+        this.regex = /@\((.+)\)/gi
     }
 
     /**
@@ -16,11 +17,13 @@ export default class Gmap {
      * @param  {string} location The name of any location
      * @return {array}           Returns an array in the form [latitude, longitude]
      */
-    static async getCoordinate(location) {
+    static getCoordinate(location) {
         let url = `http://maps.googleapis.com/maps/api/geocode/json?address=${location}&sensor=false`;
-        let response = await fetch(url);
-        let data = await response.json();
-        return [data.results[0].geometry.location.lat, data.results[0].geometry.location.lng];
+        return new Promise((resolve) => {
+            fetch(url)
+                .then((data) => data.json())
+                .then((json) => resolve([json.results[0].geometry.location.lat, json.results[0].geometry.location.lng]))
+        })
     }
 
     /**
@@ -50,31 +53,44 @@ export default class Gmap {
      * @param  {string} match The string in the supported format. Eg : @(Delhi)
      * @return {string}       Only the location name removing @ and brackets. Eg: Delhi
      */
-    static locationText(match){
+    static locationText(match) {
         return match.split('(')[1].split(')')[0]
     }
 
-    async process() {
-        let match;
+    process() {
+        let match, promises = [],
+            allMatches = [];
         while ((match = matches(this.regex, this.output)) !== null) {
-            let [latitude, longitude] = this.options.mapOptions.mode !== 'place' ? await Gmap.getCoordinate(match[0]) : [null, null];
-            let text = Gmap.template(match[0], latitude, longitude, this.options);
-            if (!ifInline(this.options, this.service)) {
-                this.output = this.output.replace(this.regex, (regexMatch) => {
-                    return `<span class="ejs-location">${Gmap.locationText(regexMatch)}</span>${text}`
-                })
-            } else {
-                this.embeds.push({
-                    text: text,
-                    index: match.index
-                });
-                this.output = this.output.replace(this.regex, (regexMatch) => {
-                    return `<span class="ejs-location">${Gmap.locationText(regexMatch)}</span>`
-                });
-            }
+            let promise = this.options.mapOptions.mode !== 'place' ? Gmap.getCoordinate(match[0]) : Promise.resolve([null, null]);
+            promises.push(promise)
+            allMatches.push(match)
         }
 
-        return [this.output, this.embeds];
+        return new Promise((resolve) => {
+            if (allMatches.length) {
+                Promise.all(promises).then((coordinatesArr) => {
+                    for (var i in promises) {
+                        let [latitude, longitude] = coordinatesArr[i];
+                        let text = Gmap.template((allMatches[i])[0], latitude, longitude, this.options);
+                        if (!ifInline(this.options, this.service)) {
+                            this.output = this.output.replace(this.regex, (regexMatch) => {
+                                return `<span class="ejs-location">${Gmap.locationText(regexMatch)}</span>${text}`
+                            })
+                        } else {
+                            this.embeds.push({
+                                text: text,
+                                index: allMatches[i][0].index
+                            });
+                            this.output = this.output.replace(this.regex, (regexMatch) => {
+                                return `<span class="ejs-location">${Gmap.locationText(regexMatch)}</span>`
+                            });
+                        }
+                    }
+                    resolve([this.output, this.embeds])
+                })
+            } else {
+                resolve([this.output, this.embeds])
+            }
+        })
     }
 }
-
