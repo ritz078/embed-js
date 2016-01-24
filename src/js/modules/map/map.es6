@@ -1,5 +1,5 @@
-import { ifInline, matches, getDimensions }
-from '../utils.es6'
+import { ifInline, matches, getDimensions } from '../utils.es6'
+import regex from '../regex.es6'
 
 export default class Gmap {
     constructor(input, output, options, embeds) {
@@ -8,7 +8,7 @@ export default class Gmap {
         this.options = options;
         this.embeds = embeds;
         this.service = 'map';
-        this.regex = /@\((.+)\)/gi
+        this.regex = regex.gmap;
     }
 
     /**

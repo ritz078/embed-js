@@ -1,10 +1,11 @@
 import { getDimensions } from '../utils.es6'
 import Base from '../base.es6'
+import regex from '../regex.es6'
 
 export default class Ustream extends Base {
     constructor(input, output, options, embeds) {
         super(input, output, options, embeds);
-        this.regex = /ustream.tv\/[a-z\/0-9]*/gi;
+        this.regex = regex.ustream;
         this.service = 'ustream'
     }
 

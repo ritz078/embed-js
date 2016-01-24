@@ -1,10 +1,11 @@
 import { getDimensions } from '../utils.es6'
 import Base from '../base.es6'
+import regex from '../regex.es6'
 
 export default class Instagram extends Base{
 	constructor(input, output,options, embeds){
 		super(input,output, options, embeds);
-		this.regex = /instagram.com\/p\/[a-zA-Z0-9_\/\?\-\=]+/gi;
+		this.regex = regex.instagram;
 		this.service = 'instagram'
 	}
 

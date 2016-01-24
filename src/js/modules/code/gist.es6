@@ -1,9 +1,10 @@
 import Base from '../base.es6'
+import regex from '../regex.es6'
 
 export default class Gist extends Base {
     constructor(input, output, options, embeds) {
         super(input, output, options, embeds);
-        this.regex = /gist.github.com\/[a-zA-Z0-9_-]+\/([a-zA-Z0-9]+)/g;
+        this.regex = regex.gist;
         this.service = 'gist';
 
         this.options.input.addEventListener('rendered', () => {

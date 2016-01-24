@@ -123,7 +123,7 @@ module.exports = function(grunt) {
             },
             build: {
                 files: {
-                    'dist/embed.min.js': 'src/embed.js',
+                    'dist/embed.min.js': 'src/embed.js'
                 }
             }
         },

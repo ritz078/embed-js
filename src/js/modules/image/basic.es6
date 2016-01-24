@@ -1,9 +1,10 @@
 import Base from '../base.es6'
+import regex from '../regex.es6'
 
 export default class Basic extends Base{
 	constructor(input, output,options, embeds){
 		super(input,output, options, embeds);
-		this.regex =/((?:https?):\/\/\S*\.(?:gif|jpg|jpeg|tiff|png|svg|webp))/gi;
+		this.regex = regex.basicImage;
 		this.service = 'image'
 	}
 

@@ -5,7 +5,7 @@
     "SMILEY"        : "true",
     "HIGHLIGHTCODE" : "true",
 
-    "MARKDOWN"      : "true",
+    "MARKDOWN"      : "false",
 
     "MAP"           : "true",
 

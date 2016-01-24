@@ -1,9 +1,10 @@
 import Base from '../base.es6'
+import regex from '../regex.es6'
 
 export default class JsFiddle extends Base {
 	constructor(input, output, options, embeds) {
 		super(input, output, options, embeds);
-		this.regex   = /jsfiddle.net\/[a-zA-Z0-9_]+\/[a-zA-Z0-9_\/]+/gi;
+		this.regex   = regex.jsfiddle;
 		this.service = 'jsfiddle';
 	}
 

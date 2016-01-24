@@ -1,10 +1,11 @@
 import { getDimensions } from '../utils.es6'
 import Base from '../base.es6'
+import regex from '../regex.es6'
 
 export default class Ted extends Base {
     constructor(input, output, options, embeds) {
         super(input, output, options, embeds);
-        this.regex = /ted.com\/talks\/[a-zA-Z0-9_]+/gi;
+        this.regex = regex.ted;
         this.service = 'ted'
     }
 

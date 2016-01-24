@@ -12,7 +12,7 @@ var banner = "/*\n" +
             " *\n" +
             " *   Made by "+ pkg.author.name +"\n" +
             " *   Under "+ pkg.license +" License\n" +
-            " */\n"
+            " */\n";
 
 
 var config = {
@@ -31,7 +31,6 @@ var config = {
         commonjs({
             include: 'node_modules/**'
         }),
-        babel(),
         replace(build)
     ]
 };

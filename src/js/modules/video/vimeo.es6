@@ -1,6 +1,7 @@
 import { truncate, ifInline } from '../utils.es6'
 import { getDetailsTemplate, template, inlineEmbed, normalEmbed } from './../helper.es6'
 import '../../vendor/fetch.js'
+import regex from '../regex.es6'
 
 
 export default class Vimeo {
@@ -9,7 +10,7 @@ export default class Vimeo {
 		this.output  = output;
 		this.options = options;
 		this.embeds  = embeds;
-		this.regex   = /https?:\/\/(?:www\.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/([^\/]*)\/videos\/|album\/(\d+)\/video\/|)(\d+)(?:$|\/|\?)*/gi;
+		this.regex   = regex.vimeo;
 		this.service = 'vimeo'
 	}
 

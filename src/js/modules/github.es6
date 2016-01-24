@@ -1,5 +1,6 @@
 import { ifInline } from './utils.es6'
 import { inlineEmbed, normalEmbed } from './helper.es6'
+import regex from './regex.es6'
 
 
 export default class Github {
@@ -9,7 +10,7 @@ export default class Github {
 		this.options = options;
 		this.embeds  = embeds;
 		this.service = 'github';
-		this.regex   = /github.com\/([a-zA-Z0-9\.-]+)\/([a-zA-Z0-9\.-]+)/gi;
+		this.regex   = regex.github;
 	}
 
 	static fetchRepo(data) {

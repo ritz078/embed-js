@@ -1,9 +1,10 @@
 import Base from '../base.es6'
+import regex from '../regex.es6'
 
 export default class JsBin extends Base {
     constructor(input, output, options, embeds) {
         super(input, output, options, embeds);
-        this.regex = /jsbin.com\/[a-zA-Z0-9_]+\/[0-9_]+/gi;
+        this.regex = regex.jsbin;
         this.service = 'jsbin';
     }
 

@@ -2,6 +2,7 @@ import { ifInline } from '../utils.es6'
 import '../../vendor/fetch.js'
 import fetchJsonp from '../../vendor/fetch_jsonp.js'
 import {inlineEmbed, normalEmbed} from '../helper.es6'
+import regex from '../regex.es6'
 
 export default class Twitter {
 	constructor(input, output, options, embeds) {
@@ -9,7 +10,7 @@ export default class Twitter {
 		this.output  = output;
 		this.options = options;
 		this.embeds  = embeds;
-		this.regex   = /https:\/\/twitter\.com\/\w+\/\w+\/\d+/gi;
+		this.regex   = regex.twitter;
 		this.service = 'twitter';
 
 		this.load = this.load.bind(this);

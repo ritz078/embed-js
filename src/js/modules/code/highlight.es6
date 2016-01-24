@@ -1,3 +1,5 @@
+import regex from '../regex.es6'
+
 export default class Highlight {
 	constructor(output, options) {
 		if (!hljs) {
@@ -7,8 +9,8 @@ export default class Highlight {
 		}
 		this.output          = output;
 		this.options         = options;
-		this.regex           = /(`{3})(\s|[a-z]+)\s*([\s\S]*?[^`])\s*\1(?!`)/gm;
-		this.inlineCodeRegex = /(`)\s*([\s\S]*?[^`])\s*\1(?!`)/gm;
+		this.regex           = regex.highlightCode;
+		this.inlineCodeRegex = regex.inlineCode;
 	}
 
 	/**

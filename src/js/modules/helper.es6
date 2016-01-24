@@ -2,7 +2,6 @@ import { getDimensions, matches } from './utils.es6'
 
 /**
  * Plays the video after clicking on the thumbnail
- * @param  {string} className The class name on which click is to be listened
  * @param  {object} options   Options object
  * @return {null}
  */
@@ -79,11 +78,11 @@ export function destroyVideos(className) {
  */
 function getInlineData(_this, urlToText, match) {
     let url = (_this.options.link ? match[0].slice(0, -4) : match[0]) || match[1];
-    if (_this.options.served.indexOf(url) !== -1) return;
+    if (_this.options.served.indexOf(url) !== -1) return Promise.resolve(null);
 
     return new Promise((resolve) => {
         urlToText(_this, match, url).then((text) => {
-            if (!text) return resolve()
+            if (!text) return resolve();
             _this.options.served.push(url);
             resolve(text);
         })
@@ -102,7 +101,7 @@ export function inlineEmbed(_this, urlToText) {
         promises = [];
 
     while ((match = matches(regexInline, _this.output)) !== null) {
-        allMatches.push(match)
+        allMatches.push(match);
         promises.push(getInlineData(_this, urlToText, match))
     }
 
@@ -112,13 +111,12 @@ export function inlineEmbed(_this, urlToText) {
                 let i = 0;
                 _this.output = _this.output.replace(regexInline, (match) => {
                     if (_this.options.link)
-                        return !_this.options.inlineText ? data[i] + '</a>' : match + data[i]
+                        return !_this.options.inlineText ? data[i] + '</a>' : match + data[i++];
                     else
-                        return !_this.options.inlineText ? data[i] : match + data[i];
-                    i++
-                })
+                        return !_this.options.inlineText ? data[i] : match + data[i++];
+                });
                 resolve(_this.output)
-            })
+            });
         else
             resolve(_this.output)
     })
@@ -131,12 +129,12 @@ function getNormalData(_this, urlToText, match) {
 
     return new Promise((resolve) => {
         urlToText(_this, match, url, true).then(function(text) {
-            if (!text) resolve()
+            if (!text) resolve();
             _this.options.served.push(url);
             _this.embeds.push({
                 text: text,
                 index: match.index
-            })
+            });
             resolve()
         })
     })
@@ -146,10 +144,11 @@ function getNormalData(_this, urlToText, match) {
  * A helper function for normal embedding
  * @param  {object} _this
  * @param  {function} urlToText
- * @return {array}
+ * @return {Promise}
  */
 export function normalEmbed(_this, urlToText) {
-    let match, allMatches = [],
+    let match,
+        allMatches = [],
         promises = [];
 
     while ((match = matches(_this.regex, _this.input)) !== null) {
@@ -158,11 +157,8 @@ export function normalEmbed(_this, urlToText) {
     }
 
     return new Promise(function(resolve) {
-        if (allMatches.length)
-            Promise.all(promises).then(function() {
-                resolve(_this.embeds)
-            })
-        else
+        Promise.all(promises).then(function() {
             resolve(_this.embeds)
+        });
     })
 }

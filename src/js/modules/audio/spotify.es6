@@ -1,9 +1,10 @@
-import Base from '../base.es6'
+import Base  from '../base.es6'
+import regex from '../regex.es6'
 
 export default class Spotify extends Base{
 	constructor(input,output, options, embeds) {
 		super(input,output, options, embeds)
-		this.regex = /spotify.com\/track\/[a-zA-Z0-9_]+/gi
+		this.regex = regex.spotify;
 		this.service = 'spotify'
 	}
 

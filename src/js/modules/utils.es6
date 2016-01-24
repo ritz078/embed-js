@@ -67,7 +67,7 @@ function sortObject(arr) {
 
 /**
  * Creates the string of the iframes after sorting them and finally returning a string
- * @param  {sring} str    String to which the created text has to be added
+ * @param  {string} str    String to which the created text has to be added
  * @param  {object} embeds Sorted array of iframe html
  * @return {string}        String to be rendered
  */
@@ -90,7 +90,7 @@ export function matches(regex, input) {
 }
 
 /**
- * Checks wheteher a particular service should be embedded or not based on
+ * Checks whether a particular service should be embedded or not based on
  * the setting provided by the user
  * @param  {object} options The options provided by the user
  * @param  {string} service Name of the service for which the condition is to be analyzed
@@ -101,7 +101,7 @@ export function ifEmbed(options, service) {
 }
 
 export function ifInline(options, service) {
-    return ((options.inlineEmbed.indexOf(service) == -1) && (options.inlineEmbed !== 'all'));
+    return ((options.inlineEmbed.includes(service) == -1) && (options.inlineEmbed !== 'all'));
 }
 
 /**

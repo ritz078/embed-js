@@ -2,6 +2,7 @@ import { getDimensions , ifInline } from '../utils.es6'
 import '../../vendor/fetch.js'
 import { inlineEmbed, normalEmbed } from './../helper.es6'
 import fetchJsonp              from '../../vendor/fetch_jsonp.js'
+import regex from '../regex.es6'
 
 export default class SlideShare {
 	constructor(input, output, options, embeds) {
@@ -9,7 +10,7 @@ export default class SlideShare {
 		this.output  = output;
 		this.options = options;
 		this.embeds  = embeds;
-		this.regex   = /slideshare.net\/[a-zA-Z0-9_-]*\/[a-zA-Z0-9_-]*/gi;
+		this.regex   = regex.slideShare;
 		this.service = 'slideshare';
 	}
 

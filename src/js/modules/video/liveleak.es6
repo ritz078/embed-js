@@ -1,10 +1,11 @@
 import {getDimensions} from '../utils.es6'
 import Base from '../base.es6'
+import regex from '../regex.es6'
 
 export default class LiveLeak extends Base {
     constructor(input, output, options, embeds) {
         super(input, output, options, embeds);
-        this.regex = /liveleak.com\/view\?i=[a-zA-Z0-9_]+/gi;
+        this.regex = regex.liveleak;
         this.service = 'liveleak'
     }
 

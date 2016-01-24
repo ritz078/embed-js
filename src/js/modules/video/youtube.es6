@@ -1,6 +1,7 @@
 import { truncate, ifInline } from '../utils.es6'
 import { getDetailsTemplate, template, inlineEmbed, normalEmbed } from './../helper.es6'
 import '../../vendor/fetch.js'
+import regex from '../regex.es6'
 
 export default class Youtube {
 	constructor(input, output, options, embeds) {
@@ -8,7 +9,7 @@ export default class Youtube {
 		this.output  = output;
 		this.options = options;
 		this.embeds  = embeds;
-		this.regex   = /https?:\/\/(?:[0-9A-Z-]+\.)?(?:youtu\.be\/|youtube\.com(?:\/embed\/|\/v\/|\/watch\?v=|\/ytscreeningroom\?v=|\/feeds\/api\/videos\/|\/user\S*[^\w\-\s]|\S*[^\w\-\s]))([\w\-]{11})[?=&+%\w-]*/gi;
+		this.regex   = regex.youtube;
 		this.service = 'youtube'
 	}
 

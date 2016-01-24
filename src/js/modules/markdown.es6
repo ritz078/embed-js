@@ -3,7 +3,6 @@ export default class Markdown {
 		if (!window.marked) throw new ReferenceError(`marked.js is not loaded.`);
 		this.output  = output;
 		this.options = options;
-		this.process()
 	}
 
 	process() {

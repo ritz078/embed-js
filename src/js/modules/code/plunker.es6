@@ -1,9 +1,10 @@
 import Base from '../base.es6'
+import regex from '../regex.es6'
 
 export default class Plunker extends Base {
     constructor(input, output, options, embeds) {
         super(input, output, options, embeds);
-        this.regex = /plnkr.co\/edit\/[a-zA-Z0-9\?=]+/gi;
+        this.regex = regex.plunker;
         this.service = 'plunker'
     }
 
