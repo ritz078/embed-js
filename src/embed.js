@@ -625,7 +625,6 @@
           }, timeout);
       });
   };
-  window.fetchJsonp = fetchJsonp;
 
   var regex = {
   	basicAudio: /((?:https?):\/\/\S*\.(?:wav|mp3|ogg))/gi,
@@ -2211,6 +2210,67 @@
       return Emoji;
   }();
 
+  var Markdown = function () {
+  	function Markdown(output, options) {
+  		babelHelpers.classCallCheck(this, Markdown);
+
+  		if (!window.marked) throw new ReferenceError('marked.js is not loaded.');
+  		this.output = output;
+  		this.options = options;
+  	}
+
+  	babelHelpers.createClass(Markdown, [{
+  		key: 'process',
+  		value: function process() {
+  			var _this = this;
+
+  			var renderer = new marked.Renderer();
+
+  			/**
+      * Change the default template of the code blocks provided by marked.js
+      * @param  {string} text The code block string
+      * @return {string}      the new template
+      */
+  			renderer.code = function (text) {
+  				var highlightedCode = window.hljs ? hljs.highlightAuto(text) : {
+  					value: text
+  				};
+  				var language = window.hljs ? highlightedCode.language : '';
+  				return '<pre><code class="ejs-code hljs ' + language + '">' + highlightedCode.value + '</code></pre>';
+  			};
+
+  			renderer.link = function (href, title, text) {
+  				if (href.indexOf('&lt;/a') === -1) return href;
+  				if (href.match(/&gt;(.+)&lt;\/a/gi)) {
+  					if (!title) title = '';
+  					return '<a href="' + RegExp.$1 + '" rel=' + _this.options.linkOptions.rel + '" target="' + _this.options.linkOptions.target + '" title="' + title + '">' + text + '</a>';
+  				}
+  			};
+
+  			renderer.image = function (href, title, text) {
+  				if (href.indexOf('&lt;/a') === -1) return href;
+  				if (href.match(/&gt;(.+)&lt;\/a/gi)) {
+  					if (!title) title = '';
+  					return '<div class="ejs-image ejs-embed"><div class="ne-image-wrapper"><img src="' + RegExp.$1 + '" title="' + title + '" alt="' + text + '"/></div></div>';
+  				}
+  			};
+
+  			renderer.paragraph = function (text) {
+  				return '<p> ' + text + ' </p>';
+  			}; //for font smiley in end.
+
+  			//Fix for heading that should be actually present in marked.js
+  			//if gfm is true the `## Heading` is acceptable but `##Heading` is not
+  			marked.Lexer.rules.gfm.heading = marked.Lexer.rules.normal.heading;
+  			marked.Lexer.rules.tables.heading = marked.Lexer.rules.normal.heading;
+
+  			this.options.markedOptions.renderer = renderer;
+  			return marked(this.output, this.options.markedOptions);
+  		}
+  	}]);
+  	return Markdown;
+  }();
+
   var OpenGraph = function () {
   	function OpenGraph(input, output, options, embeds) {
   		babelHelpers.classCallCheck(this, OpenGraph);
@@ -2294,67 +2354,6 @@
   		}
   	}]);
   	return Url;
-  }();
-
-  var Markdown = function () {
-  	function Markdown(output, options) {
-  		babelHelpers.classCallCheck(this, Markdown);
-
-  		if (!window.marked) throw new ReferenceError('marked.js is not loaded.');
-  		this.output = output;
-  		this.options = options;
-  	}
-
-  	babelHelpers.createClass(Markdown, [{
-  		key: 'process',
-  		value: function process() {
-  			var _this = this;
-
-  			var renderer = new marked.Renderer();
-
-  			/**
-      * Change the default template of the code blocks provided by marked.js
-      * @param  {string} text The code block string
-      * @return {string}      the new template
-      */
-  			renderer.code = function (text) {
-  				var highlightedCode = window.hljs ? hljs.highlightAuto(text) : {
-  					value: text
-  				};
-  				var language = window.hljs ? highlightedCode.language : '';
-  				return '<pre><code class="ejs-code hljs ' + language + '">' + highlightedCode.value + '</code></pre>';
-  			};
-
-  			renderer.link = function (href, title, text) {
-  				if (href.indexOf('&lt;/a') === -1) return href;
-  				if (href.match(/&gt;(.+)&lt;\/a/gi)) {
-  					if (!title) title = '';
-  					return '<a href="' + RegExp.$1 + '" rel=' + _this.options.linkOptions.rel + '" target="' + _this.options.linkOptions.target + '" title="' + title + '">' + text + '</a>';
-  				}
-  			};
-
-  			renderer.image = function (href, title, text) {
-  				if (href.indexOf('&lt;/a') === -1) return href;
-  				if (href.match(/&gt;(.+)&lt;\/a/gi)) {
-  					if (!title) title = '';
-  					return '<div class="ejs-image ejs-embed"><div class="ne-image-wrapper"><img src="' + RegExp.$1 + '" title="' + title + '" alt="' + text + '"/></div></div>';
-  				}
-  			};
-
-  			renderer.paragraph = function (text) {
-  				return '<p> ' + text + ' </p>';
-  			}; //for font smiley in end.
-
-  			//Fix for heading that should be actually present in marked.js
-  			//if gfm is true the `## Heading` is acceptable but `##Heading` is not
-  			marked.Lexer.rules.gfm.heading = marked.Lexer.rules.normal.heading;
-  			marked.Lexer.rules.tables.heading = marked.Lexer.rules.normal.heading;
-
-  			this.options.markedOptions.renderer = renderer;
-  			return marked(this.output, this.options.markedOptions);
-  		}
-  	}]);
-  	return Markdown;
   }();
 
   var globalOptions = {};
@@ -2502,7 +2501,9 @@
   					var output = _ref2[0];
   					var embeds = _ref2[1];
 
-  					if (false && options.marked) {}
+  					if (true && options.marked) {
+  						output = new Markdown(output, options).process();
+  					}
   					if (true && options.emoji) {
   						output = new Emoji(output, options).process();
   					}

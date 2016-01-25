@@ -68,5 +68,5 @@
           }, timeout);
       });
   };
-  window.fetchJsonp = fetchJsonp
+
   export default fetchJsonp
