@@ -165,8 +165,7 @@ export default class EmbedJS {
 
 	/**
 	 * Processes the string and performs all the insertions and manipulations based on
-	 * the options and the input provided by the user. This is an asynchronous function using the async/await
-	 * feature of ES7 and this returns a promise which is resolved once the result data is ready
+	 * the options and the input provided by the user. This returns a promise which is resolved once the result data is ready
 	 * @return {Promise} The processes resulting string
 	 */
 	process() {
@@ -178,9 +177,8 @@ export default class EmbedJS {
 		this.options.beforeEmbedJSApply();
 
 		return new Promise((resolve) => {
-			if (options.link) {
-				output = new Url(input, options).process()
-			}
+			if (LINK && options.link)
+				output = new Url(input, options).process();
 
 			let openGraphPromise = OPENGRAPH && options.openGraphEndpoint ? new OpenGraph(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
 
@@ -312,21 +310,34 @@ export default class EmbedJS {
 		return new Promise((resolve) => {
 			this.process().then((data) => {
 				this.options.input.innerHTML = data;
-				applyVideoJS(this.options);
-
-				playVideo(this.options);
-
-				let event = new Event('rendered');
-				this.options.input.dispatchEvent(event);
-
-				this.options.afterEmbedJSApply();
-
+				this.listen();
 				resolve(this.data);
 			})
 		})
 	}
 
+	/**
+	 * This method listens to all the events like click, handle
+	 * events to be done after an element has been rendered. These
+	 * include twitter widget rendering, gist embedding, click event listeners .
+	 */
+	listen(){
+		applyVideoJS(this.options);
 
+		playVideo(this.options);
+
+		let event = new Event('rendered');
+		this.options.input.dispatchEvent(event);
+
+		this.options.afterEmbedJSApply();
+	}
+
+
+	/**
+	 * This function updates the parametrs of the current instance
+	 * @param options   New updated options object. will be extended with the older options
+	 * @param template  [optional] the new template instance
+	 */
 	update(options, template) {
 
 		if(options)
@@ -344,7 +355,7 @@ export default class EmbedJS {
 	 * @return Promise
 	 */
 	text() {
-		return new Promise(function (resolve) {
+		return new Promise((resolve) => {
 			this.process().then(() => {
 				resolve(this.data)
 			})

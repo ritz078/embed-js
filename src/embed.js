@@ -2230,50 +2230,39 @@
   			return this.options.template.openGraph(data, this.options);
   		}
   	}, {
-  		key: 'fetchData',
-  		value: function fetchData(url) {
-  			var _this2 = this;
+  		key: 'process',
+  		value: function process() {
+  			var _this = this;
 
+  			return new Promise(function (resolve) {
+  				if (!ifInline(_this.options, _this.service)) inlineEmbed(_this, OpenGraph.urlToText).then(function (output) {
+  					return resolve([output, _this.embeds]);
+  				});else normalEmbed(_this, OpenGraph.urlToText).then(function (embeds) {
+  					return resolve([_this.output, embeds]);
+  				});
+  			});
+  		}
+  	}], [{
+  		key: 'fetchData',
+  		value: function fetchData(url, _) {
   			url = encodeURIComponent(url);
-  			var api = new Function('url', 'return `' + this.options.openGraphEndpoint + '`')(url);
+  			var api = new Function('url', 'return `' + _.options.openGraphEndpoint + '`')(url);
   			return new Promise(function (resolve) {
   				fetch(api).then(function (res) {
   					return res.json();
   				}).then(function (json) {
-  					return resolve(_this2.options.onOpenGraphFetch(json) || json);
+  					return resolve(_.options.onOpenGraphFetch(json) || json);
   				});
   			});
   		}
   	}, {
-  		key: 'process',
-  		value: function process() {
-  			var _this3 = this;
-
-  			return new Promise(function (resolve) {
-  				if (!ifInline(_this3.options, _this3.service)) {
-  					inlineEmbed(_this3, OpenGraph.urlToText).then(function (output) {
-  						resolve([output, _this3.embeds]);
-  					});
-  				} else {
-  					normalEmbed(_this3, OpenGraph.urlToText).then(function (embeds) {
-  						resolve([_this3.output, embeds]);
-  					});
-  				}
-  			});
-  		}
-  	}], [{
-  		key: 'ifProcessOGC',
-  		value: function ifProcessOGC(url, excludeRegex) {
-  			return url.match(excludeRegex) ? false : true;
-  		}
-  	}, {
   		key: 'urlToText',
-  		value: function urlToText(_this, match, url) {
-  			if (!OpenGraph.ifProcessOGC(url, _this.excludeRegex)) return;
+  		value: function urlToText(_, match, url) {
+  			if (!url.match(_.excludeRegex)) return;
 
   			return new Promise(function (resolve) {
-  				_this.fetchData(url).then(function (data) {
-  					return resolve(data && data.success ? _this.template(data) : null);
+  				OpenGraph.fetchData(url, _).then(function (data) {
+  					return resolve(data && data.success ? _.template(data) : null);
   				});
   			});
   		}
@@ -2298,7 +2287,7 @@
   			var config = this.options.linkOptions;
   			return this.input.replace(this.urlRegex, function (match) {
   				var extension = match.split('.')[match.split('.').length - 1];
-  				match = match[match.length - 1] == '/' ? match.slice(0, -1) : match;
+  				if (match[match.length - 1] == '/') match = match.slice(0, -1);
   				if (config.exclude.indexOf(extension) === -1) return _this.options.template.url(match, _this.options);
   				return match;
   			});
@@ -2486,8 +2475,7 @@
 
   	/**
     * Processes the string and performs all the insertions and manipulations based on
-    * the options and the input provided by the user. This is an asynchronous function using the async/await
-    * feature of ES7 and this returns a promise which is resolved once the result data is ready
+    * the options and the input provided by the user. This returns a promise which is resolved once the result data is ready
     * @return {Promise} The processes resulting string
     */
 
@@ -2504,9 +2492,7 @@
   			this.options.beforeEmbedJSApply();
 
   			return new Promise(function (resolve) {
-  				if (options.link) {
-  					output = new Url(input, options).process();
-  				}
+  				if (true && options.link) output = new Url(input, options).process();
 
   				var openGraphPromise = true && options.openGraphEndpoint ? new OpenGraph(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
 
@@ -2762,19 +2748,37 @@
   			return new Promise(function (resolve) {
   				_this2.process().then(function (data) {
   					_this2.options.input.innerHTML = data;
-  					applyVideoJS(_this2.options);
-
-  					playVideo(_this2.options);
-
-  					var event = new Event('rendered');
-  					_this2.options.input.dispatchEvent(event);
-
-  					_this2.options.afterEmbedJSApply();
-
+  					_this2.listen();
   					resolve(_this2.data);
   				});
   			});
   		}
+
+  		/**
+     * This method listens to all the events like click, handle
+     * events to be done after an element has been rendered. These
+     * include twitter widget rendering, gist embedding, click event listeners .
+     */
+
+  	}, {
+  		key: 'listen',
+  		value: function listen() {
+  			applyVideoJS(this.options);
+
+  			playVideo(this.options);
+
+  			var event = new Event('rendered');
+  			this.options.input.dispatchEvent(event);
+
+  			this.options.afterEmbedJSApply();
+  		}
+
+  		/**
+     * This function updates the parametrs of the current instance
+     * @param options   New updated options object. will be extended with the older options
+     * @param template  [optional] the new template instance
+     */
+
   	}, {
   		key: 'update',
   		value: function update(options, template) {
@@ -2795,10 +2799,10 @@
   	}, {
   		key: 'text',
   		value: function text() {
-  			return new Promise(function (resolve) {
-  				var _this3 = this;
+  			var _this3 = this;
 
-  				this.process().then(function () {
+  			return new Promise(function (resolve) {
+  				_this3.process().then(function () {
   					resolve(_this3.data);
   				});
   			});

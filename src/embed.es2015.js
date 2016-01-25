@@ -1250,19 +1250,21 @@ class Smiley {
     }
 }
 
-class Url{
-	constructor(input,options){
-		this.input = input;
-		this.options = options;
-		this.urlRegex =  urlRegex();
+class Url {
+	constructor(input, options) {
+		this.input    = input;
+		this.options  = options;
+		this.urlRegex = urlRegex();
 	}
 
-	process(){
+	process() {
 		var config = this.options.linkOptions;
-		return this.input.replace(this.urlRegex,(match)=>{
+		return this.input.replace(this.urlRegex, (match)=> {
 			let extension = match.split('.')[match.split('.').length - 1];
-			match = ((match[match.length-1] == '/') ? match.slice(0, -1) : match);
-			if(config.exclude.indexOf(extension) === -1) return this.options.template.url(match, this.options)
+			if ((match[match.length - 1] == '/'))
+				match = match.slice(0, -1);
+			if (config.exclude.indexOf(extension) === -1)
+				return this.options.template.url(match, this.options);
 			return match;
 		});
 	}
@@ -2609,48 +2611,36 @@ class OpenGraph {
 		this.excludeRegex = new RegExp(['.mp4|.mp3|.gif|.pdf|.doc|.ppt|.docx|.jpg|.jpeg|.ogg'].concat(options.openGraphExclude).join('|'), 'gi')
 	}
 
-	static ifProcessOGC(url, excludeRegex) {
-		return url.match(excludeRegex) ? false : true
-	}
-
 	template(data) {
 		return this.options.template.openGraph(data, this.options)
 	}
 
-	fetchData(url) {
+	static fetchData(url, _) {
 		url     = encodeURIComponent(url);
-		let api = new Function('url', 'return `' + this.options.openGraphEndpoint + '`')(url);
+		let api = new Function('url', 'return `' + _.options.openGraphEndpoint + '`')(url);
 		return new Promise((resolve) => {
 			fetch(api)
 				.then((res)=>res.json())
-				.then((json)=>resolve(this.options.onOpenGraphFetch(json) || json))
+				.then((json)=>resolve(_.options.onOpenGraphFetch(json) || json))
 		})
 	}
 
-	static urlToText(_this, match, url) {
-		if (!OpenGraph.ifProcessOGC(url, _this.excludeRegex)) return;
+	static urlToText(_, match, url) {
+		if (!url.match(_.excludeRegex)) return;
 
 		return new Promise((resolve) => {
-			_this.fetchData(url)
-			.then((data) => resolve(data && data.success ? _this.template(data) : null))
+			OpenGraph.fetchData(url, _).then((data) => resolve(data && data.success ? _.template(data) : null))
 		})
 	}
 
 
 	process() {
 		return new Promise((resolve) => {
-			if (!ifInline(this.options, this.service)) {
-				inlineEmbed(this, OpenGraph.urlToText).then((output) => {
-					resolve([output, this.embeds])
-				})
-			} else {
-				normalEmbed(this, OpenGraph.urlToText).then((embeds) => {
-					resolve([this.output, embeds])
-				})
-			}
+			if (!ifInline(this.options, this.service))
+				inlineEmbed(this, OpenGraph.urlToText).then((output) => resolve([output, this.embeds]));
+			else
+				normalEmbed(this, OpenGraph.urlToText).then((embeds) => resolve([this.output, embeds]))
 		})
-
-
 	}
 }
 
@@ -2840,8 +2830,7 @@ class EmbedJS {
 
 	/**
 	 * Processes the string and performs all the insertions and manipulations based on
-	 * the options and the input provided by the user. This is an asynchronous function using the async/await
-	 * feature of ES7 and this returns a promise which is resolved once the result data is ready
+	 * the options and the input provided by the user. This returns a promise which is resolved once the result data is ready
 	 * @return {Promise} The processes resulting string
 	 */
 	process() {
@@ -2853,9 +2842,8 @@ class EmbedJS {
 		this.options.beforeEmbedJSApply();
 
 		return new Promise((resolve) => {
-			if (options.link) {
-				output = new Url(input, options).process()
-			}
+			if (true && options.link)
+				output = new Url(input, options).process();
 
 			let openGraphPromise = true && options.openGraphEndpoint ? new OpenGraph(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
 
@@ -2985,21 +2973,34 @@ class EmbedJS {
 		return new Promise((resolve) => {
 			this.process().then((data) => {
 				this.options.input.innerHTML = data;
-				applyVideoJS(this.options);
-
-				playVideo(this.options);
-
-				let event = new Event('rendered');
-				this.options.input.dispatchEvent(event);
-
-				this.options.afterEmbedJSApply();
-
+				this.listen();
 				resolve(this.data);
 			})
 		})
 	}
 
+	/**
+	 * This method listens to all the events like click, handle
+	 * events to be done after an element has been rendered. These
+	 * include twitter widget rendering, gist embedding, click event listeners .
+	 */
+	listen(){
+		applyVideoJS(this.options);
 
+		playVideo(this.options);
+
+		let event = new Event('rendered');
+		this.options.input.dispatchEvent(event);
+
+		this.options.afterEmbedJSApply();
+	}
+
+
+	/**
+	 * This function updates the parametrs of the current instance
+	 * @param options   New updated options object. will be extended with the older options
+	 * @param template  [optional] the new template instance
+	 */
 	update(options, template) {
 
 		if(options)
@@ -3017,7 +3018,7 @@ class EmbedJS {
 	 * @return Promise
 	 */
 	text() {
-		return new Promise(function (resolve) {
+		return new Promise((resolve) => {
 			this.process().then(() => {
 				resolve(this.data)
 			})
