@@ -1688,7 +1688,7 @@
 
   		var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(BasicVideo).call(this, input, output, options, embeds));
 
-  		_this.regex = regex.basicAudio;
+  		_this.regex = regex.basicVideo;
   		_this.service = 'video';
   		return _this;
   	}
@@ -1696,6 +1696,7 @@
   	babelHelpers.createClass(BasicVideo, [{
   		key: 'template',
   		value: function template(match) {
+  			console.log(match);
   			return this.options.template.basicVideo(match, this.options);
   		}
   	}]);
