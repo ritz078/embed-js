@@ -15,7 +15,7 @@ var banner = "/*\n" +
 	" */\n";
 
 var config = {
-	entry        : 'src/js/embed.es6',
+	entry        : 'src/js/main.js',
 	dest         : 'src/embed.js',
 	format       : 'umd',
 	banner       : banner,

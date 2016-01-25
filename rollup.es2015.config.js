@@ -16,7 +16,7 @@ var banner = "/*\n" +
 
 
 var config = {
-    entry         : 'src/js/embed.es6',
+    entry         : 'src/js/main.js',
     dest          : 'src/embed.es2015.js',
     format        : 'es6',
     banner        : banner,

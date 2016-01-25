@@ -35,7 +35,7 @@ module.exports = function(grunt) {
                 tasks: ['sass', 'postcss']
             },
             js: {
-                files: ['src/js/**/*.es6', 'build.json', 'src/js/vendor/*.js'],
+                files: ['src/js/**/*.js', 'build.json'],
                 tasks: ['eslint', 'shell:rollup', 'uglify']
             }
         },
@@ -101,7 +101,7 @@ module.exports = function(grunt) {
                     style: 'expanded'
                 },
                 files: {
-                    'src/embed.css': 'src/css/embed.scss',
+                    'src/embed.css': 'src/css/embed.scss'
                 }
             }
         },
@@ -146,7 +146,7 @@ module.exports = function(grunt) {
         },
 
         eslint: {
-            target: ['src/js/**/*.es6']
+            target: ['src/js/**/*.js']
         },
 
         'string-replace': {

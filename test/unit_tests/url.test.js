@@ -1,4 +1,4 @@
-import Url from '../../src/js/modules/url.es6';
+import Url from '../../src/js/modules/url.js';
 let expect = chai.expect;
 
 describe('Class Url unit test', function () {

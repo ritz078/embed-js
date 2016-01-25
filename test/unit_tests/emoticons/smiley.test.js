@@ -1,4 +1,4 @@
-import Smiley from '../../../src/js/modules/emoticons/smiley.es6';
+import Smiley from '../../../src/js/modules/emoticons/smiley.js';
 import {options, ejs} from '../../options'
 let expect = chai.expect;
 

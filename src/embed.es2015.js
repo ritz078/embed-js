@@ -1293,7 +1293,7 @@ class Url{
   }
 
   function Headers(headers) {
-    this.map = {}
+    this.map = {};
 
     if (headers instanceof Headers) {
       headers.forEach(function(value, name) {
@@ -1308,36 +1308,36 @@ class Url{
   }
 
   Headers.prototype.append = function(name, value) {
-    name = normalizeName(name)
-    value = normalizeValue(value)
-    var list = this.map[name]
+    name = normalizeName(name);
+    value = normalizeValue(value);
+    var list = this.map[name];
     if (!list) {
-      list = []
+      list = [];
       this.map[name] = list
     }
     list.push(value)
-  }
+  };
 
   Headers.prototype['delete'] = function(name) {
     delete this.map[normalizeName(name)]
-  }
+  };
 
   Headers.prototype.get = function(name) {
-    var values = this.map[normalizeName(name)]
+    var values = this.map[normalizeName(name)];
     return values ? values[0] : null
-  }
+  };
 
   Headers.prototype.getAll = function(name) {
     return this.map[normalizeName(name)] || []
-  }
+  };
 
   Headers.prototype.has = function(name) {
     return this.map.hasOwnProperty(normalizeName(name))
-  }
+  };
 
   Headers.prototype.set = function(name, value) {
     this.map[normalizeName(name)] = [normalizeValue(value)]
-  }
+  };
 
   Headers.prototype.forEach = function(callback, thisArg) {
     Object.getOwnPropertyNames(this.map).forEach(function(name) {
@@ -1345,7 +1345,7 @@ class Url{
         callback.call(thisArg, value, name, this)
       }, this)
     }, this)
-  }
+  };
 
   function consumed(body) {
     if (body.bodyUsed) {
@@ -1358,7 +1358,7 @@ class Url{
     return new Promise(function(resolve, reject) {
       reader.onload = function() {
         resolve(reader.result)
-      }
+      };
       reader.onerror = function() {
         reject(reader.error)
       }
@@ -1366,14 +1366,14 @@ class Url{
   }
 
   function readBlobAsArrayBuffer(blob) {
-    var reader = new FileReader()
-    reader.readAsArrayBuffer(blob)
+    var reader = new FileReader();
+    reader.readAsArrayBuffer(blob);
     return fileReaderReady(reader)
   }
 
   function readBlobAsText(blob) {
-    var reader = new FileReader()
-    reader.readAsText(blob)
+    var reader = new FileReader();
+    reader.readAsText(blob);
     return fileReaderReady(reader)
   }
 
@@ -1387,14 +1387,14 @@ class Url{
       }
     })(),
     formData: 'FormData' in self
-  }
+  };
 
   function Body() {
-    this.bodyUsed = false
+    this.bodyUsed = false;
 
 
     this._initBody = function(body) {
-      this._bodyInit = body
+      this._bodyInit = body;
       if (typeof body === 'string') {
         this._bodyText = body
       } else if (support.blob && Blob.prototype.isPrototypeOf(body)) {
@@ -1406,11 +1406,11 @@ class Url{
       } else {
         throw new Error('unsupported BodyInit type')
       }
-    }
+    };
 
     if (support.blob) {
       this.blob = function() {
-        var rejected = consumed(this)
+        var rejected = consumed(this);
         if (rejected) {
           return rejected
         }
@@ -1422,14 +1422,14 @@ class Url{
         } else {
           return Promise.resolve(new Blob([this._bodyText]))
         }
-      }
+      };
 
       this.arrayBuffer = function() {
         return this.blob().then(readBlobAsArrayBuffer)
-      }
+      };
 
       this.text = function() {
-        var rejected = consumed(this)
+        var rejected = consumed(this);
         if (rejected) {
           return rejected
         }
@@ -1444,7 +1444,7 @@ class Url{
       }
     } else {
       this.text = function() {
-        var rejected = consumed(this)
+        var rejected = consumed(this);
         return rejected ? rejected : Promise.resolve(this._bodyText)
       }
     }
@@ -1457,28 +1457,28 @@ class Url{
 
     this.json = function() {
       return this.text().then(JSON.parse)
-    }
+    };
 
     return this
   }
 
   // HTTP methods whose capitalization should be normalized
-  var methods = ['DELETE', 'GET', 'HEAD', 'OPTIONS', 'POST', 'PUT']
+  var methods = ['DELETE', 'GET', 'HEAD', 'OPTIONS', 'POST', 'PUT'];
 
   function normalizeMethod(method) {
-    var upcased = method.toUpperCase()
+    var upcased = method.toUpperCase();
     return (methods.indexOf(upcased) > -1) ? upcased : method
   }
 
   function Request(url, options) {
-    options = options || {}
-    this.url = url
+    options = options || {};
+    this.url = url;
 
-    this.credentials = options.credentials || 'omit'
-    this.headers = new Headers(options.headers)
-    this.method = normalizeMethod(options.method || 'GET')
-    this.mode = options.mode || null
-    this.referrer = null
+    this.credentials = options.credentials || 'omit';
+    this.headers = new Headers(options.headers);
+    this.method = normalizeMethod(options.method || 'GET');
+    this.mode = options.mode || null;
+    this.referrer = null;
 
     if ((this.method === 'GET' || this.method === 'HEAD') && options.body) {
       throw new TypeError('Body not allowed for GET or HEAD requests')
@@ -1487,48 +1487,48 @@ class Url{
   }
 
   function decode(body) {
-    var form = new FormData()
+    var form = new FormData();
     body.trim().split('&').forEach(function(bytes) {
       if (bytes) {
-        var split = bytes.split('=')
-        var name = split.shift().replace(/\+/g, ' ')
-        var value = split.join('=').replace(/\+/g, ' ')
+        var split = bytes.split('=');
+        var name = split.shift().replace(/\+/g, ' ');
+        var value = split.join('=').replace(/\+/g, ' ');
         form.append(decodeURIComponent(name), decodeURIComponent(value))
       }
-    })
+    });
     return form
   }
 
   function headers(xhr) {
-    var head = new Headers()
-    var pairs = xhr.getAllResponseHeaders().trim().split('\n')
+    var head = new Headers();
+    var pairs = xhr.getAllResponseHeaders().trim().split('\n');
     pairs.forEach(function(header) {
-      var split = header.trim().split(':')
-      var key = split.shift().trim()
-      var value = split.join(':').trim()
+      var split = header.trim().split(':');
+      var key = split.shift().trim();
+      var value = split.join(':').trim();
       head.append(key, value)
-    })
+    });
     return head
   }
 
-  Body.call(Request.prototype)
+  Body.call(Request.prototype);
 
   function Response(bodyInit, options) {
     if (!options) {
       options = {}
     }
 
-    this._initBody(bodyInit)
-    this.type = 'default'
-    this.url = null
-    this.status = options.status
-    this.ok = this.status >= 200 && this.status < 300
-    this.statusText = options.statusText
-    this.headers = options.headers instanceof Headers ? options.headers : new Headers(options.headers)
+    this._initBody(bodyInit);
+    this.type = 'default';
+    this.url = null;
+    this.status = options.status;
+    this.ok = this.status >= 200 && this.status < 300;
+    this.statusText = options.statusText;
+    this.headers = options.headers instanceof Headers ? options.headers : new Headers(options.headers);
     this.url = options.url || ''
   }
 
-  Body.call(Response.prototype)
+  Body.call(Response.prototype);
 
   self.Headers = Headers;
   self.Request = Request;
@@ -1536,7 +1536,7 @@ class Url{
 
   self.fetch = function(input, init) {
     // TODO: Request constructor should accept input, init
-    var request
+    var request;
     if (Request.prototype.isPrototypeOf(input) && !init) {
       request = input
     } else {
@@ -1544,7 +1544,7 @@ class Url{
     }
 
     return new Promise(function(resolve, reject) {
-      var xhr = new XMLHttpRequest()
+      var xhr = new XMLHttpRequest();
 
       function responseURL() {
         if ('responseURL' in xhr) {
@@ -1556,13 +1556,13 @@ class Url{
           return xhr.getResponseHeader('X-Request-URL')
         }
 
-        return;
+
       }
 
       xhr.onload = function() {
-        var status = (xhr.status === 1223) ? 204 : xhr.status
+        var status = (xhr.status === 1223) ? 204 : xhr.status;
         if (status < 100 || status > 599) {
-          reject(new TypeError('Network request failed'))
+          reject(new TypeError('Network request failed'));
           return
         }
         var options = {
@@ -1570,16 +1570,16 @@ class Url{
           statusText: xhr.statusText,
           headers: headers(xhr),
           url: responseURL()
-        }
+        };
         var body = 'response' in xhr ? xhr.response : xhr.responseText;
         resolve(new Response(body, options))
-      }
+      };
 
       xhr.onerror = function() {
         reject(new TypeError('Network request failed'))
-      }
+      };
 
-      xhr.open(request.method, request.url, true)
+      xhr.open(request.method, request.url, true);
 
       if (request.credentials === 'include') {
         xhr.withCredentials = true
@@ -1591,11 +1591,11 @@ class Url{
 
       request.headers.forEach(function(value, name) {
         xhr.setRequestHeader(name, value)
-      })
+      });
 
       xhr.send(typeof request._bodyInit === 'undefined' ? null : request._bodyInit)
     })
-  }
+  };
   self.fetch.polyfill = true
 })();
 
@@ -2491,14 +2491,14 @@ class SoundCloud extends Base{
 
 class Spotify extends Base{
 	constructor(input,output, options, embeds) {
-		super(input,output, options, embeds)
+		super(input,output, options, embeds);
 		this.regex = regex.spotify;
 		this.service = 'spotify'
 	}
 
 	template(match){
-		let a = match.split('/')
-		let id = a[a.length-1]
+		let a = match.split('/');
+		let id = a[a.length-1];
 		return this.options.template.spotify(id, this.options);
 	}
 }

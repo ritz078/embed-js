@@ -1,7 +1,7 @@
-import Codepen from '../../../src/js/modules/code/codepen.es6';
+import Codepen from '../../../src/js/modules/code/codepen.js';
 import {options, ejs} from '../../options';
-import { cloneObject } from '../../../src/js/modules/utils.es6'
-import Url from '../../../src/js/modules/url.es6'
+import { cloneObject } from '../../../src/js/modules/utils.js'
+import Url from '../../../src/js/modules/url.js'
 let expect = chai.expect;
 
 function init(input, output, opts = options, embeds = []) {

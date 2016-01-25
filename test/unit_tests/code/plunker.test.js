@@ -1,4 +1,4 @@
-import Plunker from '../../../src/js/modules/code/plunker.es6';
+import Plunker from '../../../src/js/modules/code/plunker.js';
 import {options, ejs} from '../../options';
 let expect = chai.expect;
 

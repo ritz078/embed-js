@@ -941,8 +941,6 @@
           if (/^X-Request-URL:/m.test(xhr.getAllResponseHeaders())) {
             return xhr.getResponseHeader('X-Request-URL');
           }
-
-          return;
         }
 
         xhr.onload = function () {

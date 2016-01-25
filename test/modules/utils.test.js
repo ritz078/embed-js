@@ -1,4 +1,4 @@
-import { toUrl, truncate, getUnique, deepExtend, escapeRegExp, createText, matches, ifEmbed, getDimensions, urlRegex } from '../../src/js/modules/utils.es6'
+import { toUrl, truncate, getUnique, deepExtend, escapeRegExp, createText, matches, ifEmbed, getDimensions, urlRegex } from '../../src/js/modules/utils.js'
 var expect = chai.expect;
 
 describe('utility methods unit tests', function(){
