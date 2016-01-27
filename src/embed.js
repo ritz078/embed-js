@@ -10,7 +10,7 @@
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define(factory) :
-  global.EmbedJS = factory();
+  (global.EmbedJS = factory());
 }(this, function () { 'use strict';
 
   var babelHelpers = {};
@@ -398,262 +398,163 @@
   	return Renderer;
   }();
 
-  /**
-   * Plays the video after clicking on the thumbnail
-   * @param  {object} options   Options object
-   * @return {null}
-   */
-  function playVideo(options) {
-      /** Execute the customVideoClickHandler if the user wants to handle it on his own. */
-      if (options.customVideoClickHandler) return options.videoClickHandler(options, template);
+  var Emoji = function () {
+      function Emoji(output, options) {
+          babelHelpers.classCallCheck(this, Emoji);
 
-      var classes = document.getElementsByClassName(options.videoClickClass);
-      for (var i = 0; i < classes.length; i++) {
-          classes[i].onclick = function () {
-              options.onVideoShow();
-              var url = this.getAttribute('data-ejs-url') + "?autoplay=true";
-              this.parentNode.parentNode.innerHTML = template(url, options);
-          };
+          this.output = output;
+          this.options = options;
+
+          this.emojiList = ['bowtie', 'smile', 'laughing', 'blush', 'smiley', 'relaxed', 'smirk', 'heart_eyes', 'kissing_heart', 'kissing_closed_eyes', 'flushed', 'relieved', 'satisfied', 'grin', 'wink', 'stuck_out_tongue_winking_eye', 'stuck_out_tongue_closed_eyes', 'grinning', 'kissing', 'winky_face', 'kissing_smiling_eyes', 'stuck_out_tongue', 'sleeping', 'worried', 'frowning', 'anguished', 'open_mouth', 'grimacing', 'confused', 'hushed', 'expressionless', 'unamused', 'sweat_smile', 'sweat', 'wow', 'disappointed_relieved', 'weary', 'pensive', 'disappointed', 'confounded', 'fearful', 'cold_sweat', 'persevere', 'cry', 'sob', 'joy', 'astonished', 'scream', 'neckbeard', 'tired_face', 'angry', 'rage', 'triumph', 'sleepy', 'yum', 'mask', 'sunglasses', 'dizzy_face', 'imp', 'smiling_imp', 'neutral_face', 'no_mouth', 'innocent', 'alien', 'yellow_heart', 'blue_heart', 'purple_heart', 'heart', 'green_heart', 'broken_heart', 'heartbeat', 'heartpulse', 'two_hearts', 'revolving_hearts', 'cupid', 'sparkling_heart', 'sparkles', 'star', 'star2', 'dizzy', 'boom', 'collision', 'anger', 'exclamation', 'question', 'grey_exclamation', 'grey_question', 'zzz', 'dash', 'sweat_drops', 'notes', 'musical_note', 'fire', 'hankey', 'poop', 'shit', '\\+1', 'thumbsup', '-1', 'thumbsdown', 'ok_hand', 'punch', 'facepunch', 'fist', 'v', 'wave', 'hand', 'raised_hand', 'open_hands', 'point_up', 'point_down', 'point_left', 'point_right', 'raised_hands', 'pray', 'point_up_2', 'clap', 'muscle', 'metal', 'fu', 'walking', 'runner', 'running', 'couple', 'family', 'two_men_holding_hands', 'two_women_holding_hands', 'dancer', 'dancers', 'ok_woman', 'no_good', 'information_desk_person', 'raising_hand', 'bride_with_veil', 'person_with_pouting_face', 'person_frowning', 'bow', 'couplekiss', 'couple_with_heart', 'massage', 'haircut', 'nail_care', 'boy', 'girl', 'woman', 'man', 'baby', 'older_woman', 'older_man', 'person_with_blond_hair', 'man_with_gua_pi_mao', 'man_with_turban', 'construction_worker', 'cop', 'angel', 'princess', 'smiley_cat', 'smile_cat', 'heart_eyes_cat', 'kissing_cat', 'smirk_cat', 'scream_cat', 'crying_cat_face', 'joy_cat', 'pouting_cat', 'japanese_ogre', 'japanese_goblin', 'see_no_evil', 'hear_no_evil', 'speak_no_evil', 'guardsman', 'skull', 'feet', 'lips', 'kiss', 'droplet', 'ear', 'eyes', 'nose', 'tongue', 'love_letter', 'bust_in_silhouette', 'busts_in_silhouette', 'speech_balloon', 'thought_balloon', 'feelsgood', 'finnadie', 'goberserk', 'godmode', 'hurtrealbad', 'rage1', 'rage2', 'rage3', 'rage4', 'suspect', 'trollface', 'sunny', 'umbrella', 'cloud', 'snowflake', 'snowman', 'zap', 'cyclone', 'foggy', 'ocean', 'cat', 'dog', 'mouse', 'hamster', 'rabbit', 'wolf', 'frog', 'tiger', 'koala', 'bear', 'pig', 'pig_nose', 'cow', 'boar', 'monkey_face', 'monkey', 'horse', 'racehorse', 'camel', 'sheep', 'elephant', 'panda_face', 'snake', 'bird', 'baby_chick', 'hatched_chick', 'hatching_chick', 'chicken', 'penguin', 'turtle', 'bug', 'honeybee', 'ant', 'beetle', 'snail', 'octopus', 'tropical_fish', 'fish', 'whale', 'whale2', 'dolphin', 'cow2', 'ram', 'rat', 'water_buffalo', 'tiger2', 'rabbit2', 'dragon', 'goat', 'rooster', 'dog2', 'pig2', 'mouse2', 'ox', 'dragon_face', 'blowfish', 'crocodile', 'dromedary_camel', 'leopard', 'cat2', 'poodle', 'paw_prints', 'bouquet', 'cherry_blossom', 'tulip', 'four_leaf_clover', 'rose', 'sunflower', 'hibiscus', 'maple_leaf', 'leaves', 'fallen_leaf', 'herb', 'mushroom', 'cactus', 'palm_tree', 'evergreen_tree', 'deciduous_tree', 'chestnut', 'seedling', 'blossom', 'ear_of_rice', 'shell', 'globe_with_meridians', 'sun_with_face', 'full_moon_with_face', 'new_moon_with_face', 'new_moon', 'waxing_crescent_moon', 'first_quarter_moon', 'waxing_gibbous_moon', 'full_moon', 'waning_gibbous_moon', 'last_quarter_moon', 'waning_crescent_moon', 'last_quarter_moon_with_face', 'first_quarter_moon_with_face', 'moon', 'earth_africa', 'earth_americas', 'earth_asia', 'volcano', 'milky_way', 'partly_sunny', 'octocat', 'squirrel', 'bamboo', 'gift_heart', 'dolls', 'school_satchel', 'mortar_board', 'flags', 'fireworks', 'sparkler', 'wind_chime', 'rice_scene', 'jack_o_lantern', 'ghost', 'santa', 'christmas_tree', 'gift', 'bell', 'no_bell', 'tanabata_tree', 'tada', 'confetti_ball', 'balloon', 'crystal_ball', 'cd', 'dvd', 'floppy_disk', 'camera', 'video_camera', 'movie_camera', 'computer', 'tv', 'iphone', 'phone', 'telephone', 'telephone_receiver', 'pager', 'fax', 'minidisc', 'vhs', 'sound', 'speaker', 'mute', 'loudspeaker', 'mega', 'hourglass', 'hourglass_flowing_sand', 'alarm_clock', 'watch', 'radio', 'satellite', 'loop', 'mag', 'mag_right', 'unlock', 'lock', 'lock_with_ink_pen', 'closed_lock_with_key', 'key', 'bulb', 'flashlight', 'high_brightness', 'low_brightness', 'electric_plug', 'battery', 'calling', 'email', 'mailbox', 'postbox', 'bath', 'bathtub', 'shower', 'toilet', 'wrench', 'nut_and_bolt', 'hammer', 'seat', 'moneybag', 'yen', 'dollar', 'pound', 'euro', 'credit_card', 'money_with_wings', 'e-mail', 'inbox_tray', 'outbox_tray', 'envelope', 'incoming_envelope', 'postal_horn', 'mailbox_closed', 'mailbox_with_mail', 'mailbox_with_no_mail', 'door', 'smoking', 'bomb', 'gun', 'hocho', 'pill', 'syringe', 'page_facing_up', 'page_with_curl', 'bookmark_tabs', 'bar_chart', 'chart_with_upwards_trend', 'chart_with_downwards_trend', 'scroll', 'clipboard', 'calendar', 'date', 'card_index', 'file_folder', 'open_file_folder', 'scissors', 'pushpin', 'paperclip', 'black_nib', 'pencil2', 'straight_ruler', 'triangular_ruler', 'closed_book', 'green_book', 'blue_book', 'orange_book', 'notebook', 'notebook_with_decorative_cover', 'ledger', 'books', 'bookmark', 'name_badge', 'microscope', 'telescope', 'newspaper', 'football', 'basketball', 'soccer', 'baseball', 'tennis', '8ball', 'rugby_football', 'bowling', 'golf', 'mountain_bicyclist', 'bicyclist', 'horse_racing', 'snowboarder', 'swimmer', 'surfer', 'ski', 'spades', 'hearts', 'clubs', 'diamonds', 'gem', 'ring', 'trophy', 'musical_score', 'musical_keyboard', 'violin', 'space_invader', 'video_game', 'black_joker', 'flower_playing_cards', 'game_die', 'dart', 'mahjong', 'clapper', 'memo', 'pencil', 'book', 'art', 'microphone', 'headphones', 'trumpet', 'saxophone', 'guitar', 'shoe', 'sandal', 'high_heel', 'lipstick', 'boot', 'shirt', 'tshirt', 'necktie', 'womans_clothes', 'dress', 'running_shirt_with_sash', 'jeans', 'kimono', 'bikini', 'ribbon', 'tophat', 'crown', 'womans_hat', 'mans_shoe', 'closed_umbrella', 'briefcase', 'handbag', 'pouch', 'purse', 'eyeglasses', 'fishing_pole_and_fish', 'coffee', 'tea', 'sake', 'baby_bottle', 'beer', 'beers', 'cocktail', 'tropical_drink', 'wine_glass', 'fork_and_knife', 'pizza', 'hamburger', 'fries', 'poultry_leg', 'meat_on_bone', 'spaghetti', 'curry', 'fried_shrimp', 'bento', 'sushi', 'fish_cake', 'rice_ball', 'rice_cracker', 'rice', 'ramen', 'stew', 'oden', 'dango', 'egg', 'bread', 'doughnut', 'custard', 'icecream', 'ice_cream', 'shaved_ice', 'birthday', 'cake', 'cookie', 'chocolate_bar', 'candy', 'lollipop', 'honey_pot', 'apple', 'green_apple', 'tangerine', 'lemon', 'cherries', 'grapes', 'watermelon', 'strawberry', 'peach', 'melon', 'banana', 'pear', 'pineapple', 'sweet_potato', 'eggplant', 'tomato', 'corn', 'house', 'house_with_garden', 'school', 'office', 'post_office', 'hospital', 'bank', 'convenience_store', 'love_hotel', 'hotel', 'wedding', 'church', 'department_store', 'european_post_office', 'city_sunrise', 'city_sunset', 'japanese_castle', 'european_castle', 'tent', 'factory', 'tokyo_tower', 'japan', 'mount_fuji', 'sunrise_over_mountains', 'sunrise', 'stars', 'themoreyouknow', 'tmyk', 'statue_of_liberty', 'bridge_at_night', 'carousel_horse', 'rainbow', 'ferris_wheel', 'fountain', 'roller_coaster', 'ship', 'speedboat', 'boat', 'sailboat', 'rowboat', 'anchor', 'rocket', 'airplane', 'helicopter', 'steam_locomotive', 'tram', 'mountain_railway', 'bike', 'aerial_tramway', 'suspension_railway', 'mountain_cableway', 'tractor', 'blue_car', 'oncoming_automobile', 'car', 'red_car', 'taxi', 'oncoming_taxi', 'articulated_lorry', 'bus', 'oncoming_bus', 'rotating_light', 'police_car', 'oncoming_police_car', 'fire_engine', 'ambulance', 'minibus', 'truck', 'train', 'station', 'train2', 'bullettrain_front', 'bullettrain_side', 'light_rail', 'monorail', 'railway_car', 'trolleybus', 'ticket', 'fuelpump', 'vertical_traffic_light', 'traffic_light', 'warning', 'construction', 'beginner', 'atm', 'slot_machine', 'busstop', 'barber', 'hotsprings', 'checkered_flag', 'crossed_flags', 'izakaya_lantern', 'moyai', 'circus_tent', 'performing_arts', 'round_pushpin', 'triangular_flag_on_post', 'jp', 'kr', 'cn', 'us', 'fr', 'es', 'it', 'ru', 'gb', 'uk', 'de', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'keycap_ten', '1234', 'zero', 'hash', 'symbols', 'arrow_backward', 'arrow_down', 'arrow_forward', 'arrow_left', 'capital_abcd', 'abcd', 'abc', 'arrow_lower_left', 'arrow_lower_right', 'arrow_right', 'arrow_up', 'arrow_upper_left', 'arrow_upper_right', 'arrow_double_down', 'arrow_double_up', 'arrow_down_small', 'arrow_heading_down', 'arrow_heading_up', 'leftwards_arrow_with_hook', 'arrow_right_hook', 'left_right_arrow', 'arrow_up_down', 'arrow_up_small', 'arrows_clockwise', 'arrows_counterclockwise', 'rewind', 'fast_forward', 'information_source', 'ok', 'twisted_rightwards_arrows', 'repeat', 'repeat_one', 'new', 'top', 'up', 'cool', 'free', 'ng', 'cinema', 'koko', 'signal_strength', 'u5272', 'u5408', 'u55b6', 'u6307', 'u6708', 'u6709', 'u6e80', 'u7121', 'u7533', 'u7a7a', 'u7981', 'sa', 'restroom', 'mens', 'womens', 'baby_symbol', 'no_smoking', 'parking', 'wheelchair', 'metro', 'baggage_claim', 'accept', 'wc', 'potable_water', 'put_litter_in_its_place', 'secret', 'congratulations', 'm', 'passport_control', 'left_luggage', 'customs', 'ideograph_advantage', 'cl', 'sos', 'id', 'no_entry_sign', 'underage', 'no_mobile_phones', 'do_not_litter', 'non-potable_water', 'no_bicycles', 'no_pedestrians', 'children_crossing', 'no_entry', 'eight_spoked_asterisk', 'eight_pointed_black_star', 'heart_decoration', 'vs', 'vibration_mode', 'mobile_phone_off', 'chart', 'currency_exchange', 'aries', 'taurus', 'gemini', 'cancer', 'leo', 'virgo', 'libra', 'scorpius', 'sagittarius', 'capricorn', 'aquarius', 'pisces', 'ophiuchus', 'six_pointed_star', 'negative_squared_cross_mark', 'a', 'b', 'ab', 'o2', 'diamond_shape_with_a_dot_inside', 'recycle', 'end', 'on', 'soon', 'clock1', 'clock130', 'clock10', 'clock1030', 'clock11', 'clock1130', 'clock12', 'clock1230', 'clock2', 'clock230', 'clock3', 'clock330', 'clock4', 'clock430', 'clock5', 'clock530', 'clock6', 'clock630', 'clock7', 'clock730', 'clock8', 'clock830', 'clock9', 'clock930', 'heavy_dollar_sign', 'copyright', 'registered', 'tm', 'x', 'heavy_exclamation_mark', 'bangbang', 'interrobang', 'o', 'heavy_multiplication_x', 'heavy_plus_sign', 'heavy_minus_sign', 'heavy_division_sign', 'white_flower', '100', 'heavy_check_mark', 'ballot_box_with_check', 'radio_button', 'link', 'curly_loop', 'wavy_dash', 'part_alternation_mark', 'trident', 'black_square', 'white_square', 'white_check_mark', 'black_square_button', 'white_square_button', 'black_circle', 'white_circle', 'red_circle', 'large_blue_circle', 'large_blue_diamond', 'large_orange_diamond', 'small_blue_diamond', 'small_orange_diamond', 'small_red_triangle', 'small_red_triangle_down', 'shipit'];
+
+          this.allEmojiList = this.emojiList.concat(this.options.customEmoji);
+
+          this.emojiRegex = new RegExp(':(' + this.allEmojiList.join('|') + '):', 'g');
       }
-  }
 
-  /**
-   * Common template for vimeo and youtube iframes
-   * @param  {string} url     URL of the embedding video
-   * @param  {object} options Options object
-   * @return {string}         compiled template with variables replaced
-   */
-  function template(url, options) {
-      var dimensions = getDimensions(options);
-      return options.template.vimeo(url, dimensions, options) || options.template.youtube(url, dimensions, options);
-  }
+      babelHelpers.createClass(Emoji, [{
+          key: 'process',
+          value: function process() {
+              var _this = this;
 
-  function getDetailsTemplate(data, fullData, embedUrl, options) {
-      if (data.host === 'vimeo') {
-          return options.template.detailsVimeo(data, fullData, embedUrl, options);
-      } else if (data.host === 'youtube') {
-          return options.template.detailsYoutube(data, fullData, embedUrl, options);
-      }
-  }
-
-  /**
-   * Applies video.js to all audio and video dynamically
-   * @param  {object} options Options object
-   * @return {null}
-   */
-  function applyVideoJS(options) {
-      var dimensions = getDimensions(options);
-      options.videojsOptions.width = dimensions.width;
-      options.videojsOptions.height = dimensions.height;
-      if (options.videoJS) {
-          if (!window.videojs) throw new ReferenceError("You have enabled videojs but you haven't loaded the library.Find it at http://videojs.com/");
-          var elements = options.input.getElementsByClassName('ejs-video-js');
-          for (var i = 0; i < elements.length; i++) {
-              videojs(elements[i], options.videojsOptions, function () {
-                  return options.videojsCallback();
+              return this.output.replace(this.emojiRegex, function (match, text) {
+                  return _this.options.template.emoji(text, _this.options);
               });
           }
-      }
-  }
+      }]);
+      return Emoji;
+  }();
 
-  /**
-   * Destroys the onclick event for opening the video template from the details template
-   * @param  {className} className
-   * @return {null}
-   */
-  function destroyVideos(className) {
-      var classes = document.getElementsByClassName(className);
-      for (var i = 0; i < classes.length; i++) {
-          classes[i].onclick = null;
-      }
-  }
+  var Smiley = function () {
+      function Smiley(input, options) {
+          babelHelpers.classCallCheck(this, Smiley);
 
-  /**
-   * This is a private function which is used to get the actual text to be replaced for
-   * a particular url in inline embedding. This returns a promise
-   * @param  {object} _this     reference to this
-   * @param  {function} urlToText The function that converts url to replaceable text
-   * @param  {object} match     object containing info of matching string
-   * @return {Promise}           resolves to the text
-   */
-  function getInlineData(_this, urlToText, match) {
-      var url = (_this.options.link ? match[0].slice(0, -4) : match[0]) || match[1];
-      if (_this.options.served.indexOf(url) !== -1) return Promise.resolve(null);
+          this.input = ' ' + input + ' '; //hack to consider the first and last element
+          this.options = options;
 
-      return new Promise(function (resolve) {
-          urlToText(_this, match, url).then(function (text) {
-              if (!text) return resolve();
-              _this.options.served.push(url);
-              resolve(text);
+          var defaultIcons = [{
+              'text': ' :) ',
+              'code': '&#xe60a'
+          }, {
+              'text': ' :D ',
+              'code': '&#xe608'
+          }, {
+              'text': ' :d ',
+              'code': '&#xe608'
+          }, {
+              'text': ' :( ',
+              'code': '&#xe60e'
+          }, {
+              'text': ' :/ ',
+              'code': '&#xe620'
+
+          }, {
+              'text': ' :P ',
+              'code': '&#xe60c'
+          }, {
+              'text': ' :p ',
+              'code': '&#xe60c'
+          }, {
+              'text': ' 3:) ',
+              'code': '&#xe618'
+          }, {
+              'text': ' (^) ',
+              'code': '&#xe607'
+          }, {
+              'text': ' ;) ',
+              'code': '&#xe610'
+          }, {
+              'text': ' :o ',
+              'code': '&#xe61a'
+          }, {
+              'text': ' -_- ',
+              'code': '&#xe61e'
+          }, {
+              'text': ' (y) ',
+              'code': '&#xe606'
+          }, {
+              'text': ' :* ',
+              'code': '&#xe604'
+          }, {
+              'text': ' &lt;3 ',
+              'code': '&#xe604'
+          }, {
+              'text': ' <3 ',
+              'code': '&#xe604'
+          }, {
+              'text': ' &lt;/3 ',
+              'code': '&#xe605'
+          }, {
+              'text': ' </3 ',
+              'code': '&#xe605'
+          }, {
+              'text': ' ^_^ ',
+              'code': '&#xe612'
+          }, {
+              'text': ' 8-) ',
+              'code': '&#xe614'
+          }, {
+              'text': ' 8| ',
+              'code': '&#xe614'
+          }, {
+              'text': ' :S ',
+              'code': '&#xe61c'
+          }, {
+              'text': ' :s ',
+              'code': '&#xe61c'
+          }];
+
+          this.icons = options.customFontIcons.length ? options.customFontIcons : defaultIcons;
+
+          this.escapedSymbols = this.icons.map(function (val) {
+              return escapeRegExp(val.text);
           });
-      });
-  }
 
-  /**
-   * A helper function for inline embedding
-   * @param _this
-   * @param urlToText
-   * @returns {*}
-   */
-  function inlineEmbed(_this, urlToText) {
-      var regexInline = _this.options.link ? new RegExp('([^>]*' + _this.regex.source + ')</a>', 'gi') : new RegExp('([^\\s]*' + _this.regex.source + ')', 'gi');
-      var match = undefined,
-          allMatches = [],
-          promises = [];
-
-      while ((match = matches(regexInline, _this.output)) !== null) {
-          allMatches.push(match);
-          promises.push(getInlineData(_this, urlToText, match));
+          this.smileyRegex = new RegExp('(' + this.escapedSymbols.join('|') + ')', 'g');
       }
 
-      return new Promise(function (resolve) {
-          if (matches.length) Promise.all(promises).then(function (data) {
-              var i = 0;
-              _this.output = _this.output.replace(regexInline, function (match) {
-                  if (_this.options.link) return !_this.options.inlineText ? data[i] + '</a>' : match + data[i++];else return !_this.options.inlineText ? data[i] : match + data[i++];
-              });
-              resolve(_this.output);
-          });else resolve(_this.output);
-      });
-  }
+      babelHelpers.createClass(Smiley, [{
+          key: 'process',
+          value: function process() {
+              var _this = this;
 
-  function getNormalData(_this, urlToText, match) {
-      var url = match[0];
-      if (!_this.options.served.indexOf(url) === -1) return;
-
-      return new Promise(function (resolve) {
-          urlToText(_this, match, url, true).then(function (text) {
-              if (!text) resolve();
-              _this.options.served.push(url);
-              _this.embeds.push({
-                  text: text,
-                  index: match.index
-              });
-              resolve();
-          });
-      });
-  }
-
-  /**
-   * A helper function for normal embedding
-   * @param  {object} _this
-   * @param  {function} urlToText
-   * @return {Promise}
-   */
-  function normalEmbed(_this, urlToText) {
-      var match = undefined,
-          allMatches = [],
-          promises = [];
-
-      while ((match = matches(_this.regex, _this.input)) !== null) {
-          allMatches.push(match);
-          promises.push(getNormalData(_this, urlToText, match));
-      }
-
-      return new Promise(function (resolve) {
-          Promise.all(promises).then(function () {
-              resolve(_this.embeds);
-          });
-      });
-  }
-
-  var defaultOptions$1 = {
-      timeout: 5000,
-      jsonpCallback: 'callback'
-  };
-
-  function generateCallbackFunction() {
-      return 'jsonp_' + Date.now() + '_' + Math.ceil(Math.random() * 100000);
-  }
-
-  // Known issue: Will throw 'Uncaught ReferenceError: callback_*** is not defined' error if request timeout
-  function clearFunction(functionName) {
-      // IE8 throws an exception when you try to delete a property on window
-      // http://stackoverflow.com/a/1824228/751089
-      try {
-          delete window[functionName];
-      } catch (e) {
-          window[functionName] = undefined;
-      }
-  }
-
-  function removeScript(scriptId) {
-      var script = document.getElementById(scriptId);
-      document.getElementsByTagName("head")[0].removeChild(script);
-  }
-
-  var fetchJsonp = function fetchJsonp(url) {
-      var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
-
-      var timeout = options.timeout != null ? options.timeout : defaultOptions$1.timeout;
-      var jsonpCallback = options.jsonpCallback != null ? options.jsonpCallback : defaultOptions$1.jsonpCallback;
-
-      var timeoutId = undefined;
-
-      return new Promise(function (resolve, reject) {
-          var callbackFunction = generateCallbackFunction();
-
-          window[callbackFunction] = function (response) {
-              resolve({
-                  ok: true,
-                  //
-                  json: function json() {
-                      return Promise.resolve(response);
-                  }
+              var processedString = this.input.replace(this.smileyRegex, function (match, text) {
+                  var index = _this.escapedSymbols.indexOf(escapeRegExp(text));
+                  var code = _this.icons[index].code;
+                  return _this.options.template.smiley(text, code, _this.options);
               });
 
-              if (timeoutId) clearTimeout(timeoutId);
+              return processedString.substring(1, processedString.length - 1);
+          }
+      }]);
+      return Smiley;
+  }();
 
-              removeScript(jsonpCallback + '_' + callbackFunction);
+  var Url = function () {
+  	function Url(input, options) {
+  		babelHelpers.classCallCheck(this, Url);
 
-              clearFunction(callbackFunction);
-          };
+  		this.input = input;
+  		this.options = options;
+  		this.urlRegex = urlRegex();
+  	}
 
-          // Check if the user set their own params, and if not add a ? to start a list of params
-          url += url.indexOf('?') === -1 ? '?' : '&';
+  	babelHelpers.createClass(Url, [{
+  		key: 'process',
+  		value: function process() {
+  			var _this = this;
 
-          var jsonpScript = document.createElement('script');
-          jsonpScript.setAttribute("src", url + jsonpCallback + '=' + callbackFunction);
-          jsonpScript.id = jsonpCallback + '_' + callbackFunction;
-          document.getElementsByTagName("head")[0].appendChild(jsonpScript);
-
-          timeoutId = setTimeout(function () {
-              reject(new Error('JSONP request to ' + url + ' timed out'));
-
-              clearFunction(callbackFunction);
-              removeScript(jsonpCallback + '_' + callbackFunction);
-          }, timeout);
-      });
-  };
-
-  var regex = {
-  	basicAudio: /((?:https?):\/\/\S*\.(?:wav|mp3|ogg))/gi,
-  	soundCloud: /(soundcloud.com)\/[a-zA-Z0-9-_]+\/[a-zA-Z0-9-_]+/gi,
-  	spotify: /spotify.com\/track\/[a-zA-Z0-9_]+/gi,
-  	codepen: /http:\/\/codepen.io\/([A-Za-z0-9_]+)\/pen\/([A-Za-z0-9_]+)/gi,
-  	gist: /gist.github.com\/[a-zA-Z0-9_-]+\/([a-zA-Z0-9]+)/gi,
-  	highlightCode: /(`{3})(\s|[a-z]+)\s*([\s\S]*?[^`])\s*\1(?!`)/gm,
-  	inlineCode: /(`)\s*([\s\S]*?[^`])\s*\1(?!`)/gm,
-  	ideone: /ideone.com\/[a-zA-Z0-9]{6}/gi,
-  	jsbin: /jsbin.com\/[a-zA-Z0-9_]+\/[0-9_]+/gi,
-  	jsfiddle: /jsfiddle.net\/[a-zA-Z0-9_]+\/[a-zA-Z0-9_\/]+/gi,
-  	plunker: /plnkr.co\/edit\/[a-zA-Z0-9\?=]+/gi,
-  	basicImage: /((?:https?):\/\/\S*\.(?:gif|jpg|jpeg|tiff|png|svg|webp))/gi,
-  	flickr: /flickr.com\/[a-z]+\/[a-zA-Z@_$!\d\-\]+\/[\d]+/gi,
-  	instagram: /instagram.com\/p\/[a-zA-Z0-9_\/\?\-\=]+/gi,
-  	slideShare: /slideshare.net\/[a-zA-Z0-9_-]*\/[a-zA-Z0-9_-]*/gi,
-  	github: /[^gist].github.com\/([a-zA-Z0-9\.-]+)\/([a-zA-Z0-9\.-]+)/gi,
-  	basicVideo: /(?:https?):\/\/\S*\.(?:ogv|webm|mp4)/gi,
-  	dailymotion: /dailymotion.com\/video\/[a-zA-Z0-9-_]+/gi,
-  	liveleak: /liveleak.com\/view\?i=[a-zA-Z0-9_]+/gi,
-  	ted: /ted.com\/talks\/[a-zA-Z0-9_]+/gi,
-  	ustream: /ustream.tv\/[a-z\/0-9]*/gi,
-  	vimeo: /https?:\/\/(?:www\.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/([^\/]*)\/videos\/|album\/(\d+)\/video\/|)(\d+)(?:$|\/|\?)*/gi,
-  	vine: /vine.co\/v\/[a-zA-Z0-9]+/gi,
-  	youtube: /https?:\/\/(?:[0-9A-Z-]+\.)?(?:youtu\.be\/|youtube\.com(?:\/embed\/|\/v\/|\/watch\?v=|\/ytscreeningroom\?v=|\/feeds\/api\/videos\/|\/user\S*[^\w\-\s]|\S*[^\w\-\s]))([\w\-]{11})[?=&+%\w-]*/gi,
-  	gmap: /@\((.+)\)/gi,
-  	twitter: /https:\/\/twitter\.com\/\w+\/\w+\/\d+/gi
-  };
+  			var config = this.options.linkOptions;
+  			return this.input.replace(this.urlRegex, function (match) {
+  				var extension = match.split('.')[match.split('.').length - 1];
+  				if (match[match.length - 1] == '/') match = match.slice(0, -1);
+  				if (config.exclude.indexOf(extension) === -1) return _this.options.template.url(match, _this.options);
+  				return match;
+  			});
+  		}
+  	}]);
+  	return Url;
+  }();
 
   (function () {
     'use strict';
@@ -982,6 +883,263 @@
     self.fetch.polyfill = true;
   })();
 
+  var defaultOptions$1 = {
+      timeout: 5000,
+      jsonpCallback: 'callback'
+  };
+
+  function generateCallbackFunction() {
+      return 'jsonp_' + Date.now() + '_' + Math.ceil(Math.random() * 100000);
+  }
+
+  // Known issue: Will throw 'Uncaught ReferenceError: callback_*** is not defined' error if request timeout
+  function clearFunction(functionName) {
+      // IE8 throws an exception when you try to delete a property on window
+      // http://stackoverflow.com/a/1824228/751089
+      try {
+          delete window[functionName];
+      } catch (e) {
+          window[functionName] = undefined;
+      }
+  }
+
+  function removeScript(scriptId) {
+      var script = document.getElementById(scriptId);
+      document.getElementsByTagName("head")[0].removeChild(script);
+  }
+
+  var fetchJsonp = function fetchJsonp(url) {
+      var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+
+      var timeout = options.timeout != null ? options.timeout : defaultOptions$1.timeout;
+      var jsonpCallback = options.jsonpCallback != null ? options.jsonpCallback : defaultOptions$1.jsonpCallback;
+
+      var timeoutId = undefined;
+
+      return new Promise(function (resolve, reject) {
+          var callbackFunction = generateCallbackFunction();
+
+          window[callbackFunction] = function (response) {
+              resolve({
+                  ok: true,
+                  //
+                  json: function json() {
+                      return Promise.resolve(response);
+                  }
+              });
+
+              if (timeoutId) clearTimeout(timeoutId);
+
+              removeScript(jsonpCallback + '_' + callbackFunction);
+
+              clearFunction(callbackFunction);
+          };
+
+          // Check if the user set their own params, and if not add a ? to start a list of params
+          url += url.indexOf('?') === -1 ? '?' : '&';
+
+          var jsonpScript = document.createElement('script');
+          jsonpScript.setAttribute("src", url + jsonpCallback + '=' + callbackFunction);
+          jsonpScript.id = jsonpCallback + '_' + callbackFunction;
+          document.getElementsByTagName("head")[0].appendChild(jsonpScript);
+
+          timeoutId = setTimeout(function () {
+              reject(new Error('JSONP request to ' + url + ' timed out'));
+
+              clearFunction(callbackFunction);
+              removeScript(jsonpCallback + '_' + callbackFunction);
+          }, timeout);
+      });
+  };
+
+  /**
+   * Plays the video after clicking on the thumbnail
+   * @param  {object} options   Options object
+   * @return {null}
+   */
+  function playVideo(options) {
+      /** Execute the customVideoClickHandler if the user wants to handle it on his own. */
+      if (options.customVideoClickHandler) return options.videoClickHandler(options, template);
+
+      var classes = document.getElementsByClassName(options.videoClickClass);
+      for (var i = 0; i < classes.length; i++) {
+          classes[i].onclick = function () {
+              options.onVideoShow();
+              var url = this.getAttribute('data-ejs-url') + "?autoplay=true";
+              this.parentNode.parentNode.innerHTML = template(url, options);
+          };
+      }
+  }
+
+  /**
+   * Common template for vimeo and youtube iframes
+   * @param  {string} url     URL of the embedding video
+   * @param  {object} options Options object
+   * @return {string}         compiled template with variables replaced
+   */
+  function template(url, options) {
+      var dimensions = getDimensions(options);
+      return options.template.vimeo(url, dimensions, options) || options.template.youtube(url, dimensions, options);
+  }
+
+  function getDetailsTemplate(data, fullData, embedUrl, options) {
+      if (data.host === 'vimeo') {
+          return options.template.detailsVimeo(data, fullData, embedUrl, options);
+      } else if (data.host === 'youtube') {
+          return options.template.detailsYoutube(data, fullData, embedUrl, options);
+      }
+  }
+
+  /**
+   * Applies video.js to all audio and video dynamically
+   * @param  {object} options Options object
+   * @return {null}
+   */
+  function applyVideoJS(options) {
+      var dimensions = getDimensions(options);
+      options.videojsOptions.width = dimensions.width;
+      options.videojsOptions.height = dimensions.height;
+      if (options.videoJS) {
+          if (!window.videojs) throw new ReferenceError("You have enabled videojs but you haven't loaded the library.Find it at http://videojs.com/");
+          var elements = options.input.getElementsByClassName('ejs-video-js');
+          for (var i = 0; i < elements.length; i++) {
+              videojs(elements[i], options.videojsOptions, function () {
+                  return options.videojsCallback();
+              });
+          }
+      }
+  }
+
+  /**
+   * Destroys the onclick event for opening the video template from the details template
+   * @param  {className} className
+   * @return {null}
+   */
+  function destroyVideos(className) {
+      var classes = document.getElementsByClassName(className);
+      for (var i = 0; i < classes.length; i++) {
+          classes[i].onclick = null;
+      }
+  }
+
+  /**
+   * This is a private function which is used to get the actual text to be replaced for
+   * a particular url in inline embedding. This returns a promise
+   * @param  {object} _this     reference to this
+   * @param  {function} urlToText The function that converts url to replaceable text
+   * @param  {object} match     object containing info of matching string
+   * @return {Promise}           resolves to the text
+   */
+  function getInlineData(_this, urlToText, match) {
+      var url = (_this.options.link ? match[0].slice(0, -4) : match[0]) || match[1];
+      if (_this.options.served.indexOf(url) !== -1) return Promise.resolve(null);
+
+      return new Promise(function (resolve) {
+          urlToText(_this, match, url).then(function (text) {
+              if (!text) return resolve();
+              _this.options.served.push(url);
+              resolve(text);
+          });
+      });
+  }
+
+  /**
+   * A helper function for inline embedding
+   * @param _this
+   * @param urlToText
+   * @returns {*}
+   */
+  function inlineEmbed(_this, urlToText) {
+      var regexInline = _this.options.link ? new RegExp('([^>]*' + _this.regex.source + ')</a>', 'gi') : new RegExp('([^\\s]*' + _this.regex.source + ')', 'gi');
+      var match = undefined,
+          allMatches = [],
+          promises = [];
+
+      while ((match = matches(regexInline, _this.output)) !== null) {
+          allMatches.push(match);
+          promises.push(getInlineData(_this, urlToText, match));
+      }
+
+      return new Promise(function (resolve) {
+          if (matches.length) Promise.all(promises).then(function (data) {
+              var i = 0;
+              _this.output = _this.output.replace(regexInline, function (match) {
+                  if (_this.options.link) return !_this.options.inlineText ? data[i] + '</a>' : match + data[i++];else return !_this.options.inlineText ? data[i] : match + data[i++];
+              });
+              resolve(_this.output);
+          });else resolve(_this.output);
+      });
+  }
+
+  function getNormalData(_this, urlToText, match) {
+      var url = match[0];
+      if (!_this.options.served.indexOf(url) === -1) return;
+
+      return new Promise(function (resolve) {
+          urlToText(_this, match, url, true).then(function (text) {
+              if (!text) resolve();
+              _this.options.served.push(url);
+              _this.embeds.push({
+                  text: text,
+                  index: match.index
+              });
+              resolve();
+          });
+      });
+  }
+
+  /**
+   * A helper function for normal embedding
+   * @param  {object} _this
+   * @param  {function} urlToText
+   * @return {Promise}
+   */
+  function normalEmbed(_this, urlToText) {
+      var match = undefined,
+          allMatches = [],
+          promises = [];
+
+      while ((match = matches(_this.regex, _this.input)) !== null) {
+          allMatches.push(match);
+          promises.push(getNormalData(_this, urlToText, match));
+      }
+
+      return new Promise(function (resolve) {
+          Promise.all(promises).then(function () {
+              resolve(_this.embeds);
+          });
+      });
+  }
+
+  var regex = {
+  	basicAudio: /((?:https?):\/\/\S*\.(?:wav|mp3|ogg))/gi,
+  	soundCloud: /(soundcloud.com)\/[a-zA-Z0-9-_]+\/[a-zA-Z0-9-_]+/gi,
+  	spotify: /spotify.com\/track\/[a-zA-Z0-9_]+/gi,
+  	codepen: /http:\/\/codepen.io\/([A-Za-z0-9_]+)\/pen\/([A-Za-z0-9_]+)/gi,
+  	gist: /gist.github.com\/[a-zA-Z0-9_-]+\/([a-zA-Z0-9]+)/gi,
+  	highlightCode: /(`{3})(\s|[a-z]+)\s*([\s\S]*?[^`])\s*\1(?!`)/gm,
+  	inlineCode: /(`)\s*([\s\S]*?[^`])\s*\1(?!`)/gm,
+  	ideone: /ideone.com\/[a-zA-Z0-9]{6}/gi,
+  	jsbin: /jsbin.com\/[a-zA-Z0-9_]+\/[0-9_]+/gi,
+  	jsfiddle: /jsfiddle.net\/[a-zA-Z0-9_]+\/[a-zA-Z0-9_\/]+/gi,
+  	plunker: /plnkr.co\/edit\/[a-zA-Z0-9\?=]+/gi,
+  	basicImage: /((?:https?):\/\/\S*\.(?:gif|jpg|jpeg|tiff|png|svg|webp))/gi,
+  	flickr: /flickr.com\/[a-z]+\/[a-zA-Z@_$!\d\-\]+\/[\d]+/gi,
+  	instagram: /instagram.com\/p\/[a-zA-Z0-9_\/\?\-\=]+/gi,
+  	slideShare: /slideshare.net\/[a-zA-Z0-9_-]*\/[a-zA-Z0-9_-]*/gi,
+  	github: /[^gist].github.com\/([a-zA-Z0-9\.-]+)\/([a-zA-Z0-9\.-]+)/gi,
+  	basicVideo: /(?:https?):\/\/\S*\.(?:ogv|webm|mp4)/gi,
+  	dailymotion: /dailymotion.com\/video\/[a-zA-Z0-9-_]+/gi,
+  	liveleak: /liveleak.com\/view\?i=[a-zA-Z0-9_]+/gi,
+  	ted: /ted.com\/talks\/[a-zA-Z0-9_]+/gi,
+  	ustream: /ustream.tv\/[a-z\/0-9]*/gi,
+  	vimeo: /https?:\/\/(?:www\.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/([^\/]*)\/videos\/|album\/(\d+)\/video\/|)(\d+)(?:$|\/|\?)*/gi,
+  	vine: /vine.co\/v\/[a-zA-Z0-9]+/gi,
+  	youtube: /https?:\/\/(?:[0-9A-Z-]+\.)?(?:youtu\.be\/|youtube\.com(?:\/embed\/|\/v\/|\/watch\?v=|\/ytscreeningroom\?v=|\/feeds\/api\/videos\/|\/user\S*[^\w\-\s]|\S*[^\w\-\s]))([\w\-]{11})[?=&+%\w-]*/gi,
+  	gmap: /@\((.+)\)/gi,
+  	twitter: /https:\/\/twitter\.com\/\w+\/\w+\/\d+/gi
+  };
+
   var Twitter = function () {
   	function Twitter(input, output, options, embeds) {
   		babelHelpers.classCallCheck(this, Twitter);
@@ -1062,66 +1220,6 @@
   		}
   	}]);
   	return Twitter;
-  }();
-
-  var SlideShare = function () {
-  	function SlideShare(input, output, options, embeds) {
-  		babelHelpers.classCallCheck(this, SlideShare);
-
-  		this.input = input;
-  		this.output = output;
-  		this.options = options;
-  		this.embeds = embeds;
-  		this.regex = regex.slideShare;
-  		this.service = 'slideshare';
-  	}
-
-  	babelHelpers.createClass(SlideShare, [{
-  		key: 'template',
-  		value: function template(html) {
-  			return this.options.template.slideShare(html, this.options);
-  		}
-  	}, {
-  		key: 'process',
-  		value: function process() {
-  			var _this2 = this;
-
-  			return new Promise(function (resolve) {
-  				if (!ifInline(_this2.options, _this2.service)) {
-  					inlineEmbed(_this2, SlideShare.urlToText).then(function (response) {
-  						resolve([response, _this2.embeds]);
-  					});
-  				} else {
-  					normalEmbed(_this2, SlideShare.urlToText).then(function (embeds) {
-  						resolve([_this2.output, embeds]);
-  					});
-  				}
-  			});
-  		}
-  	}], [{
-  		key: 'fetchData',
-  		value: function fetchData(_this, url) {
-  			var dimensions = getDimensions(_this.options);
-  			var api = 'http://www.slideshare.net/api/oembed/2?url=' + url + '&format=jsonp&maxwidth=' + dimensions.width + '&maxheight=' + dimensions.height;
-  			return new Promise(function (resolve) {
-  				fetchJsonp(api, { credentials: 'include' }).then(function (data) {
-  					return data.json();
-  				}).then(function (json) {
-  					return resolve(json.html);
-  				});
-  			});
-  		}
-  	}, {
-  		key: 'urlToText',
-  		value: function urlToText(_this, match, url) {
-  			return new Promise(function (resolve) {
-  				SlideShare.fetchData(_this, url).then(function (html) {
-  					return resolve(_this.template(html));
-  				});
-  			});
-  		}
-  	}]);
-  	return SlideShare;
   }();
 
   var Gmap = function () {
@@ -1245,733 +1343,66 @@
       return Gmap;
   }();
 
-  var Github = function () {
-  	function Github(input, output, options, embeds) {
-  		babelHelpers.classCallCheck(this, Github);
+  var Markdown = function () {
+  	function Markdown(output, options) {
+  		babelHelpers.classCallCheck(this, Markdown);
 
-  		this.input = input;
+  		if (!window.marked) throw new ReferenceError('marked.js is not loaded.');
   		this.output = output;
   		this.options = options;
-  		this.embeds = embeds;
-  		this.service = 'github';
-  		this.regex = regex.github;
   	}
 
-  	babelHelpers.createClass(Github, [{
-  		key: 'process',
-  		value: function process() {
-  			var _this2 = this;
-
-  			return new Promise(function (resolve) {
-  				if (!ifInline(_this2.options, _this2.service)) {
-  					inlineEmbed(_this2, Github.urlToText).then(function (response) {
-  						resolve([response, _this2.embeds]);
-  					});
-  				} else {
-  					normalEmbed(_this2, Github.urlToText).then(function (embeds) {
-  						resolve([_this2.output, embeds]);
-  					});
-  				}
-  			});
-  		}
-  	}], [{
-  		key: 'fetchRepo',
-  		value: function fetchRepo(data) {
-  			var api = 'https://api.github.com/repos/' + data.user + '/' + data.repo;
-  			return new Promise(function (resolve) {
-  				fetch(api).then(function (data) {
-  					return data.json();
-  				}).then(function (json) {
-  					return resolve(json);
-  				});
-  			});
-  		}
-  	}, {
-  		key: 'template',
-  		value: function template(data, options) {
-  			return options.template.github(data, options);
-  		}
-  	}, {
-  		key: 'urlToText',
-  		value: function urlToText(_this, match, url, normalEmbed) {
-  			var data = !normalEmbed ? {
-  				user: match[2],
-  				repo: match[3]
-  			} : {
-  				user: match[1],
-  				repo: match[2]
-  			};
-
-  			if (!data.repo) return;
-  			return new Promise(function (resolve) {
-  				Github.fetchRepo(data).then(function (response) {
-  					return resolve(Github.template(response, _this.options));
-  				});
-  			});
-  		}
-  	}]);
-  	return Github;
-  }();
-
-  var Vimeo = function () {
-  	function Vimeo(input, output, options, embeds) {
-  		babelHelpers.classCallCheck(this, Vimeo);
-
-  		this.input = input;
-  		this.output = output;
-  		this.options = options;
-  		this.embeds = embeds;
-  		this.regex = regex.vimeo;
-  		this.service = 'vimeo';
-  	}
-
-  	babelHelpers.createClass(Vimeo, [{
-  		key: 'data',
-  		value: function data(id) {
-  			var url = 'https://vimeo.com/api/v2/video/' + id + '.json';
-  			return new Promise(function (resolve) {
-  				fetch(url).then(function (data) {
-  					return data.json();
-  				}).then(function (json) {
-  					return resolve(json[0]);
-  				});
-  			});
-  		}
-  	}, {
-  		key: 'process',
-  		value: function process() {
-  			var _this2 = this;
-
-  			return new Promise(function (resolve) {
-  				if (!ifInline(_this2.options, _this2.service)) {
-  					inlineEmbed(_this2, Vimeo.urlToText).then(function (response) {
-  						resolve([response, _this2.embeds]);
-  					});
-  				} else {
-  					normalEmbed(_this2, Vimeo.urlToText).then(function (embeds) {
-  						resolve([_this2.output, embeds]);
-  					});
-  				}
-  			});
-  		}
-  	}], [{
-  		key: 'formatData',
-  		value: function formatData(data, truncate) {
-  			return {
-  				title: data.title,
-  				thumbnail: data.thumbnail_medium,
-  				rawDescription: data.description.replace(/\n/g, '<br/>').replace(/&#10;/g, '<br/>'),
-  				views: data.stats_number_of_plays,
-  				likes: data.stats_number_of_likes,
-  				description: truncate(data.description.replace(/((<|&lt;)br\s*\/*(>|&gt;)\r\n)/g, ' '), 150),
-  				url: data.url,
-  				id: data.id,
-  				host: 'vimeo'
-  			};
-  		}
-  	}, {
-  		key: 'urlToText',
-  		value: function urlToText(_this, match, url, normalEmbed) {
-  			var id = undefined;
-  			if (!normalEmbed) {
-  				id = _this.options.link ? match[0].slice(0, -4).split('/').slice(-1).pop() : match[0].split('/').slice(-1).pop();
-  			} else {
-  				id = match[3];
-  			}
-  			if (!id) return;
-  			var embedUrl = 'https://player.vimeo.com/video/' + id;
-  			if (_this.options.videoDetails) {
-  				return new Promise(function (resolve) {
-  					_this.data(id).then(function (data) {
-  						return resolve(getDetailsTemplate(Vimeo.formatData(data, truncate), data, embedUrl, _this.options));
-  					});
-  				});
-  			} else {
-  				return new Promise(function (resolve) {
-  					return resolve(template(embedUrl, _this.options));
-  				});
-  			}
-  		}
-  	}]);
-  	return Vimeo;
-  }();
-
-  var Youtube = function () {
-  	function Youtube(input, output, options, embeds) {
-  		babelHelpers.classCallCheck(this, Youtube);
-
-  		this.input = input;
-  		this.output = output;
-  		this.options = options;
-  		this.embeds = embeds;
-  		this.regex = regex.youtube;
-  		this.service = 'youtube';
-  	}
-
-  	babelHelpers.createClass(Youtube, [{
-  		key: 'data',
-  		value: function data(id) {
-  			var url = 'https://www.googleapis.com/youtube/v3/videos?id=' + id + '&key=' + this.options.googleAuthKey + '&part=snippet,statistics';
-  			return new Promise(function (resolve) {
-  				fetch(url).then(function (data) {
-  					return data.json();
-  				}).then(function (json) {
-  					return resolve(json.items[0]);
-  				});
-  			});
-  		}
-  	}, {
-  		key: 'process',
-  		value: function process() {
-  			var _this2 = this;
-
-  			return new Promise(function (resolve) {
-  				if (!ifInline(_this2.options, _this2.service)) {
-  					inlineEmbed(_this2, Youtube.urlToText).then(function (output) {
-  						resolve([output, _this2.embeds]);
-  					});
-  				} else {
-  					normalEmbed(_this2, Youtube.urlToText).then(function (embeds) {
-  						resolve([_this2.output, embeds]);
-  					});
-  				}
-  			});
-  		}
-  	}], [{
-  		key: 'formatData',
-  		value: function formatData(data, truncate) {
-  			return {
-  				title: data.snippet.title,
-  				thumbnail: data.snippet.thumbnails.medium.url,
-  				rawDescription: data.snippet.description,
-  				views: data.statistics.viewCount,
-  				likes: data.statistics.likeCount,
-  				description: truncate(data.snippet.description, 150),
-  				url: 'https://www.youtube.com/watch?v=' + data.id,
-  				id: data.id,
-  				host: 'youtube'
-  			};
-  		}
-  	}, {
-  		key: 'urlToText',
-  		value: function urlToText(_this, match, url, normalEmbed) {
-  			var id = normalEmbed ? match[1] : match[2];
-  			var embedUrl = 'https://www.youtube.com/embed/' + id;
-  			if (_this.options.videoDetails) {
-  				return new Promise(function (resolve) {
-  					_this.data(id).then(function (data) {
-  						return resolve(getDetailsTemplate(Youtube.formatData(data, truncate), data, embedUrl, _this.options));
-  					});
-  				});
-  			} else {
-  				return new Promise(function (resolve) {
-  					return resolve(template(embedUrl, _this.options));
-  				});
-  			}
-  		}
-  	}]);
-  	return Youtube;
-  }();
-
-  var Base = function () {
-  	function Base(input, output, options, embeds) {
-  		babelHelpers.classCallCheck(this, Base);
-
-  		this.input = input;
-  		this.output = output;
-  		this.options = options;
-  		this.embeds = embeds;
-  	}
-
-  	babelHelpers.createClass(Base, [{
+  	babelHelpers.createClass(Markdown, [{
   		key: 'process',
   		value: function process() {
   			var _this = this;
 
-  			if (!ifInline(this.options, this.service)) {
-  				var regexInline = this.options.link ? new RegExp('([^>]*' + this.regex.source + ')</a>', 'gm') : new RegExp('([^\\s]*' + this.regex.source + ')', 'gm');
-  				this.output = this.output.replace(regexInline, function (match) {
-  					var url = _this.options.link ? match.slice(0, -4) : match;
-  					if (_this.options.served.indexOf(url) === -1) {
-  						_this.options.served.push(url);
-  						if (_this.options.link) {
-  							return !_this.options.inlineText ? _this.template(match.slice(0, -4)) + '</a>' : match + _this.template(match.slice(0, -4));
-  						} else {
-  							return !_this.options.inlineText ? _this.template(match) : match + _this.template(match);
-  						}
-  					} else {
-  						return url;
-  					}
-  				});
-  			} else {
-  				var match = undefined;
-  				while ((match = matches(this.regex, this.input)) !== null) {
-  					if (!(this.options.served.indexOf(match[0]) === -1)) continue;
-  					var text = this.template(match[0]);
-  					this.embeds.push({
-  						text: text,
-  						index: match.index
-  					});
+  			var renderer = new marked.Renderer();
+
+  			/**
+      * Change the default template of the code blocks provided by marked.js
+      * @param  {string} text The code block string
+      * @return {string}      the new template
+      */
+  			renderer.code = function (text) {
+  				var highlightedCode = window.hljs ? hljs.highlightAuto(text) : {
+  					value: text
+  				};
+  				var language = window.hljs ? highlightedCode.language : '';
+  				return '<pre><code class="ejs-code hljs ' + language + '">' + highlightedCode.value + '</code></pre>';
+  			};
+
+  			renderer.link = function (href, title, text) {
+  				if (href.indexOf('&lt;/a') === -1) return href;
+  				if (href.match(/&gt;(.+)&lt;\/a/gi)) {
+  					if (!title) title = '';
+  					return '<a href="' + RegExp.$1 + '" rel=' + _this.options.linkOptions.rel + '" target="' + _this.options.linkOptions.target + '" title="' + title + '">' + text + '</a>';
   				}
-  			}
-  			return [this.output, this.embeds];
+  			};
+
+  			renderer.image = function (href, title, text) {
+  				if (href.indexOf('&lt;/a') === -1) return href;
+  				if (href.match(/&gt;(.+)&lt;\/a/gi)) {
+  					if (!title) title = '';
+  					return '<div class="ejs-image ejs-embed"><div class="ne-image-wrapper"><img src="' + RegExp.$1 + '" title="' + title + '" alt="' + text + '"/></div></div>';
+  				}
+  			};
+
+  			renderer.paragraph = function (text) {
+  				return '<p> ' + text + ' </p>';
+  			}; //for font smiley in end.
+
+  			//Fix for heading that should be actually present in marked.js
+  			//if gfm is true the `## Heading` is acceptable but `##Heading` is not
+  			marked.Lexer.rules.gfm.heading = marked.Lexer.rules.normal.heading;
+  			marked.Lexer.rules.tables.heading = marked.Lexer.rules.normal.heading;
+
+  			this.options.markedOptions.renderer = renderer;
+  			return marked(this.output, this.options.markedOptions);
   		}
   	}]);
-  	return Base;
+  	return Markdown;
   }();
-
-  var Basic = function (_Base) {
-  	babelHelpers.inherits(Basic, _Base);
-
-  	function Basic(input, output, options, embeds) {
-  		babelHelpers.classCallCheck(this, Basic);
-
-  		var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(Basic).call(this, input, output, options, embeds));
-
-  		_this.regex = regex.basicImage;
-  		_this.service = 'image';
-  		return _this;
-  	}
-
-  	babelHelpers.createClass(Basic, [{
-  		key: 'template',
-  		value: function template(match) {
-  			return this.options.template.basicImage(match, this.options);
-  		}
-  	}]);
-  	return Basic;
-  }(Base);
-
-  var Instagram = function (_Base) {
-  	babelHelpers.inherits(Instagram, _Base);
-
-  	function Instagram(input, output, options, embeds) {
-  		babelHelpers.classCallCheck(this, Instagram);
-
-  		var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(Instagram).call(this, input, output, options, embeds));
-
-  		_this.regex = regex.instagram;
-  		_this.service = 'instagram';
-  		return _this;
-  	}
-
-  	babelHelpers.createClass(Instagram, [{
-  		key: 'template',
-  		value: function template(match) {
-  			var dimensions = getDimensions(this.options);
-  			return this.options.template.instagram(match, dimensions, this.options);
-  		}
-  	}]);
-  	return Instagram;
-  }(Base);
-
-  var Flickr = function (_Base) {
-  	babelHelpers.inherits(Flickr, _Base);
-
-  	function Flickr(input, output, options, embeds) {
-  		babelHelpers.classCallCheck(this, Flickr);
-
-  		var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(Flickr).call(this, input, output, options, embeds));
-
-  		_this.regex = regex.flickr;
-  		_this.service = 'flickr';
-  		return _this;
-  	}
-
-  	babelHelpers.createClass(Flickr, [{
-  		key: 'template',
-  		value: function template(match) {
-  			var dimensions = getDimensions(this.options);
-  			return this.options.template.flickr(match, dimensions, this.options);
-  		}
-  	}]);
-  	return Flickr;
-  }(Base);
-
-  var BasicAudio = function (_Base) {
-      babelHelpers.inherits(BasicAudio, _Base);
-
-      function BasicAudio(input, output, options, embeds) {
-          babelHelpers.classCallCheck(this, BasicAudio);
-
-          var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(BasicAudio).call(this, input, output, options, embeds));
-
-          _this.regex = regex.basicAudio;
-          _this.service = 'audio';
-          return _this;
-      }
-
-      babelHelpers.createClass(BasicAudio, [{
-          key: 'template',
-          value: function template(match) {
-              return this.options.template.basicAudio(match, this.options);
-          }
-      }]);
-      return BasicAudio;
-  }(Base);
-
-  var Spotify = function (_Base) {
-  	babelHelpers.inherits(Spotify, _Base);
-
-  	function Spotify(input, output, options, embeds) {
-  		babelHelpers.classCallCheck(this, Spotify);
-
-  		var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(Spotify).call(this, input, output, options, embeds));
-
-  		_this.regex = regex.spotify;
-  		_this.service = 'spotify';
-  		return _this;
-  	}
-
-  	babelHelpers.createClass(Spotify, [{
-  		key: 'template',
-  		value: function template(match) {
-  			var a = match.split('/');
-  			var id = a[a.length - 1];
-  			return this.options.template.spotify(id, this.options);
-  		}
-  	}]);
-  	return Spotify;
-  }(Base);
-
-  var SoundCloud = function (_Base) {
-  	babelHelpers.inherits(SoundCloud, _Base);
-
-  	function SoundCloud(input, output, options, embeds) {
-  		babelHelpers.classCallCheck(this, SoundCloud);
-
-  		var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(SoundCloud).call(this, input, output, options, embeds));
-
-  		_this.regex = regex.soundCloud;
-  		_this.service = 'soundcloud';
-  		return _this;
-  	}
-
-  	babelHelpers.createClass(SoundCloud, [{
-  		key: 'template',
-  		value: function template(match) {
-  			return this.options.template.soundCloud(match, this.options);
-  		}
-  	}]);
-  	return SoundCloud;
-  }(Base);
-
-  var Vine = function (_Base) {
-      babelHelpers.inherits(Vine, _Base);
-
-      function Vine(input, output, options, embeds) {
-          babelHelpers.classCallCheck(this, Vine);
-
-          var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(Vine).call(this, input, output, options, embeds));
-
-          _this.regex = regex.vine;
-          _this.service = 'vine';
-          return _this;
-      }
-
-      babelHelpers.createClass(Vine, [{
-          key: 'template',
-          value: function template(match) {
-              var a = match.split('/');
-              var id = a[a.length - 1];
-              return this.options.template.vine(id, this.options);
-          }
-      }]);
-      return Vine;
-  }(Base);
-
-  var BasicVideo = function (_Base) {
-  	babelHelpers.inherits(BasicVideo, _Base);
-
-  	function BasicVideo(input, output, options, embeds) {
-  		babelHelpers.classCallCheck(this, BasicVideo);
-
-  		var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(BasicVideo).call(this, input, output, options, embeds));
-
-  		_this.regex = regex.basicVideo;
-  		_this.service = 'video';
-  		return _this;
-  	}
-
-  	babelHelpers.createClass(BasicVideo, [{
-  		key: 'template',
-  		value: function template(match) {
-  			console.log(match);
-  			return this.options.template.basicVideo(match, this.options);
-  		}
-  	}]);
-  	return BasicVideo;
-  }(Base);
-
-  var LiveLeak = function (_Base) {
-      babelHelpers.inherits(LiveLeak, _Base);
-
-      function LiveLeak(input, output, options, embeds) {
-          babelHelpers.classCallCheck(this, LiveLeak);
-
-          var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(LiveLeak).call(this, input, output, options, embeds));
-
-          _this.regex = regex.liveleak;
-          _this.service = 'liveleak';
-          return _this;
-      }
-
-      babelHelpers.createClass(LiveLeak, [{
-          key: 'template',
-          value: function template(match) {
-              var dimensions = getDimensions(this.options);
-              return this.options.template.liveLeak(match, dimensions, this.options);
-          }
-      }]);
-      return LiveLeak;
-  }(Base);
-
-  var Ustream = function (_Base) {
-      babelHelpers.inherits(Ustream, _Base);
-
-      function Ustream(input, output, options, embeds) {
-          babelHelpers.classCallCheck(this, Ustream);
-
-          var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(Ustream).call(this, input, output, options, embeds));
-
-          _this.regex = regex.ustream;
-          _this.service = 'ustream';
-          return _this;
-      }
-
-      babelHelpers.createClass(Ustream, [{
-          key: 'template',
-          value: function template(match) {
-              var id = match.split('/');
-              id.splice(1, 0, 'embed');
-              var dimensions = getDimensions(this.options);
-              return this.options.template.ustream(id, dimensions, this.options);
-          }
-      }]);
-      return Ustream;
-  }(Base);
-
-  var Dailymotion = function (_Base) {
-      babelHelpers.inherits(Dailymotion, _Base);
-
-      function Dailymotion(input, output, options, embeds) {
-          babelHelpers.classCallCheck(this, Dailymotion);
-
-          var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(Dailymotion).call(this, input, output, options, embeds));
-
-          _this.regex = regex.dailymotion;
-          _this.service = 'dailymotion';
-          return _this;
-      }
-
-      babelHelpers.createClass(Dailymotion, [{
-          key: 'template',
-          value: function template(match) {
-              var dimensions = getDimensions(this.options);
-              var a = match.split('/');
-              var id = a[a.length - 1];
-              return this.options.template.dailymotion(id, dimensions, this.options);
-          }
-      }]);
-      return Dailymotion;
-  }(Base);
-
-  var Ted = function (_Base) {
-      babelHelpers.inherits(Ted, _Base);
-
-      function Ted(input, output, options, embeds) {
-          babelHelpers.classCallCheck(this, Ted);
-
-          var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(Ted).call(this, input, output, options, embeds));
-
-          _this.regex = regex.ted;
-          _this.service = 'ted';
-          return _this;
-      }
-
-      babelHelpers.createClass(Ted, [{
-          key: 'template',
-          value: function template(match) {
-              var dimensions = getDimensions(this.options);
-              var a = match.split('/');
-              var id = a[a.length - 1];
-              return this.options.template.ted(id, dimensions, this.options);
-          }
-      }]);
-      return Ted;
-  }(Base);
-
-  var Gist = function (_Base) {
-      babelHelpers.inherits(Gist, _Base);
-
-      function Gist(input, output, options, embeds) {
-          babelHelpers.classCallCheck(this, Gist);
-
-          var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(Gist).call(this, input, output, options, embeds));
-
-          _this.regex = regex.gist;
-          _this.service = 'gist';
-
-          _this.options.input.addEventListener('rendered', function () {
-              _this.load();
-          });
-          return _this;
-      }
-
-      babelHelpers.createClass(Gist, [{
-          key: 'template',
-          value: function template(match) {
-              return '<div class="ejs-gist" data-src="' + match + '"></div>';
-          }
-      }, {
-          key: 'load',
-          value: function load() {
-              var gists = this.options.input.getElementsByClassName('ejs-gist');
-              for (var i = 0; i < gists.length; i++) {
-                  var gistFrame = document.createElement("iframe");
-                  gistFrame.setAttribute("width", "100%");
-                  gistFrame.id = 'ejs-gist-' + i;
-
-                  var zone = gists[i];
-                  zone.innerHTML = "";
-                  zone.appendChild(gistFrame);
-
-                  // Create the iframe's document
-                  var url = gists[i].getAttribute('data-src');
-                  url = url.indexOf('http') === -1 ? 'https://' + url : url;
-                  var gistFrameHTML = '<html><base target="_parent"/><body onload="parent.document.getElementById(\'ejs-gist-' + i + '\').style.height=parseInt(document.body.scrollHeight)+20+\'px\'"><script type="text/javascript" src="' + url + '.js"></script></body></html>';
-
-                  // Set iframe's document with a trigger for this document to adjust the height
-                  var gistFrameDoc = gistFrame.document;
-
-                  if (gistFrame.contentDocument) {
-                      gistFrameDoc = gistFrame.contentDocument;
-                  } else if (gistFrame.contentWindow) {
-                      gistFrameDoc = gistFrame.contentWindow.document;
-                  }
-
-                  gistFrameDoc.open();
-                  gistFrameDoc.writeln(gistFrameHTML);
-                  gistFrameDoc.close();
-              }
-          }
-      }]);
-      return Gist;
-  }(Base);
-
-  var JsFiddle = function (_Base) {
-  	babelHelpers.inherits(JsFiddle, _Base);
-
-  	function JsFiddle(input, output, options, embeds) {
-  		babelHelpers.classCallCheck(this, JsFiddle);
-
-  		var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(JsFiddle).call(this, input, output, options, embeds));
-
-  		_this.regex = regex.jsfiddle;
-  		_this.service = 'jsfiddle';
-  		return _this;
-  	}
-
-  	babelHelpers.createClass(JsFiddle, [{
-  		key: 'template',
-  		value: function template(id) {
-  			id = id[id.length - 1] == '/' ? id.slice(0, -1) : id;
-  			id = id.indexOf('//') !== -1 ? id : '//' + id;
-  			return this.options.template.jsFiddle(id, this.options);
-  		}
-  	}]);
-  	return JsFiddle;
-  }(Base);
-
-  var CodePen = function (_Base) {
-      babelHelpers.inherits(CodePen, _Base);
-
-      function CodePen(input, output, options, embeds) {
-          babelHelpers.classCallCheck(this, CodePen);
-
-          var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(CodePen).call(this, input, output, options, embeds));
-
-          _this.regex = regex.codepen;
-          _this.service = 'codepen';
-          return _this;
-      }
-
-      babelHelpers.createClass(CodePen, [{
-          key: 'template',
-          value: function template(id) {
-              return this.options.template.codePen(id, this.options);
-          }
-      }]);
-      return CodePen;
-  }(Base);
-
-  var JsBin = function (_Base) {
-      babelHelpers.inherits(JsBin, _Base);
-
-      function JsBin(input, output, options, embeds) {
-          babelHelpers.classCallCheck(this, JsBin);
-
-          var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(JsBin).call(this, input, output, options, embeds));
-
-          _this.regex = regex.jsbin;
-          _this.service = 'jsbin';
-          return _this;
-      }
-
-      babelHelpers.createClass(JsBin, [{
-          key: 'template',
-          value: function template(id) {
-              return this.options.template.jsBin(id, this.options);
-          }
-      }]);
-      return JsBin;
-  }(Base);
-
-  var Plunker = function (_Base) {
-      babelHelpers.inherits(Plunker, _Base);
-
-      function Plunker(input, output, options, embeds) {
-          babelHelpers.classCallCheck(this, Plunker);
-
-          var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(Plunker).call(this, input, output, options, embeds));
-
-          _this.regex = regex.plunker;
-          _this.service = 'plunker';
-          return _this;
-      }
-
-      babelHelpers.createClass(Plunker, [{
-          key: 'template',
-          value: function template(match) {
-              var a = match.split('?')[0].split('/');
-              var id = a[a.length - 1];
-              return this.options.template.plunker(id, this.options);
-          }
-      }]);
-      return Plunker;
-  }(Base);
-
-  var Ideone = function (_Base) {
-      babelHelpers.inherits(Ideone, _Base);
-
-      function Ideone(input, output, options, embeds) {
-          babelHelpers.classCallCheck(this, Ideone);
-
-          var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(Ideone).call(this, input, output, options, embeds));
-
-          _this.regex = regex.ideone;
-          _this.service = 'ideone';
-          return _this;
-      }
-
-      babelHelpers.createClass(Ideone, [{
-          key: 'template',
-          value: function template(match) {
-              return this.options.template.ideone(match, this.options);
-          }
-      }]);
-      return Ideone;
-  }(Base);
 
   var Highlight = function () {
   	function Highlight(output, options) {
@@ -2079,197 +1510,724 @@
   	return Highlight;
   }();
 
-  var Smiley = function () {
-      function Smiley(input, options) {
-          babelHelpers.classCallCheck(this, Smiley);
+  var Base = function () {
+  	function Base(input, output, options, embeds) {
+  		babelHelpers.classCallCheck(this, Base);
 
-          this.input = ' ' + input + ' '; //hack to consider the first and last element
-          this.options = options;
-
-          var defaultIcons = [{
-              'text': ' :) ',
-              'code': '&#xe60a'
-          }, {
-              'text': ' :D ',
-              'code': '&#xe608'
-          }, {
-              'text': ' :d ',
-              'code': '&#xe608'
-          }, {
-              'text': ' :( ',
-              'code': '&#xe60e'
-          }, {
-              'text': ' :/ ',
-              'code': '&#xe620'
-
-          }, {
-              'text': ' :P ',
-              'code': '&#xe60c'
-          }, {
-              'text': ' :p ',
-              'code': '&#xe60c'
-          }, {
-              'text': ' 3:) ',
-              'code': '&#xe618'
-          }, {
-              'text': ' (^) ',
-              'code': '&#xe607'
-          }, {
-              'text': ' ;) ',
-              'code': '&#xe610'
-          }, {
-              'text': ' :o ',
-              'code': '&#xe61a'
-          }, {
-              'text': ' -_- ',
-              'code': '&#xe61e'
-          }, {
-              'text': ' (y) ',
-              'code': '&#xe606'
-          }, {
-              'text': ' :* ',
-              'code': '&#xe604'
-          }, {
-              'text': ' &lt;3 ',
-              'code': '&#xe604'
-          }, {
-              'text': ' <3 ',
-              'code': '&#xe604'
-          }, {
-              'text': ' &lt;/3 ',
-              'code': '&#xe605'
-          }, {
-              'text': ' </3 ',
-              'code': '&#xe605'
-          }, {
-              'text': ' ^_^ ',
-              'code': '&#xe612'
-          }, {
-              'text': ' 8-) ',
-              'code': '&#xe614'
-          }, {
-              'text': ' 8| ',
-              'code': '&#xe614'
-          }, {
-              'text': ' :S ',
-              'code': '&#xe61c'
-          }, {
-              'text': ' :s ',
-              'code': '&#xe61c'
-          }];
-
-          this.icons = options.customFontIcons.length ? options.customFontIcons : defaultIcons;
-
-          this.escapedSymbols = this.icons.map(function (val) {
-              return escapeRegExp(val.text);
-          });
-
-          this.smileyRegex = new RegExp('(' + this.escapedSymbols.join('|') + ')', 'g');
-      }
-
-      babelHelpers.createClass(Smiley, [{
-          key: 'process',
-          value: function process() {
-              var _this = this;
-
-              var processedString = this.input.replace(this.smileyRegex, function (match, text) {
-                  var index = _this.escapedSymbols.indexOf(escapeRegExp(text));
-                  var code = _this.icons[index].code;
-                  return _this.options.template.smiley(text, code, _this.options);
-              });
-
-              return processedString.substring(1, processedString.length - 1);
-          }
-      }]);
-      return Smiley;
-  }();
-
-  var Emoji = function () {
-      function Emoji(output, options) {
-          babelHelpers.classCallCheck(this, Emoji);
-
-          this.output = output;
-          this.options = options;
-
-          this.emojiList = ['bowtie', 'smile', 'laughing', 'blush', 'smiley', 'relaxed', 'smirk', 'heart_eyes', 'kissing_heart', 'kissing_closed_eyes', 'flushed', 'relieved', 'satisfied', 'grin', 'wink', 'stuck_out_tongue_winking_eye', 'stuck_out_tongue_closed_eyes', 'grinning', 'kissing', 'winky_face', 'kissing_smiling_eyes', 'stuck_out_tongue', 'sleeping', 'worried', 'frowning', 'anguished', 'open_mouth', 'grimacing', 'confused', 'hushed', 'expressionless', 'unamused', 'sweat_smile', 'sweat', 'wow', 'disappointed_relieved', 'weary', 'pensive', 'disappointed', 'confounded', 'fearful', 'cold_sweat', 'persevere', 'cry', 'sob', 'joy', 'astonished', 'scream', 'neckbeard', 'tired_face', 'angry', 'rage', 'triumph', 'sleepy', 'yum', 'mask', 'sunglasses', 'dizzy_face', 'imp', 'smiling_imp', 'neutral_face', 'no_mouth', 'innocent', 'alien', 'yellow_heart', 'blue_heart', 'purple_heart', 'heart', 'green_heart', 'broken_heart', 'heartbeat', 'heartpulse', 'two_hearts', 'revolving_hearts', 'cupid', 'sparkling_heart', 'sparkles', 'star', 'star2', 'dizzy', 'boom', 'collision', 'anger', 'exclamation', 'question', 'grey_exclamation', 'grey_question', 'zzz', 'dash', 'sweat_drops', 'notes', 'musical_note', 'fire', 'hankey', 'poop', 'shit', '\\+1', 'thumbsup', '-1', 'thumbsdown', 'ok_hand', 'punch', 'facepunch', 'fist', 'v', 'wave', 'hand', 'raised_hand', 'open_hands', 'point_up', 'point_down', 'point_left', 'point_right', 'raised_hands', 'pray', 'point_up_2', 'clap', 'muscle', 'metal', 'fu', 'walking', 'runner', 'running', 'couple', 'family', 'two_men_holding_hands', 'two_women_holding_hands', 'dancer', 'dancers', 'ok_woman', 'no_good', 'information_desk_person', 'raising_hand', 'bride_with_veil', 'person_with_pouting_face', 'person_frowning', 'bow', 'couplekiss', 'couple_with_heart', 'massage', 'haircut', 'nail_care', 'boy', 'girl', 'woman', 'man', 'baby', 'older_woman', 'older_man', 'person_with_blond_hair', 'man_with_gua_pi_mao', 'man_with_turban', 'construction_worker', 'cop', 'angel', 'princess', 'smiley_cat', 'smile_cat', 'heart_eyes_cat', 'kissing_cat', 'smirk_cat', 'scream_cat', 'crying_cat_face', 'joy_cat', 'pouting_cat', 'japanese_ogre', 'japanese_goblin', 'see_no_evil', 'hear_no_evil', 'speak_no_evil', 'guardsman', 'skull', 'feet', 'lips', 'kiss', 'droplet', 'ear', 'eyes', 'nose', 'tongue', 'love_letter', 'bust_in_silhouette', 'busts_in_silhouette', 'speech_balloon', 'thought_balloon', 'feelsgood', 'finnadie', 'goberserk', 'godmode', 'hurtrealbad', 'rage1', 'rage2', 'rage3', 'rage4', 'suspect', 'trollface', 'sunny', 'umbrella', 'cloud', 'snowflake', 'snowman', 'zap', 'cyclone', 'foggy', 'ocean', 'cat', 'dog', 'mouse', 'hamster', 'rabbit', 'wolf', 'frog', 'tiger', 'koala', 'bear', 'pig', 'pig_nose', 'cow', 'boar', 'monkey_face', 'monkey', 'horse', 'racehorse', 'camel', 'sheep', 'elephant', 'panda_face', 'snake', 'bird', 'baby_chick', 'hatched_chick', 'hatching_chick', 'chicken', 'penguin', 'turtle', 'bug', 'honeybee', 'ant', 'beetle', 'snail', 'octopus', 'tropical_fish', 'fish', 'whale', 'whale2', 'dolphin', 'cow2', 'ram', 'rat', 'water_buffalo', 'tiger2', 'rabbit2', 'dragon', 'goat', 'rooster', 'dog2', 'pig2', 'mouse2', 'ox', 'dragon_face', 'blowfish', 'crocodile', 'dromedary_camel', 'leopard', 'cat2', 'poodle', 'paw_prints', 'bouquet', 'cherry_blossom', 'tulip', 'four_leaf_clover', 'rose', 'sunflower', 'hibiscus', 'maple_leaf', 'leaves', 'fallen_leaf', 'herb', 'mushroom', 'cactus', 'palm_tree', 'evergreen_tree', 'deciduous_tree', 'chestnut', 'seedling', 'blossom', 'ear_of_rice', 'shell', 'globe_with_meridians', 'sun_with_face', 'full_moon_with_face', 'new_moon_with_face', 'new_moon', 'waxing_crescent_moon', 'first_quarter_moon', 'waxing_gibbous_moon', 'full_moon', 'waning_gibbous_moon', 'last_quarter_moon', 'waning_crescent_moon', 'last_quarter_moon_with_face', 'first_quarter_moon_with_face', 'moon', 'earth_africa', 'earth_americas', 'earth_asia', 'volcano', 'milky_way', 'partly_sunny', 'octocat', 'squirrel', 'bamboo', 'gift_heart', 'dolls', 'school_satchel', 'mortar_board', 'flags', 'fireworks', 'sparkler', 'wind_chime', 'rice_scene', 'jack_o_lantern', 'ghost', 'santa', 'christmas_tree', 'gift', 'bell', 'no_bell', 'tanabata_tree', 'tada', 'confetti_ball', 'balloon', 'crystal_ball', 'cd', 'dvd', 'floppy_disk', 'camera', 'video_camera', 'movie_camera', 'computer', 'tv', 'iphone', 'phone', 'telephone', 'telephone_receiver', 'pager', 'fax', 'minidisc', 'vhs', 'sound', 'speaker', 'mute', 'loudspeaker', 'mega', 'hourglass', 'hourglass_flowing_sand', 'alarm_clock', 'watch', 'radio', 'satellite', 'loop', 'mag', 'mag_right', 'unlock', 'lock', 'lock_with_ink_pen', 'closed_lock_with_key', 'key', 'bulb', 'flashlight', 'high_brightness', 'low_brightness', 'electric_plug', 'battery', 'calling', 'email', 'mailbox', 'postbox', 'bath', 'bathtub', 'shower', 'toilet', 'wrench', 'nut_and_bolt', 'hammer', 'seat', 'moneybag', 'yen', 'dollar', 'pound', 'euro', 'credit_card', 'money_with_wings', 'e-mail', 'inbox_tray', 'outbox_tray', 'envelope', 'incoming_envelope', 'postal_horn', 'mailbox_closed', 'mailbox_with_mail', 'mailbox_with_no_mail', 'door', 'smoking', 'bomb', 'gun', 'hocho', 'pill', 'syringe', 'page_facing_up', 'page_with_curl', 'bookmark_tabs', 'bar_chart', 'chart_with_upwards_trend', 'chart_with_downwards_trend', 'scroll', 'clipboard', 'calendar', 'date', 'card_index', 'file_folder', 'open_file_folder', 'scissors', 'pushpin', 'paperclip', 'black_nib', 'pencil2', 'straight_ruler', 'triangular_ruler', 'closed_book', 'green_book', 'blue_book', 'orange_book', 'notebook', 'notebook_with_decorative_cover', 'ledger', 'books', 'bookmark', 'name_badge', 'microscope', 'telescope', 'newspaper', 'football', 'basketball', 'soccer', 'baseball', 'tennis', '8ball', 'rugby_football', 'bowling', 'golf', 'mountain_bicyclist', 'bicyclist', 'horse_racing', 'snowboarder', 'swimmer', 'surfer', 'ski', 'spades', 'hearts', 'clubs', 'diamonds', 'gem', 'ring', 'trophy', 'musical_score', 'musical_keyboard', 'violin', 'space_invader', 'video_game', 'black_joker', 'flower_playing_cards', 'game_die', 'dart', 'mahjong', 'clapper', 'memo', 'pencil', 'book', 'art', 'microphone', 'headphones', 'trumpet', 'saxophone', 'guitar', 'shoe', 'sandal', 'high_heel', 'lipstick', 'boot', 'shirt', 'tshirt', 'necktie', 'womans_clothes', 'dress', 'running_shirt_with_sash', 'jeans', 'kimono', 'bikini', 'ribbon', 'tophat', 'crown', 'womans_hat', 'mans_shoe', 'closed_umbrella', 'briefcase', 'handbag', 'pouch', 'purse', 'eyeglasses', 'fishing_pole_and_fish', 'coffee', 'tea', 'sake', 'baby_bottle', 'beer', 'beers', 'cocktail', 'tropical_drink', 'wine_glass', 'fork_and_knife', 'pizza', 'hamburger', 'fries', 'poultry_leg', 'meat_on_bone', 'spaghetti', 'curry', 'fried_shrimp', 'bento', 'sushi', 'fish_cake', 'rice_ball', 'rice_cracker', 'rice', 'ramen', 'stew', 'oden', 'dango', 'egg', 'bread', 'doughnut', 'custard', 'icecream', 'ice_cream', 'shaved_ice', 'birthday', 'cake', 'cookie', 'chocolate_bar', 'candy', 'lollipop', 'honey_pot', 'apple', 'green_apple', 'tangerine', 'lemon', 'cherries', 'grapes', 'watermelon', 'strawberry', 'peach', 'melon', 'banana', 'pear', 'pineapple', 'sweet_potato', 'eggplant', 'tomato', 'corn', 'house', 'house_with_garden', 'school', 'office', 'post_office', 'hospital', 'bank', 'convenience_store', 'love_hotel', 'hotel', 'wedding', 'church', 'department_store', 'european_post_office', 'city_sunrise', 'city_sunset', 'japanese_castle', 'european_castle', 'tent', 'factory', 'tokyo_tower', 'japan', 'mount_fuji', 'sunrise_over_mountains', 'sunrise', 'stars', 'themoreyouknow', 'tmyk', 'statue_of_liberty', 'bridge_at_night', 'carousel_horse', 'rainbow', 'ferris_wheel', 'fountain', 'roller_coaster', 'ship', 'speedboat', 'boat', 'sailboat', 'rowboat', 'anchor', 'rocket', 'airplane', 'helicopter', 'steam_locomotive', 'tram', 'mountain_railway', 'bike', 'aerial_tramway', 'suspension_railway', 'mountain_cableway', 'tractor', 'blue_car', 'oncoming_automobile', 'car', 'red_car', 'taxi', 'oncoming_taxi', 'articulated_lorry', 'bus', 'oncoming_bus', 'rotating_light', 'police_car', 'oncoming_police_car', 'fire_engine', 'ambulance', 'minibus', 'truck', 'train', 'station', 'train2', 'bullettrain_front', 'bullettrain_side', 'light_rail', 'monorail', 'railway_car', 'trolleybus', 'ticket', 'fuelpump', 'vertical_traffic_light', 'traffic_light', 'warning', 'construction', 'beginner', 'atm', 'slot_machine', 'busstop', 'barber', 'hotsprings', 'checkered_flag', 'crossed_flags', 'izakaya_lantern', 'moyai', 'circus_tent', 'performing_arts', 'round_pushpin', 'triangular_flag_on_post', 'jp', 'kr', 'cn', 'us', 'fr', 'es', 'it', 'ru', 'gb', 'uk', 'de', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'keycap_ten', '1234', 'zero', 'hash', 'symbols', 'arrow_backward', 'arrow_down', 'arrow_forward', 'arrow_left', 'capital_abcd', 'abcd', 'abc', 'arrow_lower_left', 'arrow_lower_right', 'arrow_right', 'arrow_up', 'arrow_upper_left', 'arrow_upper_right', 'arrow_double_down', 'arrow_double_up', 'arrow_down_small', 'arrow_heading_down', 'arrow_heading_up', 'leftwards_arrow_with_hook', 'arrow_right_hook', 'left_right_arrow', 'arrow_up_down', 'arrow_up_small', 'arrows_clockwise', 'arrows_counterclockwise', 'rewind', 'fast_forward', 'information_source', 'ok', 'twisted_rightwards_arrows', 'repeat', 'repeat_one', 'new', 'top', 'up', 'cool', 'free', 'ng', 'cinema', 'koko', 'signal_strength', 'u5272', 'u5408', 'u55b6', 'u6307', 'u6708', 'u6709', 'u6e80', 'u7121', 'u7533', 'u7a7a', 'u7981', 'sa', 'restroom', 'mens', 'womens', 'baby_symbol', 'no_smoking', 'parking', 'wheelchair', 'metro', 'baggage_claim', 'accept', 'wc', 'potable_water', 'put_litter_in_its_place', 'secret', 'congratulations', 'm', 'passport_control', 'left_luggage', 'customs', 'ideograph_advantage', 'cl', 'sos', 'id', 'no_entry_sign', 'underage', 'no_mobile_phones', 'do_not_litter', 'non-potable_water', 'no_bicycles', 'no_pedestrians', 'children_crossing', 'no_entry', 'eight_spoked_asterisk', 'eight_pointed_black_star', 'heart_decoration', 'vs', 'vibration_mode', 'mobile_phone_off', 'chart', 'currency_exchange', 'aries', 'taurus', 'gemini', 'cancer', 'leo', 'virgo', 'libra', 'scorpius', 'sagittarius', 'capricorn', 'aquarius', 'pisces', 'ophiuchus', 'six_pointed_star', 'negative_squared_cross_mark', 'a', 'b', 'ab', 'o2', 'diamond_shape_with_a_dot_inside', 'recycle', 'end', 'on', 'soon', 'clock1', 'clock130', 'clock10', 'clock1030', 'clock11', 'clock1130', 'clock12', 'clock1230', 'clock2', 'clock230', 'clock3', 'clock330', 'clock4', 'clock430', 'clock5', 'clock530', 'clock6', 'clock630', 'clock7', 'clock730', 'clock8', 'clock830', 'clock9', 'clock930', 'heavy_dollar_sign', 'copyright', 'registered', 'tm', 'x', 'heavy_exclamation_mark', 'bangbang', 'interrobang', 'o', 'heavy_multiplication_x', 'heavy_plus_sign', 'heavy_minus_sign', 'heavy_division_sign', 'white_flower', '100', 'heavy_check_mark', 'ballot_box_with_check', 'radio_button', 'link', 'curly_loop', 'wavy_dash', 'part_alternation_mark', 'trident', 'black_square', 'white_square', 'white_check_mark', 'black_square_button', 'white_square_button', 'black_circle', 'white_circle', 'red_circle', 'large_blue_circle', 'large_blue_diamond', 'large_orange_diamond', 'small_blue_diamond', 'small_orange_diamond', 'small_red_triangle', 'small_red_triangle_down', 'shipit'];
-
-          this.allEmojiList = this.emojiList.concat(this.options.customEmoji);
-
-          this.emojiRegex = new RegExp(':(' + this.allEmojiList.join('|') + '):', 'g');
-      }
-
-      babelHelpers.createClass(Emoji, [{
-          key: 'process',
-          value: function process() {
-              var _this = this;
-
-              return this.output.replace(this.emojiRegex, function (match, text) {
-                  return _this.options.template.emoji(text, _this.options);
-              });
-          }
-      }]);
-      return Emoji;
-  }();
-
-  var Markdown = function () {
-  	function Markdown(output, options) {
-  		babelHelpers.classCallCheck(this, Markdown);
-
-  		if (!window.marked) throw new ReferenceError('marked.js is not loaded.');
+  		this.input = input;
   		this.output = output;
   		this.options = options;
+  		this.embeds = embeds;
   	}
 
-  	babelHelpers.createClass(Markdown, [{
+  	babelHelpers.createClass(Base, [{
   		key: 'process',
   		value: function process() {
   			var _this = this;
 
-  			var renderer = new marked.Renderer();
-
-  			/**
-      * Change the default template of the code blocks provided by marked.js
-      * @param  {string} text The code block string
-      * @return {string}      the new template
-      */
-  			renderer.code = function (text) {
-  				var highlightedCode = window.hljs ? hljs.highlightAuto(text) : {
-  					value: text
-  				};
-  				var language = window.hljs ? highlightedCode.language : '';
-  				return '<pre><code class="ejs-code hljs ' + language + '">' + highlightedCode.value + '</code></pre>';
-  			};
-
-  			renderer.link = function (href, title, text) {
-  				if (href.indexOf('&lt;/a') === -1) return href;
-  				if (href.match(/&gt;(.+)&lt;\/a/gi)) {
-  					if (!title) title = '';
-  					return '<a href="' + RegExp.$1 + '" rel=' + _this.options.linkOptions.rel + '" target="' + _this.options.linkOptions.target + '" title="' + title + '">' + text + '</a>';
+  			if (!ifInline(this.options, this.service)) {
+  				var regexInline = this.options.link ? new RegExp('([^>]*' + this.regex.source + ')</a>', 'gm') : new RegExp('([^\\s]*' + this.regex.source + ')', 'gm');
+  				this.output = this.output.replace(regexInline, function (match) {
+  					var url = _this.options.link ? match.slice(0, -4) : match;
+  					if (_this.options.served.indexOf(url) === -1) {
+  						_this.options.served.push(url);
+  						if (_this.options.link) {
+  							return !_this.options.inlineText ? _this.template(match.slice(0, -4)) + '</a>' : match + _this.template(match.slice(0, -4));
+  						} else {
+  							return !_this.options.inlineText ? _this.template(match) : match + _this.template(match);
+  						}
+  					} else {
+  						return url;
+  					}
+  				});
+  			} else {
+  				var match = undefined;
+  				while ((match = matches(this.regex, this.input)) !== null) {
+  					if (!(this.options.served.indexOf(match[0]) === -1)) continue;
+  					var text = this.template(match[0]);
+  					this.embeds.push({
+  						text: text,
+  						index: match.index
+  					});
   				}
-  			};
-
-  			renderer.image = function (href, title, text) {
-  				if (href.indexOf('&lt;/a') === -1) return href;
-  				if (href.match(/&gt;(.+)&lt;\/a/gi)) {
-  					if (!title) title = '';
-  					return '<div class="ejs-image ejs-embed"><div class="ne-image-wrapper"><img src="' + RegExp.$1 + '" title="' + title + '" alt="' + text + '"/></div></div>';
-  				}
-  			};
-
-  			renderer.paragraph = function (text) {
-  				return '<p> ' + text + ' </p>';
-  			}; //for font smiley in end.
-
-  			//Fix for heading that should be actually present in marked.js
-  			//if gfm is true the `## Heading` is acceptable but `##Heading` is not
-  			marked.Lexer.rules.gfm.heading = marked.Lexer.rules.normal.heading;
-  			marked.Lexer.rules.tables.heading = marked.Lexer.rules.normal.heading;
-
-  			this.options.markedOptions.renderer = renderer;
-  			return marked(this.output, this.options.markedOptions);
+  			}
+  			return [this.output, this.embeds];
   		}
   	}]);
-  	return Markdown;
+  	return Base;
+  }();
+
+  var Ideone = function (_Base) {
+      babelHelpers.inherits(Ideone, _Base);
+
+      function Ideone(input, output, options, embeds) {
+          babelHelpers.classCallCheck(this, Ideone);
+
+          var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(Ideone).call(this, input, output, options, embeds));
+
+          _this.regex = regex.ideone;
+          _this.service = 'ideone';
+          return _this;
+      }
+
+      babelHelpers.createClass(Ideone, [{
+          key: 'template',
+          value: function template(match) {
+              return this.options.template.ideone(match, this.options);
+          }
+      }]);
+      return Ideone;
+  }(Base);
+
+  var Plunker = function (_Base) {
+      babelHelpers.inherits(Plunker, _Base);
+
+      function Plunker(input, output, options, embeds) {
+          babelHelpers.classCallCheck(this, Plunker);
+
+          var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(Plunker).call(this, input, output, options, embeds));
+
+          _this.regex = regex.plunker;
+          _this.service = 'plunker';
+          return _this;
+      }
+
+      babelHelpers.createClass(Plunker, [{
+          key: 'template',
+          value: function template(match) {
+              var a = match.split('?')[0].split('/');
+              var id = a[a.length - 1];
+              return this.options.template.plunker(id, this.options);
+          }
+      }]);
+      return Plunker;
+  }(Base);
+
+  var JsBin = function (_Base) {
+      babelHelpers.inherits(JsBin, _Base);
+
+      function JsBin(input, output, options, embeds) {
+          babelHelpers.classCallCheck(this, JsBin);
+
+          var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(JsBin).call(this, input, output, options, embeds));
+
+          _this.regex = regex.jsbin;
+          _this.service = 'jsbin';
+          return _this;
+      }
+
+      babelHelpers.createClass(JsBin, [{
+          key: 'template',
+          value: function template(id) {
+              return this.options.template.jsBin(id, this.options);
+          }
+      }]);
+      return JsBin;
+  }(Base);
+
+  var CodePen = function (_Base) {
+      babelHelpers.inherits(CodePen, _Base);
+
+      function CodePen(input, output, options, embeds) {
+          babelHelpers.classCallCheck(this, CodePen);
+
+          var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(CodePen).call(this, input, output, options, embeds));
+
+          _this.regex = regex.codepen;
+          _this.service = 'codepen';
+          return _this;
+      }
+
+      babelHelpers.createClass(CodePen, [{
+          key: 'template',
+          value: function template(id) {
+              return this.options.template.codePen(id, this.options);
+          }
+      }]);
+      return CodePen;
+  }(Base);
+
+  var JsFiddle = function (_Base) {
+  	babelHelpers.inherits(JsFiddle, _Base);
+
+  	function JsFiddle(input, output, options, embeds) {
+  		babelHelpers.classCallCheck(this, JsFiddle);
+
+  		var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(JsFiddle).call(this, input, output, options, embeds));
+
+  		_this.regex = regex.jsfiddle;
+  		_this.service = 'jsfiddle';
+  		return _this;
+  	}
+
+  	babelHelpers.createClass(JsFiddle, [{
+  		key: 'template',
+  		value: function template(id) {
+  			id = id[id.length - 1] == '/' ? id.slice(0, -1) : id;
+  			id = id.indexOf('//') !== -1 ? id : '//' + id;
+  			return this.options.template.jsFiddle(id, this.options);
+  		}
+  	}]);
+  	return JsFiddle;
+  }(Base);
+
+  var Gist = function (_Base) {
+      babelHelpers.inherits(Gist, _Base);
+
+      function Gist(input, output, options, embeds) {
+          babelHelpers.classCallCheck(this, Gist);
+
+          var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(Gist).call(this, input, output, options, embeds));
+
+          _this.regex = regex.gist;
+          _this.service = 'gist';
+
+          _this.options.input.addEventListener('rendered', function () {
+              _this.load();
+          });
+          return _this;
+      }
+
+      babelHelpers.createClass(Gist, [{
+          key: 'template',
+          value: function template(match) {
+              return '<div class="ejs-gist" data-src="' + match + '"></div>';
+          }
+      }, {
+          key: 'load',
+          value: function load() {
+              var gists = this.options.input.getElementsByClassName('ejs-gist');
+              for (var i = 0; i < gists.length; i++) {
+                  var gistFrame = document.createElement("iframe");
+                  gistFrame.setAttribute("width", "100%");
+                  gistFrame.id = 'ejs-gist-' + i;
+
+                  var zone = gists[i];
+                  zone.innerHTML = "";
+                  zone.appendChild(gistFrame);
+
+                  // Create the iframe's document
+                  var url = gists[i].getAttribute('data-src');
+                  url = url.indexOf('http') === -1 ? 'https://' + url : url;
+                  var gistFrameHTML = '<html><base target="_parent"/><body onload="parent.document.getElementById(\'ejs-gist-' + i + '\').style.height=parseInt(document.body.scrollHeight)+20+\'px\'"><script type="text/javascript" src="' + url + '.js"></script></body></html>';
+
+                  // Set iframe's document with a trigger for this document to adjust the height
+                  var gistFrameDoc = gistFrame.document;
+
+                  if (gistFrame.contentDocument) {
+                      gistFrameDoc = gistFrame.contentDocument;
+                  } else if (gistFrame.contentWindow) {
+                      gistFrameDoc = gistFrame.contentWindow.document;
+                  }
+
+                  gistFrameDoc.open();
+                  gistFrameDoc.writeln(gistFrameHTML);
+                  gistFrameDoc.close();
+              }
+          }
+      }]);
+      return Gist;
+  }(Base);
+
+  var Ted = function (_Base) {
+      babelHelpers.inherits(Ted, _Base);
+
+      function Ted(input, output, options, embeds) {
+          babelHelpers.classCallCheck(this, Ted);
+
+          var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(Ted).call(this, input, output, options, embeds));
+
+          _this.regex = regex.ted;
+          _this.service = 'ted';
+          return _this;
+      }
+
+      babelHelpers.createClass(Ted, [{
+          key: 'template',
+          value: function template(match) {
+              var dimensions = getDimensions(this.options);
+              var a = match.split('/');
+              var id = a[a.length - 1];
+              return this.options.template.ted(id, dimensions, this.options);
+          }
+      }]);
+      return Ted;
+  }(Base);
+
+  var Dailymotion = function (_Base) {
+      babelHelpers.inherits(Dailymotion, _Base);
+
+      function Dailymotion(input, output, options, embeds) {
+          babelHelpers.classCallCheck(this, Dailymotion);
+
+          var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(Dailymotion).call(this, input, output, options, embeds));
+
+          _this.regex = regex.dailymotion;
+          _this.service = 'dailymotion';
+          return _this;
+      }
+
+      babelHelpers.createClass(Dailymotion, [{
+          key: 'template',
+          value: function template(match) {
+              var dimensions = getDimensions(this.options);
+              var a = match.split('/');
+              var id = a[a.length - 1];
+              return this.options.template.dailymotion(id, dimensions, this.options);
+          }
+      }]);
+      return Dailymotion;
+  }(Base);
+
+  var Ustream = function (_Base) {
+      babelHelpers.inherits(Ustream, _Base);
+
+      function Ustream(input, output, options, embeds) {
+          babelHelpers.classCallCheck(this, Ustream);
+
+          var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(Ustream).call(this, input, output, options, embeds));
+
+          _this.regex = regex.ustream;
+          _this.service = 'ustream';
+          return _this;
+      }
+
+      babelHelpers.createClass(Ustream, [{
+          key: 'template',
+          value: function template(match) {
+              var id = match.split('/');
+              id.splice(1, 0, 'embed');
+              var dimensions = getDimensions(this.options);
+              return this.options.template.ustream(id, dimensions, this.options);
+          }
+      }]);
+      return Ustream;
+  }(Base);
+
+  var LiveLeak = function (_Base) {
+      babelHelpers.inherits(LiveLeak, _Base);
+
+      function LiveLeak(input, output, options, embeds) {
+          babelHelpers.classCallCheck(this, LiveLeak);
+
+          var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(LiveLeak).call(this, input, output, options, embeds));
+
+          _this.regex = regex.liveleak;
+          _this.service = 'liveleak';
+          return _this;
+      }
+
+      babelHelpers.createClass(LiveLeak, [{
+          key: 'template',
+          value: function template(match) {
+              var dimensions = getDimensions(this.options);
+              return this.options.template.liveLeak(match, dimensions, this.options);
+          }
+      }]);
+      return LiveLeak;
+  }(Base);
+
+  var Vine = function (_Base) {
+      babelHelpers.inherits(Vine, _Base);
+
+      function Vine(input, output, options, embeds) {
+          babelHelpers.classCallCheck(this, Vine);
+
+          var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(Vine).call(this, input, output, options, embeds));
+
+          _this.regex = regex.vine;
+          _this.service = 'vine';
+          return _this;
+      }
+
+      babelHelpers.createClass(Vine, [{
+          key: 'template',
+          value: function template(match) {
+              var a = match.split('/');
+              var id = a[a.length - 1];
+              return this.options.template.vine(id, this.options);
+          }
+      }]);
+      return Vine;
+  }(Base);
+
+  var Youtube = function () {
+  	function Youtube(input, output, options, embeds) {
+  		babelHelpers.classCallCheck(this, Youtube);
+
+  		this.input = input;
+  		this.output = output;
+  		this.options = options;
+  		this.embeds = embeds;
+  		this.regex = regex.youtube;
+  		this.service = 'youtube';
+  	}
+
+  	babelHelpers.createClass(Youtube, [{
+  		key: 'data',
+  		value: function data(id) {
+  			var url = 'https://www.googleapis.com/youtube/v3/videos?id=' + id + '&key=' + this.options.googleAuthKey + '&part=snippet,statistics';
+  			return new Promise(function (resolve) {
+  				fetch(url).then(function (data) {
+  					return data.json();
+  				}).then(function (json) {
+  					return resolve(json.items[0]);
+  				});
+  			});
+  		}
+  	}, {
+  		key: 'process',
+  		value: function process() {
+  			var _this2 = this;
+
+  			return new Promise(function (resolve) {
+  				if (!ifInline(_this2.options, _this2.service)) {
+  					inlineEmbed(_this2, Youtube.urlToText).then(function (output) {
+  						resolve([output, _this2.embeds]);
+  					});
+  				} else {
+  					normalEmbed(_this2, Youtube.urlToText).then(function (embeds) {
+  						resolve([_this2.output, embeds]);
+  					});
+  				}
+  			});
+  		}
+  	}], [{
+  		key: 'formatData',
+  		value: function formatData(data, truncate) {
+  			return {
+  				title: data.snippet.title,
+  				thumbnail: data.snippet.thumbnails.medium.url,
+  				rawDescription: data.snippet.description,
+  				views: data.statistics.viewCount,
+  				likes: data.statistics.likeCount,
+  				description: truncate(data.snippet.description, 150),
+  				url: 'https://www.youtube.com/watch?v=' + data.id,
+  				id: data.id,
+  				host: 'youtube'
+  			};
+  		}
+  	}, {
+  		key: 'urlToText',
+  		value: function urlToText(_this, match, url, normalEmbed) {
+  			var id = normalEmbed ? match[1] : match[2];
+  			var embedUrl = 'https://www.youtube.com/embed/' + id;
+  			if (_this.options.videoDetails) {
+  				return new Promise(function (resolve) {
+  					_this.data(id).then(function (data) {
+  						return resolve(getDetailsTemplate(Youtube.formatData(data, truncate), data, embedUrl, _this.options));
+  					});
+  				});
+  			} else {
+  				return new Promise(function (resolve) {
+  					return resolve(template(embedUrl, _this.options));
+  				});
+  			}
+  		}
+  	}]);
+  	return Youtube;
+  }();
+
+  var Vimeo = function () {
+  	function Vimeo(input, output, options, embeds) {
+  		babelHelpers.classCallCheck(this, Vimeo);
+
+  		this.input = input;
+  		this.output = output;
+  		this.options = options;
+  		this.embeds = embeds;
+  		this.regex = regex.vimeo;
+  		this.service = 'vimeo';
+  	}
+
+  	babelHelpers.createClass(Vimeo, [{
+  		key: 'data',
+  		value: function data(id) {
+  			var url = 'https://vimeo.com/api/v2/video/' + id + '.json';
+  			return new Promise(function (resolve) {
+  				fetch(url).then(function (data) {
+  					return data.json();
+  				}).then(function (json) {
+  					return resolve(json[0]);
+  				});
+  			});
+  		}
+  	}, {
+  		key: 'process',
+  		value: function process() {
+  			var _this2 = this;
+
+  			return new Promise(function (resolve) {
+  				if (!ifInline(_this2.options, _this2.service)) {
+  					inlineEmbed(_this2, Vimeo.urlToText).then(function (response) {
+  						resolve([response, _this2.embeds]);
+  					});
+  				} else {
+  					normalEmbed(_this2, Vimeo.urlToText).then(function (embeds) {
+  						resolve([_this2.output, embeds]);
+  					});
+  				}
+  			});
+  		}
+  	}], [{
+  		key: 'formatData',
+  		value: function formatData(data, truncate) {
+  			return {
+  				title: data.title,
+  				thumbnail: data.thumbnail_medium,
+  				rawDescription: data.description.replace(/\n/g, '<br/>').replace(/&#10;/g, '<br/>'),
+  				views: data.stats_number_of_plays,
+  				likes: data.stats_number_of_likes,
+  				description: truncate(data.description.replace(/((<|&lt;)br\s*\/*(>|&gt;)\r\n)/g, ' '), 150),
+  				url: data.url,
+  				id: data.id,
+  				host: 'vimeo'
+  			};
+  		}
+  	}, {
+  		key: 'urlToText',
+  		value: function urlToText(_this, match, url, normalEmbed) {
+  			var id = undefined;
+  			if (!normalEmbed) {
+  				id = _this.options.link ? match[0].slice(0, -4).split('/').slice(-1).pop() : match[0].split('/').slice(-1).pop();
+  			} else {
+  				id = match[3];
+  			}
+  			if (!id) return;
+  			var embedUrl = 'https://player.vimeo.com/video/' + id;
+  			if (_this.options.videoDetails) {
+  				return new Promise(function (resolve) {
+  					_this.data(id).then(function (data) {
+  						return resolve(getDetailsTemplate(Vimeo.formatData(data, truncate), data, embedUrl, _this.options));
+  					});
+  				});
+  			} else {
+  				return new Promise(function (resolve) {
+  					return resolve(template(embedUrl, _this.options));
+  				});
+  			}
+  		}
+  	}]);
+  	return Vimeo;
+  }();
+
+  var BasicVideo = function (_Base) {
+  	babelHelpers.inherits(BasicVideo, _Base);
+
+  	function BasicVideo(input, output, options, embeds) {
+  		babelHelpers.classCallCheck(this, BasicVideo);
+
+  		var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(BasicVideo).call(this, input, output, options, embeds));
+
+  		_this.regex = regex.basicVideo;
+  		_this.service = 'video';
+  		return _this;
+  	}
+
+  	babelHelpers.createClass(BasicVideo, [{
+  		key: 'template',
+  		value: function template(match) {
+  			console.log(match);
+  			return this.options.template.basicVideo(match, this.options);
+  		}
+  	}]);
+  	return BasicVideo;
+  }(Base);
+
+  var SoundCloud = function (_Base) {
+  	babelHelpers.inherits(SoundCloud, _Base);
+
+  	function SoundCloud(input, output, options, embeds) {
+  		babelHelpers.classCallCheck(this, SoundCloud);
+
+  		var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(SoundCloud).call(this, input, output, options, embeds));
+
+  		_this.regex = regex.soundCloud;
+  		_this.service = 'soundcloud';
+  		return _this;
+  	}
+
+  	babelHelpers.createClass(SoundCloud, [{
+  		key: 'template',
+  		value: function template(match) {
+  			return this.options.template.soundCloud(match, this.options);
+  		}
+  	}]);
+  	return SoundCloud;
+  }(Base);
+
+  var Spotify = function (_Base) {
+  	babelHelpers.inherits(Spotify, _Base);
+
+  	function Spotify(input, output, options, embeds) {
+  		babelHelpers.classCallCheck(this, Spotify);
+
+  		var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(Spotify).call(this, input, output, options, embeds));
+
+  		_this.regex = regex.spotify;
+  		_this.service = 'spotify';
+  		return _this;
+  	}
+
+  	babelHelpers.createClass(Spotify, [{
+  		key: 'template',
+  		value: function template(match) {
+  			var a = match.split('/');
+  			var id = a[a.length - 1];
+  			return this.options.template.spotify(id, this.options);
+  		}
+  	}]);
+  	return Spotify;
+  }(Base);
+
+  var BasicAudio = function (_Base) {
+      babelHelpers.inherits(BasicAudio, _Base);
+
+      function BasicAudio(input, output, options, embeds) {
+          babelHelpers.classCallCheck(this, BasicAudio);
+
+          var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(BasicAudio).call(this, input, output, options, embeds));
+
+          _this.regex = regex.basicAudio;
+          _this.service = 'audio';
+          return _this;
+      }
+
+      babelHelpers.createClass(BasicAudio, [{
+          key: 'template',
+          value: function template(match) {
+              return this.options.template.basicAudio(match, this.options);
+          }
+      }]);
+      return BasicAudio;
+  }(Base);
+
+  var Flickr = function (_Base) {
+  	babelHelpers.inherits(Flickr, _Base);
+
+  	function Flickr(input, output, options, embeds) {
+  		babelHelpers.classCallCheck(this, Flickr);
+
+  		var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(Flickr).call(this, input, output, options, embeds));
+
+  		_this.regex = regex.flickr;
+  		_this.service = 'flickr';
+  		return _this;
+  	}
+
+  	babelHelpers.createClass(Flickr, [{
+  		key: 'template',
+  		value: function template(match) {
+  			var dimensions = getDimensions(this.options);
+  			return this.options.template.flickr(match, dimensions, this.options);
+  		}
+  	}]);
+  	return Flickr;
+  }(Base);
+
+  var Instagram = function (_Base) {
+  	babelHelpers.inherits(Instagram, _Base);
+
+  	function Instagram(input, output, options, embeds) {
+  		babelHelpers.classCallCheck(this, Instagram);
+
+  		var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(Instagram).call(this, input, output, options, embeds));
+
+  		_this.regex = regex.instagram;
+  		_this.service = 'instagram';
+  		return _this;
+  	}
+
+  	babelHelpers.createClass(Instagram, [{
+  		key: 'template',
+  		value: function template(match) {
+  			var dimensions = getDimensions(this.options);
+  			return this.options.template.instagram(match, dimensions, this.options);
+  		}
+  	}]);
+  	return Instagram;
+  }(Base);
+
+  var Basic = function (_Base) {
+  	babelHelpers.inherits(Basic, _Base);
+
+  	function Basic(input, output, options, embeds) {
+  		babelHelpers.classCallCheck(this, Basic);
+
+  		var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(Basic).call(this, input, output, options, embeds));
+
+  		_this.regex = regex.basicImage;
+  		_this.service = 'image';
+  		return _this;
+  	}
+
+  	babelHelpers.createClass(Basic, [{
+  		key: 'template',
+  		value: function template(match) {
+  			return this.options.template.basicImage(match, this.options);
+  		}
+  	}]);
+  	return Basic;
+  }(Base);
+
+  var SlideShare = function () {
+  	function SlideShare(input, output, options, embeds) {
+  		babelHelpers.classCallCheck(this, SlideShare);
+
+  		this.input = input;
+  		this.output = output;
+  		this.options = options;
+  		this.embeds = embeds;
+  		this.regex = regex.slideShare;
+  		this.service = 'slideshare';
+  	}
+
+  	babelHelpers.createClass(SlideShare, [{
+  		key: 'template',
+  		value: function template(html) {
+  			return this.options.template.slideShare(html, this.options);
+  		}
+  	}, {
+  		key: 'process',
+  		value: function process() {
+  			var _this2 = this;
+
+  			return new Promise(function (resolve) {
+  				if (!ifInline(_this2.options, _this2.service)) {
+  					inlineEmbed(_this2, SlideShare.urlToText).then(function (response) {
+  						resolve([response, _this2.embeds]);
+  					});
+  				} else {
+  					normalEmbed(_this2, SlideShare.urlToText).then(function (embeds) {
+  						resolve([_this2.output, embeds]);
+  					});
+  				}
+  			});
+  		}
+  	}], [{
+  		key: 'fetchData',
+  		value: function fetchData(_this, url) {
+  			var dimensions = getDimensions(_this.options);
+  			var api = 'http://www.slideshare.net/api/oembed/2?url=' + url + '&format=jsonp&maxwidth=' + dimensions.width + '&maxheight=' + dimensions.height;
+  			return new Promise(function (resolve) {
+  				fetchJsonp(api, { credentials: 'include' }).then(function (data) {
+  					return data.json();
+  				}).then(function (json) {
+  					return resolve(json.html);
+  				});
+  			});
+  		}
+  	}, {
+  		key: 'urlToText',
+  		value: function urlToText(_this, match, url) {
+  			return new Promise(function (resolve) {
+  				SlideShare.fetchData(_this, url).then(function (html) {
+  					return resolve(_this.template(html));
+  				});
+  			});
+  		}
+  	}]);
+  	return SlideShare;
   }();
 
   var OpenGraph = function () {
@@ -2331,30 +2289,72 @@
   	return OpenGraph;
   }();
 
-  var Url = function () {
-  	function Url(input, options) {
-  		babelHelpers.classCallCheck(this, Url);
+  var Github = function () {
+  	function Github(input, output, options, embeds) {
+  		babelHelpers.classCallCheck(this, Github);
 
   		this.input = input;
+  		this.output = output;
   		this.options = options;
-  		this.urlRegex = urlRegex();
+  		this.embeds = embeds;
+  		this.service = 'github';
+  		this.regex = regex.github;
   	}
 
-  	babelHelpers.createClass(Url, [{
+  	babelHelpers.createClass(Github, [{
   		key: 'process',
   		value: function process() {
-  			var _this = this;
+  			var _this2 = this;
 
-  			var config = this.options.linkOptions;
-  			return this.input.replace(this.urlRegex, function (match) {
-  				var extension = match.split('.')[match.split('.').length - 1];
-  				if (match[match.length - 1] == '/') match = match.slice(0, -1);
-  				if (config.exclude.indexOf(extension) === -1) return _this.options.template.url(match, _this.options);
-  				return match;
+  			return new Promise(function (resolve) {
+  				if (!ifInline(_this2.options, _this2.service)) {
+  					inlineEmbed(_this2, Github.urlToText).then(function (response) {
+  						resolve([response, _this2.embeds]);
+  					});
+  				} else {
+  					normalEmbed(_this2, Github.urlToText).then(function (embeds) {
+  						resolve([_this2.output, embeds]);
+  					});
+  				}
+  			});
+  		}
+  	}], [{
+  		key: 'fetchRepo',
+  		value: function fetchRepo(data) {
+  			var api = 'https://api.github.com/repos/' + data.user + '/' + data.repo;
+  			return new Promise(function (resolve) {
+  				fetch(api).then(function (data) {
+  					return data.json();
+  				}).then(function (json) {
+  					return resolve(json);
+  				});
+  			});
+  		}
+  	}, {
+  		key: 'template',
+  		value: function template(data, options) {
+  			return options.template.github(data, options);
+  		}
+  	}, {
+  		key: 'urlToText',
+  		value: function urlToText(_this, match, url, normalEmbed) {
+  			var data = !normalEmbed ? {
+  				user: match[2],
+  				repo: match[3]
+  			} : {
+  				user: match[1],
+  				repo: match[2]
+  			};
+
+  			if (!data.repo) return;
+  			return new Promise(function (resolve) {
+  				Github.fetchRepo(data).then(function (response) {
+  					return resolve(Github.template(response, _this.options));
+  				});
   			});
   		}
   	}]);
-  	return Url;
+  	return Github;
   }();
 
   var globalOptions = {};

@@ -4,6 +4,7 @@ var npm      = require('rollup-plugin-npm');
 var replace  = require('rollup-plugin-replace');
 var build    = require('./build.json');
 var pkg      = require('./package.json');
+var filesize   = require('rollup-plugin-filesize');
 
 var banner = "/*\n" +
 	" * " + pkg.name + " - v" + pkg.version + "\n" +
@@ -20,9 +21,7 @@ var config = {
 	format       : 'umd',
 	banner       : banner,
 	sourceMap    : true,
-	useStrict    : true,
 	moduleName   : 'EmbedJS',
-	sourceMapFile: './src/embed.js',
 	plugins      : [
 		npm({
 			jsnext: true,
@@ -32,7 +31,8 @@ var config = {
 			include: 'node_modules/**'
 		}),
 		replace(build),
-		babel()
+		babel(),
+		filesize()
 	]
 };
 

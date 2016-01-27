@@ -21,8 +21,6 @@ var config = {
     format        : 'es6',
     banner        : banner,
     sourceMap     : true,
-    useStrict     : true,
-    sourceMapFile : './src/embed.es6.js',
     plugins: [
         npm({
             jsnext : true,

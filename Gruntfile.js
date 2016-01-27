@@ -1,11 +1,5 @@
 module.exports = function(grunt) {
 
-    var babel = require('rollup-plugin-babel');
-    var npm = require('rollup-plugin-npm');
-    var commonjs = require('rollup-plugin-commonjs');
-    var replace = require('rollup-plugin-replace');
-    var build = require('./build.json');
-
     grunt.initConfig({
 
         // Import package manifest
