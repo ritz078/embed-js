@@ -1,4 +1,4 @@
-import { ifEmbed, createText, deepExtend, cloneObject } from './modules/utils'
+import { ifEmbed, createText, deepExtend, cloneObject, setDimensions } from './modules/utils'
 
 import Renderer    from './modules/template'
 
@@ -170,7 +170,7 @@ export default class EmbedJS {
 	 */
 	process() {
 		let input   = this.input;
-		let options = this.options;
+		let options = setDimensions(this.options);
 		let embeds  = [];
 		let output  = '';
 
@@ -310,7 +310,7 @@ export default class EmbedJS {
 		return new Promise((resolve) => {
 			this.process().then((data) => {
 				this.options.input.innerHTML = data;
-				this.listen();
+				this.applyListeners();
 				resolve(this.data);
 			})
 		})
@@ -321,7 +321,7 @@ export default class EmbedJS {
 	 * events to be done after an element has been rendered. These
 	 * include twitter widget rendering, gist embedding, click event listeners .
 	 */
-	listen(){
+	applyListeners(){
 		applyVideoJS(this.options);
 
 		playVideo(this.options);
@@ -342,6 +342,7 @@ export default class EmbedJS {
 
 		if(options)
 			this.options = deepExtend(this.options, options);
+
 		if(template)
 			this.options.template = template;
 

@@ -92,7 +92,7 @@ function ifEmbed(options, service) {
 }
 
 function ifInline(options, service) {
-    return ((options.inlineEmbed.includes(service) == -1) && (options.inlineEmbed !== 'all'));
+    return ((options.inlineEmbed.indexOf(service) == -1) && (options.inlineEmbed !== 'all'));
 }
 
 /**
@@ -100,23 +100,10 @@ function ifInline(options, service) {
  * @param  {object} options Plugin options
  * @return {object}         The width and height of the elements
  */
-function getDimensions(options) {
-    let dimensions = {
-        width: options.videoWidth,
-        height: options.videoHeight
-    };
-    if (options.videoHeight && options.videoWidth) {
-        return dimensions;
-    } else if (options.videoHeight) {
-        options.videoWidth = dimensions.width = ((options.videoHeight) / 3) * 4;
-        return dimensions;
-    } else if (options.videoWidth) {
-        options.videoHeight = dimensions.height = ((dimensions.width) / 4) * 3;
-        return dimensions;
-    } else {
-        [options.videoWidth, options.videoHeight] = [dimensions.width, dimensions.height] = [800, 600];
-        return dimensions;
-    }
+function setDimensions(options) {
+	options.videoWidth = options.videoWidth || ((options.videoHeight) / 3) * 4 || 800;
+	options.videoHeight = options.videoHeight || ((options.videoWidth) / 4) * 3 || 600;
+	return options;
 }
 
 /**
@@ -203,12 +190,12 @@ class Renderer{
 		return `<div class="ejs-image ejs-embed"><div class="ne-image-wrapper"><img src="${match}"/></div></div>`
 	}
 
-	flickr(match, dimensions){
-		return `<div class="ejs-embed"><div class="ne-image-wrapper"><iframe src="${toUrl(match.split('/?')[0])}/player/" width="${dimensions.width}" height="${dimensions.height}"></iframe></div></div>`
+	flickr(match, options){
+		return `<div class="ejs-embed"><div class="ne-image-wrapper"><iframe src="${toUrl(match.split('/?')[0])}/player/" width="${options.videoWidth}" height="${options.videoHeight}"></iframe></div></div>`
 	}
 
-	instagram(match, dimensions){
-		return `<div class="ejs-embed ejs-instagram"><iframe src="${toUrl(match.split('/?')[0])}/embed/" height="${dimensions.height}"></iframe></div>`;
+	instagram(match, options){
+		return `<div class="ejs-embed ejs-instagram"><iframe src="${toUrl(match.split('/?')[0])}/embed/" height="${options.videoHeight}"></iframe></div>`;
 	}
 
 	slideShare(html){
@@ -219,20 +206,20 @@ class Renderer{
 		return `<div class="ejs-video ejs-embed"><div class="ejs-video-player"><div class="ejs-player"><video src="${match}" class="ejs-video-js video-js" controls></video></div></div></div>`
 	}
 
-	dailymotion(id, dimensions){
-		return `<div class="ejs-video ejs-embed"><iframe src="http://www.dailymotion.com/embed/video/${id}" height="${dimensions.height}" width="${dimensions.width}"></iframe></div>`
+	dailymotion(id, options){
+		return `<div class="ejs-video ejs-embed"><iframe src="http://www.dailymotion.com/embed/video/${id}" height="${options.videoHeight}" width="${options.videoWidth}"></iframe></div>`
 	}
 
-	liveleak(match, dimensions){
-		return `<div class="ejs-video ejs-embed"><iframe src="http://www.liveleak.com/e/${match.split('=')[1]}" height="${dimensions.height}" width="${dimensions.width}"></iframe></div>`
+	liveleak(match, options){
+		return `<div class="ejs-video ejs-embed"><iframe src="http://www.liveleak.com/e/${match.split('=')[1]}" height="${options.videoHeight}" width="${options.videoWidth}"></iframe></div>`
 	}
 
-	ted(id, dimensions){
-		return `<div class="ejs-embed ejs-ted"><iframe src="http://embed.ted.com/talks/${id}.html" height="${dimensions.height}" width="${dimensions.width}"></iframe></div>`
+	ted(id, options){
+		return `<div class="ejs-embed ejs-ted"><iframe src="http://embed.ted.com/talks/${id}.html" height="${options.videoHeight}" width="${options.videoWidth}"></iframe></div>`
 	}
 
-	ustream(id, dimensions){
-		return `<div class="ejs-embed ejs-ustream"><iframe src="//www.${id.join('/')}" height="${dimensions.height}" width="${dimensions.width}"></iframe></div>`
+	ustream(id, options){
+		return `<div class="ejs-embed ejs-ustream"><iframe src="//www.${id.join('/')}" height="${options.videoHeight}" width="${options.videoWidth}"></iframe></div>`
 	}
 
 	detailsVimeo(data, fullData, embedUrl){
@@ -248,12 +235,12 @@ class Renderer{
 		return `<div class="ejs-vine"><iframe class="ejs-vine-iframe" src="https://vine.co/v/${id}/embed/${config.type}" height="${config.height}" width="${config.width}"></iframe></div>`
 	}
 
-	vimeo(url, dimensions){
-		return `<div class="ejs-video-player ejs-embed"><iframe src="${url}" frameBorder="0" width="${dimensions.width}" height="${dimensions.height}"></iframe></div>`
+	vimeo(url, options){
+		return `<div class="ejs-video-player ejs-embed"><iframe src="${url}" frameBorder="0" width="${options.videoWidth}" height="${options.videoHeight}"></iframe></div>`
 	}
 
-	youtube(url, dimensions){
-		return `<div class="ejs-video-player ejs-embed"><iframe src="${url}" frameBorder="0" width="${dimensions.width}" height="${dimensions.height}"></iframe></div>`
+	youtube(url, options){
+		return `<div class="ejs-video-player ejs-embed"><iframe src="${url}" frameBorder="0" width="${options.videoWidth}" height="${options.videoHeight}"></iframe></div>`
 	}
 
 	openGraph(data, options){
@@ -1696,8 +1683,7 @@ function playVideo(options) {
  * @return {string}         compiled template with variables replaced
  */
 function template(url, options) {
-    let dimensions = getDimensions(options);
-    return options.template.vimeo(url, dimensions, options) || options.template.youtube(url, dimensions, options)
+    return options.template.vimeo(url, options) || options.template.youtube(url, options)
 }
 
 function getDetailsTemplate(data, fullData, embedUrl, options) {
@@ -1714,9 +1700,8 @@ function getDetailsTemplate(data, fullData, embedUrl, options) {
  * @return {null}
  */
 function applyVideoJS(options) {
-    let dimensions = getDimensions(options);
-    options.videojsOptions.width = dimensions.width;
-    options.videojsOptions.height = dimensions.height;
+    options.videojsOptions.width = options.videoWidth;
+    options.videojsOptions.height = options.videoHeight;
     if (options.videoJS) {
         if (!window.videojs) throw new ReferenceError("You have enabled videojs but you haven't loaded the library.Find it at http://videojs.com/");
         let elements = options.input.getElementsByClassName('ejs-video-js');
@@ -1748,7 +1733,7 @@ function destroyVideos(className) {
  */
 function getInlineData(_this, urlToText, match) {
     let url = (_this.options.link ? match[0].slice(0, -4) : match[0]) || match[1];
-    if (_this.options.served.indexOf(url) !== -1) return Promise.resolve(null);
+    if (_this.options.served.indexOf(url) >= 0) return Promise.resolve(null);
 
     return new Promise((resolve) => {
         urlToText(_this, match, url).then((text) => {
@@ -1763,17 +1748,14 @@ function getInlineData(_this, urlToText, match) {
  * A helper function for inline embedding
  * @param _this
  * @param urlToText
- * @returns {*}
+ * @returns Promise
  */
 function inlineEmbed(_this, urlToText) {
     let regexInline = _this.options.link ? new RegExp(`([^>]*${_this.regex.source})<\/a>`, 'gi') : new RegExp(`([^\\s]*${_this.regex.source})`, 'gi');
-    let match, allMatches = [],
-        promises = [];
+    let match, promises = [];
 
-    while ((match = matches(regexInline, _this.output)) !== null) {
-        allMatches.push(match);
-        promises.push(getInlineData(_this, urlToText, match))
-    }
+    while ((match = matches(regexInline, _this.output)) !== null)
+        promises.push(getInlineData(_this, urlToText, match));
 
     return new Promise((resolve) => {
         if (matches.length)
@@ -1795,7 +1777,7 @@ function inlineEmbed(_this, urlToText) {
 
 function getNormalData(_this, urlToText, match) {
     let url = match[0];
-    if (!_this.options.served.indexOf(url) === -1) return;
+    if (_this.options.served.indexOf(url) >= 0) return;
 
     return new Promise((resolve) => {
         urlToText(_this, match, url, true).then(function(text) {
@@ -1817,20 +1799,14 @@ function getNormalData(_this, urlToText, match) {
  * @return {Promise}
  */
 function normalEmbed(_this, urlToText) {
-    let match,
-        allMatches = [],
-        promises = [];
-
-    while ((match = matches(_this.regex, _this.input)) !== null) {
-        allMatches.push(match);
-        promises.push(getNormalData(_this, urlToText, match))
-    }
-
-    return new Promise(function(resolve) {
-        Promise.all(promises).then(function() {
-            resolve(_this.embeds)
-        });
-    })
+	let match, promises = [];
+	while ((match = matches(_this.regex, _this.input)) !== null)
+		promises.push(getNormalData(_this, urlToText, match));
+	return new Promise(function (resolve) {
+		Promise.all(promises).then(function () {
+			resolve(_this.embeds)
+		});
+	})
 }
 
 let regex = {
@@ -1961,13 +1937,12 @@ class Gmap {
     static template(match, latitude, longitude, options) {
         let location = Gmap.locationText(match);
         let config = options.mapOptions;
-        const dimensions = getDimensions(options);
         if (config.mode === 'place') {
-            return `<div class="ejs-embed ejs-map"><iframe width="${dimensions.width}" height="${dimensions.height}" src="https://www.google.com/maps/embed/v1/place?key=${options.googleAuthKey}&q=${location}"></iframe></div>`;
+            return `<div class="ejs-embed ejs-map"><iframe width="${options.videoWidth}" height="${options.videoHeight}" src="https://www.google.com/maps/embed/v1/place?key=${options.googleAuthKey}&q=${location}"></iframe></div>`;
         } else if (config.mode === 'streetview') {
-            return `<div class="ejs-embed ejs-map"><iframe width="${dimensions.width}" height="${dimensions.height}" src="https://www.google.com/maps/embed/v1/streetview?key=${options.googleAuthKey}&location=${latitude},${longitude}&heading=210&pitch=10&fov=35"></iframe></div>`;
+            return `<div class="ejs-embed ejs-map"><iframe width="${options.videoWidth}" height="${options.videoHeight}" src="https://www.google.com/maps/embed/v1/streetview?key=${options.googleAuthKey}&location=${latitude},${longitude}&heading=210&pitch=10&fov=35"></iframe></div>`;
         } else if (config.mode === 'view') {
-            return `<div class="ejs-embed ejs-map"><iframe width="${dimensions.width}" height="${dimensions.height}" src="https://www.google.com/maps/embed/v1/view?key=${options.googleAuthKey}&center=${latitude},${longitude}&zoom=18&maptype=satellite"></iframe></div>`
+            return `<div class="ejs-embed ejs-map"><iframe width="${options.videoWidth}" height="${options.videoHeight}" src="https://www.google.com/maps/embed/v1/view?key=${options.googleAuthKey}&center=${latitude},${longitude}&zoom=18&maptype=satellite"></iframe></div>`
         }
     }
 
@@ -1985,12 +1960,12 @@ class Gmap {
             allMatches = [];
         while ((match = matches(this.regex, this.output)) !== null) {
             let promise = this.options.mapOptions.mode !== 'place' ? Gmap.getCoordinate(match[0]) : Promise.resolve([null, null]);
-            promises.push(promise)
+            promises.push(promise);
             allMatches.push(match)
         }
 
         return new Promise((resolve) => {
-            if (allMatches.length) {
+            if (allMatches.length) {  //TODO
                 Promise.all(promises).then((coordinatesArr) => {
                     for (var i in promises) {
                         let [latitude, longitude] = coordinatesArr[i];
@@ -2325,10 +2300,9 @@ class Ted extends Base {
     }
 
     template(match) {
-        const dimensions = getDimensions(this.options);
         let a = match.split('/');
         const id = a[a.length - 1];
-        return this.options.template.ted(id, dimensions, this.options)
+        return this.options.template.ted(id, this.options)
     }
 }
 
@@ -2340,10 +2314,9 @@ class Dailymotion extends Base {
     }
 
     template(match) {
-        const dimensions = getDimensions(this.options);
         const a = match.split('/');
         const id = a[a.length - 1];
-        return this.options.template.dailymotion(id, dimensions, this.options)
+        return this.options.template.dailymotion(id, this.options)
     }
 }
 
@@ -2357,8 +2330,7 @@ class Ustream extends Base {
     template(match) {
         let id = match.split('/');
         id.splice(1, 0, 'embed');
-        const dimensions = getDimensions(this.options);
-        return this.options.template.ustream(id, dimensions, this.options)
+        return this.options.template.ustream(id, this.options)
     }
 }
 
@@ -2370,8 +2342,7 @@ class LiveLeak extends Base {
     }
 
     template(match) {
-        const dimensions = getDimensions(this.options);
-        return this.options.template.liveLeak(match, dimensions, this.options)
+        return this.options.template.liveLeak(match, this.options)
     }
 }
 
@@ -2525,7 +2496,6 @@ class BasicVideo extends Base {
 	}
 
 	template(match) {
-		console.log(match);
 		return this.options.template.basicVideo(match, this.options)
 	}
 }
@@ -2576,8 +2546,7 @@ class Flickr extends Base{
 	}
 
 	template(match){
-		let dimensions = getDimensions(this.options);
-		return this.options.template.flickr(match, dimensions, this.options);
+		return this.options.template.flickr(match, this.options);
 	}
 }
 
@@ -2589,8 +2558,7 @@ class Instagram extends Base{
 	}
 
 	template(match){
-		let dimensions = getDimensions(this.options);
-		return this.options.template.instagram(match, dimensions, this.options)
+		return this.options.template.instagram(match, this.options)
 	}
 }
 
@@ -2617,8 +2585,7 @@ class SlideShare {
 	}
 
 	static fetchData(_this, url) {
-		const dimensions = getDimensions(_this.options);
-		let api          = `http://www.slideshare.net/api/oembed/2?url=${url}&format=jsonp&maxwidth=${dimensions.width}&maxheight=${dimensions.height}`;
+		let api          = `http://www.slideshare.net/api/oembed/2?url=${url}&format=jsonp&maxwidth=${_this.options.videoWidth}&maxheight=${_this.options.videoHeight}`;
 		return new Promise((resolve) => {
 			fetchJsonp(api, {credentials: 'include'})
 				.then((data) => data.json())
@@ -2886,7 +2853,7 @@ class EmbedJS {
 	 */
 	process() {
 		let input   = this.input;
-		let options = this.options;
+		let options = setDimensions(this.options);
 		let embeds  = [];
 		let output  = '';
 
@@ -3026,7 +2993,7 @@ class EmbedJS {
 		return new Promise((resolve) => {
 			this.process().then((data) => {
 				this.options.input.innerHTML = data;
-				this.listen();
+				this.applyListeners();
 				resolve(this.data);
 			})
 		})
@@ -3037,7 +3004,7 @@ class EmbedJS {
 	 * events to be done after an element has been rendered. These
 	 * include twitter widget rendering, gist embedding, click event listeners .
 	 */
-	listen(){
+	applyListeners(){
 		applyVideoJS(this.options);
 
 		playVideo(this.options);
@@ -3058,6 +3025,7 @@ class EmbedJS {
 
 		if(options)
 			this.options = deepExtend(this.options, options);
+
 		if(template)
 			this.options.template = template;
 

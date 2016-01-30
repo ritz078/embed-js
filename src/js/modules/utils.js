@@ -101,7 +101,7 @@ export function ifEmbed(options, service) {
 }
 
 export function ifInline(options, service) {
-    return ((options.inlineEmbed.includes(service) == -1) && (options.inlineEmbed !== 'all'));
+    return ((options.inlineEmbed.indexOf(service) == -1) && (options.inlineEmbed !== 'all'));
 }
 
 /**
@@ -109,23 +109,10 @@ export function ifInline(options, service) {
  * @param  {object} options Plugin options
  * @return {object}         The width and height of the elements
  */
-export function getDimensions(options) {
-    let dimensions = {
-        width: options.videoWidth,
-        height: options.videoHeight
-    };
-    if (options.videoHeight && options.videoWidth) {
-        return dimensions;
-    } else if (options.videoHeight) {
-        options.videoWidth = dimensions.width = ((options.videoHeight) / 3) * 4;
-        return dimensions;
-    } else if (options.videoWidth) {
-        options.videoHeight = dimensions.height = ((dimensions.width) / 4) * 3;
-        return dimensions;
-    } else {
-        [options.videoWidth, options.videoHeight] = [dimensions.width, dimensions.height] = [800, 600];
-        return dimensions;
-    }
+export function setDimensions(options) {
+	options.videoWidth = options.videoWidth || ((options.videoHeight) / 3) * 4 || 800;
+	options.videoHeight = options.videoHeight || ((options.videoWidth) / 4) * 3 || 600;
+	return options;
 }
 
 /**

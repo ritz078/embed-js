@@ -66,12 +66,12 @@ export default class Renderer{
 		return `<div class="ejs-image ejs-embed"><div class="ne-image-wrapper"><img src="${match}"/></div></div>`
 	}
 
-	flickr(match, dimensions){
-		return `<div class="ejs-embed"><div class="ne-image-wrapper"><iframe src="${toUrl(match.split('/?')[0])}/player/" width="${dimensions.width}" height="${dimensions.height}"></iframe></div></div>`
+	flickr(match, options){
+		return `<div class="ejs-embed"><div class="ne-image-wrapper"><iframe src="${toUrl(match.split('/?')[0])}/player/" width="${options.videoWidth}" height="${options.videoHeight}"></iframe></div></div>`
 	}
 
-	instagram(match, dimensions){
-		return `<div class="ejs-embed ejs-instagram"><iframe src="${toUrl(match.split('/?')[0])}/embed/" height="${dimensions.height}"></iframe></div>`;
+	instagram(match, options){
+		return `<div class="ejs-embed ejs-instagram"><iframe src="${toUrl(match.split('/?')[0])}/embed/" height="${options.videoHeight}"></iframe></div>`;
 	}
 
 	slideShare(html){
@@ -82,20 +82,20 @@ export default class Renderer{
 		return `<div class="ejs-video ejs-embed"><div class="ejs-video-player"><div class="ejs-player"><video src="${match}" class="ejs-video-js video-js" controls></video></div></div></div>`
 	}
 
-	dailymotion(id, dimensions){
-		return `<div class="ejs-video ejs-embed"><iframe src="http://www.dailymotion.com/embed/video/${id}" height="${dimensions.height}" width="${dimensions.width}"></iframe></div>`
+	dailymotion(id, options){
+		return `<div class="ejs-video ejs-embed"><iframe src="http://www.dailymotion.com/embed/video/${id}" height="${options.videoHeight}" width="${options.videoWidth}"></iframe></div>`
 	}
 
-	liveleak(match, dimensions){
-		return `<div class="ejs-video ejs-embed"><iframe src="http://www.liveleak.com/e/${match.split('=')[1]}" height="${dimensions.height}" width="${dimensions.width}"></iframe></div>`
+	liveleak(match, options){
+		return `<div class="ejs-video ejs-embed"><iframe src="http://www.liveleak.com/e/${match.split('=')[1]}" height="${options.videoHeight}" width="${options.videoWidth}"></iframe></div>`
 	}
 
-	ted(id, dimensions){
-		return `<div class="ejs-embed ejs-ted"><iframe src="http://embed.ted.com/talks/${id}.html" height="${dimensions.height}" width="${dimensions.width}"></iframe></div>`
+	ted(id, options){
+		return `<div class="ejs-embed ejs-ted"><iframe src="http://embed.ted.com/talks/${id}.html" height="${options.videoHeight}" width="${options.videoWidth}"></iframe></div>`
 	}
 
-	ustream(id, dimensions){
-		return `<div class="ejs-embed ejs-ustream"><iframe src="//www.${id.join('/')}" height="${dimensions.height}" width="${dimensions.width}"></iframe></div>`
+	ustream(id, options){
+		return `<div class="ejs-embed ejs-ustream"><iframe src="//www.${id.join('/')}" height="${options.videoHeight}" width="${options.videoWidth}"></iframe></div>`
 	}
 
 	detailsVimeo(data, fullData, embedUrl){
@@ -111,12 +111,12 @@ export default class Renderer{
 		return `<div class="ejs-vine"><iframe class="ejs-vine-iframe" src="https://vine.co/v/${id}/embed/${config.type}" height="${config.height}" width="${config.width}"></iframe></div>`
 	}
 
-	vimeo(url, dimensions){
-		return `<div class="ejs-video-player ejs-embed"><iframe src="${url}" frameBorder="0" width="${dimensions.width}" height="${dimensions.height}"></iframe></div>`
+	vimeo(url, options){
+		return `<div class="ejs-video-player ejs-embed"><iframe src="${url}" frameBorder="0" width="${options.videoWidth}" height="${options.videoHeight}"></iframe></div>`
 	}
 
-	youtube(url, dimensions){
-		return `<div class="ejs-video-player ejs-embed"><iframe src="${url}" frameBorder="0" width="${dimensions.width}" height="${dimensions.height}"></iframe></div>`
+	youtube(url, options){
+		return `<div class="ejs-video-player ejs-embed"><iframe src="${url}" frameBorder="0" width="${options.videoWidth}" height="${options.videoHeight}"></iframe></div>`
 	}
 
 	openGraph(data, options){

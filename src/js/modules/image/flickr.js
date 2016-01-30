@@ -1,4 +1,3 @@
-import { getDimensions } from '../utils'
 import Base from '../base'
 import regex from '../regex'
 
@@ -10,8 +9,7 @@ export default class Flickr extends Base{
 	}
 
 	template(match){
-		let dimensions = getDimensions(this.options);
-		return this.options.template.flickr(match, dimensions, this.options);
+		return this.options.template.flickr(match, this.options);
 	}
 }
 

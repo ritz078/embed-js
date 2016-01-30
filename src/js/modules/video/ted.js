@@ -1,4 +1,3 @@
-import { getDimensions } from '../utils'
 import Base from '../base'
 import regex from '../regex'
 
@@ -10,9 +9,8 @@ export default class Ted extends Base {
     }
 
     template(match) {
-        const dimensions = getDimensions(this.options);
         let a = match.split('/');
         const id = a[a.length - 1];
-        return this.options.template.ted(id, dimensions, this.options)
+        return this.options.template.ted(id, this.options)
     }
 }

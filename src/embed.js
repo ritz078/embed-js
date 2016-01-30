@@ -195,7 +195,7 @@
   }
 
   function ifInline(options, service) {
-      return options.inlineEmbed.includes(service) == -1 && options.inlineEmbed !== 'all';
+      return options.inlineEmbed.indexOf(service) == -1 && options.inlineEmbed !== 'all';
   }
 
   /**
@@ -203,31 +203,10 @@
    * @param  {object} options Plugin options
    * @return {object}         The width and height of the elements
    */
-  function getDimensions(options) {
-      var dimensions = {
-          width: options.videoWidth,
-          height: options.videoHeight
-      };
-      if (options.videoHeight && options.videoWidth) {
-          return dimensions;
-      } else if (options.videoHeight) {
-          options.videoWidth = dimensions.width = options.videoHeight / 3 * 4;
-          return dimensions;
-      } else if (options.videoWidth) {
-          options.videoHeight = dimensions.height = dimensions.width / 4 * 3;
-          return dimensions;
-      } else {
-          var _ref3;
-
-          var _ref = (_ref3 = [800, 600], dimensions.width = _ref3[0], dimensions.height = _ref3[1], _ref3);
-
-          var _ref2 = babelHelpers.slicedToArray(_ref, 2);
-
-          options.videoWidth = _ref2[0];
-          options.videoHeight = _ref2[1];
-
-          return dimensions;
-      }
+  function setDimensions(options) {
+      options.videoWidth = options.videoWidth || options.videoHeight / 3 * 4 || 800;
+      options.videoHeight = options.videoHeight || options.videoWidth / 4 * 3 || 600;
+      return options;
   }
 
   /**
@@ -320,13 +299,13 @@
   		}
   	}, {
   		key: 'flickr',
-  		value: function flickr(match, dimensions) {
-  			return '<div class="ejs-embed"><div class="ne-image-wrapper"><iframe src="' + toUrl(match.split('/?')[0]) + '/player/" width="' + dimensions.width + '" height="' + dimensions.height + '"></iframe></div></div>';
+  		value: function flickr(match, options) {
+  			return '<div class="ejs-embed"><div class="ne-image-wrapper"><iframe src="' + toUrl(match.split('/?')[0]) + '/player/" width="' + options.videoWidth + '" height="' + options.videoHeight + '"></iframe></div></div>';
   		}
   	}, {
   		key: 'instagram',
-  		value: function instagram(match, dimensions) {
-  			return '<div class="ejs-embed ejs-instagram"><iframe src="' + toUrl(match.split('/?')[0]) + '/embed/" height="' + dimensions.height + '"></iframe></div>';
+  		value: function instagram(match, options) {
+  			return '<div class="ejs-embed ejs-instagram"><iframe src="' + toUrl(match.split('/?')[0]) + '/embed/" height="' + options.videoHeight + '"></iframe></div>';
   		}
   	}, {
   		key: 'slideShare',
@@ -340,23 +319,23 @@
   		}
   	}, {
   		key: 'dailymotion',
-  		value: function dailymotion(id, dimensions) {
-  			return '<div class="ejs-video ejs-embed"><iframe src="http://www.dailymotion.com/embed/video/' + id + '" height="' + dimensions.height + '" width="' + dimensions.width + '"></iframe></div>';
+  		value: function dailymotion(id, options) {
+  			return '<div class="ejs-video ejs-embed"><iframe src="http://www.dailymotion.com/embed/video/' + id + '" height="' + options.videoHeight + '" width="' + options.videoWidth + '"></iframe></div>';
   		}
   	}, {
   		key: 'liveleak',
-  		value: function liveleak(match, dimensions) {
-  			return '<div class="ejs-video ejs-embed"><iframe src="http://www.liveleak.com/e/' + match.split('=')[1] + '" height="' + dimensions.height + '" width="' + dimensions.width + '"></iframe></div>';
+  		value: function liveleak(match, options) {
+  			return '<div class="ejs-video ejs-embed"><iframe src="http://www.liveleak.com/e/' + match.split('=')[1] + '" height="' + options.videoHeight + '" width="' + options.videoWidth + '"></iframe></div>';
   		}
   	}, {
   		key: 'ted',
-  		value: function ted(id, dimensions) {
-  			return '<div class="ejs-embed ejs-ted"><iframe src="http://embed.ted.com/talks/' + id + '.html" height="' + dimensions.height + '" width="' + dimensions.width + '"></iframe></div>';
+  		value: function ted(id, options) {
+  			return '<div class="ejs-embed ejs-ted"><iframe src="http://embed.ted.com/talks/' + id + '.html" height="' + options.videoHeight + '" width="' + options.videoWidth + '"></iframe></div>';
   		}
   	}, {
   		key: 'ustream',
-  		value: function ustream(id, dimensions) {
-  			return '<div class="ejs-embed ejs-ustream"><iframe src="//www.' + id.join('/') + '" height="' + dimensions.height + '" width="' + dimensions.width + '"></iframe></div>';
+  		value: function ustream(id, options) {
+  			return '<div class="ejs-embed ejs-ustream"><iframe src="//www.' + id.join('/') + '" height="' + options.videoHeight + '" width="' + options.videoWidth + '"></iframe></div>';
   		}
   	}, {
   		key: 'detailsVimeo',
@@ -376,13 +355,13 @@
   		}
   	}, {
   		key: 'vimeo',
-  		value: function vimeo(url, dimensions) {
-  			return '<div class="ejs-video-player ejs-embed"><iframe src="' + url + '" frameBorder="0" width="' + dimensions.width + '" height="' + dimensions.height + '"></iframe></div>';
+  		value: function vimeo(url, options) {
+  			return '<div class="ejs-video-player ejs-embed"><iframe src="' + url + '" frameBorder="0" width="' + options.videoWidth + '" height="' + options.videoHeight + '"></iframe></div>';
   		}
   	}, {
   		key: 'youtube',
-  		value: function youtube(url, dimensions) {
-  			return '<div class="ejs-video-player ejs-embed"><iframe src="' + url + '" frameBorder="0" width="' + dimensions.width + '" height="' + dimensions.height + '"></iframe></div>';
+  		value: function youtube(url, options) {
+  			return '<div class="ejs-video-player ejs-embed"><iframe src="' + url + '" frameBorder="0" width="' + options.videoWidth + '" height="' + options.videoHeight + '"></iframe></div>';
   		}
   	}, {
   		key: 'openGraph',
@@ -978,8 +957,7 @@
    * @return {string}         compiled template with variables replaced
    */
   function template(url, options) {
-      var dimensions = getDimensions(options);
-      return options.template.vimeo(url, dimensions, options) || options.template.youtube(url, dimensions, options);
+      return options.template.vimeo(url, options) || options.template.youtube(url, options);
   }
 
   function getDetailsTemplate(data, fullData, embedUrl, options) {
@@ -996,9 +974,8 @@
    * @return {null}
    */
   function applyVideoJS(options) {
-      var dimensions = getDimensions(options);
-      options.videojsOptions.width = dimensions.width;
-      options.videojsOptions.height = dimensions.height;
+      options.videojsOptions.width = options.videoWidth;
+      options.videojsOptions.height = options.videoHeight;
       if (options.videoJS) {
           if (!window.videojs) throw new ReferenceError("You have enabled videojs but you haven't loaded the library.Find it at http://videojs.com/");
           var elements = options.input.getElementsByClassName('ejs-video-js');
@@ -1032,7 +1009,7 @@
    */
   function getInlineData(_this, urlToText, match) {
       var url = (_this.options.link ? match[0].slice(0, -4) : match[0]) || match[1];
-      if (_this.options.served.indexOf(url) !== -1) return Promise.resolve(null);
+      if (_this.options.served.indexOf(url) >= 0) return Promise.resolve(null);
 
       return new Promise(function (resolve) {
           urlToText(_this, match, url).then(function (text) {
@@ -1047,20 +1024,16 @@
    * A helper function for inline embedding
    * @param _this
    * @param urlToText
-   * @returns {*}
+   * @returns Promise
    */
   function inlineEmbed(_this, urlToText) {
       var regexInline = _this.options.link ? new RegExp('([^>]*' + _this.regex.source + ')</a>', 'gi') : new RegExp('([^\\s]*' + _this.regex.source + ')', 'gi');
       var match = undefined,
-          allMatches = [],
           promises = [];
 
       while ((match = matches(regexInline, _this.output)) !== null) {
-          allMatches.push(match);
           promises.push(getInlineData(_this, urlToText, match));
-      }
-
-      return new Promise(function (resolve) {
+      }return new Promise(function (resolve) {
           if (matches.length) Promise.all(promises).then(function (data) {
               var i = 0;
               _this.output = _this.output.replace(regexInline, function (match) {
@@ -1073,7 +1046,7 @@
 
   function getNormalData(_this, urlToText, match) {
       var url = match[0];
-      if (!_this.options.served.indexOf(url) === -1) return;
+      if (_this.options.served.indexOf(url) >= 0) return;
 
       return new Promise(function (resolve) {
           urlToText(_this, match, url, true).then(function (text) {
@@ -1096,15 +1069,10 @@
    */
   function normalEmbed(_this, urlToText) {
       var match = undefined,
-          allMatches = [],
           promises = [];
-
       while ((match = matches(_this.regex, _this.input)) !== null) {
-          allMatches.push(match);
           promises.push(getNormalData(_this, urlToText, match));
-      }
-
-      return new Promise(function (resolve) {
+      }return new Promise(function (resolve) {
           Promise.all(promises).then(function () {
               resolve(_this.embeds);
           });
@@ -1257,6 +1225,7 @@
 
               return new Promise(function (resolve) {
                   if (allMatches.length) {
+                      //TODO
                       Promise.all(promises).then(function (coordinatesArr) {
                           var _loop = function _loop() {
                               var _coordinatesArr$i = babelHelpers.slicedToArray(coordinatesArr[i], 2);
@@ -1318,13 +1287,12 @@
           value: function template(match, latitude, longitude, options) {
               var location = Gmap.locationText(match);
               var config = options.mapOptions;
-              var dimensions = getDimensions(options);
               if (config.mode === 'place') {
-                  return '<div class="ejs-embed ejs-map"><iframe width="' + dimensions.width + '" height="' + dimensions.height + '" src="https://www.google.com/maps/embed/v1/place?key=' + options.googleAuthKey + '&q=' + location + '"></iframe></div>';
+                  return '<div class="ejs-embed ejs-map"><iframe width="' + options.videoWidth + '" height="' + options.videoHeight + '" src="https://www.google.com/maps/embed/v1/place?key=' + options.googleAuthKey + '&q=' + location + '"></iframe></div>';
               } else if (config.mode === 'streetview') {
-                  return '<div class="ejs-embed ejs-map"><iframe width="' + dimensions.width + '" height="' + dimensions.height + '" src="https://www.google.com/maps/embed/v1/streetview?key=' + options.googleAuthKey + '&location=' + latitude + ',' + longitude + '&heading=210&pitch=10&fov=35"></iframe></div>';
+                  return '<div class="ejs-embed ejs-map"><iframe width="' + options.videoWidth + '" height="' + options.videoHeight + '" src="https://www.google.com/maps/embed/v1/streetview?key=' + options.googleAuthKey + '&location=' + latitude + ',' + longitude + '&heading=210&pitch=10&fov=35"></iframe></div>';
               } else if (config.mode === 'view') {
-                  return '<div class="ejs-embed ejs-map"><iframe width="' + dimensions.width + '" height="' + dimensions.height + '" src="https://www.google.com/maps/embed/v1/view?key=' + options.googleAuthKey + '&center=' + latitude + ',' + longitude + '&zoom=18&maptype=satellite"></iframe></div>';
+                  return '<div class="ejs-embed ejs-map"><iframe width="' + options.videoWidth + '" height="' + options.videoHeight + '" src="https://www.google.com/maps/embed/v1/view?key=' + options.googleAuthKey + '&center=' + latitude + ',' + longitude + '&zoom=18&maptype=satellite"></iframe></div>';
               }
           }
 
@@ -1745,10 +1713,9 @@
       babelHelpers.createClass(Ted, [{
           key: 'template',
           value: function template(match) {
-              var dimensions = getDimensions(this.options);
               var a = match.split('/');
               var id = a[a.length - 1];
-              return this.options.template.ted(id, dimensions, this.options);
+              return this.options.template.ted(id, this.options);
           }
       }]);
       return Ted;
@@ -1770,10 +1737,9 @@
       babelHelpers.createClass(Dailymotion, [{
           key: 'template',
           value: function template(match) {
-              var dimensions = getDimensions(this.options);
               var a = match.split('/');
               var id = a[a.length - 1];
-              return this.options.template.dailymotion(id, dimensions, this.options);
+              return this.options.template.dailymotion(id, this.options);
           }
       }]);
       return Dailymotion;
@@ -1797,8 +1763,7 @@
           value: function template(match) {
               var id = match.split('/');
               id.splice(1, 0, 'embed');
-              var dimensions = getDimensions(this.options);
-              return this.options.template.ustream(id, dimensions, this.options);
+              return this.options.template.ustream(id, this.options);
           }
       }]);
       return Ustream;
@@ -1820,8 +1785,7 @@
       babelHelpers.createClass(LiveLeak, [{
           key: 'template',
           value: function template(match) {
-              var dimensions = getDimensions(this.options);
-              return this.options.template.liveLeak(match, dimensions, this.options);
+              return this.options.template.liveLeak(match, this.options);
           }
       }]);
       return LiveLeak;
@@ -2027,7 +1991,6 @@
   	babelHelpers.createClass(BasicVideo, [{
   		key: 'template',
   		value: function template(match) {
-  			console.log(match);
   			return this.options.template.basicVideo(match, this.options);
   		}
   	}]);
@@ -2118,8 +2081,7 @@
   	babelHelpers.createClass(Flickr, [{
   		key: 'template',
   		value: function template(match) {
-  			var dimensions = getDimensions(this.options);
-  			return this.options.template.flickr(match, dimensions, this.options);
+  			return this.options.template.flickr(match, this.options);
   		}
   	}]);
   	return Flickr;
@@ -2141,8 +2103,7 @@
   	babelHelpers.createClass(Instagram, [{
   		key: 'template',
   		value: function template(match) {
-  			var dimensions = getDimensions(this.options);
-  			return this.options.template.instagram(match, dimensions, this.options);
+  			return this.options.template.instagram(match, this.options);
   		}
   	}]);
   	return Instagram;
@@ -2207,8 +2168,7 @@
   	}], [{
   		key: 'fetchData',
   		value: function fetchData(_this, url) {
-  			var dimensions = getDimensions(_this.options);
-  			var api = 'http://www.slideshare.net/api/oembed/2?url=' + url + '&format=jsonp&maxwidth=' + dimensions.width + '&maxheight=' + dimensions.height;
+  			var api = 'http://www.slideshare.net/api/oembed/2?url=' + url + '&format=jsonp&maxwidth=' + _this.options.videoWidth + '&maxheight=' + _this.options.videoHeight;
   			return new Promise(function (resolve) {
   				fetchJsonp(api, { credentials: 'include' }).then(function (data) {
   					return data.json();
@@ -2485,7 +2445,7 @@
   			var _this = this;
 
   			var input = this.input;
-  			var options = this.options;
+  			var options = setDimensions(this.options);
   			var embeds = [];
   			var output = '';
 
@@ -2750,7 +2710,7 @@
   			return new Promise(function (resolve) {
   				_this2.process().then(function (data) {
   					_this2.options.input.innerHTML = data;
-  					_this2.listen();
+  					_this2.applyListeners();
   					resolve(_this2.data);
   				});
   			});
@@ -2763,8 +2723,8 @@
      */
 
   	}, {
-  		key: 'listen',
-  		value: function listen() {
+  		key: 'applyListeners',
+  		value: function applyListeners() {
   			applyVideoJS(this.options);
 
   			playVideo(this.options);
@@ -2786,6 +2746,7 @@
   		value: function update(options, template) {
 
   			if (options) this.options = deepExtend(this.options, options);
+
   			if (template) this.options.template = template;
 
   			if (!this.options.input || !(typeof this.options.input === 'string' || babelHelpers.typeof(this.options.input) === 'object')) throw ReferenceError("You need to pass an element or the string that needs to be processed");

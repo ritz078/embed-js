@@ -1,4 +1,4 @@
-import { ifInline, matches, getDimensions } from '../utils'
+import { ifInline, matches } from '../utils'
 import regex from '../regex'
 
 export default class Gmap {
@@ -38,13 +38,12 @@ export default class Gmap {
     static template(match, latitude, longitude, options) {
         let location = Gmap.locationText(match);
         let config = options.mapOptions;
-        const dimensions = getDimensions(options);
         if (config.mode === 'place') {
-            return `<div class="ejs-embed ejs-map"><iframe width="${dimensions.width}" height="${dimensions.height}" src="https://www.google.com/maps/embed/v1/place?key=${options.googleAuthKey}&q=${location}"></iframe></div>`;
+            return `<div class="ejs-embed ejs-map"><iframe width="${options.videoWidth}" height="${options.videoHeight}" src="https://www.google.com/maps/embed/v1/place?key=${options.googleAuthKey}&q=${location}"></iframe></div>`;
         } else if (config.mode === 'streetview') {
-            return `<div class="ejs-embed ejs-map"><iframe width="${dimensions.width}" height="${dimensions.height}" src="https://www.google.com/maps/embed/v1/streetview?key=${options.googleAuthKey}&location=${latitude},${longitude}&heading=210&pitch=10&fov=35"></iframe></div>`;
+            return `<div class="ejs-embed ejs-map"><iframe width="${options.videoWidth}" height="${options.videoHeight}" src="https://www.google.com/maps/embed/v1/streetview?key=${options.googleAuthKey}&location=${latitude},${longitude}&heading=210&pitch=10&fov=35"></iframe></div>`;
         } else if (config.mode === 'view') {
-            return `<div class="ejs-embed ejs-map"><iframe width="${dimensions.width}" height="${dimensions.height}" src="https://www.google.com/maps/embed/v1/view?key=${options.googleAuthKey}&center=${latitude},${longitude}&zoom=18&maptype=satellite"></iframe></div>`
+            return `<div class="ejs-embed ejs-map"><iframe width="${options.videoWidth}" height="${options.videoHeight}" src="https://www.google.com/maps/embed/v1/view?key=${options.googleAuthKey}&center=${latitude},${longitude}&zoom=18&maptype=satellite"></iframe></div>`
         }
     }
 
@@ -62,12 +61,12 @@ export default class Gmap {
             allMatches = [];
         while ((match = matches(this.regex, this.output)) !== null) {
             let promise = this.options.mapOptions.mode !== 'place' ? Gmap.getCoordinate(match[0]) : Promise.resolve([null, null]);
-            promises.push(promise)
+            promises.push(promise);
             allMatches.push(match)
         }
 
         return new Promise((resolve) => {
-            if (allMatches.length) {
+            if (allMatches.length) {  //TODO
                 Promise.all(promises).then((coordinatesArr) => {
                     for (var i in promises) {
                         let [latitude, longitude] = coordinatesArr[i];

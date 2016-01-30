@@ -1,4 +1,4 @@
-import { getDimensions , ifInline } from '../utils'
+import { ifInline } from '../utils'
 import '../../vendor/fetch'
 import { inlineEmbed, normalEmbed } from './../helper'
 import fetchJsonp              from '../../vendor/fetch_jsonp'
@@ -15,8 +15,7 @@ export default class SlideShare {
 	}
 
 	static fetchData(_this, url) {
-		const dimensions = getDimensions(_this.options);
-		let api          = `http://www.slideshare.net/api/oembed/2?url=${url}&format=jsonp&maxwidth=${dimensions.width}&maxheight=${dimensions.height}`;
+		let api          = `http://www.slideshare.net/api/oembed/2?url=${url}&format=jsonp&maxwidth=${_this.options.videoWidth}&maxheight=${_this.options.videoHeight}`;
 		return new Promise((resolve) => {
 			fetchJsonp(api, {credentials: 'include'})
 				.then((data) => data.json())

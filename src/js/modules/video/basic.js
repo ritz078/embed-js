@@ -9,7 +9,6 @@ export default class BasicVideo extends Base {
 	}
 
 	template(match) {
-		console.log(match);
 		return this.options.template.basicVideo(match, this.options)
 	}
 }

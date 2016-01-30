@@ -1,4 +1,3 @@
-import { getDimensions } from '../utils'
 import Base from '../base'
 import regex from '../regex'
 
@@ -12,7 +11,6 @@ export default class Ustream extends Base {
     template(match) {
         let id = match.split('/');
         id.splice(1, 0, 'embed');
-        const dimensions = getDimensions(this.options);
-        return this.options.template.ustream(id, dimensions, this.options)
+        return this.options.template.ustream(id, this.options)
     }
 }

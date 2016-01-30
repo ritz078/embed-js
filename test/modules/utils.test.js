@@ -147,19 +147,19 @@ describe('utility methods unit tests', function(){
 			let options = {
 				videoWidth: 600,
 				videoHeight: null
-			}
+			};
 
 			let result = {
 				height: 450,
 				width: 600
-			}
+			};
 
 			expect(getDimensions(options)).to.eql(result);
 
 			let options2 = {
 				videoHeight: 450,
 				videoWidth: null
-			}
+			};
 
 			expect(getDimensions(options2)).to.eql(result);
 
