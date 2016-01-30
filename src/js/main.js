@@ -1,4 +1,4 @@
-import { ifEmbed, createText, deepExtend, cloneObject, setDimensions } from './modules/utils'
+import { ifEmbed, createText, deepExtend, cloneObject, processOptions } from './modules/utils'
 
 import Renderer    from './modules/template'
 
@@ -170,7 +170,7 @@ export default class EmbedJS {
 	 */
 	process() {
 		let input   = this.input;
-		let options = setDimensions(this.options);
+		let options = processOptions(this.options);
 		let embeds  = [];
 		let output  = '';
 

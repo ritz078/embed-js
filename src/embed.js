@@ -228,6 +228,27 @@
       );
   }
 
+  function arrayLowercase(options, property) {
+      if (typeof options[property] !== 'string') {
+          options[property] = options[property].map(function (elem) {
+              return elem.toLowerCase();
+          });
+      }
+      return options;
+  }
+
+  /**
+   * Sets the dimensions and converts options values' Array into lowercase.
+   * @param options
+   * @returns {Object|*}
+   */
+  function processOptions(options) {
+      options = setDimensions(options);
+      options = arrayLowercase(options, 'excludeEmbed');
+      options = arrayLowercase(options, 'inlineEmbed');
+      return arrayLowercase(options, 'openGraphExclude');
+  }
+
   var Renderer = function () {
   	function Renderer(options) {
   		babelHelpers.classCallCheck(this, Renderer);
@@ -2445,7 +2466,7 @@
   			var _this = this;
 
   			var input = this.input;
-  			var options = setDimensions(this.options);
+  			var options = processOptions(this.options);
   			var embeds = [];
   			var output = '';
 
