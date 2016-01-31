@@ -1,5 +1,6 @@
 import Base from '../base'
 import regex from '../regex'
+import {lastElement} from '../utils'
 
 export default class JsFiddle extends Base {
 	constructor(input, output, options, embeds) {
@@ -9,7 +10,7 @@ export default class JsFiddle extends Base {
 	}
 
 	template(id) {
-		id = id[id.length - 1] == '/' ? id.slice(0, - 1) : id;
+		id = lastElement(id) == '/' ? id.slice(0, - 1) : id;
 		id =  (id.indexOf('//') !== -1) ? id : `//${id}`;
 		return this.options.template.jsFiddle(id, this.options)
 	}

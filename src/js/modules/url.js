@@ -1,4 +1,4 @@
-import { urlRegex } from './utils'
+import { urlRegex, lastElement } from './utils'
 
 export default class Url {
 	constructor(input, options) {
@@ -10,8 +10,8 @@ export default class Url {
 	process() {
 		var config = this.options.linkOptions;
 		return this.input.replace(this.urlRegex, (match)=> {
-			let extension = match.split('.')[match.split('.').length - 1];
-			if ((match[match.length - 1] == '/'))
+			let extension = lastElement(match.split('.'));
+			if ((lastElement(match) === '/'))
 				match = match.slice(0, -1);
 			if (config.exclude.indexOf(extension) === -1)
 				return this.options.template.url(match, this.options);

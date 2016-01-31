@@ -249,6 +249,15 @@
       return arrayLowercase(options, 'openGraphExclude');
   }
 
+  /**
+   * Get the last element of an array or string
+   * @param elem [String|Array]
+   * @returns last element of the Array or String
+   */
+  function lastElement(elem) {
+      return elem[elem.length - 1];
+  }
+
   var Renderer = function () {
   	function Renderer(options) {
   		babelHelpers.classCallCheck(this, Renderer);
@@ -546,8 +555,8 @@
 
   			var config = this.options.linkOptions;
   			return this.input.replace(this.urlRegex, function (match) {
-  				var extension = match.split('.')[match.split('.').length - 1];
-  				if (match[match.length - 1] == '/') match = match.slice(0, -1);
+  				var extension = lastElement(match.split('.'));
+  				if (lastElement(match) === '/') match = match.slice(0, -1);
   				if (config.exclude.indexOf(extension) === -1) return _this.options.template.url(match, _this.options);
   				return match;
   			});
@@ -1569,27 +1578,27 @@
   }(Base);
 
   var Plunker = function (_Base) {
-      babelHelpers.inherits(Plunker, _Base);
+  	babelHelpers.inherits(Plunker, _Base);
 
-      function Plunker(input, output, options, embeds) {
-          babelHelpers.classCallCheck(this, Plunker);
+  	function Plunker(input, output, options, embeds) {
+  		babelHelpers.classCallCheck(this, Plunker);
 
-          var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(Plunker).call(this, input, output, options, embeds));
+  		var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(Plunker).call(this, input, output, options, embeds));
 
-          _this.regex = regex.plunker;
-          _this.service = 'plunker';
-          return _this;
-      }
+  		_this.regex = regex.plunker;
+  		_this.service = 'plunker';
+  		return _this;
+  	}
 
-      babelHelpers.createClass(Plunker, [{
-          key: 'template',
-          value: function template(match) {
-              var a = match.split('?')[0].split('/');
-              var id = a[a.length - 1];
-              return this.options.template.plunker(id, this.options);
-          }
-      }]);
-      return Plunker;
+  	babelHelpers.createClass(Plunker, [{
+  		key: 'template',
+  		value: function template(match) {
+  			var a = match.split('?')[0].split('/'); //TODO : make sure ? is excluded in regex.
+  			var id = lastElement(a);
+  			return this.options.template.plunker(id, this.options);
+  		}
+  	}]);
+  	return Plunker;
   }(Base);
 
   var JsBin = function (_Base) {
@@ -1652,7 +1661,7 @@
   	babelHelpers.createClass(JsFiddle, [{
   		key: 'template',
   		value: function template(id) {
-  			id = id[id.length - 1] == '/' ? id.slice(0, -1) : id;
+  			id = lastElement(id) == '/' ? id.slice(0, -1) : id;
   			id = id.indexOf('//') !== -1 ? id : '//' + id;
   			return this.options.template.jsFiddle(id, this.options);
   		}
@@ -1719,27 +1728,26 @@
   }(Base);
 
   var Ted = function (_Base) {
-      babelHelpers.inherits(Ted, _Base);
+  	babelHelpers.inherits(Ted, _Base);
 
-      function Ted(input, output, options, embeds) {
-          babelHelpers.classCallCheck(this, Ted);
+  	function Ted(input, output, options, embeds) {
+  		babelHelpers.classCallCheck(this, Ted);
 
-          var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(Ted).call(this, input, output, options, embeds));
+  		var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(Ted).call(this, input, output, options, embeds));
 
-          _this.regex = regex.ted;
-          _this.service = 'ted';
-          return _this;
-      }
+  		_this.regex = regex.ted;
+  		_this.service = 'ted';
+  		return _this;
+  	}
 
-      babelHelpers.createClass(Ted, [{
-          key: 'template',
-          value: function template(match) {
-              var a = match.split('/');
-              var id = a[a.length - 1];
-              return this.options.template.ted(id, this.options);
-          }
-      }]);
-      return Ted;
+  	babelHelpers.createClass(Ted, [{
+  		key: 'template',
+  		value: function template(match) {
+  			var id = lastElement(match.split('/'));
+  			return this.options.template.ted(id, this.options);
+  		}
+  	}]);
+  	return Ted;
   }(Base);
 
   var Dailymotion = function (_Base) {
@@ -1758,8 +1766,7 @@
       babelHelpers.createClass(Dailymotion, [{
           key: 'template',
           value: function template(match) {
-              var a = match.split('/');
-              var id = a[a.length - 1];
+              var id = lastElement(match.split('/'));
               return this.options.template.dailymotion(id, this.options);
           }
       }]);
@@ -1828,8 +1835,7 @@
       babelHelpers.createClass(Vine, [{
           key: 'template',
           value: function template(match) {
-              var a = match.split('/');
-              var id = a[a.length - 1];
+              var id = lastElement(match.split('/'));
               return this.options.template.vine(id, this.options);
           }
       }]);
@@ -2056,8 +2062,7 @@
   	babelHelpers.createClass(Spotify, [{
   		key: 'template',
   		value: function template(match) {
-  			var a = match.split('/');
-  			var id = a[a.length - 1];
+  			var id = lastElement(match.split('/'));
   			return this.options.template.spotify(id, this.options);
   		}
   	}]);

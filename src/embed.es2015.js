@@ -145,6 +145,15 @@ function processOptions(options){
 	return arrayLowercase(options, 'openGraphExclude');
 }
 
+/**
+ * Get the last element of an array or string
+ * @param elem [String|Array]
+ * @returns last element of the Array or String
+ */
+function lastElement(elem){
+	return elem[elem.length - 1];
+}
+
 class Renderer{
 	constructor(options){
 		this.options = options || {}
@@ -1268,8 +1277,8 @@ class Url {
 	process() {
 		var config = this.options.linkOptions;
 		return this.input.replace(this.urlRegex, (match)=> {
-			let extension = match.split('.')[match.split('.').length - 1];
-			if ((match[match.length - 1] == '/'))
+			let extension = lastElement(match.split('.'));
+			if ((lastElement(match) === '/'))
 				match = match.slice(0, -1);
 			if (config.exclude.indexOf(extension) === -1)
 				return this.options.template.url(match, this.options);
@@ -2215,17 +2224,17 @@ class Ideone extends Base {
 }
 
 class Plunker extends Base {
-    constructor(input, output, options, embeds) {
-        super(input, output, options, embeds);
-        this.regex = regex.plunker;
-        this.service = 'plunker'
-    }
+	constructor(input, output, options, embeds) {
+		super(input, output, options, embeds);
+		this.regex   = regex.plunker;
+		this.service = 'plunker'
+	}
 
-    template(match) {
-        let a = match.split('?')[0].split('/');
-        const id = a[a.length - 1];
-        return this.options.template.plunker(id, this.options)
-    }
+	template(match) {
+		const a  = match.split('?')[0].split('/');  //TODO : make sure ? is excluded in regex.
+		const id = lastElement(a);
+		return this.options.template.plunker(id, this.options)
+	}
 }
 
 class JsBin extends Base {
@@ -2260,7 +2269,7 @@ class JsFiddle extends Base {
 	}
 
 	template(id) {
-		id = id[id.length - 1] == '/' ? id.slice(0, - 1) : id;
+		id = lastElement(id) == '/' ? id.slice(0, - 1) : id;
 		id =  (id.indexOf('//') !== -1) ? id : `//${id}`;
 		return this.options.template.jsFiddle(id, this.options)
 	}
@@ -2314,17 +2323,16 @@ class Gist extends Base {
 }
 
 class Ted extends Base {
-    constructor(input, output, options, embeds) {
-        super(input, output, options, embeds);
-        this.regex = regex.ted;
-        this.service = 'ted'
-    }
+	constructor(input, output, options, embeds) {
+		super(input, output, options, embeds);
+		this.regex   = regex.ted;
+		this.service = 'ted'
+	}
 
-    template(match) {
-        let a = match.split('/');
-        const id = a[a.length - 1];
-        return this.options.template.ted(id, this.options)
-    }
+	template(match) {
+		const id = lastElement(match.split('/'));
+		return this.options.template.ted(id, this.options)
+	}
 }
 
 class Dailymotion extends Base {
@@ -2335,8 +2343,7 @@ class Dailymotion extends Base {
     }
 
     template(match) {
-        const a = match.split('/');
-        const id = a[a.length - 1];
+        const id = lastElement(match.split('/'));
         return this.options.template.dailymotion(id, this.options)
     }
 }
@@ -2375,8 +2382,7 @@ class Vine extends Base {
     }
 
     template(match) {
-        let a = match.split('/');
-        const id = a[a.length - 1];
+        const id = lastElement(match.split('/'));
         return this.options.template.vine(id, this.options)
     }
 }
@@ -2541,8 +2547,7 @@ class Spotify extends Base{
 	}
 
 	template(match){
-		let a = match.split('/');
-		let id = a[a.length-1];
+		let id = lastElement(match.split('/'));
 		return this.options.template.spotify(id, this.options);
 	}
 }

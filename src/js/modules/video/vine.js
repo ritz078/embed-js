@@ -1,5 +1,6 @@
 import Base from '../base'
 import regex from '../regex'
+import { lastElement } from '../utils'
 
 export default class Vine extends Base {
     constructor(input, output, options, embeds) {
@@ -9,8 +10,7 @@ export default class Vine extends Base {
     }
 
     template(match) {
-        let a = match.split('/');
-        const id = a[a.length - 1];
+        const id = lastElement(match.split('/'));
         return this.options.template.vine(id, this.options)
     }
 }

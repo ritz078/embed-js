@@ -1,5 +1,6 @@
 import Base  from '../base'
 import regex from '../regex'
+import { lastElement } from '../utils'
 
 export default class Spotify extends Base{
 	constructor(input,output, options, embeds) {
@@ -9,8 +10,7 @@ export default class Spotify extends Base{
 	}
 
 	template(match){
-		let a = match.split('/');
-		let id = a[a.length-1];
+		let id = lastElement(match.split('/'));
 		return this.options.template.spotify(id, this.options);
 	}
 }

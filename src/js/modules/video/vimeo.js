@@ -1,5 +1,5 @@
 import { truncate, ifInline } from '../utils'
-import { getDetailsTemplate, template, inlineEmbed, normalEmbed } from './../helper'
+import { getDetailsTemplate, template, inlineEmbed, normalEmbed } from '../helper'
 import '../../vendor/fetch'
 import regex from '../regex'
 

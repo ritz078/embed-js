@@ -153,3 +153,12 @@ export function processOptions(options){
 	options = arrayLowercase(options, 'inlineEmbed');
 	return arrayLowercase(options, 'openGraphExclude');
 }
+
+/**
+ * Get the last element of an array or string
+ * @param elem [String|Array]
+ * @returns last element of the Array or String
+ */
+export function lastElement(elem){
+	return elem[elem.length - 1];
+}
