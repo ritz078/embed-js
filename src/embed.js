@@ -191,11 +191,11 @@
    * @return {boolean}        True if it should be embedded
    */
   function ifEmbed(options, service) {
-      return options.excludeEmbed.indexOf(service) == -1 && options.excludeEmbed !== 'all';
+      return options.excludeEmbed.indexOf(service) == -1 || options.excludeEmbed === 'all';
   }
 
   function ifInline(options, service) {
-      return options.inlineEmbed.indexOf(service) == -1 && options.inlineEmbed !== 'all';
+      return options.inlineEmbed.indexOf(service) == -1 || options.inlineEmbed !== 'all';
   }
 
   /**
@@ -1111,7 +1111,7 @@
 
   function asyncEmbed(_this, urlToText) {
   	return new Promise(function (resolve) {
-  		if (!ifInline(_this.options, _this.service)) inlineAsyncEmbed(_this, urlToText).then(function (output) {
+  		if (ifInline(_this.options, _this.service)) inlineAsyncEmbed(_this, urlToText).then(function (output) {
   			return resolve([output, _this.embeds]);
   		});else normalAsyncEmbed(_this, urlToText).then(function (embeds) {
   			return resolve([_this.output, embeds]);
@@ -1151,7 +1151,7 @@
   }
 
   function embed(_this) {
-  	return !ifInline(_this.options, _this.service) ? inlineEmbed(_this) : normalEmbed(_this);
+  	return ifInline(_this.options, _this.service) ? inlineEmbed(_this) : normalEmbed(_this);
   }
 
   var regex = {
@@ -1303,7 +1303,7 @@
                               var longitude = _coordinatesArr$i[1];
 
                               var text = Gmap.template(allMatches[i][0], latitude, longitude, _this.options);
-                              if (!ifInline(_this.options, _this.service)) {
+                              if (ifInline(_this.options, _this.service)) {
                                   _this.output = _this.output.replace(_this.regex, function (regexMatch) {
                                       return '<span class="ejs-location">' + Gmap.locationText(regexMatch) + '</span>' + text;
                                   });

@@ -88,11 +88,11 @@ function matches(regex, input) {
  * @return {boolean}        True if it should be embedded
  */
 function ifEmbed(options, service) {
-    return ((options.excludeEmbed.indexOf(service) == -1) && (options.excludeEmbed !== 'all'));
+    return ((options.excludeEmbed.indexOf(service) == -1) || (options.excludeEmbed === 'all'));
 }
 
 function ifInline(options, service) {
-    return ((options.inlineEmbed.indexOf(service) == -1) && (options.inlineEmbed !== 'all'));
+    return ((options.inlineEmbed.indexOf(service) == -1) || (options.inlineEmbed !== 'all'));
 }
 
 /**
@@ -1841,7 +1841,7 @@ function normalAsyncEmbed(_this, urlToText) {
 
 function asyncEmbed(_this, urlToText) {
 	return new Promise(function (resolve) {
-		if (!ifInline(_this.options, _this.service))
+		if (ifInline(_this.options, _this.service))
 			inlineAsyncEmbed(_this, urlToText).then((output) => resolve([output, _this.embeds]));
 		else
 			normalAsyncEmbed(_this, urlToText).then((embeds) => resolve([_this.output, embeds]))
@@ -1880,7 +1880,7 @@ function normalEmbed(_this){
 }
 
 function embed(_this){
-	return (!ifInline(_this.options, _this.service)) ? inlineEmbed(_this) : normalEmbed(_this)
+	return (ifInline(_this.options, _this.service)) ? inlineEmbed(_this) : normalEmbed(_this)
 }
 
 let regex = {
@@ -2034,7 +2034,7 @@ class Gmap {
                     for (var i in promises) {
                         let [latitude, longitude] = coordinatesArr[i];
                         let text = Gmap.template((allMatches[i])[0], latitude, longitude, this.options);
-                        if (!ifInline(this.options, this.service)) {
+                        if (ifInline(this.options, this.service)) {
                             this.output = this.output.replace(this.regex, (regexMatch) => {
                                 return `<span class="ejs-location">${Gmap.locationText(regexMatch)}</span>${text}`
                             })

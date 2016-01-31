@@ -97,11 +97,11 @@ export function matches(regex, input) {
  * @return {boolean}        True if it should be embedded
  */
 export function ifEmbed(options, service) {
-    return ((options.excludeEmbed.indexOf(service) == -1) && (options.excludeEmbed !== 'all'));
+    return ((options.excludeEmbed.indexOf(service) == -1) || (options.excludeEmbed === 'all'));
 }
 
 export function ifInline(options, service) {
-    return ((options.inlineEmbed.indexOf(service) == -1) && (options.inlineEmbed !== 'all'));
+    return ((options.inlineEmbed.indexOf(service) == -1) || (options.inlineEmbed !== 'all'));
 }
 
 /**

@@ -71,7 +71,7 @@ export default class Gmap {
                     for (var i in promises) {
                         let [latitude, longitude] = coordinatesArr[i];
                         let text = Gmap.template((allMatches[i])[0], latitude, longitude, this.options);
-                        if (!ifInline(this.options, this.service)) {
+                        if (ifInline(this.options, this.service)) {
                             this.output = this.output.replace(this.regex, (regexMatch) => {
                                 return `<span class="ejs-location">${Gmap.locationText(regexMatch)}</span>${text}`
                             })

@@ -154,7 +154,7 @@ export function normalAsyncEmbed(_this, urlToText) {
 
 export function asyncEmbed(_this, urlToText) {
 	return new Promise(function (resolve) {
-		if (!ifInline(_this.options, _this.service))
+		if (ifInline(_this.options, _this.service))
 			inlineAsyncEmbed(_this, urlToText).then((output) => resolve([output, _this.embeds]));
 		else
 			normalAsyncEmbed(_this, urlToText).then((embeds) => resolve([_this.output, embeds]))
@@ -193,5 +193,5 @@ function normalEmbed(_this){
 }
 
 export function embed(_this){
-	return (!ifInline(_this.options, _this.service)) ? inlineEmbed(_this) : normalEmbed(_this)
+	return (ifInline(_this.options, _this.service)) ? inlineEmbed(_this) : normalEmbed(_this)
 }
