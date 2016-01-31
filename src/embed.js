@@ -967,17 +967,17 @@
    * @return {null}
    */
   function playVideo(options) {
-      /** Execute the customVideoClickHandler if the user wants to handle it on his own. */
-      if (options.customVideoClickHandler) return options.videoClickHandler(options, template);
+  	/** Execute the customVideoClickHandler if the user wants to handle it on his own. */
+  	if (options.customVideoClickHandler) return options.videoClickHandler(options, template);
 
-      var classes = document.getElementsByClassName(options.videoClickClass);
-      for (var i = 0; i < classes.length; i++) {
-          classes[i].onclick = function () {
-              options.onVideoShow();
-              var url = this.getAttribute('data-ejs-url') + "?autoplay=true";
-              this.parentNode.parentNode.innerHTML = template(url, options);
-          };
-      }
+  	var classes = document.getElementsByClassName(options.videoClickClass);
+  	for (var i = 0; i < classes.length; i++) {
+  		classes[i].onclick = function () {
+  			options.onVideoShow();
+  			var url = this.getAttribute('data-ejs-url') + "?autoplay=true";
+  			this.parentNode.parentNode.innerHTML = template(url, options);
+  		};
+  	}
   }
 
   /**
@@ -987,15 +987,15 @@
    * @return {string}         compiled template with variables replaced
    */
   function template(url, options) {
-      return options.template.vimeo(url, options) || options.template.youtube(url, options);
+  	return options.template.vimeo(url, options) || options.template.youtube(url, options);
   }
 
   function getDetailsTemplate(data, fullData, embedUrl, options) {
-      if (data.host === 'vimeo') {
-          return options.template.detailsVimeo(data, fullData, embedUrl, options);
-      } else if (data.host === 'youtube') {
-          return options.template.detailsYoutube(data, fullData, embedUrl, options);
-      }
+  	if (data.host === 'vimeo') {
+  		return options.template.detailsVimeo(data, fullData, embedUrl, options);
+  	} else if (data.host === 'youtube') {
+  		return options.template.detailsYoutube(data, fullData, embedUrl, options);
+  	}
   }
 
   /**
@@ -1004,17 +1004,17 @@
    * @return {null}
    */
   function applyVideoJS(options) {
-      options.videojsOptions.width = options.videoWidth;
-      options.videojsOptions.height = options.videoHeight;
-      if (options.videoJS) {
-          if (!window.videojs) throw new ReferenceError("You have enabled videojs but you haven't loaded the library.Find it at http://videojs.com/");
-          var elements = options.input.getElementsByClassName('ejs-video-js');
-          for (var i = 0; i < elements.length; i++) {
-              videojs(elements[i], options.videojsOptions, function () {
-                  return options.videojsCallback();
-              });
-          }
-      }
+  	options.videojsOptions.width = options.videoWidth;
+  	options.videojsOptions.height = options.videoHeight;
+  	if (options.videoJS) {
+  		if (!window.videojs) throw new ReferenceError("You have enabled videojs but you haven't loaded the library.Find it at http://videojs.com/");
+  		var elements = options.input.getElementsByClassName('ejs-video-js');
+  		for (var i = 0; i < elements.length; i++) {
+  			videojs(elements[i], options.videojsOptions, function () {
+  				return options.videojsCallback();
+  			});
+  		}
+  	}
   }
 
   /**
@@ -1023,10 +1023,10 @@
    * @return {null}
    */
   function destroyVideos(className) {
-      var classes = document.getElementsByClassName(className);
-      for (var i = 0; i < classes.length; i++) {
-          classes[i].onclick = null;
-      }
+  	var classes = document.getElementsByClassName(className);
+  	for (var i = 0; i < classes.length; i++) {
+  		classes[i].onclick = null;
+  	}
   }
 
   /**
@@ -1038,16 +1038,16 @@
    * @return {Promise}           resolves to the text
    */
   function getInlineData(_this, urlToText, match) {
-      var url = (_this.options.link ? match[0].slice(0, -4) : match[0]) || match[1];
-      if (_this.options.served.indexOf(url) >= 0) return Promise.resolve(null);
+  	var url = (_this.options.link ? match[0].slice(0, -4) : match[0]) || match[1];
+  	if (_this.options.served.indexOf(url) >= 0) return Promise.resolve(null);
 
-      return new Promise(function (resolve) {
-          urlToText(_this, match, url).then(function (text) {
-              if (!text) return resolve();
-              _this.options.served.push(url);
-              resolve(text);
-          });
-      });
+  	return new Promise(function (resolve) {
+  		urlToText(_this, match, url).then(function (text) {
+  			if (!text) return resolve();
+  			_this.options.served.push(url);
+  			resolve(text);
+  		});
+  	});
   }
 
   /**
@@ -1057,38 +1057,38 @@
    * @returns Promise
    */
   function inlineEmbed(_this, urlToText) {
-      var regexInline = _this.options.link ? new RegExp('([^>]*' + _this.regex.source + ')</a>', 'gi') : new RegExp('([^\\s]*' + _this.regex.source + ')', 'gi');
-      var match = undefined,
-          promises = [];
+  	var regexInline = _this.options.link ? new RegExp('([^>]*' + _this.regex.source + ')</a>', 'gi') : new RegExp('([^\\s]*' + _this.regex.source + ')', 'gi');
+  	var match = undefined,
+  	    promises = [];
 
-      while ((match = matches(regexInline, _this.output)) !== null) {
-          promises.push(getInlineData(_this, urlToText, match));
-      }return new Promise(function (resolve) {
-          if (matches.length) Promise.all(promises).then(function (data) {
-              var i = 0;
-              _this.output = _this.output.replace(regexInline, function (match) {
-                  if (_this.options.link) return !_this.options.inlineText ? data[i] + '</a>' : match + data[i++];else return !_this.options.inlineText ? data[i] : match + data[i++];
-              });
-              resolve(_this.output);
-          });else resolve(_this.output);
-      });
+  	while ((match = matches(regexInline, _this.output)) !== null) {
+  		promises.push(getInlineData(_this, urlToText, match));
+  	}return new Promise(function (resolve) {
+  		if (matches.length) Promise.all(promises).then(function (data) {
+  			var i = 0;
+  			_this.output = _this.output.replace(regexInline, function (match) {
+  				if (_this.options.link) return !_this.options.inlineText ? data[i] + '</a>' : match + data[i++];else return !_this.options.inlineText ? data[i] : match + data[i++];
+  			});
+  			resolve(_this.output);
+  		});else resolve(_this.output);
+  	});
   }
 
   function getNormalData(_this, urlToText, match) {
-      var url = match[0];
-      if (_this.options.served.indexOf(url) >= 0) return;
+  	var url = match[0];
+  	if (_this.options.served.indexOf(url) >= 0) return;
 
-      return new Promise(function (resolve) {
-          urlToText(_this, match, url, true).then(function (text) {
-              if (!text) resolve();
-              _this.options.served.push(url);
-              _this.embeds.push({
-                  text: text,
-                  index: match.index
-              });
-              resolve();
-          });
-      });
+  	return new Promise(function (resolve) {
+  		urlToText(_this, match, url, true).then(function (text) {
+  			if (!text) resolve();
+  			_this.options.served.push(url);
+  			_this.embeds.push({
+  				text: text,
+  				index: match.index
+  			});
+  			resolve();
+  		});
+  	});
   }
 
   /**
@@ -1098,15 +1098,25 @@
    * @return {Promise}
    */
   function normalEmbed(_this, urlToText) {
-      var match = undefined,
-          promises = [];
-      while ((match = matches(_this.regex, _this.input)) !== null) {
-          promises.push(getNormalData(_this, urlToText, match));
-      }return new Promise(function (resolve) {
-          Promise.all(promises).then(function () {
-              resolve(_this.embeds);
-          });
-      });
+  	var match = undefined,
+  	    promises = [];
+  	while ((match = matches(_this.regex, _this.input)) !== null) {
+  		promises.push(getNormalData(_this, urlToText, match));
+  	}return new Promise(function (resolve) {
+  		Promise.all(promises).then(function () {
+  			resolve(_this.embeds);
+  		});
+  	});
+  }
+
+  function embed(_this, urlToText) {
+  	return new Promise(function (resolve) {
+  		if (ifInline(_this.options, _this.service)) inlineEmbed(_this, urlToText).then(function (output) {
+  			return resolve([output, _this.embeds]);
+  		});else normalEmbed(_this, urlToText).then(function (embeds) {
+  			return resolve([_this.output, embeds]);
+  		});
+  	});
   }
 
   var regex = {
@@ -1196,15 +1206,9 @@
   			var _this3 = this;
 
   			return new Promise(function (resolve) {
-  				if (!ifInline(_this3.options, _this3.service)) {
-  					inlineEmbed(_this3, Twitter.urlToText).then(function (response) {
-  						resolve([response, _this3.embeds]);
-  					});
-  				} else {
-  					normalEmbed(_this3, Twitter.urlToText).then(function (embeds) {
-  						resolve([_this3.output, embeds]);
-  					});
-  				}
+  				return embed(_this3, Twitter.urlToText).then(function (data) {
+  					return resolve(data);
+  				});
   			});
   		}
   	}], [{
@@ -1872,15 +1876,9 @@
   			var _this2 = this;
 
   			return new Promise(function (resolve) {
-  				if (!ifInline(_this2.options, _this2.service)) {
-  					inlineEmbed(_this2, Youtube.urlToText).then(function (output) {
-  						resolve([output, _this2.embeds]);
-  					});
-  				} else {
-  					normalEmbed(_this2, Youtube.urlToText).then(function (embeds) {
-  						resolve([_this2.output, embeds]);
-  					});
-  				}
+  				return embed(_this2, Youtube.urlToText).then(function (data) {
+  					return resolve(data);
+  				});
   			});
   		}
   	}], [{
@@ -1949,15 +1947,9 @@
   			var _this2 = this;
 
   			return new Promise(function (resolve) {
-  				if (!ifInline(_this2.options, _this2.service)) {
-  					inlineEmbed(_this2, Vimeo.urlToText).then(function (response) {
-  						resolve([response, _this2.embeds]);
-  					});
-  				} else {
-  					normalEmbed(_this2, Vimeo.urlToText).then(function (embeds) {
-  						resolve([_this2.output, embeds]);
-  					});
-  				}
+  				return embed(_this2, Vimeo.urlToText).then(function (data) {
+  					return resolve(data);
+  				});
   			});
   		}
   	}], [{
@@ -2180,15 +2172,9 @@
   			var _this2 = this;
 
   			return new Promise(function (resolve) {
-  				if (!ifInline(_this2.options, _this2.service)) {
-  					inlineEmbed(_this2, SlideShare.urlToText).then(function (response) {
-  						resolve([response, _this2.embeds]);
-  					});
-  				} else {
-  					normalEmbed(_this2, SlideShare.urlToText).then(function (embeds) {
-  						resolve([_this2.output, embeds]);
-  					});
-  				}
+  				return embed(_this2, SlideShare.urlToText).then(function (data) {
+  					return resolve(data);
+  				});
   			});
   		}
   	}], [{
@@ -2237,13 +2223,9 @@
   	}, {
   		key: 'process',
   		value: function process() {
-  			var _this = this;
-
   			return new Promise(function (resolve) {
-  				if (!ifInline(_this.options, _this.service)) inlineEmbed(_this, OpenGraph.urlToText).then(function (output) {
-  					return resolve([output, _this.embeds]);
-  				});else normalEmbed(_this, OpenGraph.urlToText).then(function (embeds) {
-  					return resolve([_this.output, embeds]);
+  				embed(this, OpenGraph.urlToText).then(function (data) {
+  					return resolve(data);
   				});
   			});
   		}
@@ -2293,15 +2275,9 @@
   			var _this2 = this;
 
   			return new Promise(function (resolve) {
-  				if (!ifInline(_this2.options, _this2.service)) {
-  					inlineEmbed(_this2, Github.urlToText).then(function (response) {
-  						resolve([response, _this2.embeds]);
-  					});
-  				} else {
-  					normalEmbed(_this2, Github.urlToText).then(function (embeds) {
-  						resolve([_this2.output, embeds]);
-  					});
-  				}
+  				return embed(_this2, Github.urlToText).then(function (data) {
+  					return resolve(data);
+  				});
   			});
   		}
   	}], [{

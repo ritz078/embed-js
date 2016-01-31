@@ -1,6 +1,5 @@
-import { ifInline } from '../utils'
 import '../../vendor/fetch'
-import { inlineEmbed, normalEmbed } from './../helper'
+import { embed } from './../helper'
 import fetchJsonp              from '../../vendor/fetch_jsonp'
 import regex from '../regex'
 
@@ -34,16 +33,6 @@ export default class SlideShare {
 	}
 
 	process() {
-		return new Promise((resolve) => {
-			if (!ifInline(this.options, this.service)) {
-				inlineEmbed(this, SlideShare.urlToText).then((response) => {
-					resolve([response, this.embeds])
-				})
-			} else {
-				normalEmbed(this, SlideShare.urlToText).then((embeds) => {
-					resolve([this.output, embeds])
-				})
-			}
-		})
+		return new Promise((resolve) => embed(this, SlideShare.urlToText).then((data) => resolve(data)))
 	}
 }

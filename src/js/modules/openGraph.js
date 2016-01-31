@@ -1,5 +1,5 @@
-import { urlRegex, ifInline } from './utils'
-import { inlineEmbed, normalEmbed } from './helper'
+import { urlRegex } from './utils'
+import { embed } from './helper'
 
 export default class OpenGraph {
 	constructor(input, output, options, embeds) {
@@ -36,11 +36,8 @@ export default class OpenGraph {
 
 
 	process() {
-		return new Promise((resolve) => {
-			if (!ifInline(this.options, this.service))
-				inlineEmbed(this, OpenGraph.urlToText).then((output) => resolve([output, this.embeds]));
-			else
-				normalEmbed(this, OpenGraph.urlToText).then((embeds) => resolve([this.output, embeds]))
+		return new Promise(function (resolve) {
+			embed(this, OpenGraph.urlToText).then((data) => resolve(data))
 		})
 	}
 }

@@ -1,5 +1,5 @@
-import { truncate, ifInline } from '../utils'
-import { getDetailsTemplate, template, inlineEmbed, normalEmbed } from './../helper'
+import { truncate } from '../utils'
+import { getDetailsTemplate, template, embed } from './../helper'
 import '../../vendor/fetch'
 import regex from '../regex'
 
@@ -49,17 +49,7 @@ export default class Youtube {
 	}
 
 	process() {
-		return new Promise((resolve) => {
-			if (!ifInline(this.options, this.service)) {
-				inlineEmbed(this, Youtube.urlToText).then((output) => {
-					resolve([output, this.embeds])
-				})
-			} else {
-				normalEmbed(this, Youtube.urlToText).then((embeds) => {
-					resolve([this.output, embeds])
-				})
-			}
-		})
+		return new Promise((resolve) => embed(this, Youtube.urlToText).then((data) => resolve(data)))
 	}
 }
 

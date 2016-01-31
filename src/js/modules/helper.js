@@ -1,4 +1,4 @@
-import { matches } from './utils'
+import { matches, ifInline } from './utils'
 
 /**
  * Plays the video after clicking on the thumbnail
@@ -6,17 +6,17 @@ import { matches } from './utils'
  * @return {null}
  */
 export function playVideo(options) {
-    /** Execute the customVideoClickHandler if the user wants to handle it on his own. */
-    if (options.customVideoClickHandler) return options.videoClickHandler(options, template);
+	/** Execute the customVideoClickHandler if the user wants to handle it on his own. */
+	if (options.customVideoClickHandler) return options.videoClickHandler(options, template);
 
-    let classes = document.getElementsByClassName(options.videoClickClass);
-    for (let i = 0; i < classes.length; i++) {
-        classes[i].onclick = function() {
-            options.onVideoShow();
-            let url = this.getAttribute('data-ejs-url') + "?autoplay=true";
-            this.parentNode.parentNode.innerHTML = template(url, options);
-        };
-    }
+	let classes = document.getElementsByClassName(options.videoClickClass);
+	for (let i = 0; i < classes.length; i++) {
+		classes[i].onclick = function () {
+			options.onVideoShow();
+			let url                              = this.getAttribute('data-ejs-url') + "?autoplay=true";
+			this.parentNode.parentNode.innerHTML = template(url, options);
+		};
+	}
 }
 
 /**
@@ -26,15 +26,15 @@ export function playVideo(options) {
  * @return {string}         compiled template with variables replaced
  */
 export function template(url, options) {
-    return options.template.vimeo(url, options) || options.template.youtube(url, options)
+	return options.template.vimeo(url, options) || options.template.youtube(url, options)
 }
 
 export function getDetailsTemplate(data, fullData, embedUrl, options) {
-    if (data.host === 'vimeo') {
-        return options.template.detailsVimeo(data, fullData, embedUrl, options)
-    } else if (data.host === 'youtube') {
-        return options.template.detailsYoutube(data, fullData, embedUrl, options)
-    }
+	if (data.host === 'vimeo') {
+		return options.template.detailsVimeo(data, fullData, embedUrl, options)
+	} else if (data.host === 'youtube') {
+		return options.template.detailsYoutube(data, fullData, embedUrl, options)
+	}
 }
 
 /**
@@ -43,15 +43,15 @@ export function getDetailsTemplate(data, fullData, embedUrl, options) {
  * @return {null}
  */
 export function applyVideoJS(options) {
-    options.videojsOptions.width = options.videoWidth;
-    options.videojsOptions.height = options.videoHeight;
-    if (options.videoJS) {
-        if (!window.videojs) throw new ReferenceError("You have enabled videojs but you haven't loaded the library.Find it at http://videojs.com/");
-        let elements = options.input.getElementsByClassName('ejs-video-js');
-        for (let i = 0; i < elements.length; i++) {
-            videojs(elements[i], options.videojsOptions, () => options.videojsCallback());
-        }
-    }
+	options.videojsOptions.width  = options.videoWidth;
+	options.videojsOptions.height = options.videoHeight;
+	if (options.videoJS) {
+		if (!window.videojs) throw new ReferenceError("You have enabled videojs but you haven't loaded the library.Find it at http://videojs.com/");
+		let elements = options.input.getElementsByClassName('ejs-video-js');
+		for (let i = 0; i < elements.length; i++) {
+			videojs(elements[i], options.videojsOptions, () => options.videojsCallback());
+		}
+	}
 }
 
 /**
@@ -60,10 +60,10 @@ export function applyVideoJS(options) {
  * @return {null}
  */
 export function destroyVideos(className) {
-    let classes = document.getElementsByClassName(className);
-    for (let i = 0; i < classes.length; i++) {
-        classes[i].onclick = null
-    }
+	let classes = document.getElementsByClassName(className);
+	for (let i = 0; i < classes.length; i++) {
+		classes[i].onclick = null
+	}
 }
 
 /**
@@ -75,16 +75,16 @@ export function destroyVideos(className) {
  * @return {Promise}           resolves to the text
  */
 function getInlineData(_this, urlToText, match) {
-    let url = (_this.options.link ? match[0].slice(0, -4) : match[0]) || match[1];
-    if (_this.options.served.indexOf(url) >= 0) return Promise.resolve(null);
+	let url = (_this.options.link ? match[0].slice(0, -4) : match[0]) || match[1];
+	if (_this.options.served.indexOf(url) >= 0) return Promise.resolve(null);
 
-    return new Promise((resolve) => {
-        urlToText(_this, match, url).then((text) => {
-            if (!text) return resolve();
-            _this.options.served.push(url);
-            resolve(text);
-        })
-    })
+	return new Promise((resolve) => {
+		urlToText(_this, match, url).then((text) => {
+			if (!text) return resolve();
+			_this.options.served.push(url);
+			resolve(text);
+		})
+	})
 }
 
 /**
@@ -94,45 +94,45 @@ function getInlineData(_this, urlToText, match) {
  * @returns Promise
  */
 export function inlineEmbed(_this, urlToText) {
-    let regexInline = _this.options.link ? new RegExp(`([^>]*${_this.regex.source})<\/a>`, 'gi') : new RegExp(`([^\\s]*${_this.regex.source})`, 'gi');
-    let match, promises = [];
+	let regexInline     = _this.options.link ? new RegExp(`([^>]*${_this.regex.source})<\/a>`, 'gi') : new RegExp(`([^\\s]*${_this.regex.source})`, 'gi');
+	let match, promises = [];
 
-    while ((match = matches(regexInline, _this.output)) !== null)
-        promises.push(getInlineData(_this, urlToText, match));
+	while ((match = matches(regexInline, _this.output)) !== null)
+		promises.push(getInlineData(_this, urlToText, match));
 
-    return new Promise((resolve) => {
-        if (matches.length)
-            Promise.all(promises).then((data) => {
-                let i = 0;
-                _this.output = _this.output.replace(regexInline, (match) => {
-                    if (_this.options.link)
-                        return !_this.options.inlineText ? data[i] + '</a>' : match + data[i++];
-                    else
-                        return !_this.options.inlineText ? data[i] : match + data[i++];
-                });
-                resolve(_this.output)
-            });
-        else
-            resolve(_this.output)
-    })
+	return new Promise((resolve) => {
+		if (matches.length)
+			Promise.all(promises).then((data) => {
+				let i        = 0;
+				_this.output = _this.output.replace(regexInline, (match) => {
+					if (_this.options.link)
+						return !_this.options.inlineText ? data[i] + '</a>' : match + data[i++];
+					else
+						return !_this.options.inlineText ? data[i] : match + data[i++];
+				});
+				resolve(_this.output)
+			});
+		else
+			resolve(_this.output)
+	})
 }
 
 
 function getNormalData(_this, urlToText, match) {
-    let url = match[0];
-    if (_this.options.served.indexOf(url) >= 0) return;
+	let url = match[0];
+	if (_this.options.served.indexOf(url) >= 0) return;
 
-    return new Promise((resolve) => {
-        urlToText(_this, match, url, true).then(function(text) {
-            if (!text) resolve();
-            _this.options.served.push(url);
-            _this.embeds.push({
-                text: text,
-                index: match.index
-            });
-            resolve()
-        })
-    })
+	return new Promise((resolve) => {
+		urlToText(_this, match, url, true).then(function (text) {
+			if (!text) resolve();
+			_this.options.served.push(url);
+			_this.embeds.push({
+				text : text,
+				index: match.index
+			});
+			resolve()
+		})
+	})
 }
 
 /**
@@ -149,5 +149,14 @@ export function normalEmbed(_this, urlToText) {
 		Promise.all(promises).then(function () {
 			resolve(_this.embeds)
 		});
+	})
+}
+
+export function embed(_this, urlToText) {
+	return new Promise(function (resolve) {
+		if (ifInline(_this.options, _this.service))
+			inlineEmbed(_this, urlToText).then((output) => resolve([output, _this.embeds]))
+		else
+			normalEmbed(_this, urlToText).then((embeds) => resolve([_this.output, embeds]))
 	})
 }

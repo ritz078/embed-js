@@ -1,7 +1,6 @@
-import { ifInline } from '../utils'
 import '../../vendor/fetch'
 import fetchJsonp from '../../vendor/fetch_jsonp'
-import {inlineEmbed, normalEmbed} from '../helper'
+import { embed } from '../helper'
 import regex from '../regex'
 
 export default class Twitter {
@@ -52,16 +51,6 @@ export default class Twitter {
 	}
 
 	process() {
-		return new Promise((resolve) => {
-			if (!ifInline(this.options, this.service)) {
-				inlineEmbed(this, Twitter.urlToText).then((response) => {
-					resolve([response, this.embeds])
-				})
-			} else {
-				normalEmbed(this, Twitter.urlToText).then((embeds) => {
-					resolve([this.output, embeds])
-				})
-			}
-		})
+		return new Promise((resolve) => embed(this, Twitter.urlToText).then((data) => resolve(data)))
 	}
 }

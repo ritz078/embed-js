@@ -1,5 +1,4 @@
-import { ifInline } from './utils'
-import { inlineEmbed, normalEmbed } from './helper'
+import { embed } from './helper'
 import regex from './regex'
 
 export default class Github {
@@ -48,18 +47,6 @@ export default class Github {
 	}
 
 	process() {
-		return new Promise((resolve) => {
-			if (!ifInline(this.options, this.service)) {
-				inlineEmbed(this, Github.urlToText)
-					.then((response) => {
-						resolve([response, this.embeds])
-					})
-			} else {
-				normalEmbed(this, Github.urlToText)
-					.then((embeds) => {
-						resolve([this.output, embeds])
-					})
-			}
-		})
+		return new Promise((resolve) => embed(this, Github.urlToText).then((data) => resolve(data)))
 	}
 }

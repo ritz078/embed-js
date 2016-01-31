@@ -1693,17 +1693,17 @@ var defaultOptions$1 = {
  * @return {null}
  */
 function playVideo(options) {
-    /** Execute the customVideoClickHandler if the user wants to handle it on his own. */
-    if (options.customVideoClickHandler) return options.videoClickHandler(options, template);
+	/** Execute the customVideoClickHandler if the user wants to handle it on his own. */
+	if (options.customVideoClickHandler) return options.videoClickHandler(options, template);
 
-    let classes = document.getElementsByClassName(options.videoClickClass);
-    for (let i = 0; i < classes.length; i++) {
-        classes[i].onclick = function() {
-            options.onVideoShow();
-            let url = this.getAttribute('data-ejs-url') + "?autoplay=true";
-            this.parentNode.parentNode.innerHTML = template(url, options);
-        };
-    }
+	let classes = document.getElementsByClassName(options.videoClickClass);
+	for (let i = 0; i < classes.length; i++) {
+		classes[i].onclick = function () {
+			options.onVideoShow();
+			let url                              = this.getAttribute('data-ejs-url') + "?autoplay=true";
+			this.parentNode.parentNode.innerHTML = template(url, options);
+		};
+	}
 }
 
 /**
@@ -1713,15 +1713,15 @@ function playVideo(options) {
  * @return {string}         compiled template with variables replaced
  */
 function template(url, options) {
-    return options.template.vimeo(url, options) || options.template.youtube(url, options)
+	return options.template.vimeo(url, options) || options.template.youtube(url, options)
 }
 
 function getDetailsTemplate(data, fullData, embedUrl, options) {
-    if (data.host === 'vimeo') {
-        return options.template.detailsVimeo(data, fullData, embedUrl, options)
-    } else if (data.host === 'youtube') {
-        return options.template.detailsYoutube(data, fullData, embedUrl, options)
-    }
+	if (data.host === 'vimeo') {
+		return options.template.detailsVimeo(data, fullData, embedUrl, options)
+	} else if (data.host === 'youtube') {
+		return options.template.detailsYoutube(data, fullData, embedUrl, options)
+	}
 }
 
 /**
@@ -1730,15 +1730,15 @@ function getDetailsTemplate(data, fullData, embedUrl, options) {
  * @return {null}
  */
 function applyVideoJS(options) {
-    options.videojsOptions.width = options.videoWidth;
-    options.videojsOptions.height = options.videoHeight;
-    if (options.videoJS) {
-        if (!window.videojs) throw new ReferenceError("You have enabled videojs but you haven't loaded the library.Find it at http://videojs.com/");
-        let elements = options.input.getElementsByClassName('ejs-video-js');
-        for (let i = 0; i < elements.length; i++) {
-            videojs(elements[i], options.videojsOptions, () => options.videojsCallback());
-        }
-    }
+	options.videojsOptions.width  = options.videoWidth;
+	options.videojsOptions.height = options.videoHeight;
+	if (options.videoJS) {
+		if (!window.videojs) throw new ReferenceError("You have enabled videojs but you haven't loaded the library.Find it at http://videojs.com/");
+		let elements = options.input.getElementsByClassName('ejs-video-js');
+		for (let i = 0; i < elements.length; i++) {
+			videojs(elements[i], options.videojsOptions, () => options.videojsCallback());
+		}
+	}
 }
 
 /**
@@ -1747,10 +1747,10 @@ function applyVideoJS(options) {
  * @return {null}
  */
 function destroyVideos(className) {
-    let classes = document.getElementsByClassName(className);
-    for (let i = 0; i < classes.length; i++) {
-        classes[i].onclick = null
-    }
+	let classes = document.getElementsByClassName(className);
+	for (let i = 0; i < classes.length; i++) {
+		classes[i].onclick = null
+	}
 }
 
 /**
@@ -1762,16 +1762,16 @@ function destroyVideos(className) {
  * @return {Promise}           resolves to the text
  */
 function getInlineData(_this, urlToText, match) {
-    let url = (_this.options.link ? match[0].slice(0, -4) : match[0]) || match[1];
-    if (_this.options.served.indexOf(url) >= 0) return Promise.resolve(null);
+	let url = (_this.options.link ? match[0].slice(0, -4) : match[0]) || match[1];
+	if (_this.options.served.indexOf(url) >= 0) return Promise.resolve(null);
 
-    return new Promise((resolve) => {
-        urlToText(_this, match, url).then((text) => {
-            if (!text) return resolve();
-            _this.options.served.push(url);
-            resolve(text);
-        })
-    })
+	return new Promise((resolve) => {
+		urlToText(_this, match, url).then((text) => {
+			if (!text) return resolve();
+			_this.options.served.push(url);
+			resolve(text);
+		})
+	})
 }
 
 /**
@@ -1781,45 +1781,45 @@ function getInlineData(_this, urlToText, match) {
  * @returns Promise
  */
 function inlineEmbed(_this, urlToText) {
-    let regexInline = _this.options.link ? new RegExp(`([^>]*${_this.regex.source})<\/a>`, 'gi') : new RegExp(`([^\\s]*${_this.regex.source})`, 'gi');
-    let match, promises = [];
+	let regexInline     = _this.options.link ? new RegExp(`([^>]*${_this.regex.source})<\/a>`, 'gi') : new RegExp(`([^\\s]*${_this.regex.source})`, 'gi');
+	let match, promises = [];
 
-    while ((match = matches(regexInline, _this.output)) !== null)
-        promises.push(getInlineData(_this, urlToText, match));
+	while ((match = matches(regexInline, _this.output)) !== null)
+		promises.push(getInlineData(_this, urlToText, match));
 
-    return new Promise((resolve) => {
-        if (matches.length)
-            Promise.all(promises).then((data) => {
-                let i = 0;
-                _this.output = _this.output.replace(regexInline, (match) => {
-                    if (_this.options.link)
-                        return !_this.options.inlineText ? data[i] + '</a>' : match + data[i++];
-                    else
-                        return !_this.options.inlineText ? data[i] : match + data[i++];
-                });
-                resolve(_this.output)
-            });
-        else
-            resolve(_this.output)
-    })
+	return new Promise((resolve) => {
+		if (matches.length)
+			Promise.all(promises).then((data) => {
+				let i        = 0;
+				_this.output = _this.output.replace(regexInline, (match) => {
+					if (_this.options.link)
+						return !_this.options.inlineText ? data[i] + '</a>' : match + data[i++];
+					else
+						return !_this.options.inlineText ? data[i] : match + data[i++];
+				});
+				resolve(_this.output)
+			});
+		else
+			resolve(_this.output)
+	})
 }
 
 
 function getNormalData(_this, urlToText, match) {
-    let url = match[0];
-    if (_this.options.served.indexOf(url) >= 0) return;
+	let url = match[0];
+	if (_this.options.served.indexOf(url) >= 0) return;
 
-    return new Promise((resolve) => {
-        urlToText(_this, match, url, true).then(function(text) {
-            if (!text) resolve();
-            _this.options.served.push(url);
-            _this.embeds.push({
-                text: text,
-                index: match.index
-            });
-            resolve()
-        })
-    })
+	return new Promise((resolve) => {
+		urlToText(_this, match, url, true).then(function (text) {
+			if (!text) resolve();
+			_this.options.served.push(url);
+			_this.embeds.push({
+				text : text,
+				index: match.index
+			});
+			resolve()
+		})
+	})
 }
 
 /**
@@ -1836,6 +1836,15 @@ function normalEmbed(_this, urlToText) {
 		Promise.all(promises).then(function () {
 			resolve(_this.embeds)
 		});
+	})
+}
+
+function embed(_this, urlToText) {
+	return new Promise(function (resolve) {
+		if (ifInline(_this.options, _this.service))
+			inlineEmbed(_this, urlToText).then((output) => resolve([output, _this.embeds]))
+		else
+			normalEmbed(_this, urlToText).then((embeds) => resolve([_this.output, embeds]))
 	})
 }
 
@@ -1916,17 +1925,7 @@ class Twitter {
 	}
 
 	process() {
-		return new Promise((resolve) => {
-			if (!ifInline(this.options, this.service)) {
-				inlineEmbed(this, Twitter.urlToText).then((response) => {
-					resolve([response, this.embeds])
-				})
-			} else {
-				normalEmbed(this, Twitter.urlToText).then((embeds) => {
-					resolve([this.output, embeds])
-				})
-			}
-		})
+		return new Promise((resolve) => embed(this, Twitter.urlToText).then((data) => resolve(data)))
 	}
 }
 
@@ -2433,17 +2432,7 @@ class Youtube {
 	}
 
 	process() {
-		return new Promise((resolve) => {
-			if (!ifInline(this.options, this.service)) {
-				inlineEmbed(this, Youtube.urlToText).then((output) => {
-					resolve([output, this.embeds])
-				})
-			} else {
-				normalEmbed(this, Youtube.urlToText).then((embeds) => {
-					resolve([this.output, embeds])
-				})
-			}
-		})
+		return new Promise((resolve) => embed(this, Youtube.urlToText).then((data) => resolve(data)))
 	}
 }
 
@@ -2500,17 +2489,7 @@ class Vimeo {
 	}
 
 	process() {
-		return new Promise((resolve) => {
-			if (!ifInline(this.options, this.service)) {
-				inlineEmbed(this, Vimeo.urlToText).then((response) => {
-					resolve([response, this.embeds])
-				})
-			} else {
-				normalEmbed(this, Vimeo.urlToText).then((embeds) => {
-					resolve([this.output, embeds])
-				})
-			}
-		})
+		return new Promise((resolve) => embed(this, Vimeo.urlToText).then((data) => resolve(data)))
 
 	}
 }
@@ -2630,17 +2609,7 @@ class SlideShare {
 	}
 
 	process() {
-		return new Promise((resolve) => {
-			if (!ifInline(this.options, this.service)) {
-				inlineEmbed(this, SlideShare.urlToText).then((response) => {
-					resolve([response, this.embeds])
-				})
-			} else {
-				normalEmbed(this, SlideShare.urlToText).then((embeds) => {
-					resolve([this.output, embeds])
-				})
-			}
-		})
+		return new Promise((resolve) => embed(this, SlideShare.urlToText).then((data) => resolve(data)))
 	}
 }
 
@@ -2679,11 +2648,8 @@ class OpenGraph {
 
 
 	process() {
-		return new Promise((resolve) => {
-			if (!ifInline(this.options, this.service))
-				inlineEmbed(this, OpenGraph.urlToText).then((output) => resolve([output, this.embeds]));
-			else
-				normalEmbed(this, OpenGraph.urlToText).then((embeds) => resolve([this.output, embeds]))
+		return new Promise(function (resolve) {
+			embed(this, OpenGraph.urlToText).then((data) => resolve(data))
 		})
 	}
 }
@@ -2734,19 +2700,7 @@ class Github {
 	}
 
 	process() {
-		return new Promise((resolve) => {
-			if (!ifInline(this.options, this.service)) {
-				inlineEmbed(this, Github.urlToText)
-					.then((response) => {
-						resolve([response, this.embeds])
-					})
-			} else {
-				normalEmbed(this, Github.urlToText)
-					.then((embeds) => {
-						resolve([this.output, embeds])
-					})
-			}
-		})
+		return new Promise((resolve) => embed(this, Github.urlToText).then((data) => resolve(data)))
 	}
 }
 

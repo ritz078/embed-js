@@ -1,5 +1,5 @@
-import { truncate, ifInline } from '../utils'
-import { getDetailsTemplate, template, inlineEmbed, normalEmbed } from '../helper'
+import { truncate } from '../utils'
+import { getDetailsTemplate, template, embed } from '../helper'
 import '../../vendor/fetch'
 import regex from '../regex'
 
@@ -57,17 +57,7 @@ export default class Vimeo {
 	}
 
 	process() {
-		return new Promise((resolve) => {
-			if (!ifInline(this.options, this.service)) {
-				inlineEmbed(this, Vimeo.urlToText).then((response) => {
-					resolve([response, this.embeds])
-				})
-			} else {
-				normalEmbed(this, Vimeo.urlToText).then((embeds) => {
-					resolve([this.output, embeds])
-				})
-			}
-		})
+		return new Promise((resolve) => embed(this, Vimeo.urlToText).then((data) => resolve(data)))
 
 	}
 }
