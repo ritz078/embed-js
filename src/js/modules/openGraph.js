@@ -1,5 +1,5 @@
 import { urlRegex } from './utils'
-import { embed } from './helper'
+import { asyncEmbed } from './helper'
 
 export default class OpenGraph {
 	constructor(input, output, options, embeds) {
@@ -37,7 +37,7 @@ export default class OpenGraph {
 
 	process() {
 		return new Promise(function (resolve) {
-			embed(this, OpenGraph.urlToText).then((data) => resolve(data))
+			asyncEmbed(this, OpenGraph.urlToText).then((data) => resolve(data))
 		})
 	}
 }

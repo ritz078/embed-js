@@ -1,6 +1,6 @@
 import '../../vendor/fetch'
 import fetchJsonp from '../../vendor/fetch_jsonp'
-import { embed } from '../helper'
+import { asyncEmbed } from '../helper'
 import regex from '../regex'
 
 export default class Twitter {
@@ -51,6 +51,6 @@ export default class Twitter {
 	}
 
 	process() {
-		return new Promise((resolve) => embed(this, Twitter.urlToText).then((data) => resolve(data)))
+		return new Promise((resolve) => asyncEmbed(this, Twitter.urlToText).then((data) => resolve(data)))
 	}
 }

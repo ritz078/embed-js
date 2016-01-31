@@ -1056,7 +1056,7 @@
    * @param urlToText
    * @returns Promise
    */
-  function inlineEmbed(_this, urlToText) {
+  function inlineAsyncEmbed(_this, urlToText) {
   	var regexInline = _this.options.link ? new RegExp('([^>]*' + _this.regex.source + ')</a>', 'gi') : new RegExp('([^\\s]*' + _this.regex.source + ')', 'gi');
   	var match = undefined,
   	    promises = [];
@@ -1097,7 +1097,7 @@
    * @param  {function} urlToText
    * @return {Promise}
    */
-  function normalEmbed(_this, urlToText) {
+  function normalAsyncEmbed(_this, urlToText) {
   	var match = undefined,
   	    promises = [];
   	while ((match = matches(_this.regex, _this.input)) !== null) {
@@ -1109,14 +1109,49 @@
   	});
   }
 
-  function embed(_this, urlToText) {
+  function asyncEmbed(_this, urlToText) {
   	return new Promise(function (resolve) {
-  		if (ifInline(_this.options, _this.service)) inlineEmbed(_this, urlToText).then(function (output) {
+  		if (!ifInline(_this.options, _this.service)) inlineAsyncEmbed(_this, urlToText).then(function (output) {
   			return resolve([output, _this.embeds]);
-  		});else normalEmbed(_this, urlToText).then(function (embeds) {
+  		});else normalAsyncEmbed(_this, urlToText).then(function (embeds) {
   			return resolve([_this.output, embeds]);
   		});
   	});
+  }
+
+  function inlineEmbed(_this) {
+  	var regexInline = _this.options.link ? new RegExp('([^>]*' + _this.regex.source + ')</a>', 'gm') : new RegExp('([^\\s]*' + _this.regex.source + ')', 'gm');
+  	_this.output = _this.output.replace(regexInline, function (match) {
+  		var url = _this.options.link ? match.slice(0, -4) : match;
+  		if (_this.options.served.indexOf(url) === -1) {
+  			_this.options.served.push(url);
+  			if (_this.options.link) {
+  				return !_this.options.inlineText ? _this.template(match.slice(0, -4)) + '</a>' : match + _this.template(match.slice(0, -4));
+  			} else {
+  				return !_this.options.inlineText ? _this.template(match) : match + _this.template(match);
+  			}
+  		} else {
+  			return match; //TODO : check whether this should be `match`
+  		}
+  	});
+  	return [_this.output, _this.embeds];
+  }
+
+  function normalEmbed(_this) {
+  	var match = undefined;
+  	while ((match = matches(_this.regex, _this.input)) !== null) {
+  		if (!(_this.options.served.indexOf(match[0]) === -1)) continue;
+  		var text = _this.template(match[0]);
+  		_this.embeds.push({
+  			text: text,
+  			index: match.index
+  		});
+  	}
+  	return [_this.output, _this.embeds];
+  }
+
+  function embed(_this) {
+  	return !ifInline(_this.options, _this.service) ? inlineEmbed(_this) : normalEmbed(_this);
   }
 
   var regex = {
@@ -1206,7 +1241,7 @@
   			var _this3 = this;
 
   			return new Promise(function (resolve) {
-  				return embed(_this3, Twitter.urlToText).then(function (data) {
+  				return asyncEmbed(_this3, Twitter.urlToText).then(function (data) {
   					return resolve(data);
   				});
   			});
@@ -1525,35 +1560,7 @@
   	babelHelpers.createClass(Base, [{
   		key: 'process',
   		value: function process() {
-  			var _this = this;
-
-  			if (!ifInline(this.options, this.service)) {
-  				var regexInline = this.options.link ? new RegExp('([^>]*' + this.regex.source + ')</a>', 'gm') : new RegExp('([^\\s]*' + this.regex.source + ')', 'gm');
-  				this.output = this.output.replace(regexInline, function (match) {
-  					var url = _this.options.link ? match.slice(0, -4) : match;
-  					if (_this.options.served.indexOf(url) === -1) {
-  						_this.options.served.push(url);
-  						if (_this.options.link) {
-  							return !_this.options.inlineText ? _this.template(match.slice(0, -4)) + '</a>' : match + _this.template(match.slice(0, -4));
-  						} else {
-  							return !_this.options.inlineText ? _this.template(match) : match + _this.template(match);
-  						}
-  					} else {
-  						return url;
-  					}
-  				});
-  			} else {
-  				var match = undefined;
-  				while ((match = matches(this.regex, this.input)) !== null) {
-  					if (!(this.options.served.indexOf(match[0]) === -1)) continue;
-  					var text = this.template(match[0]);
-  					this.embeds.push({
-  						text: text,
-  						index: match.index
-  					});
-  				}
-  			}
-  			return [this.output, this.embeds];
+  			return embed(this);
   		}
   	}]);
   	return Base;
@@ -1876,7 +1883,7 @@
   			var _this2 = this;
 
   			return new Promise(function (resolve) {
-  				return embed(_this2, Youtube.urlToText).then(function (data) {
+  				return asyncEmbed(_this2, Youtube.urlToText).then(function (data) {
   					return resolve(data);
   				});
   			});
@@ -1947,7 +1954,7 @@
   			var _this2 = this;
 
   			return new Promise(function (resolve) {
-  				return embed(_this2, Vimeo.urlToText).then(function (data) {
+  				return asyncEmbed(_this2, Vimeo.urlToText).then(function (data) {
   					return resolve(data);
   				});
   			});
@@ -2172,7 +2179,7 @@
   			var _this2 = this;
 
   			return new Promise(function (resolve) {
-  				return embed(_this2, SlideShare.urlToText).then(function (data) {
+  				return asyncEmbed(_this2, SlideShare.urlToText).then(function (data) {
   					return resolve(data);
   				});
   			});
@@ -2224,7 +2231,7 @@
   		key: 'process',
   		value: function process() {
   			return new Promise(function (resolve) {
-  				embed(this, OpenGraph.urlToText).then(function (data) {
+  				asyncEmbed(this, OpenGraph.urlToText).then(function (data) {
   					return resolve(data);
   				});
   			});
@@ -2275,7 +2282,7 @@
   			var _this2 = this;
 
   			return new Promise(function (resolve) {
-  				return embed(_this2, Github.urlToText).then(function (data) {
+  				return asyncEmbed(_this2, Github.urlToText).then(function (data) {
   					return resolve(data);
   				});
   			});

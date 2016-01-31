@@ -1,4 +1,4 @@
-import { embed } from './helper'
+import { asyncEmbed } from './helper'
 import regex from './regex'
 
 export default class Github {
@@ -47,6 +47,6 @@ export default class Github {
 	}
 
 	process() {
-		return new Promise((resolve) => embed(this, Github.urlToText).then((data) => resolve(data)))
+		return new Promise((resolve) => asyncEmbed(this, Github.urlToText).then((data) => resolve(data)))
 	}
 }

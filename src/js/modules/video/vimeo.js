@@ -1,5 +1,5 @@
 import { truncate } from '../utils'
-import { getDetailsTemplate, template, embed } from '../helper'
+import { getDetailsTemplate, template, asyncEmbed } from '../helper'
 import '../../vendor/fetch'
 import regex from '../regex'
 
@@ -57,7 +57,7 @@ export default class Vimeo {
 	}
 
 	process() {
-		return new Promise((resolve) => embed(this, Vimeo.urlToText).then((data) => resolve(data)))
+		return new Promise((resolve) => asyncEmbed(this, Vimeo.urlToText).then((data) => resolve(data)))
 
 	}
 }

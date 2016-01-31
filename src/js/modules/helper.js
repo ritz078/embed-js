@@ -93,7 +93,7 @@ function getInlineData(_this, urlToText, match) {
  * @param urlToText
  * @returns Promise
  */
-export function inlineEmbed(_this, urlToText) {
+export function inlineAsyncEmbed(_this, urlToText) {
 	let regexInline     = _this.options.link ? new RegExp(`([^>]*${_this.regex.source})<\/a>`, 'gi') : new RegExp(`([^\\s]*${_this.regex.source})`, 'gi');
 	let match, promises = [];
 
@@ -141,7 +141,7 @@ function getNormalData(_this, urlToText, match) {
  * @param  {function} urlToText
  * @return {Promise}
  */
-export function normalEmbed(_this, urlToText) {
+export function normalAsyncEmbed(_this, urlToText) {
 	let match, promises = [];
 	while ((match = matches(_this.regex, _this.input)) !== null)
 		promises.push(getNormalData(_this, urlToText, match));
@@ -152,11 +152,46 @@ export function normalEmbed(_this, urlToText) {
 	})
 }
 
-export function embed(_this, urlToText) {
+export function asyncEmbed(_this, urlToText) {
 	return new Promise(function (resolve) {
-		if (ifInline(_this.options, _this.service))
-			inlineEmbed(_this, urlToText).then((output) => resolve([output, _this.embeds]))
+		if (!ifInline(_this.options, _this.service))
+			inlineAsyncEmbed(_this, urlToText).then((output) => resolve([output, _this.embeds]));
 		else
-			normalEmbed(_this, urlToText).then((embeds) => resolve([_this.output, embeds]))
+			normalAsyncEmbed(_this, urlToText).then((embeds) => resolve([_this.output, embeds]))
 	})
+}
+
+function inlineEmbed(_this){
+	let regexInline = _this.options.link ? new RegExp(`([^>]*${_this.regex.source})<\/a>`, 'gm') : new RegExp(`([^\\s]*${_this.regex.source})`, 'gm');
+	_this.output     = _this.output.replace(regexInline, function(match) {
+		let url = _this.options.link ? match.slice(0, -4) : match;
+		if (_this.options.served.indexOf(url) === -1) {
+			_this.options.served.push(url);
+			if (_this.options.link) {
+				return !_this.options.inlineText ? _this.template(match.slice(0, -4)) + '</a>' : match + _this.template(match.slice(0, -4))
+			} else {
+				return !_this.options.inlineText ? _this.template(match) : match + _this.template(match)
+			}
+		} else {
+			return match; //TODO : check whether this should be `match`
+		}
+	});
+	return [_this.output, _this.embeds];
+}
+
+function normalEmbed(_this){
+	let match;
+	while ((match = matches(_this.regex, _this.input)) !== null) {
+		if (!(_this.options.served.indexOf(match[0]) === -1)) continue;
+		let text = _this.template(match[0]);
+		_this.embeds.push({
+			text : text,
+			index: match.index
+		})
+	}
+	return [_this.output, _this.embeds];
+}
+
+export function embed(_this){
+	return (!ifInline(_this.options, _this.service)) ? inlineEmbed(_this) : normalEmbed(_this)
 }

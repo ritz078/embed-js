@@ -1,5 +1,5 @@
 import { truncate } from '../utils'
-import { getDetailsTemplate, template, embed } from './../helper'
+import { getDetailsTemplate, template, asyncEmbed } from './../helper'
 import '../../vendor/fetch'
 import regex from '../regex'
 
@@ -49,7 +49,7 @@ export default class Youtube {
 	}
 
 	process() {
-		return new Promise((resolve) => embed(this, Youtube.urlToText).then((data) => resolve(data)))
+		return new Promise((resolve) => asyncEmbed(this, Youtube.urlToText).then((data) => resolve(data)))
 	}
 }
 

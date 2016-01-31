@@ -1,5 +1,5 @@
 import '../../vendor/fetch'
-import { embed } from './../helper'
+import { asyncEmbed } from './../helper'
 import fetchJsonp              from '../../vendor/fetch_jsonp'
 import regex from '../regex'
 
@@ -33,6 +33,6 @@ export default class SlideShare {
 	}
 
 	process() {
-		return new Promise((resolve) => embed(this, SlideShare.urlToText).then((data) => resolve(data)))
+		return new Promise((resolve) => asyncEmbed(this, SlideShare.urlToText).then((data) => resolve(data)))
 	}
 }
