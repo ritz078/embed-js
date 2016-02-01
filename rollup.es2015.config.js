@@ -1,8 +1,5 @@
-var babel    = require('rollup-plugin-babel');
 var commonjs = require('rollup-plugin-commonjs');
 var npm      = require('rollup-plugin-npm');
-var replace  = require('rollup-plugin-replace');
-var build    = require('./build.json');
 var pkg      = require('./package.json');
 
 var banner = "/*\n" +
@@ -28,8 +25,7 @@ var config = {
         }),
         commonjs({
             include: 'node_modules/**'
-        }),
-        replace(build)
+        })
     ]
 };
 

@@ -172,11 +172,11 @@ class Renderer{
 		return `<span class="emoticon emoticon-${text}" title=":${text}:"></span>`;
 	}
 
-	basicAudio(match){
+	audio(match){
 		return `<div class="ejs-audio ejs-embed"><audio src="${match}" controls class="video-js ejs-video-js"></audio></div>`
 	}
 
-	soundCloud(match, options){
+	soundcloud(match, options){
 		let config = options.soundCloudOptions;
 		return `<div class="ejs-embed">
 		<iframe height="160" scrolling="no" src="https://w.soundcloud.com/player/?url=${match}
@@ -192,11 +192,12 @@ class Renderer{
 		</div>`
 	}
 
-	spotify(id){
+	spotify(match){
+		let id = lastElement(match.split('/'));
 		return `<div class="ejs-embed"><iframe src="https://embed.spotify.com/?uri=spotify:track:${id}" height="80"></iframe></div>`
 	}
 
-	codePen(id, options){
+	codepen(id, options){
 		return `<div class="ejs-embed ejs-codepen"><iframe scrolling="no" height="${options.codeEmbedHeight}" src="${id.replace(/\/pen\//, '/embed/')}/?height=${options.codeEmbedHeight}"></iframe></div>`
 	}
 
@@ -204,11 +205,13 @@ class Renderer{
 		return `<div class="ejs-ideone ejs-embed"><iframe src="http://ideone.com/embed/${match.split('/')[1]}" frameborder="0" height="${options.codeEmbedHeight}"></iframe></div>`
 	}
 
-	jsBin(id, options){
+	jsbin(id, options){
 		return `<div class="ejs-jsbin ejs-embed"><iframe height="${options.codeEmbedHeight}" class="jsbin-embed foo" src="http://${id}/embed?html,js,output"></iframe></div>`
 	}
 
-	jsFiddle(id, options){
+	jsfiddle(id, options){
+		id = lastElement(id) == '/' ? id.slice(0, - 1) : id;
+		id =  (id.indexOf('//') !== -1) ? id : `//${id}`;
 		return `<div class="ejs-embed ejs-jsfiddle"><iframe height="${options.codeEmbedHeight}" src="${id}/embedded"></iframe></div>`
 	}
 
@@ -216,7 +219,7 @@ class Renderer{
 		return `<div class="ejs-embed ejs-plunker"><iframe class="ne-plunker" src="http://embed.plnkr.co/${id}" height="${options.codeEmbedHeight}"></iframe></div>`
 	}
 
-	basicImage(match){
+	image(match){
 		return `<div class="ejs-image ejs-embed"><div class="ne-image-wrapper"><img src="${match}"/></div></div>`
 	}
 
@@ -232,11 +235,12 @@ class Renderer{
 		return `<div class="ejs-embed ejs-slideshare">${html}</div>`;
 	}
 
-	basicVideo(match){
+	video(match){
 		return `<div class="ejs-video ejs-embed"><div class="ejs-video-player"><div class="ejs-player"><video src="${match}" class="ejs-video-js video-js" controls></video></div></div></div>`
 	}
 
-	dailymotion(id, options){
+	dailymotion(match, options){
+		const id = lastElement(match.split('/'));
 		return `<div class="ejs-video ejs-embed"><iframe src="http://www.dailymotion.com/embed/video/${id}" height="${options.videoHeight}" width="${options.videoWidth}"></iframe></div>`
 	}
 
@@ -244,11 +248,15 @@ class Renderer{
 		return `<div class="ejs-video ejs-embed"><iframe src="http://www.liveleak.com/e/${match.split('=')[1]}" height="${options.videoHeight}" width="${options.videoWidth}"></iframe></div>`
 	}
 
-	ted(id, options){
+	ted(match, options){
+		let a = match.split('/');
+		const id = a[a.length - 1];
 		return `<div class="ejs-embed ejs-ted"><iframe src="http://embed.ted.com/talks/${id}.html" height="${options.videoHeight}" width="${options.videoWidth}"></iframe></div>`
 	}
 
-	ustream(id, options){
+	ustream(match, options){
+		let id = match.split('/');
+		id.splice(1, 0, 'embed');
 		return `<div class="ejs-embed ejs-ustream"><iframe src="//www.${id.join('/')}" height="${options.videoHeight}" width="${options.videoWidth}"></iframe></div>`
 	}
 
@@ -260,7 +268,8 @@ class Renderer{
 		return `<div class="ejs-video ejs-embed"><div class="ejs-video-preview"><div class="ejs-video-thumb" data-ejs-url="${embedUrl}"><div class="ejs-thumb" style="background-image:url(${data.thumbnail})"></div><i class="fa fa-play-circle-o"></i></div><div class="ejs-video-detail"><div class="ejs-video-title"><a href="${data.url}">${data.title}</a></div><div class="ejs-video-desc">${data.description}</div><div class="ejs-video-stats"><span><i class="fa fa-eye"></i>${data.views}</span><span><i class="fa fa-heart"></i>${data.likes}</span></div></div></div></div>`
 	}
 
-	vine(id, options){
+	vine(match, options){
+		const id = lastElement(match.split('/'));
 		const config = options.vineOptions;
 		return `<div class="ejs-vine"><iframe class="ejs-vine-iframe" src="https://vine.co/v/${id}/embed/${config.type}" height="${config.height}" width="${config.width}"></iframe></div>`
 	}
@@ -1687,6 +1696,25 @@ var defaultOptions$1 = {
       });
   };
 
+class Base {
+	constructor(input, output, embeds, options, regex, service) {
+		this.input   = input;
+		this.output  = output;
+		this.options = options;
+		this.embeds  = embeds;
+		this.regex   = regex;
+		this.service = service;
+	}
+
+	template(match){
+		return this.options.template[this.service](match, this.options);
+	}
+
+	process() {
+		return embed(this);
+	}
+}
+
 /**
  * Plays the video after clicking on the thumbnail
  * @param  {object} options   Options object
@@ -1881,6 +1909,11 @@ function normalEmbed(_this){
 
 function embed(_this){
 	return (ifInline(_this.options, _this.service)) ? inlineEmbed(_this) : normalEmbed(_this)
+}
+
+
+function baseEmbed(input, output, embeds, options, regex, service, flag){
+	return ifEmbed(options, service) || flag ? new Base(input, output, embeds, options, regex, service).process() : [output, embeds]
 }
 
 let regex = {
@@ -2202,193 +2235,58 @@ class Highlight {
 	}
 }
 
-class Base {
+class Gist {
 	constructor(input, output, options, embeds) {
 		this.input   = input;
 		this.output  = output;
 		this.options = options;
 		this.embeds  = embeds;
+		this.regex   = regex.gist;
+		this.service = 'gist';
+
+		this.options.input.addEventListener('rendered', () => {
+			this.load()
+		})
+	}
+
+	template(match) {
+		return `<div class="ejs-gist" data-src="${match}"></div>`
+	}
+
+	load() {
+		let gists = this.options.input.getElementsByClassName('ejs-gist');
+		for (let i = 0; i < gists.length; i++) {
+			let gistFrame = document.createElement("iframe");
+			gistFrame.setAttribute("width", "100%");
+			gistFrame.id = `ejs-gist-${i}`;
+
+			let zone       = gists[i];
+			zone.innerHTML = "";
+			zone.appendChild(gistFrame);
+
+			// Create the iframe's document
+			let url           = gists[i].getAttribute('data-src');
+			url               = url.indexOf('http') === -1 ? `https://${url}` : url;
+			let gistFrameHTML = `<html><base target="_parent"/><body onload="parent.document.getElementById('ejs-gist-${i}').style.height=parseInt(document.body.scrollHeight)+20+'px'"><script type="text/javascript" src="${url}.js"></script></body></html>`;
+
+			// Set iframe's document with a trigger for this document to adjust the height
+			let gistFrameDoc = gistFrame.document;
+
+			if (gistFrame.contentDocument) {
+				gistFrameDoc = gistFrame.contentDocument;
+			} else if (gistFrame.contentWindow) {
+				gistFrameDoc = gistFrame.contentWindow.document;
+			}
+
+			gistFrameDoc.open();
+			gistFrameDoc.writeln(gistFrameHTML);
+			gistFrameDoc.close();
+		}
 	}
 
 	process() {
 		return embed(this);
 	}
-}
-
-class Ideone extends Base {
-    constructor(input, output, options, embeds) {
-        super(input, output, options, embeds);
-        this.regex = regex.ideone;
-        this.service = 'ideone';
-    }
-
-    template(match) {
-        return this.options.template.ideone(match, this.options)
-    }
-}
-
-class Plunker extends Base {
-	constructor(input, output, options, embeds) {
-		super(input, output, options, embeds);
-		this.regex   = regex.plunker;
-		this.service = 'plunker'
-	}
-
-	template(match) {
-		const a  = match.split('?')[0].split('/');  //TODO : make sure ? is excluded in regex.
-		const id = lastElement(a);
-		return this.options.template.plunker(id, this.options)
-	}
-}
-
-class JsBin extends Base {
-    constructor(input, output, options, embeds) {
-        super(input, output, options, embeds);
-        this.regex = regex.jsbin;
-        this.service = 'jsbin';
-    }
-
-    template(id) {
-        return this.options.template.jsBin(id, this.options)
-    }
-}
-
-class CodePen extends Base {
-    constructor(input, output, options, embeds) {
-        super(input, output, options, embeds);
-        this.regex = regex.codepen;
-        this.service = 'codepen';
-    }
-
-    template(id) {
-        return this.options.template.codePen(id, this.options)
-    }
-}
-
-class JsFiddle extends Base {
-	constructor(input, output, options, embeds) {
-		super(input, output, options, embeds);
-		this.regex   = regex.jsfiddle;
-		this.service = 'jsfiddle';
-	}
-
-	template(id) {
-		id = lastElement(id) == '/' ? id.slice(0, - 1) : id;
-		id =  (id.indexOf('//') !== -1) ? id : `//${id}`;
-		return this.options.template.jsFiddle(id, this.options)
-	}
-}
-
-class Gist extends Base {
-    constructor(input, output, options, embeds) {
-        super(input, output, options, embeds);
-        this.regex = regex.gist;
-        this.service = 'gist';
-
-        this.options.input.addEventListener('rendered', () => {
-            this.load()
-        })
-    }
-
-    template(match) {
-        return `<div class="ejs-gist" data-src="${match}"></div>`
-    }
-
-    load() {
-        let gists = this.options.input.getElementsByClassName('ejs-gist');
-        for (let i = 0; i < gists.length; i++) {
-            let gistFrame = document.createElement("iframe");
-            gistFrame.setAttribute("width", "100%");
-            gistFrame.id = `ejs-gist-${i}`;
-
-            let zone = gists[i];
-            zone.innerHTML = "";
-            zone.appendChild(gistFrame);
-
-            // Create the iframe's document
-            let url = gists[i].getAttribute('data-src');
-            url = url.indexOf('http') === -1 ? `https://${url}` : url;
-            let gistFrameHTML = `<html><base target="_parent"/><body onload="parent.document.getElementById('ejs-gist-${i}').style.height=parseInt(document.body.scrollHeight)+20+'px'"><script type="text/javascript" src="${url}.js"></script></body></html>`;
-
-            // Set iframe's document with a trigger for this document to adjust the height
-            let gistFrameDoc = gistFrame.document;
-
-            if (gistFrame.contentDocument) {
-                gistFrameDoc = gistFrame.contentDocument;
-            } else if (gistFrame.contentWindow) {
-                gistFrameDoc = gistFrame.contentWindow.document;
-            }
-
-            gistFrameDoc.open();
-            gistFrameDoc.writeln(gistFrameHTML);
-            gistFrameDoc.close();
-        }
-    }
-}
-
-class Ted extends Base {
-	constructor(input, output, options, embeds) {
-		super(input, output, options, embeds);
-		this.regex   = regex.ted;
-		this.service = 'ted'
-	}
-
-	template(match) {
-		const id = lastElement(match.split('/'));
-		return this.options.template.ted(id, this.options)
-	}
-}
-
-class Dailymotion extends Base {
-    constructor(input, output, options, embeds) {
-        super(input, output, options, embeds);
-        this.regex = regex.dailymotion;
-        this.service = 'dailymotion'
-    }
-
-    template(match) {
-        const id = lastElement(match.split('/'));
-        return this.options.template.dailymotion(id, this.options)
-    }
-}
-
-class Ustream extends Base {
-    constructor(input, output, options, embeds) {
-        super(input, output, options, embeds);
-        this.regex = regex.ustream;
-        this.service = 'ustream'
-    }
-
-    template(match) {
-        let id = match.split('/');
-        id.splice(1, 0, 'embed');
-        return this.options.template.ustream(id, this.options)
-    }
-}
-
-class LiveLeak extends Base {
-    constructor(input, output, options, embeds) {
-        super(input, output, options, embeds);
-        this.regex = regex.liveleak;
-        this.service = 'liveleak'
-    }
-
-    template(match) {
-        return this.options.template.liveLeak(match, this.options)
-    }
-}
-
-class Vine extends Base {
-    constructor(input, output, options, embeds) {
-        super(input, output, options, embeds);
-        this.regex = regex.vine;
-        this.service = 'vine'
-    }
-
-    template(match) {
-        const id = lastElement(match.split('/'));
-        return this.options.template.vine(id, this.options)
-    }
 }
 
 class Youtube {
@@ -2496,91 +2394,6 @@ class Vimeo {
 	process() {
 		return new Promise((resolve) => asyncEmbed(this, Vimeo.urlToText).then((data) => resolve(data)))
 
-	}
-}
-
-class BasicVideo extends Base {
-	constructor(input, output, options, embeds) {
-		super(input, output, options, embeds);
-		this.regex = regex.basicVideo;
-		this.service = 'video'
-	}
-
-	template(match) {
-		return this.options.template.basicVideo(match, this.options)
-	}
-}
-
-class SoundCloud extends Base{
-	constructor(input,output, options, embeds) {
-		super(input,output, options, embeds);
-		this.regex = regex.soundCloud;
-		this.service = 'soundcloud'
-	}
-
-	template(match) {
-		return this.options.template.soundCloud(match, this.options)
-	}
-}
-
-class Spotify extends Base{
-	constructor(input,output, options, embeds) {
-		super(input,output, options, embeds);
-		this.regex = regex.spotify;
-		this.service = 'spotify'
-	}
-
-	template(match){
-		let id = lastElement(match.split('/'));
-		return this.options.template.spotify(id, this.options);
-	}
-}
-
-class BasicAudio extends Base {
-    constructor(input, output, options, embeds) {
-        super(input, output, options, embeds);
-        this.regex = regex.basicAudio;
-        this.service = 'audio'
-    }
-
-    template(match) {
-        return this.options.template.basicAudio(match, this.options);
-    }
-}
-
-class Flickr extends Base{
-	constructor(input, output,options, embeds){
-		super(input,output, options, embeds);
-		this.regex = regex.flickr;
-		this.service = 'flickr'
-	}
-
-	template(match){
-		return this.options.template.flickr(match, this.options);
-	}
-}
-
-class Instagram extends Base{
-	constructor(input, output,options, embeds){
-		super(input,output, options, embeds);
-		this.regex = regex.instagram;
-		this.service = 'instagram'
-	}
-
-	template(match){
-		return this.options.template.instagram(match, this.options)
-	}
-}
-
-class Basic extends Base{
-	constructor(input, output,options, embeds){
-		super(input,output, options, embeds);
-		this.regex = regex.basicImage;
-		this.service = 'image'
-	}
-
-	template(match){
-		return this.options.template.basicImage(match, this.options)
 	}
 }
 
@@ -2845,94 +2658,58 @@ class EmbedJS {
 		this.options.beforeEmbedJSApply();
 
 		return new Promise((resolve) => {
-			if (true && options.link)
+			if (options.link)
 				output = new Url(input, options).process();
 
-			let openGraphPromise = true && options.openGraphEndpoint ? new OpenGraph(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
+			let openGraphPromise = options.openGraphEndpoint ? new OpenGraph(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
 
 			openGraphPromise.then(function([output, embeds]) {
-				if (true && options.marked) {
+				if (options.marked) {
 					output = new Markdown(output, options).process()
 				}
-				if (true && options.emoji) {
+				if (options.emoji) {
 					output = new Emoji(output, options).process()
 				}
-				if (true && options.fontIcons) {
+				if (options.fontIcons) {
 					output = new Smiley(output, options).process()
 				}
 
-				if (true && options.highlightCode && !options.marked) {
+				if (options.highlightCode && !options.marked) {
 					output = new Highlight(output, options).process()
 				}
-				if (true && ifEmbed(options, 'ideone')) {
-					[output, embeds] = new Ideone(input, output, options, embeds).process()
-				}
-				if (true && ifEmbed(options, 'plunker')) {
-					[output, embeds] = new Plunker(input, output, options, embeds).process()
-				}
-				if (true && ifEmbed(options, 'jsbin')) {
-					[output, embeds] = new JsBin(input, output, options, embeds).process()
-				}
-				if (true && ifEmbed(options, 'codepen')) {
-					[output, embeds] = new CodePen(input, output, options, embeds).process()
-				}
-				if (true && ifEmbed(options, 'jsfiddle')) {
-					[output, embeds] = new JsFiddle(input, output, options, embeds).process()
-				}
-				if (true && ifEmbed(options, 'gist')) {
+				[output, embeds] = baseEmbed(input, output, embeds, options, regex.ideone, 'ideone');
+				[output, embeds] = baseEmbed(input, output, embeds, options, regex.plunker, 'plunker');
+				[output, embeds] = baseEmbed(input, output, embeds, options, regex.jsbin, 'jsbin');
+				[output, embeds] = baseEmbed(input, output, embeds, options, regex.codepen, 'codepen');
+				[output, embeds] = baseEmbed(input, output, embeds, options, regex.jsfiddle, 'jsfiddle');
+				[output, embeds] = baseEmbed(input, output, embeds, options, regex.ted, 'ted');
+				[output, embeds] = baseEmbed(input, output, embeds, options, regex.dailymotion, 'dailymotion');
+				[output, embeds] = baseEmbed(input, output, embeds, options, regex.ustream, 'ustream');
+				[output, embeds] = baseEmbed(input, output, embeds, options, regex.liveleak, 'liveleak');
+				[output, embeds] = baseEmbed(input, output, embeds, options, regex.basicVideo, 'video', options.videoEmbed);
+				[output, embeds] = baseEmbed(input, output, embeds, options, regex.vine, 'vine');
+				[output, embeds] = baseEmbed(input, output, embeds, options, regex.soundCloud, 'soundcloud');
+				[output, embeds] = baseEmbed(input, output, embeds, options, regex.spotify, 'spotify');
+				[output, embeds] = baseEmbed(input, output, embeds, options, regex.basicAudio, 'audio', options.audioEmbed);
+				[output, embeds] = baseEmbed(input, output, embeds, options, regex.flickr, 'flickr');
+				[output, embeds] = baseEmbed(input, output, embeds, options, regex.instagram, 'instagram');
+				[output, embeds] = baseEmbed(input, output, embeds, options, regex.basicImage, 'image', options.imageEmbed);
+
+				if (ifEmbed(options, 'gist')) {
 					[output, embeds] = new Gist(input, output, options, embeds).process()
 				}
 
-
-				if (true && ifEmbed(options, 'ted')) {
-					[output, embeds] = new Ted(input, output, options, embeds).process()
-				}
-				if (true && ifEmbed(options, 'dailymotion')) {
-					[output, embeds] = new Dailymotion(input, output, options, embeds).process()
-				}
-				if (true && ifEmbed(options, 'ustream')) {
-					[output, embeds] = new Ustream(input, output, options, embeds).process()
-				}
-				if (true && ifEmbed(options, 'liveleak')) {
-					[output, embeds] = new LiveLeak(input, output, options, embeds).process()
-				}
-				if (true && options.videoEmbed) {
-					[output, embeds] = new BasicVideo(input, output, options, embeds).process()
-				}
-				if (true && ifEmbed(options, 'vine')) {
-					[output, embeds] = new Vine(input, output, options, embeds).process()
-				}
-
-				if (true && ifEmbed(options, 'soundcloud')) {
-					[output, embeds] = new SoundCloud(input, output, options, embeds).process()
-				}
-				if (true && ifEmbed(options, 'spotify')) {
-					[output, embeds] = new Spotify(input, output, options, embeds).process()
-				}
-				if (true && options.audioEmbed) {
-					[output, embeds] = new BasicAudio(input, output, options, embeds).process()
-				}
-
-				if (true && ifEmbed(options, 'flickr')) {
-					[output, embeds] = new Flickr(input, output, options, embeds).process()
-				}
-				if (true && ifEmbed(options, 'instagram')) {
-					[output, embeds] = new Instagram(input, output, options, embeds).process()
-				}
-				if (true && options.imageEmbed) {
-					[output, embeds] = new Basic(input, output, options, embeds).process()
-				}
-				return true && ifEmbed(options, 'youtube') ? new Youtube(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
+				return ifEmbed(options, 'youtube') ? new Youtube(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
 			}).then(function([output, embeds]){
-				return true && ifEmbed(options, 'vimeo') ? new Vimeo(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
+				return ifEmbed(options, 'vimeo') ? new Vimeo(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
 			}).then(function([output, embeds]){
-				return true && ifEmbed(options, 'opengraph') ? new Github(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
+				return ifEmbed(options, 'opengraph') ? new Github(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
 			}).then(function([output, embeds]){
-				return true && options.locationEmbed ? new Gmap(input, output, options, embeds).process() : Promise.resolve([output, embeds])
+				return options.locationEmbed ? new Gmap(input, output, options, embeds).process() : Promise.resolve([output, embeds])
 			}).then(function([output, embeds]){
-				return true && ifEmbed(options, 'slideshare') ? new SlideShare(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
+				return ifEmbed(options, 'slideshare') ? new SlideShare(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
 			}).then(([output, embeds]) => {
-				if (options.tweetsEmbed && true) {
+				if (options.tweetsEmbed) {
 					this.twitter = new Twitter(input, output, options, embeds);
 					return this.twitter.process()
 				} else {

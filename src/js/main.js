@@ -11,35 +11,19 @@ import Gmap        from './modules/map/map'
 import Markdown    from './modules/markdown'
 
 import Highlight   from './modules/code/highlight'
-import Ideone      from './modules/code/ideone'
-import Plunker     from './modules/code/plunker'
-import JsBin       from './modules/code/jsbin'
-import CodePen     from './modules/code/codepen'
-import JsFiddle    from './modules/code/jsfiddle'
 import Gist        from './modules/code/gist'
 
-import Ted         from './modules/video/ted'
-import Dailymotion from './modules/video/dailymotion'
-import Ustream     from './modules/video/ustream'
-import LiveLeak    from './modules/video/liveleak'
-import Vine        from './modules/video/vine'
 import Youtube     from './modules/video/youtube'
 import Vimeo       from './modules/video/vimeo'
-import BasicVideo  from './modules/video/basic'
 
-import SoundCloud  from './modules/audio/soundcloud'
-import Spotify     from './modules/audio/spotify'
-import BasicAudio  from './modules/audio/basic'
-
-import Flickr      from './modules/image/flickr'
-import Instagram   from './modules/image/instagram'
-import Basic       from './modules/image/basic'
 import SlideShare  from './modules/image/slideshare'
 
 import OpenGraph   from './modules/openGraph'
 import Github      from './modules/github'
 
-import { applyVideoJS, playVideo, destroyVideos } from './modules/helper'
+import regex from './modules/regex'
+
+import { applyVideoJS, playVideo, destroyVideos, baseEmbed } from './modules/helper'
 
 var globalOptions = {};
 
@@ -177,94 +161,58 @@ export default class EmbedJS {
 		this.options.beforeEmbedJSApply();
 
 		return new Promise((resolve) => {
-			if (LINK && options.link)
+			if (options.link)
 				output = new Url(input, options).process();
 
-			let openGraphPromise = OPENGRAPH && options.openGraphEndpoint ? new OpenGraph(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
+			let openGraphPromise = options.openGraphEndpoint ? new OpenGraph(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
 
 			openGraphPromise.then(function([output, embeds]) {
-				if (MARKDOWN && options.marked) {
+				if (options.marked) {
 					output = new Markdown(output, options).process()
 				}
-				if (EMOJI && options.emoji) {
+				if (options.emoji) {
 					output = new Emoji(output, options).process()
 				}
-				if (SMILEY && options.fontIcons) {
+				if (options.fontIcons) {
 					output = new Smiley(output, options).process()
 				}
 
-				if (HIGHLIGHTCODE && options.highlightCode && !options.marked) {
+				if (options.highlightCode && !options.marked) {
 					output = new Highlight(output, options).process()
 				}
-				if (IDEONE && ifEmbed(options, 'ideone')) {
-					[output, embeds] = new Ideone(input, output, options, embeds).process()
-				}
-				if (PLUNKER && ifEmbed(options, 'plunker')) {
-					[output, embeds] = new Plunker(input, output, options, embeds).process()
-				}
-				if (JSBIN && ifEmbed(options, 'jsbin')) {
-					[output, embeds] = new JsBin(input, output, options, embeds).process()
-				}
-				if (CODEPEN && ifEmbed(options, 'codepen')) {
-					[output, embeds] = new CodePen(input, output, options, embeds).process()
-				}
-				if (JSFIDDLE && ifEmbed(options, 'jsfiddle')) {
-					[output, embeds] = new JsFiddle(input, output, options, embeds).process()
-				}
-				if (GIST && ifEmbed(options, 'gist')) {
+				[output, embeds] = baseEmbed(input, output, embeds, options, regex.ideone, 'ideone');
+				[output, embeds] = baseEmbed(input, output, embeds, options, regex.plunker, 'plunker');
+				[output, embeds] = baseEmbed(input, output, embeds, options, regex.jsbin, 'jsbin');
+				[output, embeds] = baseEmbed(input, output, embeds, options, regex.codepen, 'codepen');
+				[output, embeds] = baseEmbed(input, output, embeds, options, regex.jsfiddle, 'jsfiddle');
+				[output, embeds] = baseEmbed(input, output, embeds, options, regex.ted, 'ted');
+				[output, embeds] = baseEmbed(input, output, embeds, options, regex.dailymotion, 'dailymotion');
+				[output, embeds] = baseEmbed(input, output, embeds, options, regex.ustream, 'ustream');
+				[output, embeds] = baseEmbed(input, output, embeds, options, regex.liveleak, 'liveleak');
+				[output, embeds] = baseEmbed(input, output, embeds, options, regex.basicVideo, 'video', options.videoEmbed);
+				[output, embeds] = baseEmbed(input, output, embeds, options, regex.vine, 'vine');
+				[output, embeds] = baseEmbed(input, output, embeds, options, regex.soundCloud, 'soundcloud');
+				[output, embeds] = baseEmbed(input, output, embeds, options, regex.spotify, 'spotify');
+				[output, embeds] = baseEmbed(input, output, embeds, options, regex.basicAudio, 'audio', options.audioEmbed);
+				[output, embeds] = baseEmbed(input, output, embeds, options, regex.flickr, 'flickr');
+				[output, embeds] = baseEmbed(input, output, embeds, options, regex.instagram, 'instagram');
+				[output, embeds] = baseEmbed(input, output, embeds, options, regex.basicImage, 'image', options.imageEmbed);
+
+				if (ifEmbed(options, 'gist')) {
 					[output, embeds] = new Gist(input, output, options, embeds).process()
 				}
 
-
-				if (TED && ifEmbed(options, 'ted')) {
-					[output, embeds] = new Ted(input, output, options, embeds).process()
-				}
-				if (DAILYMOTION && ifEmbed(options, 'dailymotion')) {
-					[output, embeds] = new Dailymotion(input, output, options, embeds).process()
-				}
-				if (USTREAM && ifEmbed(options, 'ustream')) {
-					[output, embeds] = new Ustream(input, output, options, embeds).process()
-				}
-				if (LIVELEAK && ifEmbed(options, 'liveleak')) {
-					[output, embeds] = new LiveLeak(input, output, options, embeds).process()
-				}
-				if (BASICVIDEO && options.videoEmbed) {
-					[output, embeds] = new BasicVideo(input, output, options, embeds).process()
-				}
-				if (VINE && ifEmbed(options, 'vine')) {
-					[output, embeds] = new Vine(input, output, options, embeds).process()
-				}
-
-				if (SOUNDCLOUD && ifEmbed(options, 'soundcloud')) {
-					[output, embeds] = new SoundCloud(input, output, options, embeds).process()
-				}
-				if (SPOTIFY && ifEmbed(options, 'spotify')) {
-					[output, embeds] = new Spotify(input, output, options, embeds).process()
-				}
-				if (BASICAUDIO && options.audioEmbed) {
-					[output, embeds] = new BasicAudio(input, output, options, embeds).process()
-				}
-
-				if (FLICKR && ifEmbed(options, 'flickr')) {
-					[output, embeds] = new Flickr(input, output, options, embeds).process()
-				}
-				if (INSTAGRAM && ifEmbed(options, 'instagram')) {
-					[output, embeds] = new Instagram(input, output, options, embeds).process()
-				}
-				if (BASICIMAGE && options.imageEmbed) {
-					[output, embeds] = new Basic(input, output, options, embeds).process()
-				}
-				return YOUTUBE && ifEmbed(options, 'youtube') ? new Youtube(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
+				return ifEmbed(options, 'youtube') ? new Youtube(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
 			}).then(function([output, embeds]){
-				return VIMEO && ifEmbed(options, 'vimeo') ? new Vimeo(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
+				return ifEmbed(options, 'vimeo') ? new Vimeo(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
 			}).then(function([output, embeds]){
-				return GITHUB && ifEmbed(options, 'opengraph') ? new Github(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
+				return ifEmbed(options, 'opengraph') ? new Github(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
 			}).then(function([output, embeds]){
-				return MAP && options.locationEmbed ? new Gmap(input, output, options, embeds).process() : Promise.resolve([output, embeds])
+				return options.locationEmbed ? new Gmap(input, output, options, embeds).process() : Promise.resolve([output, embeds])
 			}).then(function([output, embeds]){
-				return SLIDESHARE && ifEmbed(options, 'slideshare') ? new SlideShare(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
+				return ifEmbed(options, 'slideshare') ? new SlideShare(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
 			}).then(([output, embeds]) => {
-				if (options.tweetsEmbed && TWITTER) {
+				if (options.tweetsEmbed) {
 					this.twitter = new Twitter(input, output, options, embeds);
 					return this.twitter.process()
 				} else {

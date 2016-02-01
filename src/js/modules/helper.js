@@ -1,4 +1,5 @@
-import { matches, ifInline } from './utils'
+import { matches, ifInline, ifEmbed } from './utils'
+import Base from './base'
 
 /**
  * Plays the video after clicking on the thumbnail
@@ -194,4 +195,9 @@ function normalEmbed(_this){
 
 export function embed(_this){
 	return (ifInline(_this.options, _this.service)) ? inlineEmbed(_this) : normalEmbed(_this)
+}
+
+
+export function baseEmbed(input, output, embeds, options, regex, service, flag){
+	return ifEmbed(options, service) || flag ? new Base(input, output, embeds, options, regex, service).process() : [output, embeds]
 }

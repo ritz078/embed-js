@@ -44,30 +44,6 @@
     };
   }();
 
-  babelHelpers.inherits = function (subClass, superClass) {
-    if (typeof superClass !== "function" && superClass !== null) {
-      throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
-    }
-
-    subClass.prototype = Object.create(superClass && superClass.prototype, {
-      constructor: {
-        value: subClass,
-        enumerable: false,
-        writable: true,
-        configurable: true
-      }
-    });
-    if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
-  };
-
-  babelHelpers.possibleConstructorReturn = function (self, call) {
-    if (!self) {
-      throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-    }
-
-    return call && (typeof call === "object" || typeof call === "function") ? call : self;
-  };
-
   babelHelpers.slicedToArray = function () {
     function sliceIterator(arr, i) {
       var _arr = [];
@@ -282,24 +258,25 @@
   			return '<span class="emoticon emoticon-' + text + '" title=":' + text + ':"></span>';
   		}
   	}, {
-  		key: 'basicAudio',
-  		value: function basicAudio(match) {
+  		key: 'audio',
+  		value: function audio(match) {
   			return '<div class="ejs-audio ejs-embed"><audio src="' + match + '" controls class="video-js ejs-video-js"></audio></div>';
   		}
   	}, {
-  		key: 'soundCloud',
-  		value: function soundCloud(match, options) {
+  		key: 'soundcloud',
+  		value: function soundcloud(match, options) {
   			var config = options.soundCloudOptions;
   			return '<div class="ejs-embed">\n\t\t<iframe height="160" scrolling="no" src="https://w.soundcloud.com/player/?url=' + match + '\n\t\t&auto_play     = ' + config.autoPlay + '\n\t\t&hide_related  = ' + config.hideRelated + '\n\t\t&show_comments = ' + config.showComments + '\n\t\t&show_user     = ' + config.showUser + '\n\t\t&show_reposts  = ' + config.showReposts + '\n\t\t&visual        = ' + config.visual + '\n\t\t&download      = ' + config.download + '\n\t\t&color         = ' + config.themeColor + '\n\t\t&theme_color   = ' + config.themeColor + '"></iframe>\n\t\t</div>';
   		}
   	}, {
   		key: 'spotify',
-  		value: function spotify(id) {
+  		value: function spotify(match) {
+  			var id = lastElement(match.split('/'));
   			return '<div class="ejs-embed"><iframe src="https://embed.spotify.com/?uri=spotify:track:' + id + '" height="80"></iframe></div>';
   		}
   	}, {
-  		key: 'codePen',
-  		value: function codePen(id, options) {
+  		key: 'codepen',
+  		value: function codepen(id, options) {
   			return '<div class="ejs-embed ejs-codepen"><iframe scrolling="no" height="' + options.codeEmbedHeight + '" src="' + id.replace(/\/pen\//, '/embed/') + '/?height=' + options.codeEmbedHeight + '"></iframe></div>';
   		}
   	}, {
@@ -308,13 +285,15 @@
   			return '<div class="ejs-ideone ejs-embed"><iframe src="http://ideone.com/embed/' + match.split('/')[1] + '" frameborder="0" height="' + options.codeEmbedHeight + '"></iframe></div>';
   		}
   	}, {
-  		key: 'jsBin',
-  		value: function jsBin(id, options) {
+  		key: 'jsbin',
+  		value: function jsbin(id, options) {
   			return '<div class="ejs-jsbin ejs-embed"><iframe height="' + options.codeEmbedHeight + '" class="jsbin-embed foo" src="http://' + id + '/embed?html,js,output"></iframe></div>';
   		}
   	}, {
-  		key: 'jsFiddle',
-  		value: function jsFiddle(id, options) {
+  		key: 'jsfiddle',
+  		value: function jsfiddle(id, options) {
+  			id = lastElement(id) == '/' ? id.slice(0, -1) : id;
+  			id = id.indexOf('//') !== -1 ? id : '//' + id;
   			return '<div class="ejs-embed ejs-jsfiddle"><iframe height="' + options.codeEmbedHeight + '" src="' + id + '/embedded"></iframe></div>';
   		}
   	}, {
@@ -323,8 +302,8 @@
   			return '<div class="ejs-embed ejs-plunker"><iframe class="ne-plunker" src="http://embed.plnkr.co/' + id + '" height="' + options.codeEmbedHeight + '"></iframe></div>';
   		}
   	}, {
-  		key: 'basicImage',
-  		value: function basicImage(match) {
+  		key: 'image',
+  		value: function image(match) {
   			return '<div class="ejs-image ejs-embed"><div class="ne-image-wrapper"><img src="' + match + '"/></div></div>';
   		}
   	}, {
@@ -343,13 +322,14 @@
   			return '<div class="ejs-embed ejs-slideshare">' + html + '</div>';
   		}
   	}, {
-  		key: 'basicVideo',
-  		value: function basicVideo(match) {
+  		key: 'video',
+  		value: function video(match) {
   			return '<div class="ejs-video ejs-embed"><div class="ejs-video-player"><div class="ejs-player"><video src="' + match + '" class="ejs-video-js video-js" controls></video></div></div></div>';
   		}
   	}, {
   		key: 'dailymotion',
-  		value: function dailymotion(id, options) {
+  		value: function dailymotion(match, options) {
+  			var id = lastElement(match.split('/'));
   			return '<div class="ejs-video ejs-embed"><iframe src="http://www.dailymotion.com/embed/video/' + id + '" height="' + options.videoHeight + '" width="' + options.videoWidth + '"></iframe></div>';
   		}
   	}, {
@@ -359,12 +339,16 @@
   		}
   	}, {
   		key: 'ted',
-  		value: function ted(id, options) {
+  		value: function ted(match, options) {
+  			var a = match.split('/');
+  			var id = a[a.length - 1];
   			return '<div class="ejs-embed ejs-ted"><iframe src="http://embed.ted.com/talks/' + id + '.html" height="' + options.videoHeight + '" width="' + options.videoWidth + '"></iframe></div>';
   		}
   	}, {
   		key: 'ustream',
-  		value: function ustream(id, options) {
+  		value: function ustream(match, options) {
+  			var id = match.split('/');
+  			id.splice(1, 0, 'embed');
   			return '<div class="ejs-embed ejs-ustream"><iframe src="//www.' + id.join('/') + '" height="' + options.videoHeight + '" width="' + options.videoWidth + '"></iframe></div>';
   		}
   	}, {
@@ -379,7 +363,8 @@
   		}
   	}, {
   		key: 'vine',
-  		value: function vine(id, options) {
+  		value: function vine(match, options) {
+  			var id = lastElement(match.split('/'));
   			var config = options.vineOptions;
   			return '<div class="ejs-vine"><iframe class="ejs-vine-iframe" src="https://vine.co/v/' + id + '/embed/' + config.type + '" height="' + config.height + '" width="' + config.width + '"></iframe></div>';
   		}
@@ -961,6 +946,32 @@
       });
   };
 
+  var Base = function () {
+  	function Base(input, output, embeds, options, regex, service) {
+  		babelHelpers.classCallCheck(this, Base);
+
+  		this.input = input;
+  		this.output = output;
+  		this.options = options;
+  		this.embeds = embeds;
+  		this.regex = regex;
+  		this.service = service;
+  	}
+
+  	babelHelpers.createClass(Base, [{
+  		key: 'template',
+  		value: function template(match) {
+  			return this.options.template[this.service](match, this.options);
+  		}
+  	}, {
+  		key: 'process',
+  		value: function process() {
+  			return embed(this);
+  		}
+  	}]);
+  	return Base;
+  }();
+
   /**
    * Plays the video after clicking on the thumbnail
    * @param  {object} options   Options object
@@ -1152,6 +1163,10 @@
 
   function embed(_this) {
   	return ifInline(_this.options, _this.service) ? inlineEmbed(_this) : normalEmbed(_this);
+  }
+
+  function baseEmbed(input, output, embeds, options, regex, service, flag) {
+  	return ifEmbed(options, service) || flag ? new Base(input, output, embeds, options, regex, service).process() : [output, embeds];
   }
 
   var regex = {
@@ -1547,311 +1562,69 @@
   	return Highlight;
   }();
 
-  var Base = function () {
-  	function Base(input, output, options, embeds) {
-  		babelHelpers.classCallCheck(this, Base);
+  var Gist = function () {
+  	function Gist(input, output, options, embeds) {
+  		var _this = this;
+
+  		babelHelpers.classCallCheck(this, Gist);
 
   		this.input = input;
   		this.output = output;
   		this.options = options;
   		this.embeds = embeds;
+  		this.regex = regex.gist;
+  		this.service = 'gist';
+
+  		this.options.input.addEventListener('rendered', function () {
+  			_this.load();
+  		});
   	}
 
-  	babelHelpers.createClass(Base, [{
+  	babelHelpers.createClass(Gist, [{
+  		key: 'template',
+  		value: function template(match) {
+  			return '<div class="ejs-gist" data-src="' + match + '"></div>';
+  		}
+  	}, {
+  		key: 'load',
+  		value: function load() {
+  			var gists = this.options.input.getElementsByClassName('ejs-gist');
+  			for (var i = 0; i < gists.length; i++) {
+  				var gistFrame = document.createElement("iframe");
+  				gistFrame.setAttribute("width", "100%");
+  				gistFrame.id = 'ejs-gist-' + i;
+
+  				var zone = gists[i];
+  				zone.innerHTML = "";
+  				zone.appendChild(gistFrame);
+
+  				// Create the iframe's document
+  				var url = gists[i].getAttribute('data-src');
+  				url = url.indexOf('http') === -1 ? 'https://' + url : url;
+  				var gistFrameHTML = '<html><base target="_parent"/><body onload="parent.document.getElementById(\'ejs-gist-' + i + '\').style.height=parseInt(document.body.scrollHeight)+20+\'px\'"><script type="text/javascript" src="' + url + '.js"></script></body></html>';
+
+  				// Set iframe's document with a trigger for this document to adjust the height
+  				var gistFrameDoc = gistFrame.document;
+
+  				if (gistFrame.contentDocument) {
+  					gistFrameDoc = gistFrame.contentDocument;
+  				} else if (gistFrame.contentWindow) {
+  					gistFrameDoc = gistFrame.contentWindow.document;
+  				}
+
+  				gistFrameDoc.open();
+  				gistFrameDoc.writeln(gistFrameHTML);
+  				gistFrameDoc.close();
+  			}
+  		}
+  	}, {
   		key: 'process',
   		value: function process() {
   			return embed(this);
   		}
   	}]);
-  	return Base;
+  	return Gist;
   }();
-
-  var Ideone = function (_Base) {
-      babelHelpers.inherits(Ideone, _Base);
-
-      function Ideone(input, output, options, embeds) {
-          babelHelpers.classCallCheck(this, Ideone);
-
-          var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(Ideone).call(this, input, output, options, embeds));
-
-          _this.regex = regex.ideone;
-          _this.service = 'ideone';
-          return _this;
-      }
-
-      babelHelpers.createClass(Ideone, [{
-          key: 'template',
-          value: function template(match) {
-              return this.options.template.ideone(match, this.options);
-          }
-      }]);
-      return Ideone;
-  }(Base);
-
-  var Plunker = function (_Base) {
-  	babelHelpers.inherits(Plunker, _Base);
-
-  	function Plunker(input, output, options, embeds) {
-  		babelHelpers.classCallCheck(this, Plunker);
-
-  		var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(Plunker).call(this, input, output, options, embeds));
-
-  		_this.regex = regex.plunker;
-  		_this.service = 'plunker';
-  		return _this;
-  	}
-
-  	babelHelpers.createClass(Plunker, [{
-  		key: 'template',
-  		value: function template(match) {
-  			var a = match.split('?')[0].split('/'); //TODO : make sure ? is excluded in regex.
-  			var id = lastElement(a);
-  			return this.options.template.plunker(id, this.options);
-  		}
-  	}]);
-  	return Plunker;
-  }(Base);
-
-  var JsBin = function (_Base) {
-      babelHelpers.inherits(JsBin, _Base);
-
-      function JsBin(input, output, options, embeds) {
-          babelHelpers.classCallCheck(this, JsBin);
-
-          var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(JsBin).call(this, input, output, options, embeds));
-
-          _this.regex = regex.jsbin;
-          _this.service = 'jsbin';
-          return _this;
-      }
-
-      babelHelpers.createClass(JsBin, [{
-          key: 'template',
-          value: function template(id) {
-              return this.options.template.jsBin(id, this.options);
-          }
-      }]);
-      return JsBin;
-  }(Base);
-
-  var CodePen = function (_Base) {
-      babelHelpers.inherits(CodePen, _Base);
-
-      function CodePen(input, output, options, embeds) {
-          babelHelpers.classCallCheck(this, CodePen);
-
-          var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(CodePen).call(this, input, output, options, embeds));
-
-          _this.regex = regex.codepen;
-          _this.service = 'codepen';
-          return _this;
-      }
-
-      babelHelpers.createClass(CodePen, [{
-          key: 'template',
-          value: function template(id) {
-              return this.options.template.codePen(id, this.options);
-          }
-      }]);
-      return CodePen;
-  }(Base);
-
-  var JsFiddle = function (_Base) {
-  	babelHelpers.inherits(JsFiddle, _Base);
-
-  	function JsFiddle(input, output, options, embeds) {
-  		babelHelpers.classCallCheck(this, JsFiddle);
-
-  		var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(JsFiddle).call(this, input, output, options, embeds));
-
-  		_this.regex = regex.jsfiddle;
-  		_this.service = 'jsfiddle';
-  		return _this;
-  	}
-
-  	babelHelpers.createClass(JsFiddle, [{
-  		key: 'template',
-  		value: function template(id) {
-  			id = lastElement(id) == '/' ? id.slice(0, -1) : id;
-  			id = id.indexOf('//') !== -1 ? id : '//' + id;
-  			return this.options.template.jsFiddle(id, this.options);
-  		}
-  	}]);
-  	return JsFiddle;
-  }(Base);
-
-  var Gist = function (_Base) {
-      babelHelpers.inherits(Gist, _Base);
-
-      function Gist(input, output, options, embeds) {
-          babelHelpers.classCallCheck(this, Gist);
-
-          var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(Gist).call(this, input, output, options, embeds));
-
-          _this.regex = regex.gist;
-          _this.service = 'gist';
-
-          _this.options.input.addEventListener('rendered', function () {
-              _this.load();
-          });
-          return _this;
-      }
-
-      babelHelpers.createClass(Gist, [{
-          key: 'template',
-          value: function template(match) {
-              return '<div class="ejs-gist" data-src="' + match + '"></div>';
-          }
-      }, {
-          key: 'load',
-          value: function load() {
-              var gists = this.options.input.getElementsByClassName('ejs-gist');
-              for (var i = 0; i < gists.length; i++) {
-                  var gistFrame = document.createElement("iframe");
-                  gistFrame.setAttribute("width", "100%");
-                  gistFrame.id = 'ejs-gist-' + i;
-
-                  var zone = gists[i];
-                  zone.innerHTML = "";
-                  zone.appendChild(gistFrame);
-
-                  // Create the iframe's document
-                  var url = gists[i].getAttribute('data-src');
-                  url = url.indexOf('http') === -1 ? 'https://' + url : url;
-                  var gistFrameHTML = '<html><base target="_parent"/><body onload="parent.document.getElementById(\'ejs-gist-' + i + '\').style.height=parseInt(document.body.scrollHeight)+20+\'px\'"><script type="text/javascript" src="' + url + '.js"></script></body></html>';
-
-                  // Set iframe's document with a trigger for this document to adjust the height
-                  var gistFrameDoc = gistFrame.document;
-
-                  if (gistFrame.contentDocument) {
-                      gistFrameDoc = gistFrame.contentDocument;
-                  } else if (gistFrame.contentWindow) {
-                      gistFrameDoc = gistFrame.contentWindow.document;
-                  }
-
-                  gistFrameDoc.open();
-                  gistFrameDoc.writeln(gistFrameHTML);
-                  gistFrameDoc.close();
-              }
-          }
-      }]);
-      return Gist;
-  }(Base);
-
-  var Ted = function (_Base) {
-  	babelHelpers.inherits(Ted, _Base);
-
-  	function Ted(input, output, options, embeds) {
-  		babelHelpers.classCallCheck(this, Ted);
-
-  		var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(Ted).call(this, input, output, options, embeds));
-
-  		_this.regex = regex.ted;
-  		_this.service = 'ted';
-  		return _this;
-  	}
-
-  	babelHelpers.createClass(Ted, [{
-  		key: 'template',
-  		value: function template(match) {
-  			var id = lastElement(match.split('/'));
-  			return this.options.template.ted(id, this.options);
-  		}
-  	}]);
-  	return Ted;
-  }(Base);
-
-  var Dailymotion = function (_Base) {
-      babelHelpers.inherits(Dailymotion, _Base);
-
-      function Dailymotion(input, output, options, embeds) {
-          babelHelpers.classCallCheck(this, Dailymotion);
-
-          var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(Dailymotion).call(this, input, output, options, embeds));
-
-          _this.regex = regex.dailymotion;
-          _this.service = 'dailymotion';
-          return _this;
-      }
-
-      babelHelpers.createClass(Dailymotion, [{
-          key: 'template',
-          value: function template(match) {
-              var id = lastElement(match.split('/'));
-              return this.options.template.dailymotion(id, this.options);
-          }
-      }]);
-      return Dailymotion;
-  }(Base);
-
-  var Ustream = function (_Base) {
-      babelHelpers.inherits(Ustream, _Base);
-
-      function Ustream(input, output, options, embeds) {
-          babelHelpers.classCallCheck(this, Ustream);
-
-          var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(Ustream).call(this, input, output, options, embeds));
-
-          _this.regex = regex.ustream;
-          _this.service = 'ustream';
-          return _this;
-      }
-
-      babelHelpers.createClass(Ustream, [{
-          key: 'template',
-          value: function template(match) {
-              var id = match.split('/');
-              id.splice(1, 0, 'embed');
-              return this.options.template.ustream(id, this.options);
-          }
-      }]);
-      return Ustream;
-  }(Base);
-
-  var LiveLeak = function (_Base) {
-      babelHelpers.inherits(LiveLeak, _Base);
-
-      function LiveLeak(input, output, options, embeds) {
-          babelHelpers.classCallCheck(this, LiveLeak);
-
-          var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(LiveLeak).call(this, input, output, options, embeds));
-
-          _this.regex = regex.liveleak;
-          _this.service = 'liveleak';
-          return _this;
-      }
-
-      babelHelpers.createClass(LiveLeak, [{
-          key: 'template',
-          value: function template(match) {
-              return this.options.template.liveLeak(match, this.options);
-          }
-      }]);
-      return LiveLeak;
-  }(Base);
-
-  var Vine = function (_Base) {
-      babelHelpers.inherits(Vine, _Base);
-
-      function Vine(input, output, options, embeds) {
-          babelHelpers.classCallCheck(this, Vine);
-
-          var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(Vine).call(this, input, output, options, embeds));
-
-          _this.regex = regex.vine;
-          _this.service = 'vine';
-          return _this;
-      }
-
-      babelHelpers.createClass(Vine, [{
-          key: 'template',
-          value: function template(match) {
-              var id = lastElement(match.split('/'));
-              return this.options.template.vine(id, this.options);
-          }
-      }]);
-      return Vine;
-  }(Base);
 
   var Youtube = function () {
   	function Youtube(input, output, options, embeds) {
@@ -2000,161 +1773,6 @@
   	}]);
   	return Vimeo;
   }();
-
-  var BasicVideo = function (_Base) {
-  	babelHelpers.inherits(BasicVideo, _Base);
-
-  	function BasicVideo(input, output, options, embeds) {
-  		babelHelpers.classCallCheck(this, BasicVideo);
-
-  		var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(BasicVideo).call(this, input, output, options, embeds));
-
-  		_this.regex = regex.basicVideo;
-  		_this.service = 'video';
-  		return _this;
-  	}
-
-  	babelHelpers.createClass(BasicVideo, [{
-  		key: 'template',
-  		value: function template(match) {
-  			return this.options.template.basicVideo(match, this.options);
-  		}
-  	}]);
-  	return BasicVideo;
-  }(Base);
-
-  var SoundCloud = function (_Base) {
-  	babelHelpers.inherits(SoundCloud, _Base);
-
-  	function SoundCloud(input, output, options, embeds) {
-  		babelHelpers.classCallCheck(this, SoundCloud);
-
-  		var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(SoundCloud).call(this, input, output, options, embeds));
-
-  		_this.regex = regex.soundCloud;
-  		_this.service = 'soundcloud';
-  		return _this;
-  	}
-
-  	babelHelpers.createClass(SoundCloud, [{
-  		key: 'template',
-  		value: function template(match) {
-  			return this.options.template.soundCloud(match, this.options);
-  		}
-  	}]);
-  	return SoundCloud;
-  }(Base);
-
-  var Spotify = function (_Base) {
-  	babelHelpers.inherits(Spotify, _Base);
-
-  	function Spotify(input, output, options, embeds) {
-  		babelHelpers.classCallCheck(this, Spotify);
-
-  		var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(Spotify).call(this, input, output, options, embeds));
-
-  		_this.regex = regex.spotify;
-  		_this.service = 'spotify';
-  		return _this;
-  	}
-
-  	babelHelpers.createClass(Spotify, [{
-  		key: 'template',
-  		value: function template(match) {
-  			var id = lastElement(match.split('/'));
-  			return this.options.template.spotify(id, this.options);
-  		}
-  	}]);
-  	return Spotify;
-  }(Base);
-
-  var BasicAudio = function (_Base) {
-      babelHelpers.inherits(BasicAudio, _Base);
-
-      function BasicAudio(input, output, options, embeds) {
-          babelHelpers.classCallCheck(this, BasicAudio);
-
-          var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(BasicAudio).call(this, input, output, options, embeds));
-
-          _this.regex = regex.basicAudio;
-          _this.service = 'audio';
-          return _this;
-      }
-
-      babelHelpers.createClass(BasicAudio, [{
-          key: 'template',
-          value: function template(match) {
-              return this.options.template.basicAudio(match, this.options);
-          }
-      }]);
-      return BasicAudio;
-  }(Base);
-
-  var Flickr = function (_Base) {
-  	babelHelpers.inherits(Flickr, _Base);
-
-  	function Flickr(input, output, options, embeds) {
-  		babelHelpers.classCallCheck(this, Flickr);
-
-  		var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(Flickr).call(this, input, output, options, embeds));
-
-  		_this.regex = regex.flickr;
-  		_this.service = 'flickr';
-  		return _this;
-  	}
-
-  	babelHelpers.createClass(Flickr, [{
-  		key: 'template',
-  		value: function template(match) {
-  			return this.options.template.flickr(match, this.options);
-  		}
-  	}]);
-  	return Flickr;
-  }(Base);
-
-  var Instagram = function (_Base) {
-  	babelHelpers.inherits(Instagram, _Base);
-
-  	function Instagram(input, output, options, embeds) {
-  		babelHelpers.classCallCheck(this, Instagram);
-
-  		var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(Instagram).call(this, input, output, options, embeds));
-
-  		_this.regex = regex.instagram;
-  		_this.service = 'instagram';
-  		return _this;
-  	}
-
-  	babelHelpers.createClass(Instagram, [{
-  		key: 'template',
-  		value: function template(match) {
-  			return this.options.template.instagram(match, this.options);
-  		}
-  	}]);
-  	return Instagram;
-  }(Base);
-
-  var Basic = function (_Base) {
-  	babelHelpers.inherits(Basic, _Base);
-
-  	function Basic(input, output, options, embeds) {
-  		babelHelpers.classCallCheck(this, Basic);
-
-  		var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(Basic).call(this, input, output, options, embeds));
-
-  		_this.regex = regex.basicImage;
-  		_this.service = 'image';
-  		return _this;
-  	}
-
-  	babelHelpers.createClass(Basic, [{
-  		key: 'template',
-  		value: function template(match) {
-  			return this.options.template.basicImage(match, this.options);
-  		}
-  	}]);
-  	return Basic;
-  }(Base);
 
   var SlideShare = function () {
   	function SlideShare(input, output, options, embeds) {
@@ -2461,9 +2079,9 @@
   			this.options.beforeEmbedJSApply();
 
   			return new Promise(function (resolve) {
-  				if (true && options.link) output = new Url(input, options).process();
+  				if (options.link) output = new Url(input, options).process();
 
-  				var openGraphPromise = true && options.openGraphEndpoint ? new OpenGraph(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
+  				var openGraphPromise = options.openGraphEndpoint ? new OpenGraph(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
 
   				openGraphPromise.then(function (_ref) {
   					var _ref2 = babelHelpers.slicedToArray(_ref, 2);
@@ -2471,202 +2089,184 @@
   					var output = _ref2[0];
   					var embeds = _ref2[1];
 
-  					if (true && options.marked) {
+  					if (options.marked) {
   						output = new Markdown(output, options).process();
   					}
-  					if (true && options.emoji) {
+  					if (options.emoji) {
   						output = new Emoji(output, options).process();
   					}
-  					if (true && options.fontIcons) {
+  					if (options.fontIcons) {
   						output = new Smiley(output, options).process();
   					}
 
-  					if (true && options.highlightCode && !options.marked) {
+  					if (options.highlightCode && !options.marked) {
   						output = new Highlight(output, options).process();
   					}
-  					if (true && ifEmbed(options, 'ideone')) {
-  						var _process = new Ideone(input, output, options, embeds).process();
+
+  					var _baseEmbed = baseEmbed(input, output, embeds, options, regex.ideone, 'ideone');
+
+  					var _baseEmbed2 = babelHelpers.slicedToArray(_baseEmbed, 2);
+
+  					output = _baseEmbed2[0];
+  					embeds = _baseEmbed2[1];
+
+  					var _baseEmbed3 = baseEmbed(input, output, embeds, options, regex.plunker, 'plunker');
+
+  					var _baseEmbed4 = babelHelpers.slicedToArray(_baseEmbed3, 2);
+
+  					output = _baseEmbed4[0];
+  					embeds = _baseEmbed4[1];
+
+  					var _baseEmbed5 = baseEmbed(input, output, embeds, options, regex.jsbin, 'jsbin');
+
+  					var _baseEmbed6 = babelHelpers.slicedToArray(_baseEmbed5, 2);
+
+  					output = _baseEmbed6[0];
+  					embeds = _baseEmbed6[1];
+
+  					var _baseEmbed7 = baseEmbed(input, output, embeds, options, regex.codepen, 'codepen');
+
+  					var _baseEmbed8 = babelHelpers.slicedToArray(_baseEmbed7, 2);
+
+  					output = _baseEmbed8[0];
+  					embeds = _baseEmbed8[1];
+
+  					var _baseEmbed9 = baseEmbed(input, output, embeds, options, regex.jsfiddle, 'jsfiddle');
+
+  					var _baseEmbed10 = babelHelpers.slicedToArray(_baseEmbed9, 2);
+
+  					output = _baseEmbed10[0];
+  					embeds = _baseEmbed10[1];
+
+  					var _baseEmbed11 = baseEmbed(input, output, embeds, options, regex.ted, 'ted');
+
+  					var _baseEmbed12 = babelHelpers.slicedToArray(_baseEmbed11, 2);
+
+  					output = _baseEmbed12[0];
+  					embeds = _baseEmbed12[1];
+
+  					var _baseEmbed13 = baseEmbed(input, output, embeds, options, regex.dailymotion, 'dailymotion');
+
+  					var _baseEmbed14 = babelHelpers.slicedToArray(_baseEmbed13, 2);
+
+  					output = _baseEmbed14[0];
+  					embeds = _baseEmbed14[1];
+
+  					var _baseEmbed15 = baseEmbed(input, output, embeds, options, regex.ustream, 'ustream');
+
+  					var _baseEmbed16 = babelHelpers.slicedToArray(_baseEmbed15, 2);
+
+  					output = _baseEmbed16[0];
+  					embeds = _baseEmbed16[1];
+
+  					var _baseEmbed17 = baseEmbed(input, output, embeds, options, regex.liveleak, 'liveleak');
+
+  					var _baseEmbed18 = babelHelpers.slicedToArray(_baseEmbed17, 2);
+
+  					output = _baseEmbed18[0];
+  					embeds = _baseEmbed18[1];
+
+  					var _baseEmbed19 = baseEmbed(input, output, embeds, options, regex.basicVideo, 'video', options.videoEmbed);
+
+  					var _baseEmbed20 = babelHelpers.slicedToArray(_baseEmbed19, 2);
+
+  					output = _baseEmbed20[0];
+  					embeds = _baseEmbed20[1];
+
+  					var _baseEmbed21 = baseEmbed(input, output, embeds, options, regex.vine, 'vine');
+
+  					var _baseEmbed22 = babelHelpers.slicedToArray(_baseEmbed21, 2);
+
+  					output = _baseEmbed22[0];
+  					embeds = _baseEmbed22[1];
+
+  					var _baseEmbed23 = baseEmbed(input, output, embeds, options, regex.soundCloud, 'soundcloud');
+
+  					var _baseEmbed24 = babelHelpers.slicedToArray(_baseEmbed23, 2);
+
+  					output = _baseEmbed24[0];
+  					embeds = _baseEmbed24[1];
+
+  					var _baseEmbed25 = baseEmbed(input, output, embeds, options, regex.spotify, 'spotify');
+
+  					var _baseEmbed26 = babelHelpers.slicedToArray(_baseEmbed25, 2);
+
+  					output = _baseEmbed26[0];
+  					embeds = _baseEmbed26[1];
+
+  					var _baseEmbed27 = baseEmbed(input, output, embeds, options, regex.basicAudio, 'audio', options.audioEmbed);
+
+  					var _baseEmbed28 = babelHelpers.slicedToArray(_baseEmbed27, 2);
+
+  					output = _baseEmbed28[0];
+  					embeds = _baseEmbed28[1];
+
+  					var _baseEmbed29 = baseEmbed(input, output, embeds, options, regex.flickr, 'flickr');
+
+  					var _baseEmbed30 = babelHelpers.slicedToArray(_baseEmbed29, 2);
+
+  					output = _baseEmbed30[0];
+  					embeds = _baseEmbed30[1];
+
+  					var _baseEmbed31 = baseEmbed(input, output, embeds, options, regex.instagram, 'instagram');
+
+  					var _baseEmbed32 = babelHelpers.slicedToArray(_baseEmbed31, 2);
+
+  					output = _baseEmbed32[0];
+  					embeds = _baseEmbed32[1];
+
+  					var _baseEmbed33 = baseEmbed(input, output, embeds, options, regex.basicImage, 'image', options.imageEmbed);
+
+  					var _baseEmbed34 = babelHelpers.slicedToArray(_baseEmbed33, 2);
+
+  					output = _baseEmbed34[0];
+  					embeds = _baseEmbed34[1];
+
+  					if (ifEmbed(options, 'gist')) {
+  						var _process = new Gist(input, output, options, embeds).process();
 
   						var _process2 = babelHelpers.slicedToArray(_process, 2);
 
   						output = _process2[0];
   						embeds = _process2[1];
   					}
-  					if (true && ifEmbed(options, 'plunker')) {
-  						var _process3 = new Plunker(input, output, options, embeds).process();
 
-  						var _process4 = babelHelpers.slicedToArray(_process3, 2);
-
-  						output = _process4[0];
-  						embeds = _process4[1];
-  					}
-  					if (true && ifEmbed(options, 'jsbin')) {
-  						var _process5 = new JsBin(input, output, options, embeds).process();
-
-  						var _process6 = babelHelpers.slicedToArray(_process5, 2);
-
-  						output = _process6[0];
-  						embeds = _process6[1];
-  					}
-  					if (true && ifEmbed(options, 'codepen')) {
-  						var _process7 = new CodePen(input, output, options, embeds).process();
-
-  						var _process8 = babelHelpers.slicedToArray(_process7, 2);
-
-  						output = _process8[0];
-  						embeds = _process8[1];
-  					}
-  					if (true && ifEmbed(options, 'jsfiddle')) {
-  						var _process9 = new JsFiddle(input, output, options, embeds).process();
-
-  						var _process10 = babelHelpers.slicedToArray(_process9, 2);
-
-  						output = _process10[0];
-  						embeds = _process10[1];
-  					}
-  					if (true && ifEmbed(options, 'gist')) {
-  						var _process11 = new Gist(input, output, options, embeds).process();
-
-  						var _process12 = babelHelpers.slicedToArray(_process11, 2);
-
-  						output = _process12[0];
-  						embeds = _process12[1];
-  					}
-
-  					if (true && ifEmbed(options, 'ted')) {
-  						var _process13 = new Ted(input, output, options, embeds).process();
-
-  						var _process14 = babelHelpers.slicedToArray(_process13, 2);
-
-  						output = _process14[0];
-  						embeds = _process14[1];
-  					}
-  					if (true && ifEmbed(options, 'dailymotion')) {
-  						var _process15 = new Dailymotion(input, output, options, embeds).process();
-
-  						var _process16 = babelHelpers.slicedToArray(_process15, 2);
-
-  						output = _process16[0];
-  						embeds = _process16[1];
-  					}
-  					if (true && ifEmbed(options, 'ustream')) {
-  						var _process17 = new Ustream(input, output, options, embeds).process();
-
-  						var _process18 = babelHelpers.slicedToArray(_process17, 2);
-
-  						output = _process18[0];
-  						embeds = _process18[1];
-  					}
-  					if (true && ifEmbed(options, 'liveleak')) {
-  						var _process19 = new LiveLeak(input, output, options, embeds).process();
-
-  						var _process20 = babelHelpers.slicedToArray(_process19, 2);
-
-  						output = _process20[0];
-  						embeds = _process20[1];
-  					}
-  					if (true && options.videoEmbed) {
-  						var _process21 = new BasicVideo(input, output, options, embeds).process();
-
-  						var _process22 = babelHelpers.slicedToArray(_process21, 2);
-
-  						output = _process22[0];
-  						embeds = _process22[1];
-  					}
-  					if (true && ifEmbed(options, 'vine')) {
-  						var _process23 = new Vine(input, output, options, embeds).process();
-
-  						var _process24 = babelHelpers.slicedToArray(_process23, 2);
-
-  						output = _process24[0];
-  						embeds = _process24[1];
-  					}
-
-  					if (true && ifEmbed(options, 'soundcloud')) {
-  						var _process25 = new SoundCloud(input, output, options, embeds).process();
-
-  						var _process26 = babelHelpers.slicedToArray(_process25, 2);
-
-  						output = _process26[0];
-  						embeds = _process26[1];
-  					}
-  					if (true && ifEmbed(options, 'spotify')) {
-  						var _process27 = new Spotify(input, output, options, embeds).process();
-
-  						var _process28 = babelHelpers.slicedToArray(_process27, 2);
-
-  						output = _process28[0];
-  						embeds = _process28[1];
-  					}
-  					if (true && options.audioEmbed) {
-  						var _process29 = new BasicAudio(input, output, options, embeds).process();
-
-  						var _process30 = babelHelpers.slicedToArray(_process29, 2);
-
-  						output = _process30[0];
-  						embeds = _process30[1];
-  					}
-
-  					if (true && ifEmbed(options, 'flickr')) {
-  						var _process31 = new Flickr(input, output, options, embeds).process();
-
-  						var _process32 = babelHelpers.slicedToArray(_process31, 2);
-
-  						output = _process32[0];
-  						embeds = _process32[1];
-  					}
-  					if (true && ifEmbed(options, 'instagram')) {
-  						var _process33 = new Instagram(input, output, options, embeds).process();
-
-  						var _process34 = babelHelpers.slicedToArray(_process33, 2);
-
-  						output = _process34[0];
-  						embeds = _process34[1];
-  					}
-  					if (true && options.imageEmbed) {
-  						var _process35 = new Basic(input, output, options, embeds).process();
-
-  						var _process36 = babelHelpers.slicedToArray(_process35, 2);
-
-  						output = _process36[0];
-  						embeds = _process36[1];
-  					}
-  					return true && ifEmbed(options, 'youtube') ? new Youtube(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
+  					return ifEmbed(options, 'youtube') ? new Youtube(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
   				}).then(function (_ref3) {
   					var _ref4 = babelHelpers.slicedToArray(_ref3, 2);
 
   					var output = _ref4[0];
   					var embeds = _ref4[1];
 
-  					return true && ifEmbed(options, 'vimeo') ? new Vimeo(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
+  					return ifEmbed(options, 'vimeo') ? new Vimeo(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
   				}).then(function (_ref5) {
   					var _ref6 = babelHelpers.slicedToArray(_ref5, 2);
 
   					var output = _ref6[0];
   					var embeds = _ref6[1];
 
-  					return true && ifEmbed(options, 'opengraph') ? new Github(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
+  					return ifEmbed(options, 'opengraph') ? new Github(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
   				}).then(function (_ref7) {
   					var _ref8 = babelHelpers.slicedToArray(_ref7, 2);
 
   					var output = _ref8[0];
   					var embeds = _ref8[1];
 
-  					return true && options.locationEmbed ? new Gmap(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
+  					return options.locationEmbed ? new Gmap(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
   				}).then(function (_ref9) {
   					var _ref10 = babelHelpers.slicedToArray(_ref9, 2);
 
   					var output = _ref10[0];
   					var embeds = _ref10[1];
 
-  					return true && ifEmbed(options, 'slideshare') ? new SlideShare(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
+  					return ifEmbed(options, 'slideshare') ? new SlideShare(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
   				}).then(function (_ref11) {
   					var _ref12 = babelHelpers.slicedToArray(_ref11, 2);
 
   					var output = _ref12[0];
   					var embeds = _ref12[1];
 
-  					if (options.tweetsEmbed && true) {
+  					if (options.tweetsEmbed) {
   						_this.twitter = new Twitter(input, output, options, embeds);
   						return _this.twitter.process();
   					} else {
