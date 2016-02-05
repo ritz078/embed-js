@@ -1,6 +1,6 @@
 import { truncate } from '../utils'
 import { getDetailsTemplate, template, asyncEmbed } from './../helper'
-import '../../vendor/fetch'
+import 'whatwg-fetch'
 import regex from '../regex'
 
 export default class Youtube {

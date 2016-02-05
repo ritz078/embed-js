@@ -1,5 +1,4 @@
-import '../../vendor/fetch'
-import fetchJsonp from '../../vendor/fetch_jsonp'
+import fetchJsonp from 'fetch-jsonp'
 import { asyncEmbed } from '../helper'
 import regex from '../regex'
 
@@ -39,15 +38,11 @@ export default class Twitter {
 		twttr.widgets.load(this.options.element); //here this refers to the element
 
 		//Execute the function after the widget is loaded
-		twttr.events.bind('loaded', () => {
-			this.options.onTweetsLoad();
-		});
+		twttr.events.bind('loaded', this.options.onTweetsLoad);
 	}
 
 	static urlToText(_this, match, url) {
-		return new Promise((resolve) => {
-			_this.tweetData(url).then((data) => resolve(data.html))
-		})
+		return new Promise((resolve) => _this.tweetData(url).then((data) => resolve(data.html)))
 	}
 
 	process() {

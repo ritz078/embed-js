@@ -1,5 +1,6 @@
 import { asyncEmbed } from './helper'
 import regex from './regex'
+import 'whatwg-fetch'
 
 export default class Github {
 	constructor(input, output, options, embeds) {

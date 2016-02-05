@@ -1,5 +1,6 @@
 import { ifInline, matches } from '../utils'
 import regex from '../regex'
+import 'whatwg-fetch'
 
 export default class Gmap {
     constructor(input, output, options, embeds) {

@@ -1,6 +1,5 @@
-import '../../vendor/fetch'
 import { asyncEmbed } from './../helper'
-import fetchJsonp              from '../../vendor/fetch_jsonp'
+import fetchJsonp     from 'fetch-jsonp'
 import regex from '../regex'
 
 export default class SlideShare {

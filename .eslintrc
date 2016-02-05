@@ -28,6 +28,7 @@
   },
   "globals": {
 	"hljs": true,
+	"Prism":true,
 	"twttr": true,
 	"fetchJsonp": true,
 	"videojs": true,

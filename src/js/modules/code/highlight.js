@@ -2,15 +2,22 @@ import regex from '../regex'
 
 export default class Highlight {
 	constructor(output, options) {
-		if (!hljs) {
+		if (!hljs && !this.isPrism()) {
 			throw new ReferenceError(
 				`'hljs is not defined. HighlightJS library is needed to highlight code. Visit https://highlightjs.org/'`
 			);
+		}
+		else if (!Prism && this.isPrism()){
+			throw new ReferenceError(`prismjs is not defined.`)
 		}
 		this.output          = output;
 		this.options         = options;
 		this.regex           = regex.highlightCode;
 		this.inlineCodeRegex = regex.inlineCode;
+	}
+
+	isPrism(){
+		return this.options.codeHighlighter === 'prismjs'
 	}
 
 	/**
@@ -44,7 +51,7 @@ export default class Highlight {
 	 * @return {string}
 	 */
 	static addTemplate(processedCode, language) {
-		return `<pre><code class="ejs-code hljs ${language}">${processedCode.value}</code></pre>`
+		return `<pre><code class="ejs-code hljs ${language}">${processedCode.value || processedCode}</code></pre>`
 	}
 
 	/**
@@ -81,11 +88,16 @@ export default class Highlight {
 			let language = group2.split('\n')[0];
 			let highlightedCode;
 
-			if (language) {
-				highlightedCode = hljs.highlightAuto(code, [language]);
-			} else {
-				highlightedCode = hljs.highlightAuto(code);
-				language        = highlightedCode.language;
+			if (this.isPrism()){
+				highlightedCode = Prism.highlight(code, Prism.languages[language.toLowerCase() || 'markup'])
+			}
+			else{
+				if (language) {
+					highlightedCode = hljs.highlightAuto(code, [language]);
+				} else {
+					highlightedCode = hljs.highlightAuto(code);
+					language        = highlightedCode.language;
+				}
 			}
 
 			return Highlight.addTemplate(highlightedCode, language);

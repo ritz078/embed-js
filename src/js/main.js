@@ -41,6 +41,7 @@ var defaultOptions = {
 	fontIcons              : true,
 	customFontIcons        : [],
 	highlightCode          : false,
+	codeHighlighter        : 'prismjs',
 	videoJS                : false,
 	videojsOptions         : {
 		fluid  : true,
@@ -153,8 +154,8 @@ export default class EmbedJS {
 	 * @return {Promise} The processes resulting string
 	 */
 	process() {
-		let input   = this.input;
-		let options = processOptions(this.options);
+		const input   = this.input;
+		const options = processOptions(this.options);
 		let embeds  = [];
 		let output  = '';
 
@@ -167,6 +168,9 @@ export default class EmbedJS {
 			let openGraphPromise = options.openGraphEndpoint ? new OpenGraph(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
 
 			openGraphPromise.then(function([output, embeds]) {
+				if (options.highlightCode) {
+					output = new Highlight(output, options).process()
+				}
 				if (options.marked) {
 					output = new Markdown(output, options).process()
 				}
@@ -177,9 +181,6 @@ export default class EmbedJS {
 					output = new Smiley(output, options).process()
 				}
 
-				if (options.highlightCode && !options.marked) {
-					output = new Highlight(output, options).process()
-				}
 				[output, embeds] = baseEmbed(input, output, embeds, options, regex.ideone, 'ideone');
 				[output, embeds] = baseEmbed(input, output, embeds, options, regex.plunker, 'plunker');
 				[output, embeds] = baseEmbed(input, output, embeds, options, regex.jsbin, 'jsbin');

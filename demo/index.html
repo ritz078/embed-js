@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     <link href="http://vjs.zencdn.net/5.0.0/video-js.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/0.0.1/prism.css">
     <link rel="stylesheet" href="../dist/embed.min.css" />
     <style>
     body {
@@ -43,7 +44,7 @@ Lorem ipsum dolor sit amet https://jsfiddle.net/ritz078/n5dL6ogd/4/ , consectetu
 #embed.js
 Lorem ipsum dolor sit amet, :smile: consectetur adipisicing elit. Cum quos numquam, error optio voluptatibus, voluptates debitis dolorum possimus ducimus recusandae cupiditate. http://riteshkr.com/embed.js/ Veritatis cumque laboriosam debitis numquam iste amet provident vero. Lorem ipsum dolor **sit amet, consectetur adipisicing** elit. A, cupiditate fugiat, nemo asperiores tempora doloribus neque, molestias, harum consequuntur molestiae magnam officia quos facere tenetur dignissimos ~~animi beatae~~. Eius, ipsum. Lorem ipsum :+1: dolor sit amet, consectetur adipisicing elit. Fugit porro voluptas, nam doloremque ![abcdefg](https://images.unsplash.com/photo-1443527216320-7e744084f5a7?dpr=2&fit=crop&fm=jpg&h=500&ixlib=rb-0.3.5&q=50&w=1450) , incidunt architecto minima quod vel. Dicta accusantium molestias quaerat ut, nostrum, quidem id sapiente adipisci ullam architecto. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum quos numquam, error optio voluptatibus, voluptates debitis dolorum possimus ducimus https://www.youtube.com/watch?v=bQRLVxZHKPs recusandae cupiditate. Veritatis cumque laboriosam debitis numquam iste amet provident vero. Lorem ipsum dolor sit amet, consectetur adipisicing elit. A, cupiditate fugiat, nemo asperiores tempora doloribus neque, molestias, harum consequuntur molestiae magnam officia quos facere tenetur dignissimos animi beatae. Eius, ipsum. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugit porro voluptas, nam doloremque, incidunt architecto minima quod vel. Dicta accusantium molestias quaerat ut, nostrum, quidem id sapiente adipisci ullam architecto. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum quos numquam, error optio voluptatibus, voluptates debitis dolorum possimus ducimus recusandae http://www.sample-videos.com/video/mp4/240/big_buck_bunny_240p_50mb.mp4 cupiditate. Veritatis cumque laboriosam debitis numquam iste amet provident vero. Lorem ipsum dolor sit amet, consectetur adipisicing elit. A, cupiditate fugiat, nemo asperiores tempora doloribus neque, molestias, harum consequuntur molestiae magnam officia quos facere tenetur dignissimos animi beatae. Eius, ipsum. Lorem ipsum dolor sit amet, consectetur https://twitter.com/IGN/status/652941146054881281 adipisicing elit. Fugit porro voluptas, nam doloremque, incidunt architecto minima quod vel. Dicta accusantium molestias quaerat ut, nostrum, quidem id sapiente adipisci ullam architecto. Lorem ipsum dolor sit amet,
 
-```
+```javascript
 grade = (student, period=(if b? then 7 else 6)) ->
     if student.excellentWork
         "A+"
@@ -61,6 +62,7 @@ Cur rumor nocere?Emeritis adelphis satis perderes domina est.Gloss cadunt in bi-
     <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
     <script src="//platform.twitter.com/widgets.js"></script>
     <script src="http://vjs.zencdn.net/5.0.0/video.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/0.0.1/prism.min.js"></script>
     <script src="../src/embed.js"></script>
     <script>
     EmbedJS.setOptions({
@@ -74,6 +76,8 @@ Cur rumor nocere?Emeritis adelphis satis perderes domina est.Gloss cadunt in bi-
         googleAuthKey: 'AIzaSyCqFouT8h5DKAbxlrTZmjXEmNBjC69f0ts',
          inlineEmbed: 'all',
         marked: true,
+        highlightCode:true,
+        codeHighlighter:'prismjs',
         link: true,
         onOpenGraphFetch: function(data) {
             data.hybridGraph.success = data.error ? false : true;

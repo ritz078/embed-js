@@ -8,19 +8,6 @@ export default class Markdown {
 	process() {
 		let renderer = new marked.Renderer();
 
-		/**
-		 * Change the default template of the code blocks provided by marked.js
-		 * @param  {string} text The code block string
-		 * @return {string}      the new template
-		 */
-		renderer.code = function (text) {
-			let highlightedCode = window.hljs ? hljs.highlightAuto(text) : {
-				value: text
-			};
-			let language        = window.hljs ? highlightedCode.language : '';
-			return `<pre><code class="ejs-code hljs ${language}">${highlightedCode.value}</code></pre>`
-		};
-
 		renderer.link = (href, title, text) => {
 			if (href.indexOf('&lt;/a') === -1) return href;
 			if (href.match(/&gt;(.+)&lt;\/a/gi)) {
@@ -45,6 +32,7 @@ export default class Markdown {
 		marked.Lexer.rules.tables.heading = marked.Lexer.rules.normal.heading;
 
 		this.options.markedOptions.renderer = renderer;
+		this.options.markedOptions.highlight = false;
 		return marked(this.output, this.options.markedOptions)
 	}
 }
