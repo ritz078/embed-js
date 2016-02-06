@@ -61,36 +61,33 @@ export default class Gmap {
         let match, promises = [],
             allMatches = [];
         while ((match = matches(this.regex, this.output)) !== null) {
+            this.options.served.push(match);
             let promise = this.options.mapOptions.mode !== 'place' ? Gmap.getCoordinate(match[0]) : Promise.resolve([null, null]);
             promises.push(promise);
             allMatches.push(match)
         }
 
         return new Promise((resolve) => {
-            if (allMatches.length) {  //TODO
-                Promise.all(promises).then((coordinatesArr) => {
-                    for (var i in promises) {
-                        let [latitude, longitude] = coordinatesArr[i];
-                        let text = Gmap.template((allMatches[i])[0], latitude, longitude, this.options);
-                        if (ifInline(this.options, this.service)) {
-                            this.output = this.output.replace(this.regex, (regexMatch) => {
-                                return `<span class="ejs-location">${Gmap.locationText(regexMatch)}</span>${text}`
-                            })
-                        } else {
-                            this.embeds.push({
-                                text: text,
-                                index: allMatches[i][0].index
-                            });
-                            this.output = this.output.replace(this.regex, (regexMatch) => {
-                                return `<span class="ejs-location">${Gmap.locationText(regexMatch)}</span>`
-                            });
-                        }
+            Promise.all(promises).then((coordinatesArr) => {
+                for (var i in promises) {
+                    let [latitude, longitude] = coordinatesArr[i];
+                    let text = Gmap.template((allMatches[i])[0], latitude, longitude, this.options);
+                    if (ifInline(this.options, this.service)) {
+                        this.output = this.output.replace(this.regex, (regexMatch) => {
+                            return `<span class="ejs-location">${Gmap.locationText(regexMatch)}</span>${text}`
+                        })
+                    } else {
+                        this.embeds.push({
+                            text: text,
+                            index: allMatches[i][0].index
+                        });
+                        this.output = this.output.replace(this.regex, (regexMatch) => {
+                            return `<span class="ejs-location">${Gmap.locationText(regexMatch)}</span>`
+                        });
                     }
-                    resolve([this.output, this.embeds])
-                })
-            } else {
+                }
                 resolve([this.output, this.embeds])
-            }
+            })
         })
     }
 }

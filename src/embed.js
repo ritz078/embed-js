@@ -171,11 +171,12 @@
    * @return {boolean}        True if it should be embedded
    */
   function ifEmbed(options, service) {
+      if (options.singleEmbed && options.served.length) return;
       return options.excludeEmbed.indexOf(service) == -1 || options.excludeEmbed === 'all';
   }
 
   function ifInline(options, service) {
-      return options.inlineEmbed.indexOf(service) == -1 || options.inlineEmbed !== 'all';
+      return options.inlineEmbed.indexOf(service) >= 0 || options.inlineEmbed === 'all';
   }
 
   /**
@@ -869,8 +870,10 @@
   function normalEmbed(_this) {
   	var match = undefined;
   	while ((match = matches(_this.regex, _this.input)) !== null) {
-  		if (!(_this.options.served.indexOf(match[0]) === -1)) continue;
-  		var text = _this.template(match[0]);
+  		var url = match[0];
+  		if (!(_this.options.served.indexOf(url) === -1) || _this.options.served.length && _this.options.singleEmbed) continue;
+  		_this.options.served.push(url);
+  		var text = _this.template(url);
   		_this.embeds.push({
   			text: text,
   			index: match.index
@@ -884,7 +887,7 @@
   }
 
   function baseEmbed(input, output, embeds, options, regex, service, flag) {
-  	return ifEmbed(options, service) || flag ? new Base(input, output, embeds, options, regex, service).process() : [output, embeds];
+  	return ifEmbed(options, service) || ifEmbed(options, service) && flag ? new Base(input, output, embeds, options, regex, service).process() : [output, embeds];
   }
 
   var regex = {
@@ -1404,45 +1407,41 @@
                   promises = [],
                   allMatches = [];
               while ((match = matches(this.regex, this.output)) !== null) {
+                  this.options.served.push(match);
                   var promise = this.options.mapOptions.mode !== 'place' ? Gmap.getCoordinate(match[0]) : Promise.resolve([null, null]);
                   promises.push(promise);
                   allMatches.push(match);
               }
 
               return new Promise(function (resolve) {
-                  if (allMatches.length) {
-                      //TODO
-                      Promise.all(promises).then(function (coordinatesArr) {
-                          var _loop = function _loop() {
-                              var _coordinatesArr$i = babelHelpers.slicedToArray(coordinatesArr[i], 2);
+                  Promise.all(promises).then(function (coordinatesArr) {
+                      var _loop = function _loop() {
+                          var _coordinatesArr$i = babelHelpers.slicedToArray(coordinatesArr[i], 2);
 
-                              var latitude = _coordinatesArr$i[0];
-                              var longitude = _coordinatesArr$i[1];
+                          var latitude = _coordinatesArr$i[0];
+                          var longitude = _coordinatesArr$i[1];
 
-                              var text = Gmap.template(allMatches[i][0], latitude, longitude, _this.options);
-                              if (ifInline(_this.options, _this.service)) {
-                                  _this.output = _this.output.replace(_this.regex, function (regexMatch) {
-                                      return '<span class="ejs-location">' + Gmap.locationText(regexMatch) + '</span>' + text;
-                                  });
-                              } else {
-                                  _this.embeds.push({
-                                      text: text,
-                                      index: allMatches[i][0].index
-                                  });
-                                  _this.output = _this.output.replace(_this.regex, function (regexMatch) {
-                                      return '<span class="ejs-location">' + Gmap.locationText(regexMatch) + '</span>';
-                                  });
-                              }
-                          };
-
-                          for (var i in promises) {
-                              _loop();
+                          var text = Gmap.template(allMatches[i][0], latitude, longitude, _this.options);
+                          if (ifInline(_this.options, _this.service)) {
+                              _this.output = _this.output.replace(_this.regex, function (regexMatch) {
+                                  return '<span class="ejs-location">' + Gmap.locationText(regexMatch) + '</span>' + text;
+                              });
+                          } else {
+                              _this.embeds.push({
+                                  text: text,
+                                  index: allMatches[i][0].index
+                              });
+                              _this.output = _this.output.replace(_this.regex, function (regexMatch) {
+                                  return '<span class="ejs-location">' + Gmap.locationText(regexMatch) + '</span>';
+                              });
                           }
-                          resolve([_this.output, _this.embeds]);
-                      });
-                  } else {
+                      };
+
+                      for (var i in promises) {
+                          _loop();
+                      }
                       resolve([_this.output, _this.embeds]);
-                  }
+                  });
               });
           }
       }], [{
@@ -2082,6 +2081,7 @@
   		align: 'none',
   		lang: 'en'
   	},
+  	singleEmbed: false,
   	openGraphEndpoint: null,
   	openGraphExclude: [],
   	videoEmbed: true,
@@ -2356,7 +2356,7 @@
   					var output = _ref8[0];
   					var embeds = _ref8[1];
 
-  					return options.locationEmbed ? new Gmap(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
+  					return options.locationEmbed && ifEmbed(options, 'gmap') ? new Gmap(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
   				}).then(function (_ref9) {
   					var _ref10 = babelHelpers.slicedToArray(_ref9, 2);
 
@@ -2370,7 +2370,7 @@
   					var output = _ref12[0];
   					var embeds = _ref12[1];
 
-  					if (options.tweetsEmbed) {
+  					if (options.tweetsEmbed && ifEmbed(options, 'twitter')) {
   						_this.twitter = new Twitter(input, output, options, embeds);
   						return _this.twitter.process();
   					} else {

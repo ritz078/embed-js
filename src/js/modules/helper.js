@@ -183,8 +183,10 @@ function inlineEmbed(_this){
 function normalEmbed(_this){
 	let match;
 	while ((match = matches(_this.regex, _this.input)) !== null) {
-		if (!(_this.options.served.indexOf(match[0]) === -1)) continue;
-		let text = _this.template(match[0]);
+		let url = match[0]
+		if (!(_this.options.served.indexOf(url) === -1) || (_this.options.served.length && _this.options.singleEmbed)) continue;
+		_this.options.served.push(url)
+		let text = _this.template(url);
 		_this.embeds.push({
 			text : text,
 			index: match.index
@@ -199,5 +201,5 @@ export function embed(_this){
 
 
 export function baseEmbed(input, output, embeds, options, regex, service, flag){
-	return ifEmbed(options, service) || flag ? new Base(input, output, embeds, options, regex, service).process() : [output, embeds]
+	return ifEmbed(options, service) || (ifEmbed(options, service) && flag) ? new Base(input, output, embeds, options, regex, service).process() : [output, embeds]
 }

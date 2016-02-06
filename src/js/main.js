@@ -59,6 +59,7 @@ var defaultOptions = {
 		align     : 'none',
 		lang      : 'en'
 	},
+	singleEmbed            : false,
 	openGraphEndpoint      : null,
 	openGraphExclude       : [],
 	videoEmbed             : true,
@@ -209,11 +210,11 @@ export default class EmbedJS {
 			}).then(function([output, embeds]){
 				return ifEmbed(options, 'opengraph') ? new Github(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
 			}).then(function([output, embeds]){
-				return options.locationEmbed ? new Gmap(input, output, options, embeds).process() : Promise.resolve([output, embeds])
+				return options.locationEmbed && ifEmbed(options, 'gmap') ? new Gmap(input, output, options, embeds).process() : Promise.resolve([output, embeds])
 			}).then(function([output, embeds]){
 				return ifEmbed(options, 'slideshare') ? new SlideShare(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
 			}).then(([output, embeds]) => {
-				if (options.tweetsEmbed) {
+				if (options.tweetsEmbed && ifEmbed(options,'twitter')) {
 					this.twitter = new Twitter(input, output, options, embeds);
 					return this.twitter.process()
 				} else {

@@ -91,11 +91,12 @@ function matches(regex, input) {
  * @return {boolean}        True if it should be embedded
  */
 function ifEmbed(options, service) {
+    if (options.singleEmbed && options.served.length) return
     return ((options.excludeEmbed.indexOf(service) == -1) || (options.excludeEmbed === 'all'));
 }
 
 function ifInline(options, service) {
-    return ((options.inlineEmbed.indexOf(service) == -1) || (options.inlineEmbed !== 'all'));
+    return ((options.inlineEmbed.indexOf(service) >= 0) || (options.inlineEmbed === 'all'));
 }
 
 /**
@@ -1610,8 +1611,10 @@ function inlineEmbed(_this){
 function normalEmbed(_this){
 	let match;
 	while ((match = matches(_this.regex, _this.input)) !== null) {
-		if (!(_this.options.served.indexOf(match[0]) === -1)) continue;
-		let text = _this.template(match[0]);
+		let url = match[0]
+		if (!(_this.options.served.indexOf(url) === -1) || (_this.options.served.length && _this.options.singleEmbed)) continue;
+		_this.options.served.push(url)
+		let text = _this.template(url);
 		_this.embeds.push({
 			text : text,
 			index: match.index
@@ -1626,7 +1629,7 @@ function embed(_this){
 
 
 function baseEmbed(input, output, embeds, options, regex, service, flag){
-	return ifEmbed(options, service) || flag ? new Base(input, output, embeds, options, regex, service).process() : [output, embeds]
+	return ifEmbed(options, service) || (ifEmbed(options, service) && flag) ? new Base(input, output, embeds, options, regex, service).process() : [output, embeds]
 }
 
 let regex = {
@@ -2155,36 +2158,33 @@ class Gmap {
         let match, promises = [],
             allMatches = [];
         while ((match = matches(this.regex, this.output)) !== null) {
+            this.options.served.push(match);
             let promise = this.options.mapOptions.mode !== 'place' ? Gmap.getCoordinate(match[0]) : Promise.resolve([null, null]);
             promises.push(promise);
             allMatches.push(match)
         }
 
         return new Promise((resolve) => {
-            if (allMatches.length) {  //TODO
-                Promise.all(promises).then((coordinatesArr) => {
-                    for (var i in promises) {
-                        let [latitude, longitude] = coordinatesArr[i];
-                        let text = Gmap.template((allMatches[i])[0], latitude, longitude, this.options);
-                        if (ifInline(this.options, this.service)) {
-                            this.output = this.output.replace(this.regex, (regexMatch) => {
-                                return `<span class="ejs-location">${Gmap.locationText(regexMatch)}</span>${text}`
-                            })
-                        } else {
-                            this.embeds.push({
-                                text: text,
-                                index: allMatches[i][0].index
-                            });
-                            this.output = this.output.replace(this.regex, (regexMatch) => {
-                                return `<span class="ejs-location">${Gmap.locationText(regexMatch)}</span>`
-                            });
-                        }
+            Promise.all(promises).then((coordinatesArr) => {
+                for (var i in promises) {
+                    let [latitude, longitude] = coordinatesArr[i];
+                    let text = Gmap.template((allMatches[i])[0], latitude, longitude, this.options);
+                    if (ifInline(this.options, this.service)) {
+                        this.output = this.output.replace(this.regex, (regexMatch) => {
+                            return `<span class="ejs-location">${Gmap.locationText(regexMatch)}</span>${text}`
+                        })
+                    } else {
+                        this.embeds.push({
+                            text: text,
+                            index: allMatches[i][0].index
+                        });
+                        this.output = this.output.replace(this.regex, (regexMatch) => {
+                            return `<span class="ejs-location">${Gmap.locationText(regexMatch)}</span>`
+                        });
                     }
-                    resolve([this.output, this.embeds])
-                })
-            } else {
+                }
                 resolve([this.output, this.embeds])
-            }
+            })
         })
     }
 }
@@ -2655,6 +2655,7 @@ var defaultOptions = {
 		align     : 'none',
 		lang      : 'en'
 	},
+	singleEmbed            : false,
 	openGraphEndpoint      : null,
 	openGraphExclude       : [],
 	videoEmbed             : true,
@@ -2805,11 +2806,11 @@ class EmbedJS {
 			}).then(function([output, embeds]){
 				return ifEmbed(options, 'opengraph') ? new Github(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
 			}).then(function([output, embeds]){
-				return options.locationEmbed ? new Gmap(input, output, options, embeds).process() : Promise.resolve([output, embeds])
+				return options.locationEmbed && ifEmbed(options, 'gmap') ? new Gmap(input, output, options, embeds).process() : Promise.resolve([output, embeds])
 			}).then(function([output, embeds]){
 				return ifEmbed(options, 'slideshare') ? new SlideShare(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
 			}).then(([output, embeds]) => {
-				if (options.tweetsEmbed) {
+				if (options.tweetsEmbed && ifEmbed(options,'twitter')) {
 					this.twitter = new Twitter(input, output, options, embeds);
 					return this.twitter.process()
 				} else {

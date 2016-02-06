@@ -74,11 +74,12 @@ Cur rumor nocere?Emeritis adelphis satis perderes domina est.Gloss cadunt in bi-
         // openGraphEndpoint:'https://opengraph.io/api/1.0/site/${url}',
         openGraphExclude: ['github'],
         googleAuthKey: 'AIzaSyCqFouT8h5DKAbxlrTZmjXEmNBjC69f0ts',
-         inlineEmbed: 'all',
+         // inlineEmbed: 'all',
         marked: true,
         highlightCode:true,
         codeHighlighter:'prismjs',
         link: true,
+        // singleEmbed:true,
         onOpenGraphFetch: function(data) {
             data.hybridGraph.success = data.error ? false : true;
             return data.hybridGraph;
