@@ -28,7 +28,10 @@ var config = {
 		commonjs({
 			include: 'node_modules/**'
 		}),
-		babel(),
+		babel({
+			babelrc:false,
+			presets:['es2015-rollup']
+		}),
 		filesize()
 	]
 };

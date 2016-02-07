@@ -199,15 +199,6 @@ module.exports = function (grunt) {
 			}
 		},
 
-		mocha: {
-			test: {
-				src    : ['test/testrunner.html'],
-				options: {
-					run: true
-				}
-			}
-		},
-
 		shell: {
 			publish: {
 				command: 'npm publish'
@@ -228,6 +219,4 @@ module.exports = function (grunt) {
 	grunt.registerTask("release", function (option) {
 		grunt.task.run(["bump-only:" + option, "dist", "conventionalChangelog", "bump-commit", "shell:publish"]);
 	});
-
-	grunt.registerTask("test", ["mocha"]);
 };
