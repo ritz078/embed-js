@@ -3,10 +3,10 @@
 <p align="center">
 <a href="https://travis-ci.org/ritz078/embed.js">
 <img src="https://travis-ci.org/ritz078/embed.js.svg?branch=master" alt="Build Status" style="max-width:100%;">
-</a> 
+</a>
 <a href="https://github.com/ritz078/embed.js">
 <img src="https://img.shields.io/npm/v/embed-js.svg" alt="npm" style="max-width:100%;">
-</a> 
+</a>
 <a href="https://github.com/ritz078/embed.js">
 <img src="https://img.shields.io/bower/v/embed-js.svg" alt="Bower" style="max-width:100%;"
 ></a>
@@ -26,6 +26,8 @@
 * **[Full Documentation](http://riteshkr.com/embed.js/doc.html)**
 * **[Examples](http://riteshkr.com/embed.js/examples.html)**
   ​
+## CDN
+* [jsDelivr](https://www.jsdelivr.com/projects/embed.js)
 
 ## Simple Usage
 
@@ -41,7 +43,7 @@ Creating an instance of embed.js
 
 ``` javascript
 var x = new EmbedJS({
-  element: document.getElementById('element'),
+  input: document.getElementById('element'),
   googleAuthKey : 'xxxx'
 })
 ```
@@ -69,11 +71,96 @@ If you wan't to destroy the instance. It will also replace the processed string 
 x.destroy()
 ```
 
+## Options
+```js
+var options = {
+	marked                 : false,
+	markedOptions          : {},
+	link                   : true,
+	linkOptions            : {
+		target : 'self',
+		exclude: ['pdf'],
+		rel    : ''
+	},
+	emoji                  : true,
+	customEmoji            : [],
+	fontIcons              : true,
+	customFontIcons        : [],
+	highlightCode          : false,
+	codeHighlighter        : 'prismjs',
+	videoJS                : false,
+	videojsOptions         : {
+		fluid  : true,
+		preload: 'metadata'
+	},
+	locationEmbed          : true,
+	mapOptions             : {
+		mode: 'place'
+	},
+	tweetsEmbed            : false,
+	tweetOptions           : {
+		maxWidth  : 550,
+		hideMedia : false,
+		hideThread: false,
+		align     : 'none',
+		lang      : 'en'
+	},
+	singleEmbed            : false,
+	openGraphEndpoint      : null,
+	openGraphExclude       : [],
+	videoEmbed             : true,
+	videoHeight            : null,
+	videoWidth             : null,
+	videoDetails           : true,
+	audioEmbed             : true,
+	excludeEmbed           : [],
+	inlineEmbed            : [],
+	inlineText             : true,
+	codeEmbedHeight        : 500,
+	vineOptions            : {
+		maxWidth  : null,
+		type      : 'postcard', //'postcard' or 'simple' embedding
+		responsive: true,
+		width     : 350,
+		height    : 460
+	},
+	googleAuthKey          : '',
+	soundCloudOptions      : {
+		height      : 160,
+		themeColor  : 'f50000', //Hex Code of the player theme color
+		autoPlay    : false,
+		hideRelated : false,
+		showComments: true,
+		showUser    : true,
+		showReposts : false,
+		visual      : false, //Show/hide the big preview image
+		download    : false //Show/Hide download buttons
+	},
+	videoClickClass        : 'ejs-video-thumb',
+	customVideoClickHandler: false,
+	beforeEmbedJSApply     : function () {
+	},
+	afterEmbedJSApply      : function () {
+	},
+	onVideoShow            : function () {
+	},
+	onTweetsLoad           : function () {
+	},
+	videojsCallback        : function () {
+	},
+	onOpenGraphFetch       : function () {
+	},
+	onOpenGraphFail        : function () {
+	},
+	videoClickHandler      : function () {
+}
+```
+
 ## Creating custom build
 
 Set the features you don't want to **false** in `build.json` and then run
 
-``` 
+```
 grunt build
 ```
 
@@ -82,19 +169,18 @@ This will create a customized build of the plugin.
 ## Adding custom emojis
 
 1. Add the image to **assets/images/emojis**. Make sure the name of the file is same as emoji name.
-2. Pass the emoji name as the value to `customEmoji`. See the example [here](http://riteshkr.com/embed.js/doc.html#emoji)
-3. Run `grunt build-emoji && grunt build`
+1. Pass the emoji name as the value to `customEmoji`. See the example [here](http://riteshkr.com/embed.js/doc.html#emoji)
+1. Run `grunt build-emoji && grunt build`
 
 ## Contributing
 
 1. Fork and clone the repo.
-2. Run `npm install` to install all build dependencies(including Grunt).
-3. Create a new branch, please DON'T work in your master branch directly.
-4. Run `grunt` so that you can see the impact of your changes on the browser while developing.
-5. Fix stuff or add new feature.
-6. This repo follows [Angular commit guidelines](https://github.com/angular/angular.js/blob/master/CONTRIBUTING.md#commit). For this we are using [commitizen](http://commitizen.github.io/cz-cli/). So instead of git commit, prefer using npm run commit and follow the guidelines.
-7. Update the documentation to reflect any changes.
-8. Push to your fork and submit a pull request.
+1. Run `npm install` to install all build dependencies(including Grunt).
+1. Create a new branch, please DON'T work in your master branch directly.
+1. Run `grunt` so that you can see the impact of your changes on the browser while developing.
+1. Fix stuff or add new feature.
+1. Update the documentation to reflect any changes.
+1. Push to your fork and submit a pull request.
 
 ## License
 
