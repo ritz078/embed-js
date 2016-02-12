@@ -1,12 +1,13 @@
 export default class Markdown {
 	constructor(output, options) {
-		if (!window.marked) throw new ReferenceError(`marked.js is not loaded.`);
+		if (!options.plugins.marked) throw new ReferenceError(`marked.js is not loaded.`);
 		this.output  = output;
 		this.options = options;
 	}
 
 	process() {
-		let renderer = new marked.Renderer();
+		const Marked = this.options.plugins.marked;
+		let renderer = new Marked.Renderer();
 
 		renderer.link = (href, title, text) => {
 			if (href.indexOf('&lt;/a') === -1) return href;
@@ -28,11 +29,11 @@ export default class Markdown {
 
 		//Fix for heading that should be actually present in marked.js
 		//if gfm is true the `## Heading` is acceptable but `##Heading` is not
-		marked.Lexer.rules.gfm.heading    = marked.Lexer.rules.normal.heading;
-		marked.Lexer.rules.tables.heading = marked.Lexer.rules.normal.heading;
+		Marked.Lexer.rules.gfm.heading    = marked.Lexer.rules.normal.heading;
+		Marked.Lexer.rules.tables.heading = marked.Lexer.rules.normal.heading;
 
 		this.options.markedOptions.renderer = renderer;
 		this.options.markedOptions.highlight = false;
-		return marked(this.output, this.options.markedOptions)
+		return Marked(this.output, this.options.markedOptions)
 	}
 }

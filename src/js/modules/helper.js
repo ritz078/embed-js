@@ -47,10 +47,11 @@ export function applyVideoJS(options) {
 	options.videojsOptions.width  = options.videoWidth;
 	options.videojsOptions.height = options.videoHeight;
 	if (options.videoJS) {
-		if (!window.videojs) throw new ReferenceError("You have enabled videojs but you haven't loaded the library.Find it at http://videojs.com/");
+		if (!options.plugins.videojs) throw new ReferenceError("You have enabled videojs but you haven't loaded the library.Find it at http://videojs.com/");
+		let VideoJS = options.plugins.videojs;
 		let elements = options.input.getElementsByClassName('ejs-video-js');
 		for (let i = 0; i < elements.length; i++) {
-			videojs(elements[i], options.videojsOptions, () => options.videojsCallback());
+			VideoJS(elements[i], options.videojsOptions, () => options.videojsCallback());
 		}
 	}
 }
@@ -183,9 +184,9 @@ function inlineEmbed(_this){
 function normalEmbed(_this){
 	let match;
 	while ((match = matches(_this.regex, _this.input)) !== null) {
-		let url = match[0]
+		let url = match[0];
 		if (!(_this.options.served.indexOf(url) === -1) || (_this.options.served.length && _this.options.singleEmbed)) continue;
-		_this.options.served.push(url)
+		_this.options.served.push(url);
 		let text = _this.template(url);
 		_this.embeds.push({
 			text : text,

@@ -35,10 +35,11 @@ export default class Twitter {
 	 * @return null
 	 */
 	load() {
-		twttr.widgets.load(this.options.element); //here this refers to the element
+		const twitter = this.options.plugins.twitter;
+		twitter.widgets.load(this.options.element); //here this refers to the element
 
 		//Execute the function after the widget is loaded
-		twttr.events.bind('loaded', this.options.onTweetsLoad);
+		twitter.events.bind('loaded', this.options.onTweetsLoad);
 	}
 
 	static urlToText(_this, match, url) {

@@ -2,12 +2,12 @@ import regex from '../regex'
 
 export default class Highlight {
 	constructor(output, options) {
-		if (!hljs && !this.isPrism()) {
+		if (!options.plugins.highlightjs && !this.isPrism()) {
 			throw new ReferenceError(
 				`'hljs is not defined. HighlightJS library is needed to highlight code. Visit https://highlightjs.org/'`
 			);
 		}
-		else if (!Prism && this.isPrism()){
+		else if (!options.plugins.prismjs && this.isPrism()){
 			throw new ReferenceError(`prismjs is not defined.`)
 		}
 		this.output          = output;
@@ -89,13 +89,15 @@ export default class Highlight {
 			let highlightedCode;
 
 			if (this.isPrism()){
-				highlightedCode = Prism.highlight(code, Prism.languages[language.toLowerCase() || 'markup'])
+				const PrismJS = this.options.plugins.prismjs;
+				highlightedCode = PrismJS.highlight(code, Prism.languages[language.toLowerCase() || 'markup'])
 			}
 			else{
+				const HighlightJS = this.options.plugins.highlightjs;
 				if (language) {
-					highlightedCode = hljs.highlightAuto(code, [language]);
+					highlightedCode = HighlightJS.highlightAuto(code, [language]);
 				} else {
-					highlightedCode = hljs.highlightAuto(code);
+					highlightedCode = HighlightJS.highlightAuto(code);
 					language        = highlightedCode.language;
 				}
 			}

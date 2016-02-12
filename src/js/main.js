@@ -78,6 +78,13 @@ var defaultOptions = {
 		width     : 350,
 		height    : 460
 	},
+	plugins                : {
+		marked     : marked,
+		videojs    : videojs,
+		highlightjs: hljs,
+		prismjs    : Prism,
+		twitter    : twttr
+	},
 	googleAuthKey          : '',
 	soundCloudOptions      : {
 		height      : 160,
@@ -157,8 +164,8 @@ export default class EmbedJS {
 	process() {
 		const input   = this.input;
 		const options = processOptions(this.options);
-		let embeds  = [];
-		let output  = '';
+		let embeds    = [];
+		let output    = '';
 
 		this.options.beforeEmbedJSApply();
 
@@ -168,7 +175,7 @@ export default class EmbedJS {
 
 			let openGraphPromise = options.openGraphEndpoint ? new OpenGraph(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
 
-			openGraphPromise.then(function([output, embeds]) {
+			openGraphPromise.then(function ([output, embeds]) {
 				if (options.highlightCode) {
 					output = new Highlight(output, options).process()
 				}
@@ -205,16 +212,16 @@ export default class EmbedJS {
 				}
 
 				return ifEmbed(options, 'youtube') ? new Youtube(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
-			}).then(function([output, embeds]){
+			}).then(function ([output, embeds]) {
 				return ifEmbed(options, 'vimeo') ? new Vimeo(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
-			}).then(function([output, embeds]){
+			}).then(function ([output, embeds]) {
 				return ifEmbed(options, 'opengraph') ? new Github(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
-			}).then(function([output, embeds]){
+			}).then(function ([output, embeds]) {
 				return options.locationEmbed && ifEmbed(options, 'gmap') ? new Gmap(input, output, options, embeds).process() : Promise.resolve([output, embeds])
-			}).then(function([output, embeds]){
+			}).then(function ([output, embeds]) {
 				return ifEmbed(options, 'slideshare') ? new SlideShare(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
 			}).then(([output, embeds]) => {
-				if (options.tweetsEmbed && ifEmbed(options,'twitter')) {
+				if (options.tweetsEmbed && ifEmbed(options, 'twitter')) {
 					this.twitter = new Twitter(input, output, options, embeds);
 					return this.twitter.process()
 				} else {
@@ -271,7 +278,7 @@ export default class EmbedJS {
 	 * events to be done after an element has been rendered. These
 	 * include twitter widget rendering, gist embedding, click event listeners .
 	 */
-	applyListeners(){
+	applyListeners() {
 		applyVideoJS(this.options);
 
 		playVideo(this.options);
@@ -290,10 +297,10 @@ export default class EmbedJS {
 	 */
 	update(options, template) {
 
-		if(options)
+		if (options)
 			this.options = deepExtend(this.options, options);
 
-		if(template)
+		if (template)
 			this.options.template = template;
 
 		if (!this.options.input || !(typeof this.options.input === 'string' || typeof this.options.input === 'object')) throw ReferenceError("You need to pass an element or the string that needs to be processed");

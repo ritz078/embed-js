@@ -1475,10 +1475,11 @@ function applyVideoJS(options) {
 	options.videojsOptions.width  = options.videoWidth;
 	options.videojsOptions.height = options.videoHeight;
 	if (options.videoJS) {
-		if (!window.videojs) throw new ReferenceError("You have enabled videojs but you haven't loaded the library.Find it at http://videojs.com/");
+		if (!options.plugins.videojs) throw new ReferenceError("You have enabled videojs but you haven't loaded the library.Find it at http://videojs.com/");
+		let VideoJS = options.plugins.videojs;
 		let elements = options.input.getElementsByClassName('ejs-video-js');
 		for (let i = 0; i < elements.length; i++) {
-			videojs(elements[i], options.videojsOptions, () => options.videojsCallback());
+			VideoJS(elements[i], options.videojsOptions, () => options.videojsCallback());
 		}
 	}
 }
@@ -1611,9 +1612,9 @@ function inlineEmbed(_this){
 function normalEmbed(_this){
 	let match;
 	while ((match = matches(_this.regex, _this.input)) !== null) {
-		let url = match[0]
+		let url = match[0];
 		if (!(_this.options.served.indexOf(url) === -1) || (_this.options.served.length && _this.options.singleEmbed)) continue;
-		_this.options.served.push(url)
+		_this.options.served.push(url);
 		let text = _this.template(url);
 		_this.embeds.push({
 			text : text,
@@ -1694,10 +1695,11 @@ class Twitter {
 	 * @return null
 	 */
 	load() {
-		twttr.widgets.load(this.options.element); //here this refers to the element
+		const twitter = this.options.plugins.twitter;
+		twitter.widgets.load(this.options.element); //here this refers to the element
 
 		//Execute the function after the widget is loaded
-		twttr.events.bind('loaded', this.options.onTweetsLoad);
+		twitter.events.bind('loaded', this.options.onTweetsLoad);
 	}
 
 	static urlToText(_this, match, url) {
@@ -2191,13 +2193,14 @@ class Gmap {
 
 class Markdown {
 	constructor(output, options) {
-		if (!window.marked) throw new ReferenceError(`marked.js is not loaded.`);
+		if (!options.plugins.marked) throw new ReferenceError(`marked.js is not loaded.`);
 		this.output  = output;
 		this.options = options;
 	}
 
 	process() {
-		let renderer = new marked.Renderer();
+		const Marked = this.options.plugins.marked;
+		let renderer = new Marked.Renderer();
 
 		renderer.link = (href, title, text) => {
 			if (href.indexOf('&lt;/a') === -1) return href;
@@ -2219,23 +2222,23 @@ class Markdown {
 
 		//Fix for heading that should be actually present in marked.js
 		//if gfm is true the `## Heading` is acceptable but `##Heading` is not
-		marked.Lexer.rules.gfm.heading    = marked.Lexer.rules.normal.heading;
-		marked.Lexer.rules.tables.heading = marked.Lexer.rules.normal.heading;
+		Marked.Lexer.rules.gfm.heading    = marked.Lexer.rules.normal.heading;
+		Marked.Lexer.rules.tables.heading = marked.Lexer.rules.normal.heading;
 
 		this.options.markedOptions.renderer = renderer;
 		this.options.markedOptions.highlight = false;
-		return marked(this.output, this.options.markedOptions)
+		return Marked(this.output, this.options.markedOptions)
 	}
 }
 
 class Highlight {
 	constructor(output, options) {
-		if (!hljs && !this.isPrism()) {
+		if (!options.plugins.highlightjs && !this.isPrism()) {
 			throw new ReferenceError(
 				`'hljs is not defined. HighlightJS library is needed to highlight code. Visit https://highlightjs.org/'`
 			);
 		}
-		else if (!Prism && this.isPrism()){
+		else if (!options.plugins.prismjs && this.isPrism()){
 			throw new ReferenceError(`prismjs is not defined.`)
 		}
 		this.output          = output;
@@ -2317,13 +2320,15 @@ class Highlight {
 			let highlightedCode;
 
 			if (this.isPrism()){
-				highlightedCode = Prism.highlight(code, Prism.languages[language.toLowerCase() || 'markup'])
+				const PrismJS = this.options.plugins.prismjs;
+				highlightedCode = PrismJS.highlight(code, Prism.languages[language.toLowerCase() || 'markup'])
 			}
 			else{
+				const HighlightJS = this.options.plugins.highlightjs;
 				if (language) {
-					highlightedCode = hljs.highlightAuto(code, [language]);
+					highlightedCode = HighlightJS.highlightAuto(code, [language]);
 				} else {
-					highlightedCode = hljs.highlightAuto(code);
+					highlightedCode = HighlightJS.highlightAuto(code);
 					language        = highlightedCode.language;
 				}
 			}
@@ -2674,6 +2679,13 @@ var defaultOptions = {
 		width     : 350,
 		height    : 460
 	},
+	plugins                : {
+		marked     : marked,
+		videojs    : videojs,
+		highlightjs: hljs,
+		prismjs    : Prism,
+		twitter    : twttr
+	},
 	googleAuthKey          : '',
 	soundCloudOptions      : {
 		height      : 160,
@@ -2753,8 +2765,8 @@ class EmbedJS {
 	process() {
 		const input   = this.input;
 		const options = processOptions(this.options);
-		let embeds  = [];
-		let output  = '';
+		let embeds    = [];
+		let output    = '';
 
 		this.options.beforeEmbedJSApply();
 
@@ -2764,7 +2776,7 @@ class EmbedJS {
 
 			let openGraphPromise = options.openGraphEndpoint ? new OpenGraph(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
 
-			openGraphPromise.then(function([output, embeds]) {
+			openGraphPromise.then(function ([output, embeds]) {
 				if (options.highlightCode) {
 					output = new Highlight(output, options).process()
 				}
@@ -2801,16 +2813,16 @@ class EmbedJS {
 				}
 
 				return ifEmbed(options, 'youtube') ? new Youtube(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
-			}).then(function([output, embeds]){
+			}).then(function ([output, embeds]) {
 				return ifEmbed(options, 'vimeo') ? new Vimeo(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
-			}).then(function([output, embeds]){
+			}).then(function ([output, embeds]) {
 				return ifEmbed(options, 'opengraph') ? new Github(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
-			}).then(function([output, embeds]){
+			}).then(function ([output, embeds]) {
 				return options.locationEmbed && ifEmbed(options, 'gmap') ? new Gmap(input, output, options, embeds).process() : Promise.resolve([output, embeds])
-			}).then(function([output, embeds]){
+			}).then(function ([output, embeds]) {
 				return ifEmbed(options, 'slideshare') ? new SlideShare(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
 			}).then(([output, embeds]) => {
-				if (options.tweetsEmbed && ifEmbed(options,'twitter')) {
+				if (options.tweetsEmbed && ifEmbed(options, 'twitter')) {
 					this.twitter = new Twitter(input, output, options, embeds);
 					return this.twitter.process()
 				} else {
@@ -2867,7 +2879,7 @@ class EmbedJS {
 	 * events to be done after an element has been rendered. These
 	 * include twitter widget rendering, gist embedding, click event listeners .
 	 */
-	applyListeners(){
+	applyListeners() {
 		applyVideoJS(this.options);
 
 		playVideo(this.options);
@@ -2886,10 +2898,10 @@ class EmbedJS {
 	 */
 	update(options, template) {
 
-		if(options)
+		if (options)
 			this.options = deepExtend(this.options, options);
 
-		if(template)
+		if (template)
 			this.options.template = template;
 
 		if (!this.options.input || !(typeof this.options.input === 'string' || typeof this.options.input === 'object')) throw ReferenceError("You need to pass an element or the string that needs to be processed");
