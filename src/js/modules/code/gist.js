@@ -1,5 +1,5 @@
 import regex from '../regex'
-import { embed } from '../helper'
+import { embed } from '../../helpers'
 
 export default class Gist {
 	constructor(input, output, options, embeds) {

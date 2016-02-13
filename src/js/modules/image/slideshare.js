@@ -1,4 +1,4 @@
-import { asyncEmbed } from './../helper'
+import { asyncEmbed } from '../../helpers'
 import fetchJsonp     from 'fetch-jsonp'
 import regex from '../regex'
 

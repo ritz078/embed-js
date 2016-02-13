@@ -23,7 +23,7 @@ import Github      from './modules/github'
 
 import regex from './modules/regex'
 
-import { applyVideoJS, playVideo, destroyVideos, baseEmbed } from './modules/helper'
+import { applyVideoJS, playVideo, destroyVideos, baseEmbed } from './helpers'
 
 var globalOptions = {};
 

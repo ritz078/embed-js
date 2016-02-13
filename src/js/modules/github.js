@@ -1,4 +1,4 @@
-import { asyncEmbed } from './helper'
+import { asyncEmbed } from '../helpers'
 import regex from './regex'
 import 'whatwg-fetch'
 

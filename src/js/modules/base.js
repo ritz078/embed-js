@@ -1,4 +1,4 @@
-import { embed } from './helper'
+import { embed } from '../helpers'
 
 class Base {
 	constructor(input, output, embeds, options, regex, service) {

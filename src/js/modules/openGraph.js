@@ -1,5 +1,5 @@
 import { urlRegex } from './utils'
-import { asyncEmbed } from './helper'
+import { asyncEmbed } from '../helpers'
 import 'whatwg-fetch'
 
 export default class OpenGraph {

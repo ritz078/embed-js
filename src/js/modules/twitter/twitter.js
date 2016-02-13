@@ -1,5 +1,5 @@
 import fetchJsonp from 'fetch-jsonp'
-import { asyncEmbed } from '../helper'
+import { asyncEmbed } from '../../helpers'
 import regex from '../regex'
 
 export default class Twitter {

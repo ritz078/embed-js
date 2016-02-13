@@ -1,4 +1,4 @@
-let regex = {
+const regex = {
 	basicAudio   : /((?:https?):\/\/\S*\.(?:wav|mp3|ogg))/gi,
 	soundCloud   : /(soundcloud.com)\/[a-zA-Z0-9-_]+\/[a-zA-Z0-9-_]+/gi,
 	spotify      : /spotify.com\/track\/[a-zA-Z0-9_]+/gi,
@@ -27,4 +27,4 @@ let regex = {
 	twitter      : /https:\/\/twitter\.com\/\w+\/\w+\/\d+/gi
 };
 
-export default regex
+export default regex;
