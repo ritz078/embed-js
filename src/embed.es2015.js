@@ -2221,8 +2221,8 @@ class Markdown {
 
 		//Fix for heading that should be actually present in marked.js
 		//if gfm is true the `## Heading` is acceptable but `##Heading` is not
-		Marked.Lexer.rules.gfm.heading    = marked.Lexer.rules.normal.heading;
-		Marked.Lexer.rules.tables.heading = marked.Lexer.rules.normal.heading;
+		Marked.Lexer.rules.gfm.heading    = Marked.Lexer.rules.normal.heading;
+		Marked.Lexer.rules.tables.heading = Marked.Lexer.rules.normal.heading;
 
 		this.options.markedOptions.renderer = renderer;
 		this.options.markedOptions.highlight = false;
@@ -2320,7 +2320,7 @@ class Highlight {
 
 			if (this.isPrism()){
 				const PrismJS = this.options.plugins.prismjs;
-				highlightedCode = PrismJS.highlight(code, Prism.languages[language.toLowerCase() || 'markup'])
+				highlightedCode = PrismJS.highlight(code, PrismJS.languages[language.toLowerCase() || 'markup'])
 			}
 			else{
 				const HighlightJS = this.options.plugins.highlightjs;
@@ -2679,11 +2679,11 @@ var defaultOptions = {
 		height    : 460
 	},
 	plugins                : {
-		marked     : marked,
-		videojs    : videojs,
-		highlightjs: hljs,
-		prismjs    : Prism,
-		twitter    : twttr
+		marked     : window.marked,
+		videojs    : window.videojs,
+		highlightjs: window.hljs,
+		prismjs    : window.Prism,
+		twitter    : window.twttr
 	},
 	googleAuthKey          : '',
 	soundCloudOptions      : {

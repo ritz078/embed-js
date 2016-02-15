@@ -90,7 +90,7 @@ export default class Highlight {
 
 			if (this.isPrism()){
 				const PrismJS = this.options.plugins.prismjs;
-				highlightedCode = PrismJS.highlight(code, Prism.languages[language.toLowerCase() || 'markup'])
+				highlightedCode = PrismJS.highlight(code, PrismJS.languages[language.toLowerCase() || 'markup'])
 			}
 			else{
 				const HighlightJS = this.options.plugins.highlightjs;

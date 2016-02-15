@@ -79,11 +79,11 @@ var defaultOptions = {
 		height    : 460
 	},
 	plugins                : {
-		marked     : marked,
-		videojs    : videojs,
-		highlightjs: hljs,
-		prismjs    : Prism,
-		twitter    : twttr
+		marked     : window.marked,
+		videojs    : window.videojs,
+		highlightjs: window.hljs,
+		prismjs    : window.Prism,
+		twitter    : window.twttr
 	},
 	googleAuthKey          : '',
 	soundCloudOptions      : {
