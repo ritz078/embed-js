@@ -907,7 +907,7 @@
     	flickr: /flickr.com\/[a-z]+\/[a-zA-Z@_$!\d\-\]+\/[\d]+/gi,
     	instagram: /instagram.com\/p\/[a-zA-Z0-9_\/\?\-\=]+/gi,
     	slideShare: /slideshare.net\/[a-zA-Z0-9_-]*\/[a-zA-Z0-9_-]*/gi,
-    	github: /[^gist].github.com\/([a-zA-Z0-9\.-]+)\/([a-zA-Z0-9\.-]+)/gi,
+    	github: /[^\.]github.com\/([\w\.\-]+)\/([\w\.\-]+)/gi,
     	basicVideo: /(?:https?):\/\/\S*\.(?:ogv|webm|mp4)/gi,
     	dailymotion: /dailymotion.com\/video\/[a-zA-Z0-9-_]+/gi,
     	liveleak: /liveleak.com\/view\?i=[a-zA-Z0-9_]+/gi,
