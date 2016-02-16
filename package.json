@@ -51,7 +51,7 @@
     "cssnano": "^3.4.0",
     "cz-conventional-changelog": "^1.1.5",
     "es6-promise": "^3.0.2",
-    "eslint": "^2.0.0",
+    "eslint": "^2.1.0",
     "fetch-jsonp": "^1.0.0",
     "grunt": "~0.4.5",
     "grunt-bump": "^0.7.0",

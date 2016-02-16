@@ -7,17 +7,11 @@ export default class Highlight {
 				`'hljs is not defined. HighlightJS library is needed to highlight code. Visit https://highlightjs.org/'`
 			);
 		}
-		else if (!options.plugins.prismjs && this.isPrism()){
-			throw new ReferenceError(`prismjs is not defined.`)
-		}
+
 		this.output          = output;
 		this.options         = options;
 		this.regex           = regex.highlightCode;
 		this.inlineCodeRegex = regex.inlineCode;
-	}
-
-	isPrism(){
-		return this.options.codeHighlighter === 'prismjs'
 	}
 
 	/**
@@ -88,18 +82,12 @@ export default class Highlight {
 			let language = group2.split('\n')[0];
 			let highlightedCode;
 
-			if (this.isPrism()){
-				const PrismJS = this.options.plugins.prismjs;
-				highlightedCode = PrismJS.highlight(code, PrismJS.languages[language.toLowerCase() || 'markup'])
-			}
-			else{
-				const HighlightJS = this.options.plugins.highlightjs;
-				if (language) {
-					highlightedCode = HighlightJS.highlightAuto(code, [language]);
-				} else {
-					highlightedCode = HighlightJS.highlightAuto(code);
-					language        = highlightedCode.language;
-				}
+			const HighlightJS = this.options.plugins.highlightjs;
+			if (language) {
+				highlightedCode = HighlightJS.highlightAuto(code, [language]);
+			} else {
+				highlightedCode = HighlightJS.highlightAuto(code);
+				language        = highlightedCode.language;
 			}
 
 			return Highlight.addTemplate(highlightedCode, language);

@@ -41,7 +41,6 @@ var defaultOptions = {
 	fontIcons              : true,
 	customFontIcons        : [],
 	highlightCode          : false,
-	codeHighlighter        : 'prismjs',
 	videoJS                : false,
 	videojsOptions         : {
 		fluid  : true,

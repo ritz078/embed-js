@@ -1554,29 +1554,22 @@
 
     		if (!options.plugins.highlightjs && !this.isPrism()) {
     			throw new ReferenceError('\'hljs is not defined. HighlightJS library is needed to highlight code. Visit https://highlightjs.org/\'');
-    		} else if (!options.plugins.prismjs && this.isPrism()) {
-    			throw new ReferenceError('prismjs is not defined.');
     		}
+
     		this.output = output;
     		this.options = options;
     		this.regex = regex.highlightCode;
     		this.inlineCodeRegex = regex.inlineCode;
     	}
 
+    	/**
+      * Encodes the characters like <, > and space and replaces them with
+      * &lt;, &gt; and &gt; respectively.
+      * @param  {string} code The string that has to be encoded.
+      * @return {string}      The encoded string
+      */
+
     	babelHelpers.createClass(Highlight, [{
-    		key: 'isPrism',
-    		value: function isPrism() {
-    			return this.options.codeHighlighter === 'prismjs';
-    		}
-
-    		/**
-       * Encodes the characters like <, > and space and replaces them with
-       * &lt;, &gt; and &gt; respectively.
-       * @param  {string} code The string that has to be encoded.
-       * @return {string}      The encoded string
-       */
-
-    	}, {
     		key: 'process',
 
     		/**
@@ -1615,17 +1608,12 @@
     				var language = group2.split('\n')[0];
     				var highlightedCode = undefined;
 
-    				if (_this.isPrism()) {
-    					var PrismJS = _this.options.plugins.prismjs;
-    					highlightedCode = PrismJS.highlight(code, PrismJS.languages[language.toLowerCase() || 'markup']);
+    				var HighlightJS = _this.options.plugins.highlightjs;
+    				if (language) {
+    					highlightedCode = HighlightJS.highlightAuto(code, [language]);
     				} else {
-    					var HighlightJS = _this.options.plugins.highlightjs;
-    					if (language) {
-    						highlightedCode = HighlightJS.highlightAuto(code, [language]);
-    					} else {
-    						highlightedCode = HighlightJS.highlightAuto(code);
-    						language = highlightedCode.language;
-    					}
+    					highlightedCode = HighlightJS.highlightAuto(code);
+    					language = highlightedCode.language;
     				}
 
     				return Highlight.addTemplate(highlightedCode, language);
@@ -2068,7 +2056,6 @@
     	fontIcons: true,
     	customFontIcons: [],
     	highlightCode: false,
-    	codeHighlighter: 'prismjs',
     	videoJS: false,
     	videojsOptions: {
     		fluid: true,

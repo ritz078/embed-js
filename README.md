@@ -25,8 +25,10 @@
 * **[Features](http://riteshkr.com/embed.js)**
 * **[Full Documentation](http://riteshkr.com/embed.js/doc.html)**
 * **[Examples](http://riteshkr.com/embed.js/examples.html)**
-  ​
+
+ ​
 ## CDN
+
 * [jsDelivr](https://www.jsdelivr.com/projects/embed.js)
 
 ## Simple Usage
@@ -73,6 +75,7 @@ x.destroy()
 
 ## Options
 ```js
+
 var options = {
 	//An option when set to true will use marked.js to parse markdown and convert it to HTML.
 	// Make sure you have loaded marked.js before loading embed.js if this option is set to
@@ -136,8 +139,10 @@ var options = {
 	// openGraph API.
 	openGraphExclude       : [],
 
-
+	// Set to false if you want to disable embedding supported video formats.
 	videoEmbed             : true,
+
+
 	videoHeight            : null,
 	videoWidth             : null,
 	videoDetails           : true,
