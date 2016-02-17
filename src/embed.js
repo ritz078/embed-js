@@ -2348,7 +2348,7 @@
     					var output = _ref6[0];
     					var embeds = _ref6[1];
 
-    					return ifEmbed(options, 'opengraph') ? new Github(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
+    					return ifEmbed(options, 'github') ? new Github(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
     				}).then(function (_ref7) {
     					var _ref8 = babelHelpers.slicedToArray(_ref7, 2);
 

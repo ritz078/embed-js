@@ -2802,7 +2802,7 @@ class EmbedJS {
 			}).then(function ([output, embeds]) {
 				return ifEmbed(options, 'vimeo') ? new Vimeo(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
 			}).then(function ([output, embeds]) {
-				return ifEmbed(options, 'opengraph') ? new Github(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
+				return ifEmbed(options, 'github') ? new Github(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
 			}).then(function ([output, embeds]) {
 				return options.locationEmbed && ifEmbed(options, 'gmap') ? new Gmap(input, output, options, embeds).process() : Promise.resolve([output, embeds])
 			}).then(function ([output, embeds]) {
