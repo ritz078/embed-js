@@ -37,7 +37,7 @@
     "autoprefixer-core": "^6.0.1",
     "babel": "^6.3.26",
     "babel-core": "^6.4.0",
-    "babel-eslint": "^4.1.6",
+    "babel-eslint": "^5.0.0",
     "babel-plugin-transform-regenerator": "^6.4.4",
     "babel-preset-es2015-rollup": "^1.1.1",
     "babel-preset-stage-2": "^6.3.13",
