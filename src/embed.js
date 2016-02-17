@@ -172,7 +172,7 @@
      */
     function ifEmbed(options, service) {
         if (options.singleEmbed && options.served.length) return;
-        return options.excludeEmbed.indexOf(service) == -1 || options.excludeEmbed === 'all';
+        return options.excludeEmbed.indexOf(service) == -1 && !(options.excludeEmbed === 'all');
     }
 
     function ifInline(options, service) {
