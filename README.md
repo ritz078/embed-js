@@ -119,7 +119,6 @@ var options = {
 	fontIcons              : true,
 	customFontIcons        : [],
 	highlightCode          : false,
-	codeHighlighter        : 'prismjs',
 	videoJS                : false,
 	videojsOptions         : {
 		fluid  : true,
@@ -191,7 +190,6 @@ var options = {
 	onTweetsLoad           : function () {},
 	videojsCallback        : function () {},
 	onOpenGraphFetch       : function () {},
-	onOpenGraphFail        : function () {},
 	videoClickHandler      : function () {}
 }
 ```
