@@ -26,10 +26,19 @@
 * **[Full Documentation](http://riteshkr.com/embed.js/doc.html)**
 * **[Examples](http://riteshkr.com/embed.js/examples.html)**
 
- ​
+## Installation
+
+To install the stable version:
+```
+npm install --save embed-js
+```
+
+
+
 ## CDN
 
 * [jsDelivr](https://www.jsdelivr.com/projects/embed.js)
+
 
 ## Simple Usage
 
