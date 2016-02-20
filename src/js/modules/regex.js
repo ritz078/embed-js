@@ -1,0 +1,30 @@
+const regex = {
+	basicAudio   : /((?:https?):\/\/\S*\.(?:wav|mp3|ogg))/gi,
+	soundCloud   : /(soundcloud.com)\/[a-zA-Z0-9-_]+\/[a-zA-Z0-9-_]+/gi,
+	spotify      : /spotify.com\/track\/[a-zA-Z0-9_]+/gi,
+	codepen      : /http:\/\/codepen.io\/([A-Za-z0-9_]+)\/pen\/([A-Za-z0-9_]+)/gi,
+	gist         : /gist.github.com\/[a-zA-Z0-9_-]+\/([a-zA-Z0-9]+)/gi,
+	highlightCode: /(`{3})(\s|[a-z]+)\s*([\s\S]*?[^`])\s*\1(?!`)/gm,
+	inlineCode   : /(`)\s*([\s\S]*?[^`])\s*\1(?!`)/gm,
+	ideone       : /ideone.com\/[a-zA-Z0-9]{6}/gi,
+	jsbin        : /jsbin.com\/[a-zA-Z0-9_]+\/[0-9_]+/gi,
+	jsfiddle     : /jsfiddle.net\/[a-zA-Z0-9_]+\/[a-zA-Z0-9_\/]+/gi,
+	plunker      : /plnkr.co\/edit\/[a-zA-Z0-9\?=]+/gi,
+	basicImage   : /((?:https?):\/\/\S*\.(?:gif|jpg|jpeg|tiff|png|svg|webp))/gi,
+	flickr       : /flickr.com\/[a-z]+\/[a-zA-Z@_$!\d\-\]+\/[\d]+/gi,
+	instagram    : /instagram.com\/p\/[a-zA-Z0-9_\/\?\-\=]+/gi,
+	slideShare   : /slideshare.net\/[a-zA-Z0-9_-]*\/[a-zA-Z0-9_-]*/gi,
+	github       : /[^\.]github.com\/([\w\.\-]+)\/([\w\.\-]+)/gi,
+	basicVideo   : /(?:https?):\/\/\S*\.(?:ogv|webm|mp4)/gi,
+	dailymotion  : /dailymotion.com\/video\/[a-zA-Z0-9-_]+/gi,
+	liveleak     : /liveleak.com\/view\?i=[a-zA-Z0-9_]+/gi,
+	ted          : /ted.com\/talks\/[a-zA-Z0-9_]+/gi,
+	ustream      : /ustream.tv\/[a-z\/0-9]*/gi,
+	vimeo        : /https?:\/\/(?:www\.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/([^\/]*)\/videos\/|album\/(\d+)\/video\/|)(\d+)(?:$|\/|\?)*/gi,
+	vine         : /vine.co\/v\/[a-zA-Z0-9]+/gi,
+	youtube      : /https?:\/\/(?:[0-9A-Z-]+\.)?(?:youtu\.be\/|youtube\.com(?:\/embed\/|\/v\/|\/watch\?v=|\/ytscreeningroom\?v=|\/feeds\/api\/videos\/|\/user\S*[^\w\-\s]|\S*[^\w\-\s]))([\w\-]{11})[?=&+%\w-]*/gi,
+	gmap         : /@\((.+)\)/gi,
+	twitter      : /https:\/\/twitter\.com\/\w+\/\w+\/\d+/gi
+};
+
+export default regex;

@@ -1,13 +1,5 @@
 module.exports = function (grunt) {
 
-	var babel    = require('rollup-plugin-babel');
-	var npm      = require('rollup-plugin-npm');
-	var commonjs = require('rollup-plugin-commonjs');
-	var replace  = require('rollup-plugin-replace');
-	var build    = require('./build.json');
-
-	var exec = require('child_process').exec;
-
 	grunt.initConfig({
 
 		// Import package manifest
@@ -37,8 +29,8 @@ module.exports = function (grunt) {
 				tasks: ['sass', 'postcss']
 			},
 			js     : {
-				files: ['src/js/**/*.es6', 'build.json', 'src/js/vendor/*.js'],
-				tasks: ['eslint', 'rollup', 'uglify']
+				files: ['src/js/**/*.js', 'build.json'],
+				tasks: ['eslint', 'shell:rollup', 'uglify']
 			}
 		},
 
@@ -61,17 +53,17 @@ module.exports = function (grunt) {
 
 		'sprite': {
 			all: {
-				src            : './assets/images/ejs_emojis/*.png',
-				dest           : './assets/images/emojis.png',
-				retinaSrcFilter: './assets/images/ejs_emojis/*@2x.png',
-				destCss        : 'src/css/_emojis.scss',
-				retinaDest     : './assets/images/emojis@2x.png',
-				cssFormat      : 'css',
-				cssTemplate    : 'sprite.handlebars',
-				cssHandlebarsHelpers : {
-					escape : function(name){
+				src                 : './assets/images/ejs_emojis/*.png',
+				dest                : './assets/images/emojis.png',
+				retinaSrcFilter     : './assets/images/ejs_emojis/*@2x.png',
+				destCss             : 'src/css/_emojis.scss',
+				retinaDest          : './assets/images/emojis@2x.png',
+				cssFormat           : 'css',
+				cssTemplate         : 'sprite.handlebars',
+				cssHandlebarsHelpers: {
+					escape: function (name) {
 						var x = ['+', '-', '/', '*'];
-						if(x.indexOf(name[0]) !== -1) return '\\'+name;
+						if (x.indexOf(name[0]) !== -1) return '\\' + name;
 						return name;
 					}
 				}
@@ -103,7 +95,7 @@ module.exports = function (grunt) {
 					style: 'expanded'
 				},
 				files  : {
-					'src/embed.css': 'src/css/embed.scss',
+					'src/embed.css': 'src/css/embed.scss'
 				}
 			}
 		},
@@ -147,34 +139,8 @@ module.exports = function (grunt) {
 			}
 		},
 
-		rollup: {
-			options: {
-				format       : 'umd',
-				banner       : "<%= meta.banner %>",
-				externals    : ['regeneratorRuntime'],
-				sourceMap    : true,
-				useStrict    : true,
-				sourceMapFile: 'src/embed.js',
-				plugins      : [
-					npm({
-						jsnext: true,
-						main  : true
-					}),
-					commonjs({
-						include: 'node_modules/**'
-					}),
-					babel(),
-					replace(build)
-				]
-			},
-			files  : {
-				src : 'src/js/embed.es6',
-				dest: 'src/embed.js'
-			}
-		},
-
 		eslint: {
-			target: ['src/js/**/*.es6']
+			target: ['src/js/**/*.js']
 		},
 
 		'string-replace': {
@@ -233,32 +199,24 @@ module.exports = function (grunt) {
 			}
 		},
 
-		mocha: {
-			test: {
-				src: ['test/testrunner.html'],
-				options:{
-					run:true
-				}
-			}
-		},
-
-		shell:{
-			publish : {
-				command : 'npm publish'
+		shell: {
+			publish: {
+				command: 'npm publish'
+			},
+			rollup : {
+				command: 'rollup -c rollup.umd.config.js && rollup -c rollup.es2015.config.js'
 			}
 		}
 	});
 
 	require('load-grunt-tasks')(grunt);
 
-	grunt.registerTask("default", ["eslint", "rollup", "sass", "connect", "watch"]);
-	grunt.registerTask("build", ["clean", "build-emoji", "eslint", "rollup", "sass", "uglify", "string-replace", "postcss", "copy"]);
+	grunt.registerTask("default", ["eslint", "shell:rollup", "sass", "connect", "watch"]);
+	grunt.registerTask("build", ["clean", "build-emoji", "eslint", "shell:rollup", "sass", "uglify", "string-replace", "postcss", "copy"]);
 	grunt.registerTask("build-emoji", ["retinafy", "sprite", "sass"]);
-	grunt.registerTask("dist", ["clean", "eslint", "rollup", "sass", "uglify", "string-replace", "postcss", "copy"]);
+	grunt.registerTask("dist", ["clean", "eslint", "shell:rollup", "sass", "uglify", "string-replace", "postcss", "copy"]);
 
 	grunt.registerTask("release", function (option) {
-		grunt.task.run(["bump-only:" + option, "dist","conventionalChangelog", "bump-commit","shell"]);
+		grunt.task.run(["bump-only:" + option, "dist", "conventionalChangelog", "bump-commit", "shell:publish"]);
 	});
-
-	grunt.registerTask("test",["mocha"]);
 };
