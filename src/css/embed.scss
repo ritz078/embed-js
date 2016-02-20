@@ -138,7 +138,10 @@ code {
 }
 
 .ejs-video-detail {
-  width: calc(100% - 200px);
+  position: absolute;
+  left: 200px;
+  right: 10px;
+  height: 100%;
   float: left;
   padding-left: 15px;
   box-sizing: border-box;
@@ -248,7 +251,10 @@ code {
 }
 
 .ejs-ogp-details {
-  width: calc(100% - 200px);
+  position: absolute;
+  left: 200px;
+  right: 10px;
+  height: 100%;
   display: inline-block;
   margin-left: -4px;
   vertical-align: top;
