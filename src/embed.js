@@ -2473,13 +2473,11 @@
 
     	}, {
     		key: 'text',
-    		value: function text() {
+    		value: function text(callback) {
     			var _this3 = this;
 
-    			return new Promise(function (resolve) {
-    				_this3.process().then(function () {
-    					resolve(_this3.data);
-    				});
+    			this.process().then(function (data) {
+    				return callback(data, _this3.input);
     			});
     		}
 

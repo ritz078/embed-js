@@ -311,12 +311,8 @@ export default class EmbedJS {
 	 * returns the resulting string based on the input and the options passed by the user.
 	 * @return Promise
 	 */
-	text() {
-		return new Promise((resolve) => {
-			this.process().then(() => {
-				resolve(this.data)
-			})
-		})
+	text(callback) {
+		this.process().then((data)=> callback(data, this.input))
 	}
 
 	/**
