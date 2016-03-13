@@ -28,17 +28,15 @@ export default class OpenGraph {
 	}
 
 	static urlToText(_, match, url) {
-		if (!url.match(_.excludeRegex)) return;
+		if (url.match(_.excludeRegex)) return Promise.resolve();
 
 		return new Promise((resolve) => {
-			OpenGraph.fetchData(url, _).then((data) => resolve(data && data.success ? _.template(data) : null))
+			OpenGraph.fetchData(url, _).then((data) => resolve(data && data.success ? _.template(data) : ''))
 		})
 	}
 
 
 	process() {
-		return new Promise(function (resolve) {
-			asyncEmbed(this, OpenGraph.urlToText).then((data) => resolve(data))
-		})
+		return new Promise((resolve) => asyncEmbed(this, OpenGraph.urlToText).then((data) => resolve(data)))
 	}
 }

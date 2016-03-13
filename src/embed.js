@@ -1944,8 +1944,10 @@
     	}, {
     		key: 'process',
     		value: function process() {
+    			var _this = this;
+
     			return new Promise(function (resolve) {
-    				asyncEmbed(this, OpenGraph.urlToText).then(function (data) {
+    				return asyncEmbed(_this, OpenGraph.urlToText).then(function (data) {
     					return resolve(data);
     				});
     			});
@@ -1966,11 +1968,11 @@
     	}, {
     		key: 'urlToText',
     		value: function urlToText(_, match, url) {
-    			if (!url.match(_.excludeRegex)) return;
+    			if (url.match(_.excludeRegex)) return Promise.resolve();
 
     			return new Promise(function (resolve) {
     				OpenGraph.fetchData(url, _).then(function (data) {
-    					return resolve(data && data.success ? _.template(data) : null);
+    					return resolve(data && data.success ? _.template(data) : '');
     				});
     			});
     		}
@@ -2081,6 +2083,7 @@
     	videoWidth: null,
     	videoDetails: true,
     	audioEmbed: true,
+    	imageEmbed: true,
     	excludeEmbed: [],
     	inlineEmbed: [],
     	inlineText: true,

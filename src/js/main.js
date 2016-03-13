@@ -1,4 +1,4 @@
-import { ifEmbed, createText, deepExtend, cloneObject, processOptions } from './modules/utils'
+import {ifEmbed, createText, deepExtend, cloneObject, processOptions} from './modules/utils'
 
 import Renderer    from './modules/template'
 
@@ -23,7 +23,7 @@ import Github      from './modules/github'
 
 import regex from './modules/regex'
 
-import { applyVideoJS, playVideo, destroyVideos, baseEmbed } from './helpers'
+import {applyVideoJS, playVideo, destroyVideos, baseEmbed} from './helpers'
 
 var globalOptions = {};
 
@@ -66,6 +66,7 @@ var defaultOptions = {
 	videoWidth             : null,
 	videoDetails           : true,
 	audioEmbed             : true,
+	imageEmbed             : true,
 	excludeEmbed           : [],
 	inlineEmbed            : [],
 	inlineText             : true,
