@@ -191,7 +191,8 @@ module.exports = function (grunt) {
 			options: {
 				changelogOpts: {
 					// conventional-changelog options go here
-					preset: 'angular'
+					preset: 'angular',
+					releaseCount: 0
 				}
 			},
 			release: {
