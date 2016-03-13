@@ -38,7 +38,7 @@ npm install --save embed-js
 ## CDN
 
 * [jsDelivr](https://www.jsdelivr.com/projects/embed.js)
-
+* [cdnjs](https://cdnjs.com/libraries/embed-js)
 
 ## Simple Usage
 
