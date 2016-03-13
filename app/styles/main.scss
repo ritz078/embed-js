@@ -17,20 +17,21 @@
   width: 100%;
   z-index: 98;
   margin-top: 55px;
+  padding-bottom: 40px;
   .twitter-btn{
     line-height: 20px;
-    padding: 0 20px;
-    height: 30px;
+    padding: 0 10px;
+    height: 20px;
     background-color: #fff;
     border: 0;
     border-radius: 2px;
     text-transform: capitalize;
     letter-spacing: 0;
     color: #1B95E0;
-    font-size: 14px;
+    font-size: 10px;
     margin-top: 3px;
     i{
-      font-size: 17px;
+      font-size: 12px;
       margin-right: 4px;
       vertical-align: text-top;
     }
@@ -82,7 +83,7 @@
       .star {
         padding-top: 3px;
         iframe {
-          width: 132px;
+          width: 85px;
           height: 30px;
         }
       }
