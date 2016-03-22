@@ -82,16 +82,6 @@ If you wan't to destroy the instance. It will also replace the processed string 
 x.destroy()
 ```
 
-## Creating custom build
-
-Set the features you don't want to **false** in `build.json` and then run
-
-```
-grunt build
-```
-
-This will create a customized build of the plugin.
-
 ## Adding custom emojis
 
 1. Add the image to **assets/images/emojis**. Make sure the name of the file is same as emoji name.
