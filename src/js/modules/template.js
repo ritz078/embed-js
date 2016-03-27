@@ -10,8 +10,8 @@ export default class Renderer{
 		return `<a href="${toUrl(match)}" rel="${config.rel}" target="${config.target}">${match}</a>`;
 	}
 
-	smiley(text, code) {
-		return ` <span class="icon-emoticon" title="${text}">${code}</span> `;
+	smiley(text, pre, code) {
+		return `<span class="icon-emoticon" title="${text}">${pre}${code}</span>`;
 	}
 
 	emoji(text){

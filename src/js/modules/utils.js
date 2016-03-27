@@ -42,7 +42,7 @@ export function toUrl(string) {
  */
 export function deepExtend(destination, source) {
     for (var property in source) {
-        if (source[property] && source[property].constructor === Object) {
+        if (source.hasOwnProperty(property) && source[property] && source[property].constructor === Object) {
             destination[property] = destination[property] || {};
             deepExtend(destination[property], source[property]);
         } else {
@@ -53,7 +53,7 @@ export function deepExtend(destination, source) {
 }
 
 export function escapeRegExp(str) {
-    return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
+    return str.replace(/[\-\[\]\/\{}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
 }
 
 /**
