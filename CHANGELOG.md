@@ -1,3 +1,13 @@
+<a name="4.0.1"></a>
+## [4.0.1](https://github.com/ritz078/embed.js/compare/v4.0.0...v4.0.1) (2016-03-27)
+
+
+### Bug Fixes
+
+* **smiley:** fixed a condition when continuous smileys were not shown. ([8c448e6](https://github.com/ritz078/embed.js/commit/8c448e6)), closes [#149](https://github.com/ritz078/embed.js/issues/149)
+
+
+
 <a name="4.0.0"></a>
 # [4.0.0](https://github.com/ritz078/embed.js/compare/v3.7.4...v4.0.0) (2016-03-13)
 

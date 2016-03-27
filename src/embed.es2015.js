@@ -1,5 +1,5 @@
 /*
- * embed-js - v4.0.0
+ * embed-js - v4.0.1
  * A JavaScript plugin that analyses the string and embeds emojis, media, tweets, code and services.
  * http://riteshkr.com/embed.js
  *
