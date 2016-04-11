@@ -1,3 +1,13 @@
+<a name="4.0.2"></a>
+## [4.0.2](https://github.com/ritz078/embed.js/compare/v4.0.1...v4.0.2) (2016-04-11)
+
+
+### Bug Fixes
+
+* **link:** text disappears when link turned to false ([c4077c3](https://github.com/ritz078/embed.js/commit/c4077c3)), closes [#157](https://github.com/ritz078/embed.js/issues/157)
+
+
+
 <a name="4.0.1"></a>
 ## [4.0.1](https://github.com/ritz078/embed.js/compare/v4.0.0...v4.0.1) (2016-03-27)
 
