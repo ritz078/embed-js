@@ -85,7 +85,7 @@ x.destroy()
 ## Adding custom emojis
 
 1. Add the image to **assets/images/emojis**. Make sure the name of the file is same as emoji name.
-1. Pass the emoji name as the value to `customEmoji`. See the example [here](http://riteshkr.com/embed.js/doc.html#emoji)
+1. Pass the emoji name as the value to `customEmoji`. See the example [here](https://embedjs.readme.io/docs/options#customemoji)
 1. Run `grunt build-emoji && grunt build`
 
 ## License
