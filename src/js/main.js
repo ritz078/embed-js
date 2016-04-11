@@ -165,7 +165,7 @@ export default class EmbedJS {
 		const input   = this.input;
 		const options = processOptions(this.options);
 		let embeds    = [];
-		let output    = '';
+		let output    = input;
 
 		this.options.beforeEmbedJSApply();
 

@@ -2190,7 +2190,7 @@
     			var input = this.input;
     			var options = processOptions(this.options);
     			var embeds = [];
-    			var output = '';
+    			var output = input;
 
     			this.options.beforeEmbedJSApply();
 
