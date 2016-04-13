@@ -9,7 +9,8 @@
     "JavaScript",
     "embed-js",
     "emoticon",
-    "jquery-embed"
+    "jquery-embed",
+    "emoji"
   ],
   "main": "./src/embed.js",
   "jsnext:main": "./src/embed.es2015.js",

@@ -17,7 +17,8 @@
     "JavaScript",
     "embed-js",
     "emoticon",
-    "jquery-embed"
+    "jquery-embed",
+	"emoji"
   ],
   "homepage": "http://riteshkr.com/embed.js",
   "moduleType": [],
