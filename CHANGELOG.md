@@ -1,3 +1,13 @@
+<a name="4.0.3"></a>
+## [4.0.3](https://github.com/ritz078/embed.js/compare/v4.0.2...v4.0.3) (2016-04-16)
+
+
+### Bug Fixes
+
+* **emoji:** fixed regex for +1 and -1 ([6b07ba6](https://github.com/ritz078/embed.js/commit/6b07ba6)), closes [#164](https://github.com/ritz078/embed.js/issues/164)
+
+
+
 <a name="4.0.2"></a>
 ## [4.0.2](https://github.com/ritz078/embed.js/compare/v4.0.1...v4.0.2) (2016-04-11)
 
