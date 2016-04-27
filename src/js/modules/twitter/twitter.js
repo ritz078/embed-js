@@ -12,7 +12,9 @@ export default class Twitter {
 		this.service = 'twitter';
 
 		this.load = this.load.bind(this);
-		this.options.input.addEventListener('rendered', this.load, false);
+		if(typeof this.options.input !== 'string'){
+			this.options.input.addEventListener('rendered', this.load, false);
+		}
 	}
 
 	/**

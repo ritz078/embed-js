@@ -10,9 +10,11 @@ export default class Gist {
 		this.regex   = regex.gist;
 		this.service = 'gist';
 
-		this.options.input.addEventListener('rendered', () => {
-			this.load()
-		})
+		if(typeof this.options.input !== 'string'){
+			this.options.input.addEventListener('rendered', () => {
+				this.load()
+			})
+		}
 	}
 
 	template(match) {

@@ -936,7 +936,9 @@
     		this.service = 'twitter';
 
     		this.load = this.load.bind(this);
-    		this.options.input.addEventListener('rendered', this.load, false);
+    		if (typeof this.options.input !== 'string') {
+    			this.options.input.addEventListener('rendered', this.load, false);
+    		}
     	}
 
     	/**
@@ -1679,9 +1681,11 @@
     		this.regex = regex.gist;
     		this.service = 'gist';
 
-    		this.options.input.addEventListener('rendered', function () {
-    			_this.load();
-    		});
+    		if (typeof this.options.input !== 'string') {
+    			this.options.input.addEventListener('rendered', function () {
+    				_this.load();
+    			});
+    		}
     	}
 
     	babelHelpers.createClass(Gist, [{
