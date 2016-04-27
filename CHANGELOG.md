@@ -1,3 +1,13 @@
+<a name="4.0.4"></a>
+## [4.0.4](https://github.com/ritz078/embed.js/compare/v4.0.3...v4.0.4) (2016-04-27)
+
+
+### Bug Fixes
+
+* **string:** fixed addEventlistener of undefined when input is string ([73924ba](https://github.com/ritz078/embed.js/commit/73924ba)), closes [#167](https://github.com/ritz078/embed.js/issues/167)
+
+
+
 <a name="4.0.3"></a>
 ## [4.0.3](https://github.com/ritz078/embed.js/compare/v4.0.2...v4.0.3) (2016-04-16)
 
