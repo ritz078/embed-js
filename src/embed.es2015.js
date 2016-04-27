@@ -803,7 +803,9 @@ class Twitter {
 		this.service = 'twitter';
 
 		this.load = this.load.bind(this);
-		this.options.input.addEventListener('rendered', this.load, false);
+		if(typeof this.options.input !== 'string'){
+			this.options.input.addEventListener('rendered', this.load, false);
+		}
 	}
 
 	/**
@@ -1467,9 +1469,11 @@ class Gist {
 		this.regex   = regex.gist;
 		this.service = 'gist';
 
-		this.options.input.addEventListener('rendered', () => {
-			this.load()
-		})
+		if(typeof this.options.input !== 'string'){
+			this.options.input.addEventListener('rendered', () => {
+				this.load()
+			})
+		}
 	}
 
 	template(match) {
