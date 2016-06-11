@@ -19,7 +19,7 @@ export default class Renderer{
 	}
 
 	audio(match){
-		return `<div class="ejs-audio ejs-embed"><audio src="${match}" controls class="video-js ejs-video-js"></audio></div>`
+		return `<div class="ejs-audio ejs-plyr ejs-embed"><audio src="${match}" controls class="video-js ejs-video-js"></audio></div>`
 	}
 
 	soundcloud(match, options){
@@ -82,7 +82,7 @@ export default class Renderer{
 	}
 
 	video(match){
-		return `<div class="ejs-video ejs-embed"><div class="ejs-video-player"><div class="ejs-player"><video src="${match}" class="ejs-video-js video-js" controls></video></div></div></div>`
+		return `<div class="ejs-video ejs-embed"><div class="ejs-video-player"><div class="ejs-player ejs-plyr"><video src="${match}" class="ejs-video-js video-js" controls></video></div></div></div>`
 	}
 
 	dailymotion(match, options){
@@ -121,11 +121,15 @@ export default class Renderer{
 	}
 
 	vimeo(url, options){
-		return `<div class="ejs-video-player ejs-embed"><iframe src="${url}" frameBorder="0" width="${options.videoWidth}" height="${options.videoHeight}"></iframe></div>`
+		return options.plyr ?
+			`<div class='ejs-plyr'><div data-video-type='vimeo' data-video-id='${lastElement(url.split("/"))}'></div></div>` :
+			`<div class="ejs-video-player ejs-embed"><iframe src="${url}" frameBorder="0" width="${options.videoWidth}" height="${options.videoHeight}"></iframe></div>`
 	}
 
 	youtube(url, options){
-		return `<div class="ejs-video-player ejs-embed"><iframe src="${url}" frameBorder="0" width="${options.videoWidth}" height="${options.videoHeight}"></iframe></div>`
+		return options.plyr ?
+			`<div class='ejs-plyr'><div data-video-type='youtube' data-video-id='${lastElement(url.split("/"))}'></div></div>` :
+			`<div class="ejs-video-player ejs-embed"><iframe src="${url}" frameBorder="0" width="${options.videoWidth}" height="${options.videoHeight}"></iframe></div>`
 	}
 
 	openGraph(data, options){

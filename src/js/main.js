@@ -23,7 +23,7 @@ import Github      from './modules/github'
 
 import regex from './modules/regex'
 
-import {applyVideoJS, playVideo, destroyVideos, baseEmbed} from './helpers'
+import {applyPlyr, applyVideoJS, playVideo, destroyVideos, baseEmbed} from './helpers'
 
 var globalOptions = {};
 
@@ -46,6 +46,8 @@ var defaultOptions = {
 		fluid  : true,
 		preload: 'metadata'
 	},
+	plyr                : false,
+	plyrOptions         : {},
 	locationEmbed          : true,
 	mapOptions             : {
 		mode: 'place'
@@ -81,6 +83,7 @@ var defaultOptions = {
 	plugins                : {
 		marked     : window.marked,
 		videojs    : window.videojs,
+		plyr       : window.plyr,
 		highlightjs: window.hljs,
 		prismjs    : window.Prism,
 		twitter    : window.twttr
@@ -280,6 +283,7 @@ export default class EmbedJS {
 	 */
 	applyListeners() {
 		applyVideoJS(this.options);
+		applyPlyr(this.options);
 
 		playVideo(this.options);
 

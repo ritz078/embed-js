@@ -177,7 +177,7 @@ class Renderer{
 	}
 
 	audio(match){
-		return `<div class="ejs-audio ejs-embed"><audio src="${match}" controls class="video-js ejs-video-js"></audio></div>`
+		return `<div class="ejs-audio ejs-plyr ejs-embed"><audio src="${match}" controls class="video-js ejs-video-js"></audio></div>`
 	}
 
 	soundcloud(match, options){
@@ -240,7 +240,7 @@ class Renderer{
 	}
 
 	video(match){
-		return `<div class="ejs-video ejs-embed"><div class="ejs-video-player"><div class="ejs-player"><video src="${match}" class="ejs-video-js video-js" controls></video></div></div></div>`
+		return `<div class="ejs-video ejs-embed"><div class="ejs-video-player"><div class="ejs-player ejs-plyr"><video src="${match}" class="ejs-video-js video-js" controls></video></div></div></div>`
 	}
 
 	dailymotion(match, options){
@@ -279,11 +279,15 @@ class Renderer{
 	}
 
 	vimeo(url, options){
-		return `<div class="ejs-video-player ejs-embed"><iframe src="${url}" frameBorder="0" width="${options.videoWidth}" height="${options.videoHeight}"></iframe></div>`
+		return options.plyr ?
+			`<div class='ejs-plyr'><div data-video-type='vimeo' data-video-id='${lastElement(url.split("/"))}'></div></div>` :
+			`<div class="ejs-video-player ejs-embed"><iframe src="${url}" frameBorder="0" width="${options.videoWidth}" height="${options.videoHeight}"></iframe></div>`
 	}
 
 	youtube(url, options){
-		return `<div class="ejs-video-player ejs-embed"><iframe src="${url}" frameBorder="0" width="${options.videoWidth}" height="${options.videoHeight}"></iframe></div>`
+		return options.plyr ?
+			`<div class='ejs-plyr'><div data-video-type='youtube' data-video-id='${lastElement(url.split("/"))}'></div></div>` :
+			`<div class="ejs-video-player ejs-embed"><iframe src="${url}" frameBorder="0" width="${options.videoWidth}" height="${options.videoHeight}"></iframe></div>`
 	}
 
 	openGraph(data, options){
@@ -605,6 +609,19 @@ function getDetailsTemplate(data, fullData, embedUrl, options) {
 		return options.template.detailsVimeo(data, fullData, embedUrl, options)
 	} else if (data.host === 'youtube') {
 		return options.template.detailsYoutube(data, fullData, embedUrl, options)
+	}
+}
+
+/**
+ * Applies video.js to all audio and video dynamically
+ * @param  {object} options Options object
+ * @return {null}
+ */
+function applyPlyr (options) {
+	if (options.plyr) {
+		if (!options.plugins.plyr) throw new ReferenceError("You have enabled plyr but you haven't loaded the library.Find it at https://plyr.io/");
+		let plyr = options.plugins.plyr;
+		plyr.setup('.ejs-plyr', options.plyrOptions);
 	}
 }
 
@@ -1768,6 +1785,8 @@ var defaultOptions = {
 		fluid  : true,
 		preload: 'metadata'
 	},
+	plyr                : false,
+	plyrOptions         : {},
 	locationEmbed          : true,
 	mapOptions             : {
 		mode: 'place'
@@ -1803,6 +1822,7 @@ var defaultOptions = {
 	plugins                : {
 		marked     : window.marked,
 		videojs    : window.videojs,
+		plyr       : window.plyr,
 		highlightjs: window.hljs,
 		prismjs    : window.Prism,
 		twitter    : window.twttr
@@ -2002,6 +2022,7 @@ class EmbedJS {
 	 */
 	applyListeners() {
 		applyVideoJS(this.options);
+		applyPlyr(this.options);
 
 		playVideo(this.options);
 
