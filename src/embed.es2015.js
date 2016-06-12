@@ -300,6 +300,8 @@ class Renderer{
 }
 
 const regex = {
+	mentions     : /\B@[a-z0-9_-]+/gi,
+	hashtag      : /\B#[a-z0-9_-]+/gi,
 	basicAudio   : /((?:https?):\/\/\S*\.(?:wav|mp3|ogg))/gi,
 	soundCloud   : /(soundcloud.com)\/[a-zA-Z0-9-_]+\/[a-zA-Z0-9-_]+/gi,
 	spotify      : /spotify.com\/track\/[a-zA-Z0-9_]+/gi,
@@ -1764,6 +1766,22 @@ class Github {
 	}
 }
 
+function mentions (input, options) {
+	const mRegex = regex.mentions;
+	return input.replace(mRegex,(match) => {
+		const username = match.split('@')[1];
+		return options.mentionsUrl(username);
+	})
+}
+
+function hashtag (input, options) {
+	const hRegex = regex.hashtag;
+	return input.replace(hRegex,(match)=>{
+		const username = match.split('#')[1];
+		return options.hashtagUrl(username);
+	})
+}
+
 var globalOptions = {};
 
 var defaultOptions = {
@@ -1780,6 +1798,8 @@ var defaultOptions = {
 	fontIcons              : true,
 	customFontIcons        : [],
 	highlightCode          : false,
+	mentions               : false,
+	hashtag                : false,
 	videoJS                : false,
 	videojsOptions         : {
 		fluid  : true,
@@ -1841,6 +1861,10 @@ var defaultOptions = {
 	},
 	videoClickClass        : 'ejs-video-thumb',
 	customVideoClickHandler: false,
+	mentionsUrl            : function () {
+	},
+	hashtagUrl             : function () {
+	},
 	beforeEmbedJSApply     : function () {
 	},
 	afterEmbedJSApply      : function () {
@@ -1929,6 +1953,12 @@ class EmbedJS {
 				}
 				if (options.fontIcons) {
 					output = new Smiley(output, options).process()
+				}
+				if (options.mentions) {
+					output = mentions(output, options);
+				}
+				if (options.hashtag) {
+					output = hashtag(output, options);
 				}
 
 				[output, embeds] = baseEmbed(input, output, embeds, options, regex.ideone, 'ideone');

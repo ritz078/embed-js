@@ -398,6 +398,8 @@
     }();
 
     var regex = {
+    	mentions: /\B@[a-z0-9_-]+/gi,
+    	hashtag: /\B#[a-z0-9_-]+/gi,
     	basicAudio: /((?:https?):\/\/\S*\.(?:wav|mp3|ogg))/gi,
     	soundCloud: /(soundcloud.com)\/[a-zA-Z0-9-_]+\/[a-zA-Z0-9-_]+/gi,
     	spotify: /spotify.com\/track\/[a-zA-Z0-9_]+/gi,
@@ -2067,6 +2069,22 @@
     	return Github;
     }();
 
+    function mentions (input, options) {
+    	var mRegex = regex.mentions;
+    	return input.replace(mRegex, function (match) {
+    		var username = match.split('@')[1];
+    		return options.mentionsUrl(username);
+    	});
+    }
+
+    function hashtag (input, options) {
+    	var hRegex = regex.hashtag;
+    	return input.replace(hRegex, function (match) {
+    		var username = match.split('#')[1];
+    		return options.hashtagUrl(username);
+    	});
+    }
+
     var globalOptions = {};
 
     var defaultOptions = {
@@ -2083,6 +2101,8 @@
     	fontIcons: true,
     	customFontIcons: [],
     	highlightCode: false,
+    	mentions: false,
+    	hashtag: false,
     	videoJS: false,
     	videojsOptions: {
     		fluid: true,
@@ -2144,6 +2164,8 @@
     	},
     	videoClickClass: 'ejs-video-thumb',
     	customVideoClickHandler: false,
+    	mentionsUrl: function mentionsUrl() {},
+    	hashtagUrl: function hashtagUrl() {},
     	beforeEmbedJSApply: function beforeEmbedJSApply() {},
     	afterEmbedJSApply: function afterEmbedJSApply() {},
     	onVideoShow: function onVideoShow() {},
@@ -2236,6 +2258,12 @@
     					}
     					if (options.fontIcons) {
     						output = new Smiley(output, options).process();
+    					}
+    					if (options.mentions) {
+    						output = mentions(output, options);
+    					}
+    					if (options.hashtag) {
+    						output = hashtag(output, options);
     					}
 
     					var _baseEmbed = baseEmbed(input, output, embeds, options, regex.ideone, 'ideone');

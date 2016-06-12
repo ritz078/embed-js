@@ -21,6 +21,9 @@ import SlideShare  from './modules/image/slideshare'
 import OpenGraph   from './modules/openGraph'
 import Github      from './modules/github'
 
+import mentions    from './modules/mentions';
+import hashtag     from './modules/hashtag';
+
 import regex from './modules/regex'
 
 import {applyPlyr, applyVideoJS, playVideo, destroyVideos, baseEmbed} from './helpers'
@@ -41,6 +44,8 @@ var defaultOptions = {
 	fontIcons              : true,
 	customFontIcons        : [],
 	highlightCode          : false,
+	mentions               : false,
+	hashtag                : false,
 	videoJS                : false,
 	videojsOptions         : {
 		fluid  : true,
@@ -102,6 +107,10 @@ var defaultOptions = {
 	},
 	videoClickClass        : 'ejs-video-thumb',
 	customVideoClickHandler: false,
+	mentionsUrl            : function () {
+	},
+	hashtagUrl             : function () {
+	},
 	beforeEmbedJSApply     : function () {
 	},
 	afterEmbedJSApply      : function () {
@@ -190,6 +199,12 @@ export default class EmbedJS {
 				}
 				if (options.fontIcons) {
 					output = new Smiley(output, options).process()
+				}
+				if (options.mentions) {
+					output = mentions(output, options);
+				}
+				if (options.hashtag) {
+					output = hashtag(output, options);
 				}
 
 				[output, embeds] = baseEmbed(input, output, embeds, options, regex.ideone, 'ideone');
