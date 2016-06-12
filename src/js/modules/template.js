@@ -19,7 +19,7 @@ export default class Renderer{
 	}
 
 	audio(match){
-		return `<div class="ejs-audio ejs-embed"><audio src="${match}" controls class="video-js ejs-video-js"></audio></div>`
+		return `<div class="ejs-audio ejs-plyr ejs-embed"><audio src="${match}" controls class="video-js ejs-video-js"></audio></div>`
 	}
 
 	soundcloud(match, options){
@@ -82,7 +82,7 @@ export default class Renderer{
 	}
 
 	video(match){
-		return `<div class="ejs-video ejs-embed"><div class="ejs-video-player"><div class="ejs-player"><video src="${match}" class="ejs-video-js video-js" controls></video></div></div></div>`
+		return `<div class="ejs-video ejs-embed"><div class="ejs-video-player"><div class="ejs-player ejs-plyr"><video src="${match}" class="ejs-video-js video-js" controls></video></div></div></div>`
 	}
 
 	dailymotion(match, options){
@@ -121,11 +121,15 @@ export default class Renderer{
 	}
 
 	vimeo(url, options){
-		return `<div class="ejs-video-player ejs-embed"><iframe src="${url}" frameBorder="0" width="${options.videoWidth}" height="${options.videoHeight}"></iframe></div>`
+		return options.plyr ?
+			`<div class='ejs-plyr'><div data-video-type='vimeo' data-video-id='${lastElement(url.split("/"))}'></div></div>` :
+			`<div class="ejs-video-player ejs-embed"><iframe src="${url}" frameBorder="0" width="${options.videoWidth}" height="${options.videoHeight}"></iframe></div>`
 	}
 
 	youtube(url, options){
-		return `<div class="ejs-video-player ejs-embed"><iframe src="${url}" frameBorder="0" width="${options.videoWidth}" height="${options.videoHeight}"></iframe></div>`
+		return options.plyr ?
+			`<div class='ejs-plyr'><div data-video-type='youtube' data-video-id='${lastElement(url.split("/"))}'></div></div>` :
+			`<div class="ejs-video-player ejs-embed"><iframe src="${url}" frameBorder="0" width="${options.videoWidth}" height="${options.videoHeight}"></iframe></div>`
 	}
 
 	openGraph(data, options){
@@ -134,5 +138,16 @@ export default class Renderer{
 
 	github(data, options){
 		return `<div class="ejs-embed ejs-github"><div class="ejs-ogp-thumb" style="background-image:url(${data.owner.avatar_url})"></div><div class="ejs-ogp-details"><div class="ejs-ogp-title"><a href="${data.html_url}" target="${options.linkOptions.target}">${data.full_name}</a></div><div class="ejs-ogb-details">${data.description}</div><div class="ejs-github-stats"><span><i class="fa fa-star"></i>${data.stargazers_count}</span><span><i class="fa fa-code-fork"></i>${data.network_count}</span></div></div></div>`
+	}
+
+	gmap(latitude, longitude, location, options){
+		const config = options.mapOptions;
+		if (config.mode === 'place') {
+			return `<div class="ejs-embed ejs-map"><iframe width="${options.videoWidth}" height="${options.videoHeight}" src="https://www.google.com/maps/embed/v1/place?key=${options.googleAuthKey}&q=${location}"></iframe></div>`;
+		} else if (config.mode === 'streetview') {
+			return `<div class="ejs-embed ejs-map"><iframe width="${options.videoWidth}" height="${options.videoHeight}" src="https://www.google.com/maps/embed/v1/streetview?key=${options.googleAuthKey}&location=${latitude},${longitude}&heading=210&pitch=10&fov=35"></iframe></div>`;
+		} else if (config.mode === 'view') {
+			return `<div class="ejs-embed ejs-map"><iframe width="${options.videoWidth}" height="${options.videoHeight}" src="https://www.google.com/maps/embed/v1/view?key=${options.googleAuthKey}&center=${latitude},${longitude}&zoom=18&maptype=satellite"></iframe></div>`
+		}
 	}
 }
