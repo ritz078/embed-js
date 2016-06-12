@@ -1,3 +1,14 @@
+<a name="4.1.0"></a>
+# [4.1.0](https://github.com/ritz078/embed.js/compare/v4.0.4...v4.1.0) (2016-06-12)
+
+
+### Features
+
+* **gmap:** added template to google map ([b80a6ca](https://github.com/ritz078/embed.js/commit/b80a6ca)), closes [#162](https://github.com/ritz078/embed.js/issues/162)
+* **hashtag & mentions:** added support for hashtag & mentions ([a53da81](https://github.com/ritz078/embed.js/commit/a53da81)), closes [#161](https://github.com/ritz078/embed.js/issues/161)
+
+
+
 <a name="4.0.4"></a>
 ## [4.0.4](https://github.com/ritz078/embed.js/compare/v4.0.3...v4.0.4) (2016-04-27)
 
