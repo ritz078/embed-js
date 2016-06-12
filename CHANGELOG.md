@@ -4,6 +4,7 @@
 
 ### Features
 
+* **plyr** added support for plyr.js ([d385ed2](https://github.com/ritz078/embed.js/commit/d385ed2)),
 * **gmap:** added template to google map ([b80a6ca](https://github.com/ritz078/embed.js/commit/b80a6ca)), closes [#162](https://github.com/ritz078/embed.js/issues/162)
 * **hashtag & mentions:** added support for hashtag & mentions ([a53da81](https://github.com/ritz078/embed.js/commit/a53da81)), closes [#161](https://github.com/ritz078/embed.js/issues/161)
 
