@@ -393,6 +393,18 @@
     		value: function github(data, options) {
     			return '<div class="ejs-embed ejs-github"><div class="ejs-ogp-thumb" style="background-image:url(' + data.owner.avatar_url + ')"></div><div class="ejs-ogp-details"><div class="ejs-ogp-title"><a href="' + data.html_url + '" target="' + options.linkOptions.target + '">' + data.full_name + '</a></div><div class="ejs-ogb-details">' + data.description + '</div><div class="ejs-github-stats"><span><i class="fa fa-star"></i>' + data.stargazers_count + '</span><span><i class="fa fa-code-fork"></i>' + data.network_count + '</span></div></div></div>';
     		}
+    	}, {
+    		key: 'gmap',
+    		value: function gmap(latitude, longitude, location, options) {
+    			var config = options.mapOptions;
+    			if (config.mode === 'place') {
+    				return '<div class="ejs-embed ejs-map"><iframe width="' + options.videoWidth + '" height="' + options.videoHeight + '" src="https://www.google.com/maps/embed/v1/place?key=' + options.googleAuthKey + '&q=' + location + '"></iframe></div>';
+    			} else if (config.mode === 'streetview') {
+    				return '<div class="ejs-embed ejs-map"><iframe width="' + options.videoWidth + '" height="' + options.videoHeight + '" src="https://www.google.com/maps/embed/v1/streetview?key=' + options.googleAuthKey + '&location=' + latitude + ',' + longitude + '&heading=210&pitch=10&fov=35"></iframe></div>';
+    			} else if (config.mode === 'view') {
+    				return '<div class="ejs-embed ejs-map"><iframe width="' + options.videoWidth + '" height="' + options.videoHeight + '" src="https://www.google.com/maps/embed/v1/view?key=' + options.googleAuthKey + '&center=' + latitude + ',' + longitude + '&zoom=18&maptype=satellite"></iframe></div>';
+    			}
+    		}
     	}]);
     	return Renderer;
     }();
@@ -1403,6 +1415,46 @@
       self.fetch.polyfill = true;
     })(typeof self !== 'undefined' ? self : this);
 
+    /**
+     * Takes the location name and returns the coordinates of that location using the Google
+     * Map API v3. This is an async function so it will return a promise.
+     * @param  {string} location The name of any location
+     * @return {array}           Returns an array in the form [latitude, longitude]
+     */
+    function getCoordinate(location) {
+        var url = 'http://maps.googleapis.com/maps/api/geocode/json?address=' + location + '&sensor=false';
+        return new Promise(function (resolve) {
+            fetch(url).then(function (data) {
+                return data.json();
+            }).then(function (json) {
+                return resolve([json.results[0].geometry.location.lat, json.results[0].geometry.location.lng]);
+            });
+        });
+    }
+
+    /**
+     * Returns the template of the Map widget. The source of the iframe is based on whether the
+     * mode set in options is 'place', 'streetview' or 'view'.
+     * @param  {string} match     The matching string in the form of @(location name).
+     * @param  {number} latitude  Latitude of the location
+     * @param  {number} longitude Longitude of the location
+     * @param  {object} options   plugin options
+     * @return {string}           Template of the map widget.
+     */
+    function template$1(match, latitude, longitude, options) {
+        var location = locationText(match);
+        return options.template.gmap(latitude, longitude, location, options);
+    }
+
+    /**
+     * Extracts out the location name from the format @(locationName)
+     * @param  {string} match The string in the supported format. Eg : @(Delhi)
+     * @return {string}       Only the location name removing @ and brackets. Eg: Delhi
+     */
+    function locationText(match) {
+        return match.split('(')[1].split(')')[0];
+    }
+
     var Gmap = function () {
         function Gmap(input, output, options, embeds) {
             babelHelpers.classCallCheck(this, Gmap);
@@ -1415,14 +1467,6 @@
             this.regex = regex.gmap;
         }
 
-        /**
-         * Takes the location name and returns the coordinates of that location using the Google
-         * Map API v3. This is an async function so it will return a promise.
-         * @param  {string} location The name of any location
-         * @return {array}           Returns an array in the form [latitude, longitude]
-         */
-
-
         babelHelpers.createClass(Gmap, [{
             key: 'process',
             value: function process() {
@@ -1433,7 +1477,7 @@
                     allMatches = [];
                 while ((match = matches(this.regex, this.output)) !== null) {
                     this.options.served.push(match);
-                    var promise = this.options.mapOptions.mode !== 'place' ? Gmap.getCoordinate(match[0]) : Promise.resolve([null, null]);
+                    var promise = this.options.mapOptions.mode !== 'place' ? getCoordinate(match[0]) : Promise.resolve([null, null]);
                     promises.push(promise);
                     allMatches.push(match);
                 }
@@ -1446,10 +1490,10 @@
                             var latitude = _coordinatesArr$i[0];
                             var longitude = _coordinatesArr$i[1];
 
-                            var text = Gmap.template(allMatches[i][0], latitude, longitude, _this.options);
+                            var text = template$1(allMatches[i][0], latitude, longitude, _this.options);
                             if (ifInline(_this.options, _this.service)) {
                                 _this.output = _this.output.replace(_this.regex, function (regexMatch) {
-                                    return '<span class="ejs-location">' + Gmap.locationText(regexMatch) + '</span>' + text;
+                                    return '<span class="ejs-location">' + locationText(regexMatch) + '</span>' + text;
                                 });
                             } else {
                                 _this.embeds.push({
@@ -1457,7 +1501,7 @@
                                     index: allMatches[i][0].index
                                 });
                                 _this.output = _this.output.replace(_this.regex, function (regexMatch) {
-                                    return '<span class="ejs-location">' + Gmap.locationText(regexMatch) + '</span>';
+                                    return '<span class="ejs-location">' + locationText(regexMatch) + '</span>';
                                 });
                             }
                         };
@@ -1468,54 +1512,6 @@
                         resolve([_this.output, _this.embeds]);
                     });
                 });
-            }
-        }], [{
-            key: 'getCoordinate',
-            value: function getCoordinate(location) {
-                var url = 'http://maps.googleapis.com/maps/api/geocode/json?address=' + location + '&sensor=false';
-                return new Promise(function (resolve) {
-                    fetch(url).then(function (data) {
-                        return data.json();
-                    }).then(function (json) {
-                        return resolve([json.results[0].geometry.location.lat, json.results[0].geometry.location.lng]);
-                    });
-                });
-            }
-
-            /**
-             * Returns the template of the Map widget. The source of the iframe is based on whether the
-             * mode set in options is 'place', 'streetview' or 'view'.
-             * @param  {string} match     The matching string in the form of @(location name).
-             * @param  {number} latitude  Latitude of the location
-             * @param  {number} longitude Longitude of the location
-             * @param  {object} options   plugin options
-             * @return {string}           Template of the map widget.
-             */
-
-        }, {
-            key: 'template',
-            value: function template(match, latitude, longitude, options) {
-                var location = Gmap.locationText(match);
-                var config = options.mapOptions;
-                if (config.mode === 'place') {
-                    return '<div class="ejs-embed ejs-map"><iframe width="' + options.videoWidth + '" height="' + options.videoHeight + '" src="https://www.google.com/maps/embed/v1/place?key=' + options.googleAuthKey + '&q=' + location + '"></iframe></div>';
-                } else if (config.mode === 'streetview') {
-                    return '<div class="ejs-embed ejs-map"><iframe width="' + options.videoWidth + '" height="' + options.videoHeight + '" src="https://www.google.com/maps/embed/v1/streetview?key=' + options.googleAuthKey + '&location=' + latitude + ',' + longitude + '&heading=210&pitch=10&fov=35"></iframe></div>';
-                } else if (config.mode === 'view') {
-                    return '<div class="ejs-embed ejs-map"><iframe width="' + options.videoWidth + '" height="' + options.videoHeight + '" src="https://www.google.com/maps/embed/v1/view?key=' + options.googleAuthKey + '&center=' + latitude + ',' + longitude + '&zoom=18&maptype=satellite"></iframe></div>';
-                }
-            }
-
-            /**
-             * Extracts out the location name from the format @(locationName)
-             * @param  {string} match The string in the supported format. Eg : @(Delhi)
-             * @return {string}       Only the location name removing @ and brackets. Eg: Delhi
-             */
-
-        }, {
-            key: 'locationText',
-            value: function locationText(match) {
-                return match.split('(')[1].split(')')[0];
             }
         }]);
         return Gmap;
