@@ -2099,7 +2099,7 @@ class EmbedJS {
 	 * @return {null}
 	 */
 	destroy() {
-		if (!this.element) throw new Error(`destroy() method only if an element had been passed in the options object`);
+		if (this.options.input !== 'object') throw new Error(`destroy() method only works if an element had been passed in the options object`);
 		destroyVideos('ejs-video-thumb');
 		this.element.removeEventListener('rendered', this.twitter.load(), false);
 		this.element.innerHTML = this.input
