@@ -17,8 +17,10 @@
 
 > A JavaScript plugin that analyses the string and automatically embeds the supported emojis, media, maps, tweets, code and services.
 
+#### [Live Demo](http://codepen.io/ritz078/full/WvvNGe/)
 
-![screen](demo/demo.gif)
+
+[![screen](demo/demo.gif)](http://codepen.io/ritz078/full/WvvNGe/)
 
 ## Important links
 
