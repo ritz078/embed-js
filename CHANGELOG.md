@@ -1,10 +1,20 @@
+<a name="4.1.1"></a>
+## [4.1.1](https://github.com/ritz078/embed.js/compare/v4.1.0...v4.1.1) (2016-06-13)
+
+
+### Bug Fixes
+
+* **assets:** fixed relative path in of assets in dist ([a1d7b6c](https://github.com/ritz078/embed.js/commit/a1d7b6c))
+* **destroy:** now it works as expected ([766d3ae](https://github.com/ritz078/embed.js/commit/766d3ae))
+
+
+
 <a name="4.1.0"></a>
 # [4.1.0](https://github.com/ritz078/embed.js/compare/v4.0.4...v4.1.0) (2016-06-12)
 
 
 ### Features
 
-* **plyr** added support for plyr.js ([d385ed2](https://github.com/ritz078/embed.js/commit/d385ed2)),
 * **gmap:** added template to google map ([b80a6ca](https://github.com/ritz078/embed.js/commit/b80a6ca)), closes [#162](https://github.com/ritz078/embed.js/issues/162)
 * **hashtag & mentions:** added support for hashtag & mentions ([a53da81](https://github.com/ritz078/embed.js/commit/a53da81)), closes [#161](https://github.com/ritz078/embed.js/issues/161)
 
