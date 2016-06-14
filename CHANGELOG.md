@@ -1,3 +1,9 @@
+<a name="4.1.2"></a>
+## [4.1.2](https://github.com/ritz078/embed.js/compare/v4.1.1...v4.1.2) (2016-06-14)
+
+
+
+
 <a name="4.1.1"></a>
 ## [4.1.1](https://github.com/ritz078/embed.js/compare/v4.1.0...v4.1.1) (2016-06-13)
 
