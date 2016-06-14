@@ -13,6 +13,9 @@
 <a href="https://twitter.com/intent/tweet?text=embed.js+%7C+A+JS+plugin+to+embed+emojis%2C+media%2C+maps%2C+tweets%2C+code%2C+services+and+parse+markdown+http%3A%2F%2Fbit.ly%2F1NIvT8A&amp;url='http%3A%2F%2Fbit.ly%2F1NIvT8A'&amp;hashtags=JavaScript">
 <img src="https://img.shields.io/twitter/url/https/github.com/ritz078/embed.js.svg?style=social" alt="Twitter" style="max-width:100%;">
 </a>
+<a href="https://www.producthunt.com/tech/embed-js">
+<img src="https://img.shields.io/badge/vote-producthunt-E45127.svg" alt="Producthunt" style="max-width:100%;">
+</a>
 </p>
 
 > A JavaScript plugin that analyses the string and automatically embeds the supported emojis, media, maps, tweets, code and services.
