@@ -1,7 +1,9 @@
 <a name="4.1.2"></a>
 ## [4.1.2](https://github.com/ritz078/embed.js/compare/v4.1.1...v4.1.2) (2016-06-14)
 
+### Bug Fixes
 
+* **URL** Improved link detection ([d80a927](https://github.com/ritz078/embed.js/pull/173/commits/d80a9278fb0cb6181cc6997f6adda8c6f2db2617))
 
 
 <a name="4.1.1"></a>
