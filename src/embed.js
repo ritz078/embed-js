@@ -239,175 +239,111 @@
         return elem[elem.length - 1];
     }
 
-    var Renderer = function () {
-    	function Renderer(options) {
-    		babelHelpers.classCallCheck(this, Renderer);
-
-    		this.options = options || {};
+    var renderer = {
+    	url: function url(match, options) {
+    		var config = options.linkOptions;
+    		return '<a href="' + toUrl(match) + '" rel="' + config.rel + '" target="' + config.target + '">' + match + '</a>';
+    	},
+    	smiley: function smiley(text, pre, code) {
+    		return '<span class="icon-emoticon" title="' + text + '">' + pre + code + '</span>';
+    	},
+    	emoji: function emoji(text) {
+    		return '<span class="emoticon emoticon-' + text + '" title=":' + text + ':"></span>';
+    	},
+    	audio: function audio(match) {
+    		return '<div class="ejs-audio ejs-plyr ejs-embed"><audio src="' + match + '" controls class="video-js ejs-video-js"></audio></div>';
+    	},
+    	soundcloud: function soundcloud(match, options) {
+    		var config = options.soundCloudOptions;
+    		return '<div class="ejs-embed">\n\t\t<iframe height="160" scrolling="no" src="https://w.soundcloud.com/player/?url=' + match + '\n\t\t&auto_play     = ' + config.autoPlay + '\n\t\t&hide_related  = ' + config.hideRelated + '\n\t\t&show_comments = ' + config.showComments + '\n\t\t&show_user     = ' + config.showUser + '\n\t\t&show_reposts  = ' + config.showReposts + '\n\t\t&visual        = ' + config.visual + '\n\t\t&download      = ' + config.download + '\n\t\t&color         = ' + config.themeColor + '\n\t\t&theme_color   = ' + config.themeColor + '"></iframe>\n\t\t</div>';
+    	},
+    	spotify: function spotify(match) {
+    		var id = lastElement(match.split('/'));
+    		return '<div class="ejs-embed"><iframe src="https://embed.spotify.com/?uri=spotify:track:' + id + '" height="80"></iframe></div>';
+    	},
+    	codepen: function codepen(id, options) {
+    		return '<div class="ejs-embed ejs-codepen"><iframe scrolling="no" height="' + options.codeEmbedHeight + '" src="' + id.replace(/\/pen\//, '/embed/') + '/?height=' + options.codeEmbedHeight + '"></iframe></div>';
+    	},
+    	ideone: function ideone(match, options) {
+    		return '<div class="ejs-ideone ejs-embed"><iframe src="http://ideone.com/embed/' + match.split('/')[1] + '" frameborder="0" height="' + options.codeEmbedHeight + '"></iframe></div>';
+    	},
+    	jsbin: function jsbin(id, options) {
+    		return '<div class="ejs-jsbin ejs-embed"><iframe height="' + options.codeEmbedHeight + '" class="jsbin-embed foo" src="http://' + id + '/embed?html,js,output"></iframe></div>';
+    	},
+    	jsfiddle: function jsfiddle(id, options) {
+    		id = lastElement(id) == '/' ? id.slice(0, -1) : id;
+    		id = id.indexOf('//') !== -1 ? id : '//' + id;
+    		return '<div class="ejs-embed ejs-jsfiddle"><iframe height="' + options.codeEmbedHeight + '" src="' + id + '/embedded"></iframe></div>';
+    	},
+    	plunker: function plunker(id, options) {
+    		return '<div class="ejs-embed ejs-plunker"><iframe class="ne-plunker" src="http://embed.plnkr.co/' + id + '" height="' + options.codeEmbedHeight + '"></iframe></div>';
+    	},
+    	image: function image(match) {
+    		return '<div class="ejs-image ejs-embed"><div class="ne-image-wrapper"><img src="' + match + '"/></div></div>';
+    	},
+    	flickr: function flickr(match, options) {
+    		return '<div class="ejs-embed"><div class="ne-image-wrapper"><iframe src="' + toUrl(match.split('/?')[0]) + '/player/" width="' + options.videoWidth + '" height="' + options.videoHeight + '"></iframe></div></div>';
+    	},
+    	instagram: function instagram(match, options) {
+    		return '<div class="ejs-embed ejs-instagram"><iframe src="' + toUrl(match.split('/?')[0]) + '/embed/" height="' + options.videoHeight + '"></iframe></div>';
+    	},
+    	slideShare: function slideShare(html) {
+    		return '<div class="ejs-embed ejs-slideshare">' + html + '</div>';
+    	},
+    	video: function video(match) {
+    		return '<div class="ejs-video ejs-embed"><div class="ejs-video-player"><div class="ejs-player ejs-plyr"><video src="' + match + '" class="ejs-video-js video-js" controls></video></div></div></div>';
+    	},
+    	dailymotion: function dailymotion(match, options) {
+    		var id = lastElement(match.split('/'));
+    		return '<div class="ejs-video ejs-embed"><iframe src="http://www.dailymotion.com/embed/video/' + id + '" height="' + options.videoHeight + '" width="' + options.videoWidth + '"></iframe></div>';
+    	},
+    	liveleak: function liveleak(match, options) {
+    		return '<div class="ejs-video ejs-embed"><iframe src="http://www.liveleak.com/e/' + match.split('=')[1] + '" height="' + options.videoHeight + '" width="' + options.videoWidth + '"></iframe></div>';
+    	},
+    	ted: function ted(match, options) {
+    		var a = match.split('/');
+    		var id = a[a.length - 1];
+    		return '<div class="ejs-embed ejs-ted"><iframe src="http://embed.ted.com/talks/' + id + '.html" height="' + options.videoHeight + '" width="' + options.videoWidth + '"></iframe></div>';
+    	},
+    	ustream: function ustream(match, options) {
+    		var id = match.split('/');
+    		id.splice(1, 0, 'embed');
+    		return '<div class="ejs-embed ejs-ustream"><iframe src="//www.' + id.join('/') + '" height="' + options.videoHeight + '" width="' + options.videoWidth + '"></iframe></div>';
+    	},
+    	detailsVimeo: function detailsVimeo(data, fullData, embedUrl) {
+    		return '<div class="ejs-video ejs-embed"><div class="ejs-video-preview"><div class="ejs-video-thumb" data-ejs-url="' + embedUrl + '"><div class="ejs-thumb" style="background-image:url(' + data.thumbnail + ')"></div><i class="fa fa-play-circle-o"></i></div><div class="ejs-video-detail"><div class="ejs-video-title"><a href="' + data.url + '">' + data.title + '</a></div><div class="ejs-video-desc">' + data.description + '</div><div class="ejs-video-stats"><span><i class="fa fa-eye"></i>' + data.views + '</span><span><i class="fa fa-heart"></i>' + data.likes + '</span></div></div></div></div>';
+    	},
+    	detailsYoutube: function detailsYoutube(data, fullData, embedUrl) {
+    		return '<div class="ejs-video ejs-embed"><div class="ejs-video-preview"><div class="ejs-video-thumb" data-ejs-url="' + embedUrl + '"><div class="ejs-thumb" style="background-image:url(' + data.thumbnail + ')"></div><i class="fa fa-play-circle-o"></i></div><div class="ejs-video-detail"><div class="ejs-video-title"><a href="' + data.url + '">' + data.title + '</a></div><div class="ejs-video-desc">' + data.description + '</div><div class="ejs-video-stats"><span><i class="fa fa-eye"></i>' + data.views + '</span><span><i class="fa fa-heart"></i>' + data.likes + '</span></div></div></div></div>';
+    	},
+    	vine: function vine(match, options) {
+    		var id = lastElement(match.split('/'));
+    		var config = options.vineOptions;
+    		return '<div class="ejs-vine"><iframe class="ejs-vine-iframe" src="https://vine.co/v/' + id + '/embed/' + config.type + '" height="' + config.height + '" width="' + config.width + '"></iframe></div>';
+    	},
+    	vimeo: function vimeo(url, options) {
+    		return options.plyr ? '<div class=\'ejs-plyr\'><div data-video-type=\'vimeo\' data-video-id=\'' + lastElement(url.split("/")) + '\'></div></div>' : '<div class="ejs-video-player ejs-embed"><iframe src="' + url + '" frameBorder="0" width="' + options.videoWidth + '" height="' + options.videoHeight + '"></iframe></div>';
+    	},
+    	youtube: function youtube(url, options) {
+    		return options.plyr ? '<div class=\'ejs-plyr\'><div data-video-type=\'youtube\' data-video-id=\'' + lastElement(url.split("/")) + '\'></div></div>' : '<div class="ejs-video-player ejs-embed"><iframe src="' + url + '" frameBorder="0" width="' + options.videoWidth + '" height="' + options.videoHeight + '"></iframe></div>';
+    	},
+    	openGraph: function openGraph(data, options) {
+    		return '<div class="ejs-embed ejs-ogp"><div class="ejs-ogp-thumb" style="background-image:url(' + data.image + ')"></div><div class="ejs-ogp-details"><div class="ejs-ogp-title"><a href="' + data.url + '" target="' + options.linkOptions.target + '">' + data.title + '</a></div><div class="ejs-ogb-details">' + data.description + '</div></div></div>';
+    	},
+    	github: function github(data, options) {
+    		return '<div class="ejs-embed ejs-github"><div class="ejs-ogp-thumb" style="background-image:url(' + data.owner.avatar_url + ')"></div><div class="ejs-ogp-details"><div class="ejs-ogp-title"><a href="' + data.html_url + '" target="' + options.linkOptions.target + '">' + data.full_name + '</a></div><div class="ejs-ogb-details">' + data.description + '</div><div class="ejs-github-stats"><span><i class="fa fa-star"></i>' + data.stargazers_count + '</span><span><i class="fa fa-code-fork"></i>' + data.network_count + '</span></div></div></div>';
+    	},
+    	gmap: function gmap(latitude, longitude, location, options) {
+    		var config = options.mapOptions;
+    		if (config.mode === 'place') {
+    			return '<div class="ejs-embed ejs-map"><iframe width="' + options.videoWidth + '" height="' + options.videoHeight + '" src="https://www.google.com/maps/embed/v1/place?key=' + options.googleAuthKey + '&q=' + location + '"></iframe></div>';
+    		} else if (config.mode === 'streetview') {
+    			return '<div class="ejs-embed ejs-map"><iframe width="' + options.videoWidth + '" height="' + options.videoHeight + '" src="https://www.google.com/maps/embed/v1/streetview?key=' + options.googleAuthKey + '&location=' + latitude + ',' + longitude + '&heading=210&pitch=10&fov=35"></iframe></div>';
+    		} else if (config.mode === 'view') {
+    			return '<div class="ejs-embed ejs-map"><iframe width="' + options.videoWidth + '" height="' + options.videoHeight + '" src="https://www.google.com/maps/embed/v1/view?key=' + options.googleAuthKey + '&center=' + latitude + ',' + longitude + '&zoom=18&maptype=satellite"></iframe></div>';
+    		}
     	}
-
-    	babelHelpers.createClass(Renderer, [{
-    		key: 'url',
-    		value: function url(match, options) {
-    			var config = options.linkOptions;
-    			return '<a href="' + toUrl(match) + '" rel="' + config.rel + '" target="' + config.target + '">' + match + '</a>';
-    		}
-    	}, {
-    		key: 'smiley',
-    		value: function smiley(text, pre, code) {
-    			return '<span class="icon-emoticon" title="' + text + '">' + pre + code + '</span>';
-    		}
-    	}, {
-    		key: 'emoji',
-    		value: function emoji(text) {
-    			return '<span class="emoticon emoticon-' + text + '" title=":' + text + ':"></span>';
-    		}
-    	}, {
-    		key: 'audio',
-    		value: function audio(match) {
-    			return '<div class="ejs-audio ejs-plyr ejs-embed"><audio src="' + match + '" controls class="video-js ejs-video-js"></audio></div>';
-    		}
-    	}, {
-    		key: 'soundcloud',
-    		value: function soundcloud(match, options) {
-    			var config = options.soundCloudOptions;
-    			return '<div class="ejs-embed">\n\t\t<iframe height="160" scrolling="no" src="https://w.soundcloud.com/player/?url=' + match + '\n\t\t&auto_play     = ' + config.autoPlay + '\n\t\t&hide_related  = ' + config.hideRelated + '\n\t\t&show_comments = ' + config.showComments + '\n\t\t&show_user     = ' + config.showUser + '\n\t\t&show_reposts  = ' + config.showReposts + '\n\t\t&visual        = ' + config.visual + '\n\t\t&download      = ' + config.download + '\n\t\t&color         = ' + config.themeColor + '\n\t\t&theme_color   = ' + config.themeColor + '"></iframe>\n\t\t</div>';
-    		}
-    	}, {
-    		key: 'spotify',
-    		value: function spotify(match) {
-    			var id = lastElement(match.split('/'));
-    			return '<div class="ejs-embed"><iframe src="https://embed.spotify.com/?uri=spotify:track:' + id + '" height="80"></iframe></div>';
-    		}
-    	}, {
-    		key: 'codepen',
-    		value: function codepen(id, options) {
-    			return '<div class="ejs-embed ejs-codepen"><iframe scrolling="no" height="' + options.codeEmbedHeight + '" src="' + id.replace(/\/pen\//, '/embed/') + '/?height=' + options.codeEmbedHeight + '"></iframe></div>';
-    		}
-    	}, {
-    		key: 'ideone',
-    		value: function ideone(match, options) {
-    			return '<div class="ejs-ideone ejs-embed"><iframe src="http://ideone.com/embed/' + match.split('/')[1] + '" frameborder="0" height="' + options.codeEmbedHeight + '"></iframe></div>';
-    		}
-    	}, {
-    		key: 'jsbin',
-    		value: function jsbin(id, options) {
-    			return '<div class="ejs-jsbin ejs-embed"><iframe height="' + options.codeEmbedHeight + '" class="jsbin-embed foo" src="http://' + id + '/embed?html,js,output"></iframe></div>';
-    		}
-    	}, {
-    		key: 'jsfiddle',
-    		value: function jsfiddle(id, options) {
-    			id = lastElement(id) == '/' ? id.slice(0, -1) : id;
-    			id = id.indexOf('//') !== -1 ? id : '//' + id;
-    			return '<div class="ejs-embed ejs-jsfiddle"><iframe height="' + options.codeEmbedHeight + '" src="' + id + '/embedded"></iframe></div>';
-    		}
-    	}, {
-    		key: 'plunker',
-    		value: function plunker(id, options) {
-    			return '<div class="ejs-embed ejs-plunker"><iframe class="ne-plunker" src="http://embed.plnkr.co/' + id + '" height="' + options.codeEmbedHeight + '"></iframe></div>';
-    		}
-    	}, {
-    		key: 'image',
-    		value: function image(match) {
-    			return '<div class="ejs-image ejs-embed"><div class="ne-image-wrapper"><img src="' + match + '"/></div></div>';
-    		}
-    	}, {
-    		key: 'flickr',
-    		value: function flickr(match, options) {
-    			return '<div class="ejs-embed"><div class="ne-image-wrapper"><iframe src="' + toUrl(match.split('/?')[0]) + '/player/" width="' + options.videoWidth + '" height="' + options.videoHeight + '"></iframe></div></div>';
-    		}
-    	}, {
-    		key: 'instagram',
-    		value: function instagram(match, options) {
-    			return '<div class="ejs-embed ejs-instagram"><iframe src="' + toUrl(match.split('/?')[0]) + '/embed/" height="' + options.videoHeight + '"></iframe></div>';
-    		}
-    	}, {
-    		key: 'slideShare',
-    		value: function slideShare(html) {
-    			return '<div class="ejs-embed ejs-slideshare">' + html + '</div>';
-    		}
-    	}, {
-    		key: 'video',
-    		value: function video(match) {
-    			return '<div class="ejs-video ejs-embed"><div class="ejs-video-player"><div class="ejs-player ejs-plyr"><video src="' + match + '" class="ejs-video-js video-js" controls></video></div></div></div>';
-    		}
-    	}, {
-    		key: 'dailymotion',
-    		value: function dailymotion(match, options) {
-    			var id = lastElement(match.split('/'));
-    			return '<div class="ejs-video ejs-embed"><iframe src="http://www.dailymotion.com/embed/video/' + id + '" height="' + options.videoHeight + '" width="' + options.videoWidth + '"></iframe></div>';
-    		}
-    	}, {
-    		key: 'liveleak',
-    		value: function liveleak(match, options) {
-    			return '<div class="ejs-video ejs-embed"><iframe src="http://www.liveleak.com/e/' + match.split('=')[1] + '" height="' + options.videoHeight + '" width="' + options.videoWidth + '"></iframe></div>';
-    		}
-    	}, {
-    		key: 'ted',
-    		value: function ted(match, options) {
-    			var a = match.split('/');
-    			var id = a[a.length - 1];
-    			return '<div class="ejs-embed ejs-ted"><iframe src="http://embed.ted.com/talks/' + id + '.html" height="' + options.videoHeight + '" width="' + options.videoWidth + '"></iframe></div>';
-    		}
-    	}, {
-    		key: 'ustream',
-    		value: function ustream(match, options) {
-    			var id = match.split('/');
-    			id.splice(1, 0, 'embed');
-    			return '<div class="ejs-embed ejs-ustream"><iframe src="//www.' + id.join('/') + '" height="' + options.videoHeight + '" width="' + options.videoWidth + '"></iframe></div>';
-    		}
-    	}, {
-    		key: 'detailsVimeo',
-    		value: function detailsVimeo(data, fullData, embedUrl) {
-    			return '<div class="ejs-video ejs-embed"><div class="ejs-video-preview"><div class="ejs-video-thumb" data-ejs-url="' + embedUrl + '"><div class="ejs-thumb" style="background-image:url(' + data.thumbnail + ')"></div><i class="fa fa-play-circle-o"></i></div><div class="ejs-video-detail"><div class="ejs-video-title"><a href="' + data.url + '">' + data.title + '</a></div><div class="ejs-video-desc">' + data.description + '</div><div class="ejs-video-stats"><span><i class="fa fa-eye"></i>' + data.views + '</span><span><i class="fa fa-heart"></i>' + data.likes + '</span></div></div></div></div>';
-    		}
-    	}, {
-    		key: 'detailsYoutube',
-    		value: function detailsYoutube(data, fullData, embedUrl) {
-    			return '<div class="ejs-video ejs-embed"><div class="ejs-video-preview"><div class="ejs-video-thumb" data-ejs-url="' + embedUrl + '"><div class="ejs-thumb" style="background-image:url(' + data.thumbnail + ')"></div><i class="fa fa-play-circle-o"></i></div><div class="ejs-video-detail"><div class="ejs-video-title"><a href="' + data.url + '">' + data.title + '</a></div><div class="ejs-video-desc">' + data.description + '</div><div class="ejs-video-stats"><span><i class="fa fa-eye"></i>' + data.views + '</span><span><i class="fa fa-heart"></i>' + data.likes + '</span></div></div></div></div>';
-    		}
-    	}, {
-    		key: 'vine',
-    		value: function vine(match, options) {
-    			var id = lastElement(match.split('/'));
-    			var config = options.vineOptions;
-    			return '<div class="ejs-vine"><iframe class="ejs-vine-iframe" src="https://vine.co/v/' + id + '/embed/' + config.type + '" height="' + config.height + '" width="' + config.width + '"></iframe></div>';
-    		}
-    	}, {
-    		key: 'vimeo',
-    		value: function vimeo(url, options) {
-    			return options.plyr ? '<div class=\'ejs-plyr\'><div data-video-type=\'vimeo\' data-video-id=\'' + lastElement(url.split("/")) + '\'></div></div>' : '<div class="ejs-video-player ejs-embed"><iframe src="' + url + '" frameBorder="0" width="' + options.videoWidth + '" height="' + options.videoHeight + '"></iframe></div>';
-    		}
-    	}, {
-    		key: 'youtube',
-    		value: function youtube(url, options) {
-    			return options.plyr ? '<div class=\'ejs-plyr\'><div data-video-type=\'youtube\' data-video-id=\'' + lastElement(url.split("/")) + '\'></div></div>' : '<div class="ejs-video-player ejs-embed"><iframe src="' + url + '" frameBorder="0" width="' + options.videoWidth + '" height="' + options.videoHeight + '"></iframe></div>';
-    		}
-    	}, {
-    		key: 'openGraph',
-    		value: function openGraph(data, options) {
-    			return '<div class="ejs-embed ejs-ogp"><div class="ejs-ogp-thumb" style="background-image:url(' + data.image + ')"></div><div class="ejs-ogp-details"><div class="ejs-ogp-title"><a href="' + data.url + '" target="' + options.linkOptions.target + '">' + data.title + '</a></div><div class="ejs-ogb-details">' + data.description + '</div></div></div>';
-    		}
-    	}, {
-    		key: 'github',
-    		value: function github(data, options) {
-    			return '<div class="ejs-embed ejs-github"><div class="ejs-ogp-thumb" style="background-image:url(' + data.owner.avatar_url + ')"></div><div class="ejs-ogp-details"><div class="ejs-ogp-title"><a href="' + data.html_url + '" target="' + options.linkOptions.target + '">' + data.full_name + '</a></div><div class="ejs-ogb-details">' + data.description + '</div><div class="ejs-github-stats"><span><i class="fa fa-star"></i>' + data.stargazers_count + '</span><span><i class="fa fa-code-fork"></i>' + data.network_count + '</span></div></div></div>';
-    		}
-    	}, {
-    		key: 'gmap',
-    		value: function gmap(latitude, longitude, location, options) {
-    			var config = options.mapOptions;
-    			if (config.mode === 'place') {
-    				return '<div class="ejs-embed ejs-map"><iframe width="' + options.videoWidth + '" height="' + options.videoHeight + '" src="https://www.google.com/maps/embed/v1/place?key=' + options.googleAuthKey + '&q=' + location + '"></iframe></div>';
-    			} else if (config.mode === 'streetview') {
-    				return '<div class="ejs-embed ejs-map"><iframe width="' + options.videoWidth + '" height="' + options.videoHeight + '" src="https://www.google.com/maps/embed/v1/streetview?key=' + options.googleAuthKey + '&location=' + latitude + ',' + longitude + '&heading=210&pitch=10&fov=35"></iframe></div>';
-    			} else if (config.mode === 'view') {
-    				return '<div class="ejs-embed ejs-map"><iframe width="' + options.videoWidth + '" height="' + options.videoHeight + '" src="https://www.google.com/maps/embed/v1/view?key=' + options.googleAuthKey + '&center=' + latitude + ',' + longitude + '&zoom=18&maptype=satellite"></iframe></div>';
-    			}
-    		}
-    	}]);
-    	return Renderer;
-    }();
+    };
 
     var regex = {
     	mentions: /\B@[a-z0-9_-]+/gi,
@@ -441,166 +377,117 @@
     	smileys: /(\:[\+\-\w]+\:|\<[\/\\]?3|[\(\)\\\D|\*\$][\-\^]?[\:\;\=]|[\:\;\=B8][\-\^]?[3DOPp\@\$\*\\\)\(\/\|])(?=\s|[\!\.\?]|$)/gi
     };
 
-    var Emoji = function () {
-    	function Emoji(output, options) {
-    		babelHelpers.classCallCheck(this, Emoji);
+    function getEmoji(match) {
+    	return match[0] === ':' && lastElement(match) === ':' && match.substring(1, match.length - 1);
+    }
 
-    		this.output = output;
-    		this.options = options;
-
-    		this.emojiRegex = regex.smileys;
-    	}
-
-    	babelHelpers.createClass(Emoji, [{
-    		key: 'process',
-    		value: function process() {
-    			var _this = this;
-
-    			return this.output.replace(this.emojiRegex, function (match) {
-    				var emoji = Emoji.getEmoji(match);
-    				if (emoji) {
-    					return _this.options.template.emoji(emoji, _this.options);
-    				}
-    				return match;
-    			});
+    function emoji (output, options) {
+    	return output.replace(regex.smileys, function (match) {
+    		var emoji = getEmoji(match);
+    		if (emoji) {
+    			return options.template.emoji(emoji, options);
     		}
-    	}], [{
-    		key: 'getEmoji',
-    		value: function getEmoji(match) {
-    			return match[0] === ':' && match[match.length - 1] === ':' && match.substring(1, match.length - 1);
-    		}
-    	}]);
-    	return Emoji;
-    }();
+    		return match;
+    	});
+    }
 
-    var Smiley = function () {
-    	function Smiley(input, options) {
-    		babelHelpers.classCallCheck(this, Smiley);
+    var defaultIcons = [{
+    	'text': ':)',
+    	'code': '&#xe60a'
+    }, {
+    	'text': ':D',
+    	'code': '&#xe608'
+    }, {
+    	'text': ':d',
+    	'code': '&#xe608'
+    }, {
+    	'text': ':(',
+    	'code': '&#xe60e'
+    }, {
+    	'text': ':/',
+    	'code': '&#xe620'
 
-    		this.input = input;
-    		this.options = options;
+    }, {
+    	'text': ':P',
+    	'code': '&#xe60c'
+    }, {
+    	'text': ':p',
+    	'code': '&#xe60c'
+    }, {
+    	'text': '3:)',
+    	'code': '&#xe618'
+    }, {
+    	'text': '(^)',
+    	'code': '&#xe607'
+    }, {
+    	'text': ';)',
+    	'code': '&#xe610'
+    }, {
+    	'text': ':o',
+    	'code': '&#xe61a'
+    }, {
+    	'text': '-_-',
+    	'code': '&#xe61e'
+    }, {
+    	'text': '(y)',
+    	'code': '&#xe606'
+    }, {
+    	'text': ':*',
+    	'code': '&#xe604'
+    }, {
+    	'text': '&lt;3',
+    	'code': '&#xe604'
+    }, {
+    	'text': '<3',
+    	'code': '&#xe604'
+    }, {
+    	'text': '&lt;/3',
+    	'code': '&#xe605'
+    }, {
+    	'text': '</3',
+    	'code': '&#xe605'
+    }, {
+    	'text': '^_^',
+    	'code': '&#xe612'
+    }, {
+    	'text': '8-)',
+    	'code': '&#xe614'
+    }, {
+    	'text': '8|',
+    	'code': '&#xe614'
+    }, {
+    	'text': ':S',
+    	'code': '&#xe61c'
+    }, {
+    	'text': ':s',
+    	'code': '&#xe61c'
+    }];
 
-    		var defaultIcons = [{
-    			'text': ':)',
-    			'code': '&#xe60a'
-    		}, {
-    			'text': ':D',
-    			'code': '&#xe608'
-    		}, {
-    			'text': ':d',
-    			'code': '&#xe608'
-    		}, {
-    			'text': ':(',
-    			'code': '&#xe60e'
-    		}, {
-    			'text': ':/',
-    			'code': '&#xe620'
+    function smiley (input, options) {
+    	var icons = options.customFontIcons.length ? options.customFontIcons : defaultIcons;
 
-    		}, {
-    			'text': ':P',
-    			'code': '&#xe60c'
-    		}, {
-    			'text': ':p',
-    			'code': '&#xe60c'
-    		}, {
-    			'text': '3:)',
-    			'code': '&#xe618'
-    		}, {
-    			'text': '(^)',
-    			'code': '&#xe607'
-    		}, {
-    			'text': ';)',
-    			'code': '&#xe610'
-    		}, {
-    			'text': ':o',
-    			'code': '&#xe61a'
-    		}, {
-    			'text': '-_-',
-    			'code': '&#xe61e'
-    		}, {
-    			'text': '(y)',
-    			'code': '&#xe606'
-    		}, {
-    			'text': ':*',
-    			'code': '&#xe604'
-    		}, {
-    			'text': '&lt;3',
-    			'code': '&#xe604'
-    		}, {
-    			'text': '<3',
-    			'code': '&#xe604'
-    		}, {
-    			'text': '&lt;/3',
-    			'code': '&#xe605'
-    		}, {
-    			'text': '</3',
-    			'code': '&#xe605'
-    		}, {
-    			'text': '^_^',
-    			'code': '&#xe612'
-    		}, {
-    			'text': '8-)',
-    			'code': '&#xe614'
-    		}, {
-    			'text': '8|',
-    			'code': '&#xe614'
-    		}, {
-    			'text': ':S',
-    			'code': '&#xe61c'
-    		}, {
-    			'text': ':s',
-    			'code': '&#xe61c'
-    		}];
+    	var escapedSymbols = icons.map(function (val) {
+    		return escapeRegExp(val.text);
+    	});
 
-    		this.icons = options.customFontIcons.length ? options.customFontIcons : defaultIcons;
+    	var smileyRegex = new RegExp('(^|\\s)(' + escapedSymbols.join('|') + ')(?=\\s|$)', 'gi');
 
-    		this.escapedSymbols = this.icons.map(function (val) {
-    			return escapeRegExp(val.text);
-    		});
+    	return input.replace(smileyRegex, function (match, pre, text) {
+    		var index = escapedSymbols.indexOf(escapeRegExp(text));
+    		var code = icons[index].code;
+    		return options.template.smiley(text, pre, code, options);
+    	});
+    }
 
-    		this.smileyRegex = new RegExp('(^|\\s)(' + this.escapedSymbols.join('|') + ')(?=\\s|$)', 'gi');
-    	}
-
-    	babelHelpers.createClass(Smiley, [{
-    		key: 'process',
-    		value: function process() {
-    			var _this = this;
-
-    			return this.input.replace(this.smileyRegex, function (match, pre, text) {
-    				var index = _this.escapedSymbols.indexOf(escapeRegExp(text));
-    				var code = _this.icons[index].code;
-    				return _this.options.template.smiley(text, pre, code, _this.options);
-    			});
-    		}
-    	}]);
-    	return Smiley;
-    }();
-
-    var Url = function () {
-    	function Url(input, options) {
-    		babelHelpers.classCallCheck(this, Url);
-
-    		this.input = input;
-    		this.options = options;
-    		this.urlRegex = urlRegex();
-    	}
-
-    	babelHelpers.createClass(Url, [{
-    		key: 'process',
-    		value: function process() {
-    			var _this = this;
-
-    			var config = this.options.linkOptions;
-    			return this.input.replace(this.urlRegex, function (match) {
-    				var extension = lastElement(match.split('.'));
-    				if (lastElement(match) === '/') match = match.slice(0, -1);
-    				if (config.exclude.indexOf(extension) === -1) return _this.options.template.url(match, _this.options);
-    				return match;
-    			});
-    		}
-    	}]);
-    	return Url;
-    }();
+    function url (input, options) {
+    	var config = options.linkOptions;
+    	return input.replace(urlRegex(), function (match) {
+    		var extension = lastElement(match.split('.'));
+    		if (lastElement(match) === '/') match = match.slice(0, -1);
+    		if (config.exclude.indexOf(extension) === -1) return options.template.url(match, options);
+    		return match;
+    	});
+    }
 
     var fetchJsonp = __commonjs(function (module, exports, global) {
       (function (global, factory) {
@@ -831,34 +718,24 @@
     	return ifInline(_.options, _.service) ? inlineEmbed(_) : normalEmbed(_);
     }
 
-    var Base = function () {
-    	function Base(input, output, embeds, options, regex, service) {
-    		babelHelpers.classCallCheck(this, Base);
-
-    		this.input = input;
-    		this.output = output;
-    		this.options = options;
-    		this.embeds = embeds;
-    		this.regex = regex;
-    		this.service = service;
-    	}
-
-    	babelHelpers.createClass(Base, [{
-    		key: 'template',
-    		value: function template(match) {
+    function base (input, output, embeds, options, regex, service) {
+    	var args = {
+    		input: input,
+    		output: output,
+    		options: options,
+    		embeds: embeds,
+    		regex: regex,
+    		service: service,
+    		template: function template(match) {
     			return this.options.template[this.service](match, this.options);
     		}
-    	}, {
-    		key: 'process',
-    		value: function process() {
-    			return embed(this);
-    		}
-    	}]);
-    	return Base;
-    }();
+    	};
+
+    	return embed(args);
+    }
 
     function baseEmbed(input, output, embeds, options, regex, service, flag) {
-    	return ifEmbed(options, service) || ifEmbed(options, service) && flag ? new Base(input, output, embeds, options, regex, service).process() : [output, embeds];
+    	return ifEmbed(options, service) || ifEmbed(options, service) && flag ? base(input, output, embeds, options, regex, service) : [output, embeds];
     }
 
     /**
@@ -1422,14 +1299,14 @@
      * @return {array}           Returns an array in the form [latitude, longitude]
      */
     function getCoordinate(location) {
-        var url = 'http://maps.googleapis.com/maps/api/geocode/json?address=' + location + '&sensor=false';
-        return new Promise(function (resolve) {
-            fetch(url).then(function (data) {
-                return data.json();
-            }).then(function (json) {
-                return resolve([json.results[0].geometry.location.lat, json.results[0].geometry.location.lng]);
-            });
-        });
+    	var url = 'http://maps.googleapis.com/maps/api/geocode/json?address=' + location + '&sensor=false';
+    	return new Promise(function (resolve) {
+    		fetch(url).then(function (data) {
+    			return data.json();
+    		}).then(function (json) {
+    			return resolve([json.results[0].geometry.location.lat, json.results[0].geometry.location.lng]);
+    		});
+    	});
     }
 
     /**
@@ -1442,8 +1319,8 @@
      * @return {string}           Template of the map widget.
      */
     function template$1(match, latitude, longitude, options) {
-        var location = locationText(match);
-        return options.template.gmap(latitude, longitude, location, options);
+    	var location = locationText(match);
+    	return options.template.gmap(latitude, longitude, location, options);
     }
 
     /**
@@ -1452,232 +1329,170 @@
      * @return {string}       Only the location name removing @ and brackets. Eg: Delhi
      */
     function locationText(match) {
-        return match.split('(')[1].split(')')[0];
+    	return match.split('(')[1].split(')')[0];
     }
 
-    var Gmap = function () {
-        function Gmap(input, output, options, embeds) {
-            babelHelpers.classCallCheck(this, Gmap);
+    function gmap (input, output, options, embeds) {
+    	var match = void 0,
+    	    promises = [],
+    	    allMatches = [];
 
-            this.input = input;
-            this.output = output;
-            this.options = options;
-            this.embeds = embeds;
-            this.service = 'map';
-            this.regex = regex.gmap;
-        }
+    	var service = 'map';
 
-        babelHelpers.createClass(Gmap, [{
-            key: 'process',
-            value: function process() {
-                var _this = this;
-
-                var match = void 0,
-                    promises = [],
-                    allMatches = [];
-                while ((match = matches(this.regex, this.output)) !== null) {
-                    this.options.served.push(match);
-                    var promise = this.options.mapOptions.mode !== 'place' ? getCoordinate(match[0]) : Promise.resolve([null, null]);
-                    promises.push(promise);
-                    allMatches.push(match);
-                }
-
-                return new Promise(function (resolve) {
-                    Promise.all(promises).then(function (coordinatesArr) {
-                        var _loop = function _loop() {
-                            var _coordinatesArr$i = babelHelpers.slicedToArray(coordinatesArr[i], 2);
-
-                            var latitude = _coordinatesArr$i[0];
-                            var longitude = _coordinatesArr$i[1];
-
-                            var text = template$1(allMatches[i][0], latitude, longitude, _this.options);
-                            if (ifInline(_this.options, _this.service)) {
-                                _this.output = _this.output.replace(_this.regex, function (regexMatch) {
-                                    return '<span class="ejs-location">' + locationText(regexMatch) + '</span>' + text;
-                                });
-                            } else {
-                                _this.embeds.push({
-                                    text: text,
-                                    index: allMatches[i][0].index
-                                });
-                                _this.output = _this.output.replace(_this.regex, function (regexMatch) {
-                                    return '<span class="ejs-location">' + locationText(regexMatch) + '</span>';
-                                });
-                            }
-                        };
-
-                        for (var i in promises) {
-                            _loop();
-                        }
-                        resolve([_this.output, _this.embeds]);
-                    });
-                });
-            }
-        }]);
-        return Gmap;
-    }();
-
-    var Markdown = function () {
-    	function Markdown(output, options) {
-    		babelHelpers.classCallCheck(this, Markdown);
-
-    		if (!options.plugins.marked) throw new ReferenceError('marked.js is not loaded.');
-    		this.output = output;
-    		this.options = options;
+    	while ((match = matches(regex.gmap, output)) !== null) {
+    		options.served.push(match);
+    		var promise = options.mapOptions.mode !== 'place' ? getCoordinate(match[0]) : Promise.resolve([null, null]);
+    		promises.push(promise);
+    		allMatches.push(match);
     	}
 
-    	babelHelpers.createClass(Markdown, [{
-    		key: 'process',
-    		value: function process() {
-    			var _this = this;
+    	return new Promise(function (resolve) {
+    		Promise.all(promises).then(function (coordinatesArr) {
+    			var _loop = function _loop() {
+    				var _coordinatesArr$i = babelHelpers.slicedToArray(coordinatesArr[i], 2);
 
-    			var Marked = this.options.plugins.marked;
-    			var renderer = new Marked.Renderer();
+    				var latitude = _coordinatesArr$i[0];
+    				var longitude = _coordinatesArr$i[1];
 
-    			renderer.link = function (href, title, text) {
-    				if (href.indexOf('&lt;/a') === -1) return href;
-    				if (href.match(/&gt;(.+)&lt;\/a/gi)) {
-    					if (!title) title = '';
-    					return '<a href="' + RegExp.$1 + '" rel=' + _this.options.linkOptions.rel + '" target="' + _this.options.linkOptions.target + '" title="' + title + '">' + text + '</a>';
-    				}
-    			};
-
-    			renderer.image = function (href, title, text) {
-    				if (href.indexOf('&lt;/a') === -1) return href;
-    				if (href.match(/&gt;(.+)&lt;\/a/gi)) {
-    					if (!title) title = '';
-    					return '<div class="ejs-image ejs-embed"><div class="ne-image-wrapper"><img src="' + RegExp.$1 + '" title="' + title + '" alt="' + text + '"/></div></div>';
-    				}
-    			};
-
-    			renderer.paragraph = function (text) {
-    				return '<p> ' + text + ' </p>';
-    			}; //for font smiley in end.
-
-    			//Fix for heading that should be actually present in marked.js
-    			//if gfm is true the `## Heading` is acceptable but `##Heading` is not
-    			Marked.Lexer.rules.gfm.heading = Marked.Lexer.rules.normal.heading;
-    			Marked.Lexer.rules.tables.heading = Marked.Lexer.rules.normal.heading;
-
-    			this.options.markedOptions.renderer = renderer;
-    			this.options.markedOptions.highlight = false;
-    			return Marked(this.output, this.options.markedOptions);
-    		}
-    	}]);
-    	return Markdown;
-    }();
-
-    var Highlight = function () {
-    	function Highlight(output, options) {
-    		babelHelpers.classCallCheck(this, Highlight);
-
-    		if (!options.plugins.highlightjs && !this.isPrism()) {
-    			throw new ReferenceError('\'hljs is not defined. HighlightJS library is needed to highlight code. Visit https://highlightjs.org/\'');
-    		}
-
-    		this.output = output;
-    		this.options = options;
-    		this.regex = regex.highlightCode;
-    		this.inlineCodeRegex = regex.inlineCode;
-    	}
-
-    	/**
-      * Encodes the characters like <, > and space and replaces them with
-      * &lt;, &gt; and &gt; respectively.
-      * @param  {string} code The string that has to be encoded.
-      * @return {string}      The encoded string
-      */
-
-
-    	babelHelpers.createClass(Highlight, [{
-    		key: 'process',
-
-
-    		/**
-       * Replaces the code block with the pre tags and returns a string having the code
-       * formatting using Highlight.js.
-       * => Matches the string with the regex and finds the code written in three back-ticks ```
-       * => Detects whether any language has been provided by the user.
-       *     The format supported by embed.js is
-       *         ```[language-name]
-       *         var a = 2;
-       *         ```
-       * => Trims all the unnecessary spaces and newlines from the code.
-       * => Passes the code to `hljs.highlightAuto(code, language)` which returns a formatted string
-       *     having the html tags for styling. The `language` here is optional. In case we don't pass the
-       *     language, it tries to detect the language itself.
-       * => Replaces the code string in the template with the formatted string
-       * @return {string} The string in which the code is formatted
-       */
-    		value: function process() {
-    			var _this = this;
-
-    			this.output = this.output.replace(this.inlineCodeRegex, function (match, group1, group2) {
-    				return '<code>' + group2 + '</code>';
-    			});
-
-    			return this.output.replace(this.regex, function (match, group1, group2, group3) {
-    				var code = group3;
-    				code = Highlight.trimSpace(code);
-    				code = Highlight.encode(code);
-
-    				// to prevent auto-linking. Not necessary in code
-    				// *blocks*, but in code spans. Will be converted
-    				// back after the auto-linker runs.
-    				code = code.replace(/:\/\//g, '~P');
-
-    				var language = group2.split('\n')[0];
-    				var highlightedCode = void 0;
-
-    				var HighlightJS = _this.options.plugins.highlightjs;
-    				if (language) {
-    					highlightedCode = HighlightJS.highlightAuto(code, [language]);
+    				var text = template$1(allMatches[i][0], latitude, longitude, options);
+    				if (ifInline(options, service)) {
+    					output = output.replace(regex.gmap, function (regexMatch) {
+    						return '<span class="ejs-location">' + locationText(regexMatch) + '</span>' + text;
+    					});
     				} else {
-    					highlightedCode = HighlightJS.highlightAuto(code);
-    					language = highlightedCode.language;
+    					embeds.push({
+    						text: text,
+    						index: allMatches[i][0].index
+    					});
+    					output = output.replace(regex.gmap, function (regexMatch) {
+    						return '<span class="ejs-location">' + locationText(regexMatch) + '</span>';
+    					});
     				}
+    			};
 
-    				return Highlight.addTemplate(highlightedCode, language);
-    			});
+    			for (var i in promises) {
+    				_loop();
+    			}
+    			resolve([output, embeds]);
+    		});
+    	});
+    }
+
+    function markdown (output, options) {
+    	if (!options.plugins.marked) throw new ReferenceError('marked.js is not loaded.');
+
+    	var Marked = options.plugins.marked;
+    	var renderer = new Marked.Renderer();
+
+    	renderer.link = function (href, title, text) {
+    		if (href.indexOf('&lt;/a') === -1) return href;
+    		if (href.match(/&gt;(.+)&lt;\/a/gi)) {
+    			if (!title) title = '';
+    			return '<a href="' + RegExp.$1 + '" rel=' + options.linkOptions.rel + '" target="' + options.linkOptions.target + '" title="' + title + '">' + text + '</a>';
     		}
-    	}], [{
-    		key: 'encode',
-    		value: function encode(code) {
-    			code = code.replace(/&amp;/gm, '');
-    			code = code.replace(/&lt;/g, '<');
-    			code = code.replace(/&gt;/g, '>');
-    			return code;
+    	};
+
+    	renderer.image = function (href, title, text) {
+    		if (href.indexOf('&lt;/a') === -1) return href;
+    		if (href.match(/&gt;(.+)&lt;\/a/gi)) {
+    			if (!title) title = '';
+    			return '<div class="ejs-image ejs-embed"><div class="ne-image-wrapper"><img src="' + RegExp.$1 + '" title="' + title + '" alt="' + text + '"/></div></div>';
+    		}
+    	};
+
+    	renderer.paragraph = function (text) {
+    		return '<p> ' + text + ' </p>';
+    	}; //for font smiley in end.
+
+    	//Fix for heading that should be actually present in marked.js
+    	//if gfm is true the `## Heading` is acceptable but `##Heading` is not
+    	Marked.Lexer.rules.gfm.heading = Marked.Lexer.rules.normal.heading;
+    	Marked.Lexer.rules.tables.heading = Marked.Lexer.rules.normal.heading;
+
+    	options.markedOptions.renderer = renderer;
+    	options.markedOptions.highlight = false;
+    	return Marked(output, options.markedOptions);
+    }
+
+    /**
+     * Encodes the characters like <, > and space and replaces them with
+     * &lt;, &gt; and &gt; respectively.
+     * @param  {string} code The string that has to be encoded.
+     * @return {string}      The encoded string
+     */
+    function encode(code) {
+    	code = code.replace(/&amp;/gm, '');
+    	code = code.replace(/&lt;/g, '<');
+    	code = code.replace(/&gt;/g, '>');
+    	return code;
+    }
+
+    /**
+     * removes whitespace characters
+     * @param  {string} code The string from which the whitespace has to be removed
+     * @return {string}
+     */
+    function trimSpace(code) {
+    	code = code.replace(/^([ \t]*)/g, ''); // leading whitespace
+    	code = code.replace(/[ \t]*$/g, ''); // trailing whitespace
+    	return code;
+    }
+
+    /**
+     * Places the code and the language name in the required template
+     * @param {string} processedCode
+     * @param {string} language
+     * @return {string}
+     */
+    function addTemplate(processedCode, language) {
+    	return '<pre><code class="ejs-code hljs ' + language + '">' + (processedCode.value || processedCode) + '</code></pre>';
+    }
+
+    /**
+     * Replaces the code block with the pre tags and returns a string having the code
+     * formatting using Highlight.js.
+     * => Matches the string with the regex and finds the code written in three back-ticks ```
+     * => Detects whether any language has been provided by the user.
+     *     The format supported by embed.js is
+     *         ```[language-name]
+     *         var a = 2;
+     *         ```
+     * => Trims all the unnecessary spaces and newlines from the code.
+     * => Passes the code to `hljs.highlightAuto(code, language)` which returns a formatted string
+     *     having the html tags for styling. The `language` here is optional. In case we don't pass the
+     *     language, it tries to detect the language itself.
+     * => Replaces the code string in the template with the formatted string
+     * @return {string} The string in which the code is formatted
+     */
+    function highlight (output, options) {
+    	output = output.replace(regex.inlineCode, function (match, group1, group2) {
+    		return '<code>' + group2 + '</code>';
+    	});
+
+    	return output.replace(regex.highlightCode, function (match, group1, group2, group3) {
+    		var code = group3;
+    		code = trimSpace(code);
+    		code = encode(code);
+
+    		// to prevent auto-linking. Not necessary in code
+    		// *blocks*, but in code spans. Will be converted
+    		// back after the auto-linker runs.
+    		code = code.replace(/:\/\//g, '~P');
+
+    		var language = group2.split('\n')[0];
+    		var highlightedCode = void 0;
+
+    		var HighlightJS = options.plugins.highlightjs;
+    		if (language) {
+    			highlightedCode = HighlightJS.highlightAuto(code, [language]);
+    		} else {
+    			highlightedCode = HighlightJS.highlightAuto(code);
+    			language = highlightedCode.language;
     		}
 
-    		/**
-       * removes whitespace characters
-       * @param  {string} code The string from which the whitespace has to be removed
-       * @return {string}
-       */
-
-    	}, {
-    		key: 'trimSpace',
-    		value: function trimSpace(code) {
-    			code = code.replace(/^([ \t]*)/g, ''); // leading whitespace
-    			code = code.replace(/[ \t]*$/g, ''); // trailing whitespace
-    			return code;
-    		}
-
-    		/**
-       * Places the code and the language name in the required template
-       * @param {string} processedCode
-       * @param {string} language
-       * @return {string}
-       */
-
-    	}, {
-    		key: 'addTemplate',
-    		value: function addTemplate(processedCode, language) {
-    			return '<pre><code class="ejs-code hljs ' + language + '">' + (processedCode.value || processedCode) + '</code></pre>';
-    		}
-    	}]);
-    	return Highlight;
-    }();
+    		return addTemplate(highlightedCode, language);
+    	});
+    }
 
     var Gist = function () {
     	function Gist(input, output, options, embeds) {
@@ -1745,153 +1560,127 @@
     	return Gist;
     }();
 
-    var Youtube = function () {
-    	function Youtube(input, output, options, embeds) {
-    		babelHelpers.classCallCheck(this, Youtube);
+    function formatData(data) {
+    	return {
+    		title: data.snippet.title,
+    		thumbnail: data.snippet.thumbnails.medium.url,
+    		rawDescription: data.snippet.description,
+    		views: data.statistics.viewCount,
+    		likes: data.statistics.likeCount,
+    		description: truncate(data.snippet.description, 150),
+    		url: 'https://www.youtube.com/watch?v=' + data.id,
+    		id: data.id,
+    		host: 'youtube'
+    	};
+    }
 
-    		this.input = input;
-    		this.output = output;
-    		this.options = options;
-    		this.embeds = embeds;
-    		this.regex = regex.youtube;
-    		this.service = 'youtube';
+    function data(id, options) {
+    	var url = 'https://www.googleapis.com/youtube/v3/videos?id=' + id + '&key=' + options.googleAuthKey + '&part=snippet,statistics';
+    	return new Promise(function (resolve) {
+    		fetch(url).then(function (data) {
+    			return data.json();
+    		}).then(function (json) {
+    			return resolve(json.items[0]);
+    		});
+    	});
+    }
+
+    function urlToText(args, match, url, normalEmbed) {
+    	var id = normalEmbed ? match[1] : match[2];
+    	var embedUrl = 'https://www.youtube.com/embed/' + id;
+    	if (args.options.videoDetails) {
+    		return new Promise(function (resolve) {
+    			data(id, args.options).then(function (data) {
+    				return resolve(getDetailsTemplate(formatData(data), data, embedUrl, args.options));
+    			});
+    		});
+    	} else {
+    		return new Promise(function (resolve) {
+    			return resolve(template(embedUrl, args.options));
+    		});
     	}
+    }
 
-    	babelHelpers.createClass(Youtube, [{
-    		key: 'data',
-    		value: function data(id) {
-    			var url = 'https://www.googleapis.com/youtube/v3/videos?id=' + id + '&key=' + this.options.googleAuthKey + '&part=snippet,statistics';
-    			return new Promise(function (resolve) {
-    				fetch(url).then(function (data) {
-    					return data.json();
-    				}).then(function (json) {
-    					return resolve(json.items[0]);
-    				});
-    			});
-    		}
-    	}, {
-    		key: 'process',
-    		value: function process() {
-    			var _this2 = this;
+    function youtube (input, output, options, embeds) {
+    	var args = {
+    		input: input,
+    		output: output,
+    		options: options,
+    		embeds: embeds,
+    		regex: regex.youtube,
+    		service: 'youtube'
+    	};
 
-    			return new Promise(function (resolve) {
-    				return asyncEmbed(_this2, Youtube.urlToText).then(function (data) {
-    					return resolve(data);
-    				});
-    			});
-    		}
-    	}], [{
-    		key: 'formatData',
-    		value: function formatData(data, truncate) {
-    			return {
-    				title: data.snippet.title,
-    				thumbnail: data.snippet.thumbnails.medium.url,
-    				rawDescription: data.snippet.description,
-    				views: data.statistics.viewCount,
-    				likes: data.statistics.likeCount,
-    				description: truncate(data.snippet.description, 150),
-    				url: 'https://www.youtube.com/watch?v=' + data.id,
-    				id: data.id,
-    				host: 'youtube'
-    			};
-    		}
-    	}, {
-    		key: 'urlToText',
-    		value: function urlToText(_this, match, url, normalEmbed) {
-    			var id = normalEmbed ? match[1] : match[2];
-    			var embedUrl = 'https://www.youtube.com/embed/' + id;
-    			if (_this.options.videoDetails) {
-    				return new Promise(function (resolve) {
-    					_this.data(id).then(function (data) {
-    						return resolve(getDetailsTemplate(Youtube.formatData(data, truncate), data, embedUrl, _this.options));
-    					});
-    				});
-    			} else {
-    				return new Promise(function (resolve) {
-    					return resolve(template(embedUrl, _this.options));
-    				});
-    			}
-    		}
-    	}]);
-    	return Youtube;
-    }();
+    	return new Promise(function (resolve) {
+    		return asyncEmbed(args, urlToText).then(function (data) {
+    			return resolve(data);
+    		});
+    	});
+    }
 
-    var Vimeo = function () {
-    	function Vimeo(input, output, options, embeds) {
-    		babelHelpers.classCallCheck(this, Vimeo);
+    function formatData$1(data, truncate) {
+    	return {
+    		title: data.title,
+    		thumbnail: data.thumbnail_medium,
+    		rawDescription: data.description.replace(/\n/g, '<br/>').replace(/&#10;/g, '<br/>'),
+    		views: data.stats_number_of_plays,
+    		likes: data.stats_number_of_likes,
+    		description: truncate(data.description.replace(/((<|&lt;)br\s*\/*(>|&gt;)\r\n)/g, ' '), 150),
+    		url: data.url,
+    		id: data.id,
+    		host: 'vimeo'
+    	};
+    }
 
-    		this.input = input;
-    		this.output = output;
-    		this.options = options;
-    		this.embeds = embeds;
-    		this.regex = regex.vimeo;
-    		this.service = 'vimeo';
+    function data$1(id) {
+    	var url = 'https://vimeo.com/api/v2/video/' + id + '.json';
+    	return new Promise(function (resolve) {
+    		fetch(url).then(function (data) {
+    			return data.json();
+    		}).then(function (json) {
+    			return resolve(json[0]);
+    		});
+    	});
+    }
+
+    function urlToText$1(args, match, url, normalEmbed) {
+    	var id = void 0;
+    	if (!normalEmbed) {
+    		id = args.options.link ? match[0].slice(0, -4).split('/').slice(-1).pop() : match[0].split('/').slice(-1).pop();
+    	} else {
+    		id = match[3];
     	}
-
-    	babelHelpers.createClass(Vimeo, [{
-    		key: 'data',
-    		value: function data(id) {
-    			var url = 'https://vimeo.com/api/v2/video/' + id + '.json';
-    			return new Promise(function (resolve) {
-    				fetch(url).then(function (data) {
-    					return data.json();
-    				}).then(function (json) {
-    					return resolve(json[0]);
-    				});
+    	if (!id) return;
+    	var embedUrl = 'https://player.vimeo.com/video/' + id;
+    	if (args.options.videoDetails) {
+    		return new Promise(function (resolve) {
+    			data$1(id).then(function (data) {
+    				return resolve(getDetailsTemplate(formatData$1(data, truncate), data, embedUrl, args.options));
     			});
-    		}
-    	}, {
-    		key: 'process',
-    		value: function process() {
-    			var _this2 = this;
+    		});
+    	} else {
+    		return new Promise(function (resolve) {
+    			return resolve(template(embedUrl, args.options));
+    		});
+    	}
+    }
 
-    			return new Promise(function (resolve) {
-    				return asyncEmbed(_this2, Vimeo.urlToText).then(function (data) {
-    					return resolve(data);
-    				});
-    			});
-    		}
-    	}], [{
-    		key: 'formatData',
-    		value: function formatData(data, truncate) {
-    			return {
-    				title: data.title,
-    				thumbnail: data.thumbnail_medium,
-    				rawDescription: data.description.replace(/\n/g, '<br/>').replace(/&#10;/g, '<br/>'),
-    				views: data.stats_number_of_plays,
-    				likes: data.stats_number_of_likes,
-    				description: truncate(data.description.replace(/((<|&lt;)br\s*\/*(>|&gt;)\r\n)/g, ' '), 150),
-    				url: data.url,
-    				id: data.id,
-    				host: 'vimeo'
-    			};
-    		}
-    	}, {
-    		key: 'urlToText',
-    		value: function urlToText(_this, match, url, normalEmbed) {
-    			var id = void 0;
-    			if (!normalEmbed) {
-    				id = _this.options.link ? match[0].slice(0, -4).split('/').slice(-1).pop() : match[0].split('/').slice(-1).pop();
-    			} else {
-    				id = match[3];
-    			}
-    			if (!id) return;
-    			var embedUrl = 'https://player.vimeo.com/video/' + id;
-    			if (_this.options.videoDetails) {
-    				return new Promise(function (resolve) {
-    					_this.data(id).then(function (data) {
-    						return resolve(getDetailsTemplate(Vimeo.formatData(data, truncate), data, embedUrl, _this.options));
-    					});
-    				});
-    			} else {
-    				return new Promise(function (resolve) {
-    					return resolve(template(embedUrl, _this.options));
-    				});
-    			}
-    		}
-    	}]);
-    	return Vimeo;
-    }();
+    function vimeo (input, output, options, embeds) {
+    	var args = {
+    		input: input,
+    		output: output,
+    		options: options,
+    		embeds: embeds,
+    		regex: regex.vimeo,
+    		service: 'vimeo'
+    	};
+
+    	return new Promise(function (resolve) {
+    		return asyncEmbed(args, urlToText$1).then(function (data) {
+    			return resolve(data);
+    		});
+    	});
+    }
 
     var SlideShare = function () {
     	function SlideShare(input, output, options, embeds) {
@@ -1946,124 +1735,94 @@
     	return SlideShare;
     }();
 
-    var OpenGraph = function () {
-    	function OpenGraph(input, output, options, embeds) {
-    		babelHelpers.classCallCheck(this, OpenGraph);
+    function fetchData(url, _) {
+    	url = encodeURIComponent(url);
+    	var api = new Function('url', 'return `' + _.options.openGraphEndpoint + '`')(url);
+    	return new Promise(function (resolve) {
+    		fetch(api).then(function (res) {
+    			return res.json();
+    		}).then(function (json) {
+    			return resolve(_.options.onOpenGraphFetch(json) || json);
+    		});
+    	});
+    }
 
-    		this.input = input;
-    		this.output = output;
-    		this.options = options;
-    		this.embeds = embeds;
-    		this.service = 'opengraph';
-    		this.regex = urlRegex();
-    		this.excludeRegex = new RegExp(['.mp4|.mp3|.gif|.pdf|.doc|.ppt|.docx|.jpg|.jpeg|.ogg'].concat(options.openGraphExclude).join('|'), 'gi');
-    	}
+    function urlToText$2(_, match, url) {
+    	if (url.match(_.excludeRegex)) return Promise.resolve();
 
-    	babelHelpers.createClass(OpenGraph, [{
-    		key: 'template',
-    		value: function template(data) {
+    	return new Promise(function (resolve) {
+    		fetchData(url, _).then(function (data) {
+    			return resolve(data && data.success ? _.template(data) : '');
+    		});
+    	});
+    }
+
+    function openGraph (input, output, options, embeds) {
+    	var args = {
+    		input: input,
+    		output: output,
+    		options: options,
+    		embeds: embeds,
+    		service: 'opengraph',
+    		regex: urlRegex(),
+    		excludeRegex: new RegExp(['.mp4|.mp3|.gif|.pdf|.doc|.ppt|.docx|.jpg|.jpeg|.ogg'].concat(options.openGraphExclude).join('|'), 'gi'),
+    		template: function template(data) {
     			return this.options.template.openGraph(data, this.options);
     		}
-    	}, {
-    		key: 'process',
-    		value: function process() {
-    			var _this = this;
+    	};
 
-    			return new Promise(function (resolve) {
-    				return asyncEmbed(_this, OpenGraph.urlToText).then(function (data) {
-    					return resolve(data);
-    				});
-    			});
-    		}
-    	}], [{
-    		key: 'fetchData',
-    		value: function fetchData(url, _) {
-    			url = encodeURIComponent(url);
-    			var api = new Function('url', 'return `' + _.options.openGraphEndpoint + '`')(url);
-    			return new Promise(function (resolve) {
-    				fetch(api).then(function (res) {
-    					return res.json();
-    				}).then(function (json) {
-    					return resolve(_.options.onOpenGraphFetch(json) || json);
-    				});
-    			});
-    		}
-    	}, {
-    		key: 'urlToText',
-    		value: function urlToText(_, match, url) {
-    			if (url.match(_.excludeRegex)) return Promise.resolve();
+    	return new Promise(function (resolve) {
+    		return asyncEmbed(args, urlToText$2).then(function (data) {
+    			return resolve(data);
+    		});
+    	});
+    }
 
-    			return new Promise(function (resolve) {
-    				OpenGraph.fetchData(url, _).then(function (data) {
-    					return resolve(data && data.success ? _.template(data) : '');
-    				});
-    			});
-    		}
-    	}]);
-    	return OpenGraph;
-    }();
+    function template$2(data, options) {
+    	return options.template.github(data, options);
+    }
 
-    var Github = function () {
-    	function Github(input, output, options, embeds) {
-    		babelHelpers.classCallCheck(this, Github);
+    function fetchRepo(data) {
+    	var api = 'https://api.github.com/repos/' + data.user + '/' + data.repo;
+    	return new Promise(function (resolve) {
+    		fetch(api).then(function (data) {
+    			return data.json();
+    		}).then(function (json) {
+    			return resolve(json);
+    		});
+    	});
+    }
 
-    		this.input = input;
-    		this.output = output;
-    		this.options = options;
-    		this.embeds = embeds;
-    		this.service = 'github';
-    		this.regex = regex.github;
-    	}
+    function urlToText$3(_this, match, url, normalEmbed) {
+    	var data = !normalEmbed ? {
+    		user: match[2],
+    		repo: match[3]
+    	} : {
+    		user: match[1],
+    		repo: match[2]
+    	};
 
-    	babelHelpers.createClass(Github, [{
-    		key: 'process',
-    		value: function process() {
-    			var _this2 = this;
+    	if (!data.repo) return;
+    	return new Promise(function (resolve) {
+    		fetchRepo(data).then(function (response) {
+    			return resolve(template$2(response, _this.options));
+    		});
+    	});
+    }
 
-    			return new Promise(function (resolve) {
-    				return asyncEmbed(_this2, Github.urlToText).then(function (data) {
-    					return resolve(data);
-    				});
-    			});
-    		}
-    	}], [{
-    		key: 'fetchRepo',
-    		value: function fetchRepo(data) {
-    			var api = 'https://api.github.com/repos/' + data.user + '/' + data.repo;
-    			return new Promise(function (resolve) {
-    				fetch(api).then(function (data) {
-    					return data.json();
-    				}).then(function (json) {
-    					return resolve(json);
-    				});
-    			});
-    		}
-    	}, {
-    		key: 'template',
-    		value: function template(data, options) {
-    			return options.template.github(data, options);
-    		}
-    	}, {
-    		key: 'urlToText',
-    		value: function urlToText(_this, match, url, normalEmbed) {
-    			var data = !normalEmbed ? {
-    				user: match[2],
-    				repo: match[3]
-    			} : {
-    				user: match[1],
-    				repo: match[2]
-    			};
+    function github (input, output, options, embeds) {
+    	var args = {
+    		input: input, output: output, options: options, embeds: embeds,
+    		service: 'github',
+    		regex: regex.github
+    	};
 
-    			if (!data.repo) return;
-    			return new Promise(function (resolve) {
-    				Github.fetchRepo(data).then(function (response) {
-    					return resolve(Github.template(response, _this.options));
-    				});
-    			});
-    		}
-    	}]);
-    	return Github;
-    }();
+    	return new Promise(function (resolve) {
+    		return asyncEmbed(args, urlToText$3).then(function (data) {
+    			return resolve(data);
+    		});
+    	});
+    }
 
     function mentions (input, options) {
     	var mRegex = regex.mentions;
@@ -2206,7 +1965,7 @@
     		//object while creating a new instance of embed.js
     		this.options = deepExtend(globOptions, options);
 
-    		this.options.template = template || new Renderer();
+    		this.options.template = template || renderer;
 
     		if (!this.options.input || !(typeof this.options.input === 'string' || babelHelpers.typeof(this.options.input) === 'object')) throw ReferenceError("You need to pass an element or the string that needs to be processed");
 
@@ -2233,9 +1992,9 @@
     			this.options.beforeEmbedJSApply();
 
     			return new Promise(function (resolve) {
-    				if (options.link) output = new Url(input, options).process();
+    				if (options.link) output = url(input, options);
 
-    				var openGraphPromise = options.openGraphEndpoint ? new OpenGraph(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
+    				var openGraphPromise = options.openGraphEndpoint ? openGraph(input, output, options, embeds) : Promise.resolve([output, embeds]);
 
     				openGraphPromise.then(function (_ref) {
     					var _ref2 = babelHelpers.slicedToArray(_ref, 2);
@@ -2244,16 +2003,16 @@
     					var embeds = _ref2[1];
 
     					if (options.highlightCode) {
-    						output = new Highlight(output, options).process();
+    						output = highlight(output, options);
     					}
     					if (options.marked) {
-    						output = new Markdown(output, options).process();
+    						output = markdown(output, options);
     					}
     					if (options.emoji) {
-    						output = new Emoji(output, options).process();
+    						output = emoji(output, options);
     					}
     					if (options.fontIcons) {
-    						output = new Smiley(output, options).process();
+    						output = smiley(output, options);
     					}
     					if (options.mentions) {
     						output = mentions(output, options);
@@ -2391,28 +2150,28 @@
     						embeds = _process2[1];
     					}
 
-    					return ifEmbed(options, 'youtube') ? new Youtube(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
+    					return ifEmbed(options, 'youtube') ? youtube(input, output, options, embeds) : Promise.resolve([output, embeds]);
     				}).then(function (_ref3) {
     					var _ref4 = babelHelpers.slicedToArray(_ref3, 2);
 
     					var output = _ref4[0];
     					var embeds = _ref4[1];
 
-    					return ifEmbed(options, 'vimeo') ? new Vimeo(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
+    					return ifEmbed(options, 'vimeo') ? vimeo(input, output, options, embeds) : Promise.resolve([output, embeds]);
     				}).then(function (_ref5) {
     					var _ref6 = babelHelpers.slicedToArray(_ref5, 2);
 
     					var output = _ref6[0];
     					var embeds = _ref6[1];
 
-    					return ifEmbed(options, 'github') ? new Github(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
+    					return ifEmbed(options, 'github') ? github(input, output, options, embeds) : Promise.resolve([output, embeds]);
     				}).then(function (_ref7) {
     					var _ref8 = babelHelpers.slicedToArray(_ref7, 2);
 
     					var output = _ref8[0];
     					var embeds = _ref8[1];
 
-    					return options.locationEmbed && ifEmbed(options, 'gmap') ? new Gmap(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
+    					return options.locationEmbed && ifEmbed(options, 'gmap') ? gmap(input, output, options, embeds) : Promise.resolve([output, embeds]);
     				}).then(function (_ref9) {
     					var _ref10 = babelHelpers.slicedToArray(_ref9, 2);
 
@@ -2577,7 +2336,7 @@
     		key: 'applyEmbedJS',
     		value: function applyEmbedJS(selectorName) {
     			var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
-    			var template = arguments.length <= 2 || arguments[2] === undefined ? new Renderer() : arguments[2];
+    			var template = arguments.length <= 2 || arguments[2] === undefined ? renderer : arguments[2];
 
     			var elements = document.querySelectorAll(selectorName);
     			for (var i = 0; i < elements.length; i++) {
@@ -2644,7 +2403,7 @@
     	}, {
     		key: 'Template',
     		value: function Template() {
-    			return new Renderer();
+    			return renderer;
     		}
     	}]);
     	return EmbedJS;
