@@ -1,4 +1,4 @@
-export default function getDetailsTemplate(data, fullData, embedUrl, options) {
+export default function (data, fullData, embedUrl, options) {
 	if (data.host === 'vimeo') {
 		return options.template.detailsVimeo(data, fullData, embedUrl, options)
 	} else if (data.host === 'youtube') {

@@ -16,7 +16,7 @@ import Gist        from './modules/code/gist'
 import youtube     from './modules/video/youtube'
 import vimeo       from './modules/video/vimeo'
 
-import SlideShare  from './modules/image/slideshare'
+import slideShare  from './modules/image/slideshare'
 
 import openGraph   from './modules/openGraph'
 import github      from './modules/github'
@@ -51,8 +51,8 @@ var defaultOptions = {
 		fluid  : true,
 		preload: 'metadata'
 	},
-	plyr                : false,
-	plyrOptions         : {},
+	plyr                   : false,
+	plyrOptions            : {},
 	locationEmbed          : true,
 	mapOptions             : {
 		mode: 'place'
@@ -237,7 +237,7 @@ export default class EmbedJS {
 			}).then(function ([output, embeds]) {
 				return options.locationEmbed && ifEmbed(options, 'gmap') ? gmap(input, output, options, embeds) : Promise.resolve([output, embeds])
 			}).then(function ([output, embeds]) {
-				return ifEmbed(options, 'slideshare') ? new SlideShare(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
+				return ifEmbed(options, 'slideshare') ? slideShare(input, output, options, embeds) : Promise.resolve([output, embeds]);
 			}).then(([output, embeds]) => {
 				if (options.tweetsEmbed && ifEmbed(options, 'twitter')) {
 					this.twitter = new Twitter(input, output, options, embeds);
@@ -341,10 +341,10 @@ export default class EmbedJS {
 	 * @return {null}
 	 */
 	destroy() {
-		if (this.options.input !== 'object') throw new Error(`destroy() method only works if an element had been passed in the options object`);
+		if (typeof this.options.input !== 'object') throw new Error(`destroy() method only works if an element had been passed in the options object`);
 		destroyVideos('ejs-video-thumb');
-		this.element.removeEventListener('rendered', this.twitter.load(), false);
-		this.element.innerHTML = this.input
+		this.options.input.removeEventListener('rendered', this.twitter.load(), false);
+		this.options.input.innerHTML = this.input
 	}
 
 	/**

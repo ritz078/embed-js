@@ -482,6 +482,8 @@
     function url (input, options) {
     	var config = options.linkOptions;
     	return input.replace(urlRegex(), function (match) {
+    		console.log(arguments);
+    		if (lastElement(match) === ')') return match; //hack for markdown image
     		var extension = lastElement(match.split('.'));
     		if (lastElement(match) === '/') match = match.slice(0, -1);
     		if (config.exclude.indexOf(extension) === -1) return options.template.url(match, options);
@@ -628,7 +630,7 @@
     	}
     }
 
-    function getDetailsTemplate(data, fullData, embedUrl, options) {
+    function getDetailsTemplate (data, fullData, embedUrl, options) {
     	if (data.host === 'vimeo') {
     		return options.template.detailsVimeo(data, fullData, embedUrl, options);
     	} else if (data.host === 'youtube') {
@@ -674,7 +676,7 @@
      * @param  {className} className
      * @return {null}
      */
-    function destroyVideos(className) {
+    function destroyVideos (className) {
       var classes = document.getElementsByClassName(className);
       for (var i = 0; i < classes.length; i++) {
         classes[i].onclick = null;
@@ -1393,11 +1395,11 @@
     	};
 
     	renderer.image = function (href, title, text) {
-    		if (href.indexOf('&lt;/a') === -1) return href;
     		if (href.match(/&gt;(.+)&lt;\/a/gi)) {
     			if (!title) title = '';
     			return '<div class="ejs-image ejs-embed"><div class="ne-image-wrapper"><img src="' + RegExp.$1 + '" title="' + title + '" alt="' + text + '"/></div></div>';
     		}
+    		return '<div class="ejs-image ejs-embed"><div class="ne-image-wrapper"><img src="' + href + '" title="' + title + '" alt="' + text + '"/></div></div>';
     	};
 
     	renderer.paragraph = function (text) {
@@ -1682,60 +1684,43 @@
     	});
     }
 
-    var SlideShare = function () {
-    	function SlideShare(input, output, options, embeds) {
-    		babelHelpers.classCallCheck(this, SlideShare);
+    function fetchData(args, url) {
+    	var api = 'http://www.slideshare.net/api/oembed/2?url=' + url + '&format=jsonp&maxwidth=' + args.options.videoWidth + '&maxheight=' + args.options.videoHeight;
+    	return new Promise(function (resolve) {
+    		fetchJsonp$1(api, { credentials: 'include' }).then(function (data) {
+    			return data.json();
+    		}).then(function (json) {
+    			return resolve(json.html);
+    		});
+    	});
+    }
 
-    		this.input = input;
-    		this.output = output;
-    		this.options = options;
-    		this.embeds = embeds;
-    		this.regex = regex.slideShare;
-    		this.service = 'slideshare';
-    	}
+    function urlToText$2(args, match, url) {
+    	return new Promise(function (resolve) {
+    		fetchData(args, url).then(function (html) {
+    			return resolve(args.template(html));
+    		});
+    	});
+    }
 
-    	babelHelpers.createClass(SlideShare, [{
-    		key: 'template',
-    		value: function template(html) {
+    function slideShare (input, output, options, embeds) {
+    	var args = {
+    		input: input, output: output, options: options, embeds: embeds,
+    		regex: regex.slideShare,
+    		service: 'slideshare',
+    		template: function template(html) {
     			return this.options.template.slideShare(html, this.options);
     		}
-    	}, {
-    		key: 'process',
-    		value: function process() {
-    			var _this2 = this;
+    	};
 
-    			return new Promise(function (resolve) {
-    				return asyncEmbed(_this2, SlideShare.urlToText).then(function (data) {
-    					return resolve(data);
-    				});
-    			});
-    		}
-    	}], [{
-    		key: 'fetchData',
-    		value: function fetchData(_this, url) {
-    			var api = 'http://www.slideshare.net/api/oembed/2?url=' + url + '&format=jsonp&maxwidth=' + _this.options.videoWidth + '&maxheight=' + _this.options.videoHeight;
-    			return new Promise(function (resolve) {
-    				fetchJsonp$1(api, { credentials: 'include' }).then(function (data) {
-    					return data.json();
-    				}).then(function (json) {
-    					return resolve(json.html);
-    				});
-    			});
-    		}
-    	}, {
-    		key: 'urlToText',
-    		value: function urlToText(_this, match, url) {
-    			return new Promise(function (resolve) {
-    				SlideShare.fetchData(_this, url).then(function (html) {
-    					return resolve(_this.template(html));
-    				});
-    			});
-    		}
-    	}]);
-    	return SlideShare;
-    }();
+    	return new Promise(function (resolve) {
+    		return asyncEmbed(args, urlToText$2).then(function (data) {
+    			return resolve(data);
+    		});
+    	});
+    }
 
-    function fetchData(url, _) {
+    function fetchData$1(url, _) {
     	url = encodeURIComponent(url);
     	var api = new Function('url', 'return `' + _.options.openGraphEndpoint + '`')(url);
     	return new Promise(function (resolve) {
@@ -1747,11 +1732,11 @@
     	});
     }
 
-    function urlToText$2(_, match, url) {
+    function urlToText$3(_, match, url) {
     	if (url.match(_.excludeRegex)) return Promise.resolve();
 
     	return new Promise(function (resolve) {
-    		fetchData(url, _).then(function (data) {
+    		fetchData$1(url, _).then(function (data) {
     			return resolve(data && data.success ? _.template(data) : '');
     		});
     	});
@@ -1772,7 +1757,7 @@
     	};
 
     	return new Promise(function (resolve) {
-    		return asyncEmbed(args, urlToText$2).then(function (data) {
+    		return asyncEmbed(args, urlToText$3).then(function (data) {
     			return resolve(data);
     		});
     	});
@@ -1793,7 +1778,7 @@
     	});
     }
 
-    function urlToText$3(_this, match, url, normalEmbed) {
+    function urlToText$4(_this, match, url, normalEmbed) {
     	var data = !normalEmbed ? {
     		user: match[2],
     		repo: match[3]
@@ -1818,7 +1803,7 @@
     	};
 
     	return new Promise(function (resolve) {
-    		return asyncEmbed(args, urlToText$3).then(function (data) {
+    		return asyncEmbed(args, urlToText$4).then(function (data) {
     			return resolve(data);
     		});
     	});
@@ -2178,7 +2163,7 @@
     					var output = _ref10[0];
     					var embeds = _ref10[1];
 
-    					return ifEmbed(options, 'slideshare') ? new SlideShare(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
+    					return ifEmbed(options, 'slideshare') ? slideShare(input, output, options, embeds) : Promise.resolve([output, embeds]);
     				}).then(function (_ref11) {
     					var _ref12 = babelHelpers.slicedToArray(_ref11, 2);
 
@@ -2307,10 +2292,10 @@
     	}, {
     		key: 'destroy',
     		value: function destroy() {
-    			if (this.options.input !== 'object') throw new Error('destroy() method only works if an element had been passed in the options object');
+    			if (babelHelpers.typeof(this.options.input) !== 'object') throw new Error('destroy() method only works if an element had been passed in the options object');
     			destroyVideos('ejs-video-thumb');
-    			this.element.removeEventListener('rendered', this.twitter.load(), false);
-    			this.element.innerHTML = this.input;
+    			this.options.input.removeEventListener('rendered', this.twitter.load(), false);
+    			this.options.input.innerHTML = this.input;
     		}
 
     		/**

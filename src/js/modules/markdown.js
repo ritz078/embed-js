@@ -13,11 +13,11 @@ export default function (output, options) {
 	};
 
 	renderer.image = (href, title, text) => {
-		if (href.indexOf('&lt;/a') === -1) return href;
 		if (href.match(/&gt;(.+)&lt;\/a/gi)) {
 			if (!title) title = '';
 			return `<div class="ejs-image ejs-embed"><div class="ne-image-wrapper"><img src="${RegExp.$1}" title="${title}" alt="${text}"/></div></div>`
 		}
+		return `<div class="ejs-image ejs-embed"><div class="ne-image-wrapper"><img src="${href}" title="${title}" alt="${text}"/></div></div>`
 	};
 
 	renderer.paragraph = (text) => `<p> ${text} </p>`; //for font smiley in end.

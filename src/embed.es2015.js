@@ -440,7 +440,9 @@ function smiley (input, options) {
 
 function url (input, options) {
 	const config = options.linkOptions;
-	return input.replace(urlRegex(), (match)=> {
+	return input.replace(urlRegex(), function(match) {
+		console.log(arguments);
+		if(lastElement(match) === ')') return match; //hack for markdown image
 		let extension = lastElement(match.split('.'));
 		if ((lastElement(match) === '/'))
 			match = match.slice(0, -1);
@@ -589,7 +591,7 @@ function playVideo(options) {
 	}
 }
 
-function getDetailsTemplate(data, fullData, embedUrl, options) {
+function getDetailsTemplate (data, fullData, embedUrl, options) {
 	if (data.host === 'vimeo') {
 		return options.template.detailsVimeo(data, fullData, embedUrl, options)
 	} else if (data.host === 'youtube') {
@@ -633,8 +635,8 @@ function applyVideoJS(options) {
  * @param  {className} className
  * @return {null}
  */
-function destroyVideos(className) {
-	let classes = document.getElementsByClassName(className);
+function destroyVideos (className) {
+	const classes = document.getElementsByClassName(className);
 	for (let i = 0; i < classes.length; i++) {
 		classes[i].onclick = null
 	}
@@ -1322,11 +1324,11 @@ function markdown (output, options) {
 	};
 
 	renderer.image = (href, title, text) => {
-		if (href.indexOf('&lt;/a') === -1) return href;
 		if (href.match(/&gt;(.+)&lt;\/a/gi)) {
 			if (!title) title = '';
 			return `<div class="ejs-image ejs-embed"><div class="ne-image-wrapper"><img src="${RegExp.$1}" title="${title}" alt="${text}"/></div></div>`
 		}
+		return `<div class="ejs-image ejs-embed"><div class="ne-image-wrapper"><img src="${href}" title="${title}" alt="${text}"/></div></div>`
 	};
 
 	renderer.paragraph = (text) => `<p> ${text} </p>`; //for font smiley in end.
@@ -1582,41 +1584,35 @@ function vimeo (input, output, options, embeds) {
 	return new Promise((resolve) => asyncEmbed(args, urlToText$1).then((data) => resolve(data)))
 }
 
-class SlideShare {
-	constructor(input, output, options, embeds) {
-		this.input   = input;
-		this.output  = output;
-		this.options = options;
-		this.embeds  = embeds;
-		this.regex   = regex.slideShare;
-		this.service = 'slideshare';
-	}
-
-	static fetchData(_this, url) {
-		let api          = `http://www.slideshare.net/api/oembed/2?url=${url}&format=jsonp&maxwidth=${_this.options.videoWidth}&maxheight=${_this.options.videoHeight}`;
-		return new Promise((resolve) => {
-			fetchJsonp$1(api, {credentials: 'include'})
-				.then((data) => data.json())
-				.then((json) => resolve(json.html))
-		})
-	}
-
-	template(html) {
-		return this.options.template.slideShare(html, this.options)
-	}
-
-	static urlToText(_this, match, url) {
-		return new Promise((resolve) => {
-			SlideShare.fetchData(_this, url).then((html) => resolve(_this.template(html)))
-		})
-	}
-
-	process() {
-		return new Promise((resolve) => asyncEmbed(this, SlideShare.urlToText).then((data) => resolve(data)))
-	}
+function fetchData(args, url) {
+	let api = `http://www.slideshare.net/api/oembed/2?url=${url}&format=jsonp&maxwidth=${args.options.videoWidth}&maxheight=${args.options.videoHeight}`;
+	return new Promise((resolve) => {
+		fetchJsonp$1(api, {credentials: 'include'})
+			.then((data) => data.json())
+			.then((json) => resolve(json.html))
+	})
 }
 
-function fetchData(url, _) {
+function urlToText$2(args, match, url) {
+	return new Promise((resolve) => {
+		fetchData(args, url).then((html) => resolve(args.template(html)))
+	})
+}
+
+function slideShare (input, output, options, embeds) {
+	const args = {
+		input, output, options, embeds,
+		regex: regex.slideShare,
+		service: 'slideshare',
+		template(html) {
+			return this.options.template.slideShare(html, this.options)
+		}
+	};
+
+	return new Promise((resolve) => asyncEmbed(args, urlToText$2).then((data) => resolve(data)))
+}
+
+function fetchData$1(url, _) {
 	url     = encodeURIComponent(url);
 	let api = new Function('url', 'return `' + _.options.openGraphEndpoint + '`')(url);
 	return new Promise((resolve) => {
@@ -1626,11 +1622,11 @@ function fetchData(url, _) {
 	})
 }
 
-function urlToText$2(_, match, url) {
+function urlToText$3(_, match, url) {
 	if (url.match(_.excludeRegex)) return Promise.resolve();
 
 	return new Promise((resolve) => {
-		fetchData(url, _).then((data) => resolve(data && data.success ? _.template(data) : ''))
+		fetchData$1(url, _).then((data) => resolve(data && data.success ? _.template(data) : ''))
 	})
 }
 
@@ -1648,7 +1644,7 @@ function openGraph (input, output, options, embeds) {
 		}
 	};
 
-	return new Promise((resolve) => asyncEmbed(args, urlToText$2).then((data) => resolve(data)))
+	return new Promise((resolve) => asyncEmbed(args, urlToText$3).then((data) => resolve(data)))
 }
 
 function template$2(data, options) {
@@ -1668,7 +1664,7 @@ function fetchRepo(data) {
 	})
 }
 
-function urlToText$3(_this, match, url, normalEmbed) {
+function urlToText$4(_this, match, url, normalEmbed) {
 	let data = !normalEmbed ? ({
 		user: match[2],
 		repo: match[3]
@@ -1693,7 +1689,7 @@ function github (input, output, options, embeds) {
 		regex  : regex.github
 	};
 
-	return new Promise((resolve) => asyncEmbed(args, urlToText$3).then((data) => resolve(data)))
+	return new Promise((resolve) => asyncEmbed(args, urlToText$4).then((data) => resolve(data)))
 }
 
 function mentions (input, options) {
@@ -1735,8 +1731,8 @@ var defaultOptions = {
 		fluid  : true,
 		preload: 'metadata'
 	},
-	plyr                : false,
-	plyrOptions         : {},
+	plyr                   : false,
+	plyrOptions            : {},
 	locationEmbed          : true,
 	mapOptions             : {
 		mode: 'place'
@@ -1921,7 +1917,7 @@ class EmbedJS {
 			}).then(function ([output, embeds]) {
 				return options.locationEmbed && ifEmbed(options, 'gmap') ? gmap(input, output, options, embeds) : Promise.resolve([output, embeds])
 			}).then(function ([output, embeds]) {
-				return ifEmbed(options, 'slideshare') ? new SlideShare(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
+				return ifEmbed(options, 'slideshare') ? slideShare(input, output, options, embeds) : Promise.resolve([output, embeds]);
 			}).then(([output, embeds]) => {
 				if (options.tweetsEmbed && ifEmbed(options, 'twitter')) {
 					this.twitter = new Twitter(input, output, options, embeds);
@@ -2025,10 +2021,10 @@ class EmbedJS {
 	 * @return {null}
 	 */
 	destroy() {
-		if (this.options.input !== 'object') throw new Error(`destroy() method only works if an element had been passed in the options object`);
+		if (typeof this.options.input !== 'object') throw new Error(`destroy() method only works if an element had been passed in the options object`);
 		destroyVideos('ejs-video-thumb');
-		this.element.removeEventListener('rendered', this.twitter.load(), false);
-		this.element.innerHTML = this.input
+		this.options.input.removeEventListener('rendered', this.twitter.load(), false);
+		this.options.input.innerHTML = this.input
 	}
 
 	/**
