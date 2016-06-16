@@ -3,8 +3,8 @@
  * @param  {className} className
  * @return {null}
  */
-export default function destroyVideos(className) {
-	let classes = document.getElementsByClassName(className);
+export default function (className) {
+	const classes = document.getElementsByClassName(className);
 	for (let i = 0; i < classes.length; i++) {
 		classes[i].onclick = null
 	}

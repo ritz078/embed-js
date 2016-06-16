@@ -1,4 +1,4 @@
-import { ifInline, matches } from '../utils'
+import {ifInline, matches} from '../utils'
 import regex from '../regex'
 import 'whatwg-fetch'
 
@@ -40,47 +40,38 @@ function locationText(match) {
 	return match.split('(')[1].split(')')[0]
 }
 
-export default class Gmap {
-    constructor(input, output, options, embeds) {
-        this.input = input;
-        this.output = output;
-        this.options = options;
-        this.embeds = embeds;
-        this.service = 'map';
-        this.regex = regex.gmap;
-    }
+export default function (input, output, options, embeds) {
+	let match, promises = [], allMatches = [];
 
-    process() {
-        let match, promises = [],
-            allMatches = [];
-        while ((match = matches(this.regex, this.output)) !== null) {
-            this.options.served.push(match);
-            let promise = this.options.mapOptions.mode !== 'place' ? getCoordinate(match[0]) : Promise.resolve([null, null]);
-            promises.push(promise);
-            allMatches.push(match)
-        }
+	const service = 'map';
 
-        return new Promise((resolve) => {
-            Promise.all(promises).then((coordinatesArr) => {
-                for (var i in promises) {
-                    let [latitude, longitude] = coordinatesArr[i];
-                    let text = template((allMatches[i])[0], latitude, longitude, this.options);
-                    if (ifInline(this.options, this.service)) {
-                        this.output = this.output.replace(this.regex, (regexMatch) => {
-                            return `<span class="ejs-location">${locationText(regexMatch)}</span>${text}`
-                        })
-                    } else {
-                        this.embeds.push({
-                            text: text,
-                            index: allMatches[i][0].index
-                        });
-                        this.output = this.output.replace(this.regex, (regexMatch) => {
-                            return `<span class="ejs-location">${locationText(regexMatch)}</span>`
-                        });
-                    }
-                }
-                resolve([this.output, this.embeds])
-            })
-        })
-    }
+	while ((match = matches(regex.gmap, output)) !== null) {
+		options.served.push(match);
+		const promise = options.mapOptions.mode !== 'place' ? getCoordinate(match[0]) : Promise.resolve([null, null]);
+		promises.push(promise);
+		allMatches.push(match)
+	}
+
+	return new Promise((resolve) => {
+		Promise.all(promises).then((coordinatesArr) => {
+			for (var i in promises) {
+				let [latitude, longitude] = coordinatesArr[i];
+				let text = template((allMatches[i])[0], latitude, longitude, options);
+				if (ifInline(options, service)) {
+					output = output.replace(regex.gmap, (regexMatch) => {
+						return `<span class="ejs-location">${locationText(regexMatch)}</span>${text}`
+					})
+				} else {
+					embeds.push({
+						text : text,
+						index: allMatches[i][0].index
+					});
+					output = output.replace(regex.gmap, (regexMatch) => {
+						return `<span class="ejs-location">${locationText(regexMatch)}</span>`
+					});
+				}
+			}
+			resolve([output, embeds])
+		})
+	})
 }

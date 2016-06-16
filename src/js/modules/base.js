@@ -1,22 +1,17 @@
 import { embed } from '../helpers'
 
-class Base {
-	constructor(input, output, embeds, options, regex, service) {
-		this.input   = input;
-		this.output  = output;
-		this.options = options;
-		this.embeds  = embeds;
-		this.regex   = regex;
-		this.service = service;
-	}
+export default function (input, output, embeds, options, regex, service) {
+	const args = {
+		input,
+		output,
+		options,
+		embeds,
+		regex,
+		service,
+		template(match){
+			return this.options.template[this.service](match, this.options);
+		}
+	};
 
-	template(match){
-		return this.options.template[this.service](match, this.options);
-	}
-
-	process() {
-		return embed(this);
-	}
+	return embed(args);
 }
-
-export default Base

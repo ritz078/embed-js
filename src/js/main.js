@@ -1,25 +1,25 @@
 import {ifEmbed, createText, deepExtend, cloneObject, processOptions} from './modules/utils'
 
-import Renderer    from './modules/template'
+import renderer    from './modules/template'
 
-import Emoji       from './modules/emoticons/emoji'
-import Smiley      from './modules/emoticons/smiley'
-import Url         from './modules/url'
+import emoji       from './modules/emoticons/emoji'
+import smiley      from './modules/emoticons/smiley'
+import url         from './modules/url'
 
 import Twitter     from './modules/twitter/twitter'
-import Gmap        from './modules/map/map'
-import Markdown    from './modules/markdown'
+import gmap        from './modules/map/map'
+import markdown    from './modules/markdown'
 
-import Highlight   from './modules/code/highlight'
+import highlight   from './modules/code/highlight'
 import Gist        from './modules/code/gist'
 
-import Youtube     from './modules/video/youtube'
-import Vimeo       from './modules/video/vimeo'
+import youtube     from './modules/video/youtube'
+import vimeo       from './modules/video/vimeo'
 
-import SlideShare  from './modules/image/slideshare'
+import slideShare  from './modules/image/slideshare'
 
-import OpenGraph   from './modules/openGraph'
-import Github      from './modules/github'
+import openGraph   from './modules/openGraph'
+import github      from './modules/github'
 
 import mentions    from './modules/mentions';
 import hashtag     from './modules/hashtag';
@@ -51,8 +51,8 @@ var defaultOptions = {
 		fluid  : true,
 		preload: 'metadata'
 	},
-	plyr                : false,
-	plyrOptions         : {},
+	plyr                   : false,
+	plyrOptions            : {},
 	locationEmbed          : true,
 	mapOptions             : {
 		mode: 'place'
@@ -160,7 +160,7 @@ export default class EmbedJS {
 		//object while creating a new instance of embed.js
 		this.options = deepExtend(globOptions, options);
 
-		this.options.template = template || new Renderer();
+		this.options.template = template || renderer;
 
 		if (!this.options.input || !(typeof this.options.input === 'string' || typeof this.options.input === 'object')) throw ReferenceError("You need to pass an element or the string that needs to be processed");
 
@@ -183,22 +183,22 @@ export default class EmbedJS {
 
 		return new Promise((resolve) => {
 			if (options.link)
-				output = new Url(input, options).process();
+				output = url(input, options);
 
-			let openGraphPromise = options.openGraphEndpoint ? new OpenGraph(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
+			const openGraphPromise = options.openGraphEndpoint ? openGraph(input, output, options, embeds) : Promise.resolve([output, embeds]);
 
 			openGraphPromise.then(function ([output, embeds]) {
 				if (options.highlightCode) {
-					output = new Highlight(output, options).process()
+					output = highlight(output, options)
 				}
 				if (options.marked) {
-					output = new Markdown(output, options).process()
+					output = markdown(output, options)
 				}
 				if (options.emoji) {
-					output = new Emoji(output, options).process()
+					output = emoji(output, options)
 				}
 				if (options.fontIcons) {
-					output = new Smiley(output, options).process()
+					output = smiley(output, options)
 				}
 				if (options.mentions) {
 					output = mentions(output, options);
@@ -229,15 +229,15 @@ export default class EmbedJS {
 					[output, embeds] = new Gist(input, output, options, embeds).process()
 				}
 
-				return ifEmbed(options, 'youtube') ? new Youtube(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
+				return ifEmbed(options, 'youtube') ? youtube(input, output, options, embeds) : Promise.resolve([output, embeds]);
 			}).then(function ([output, embeds]) {
-				return ifEmbed(options, 'vimeo') ? new Vimeo(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
+				return ifEmbed(options, 'vimeo') ? vimeo(input, output, options, embeds) : Promise.resolve([output, embeds]);
 			}).then(function ([output, embeds]) {
-				return ifEmbed(options, 'github') ? new Github(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
+				return ifEmbed(options, 'github') ? github(input, output, options, embeds) : Promise.resolve([output, embeds]);
 			}).then(function ([output, embeds]) {
-				return options.locationEmbed && ifEmbed(options, 'gmap') ? new Gmap(input, output, options, embeds).process() : Promise.resolve([output, embeds])
+				return options.locationEmbed && ifEmbed(options, 'gmap') ? gmap(input, output, options, embeds) : Promise.resolve([output, embeds])
 			}).then(function ([output, embeds]) {
-				return ifEmbed(options, 'slideshare') ? new SlideShare(input, output, options, embeds).process() : Promise.resolve([output, embeds]);
+				return ifEmbed(options, 'slideshare') ? slideShare(input, output, options, embeds) : Promise.resolve([output, embeds]);
 			}).then(([output, embeds]) => {
 				if (options.tweetsEmbed && ifEmbed(options, 'twitter')) {
 					this.twitter = new Twitter(input, output, options, embeds);
@@ -341,10 +341,10 @@ export default class EmbedJS {
 	 * @return {null}
 	 */
 	destroy() {
-		if (this.options.input !== 'object') throw new Error(`destroy() method only works if an element had been passed in the options object`);
+		if (typeof this.options.input !== 'object') throw new Error(`destroy() method only works if an element had been passed in the options object`);
 		destroyVideos('ejs-video-thumb');
-		this.element.removeEventListener('rendered', this.twitter.load(), false);
-		this.element.innerHTML = this.input
+		this.options.input.removeEventListener('rendered', this.twitter.load(), false);
+		this.options.input.innerHTML = this.input
 	}
 
 	/**
@@ -362,7 +362,7 @@ export default class EmbedJS {
 	 * @param options
 	 * @param template
 	 */
-	static applyEmbedJS(selectorName, options = {}, template = (new Renderer())) {
+	static applyEmbedJS(selectorName, options = {}, template = renderer) {
 		let elements = document.querySelectorAll(selectorName);
 		for (let i = 0; i < elements.length; i++) {
 			options.input = elements[i];
@@ -419,6 +419,6 @@ export default class EmbedJS {
 	 *
 	 */
 	static Template() {
-		return new Renderer();
+		return renderer;
 	}
 }
