@@ -2294,7 +2294,7 @@
     		value: function destroy() {
     			if (babelHelpers.typeof(this.options.input) !== 'object') throw new Error('destroy() method only works if an element had been passed in the options object');
     			destroyVideos('ejs-video-thumb');
-    			this.options.input.removeEventListener('rendered', this.twitter.load(), false);
+    			if (this.options.tweetsEmbed) this.options.input.removeEventListener('rendered', this.twitter.load(), false);
     			this.options.input.innerHTML = this.input;
     		}
 
