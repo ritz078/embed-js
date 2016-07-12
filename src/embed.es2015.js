@@ -307,8 +307,8 @@ var renderer = {
 }
 
 const regex = {
-	mentions     : /\B@[a-z0-9_-]+/gi,
-	hashtag      : /\B#[a-z0-9_-]+/gi,
+	mentions     : /(^|\s)(@[a-z0-9_-]+)/gi,
+	hashtag      : /(^|\s)(#[a-z\d-]+)/gi,
 	basicAudio   : /((?:https?):\/\/\S*\.(?:wav|mp3|ogg))/gi,
 	soundCloud   : /(soundcloud.com)\/[a-zA-Z0-9-_]+\/[a-zA-Z0-9-_]+/gi,
 	spotify      : /spotify.com\/track\/[a-zA-Z0-9_]+/gi,
@@ -387,6 +387,9 @@ const defaultIcons = [{
 	'text': ':o',
 	'code': '&#xe61a'
 }, {
+	'text': ':O',
+	'code': '&#xe61a'
+}, {
 	'text': '-_-',
 	'code': '&#xe61e'
 }, {
@@ -433,6 +436,7 @@ function smiley (input, options) {
 
 	return input.replace(smileyRegex, (match, pre, text) => {
 		let index = escapedSymbols.indexOf(escapeRegExp(text));
+		if (index === -1) return match;
 		let code  = icons[index].code;
 		return options.template.smiley(text, pre, code, options);
 	});
@@ -1233,7 +1237,7 @@ class Twitter {
     })
   }
   self.fetch.polyfill = true
-})(typeof self !== 'undefined' ? self : this);
+})(typeof self !== 'undefined' ? self : undefined);
 
 /**
  * Takes the location name and returns the coordinates of that location using the Google
@@ -1694,17 +1698,17 @@ function github (input, output, options, embeds) {
 
 function mentions (input, options) {
 	const mRegex = regex.mentions;
-	return input.replace(mRegex,(match) => {
-		const username = match.split('@')[1];
-		return options.mentionsUrl(username);
+	return input.replace(mRegex,(match, $1, $2) => {
+		const username = $2.split('@')[1];
+		return $1 + options.mentionsUrl(username);
 	})
 }
 
 function hashtag (input, options) {
 	const hRegex = regex.hashtag;
-	return input.replace(hRegex,(match)=>{
-		const username = match.split('#')[1];
-		return options.hashtagUrl(username);
+	return input.replace(hRegex,(match, $1, $2)=>{
+		const username = $2.split('#')[1];
+		return $1 + options.hashtagUrl(username);
 	})
 }
 

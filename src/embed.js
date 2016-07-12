@@ -346,8 +346,8 @@
     };
 
     var regex = {
-    	mentions: /\B@[a-z0-9_-]+/gi,
-    	hashtag: /\B#[a-z0-9_-]+/gi,
+    	mentions: /(^|\s)(@[a-z0-9_-]+)/gi,
+    	hashtag: /(^|\s)(#[a-z\d-]+)/gi,
     	basicAudio: /((?:https?):\/\/\S*\.(?:wav|mp3|ogg))/gi,
     	soundCloud: /(soundcloud.com)\/[a-zA-Z0-9-_]+\/[a-zA-Z0-9-_]+/gi,
     	spotify: /spotify.com\/track\/[a-zA-Z0-9_]+/gi,
@@ -426,6 +426,9 @@
     	'text': ':o',
     	'code': '&#xe61a'
     }, {
+    	'text': ':O',
+    	'code': '&#xe61a'
+    }, {
     	'text': '-_-',
     	'code': '&#xe61e'
     }, {
@@ -474,6 +477,7 @@
 
     	return input.replace(smileyRegex, function (match, pre, text) {
     		var index = escapedSymbols.indexOf(escapeRegExp(text));
+    		if (index === -1) return match;
     		var code = icons[index].code;
     		return options.template.smiley(text, pre, code, options);
     	});
@@ -1292,7 +1296,7 @@
         });
       };
       self.fetch.polyfill = true;
-    })(typeof self !== 'undefined' ? self : this);
+    })(typeof self !== 'undefined' ? self : undefined);
 
     /**
      * Takes the location name and returns the coordinates of that location using the Google
@@ -1811,17 +1815,17 @@
 
     function mentions (input, options) {
     	var mRegex = regex.mentions;
-    	return input.replace(mRegex, function (match) {
-    		var username = match.split('@')[1];
-    		return options.mentionsUrl(username);
+    	return input.replace(mRegex, function (match, $1, $2) {
+    		var username = $2.split('@')[1];
+    		return $1 + options.mentionsUrl(username);
     	});
     }
 
     function hashtag (input, options) {
     	var hRegex = regex.hashtag;
-    	return input.replace(hRegex, function (match) {
-    		var username = match.split('#')[1];
-    		return options.hashtagUrl(username);
+    	return input.replace(hRegex, function (match, $1, $2) {
+    		var username = $2.split('#')[1];
+    		return $1 + options.hashtagUrl(username);
     	});
     }
 

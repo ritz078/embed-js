@@ -35,6 +35,9 @@ const defaultIcons = [{
 	'text': ':o',
 	'code': '&#xe61a'
 }, {
+	'text': ':O',
+	'code': '&#xe61a'
+}, {
 	'text': '-_-',
 	'code': '&#xe61e'
 }, {
@@ -81,6 +84,7 @@ export default function (input, options) {
 
 	return input.replace(smileyRegex, (match, pre, text) => {
 		let index = escapedSymbols.indexOf(escapeRegExp(text));
+		if (index === -1) return match;
 		let code  = icons[index].code;
 		return options.template.smiley(text, pre, code, options);
 	});
