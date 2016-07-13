@@ -15,7 +15,7 @@ var banner = "/*\n" +
 var config = {
     entry         : 'src/js/main.js',
     dest          : 'src/embed.es2015.js',
-    format        : 'es6',
+    format        : 'es',
     banner        : banner,
     sourceMap     : true,
     plugins: [

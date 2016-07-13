@@ -2,8 +2,8 @@ import regex from './regex';
 
 export default function (input, options) {
 	const mRegex = regex.mentions;
-	return input.replace(mRegex,(match) => {
-		const username = match.split('@')[1];
-		return options.mentionsUrl(username);
+	return input.replace(mRegex,(match, $1, $2) => {
+		const username = $2.split('@')[1];
+		return $1 + options.mentionsUrl(username);
 	})
 }

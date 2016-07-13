@@ -1,6 +1,6 @@
 const regex = {
-	mentions     : /\B@[a-z0-9_-]+/gi,
-	hashtag      : /\B#[a-z0-9_-]+/gi,
+	mentions     : /(^|\s)(@[a-z0-9_-]+)/gi,
+	hashtag      : /(^|\s)(#[a-z\d-]+)/gi,
 	basicAudio   : /((?:https?):\/\/\S*\.(?:wav|mp3|ogg))/gi,
 	soundCloud   : /(soundcloud.com)\/[a-zA-Z0-9-_]+\/[a-zA-Z0-9-_]+/gi,
 	spotify      : /spotify.com\/track\/[a-zA-Z0-9_]+/gi,
