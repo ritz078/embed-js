@@ -1,6 +1,6 @@
 {
   "name": "embed-js",
-  "version": "4.1.3",
+  "version": "4.1.4",
   "description": "A JavaScript plugin that analyses the string and embeds emojis, media, tweets, code and services.",
   "keywords": [
     "JavaScript-plugin",

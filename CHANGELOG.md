@@ -1,3 +1,14 @@
+<a name="4.1.4"></a>
+## [4.1.4](https://github.com/ritz078/embed.js/compare/v4.1.3...v4.1.4) (2016-07-14)
+
+
+### Bug Fixes
+
+* **destroy:** fixed .load of undefined when tweetsEmbed was turned off. ([e19068b](https://github.com/ritz078/embed.js/commit/e19068b))
+* **smiley:** fixed smiley, hashtag and mention conflict ([1826726](https://github.com/ritz078/embed.js/commit/1826726))
+
+
+
 <a name="4.1.3"></a>
 ## [4.1.3](https://github.com/ritz078/embed.js/compare/v4.1.2...v4.1.3) (2016-06-16)
 
