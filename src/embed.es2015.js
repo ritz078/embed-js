@@ -21,6 +21,13 @@ function truncate(string, n) {
 }
 
 /**
+ * Returns an array after removing the duplicates.
+ * @param array         The array containing the duplicates
+ * @returns {Array}     Array with unique values.
+ */
+
+
+/**
  * Converts a string into legitimate url.
  * @param string
  */
@@ -342,7 +349,7 @@ function getEmoji(match) {
 	return match[0] === ':' && (lastElement(match) === ':') && match.substring(1, match.length - 1)
 }
 
-function emoji (output, options) {
+var emoji = function (output, options) {
 	return output.replace(regex.smileys, function (match) {
 		const emoji = getEmoji(match);
 		if (emoji) {
@@ -427,7 +434,7 @@ const defaultIcons = [{
 	'code': '&#xe61c'
 }];
 
-function smiley (input, options) {
+var smiley = function (input, options) {
 	const icons = options.customFontIcons.length ? options.customFontIcons : defaultIcons;
 
 	const escapedSymbols = icons.map((val) => escapeRegExp(val.text));
@@ -442,10 +449,9 @@ function smiley (input, options) {
 	});
 }
 
-function url (input, options) {
+var url = function (input, options) {
 	const config = options.linkOptions;
 	return input.replace(urlRegex(), function(match) {
-		console.log(arguments);
 		if(lastElement(match) === ')') return match; //hack for markdown image
 		let extension = lastElement(match.split('.'));
 		if ((lastElement(match) === '/'))
@@ -482,7 +488,8 @@ var fetchJsonp = __commonjs(function (module, exports, global) {
     return 'jsonp_' + Date.now() + '_' + Math.ceil(Math.random() * 100000);
   }
 
-  // Known issue: Will throw 'Uncaught ReferenceError: callback_*** is not defined' error if request timeout
+  // Known issue: Will throw 'Uncaught ReferenceError: callback_*** is not defined'
+  // error if request timeout
   function clearFunction(functionName) {
     // IE8 throws an exception when you try to delete a property on window
     // http://stackoverflow.com/a/1824228/751089
@@ -498,16 +505,19 @@ var fetchJsonp = __commonjs(function (module, exports, global) {
     document.getElementsByTagName('head')[0].removeChild(script);
   }
 
-  var fetchJsonp = function fetchJsonp(url) {
-    var options = arguments[1] === undefined ? {} : arguments[1];
+  function fetchJsonp(_url) {
+    var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 
-    var timeout = options.timeout != null ? options.timeout : defaultOptions.timeout;
-    var jsonpCallback = options.jsonpCallback != null ? options.jsonpCallback : defaultOptions.jsonpCallback;
+    // to avoid param reassign
+    var url = _url;
+    var timeout = options.timeout || defaultOptions.timeout;
+    var jsonpCallback = options.jsonpCallback || defaultOptions.jsonpCallback;
 
     var timeoutId = undefined;
 
     return new Promise(function (resolve, reject) {
       var callbackFunction = options.jsonpCallbackFunction || generateCallbackFunction();
+      var scriptId = jsonpCallback + '_' + callbackFunction;
 
       window[callbackFunction] = function (response) {
         resolve({
@@ -520,7 +530,7 @@ var fetchJsonp = __commonjs(function (module, exports, global) {
 
         if (timeoutId) clearTimeout(timeoutId);
 
-        removeScript(jsonpCallback + '_' + callbackFunction);
+        removeScript(scriptId);
 
         clearFunction(callbackFunction);
       };
@@ -529,18 +539,18 @@ var fetchJsonp = __commonjs(function (module, exports, global) {
       url += url.indexOf('?') === -1 ? '?' : '&';
 
       var jsonpScript = document.createElement('script');
-      jsonpScript.setAttribute('src', url + jsonpCallback + '=' + callbackFunction);
-      jsonpScript.id = jsonpCallback + '_' + callbackFunction;
+      jsonpScript.setAttribute('src', '' + url + jsonpCallback + '=' + callbackFunction);
+      jsonpScript.id = scriptId;
       document.getElementsByTagName('head')[0].appendChild(jsonpScript);
 
       timeoutId = setTimeout(function () {
         reject(new Error('JSONP request to ' + url + ' timed out'));
 
         clearFunction(callbackFunction);
-        removeScript(jsonpCallback + '_' + callbackFunction);
+        removeScript(scriptId);
       }, timeout);
     });
-  };
+  }
 
   // export as global function
   /*
@@ -556,7 +566,6 @@ var fetchJsonp = __commonjs(function (module, exports, global) {
       throw new Error('polyfill failed because global object is unavailable in this environment');
     }
   }
-  
   local.fetchJsonp = fetchJsonp;
   */
 
@@ -595,7 +604,7 @@ function playVideo(options) {
 	}
 }
 
-function getDetailsTemplate (data, fullData, embedUrl, options) {
+var getDetailsTemplate = function (data, fullData, embedUrl, options) {
 	if (data.host === 'vimeo') {
 		return options.template.detailsVimeo(data, fullData, embedUrl, options)
 	} else if (data.host === 'youtube') {
@@ -608,7 +617,7 @@ function getDetailsTemplate (data, fullData, embedUrl, options) {
  * @param  {object} options Options object
  * @return {null}
  */
-function applyPlyr (options) {
+var applyPlyr = function (options) {
 	if (options.plyr) {
 		if (!options.plugins.plyr) throw new ReferenceError("You have enabled plyr but you haven't loaded the library.Find it at https://plyr.io/");
 		let plyr = options.plugins.plyr;
@@ -639,7 +648,7 @@ function applyVideoJS(options) {
  * @param  {className} className
  * @return {null}
  */
-function destroyVideos (className) {
+var destroyVideos = function (className) {
 	const classes = document.getElementsByClassName(className);
 	for (let i = 0; i < classes.length; i++) {
 		classes[i].onclick = null
@@ -683,7 +692,7 @@ function embed(_){
 	return (ifInline(_.options, _.service)) ? inlineEmbed(_) : normalEmbed(_)
 }
 
-function base (input, output, embeds, options, regex, service) {
+var base = function (input, output, embeds, options, regex, service) {
 	const args = {
 		input,
 		output,
@@ -961,7 +970,7 @@ class Twitter {
   var support = {
     blob: 'FileReader' in self && 'Blob' in self && (function() {
       try {
-        new Blob();
+        new Blob()
         return true
       } catch(e) {
         return false
@@ -1118,7 +1127,7 @@ class Twitter {
 
   function headers(xhr) {
     var head = new Headers()
-    var pairs = xhr.getAllResponseHeaders().trim().split('\n')
+    var pairs = (xhr.getAllResponseHeaders() || '').trim().split('\n')
     pairs.forEach(function(header) {
       var split = header.trim().split(':')
       var key = split.shift().trim()
@@ -1171,9 +1180,9 @@ class Twitter {
     return new Response(null, {status: status, headers: {location: url}})
   }
 
-  self.Headers = Headers;
-  self.Request = Request;
-  self.Response = Response;
+  self.Headers = Headers
+  self.Request = Request
+  self.Response = Response
 
   self.fetch = function(input, init) {
     return new Promise(function(resolve, reject) {
@@ -1196,7 +1205,7 @@ class Twitter {
           return xhr.getResponseHeader('X-Request-URL')
         }
 
-        return;
+        return
       }
 
       xhr.onload = function() {
@@ -1211,11 +1220,15 @@ class Twitter {
           headers: headers(xhr),
           url: responseURL()
         }
-        var body = 'response' in xhr ? xhr.response : xhr.responseText;
+        var body = 'response' in xhr ? xhr.response : xhr.responseText
         resolve(new Response(body, options))
       }
 
       xhr.onerror = function() {
+        reject(new TypeError('Network request failed'))
+      }
+
+      xhr.ontimeout = function() {
         reject(new TypeError('Network request failed'))
       }
 
@@ -1277,7 +1290,7 @@ function locationText(match) {
 	return match.split('(')[1].split(')')[0]
 }
 
-function gmap (input, output, options, embeds) {
+var gmap = function (input, output, options, embeds) {
 	let match, promises = [], allMatches = [];
 
 	const service = 'map';
@@ -1313,7 +1326,7 @@ function gmap (input, output, options, embeds) {
 	})
 }
 
-function markdown (output, options) {
+var markdown = function (output, options) {
 	if (!options.plugins.marked) throw new ReferenceError(`marked.js is not loaded.`);
 
 	const Marked = options.plugins.marked;
@@ -1399,7 +1412,7 @@ function addTemplate(processedCode, language) {
  * => Replaces the code string in the template with the formatted string
  * @return {string} The string in which the code is formatted
  */
-function highlight (output, options) {
+var highlight = function (output, options) {
 	output = output.replace(regex.inlineCode, function (match, group1, group2) {
 		return `<code>${group2}</code>`
 	});
@@ -1520,7 +1533,7 @@ function urlToText(args, match, url, normalEmbed) {
 	}
 }
 
-function youtube (input, output, options, embeds) {
+var youtube = function (input, output, options, embeds) {
 	const args = {
 		input,
 		output,
@@ -1533,14 +1546,14 @@ function youtube (input, output, options, embeds) {
 	return new Promise((resolve) => asyncEmbed(args, urlToText).then((data) => resolve(data)))
 }
 
-function formatData$1(data, truncate) {
+function formatData$1(data, truncate$$1) {
 	return {
 		title         : data.title,
 		thumbnail     : data.thumbnail_medium,
 		rawDescription: data.description.replace(/\n/g, '<br/>').replace(/&#10;/g, '<br/>'),
 		views         : data.stats_number_of_plays,
 		likes         : data.stats_number_of_likes,
-		description   : truncate(data.description.replace(/((<|&lt;)br\s*\/*(>|&gt;)\r\n)/g, ' '), 150),
+		description   : truncate$$1(data.description.replace(/((<|&lt;)br\s*\/*(>|&gt;)\r\n)/g, ' '), 150),
 		url           : data.url,
 		id            : data.id,
 		host          : 'vimeo'
@@ -1575,7 +1588,7 @@ function urlToText$1(args, match, url, normalEmbed) {
 
 }
 
-function vimeo (input, output, options, embeds) {
+var vimeo = function (input, output, options, embeds) {
 	const args = {
 		input,
 		output,
@@ -1603,7 +1616,7 @@ function urlToText$2(args, match, url) {
 	})
 }
 
-function slideShare (input, output, options, embeds) {
+var slideShare = function (input, output, options, embeds) {
 	const args = {
 		input, output, options, embeds,
 		regex: regex.slideShare,
@@ -1634,7 +1647,7 @@ function urlToText$3(_, match, url) {
 	})
 }
 
-function openGraph (input, output, options, embeds) {
+var openGraph = function (input, output, options, embeds) {
 	const args = {
 		input,
 		output,
@@ -1686,7 +1699,7 @@ function urlToText$4(_this, match, url, normalEmbed) {
 	})
 }
 
-function github (input, output, options, embeds) {
+var github = function (input, output, options, embeds) {
 	const args = {
 		input, output, options, embeds,
 		service: 'github',
@@ -1696,7 +1709,7 @@ function github (input, output, options, embeds) {
 	return new Promise((resolve) => asyncEmbed(args, urlToText$4).then((data) => resolve(data)))
 }
 
-function mentions (input, options) {
+var mentions = function (input, options) {
 	const mRegex = regex.mentions;
 	return input.replace(mRegex,(match, $1, $2) => {
 		const username = $2.split('@')[1];
@@ -1704,7 +1717,7 @@ function mentions (input, options) {
 	})
 }
 
-function hashtag (input, options) {
+var hashtag = function (input, options) {
 	const hRegex = regex.hashtag;
 	return input.replace(hRegex,(match, $1, $2)=>{
 		const username = $2.split('#')[1];
@@ -1712,111 +1725,111 @@ function hashtag (input, options) {
 	})
 }
 
-var globalOptions = {};
+let globalOptions = {};
 
-var defaultOptions = {
-	marked                 : false,
-	markedOptions          : {},
-	link                   : true,
-	linkOptions            : {
-		target : 'self',
+const defaultOptions = {
+	marked: false,
+	markedOptions: {},
+	link: true,
+	linkOptions: {
+		target: 'self',
 		exclude: ['pdf'],
-		rel    : ''
+		rel: ''
 	},
-	emoji                  : true,
-	customEmoji            : [],
-	fontIcons              : true,
-	customFontIcons        : [],
-	highlightCode          : false,
-	mentions               : false,
-	hashtag                : false,
-	videoJS                : false,
-	videojsOptions         : {
-		fluid  : true,
+	emoji: true,
+	customEmoji: [],
+	fontIcons: true,
+	customFontIcons: [],
+	highlightCode: false,
+	mentions: false,
+	hashtag: false,
+	videoJS: false,
+	videojsOptions: {
+		fluid: true,
 		preload: 'metadata'
 	},
-	plyr                   : false,
-	plyrOptions            : {},
-	locationEmbed          : true,
-	mapOptions             : {
+	plyr: false,
+	plyrOptions: {},
+	locationEmbed: true,
+	mapOptions: {
 		mode: 'place'
 	},
-	tweetsEmbed            : false,
-	tweetOptions           : {
-		maxWidth  : 550,
-		hideMedia : false,
+	tweetsEmbed: false,
+	tweetOptions: {
+		maxWidth: 550,
+		hideMedia: false,
 		hideThread: false,
-		align     : 'none',
-		lang      : 'en'
+		align: 'none',
+		lang: 'en'
 	},
-	singleEmbed            : false,
-	openGraphEndpoint      : null,
-	openGraphExclude       : [],
-	videoEmbed             : true,
-	videoHeight            : null,
-	videoWidth             : null,
-	videoDetails           : true,
-	audioEmbed             : true,
-	imageEmbed             : true,
-	excludeEmbed           : [],
-	inlineEmbed            : [],
-	inlineText             : true,
-	codeEmbedHeight        : 500,
-	vineOptions            : {
-		maxWidth  : null,
-		type      : 'postcard', //'postcard' or 'simple' embedding
+	singleEmbed: false,
+	openGraphEndpoint: null,
+	openGraphExclude: [],
+	videoEmbed: true,
+	videoHeight: null,
+	videoWidth: null,
+	videoDetails: true,
+	audioEmbed: true,
+	imageEmbed: true,
+	excludeEmbed: [],
+	inlineEmbed: [],
+	inlineText: true,
+	codeEmbedHeight: 500,
+	vineOptions: {
+		maxWidth: null,
+		type: 'postcard', //'postcard' or 'simple' embedding
 		responsive: true,
-		width     : 350,
-		height    : 460
+		width: 350,
+		height: 460
 	},
-	plugins                : {
-		marked     : window.marked,
-		videojs    : window.videojs,
-		plyr       : window.plyr,
+	plugins: {
+		marked: window.marked,
+		videojs: window.videojs,
+		plyr: window.plyr,
 		highlightjs: window.hljs,
-		prismjs    : window.Prism,
-		twitter    : window.twttr
+		prismjs: window.Prism,
+		twitter: window.twttr
 	},
-	googleAuthKey          : '',
-	soundCloudOptions      : {
-		height      : 160,
-		themeColor  : 'f50000', //Hex Code of the player theme color
-		autoPlay    : false,
-		hideRelated : false,
+	googleAuthKey: '',
+	soundCloudOptions: {
+		height: 160,
+		themeColor: 'f50000', //Hex Code of the player theme color
+		autoPlay: false,
+		hideRelated: false,
 		showComments: true,
-		showUser    : true,
-		showReposts : false,
-		visual      : false, //Show/hide the big preview image
-		download    : false //Show/Hide download buttons
+		showUser: true,
+		showReposts: false,
+		visual: false, //Show/hide the big preview image
+		download: false //Show/Hide download buttons
 	},
-	videoClickClass        : 'ejs-video-thumb',
+	videoClickClass: 'ejs-video-thumb',
 	customVideoClickHandler: false,
-	mentionsUrl            : function () {
+	mentionsUrl: function () {
 	},
-	hashtagUrl             : function () {
+	hashtagUrl: function () {
 	},
-	beforeEmbedJSApply     : function () {
+	beforeEmbedJSApply: function () {
 	},
-	afterEmbedJSApply      : function () {
+	afterEmbedJSApply: function () {
 	},
-	onVideoShow            : function () {
+	onVideoShow: function () {
 	},
-	onTweetsLoad           : function () {
+	onTweetsLoad: function () {
 	},
-	videojsCallback        : function () {
+	videojsCallback: function () {
 	},
-	onOpenGraphFetch       : function () {
+	onOpenGraphFetch: function () {
 	},
-	onOpenGraphFail        : function () {
+	onOpenGraphFail: function () {
 	},
-	videoClickHandler      : function () {
+	videoClickHandler: function () {
 	},
-	served                 : [] //Private variable used to store processed urls so that they are not processed multiple times.
+	served: [] //Private variable used to store processed urls so that they are not processed multiple times.
 };
 
-let instances    = [];
+let instances = [];
 let allInstances = [];
-let promises     = [];
+let promises = [];
 
 class EmbedJS {
 	/**
@@ -1829,12 +1842,12 @@ class EmbedJS {
 	 * @param template
 	 * @return {null}
 	 */
-	constructor(options, template) {
+	constructor(options, template$$1) {
 		/**
 		 * We have created a clone of the original options to make sure that the original object
 		 * isn't altered.
 		 */
-		let defOpts  = cloneObject(defaultOptions);
+		let defOpts = cloneObject(defaultOptions);
 		let globOpts = cloneObject(globalOptions);
 
 		//merge global options with the default options
@@ -1844,9 +1857,9 @@ class EmbedJS {
 		//object while creating a new instance of embed.js
 		this.options = deepExtend(globOptions, options);
 
-		this.options.template = template || renderer;
+		this.options.template = template$$1 || renderer;
 
-		if (!this.options.input || !(typeof this.options.input === 'string' || typeof this.options.input === 'object')) throw ReferenceError("You need to pass an element or the string that needs to be processed");
+		if (!(typeof this.options.input === 'string' || typeof this.options.input === 'object')) throw ReferenceError("You need to pass an element or the string that needs to be processed");
 
 		this.input = (typeof this.options.input === 'object') ? this.options.input.innerHTML : this.options.input
 
@@ -1858,10 +1871,13 @@ class EmbedJS {
 	 * @return {Promise} The processes resulting string
 	 */
 	process() {
-		const input   = this.input;
+		const input = this.input;
+
+		if (input === '') return Promise.resolve('');
+
 		const options = processOptions(this.options);
-		let embeds    = [];
-		let output    = input;
+		let embeds = [];
+		let output = input;
 
 		this.options.beforeEmbedJSApply();
 
@@ -1931,19 +1947,12 @@ class EmbedJS {
 				}
 			}).then(([output, embeds]) => {
 				this.data = {
-					input      : options.input,
-					output     : output,
-					options    : options,
+					input: options.input,
+					output,
+					options,
 					inputString: this.input,
-					/**
-
-					 TODO:
-					 - Restructure served urls structure with services name
-
-					 */
-
-					services   : options.served,
-					template   : options.template
+					services: options.served,
+					template: options.template
 				};
 
 				resolve(createText(output, embeds))
@@ -1998,13 +2007,13 @@ class EmbedJS {
 	 * @param options   New updated options object. will be extended with the older options
 	 * @param template  [optional] the new template instance
 	 */
-	update(options, template) {
+	update(options, template$$1) {
 
 		if (options)
 			this.options = deepExtend(this.options, options);
 
-		if (template)
-			this.options.template = template;
+		if (template$$1)
+			this.options.template = template$$1;
 
 		if (!this.options.input || !(typeof this.options.input === 'string' || typeof this.options.input === 'object')) throw ReferenceError("You need to pass an element or the string that needs to be processed");
 
@@ -2016,7 +2025,7 @@ class EmbedJS {
 	 * @return Promise
 	 */
 	text(callback) {
-		this.process().then((data)=> callback(data, this.input))
+		this.process().then((data) => callback(data, this.input))
 	}
 
 	/**
@@ -2047,12 +2056,12 @@ class EmbedJS {
 	 * @param options
 	 * @param template
 	 */
-	static applyEmbedJS(selectorName, options = {}, template = renderer) {
+	static applyEmbedJS(selectorName, options = {}, template$$1 = renderer) {
 		let elements = document.querySelectorAll(selectorName);
 		for (let i = 0; i < elements.length; i++) {
 			options.input = elements[i];
-			instances[i]  = new EmbedJS(options, template);
-			promises[i]   = instances[i].render()
+			instances[i] = new EmbedJS(options, template$$1);
+			promises[i] = instances[i].render()
 		}
 		return new Promise(function (resolve) {
 			Promise.all(promises).then(function (val) {
