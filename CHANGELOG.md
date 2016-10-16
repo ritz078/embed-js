@@ -1,3 +1,13 @@
+<a name="4.1.6"></a>
+## [4.1.6](https://github.com/ritz078/embed.js/compare/v4.1.4...v4.1.6) (2016-10-16)
+
+
+### Bug Fixes
+
+* **string:** allow empty string as input ([3535d75](https://github.com/ritz078/embed.js/commit/3535d75)), closes [#181](https://github.com/ritz078/embed.js/issues/181)
+
+
+
 <a name="4.1.4"></a>
 ## [4.1.4](https://github.com/ritz078/embed.js/compare/v4.1.3...v4.1.4) (2016-07-14)
 
@@ -17,6 +27,7 @@
 
 * **destroy:** markdown and destroy working as expected + perf ([de45f1b](https://github.com/ritz078/embed.js/commit/de45f1b))
 
+
 ### Performance Improvements
 
 * changed classes to functions ([764e7c5](https://github.com/ritz078/embed.js/commit/764e7c5))
@@ -25,7 +36,6 @@
 
 <a name="4.1.2"></a>
 ## [4.1.2](https://github.com/ritz078/embed.js/compare/v4.1.1...v4.1.2) (2016-06-14)
-
 
 
 
@@ -109,6 +119,7 @@
 * **umd:** fixed an issue with undefined marked and prismjs ([0bfaf06](https://github.com/ritz078/embed.js/commit/0bfaf06))
 * **video:** fixed basic video regex issue ([cab117c](https://github.com/ritz078/embed.js/commit/cab117c))
 
+
 ### Features
 
 * **es2015:** added es2015 build of the plugin and jsnext:main option in package.json ([36fa93d](https://github.com/ritz078/embed.js/commit/36fa93d))
@@ -116,6 +127,7 @@
 * **promises:** return promiss on .render() , .text() and .applyEmbedJS() ([3bf7012](https://github.com/ritz078/embed.js/commit/3bf7012))
 * **singleEmbed:** added options to embed only one service from the detected services ([e31ec03](https://github.com/ritz078/embed.js/commit/e31ec03))
 * **tests:** moved from mocha to ava ([c8c8bc7](https://github.com/ritz078/embed.js/commit/c8c8bc7)), closes [#118](https://github.com/ritz078/embed.js/issues/118)
+
 
 ### Performance Improvements
 
@@ -146,6 +158,7 @@
 * **package:** corrected main file path ([f49326b](https://github.com/ritz078/embed.js/commit/f49326b))
 * **template:** fixed  references for this.options.templates. ([daa3cce](https://github.com/ritz078/embed.js/commit/daa3cce))
 
+
 ### Features
 
 * **core:** Changed templating structure and export class ([c63cc1e](https://github.com/ritz078/embed.js/commit/c63cc1e))
@@ -165,6 +178,7 @@
 * **package:** updated package.json ([6913738](https://github.com/ritz078/embed.js/commit/6913738))
 * **travis:** added grunt-cli installation to before-install step ([d23e6f8](https://github.com/ritz078/embed.js/commit/d23e6f8))
 
+
 ### Performance Improvements
 
 * **css:** optimized css and reduced file size ([f3f65c3](https://github.com/ritz078/embed.js/commit/f3f65c3))
@@ -179,6 +193,7 @@
 ### Bug Fixes
 
 * **release:** fix version number in build files ([aea6b89](https://github.com/ritz078/embed.js/commit/aea6b89))
+
 
 ### Features
 
@@ -196,6 +211,7 @@
 * **template:** added options as argument in template functions ([45b2208](https://github.com/ritz078/embed.js/commit/45b2208))
 * **test:** added some test and refactoring ([fbd58d6](https://github.com/ritz078/embed.js/commit/fbd58d6))
 
+
 ### Features
 
 * **slideshare:** added slideshare embedding functionality ([d056eda](https://github.com/ritz078/embed.js/commit/d056eda)), closes [#93](https://github.com/ritz078/embed.js/issues/93)
@@ -204,7 +220,6 @@
 
 <a name="3.6.2"></a>
 ## [3.6.2](https://github.com/ritz078/embed.js/compare/3.6.1...3.6.2) (2016-01-04)
-
 
 
 
@@ -227,6 +242,7 @@
 * removed function is_short_url as its no longer needed ([74b272c](https://github.com/ritz078/embed.js/commit/74b272c))
 * **opengraph:** fixed preference order for opengraph usage with other services ([5d8e545](https://github.com/ritz078/embed.js/commit/5d8e545))
 
+
 ### Features
 
 * **github:** Added github API integration for repo urls. ([7f727db](https://github.com/ritz078/embed.js/commit/7f727db)), closes [#81](https://github.com/ritz078/embed.js/issues/81)
@@ -236,6 +252,7 @@
 * **opengraph:** added inline embedding of opengraph embed feature ([ebf237b](https://github.com/ritz078/embed.js/commit/ebf237b))
 * **opengraph:** Integrated opengraph support with inline embedding. ([a72784d](https://github.com/ritz078/embed.js/commit/a72784d)), closes [#82](https://github.com/ritz078/embed.js/issues/82)
 * **release:** added grunt release to automate publishing ([2ff5817](https://github.com/ritz078/embed.js/commit/2ff5817))
+
 
 ### Performance Improvements
 
@@ -250,6 +267,7 @@
 ### Bug Fixes
 
 * **video:** fixed name of the function for custom video callback. ([348b7de](https://github.com/ritz078/embed.js/commit/348b7de)), closes [#79](https://github.com/ritz078/embed.js/issues/79)
+
 
 ### Features
 
@@ -267,6 +285,7 @@
 * **ejs:** Accept className with dot also ([0e375c1](https://github.com/ritz078/embed.js/commit/0e375c1)), closes [#64](https://github.com/ritz078/embed.js/issues/64)
 * **options:** Set tweetsEmbed and highlightCode to false by default ([1302d27](https://github.com/ritz078/embed.js/commit/1302d27))
 * **video:** fix multiple video playing under same block ([21a7ce6](https://github.com/ritz078/embed.js/commit/21a7ce6)), closes [#76](https://github.com/ritz078/embed.js/issues/76)
+
 
 ### Features
 
@@ -335,6 +354,7 @@
 * **bower:** added missing comma in the file ([590f429](https://github.com/ritz078/embed.js/commit/590f429))
 * **bower:** unexpected token error ([2880148](https://github.com/ritz078/embed.js/commit/2880148))
 
+
 ### Features
 
 * **bump:** version updated ([c33a383](https://github.com/ritz078/embed.js/commit/c33a383))
@@ -380,11 +400,12 @@
 * **videojs:** Added fluid:true and preload:'metada' as default in video.js options ([cfc0c67](https://github.com/ritz078/embed.js/commit/cfc0c67))
 * **webpack-dev:** Removed grunt serve that ran webpack dev server ([36dbc9c](https://github.com/ritz078/embed.js/commit/36dbc9c))
 
+
 ### Features
 
 * **audio:** Added wav|mp3|ogg embed feature support with video.js ([d270b18](https://github.com/ritz078/embed.js/commit/d270b18))
 * **audio:** Support for soundcloud and spotify added ([555ea1b](https://github.com/ritz078/embed.js/commit/555ea1b))
-* **build:** Added support to create custom build of the library by only including the necess ([0e0d0bc](https://github.com/ritz078/embed.js/commit/0e0d0bc))
+* **build:** Added support to create custom build of the library by only including the necessary fun ([0e0d0bc](https://github.com/ritz078/embed.js/commit/0e0d0bc))
 * **code:** Moved code analyzing part to separate module and support for ideone added ([973edb9](https://github.com/ritz078/embed.js/commit/973edb9))
 * **code-highlighting:** Added support for code highlighting using highlight.js ([0b8ad3f](https://github.com/ritz078/embed.js/commit/0b8ad3f))
 * **codepen:** support for codepen embedding added ([882bbc7](https://github.com/ritz078/embed.js/commit/882bbc7))
@@ -421,17 +442,18 @@
 * **spotify and soundcloud:** support for spotify and soundcloud embedding added ([5bf6bf0](https://github.com/ritz078/embed.js/commit/5bf6bf0))
 * **ted:** Support for Ted video embedding support added ([2b84036](https://github.com/ritz078/embed.js/commit/2b84036))
 * **text:** Feature to return processes string added and optional rendering enabled ([b01841e](https://github.com/ritz078/embed.js/commit/b01841e))
-* **twitter:** Added on TweetsLoad function that gets executed after all the tweets have been r ([2ee86b4](https://github.com/ritz078/embed.js/commit/2ee86b4))
+* **twitter:** Added on TweetsLoad function that gets executed after all the tweets have been render ([2ee86b4](https://github.com/ritz078/embed.js/commit/2ee86b4))
 * **twitter:** Multiple tweet embed support added ([7a59ecf](https://github.com/ritz078/embed.js/commit/7a59ecf))
 * **twitter, custom-icons:** Added support for custom font icons and triggered a renedered event wit ([98fd2e7](https://github.com/ritz078/embed.js/commit/98fd2e7))
 * **url:** added buff.ly support to the url module ([12b944f](https://github.com/ritz078/embed.js/commit/12b944f))
 * **urlEmbed:** Url class to find and replace links into anchor tags added ([76e8173](https://github.com/ritz078/embed.js/commit/76e8173))
 * **ustream:** Support for ustream video embedding added ([4251c65](https://github.com/ritz078/embed.js/commit/4251c65))
-* **video:** Added the feature to embed basic video and use video.js to support in multiple p ([6da36e0](https://github.com/ritz078/embed.js/commit/6da36e0))
+* **video:** Added the feature to embed basic video and use video.js to support in multiple places. ([6da36e0](https://github.com/ritz078/embed.js/commit/6da36e0))
 * **video-details:** Feature to disable vimeo and youtube description added ([a138840](https://github.com/ritz078/embed.js/commit/a138840))
 * **vimeo:** Support for fetching vimeo data added ([0dff396](https://github.com/ritz078/embed.js/commit/0dff396))
 * **vine:** Support for vine added ([20f8cb2](https://github.com/ritz078/embed.js/commit/20f8cb2))
 * **youtube:** Support youtube details fetching from the API ([c2c1f9f](https://github.com/ritz078/embed.js/commit/c2c1f9f))
+
 
 ### Performance Improvements
 
@@ -447,10 +469,8 @@
 
 
 
-
 <a name="2.0.4"></a>
 ## [2.0.4](https://github.com/ritz078/embed.js/compare/v2.0.3...v2.0.4) (2015-04-19)
-
 
 
 
@@ -460,8 +480,9 @@
 
 ### Features
 
-* callback functions added #10 ([4e932e9](https://github.com/ritz078/embed.js/commit/4e932e9))
-* support for a lot of shortened urls added #12 ([5cd9d4b](https://github.com/ritz078/embed.js/commit/5cd9d4b))
+* callback functions added [#10](https://github.com/ritz078/embed.js/issues/10) ([4e932e9](https://github.com/ritz078/embed.js/commit/4e932e9))
+* support for a lot of shortened urls added [#12](https://github.com/ritz078/embed.js/issues/12) ([5cd9d4b](https://github.com/ritz078/embed.js/commit/5cd9d4b))
+
 
 ### Performance Improvements
 
@@ -474,16 +495,13 @@
 
 
 
-
 <a name="2.0.1"></a>
 ## [2.0.1](https://github.com/ritz078/embed.js/compare/v2.0.0-rc.1...v2.0.1) (2015-03-23)
 
 
 
-
 <a name="2.0.0-rc.1"></a>
 # [2.0.0-rc.1](https://github.com/ritz078/embed.js/compare/v2.0.0...v2.0.0-rc.1) (2015-03-23)
-
 
 
 
@@ -493,10 +511,10 @@
 
 ### Features
 
-* liveleak support added #7 ([7986722](https://github.com/ritz078/embed.js/commit/7986722))
+* liveleak support added [#7](https://github.com/ritz078/embed.js/issues/7) ([7986722](https://github.com/ritz078/embed.js/commit/7986722))
 * spotify support added ([14de673](https://github.com/ritz078/embed.js/commit/14de673))
-* TED support added #7 ([4228ec0](https://github.com/ritz078/embed.js/commit/4228ec0))
-* vine support added #7 ([e7aa9c1](https://github.com/ritz078/embed.js/commit/e7aa9c1))
+* TED support added [#7](https://github.com/ritz078/embed.js/issues/7) ([4228ec0](https://github.com/ritz078/embed.js/commit/4228ec0))
+* vine support added [#7](https://github.com/ritz078/embed.js/issues/7) ([e7aa9c1](https://github.com/ritz078/embed.js/commit/e7aa9c1))
 
 
 
