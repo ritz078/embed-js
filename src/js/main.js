@@ -1,4 +1,4 @@
-import {ifEmbed, createText, deepExtend, cloneObject, processOptions} from './modules/utils'
+import { ifEmbed, createText, deepExtend, cloneObject, processOptions } from './modules/utils'
 
 import renderer    from './modules/template'
 
@@ -26,113 +26,113 @@ import hashtag     from './modules/hashtag';
 
 import regex from './modules/regex'
 
-import {applyPlyr, applyVideoJS, playVideo, destroyVideos, baseEmbed} from './helpers'
+import { applyPlyr, applyVideoJS, playVideo, destroyVideos, baseEmbed } from './helpers'
 
-var globalOptions = {};
+let globalOptions = {};
 
-var defaultOptions = {
-	marked                 : false,
-	markedOptions          : {},
-	link                   : true,
-	linkOptions            : {
-		target : 'self',
+const defaultOptions = {
+	marked: false,
+	markedOptions: {},
+	link: true,
+	linkOptions: {
+		target: 'self',
 		exclude: ['pdf'],
-		rel    : ''
+		rel: ''
 	},
-	emoji                  : true,
-	customEmoji            : [],
-	fontIcons              : true,
-	customFontIcons        : [],
-	highlightCode          : false,
-	mentions               : false,
-	hashtag                : false,
-	videoJS                : false,
-	videojsOptions         : {
-		fluid  : true,
+	emoji: true,
+	customEmoji: [],
+	fontIcons: true,
+	customFontIcons: [],
+	highlightCode: false,
+	mentions: false,
+	hashtag: false,
+	videoJS: false,
+	videojsOptions: {
+		fluid: true,
 		preload: 'metadata'
 	},
-	plyr                   : false,
-	plyrOptions            : {},
-	locationEmbed          : true,
-	mapOptions             : {
+	plyr: false,
+	plyrOptions: {},
+	locationEmbed: true,
+	mapOptions: {
 		mode: 'place'
 	},
-	tweetsEmbed            : false,
-	tweetOptions           : {
-		maxWidth  : 550,
-		hideMedia : false,
+	tweetsEmbed: false,
+	tweetOptions: {
+		maxWidth: 550,
+		hideMedia: false,
 		hideThread: false,
-		align     : 'none',
-		lang      : 'en'
+		align: 'none',
+		lang: 'en'
 	},
-	singleEmbed            : false,
-	openGraphEndpoint      : null,
-	openGraphExclude       : [],
-	videoEmbed             : true,
-	videoHeight            : null,
-	videoWidth             : null,
-	videoDetails           : true,
-	audioEmbed             : true,
-	imageEmbed             : true,
-	excludeEmbed           : [],
-	inlineEmbed            : [],
-	inlineText             : true,
-	codeEmbedHeight        : 500,
-	vineOptions            : {
-		maxWidth  : null,
-		type      : 'postcard', //'postcard' or 'simple' embedding
+	singleEmbed: false,
+	openGraphEndpoint: null,
+	openGraphExclude: [],
+	videoEmbed: true,
+	videoHeight: null,
+	videoWidth: null,
+	videoDetails: true,
+	audioEmbed: true,
+	imageEmbed: true,
+	excludeEmbed: [],
+	inlineEmbed: [],
+	inlineText: true,
+	codeEmbedHeight: 500,
+	vineOptions: {
+		maxWidth: null,
+		type: 'postcard', //'postcard' or 'simple' embedding
 		responsive: true,
-		width     : 350,
-		height    : 460
+		width: 350,
+		height: 460
 	},
-	plugins                : {
-		marked     : window.marked,
-		videojs    : window.videojs,
-		plyr       : window.plyr,
+	plugins: {
+		marked: window.marked,
+		videojs: window.videojs,
+		plyr: window.plyr,
 		highlightjs: window.hljs,
-		prismjs    : window.Prism,
-		twitter    : window.twttr
+		prismjs: window.Prism,
+		twitter: window.twttr
 	},
-	googleAuthKey          : '',
-	soundCloudOptions      : {
-		height      : 160,
-		themeColor  : 'f50000', //Hex Code of the player theme color
-		autoPlay    : false,
-		hideRelated : false,
+	googleAuthKey: '',
+	soundCloudOptions: {
+		height: 160,
+		themeColor: 'f50000', //Hex Code of the player theme color
+		autoPlay: false,
+		hideRelated: false,
 		showComments: true,
-		showUser    : true,
-		showReposts : false,
-		visual      : false, //Show/hide the big preview image
-		download    : false //Show/Hide download buttons
+		showUser: true,
+		showReposts: false,
+		visual: false, //Show/hide the big preview image
+		download: false //Show/Hide download buttons
 	},
-	videoClickClass        : 'ejs-video-thumb',
+	videoClickClass: 'ejs-video-thumb',
 	customVideoClickHandler: false,
-	mentionsUrl            : function () {
+	mentionsUrl: function () {
 	},
-	hashtagUrl             : function () {
+	hashtagUrl: function () {
 	},
-	beforeEmbedJSApply     : function () {
+	beforeEmbedJSApply: function () {
 	},
-	afterEmbedJSApply      : function () {
+	afterEmbedJSApply: function () {
 	},
-	onVideoShow            : function () {
+	onVideoShow: function () {
 	},
-	onTweetsLoad           : function () {
+	onTweetsLoad: function () {
 	},
-	videojsCallback        : function () {
+	videojsCallback: function () {
 	},
-	onOpenGraphFetch       : function () {
+	onOpenGraphFetch: function () {
 	},
-	onOpenGraphFail        : function () {
+	onOpenGraphFail: function () {
 	},
-	videoClickHandler      : function () {
+	videoClickHandler: function () {
 	},
-	served                 : [] //Private variable used to store processed urls so that they are not processed multiple times.
+	served: [] //Private variable used to store processed urls so that they are not processed multiple times.
 };
 
-let instances    = [];
+let instances = [];
 let allInstances = [];
-let promises     = [];
+let promises = [];
 
 export default class EmbedJS {
 	/**
@@ -150,7 +150,7 @@ export default class EmbedJS {
 		 * We have created a clone of the original options to make sure that the original object
 		 * isn't altered.
 		 */
-		let defOpts  = cloneObject(defaultOptions);
+		let defOpts = cloneObject(defaultOptions);
 		let globOpts = cloneObject(globalOptions);
 
 		//merge global options with the default options
@@ -162,7 +162,7 @@ export default class EmbedJS {
 
 		this.options.template = template || renderer;
 
-		if (!this.options.input || !(typeof this.options.input === 'string' || typeof this.options.input === 'object')) throw ReferenceError("You need to pass an element or the string that needs to be processed");
+		if (!(typeof this.options.input === 'string' || typeof this.options.input === 'object')) throw ReferenceError("You need to pass an element or the string that needs to be processed");
 
 		this.input = (typeof this.options.input === 'object') ? this.options.input.innerHTML : this.options.input
 
@@ -174,10 +174,13 @@ export default class EmbedJS {
 	 * @return {Promise} The processes resulting string
 	 */
 	process() {
-		const input   = this.input;
+		const input = this.input;
+
+		if (input === '') return Promise.resolve('');
+
 		const options = processOptions(this.options);
-		let embeds    = [];
-		let output    = input;
+		let embeds = [];
+		let output = input;
 
 		this.options.beforeEmbedJSApply();
 
@@ -247,19 +250,12 @@ export default class EmbedJS {
 				}
 			}).then(([output, embeds]) => {
 				this.data = {
-					input      : options.input,
-					output     : output,
-					options    : options,
+					input: options.input,
+					output,
+					options,
 					inputString: this.input,
-					/**
-
-					 TODO:
-					 - Restructure served urls structure with services name
-
-					 */
-
-					services   : options.served,
-					template   : options.template
+					services: options.served,
+					template: options.template
 				};
 
 				resolve(createText(output, embeds))
@@ -332,7 +328,7 @@ export default class EmbedJS {
 	 * @return Promise
 	 */
 	text(callback) {
-		this.process().then((data)=> callback(data, this.input))
+		this.process().then((data) => callback(data, this.input))
 	}
 
 	/**
@@ -367,8 +363,8 @@ export default class EmbedJS {
 		let elements = document.querySelectorAll(selectorName);
 		for (let i = 0; i < elements.length; i++) {
 			options.input = elements[i];
-			instances[i]  = new EmbedJS(options, template);
-			promises[i]   = instances[i].render()
+			instances[i] = new EmbedJS(options, template);
+			promises[i] = instances[i].render()
 		}
 		return new Promise(function (resolve) {
 			Promise.all(promises).then(function (val) {

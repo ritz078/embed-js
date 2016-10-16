@@ -3,7 +3,6 @@ import {urlRegex, lastElement} from './utils'
 export default function (input, options) {
 	const config = options.linkOptions;
 	return input.replace(urlRegex(), function(match) {
-		console.log(arguments);
 		if(lastElement(match) === ')') return match; //hack for markdown image
 		let extension = lastElement(match.split('.'));
 		if ((lastElement(match) === '/'))
