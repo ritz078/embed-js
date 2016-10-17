@@ -61,8 +61,9 @@ export default {
 		return `<div class="ejs-embed ejs-plunker"><iframe class="ne-plunker" src="http://embed.plnkr.co/${id}" height="${options.codeEmbedHeight}"></iframe></div>`
 	},
 
-	image(match){
-		return `<div class="ejs-image ejs-embed"><div class="ne-image-wrapper"><img src="${match}"/></div></div>`
+	image(match, options){
+		const config = options.imageOptions;
+		return `<div class="ejs-image ejs-embed"><div class="ne-image-wrapper"><img style="max-width: ${config.maxWidth}px; max-height: ${config.maxHeight}px;" src="${match}"/></div></div>`
 	},
 
 	flickr(match, options){

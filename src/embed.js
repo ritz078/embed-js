@@ -285,8 +285,9 @@ var renderer = {
 	plunker: function plunker(id, options) {
 		return '<div class="ejs-embed ejs-plunker"><iframe class="ne-plunker" src="http://embed.plnkr.co/' + id + '" height="' + options.codeEmbedHeight + '"></iframe></div>';
 	},
-	image: function image(match) {
-		return '<div class="ejs-image ejs-embed"><div class="ne-image-wrapper"><img src="' + match + '"/></div></div>';
+	image: function image(match, options) {
+		var config = options.imageOptions;
+		return '<div class="ejs-image ejs-embed"><div class="ne-image-wrapper"><img style="max-width: ' + config.maxWidth + 'px; max-height: ' + config.maxHeight + 'px;" src="' + match + '"/></div></div>';
 	},
 	flickr: function flickr(match, options) {
 		return '<div class="ejs-embed"><div class="ne-image-wrapper"><iframe src="' + toUrl(match.split('/?')[0]) + '/player/" width="' + options.videoWidth + '" height="' + options.videoHeight + '"></iframe></div></div>';
@@ -396,7 +397,7 @@ var emoji$1 = function (output, options) {
 		}
 		return match;
 	});
-}
+};
 
 var defaultIcons = [{
 	'text': ':)',
@@ -488,7 +489,7 @@ var smiley$1 = function (input, options) {
 		var code = icons[index].code;
 		return options.template.smiley(text, pre, code, options);
 	});
-}
+};
 
 var url$1 = function (input, options) {
 	var config = options.linkOptions;
@@ -499,7 +500,7 @@ var url$1 = function (input, options) {
 		if (config.exclude.indexOf(extension) === -1) return options.template.url(match, options);
 		return match;
 	});
-}
+};
 
 var fetchJsonp = __commonjs(function (module, exports, global) {
   (function (global, factory) {
@@ -649,7 +650,7 @@ var getDetailsTemplate = function (data, fullData, embedUrl, options) {
 	} else if (data.host === 'youtube') {
 		return options.template.detailsYoutube(data, fullData, embedUrl, options);
 	}
-}
+};
 
 /**
  * Applies video.js to all audio and video dynamically
@@ -662,7 +663,7 @@ var applyPlyr = function (options) {
 		var plyr = options.plugins.plyr;
 		plyr.setup('.ejs-plyr', options.plyrOptions);
 	}
-}
+};
 
 /**
  * Applies video.js to all audio and video dynamically
@@ -694,7 +695,7 @@ var destroyVideos = function (className) {
   for (var i = 0; i < classes.length; i++) {
     classes[i].onclick = null;
   }
-}
+};
 
 function inlineEmbed(_) {
 	var regexInline = _.options.link ? new RegExp('([^>]*' + _.regex.source + ')</a>', 'gm') : new RegExp('([^\\s]*' + _.regex.source + ')', 'gm');
@@ -747,7 +748,7 @@ var base = function (input, output, embeds, options, regex, service) {
 	};
 
 	return embed(args);
-}
+};
 
 function baseEmbed(input, output, embeds, options, regex, service, flag) {
 	return ifEmbed(options, service) || ifEmbed(options, service) && flag ? base(input, output, embeds, options, regex, service) : [output, embeds];
@@ -926,21 +927,6 @@ var Twitter = function () {
     return;
   }
 
-  var support = {
-    searchParams: 'URLSearchParams' in self,
-    iterable: 'Symbol' in self && 'iterator' in Symbol,
-    blob: 'FileReader' in self && 'Blob' in self && function () {
-      try {
-        new Blob();
-        return true;
-      } catch (e) {
-        return false;
-      }
-    }(),
-    formData: 'FormData' in self,
-    arrayBuffer: 'ArrayBuffer' in self
-  };
-
   function normalizeName(name) {
     if (typeof name !== 'string') {
       name = String(name);
@@ -956,24 +942,6 @@ var Twitter = function () {
       value = String(value);
     }
     return value;
-  }
-
-  // Build a destructive iterator for the value list
-  function iteratorFor(items) {
-    var iterator = {
-      next: function next() {
-        var value = items.shift();
-        return { done: value === undefined, value: value };
-      }
-    };
-
-    if (support.iterable) {
-      iterator[Symbol.iterator] = function () {
-        return iterator;
-      };
-    }
-
-    return iterator;
   }
 
   function Headers(headers) {
@@ -1030,34 +998,6 @@ var Twitter = function () {
     }, this);
   };
 
-  Headers.prototype.keys = function () {
-    var items = [];
-    this.forEach(function (value, name) {
-      items.push(name);
-    });
-    return iteratorFor(items);
-  };
-
-  Headers.prototype.values = function () {
-    var items = [];
-    this.forEach(function (value) {
-      items.push(value);
-    });
-    return iteratorFor(items);
-  };
-
-  Headers.prototype.entries = function () {
-    var items = [];
-    this.forEach(function (value, name) {
-      items.push([name, value]);
-    });
-    return iteratorFor(items);
-  };
-
-  if (support.iterable) {
-    Headers.prototype[Symbol.iterator] = Headers.prototype.entries;
-  }
-
   function consumed(body) {
     if (body.bodyUsed) {
       return Promise.reject(new TypeError('Already read'));
@@ -1088,6 +1028,19 @@ var Twitter = function () {
     return fileReaderReady(reader);
   }
 
+  var support = {
+    blob: 'FileReader' in self && 'Blob' in self && function () {
+      try {
+        new Blob();
+        return true;
+      } catch (e) {
+        return false;
+      }
+    }(),
+    formData: 'FormData' in self,
+    arrayBuffer: 'ArrayBuffer' in self
+  };
+
   function Body() {
     this.bodyUsed = false;
 
@@ -1099,8 +1052,6 @@ var Twitter = function () {
         this._bodyBlob = body;
       } else if (support.formData && FormData.prototype.isPrototypeOf(body)) {
         this._bodyFormData = body;
-      } else if (support.searchParams && URLSearchParams.prototype.isPrototypeOf(body)) {
-        this._bodyText = body.toString();
       } else if (!body) {
         this._bodyText = '';
       } else if (support.arrayBuffer && ArrayBuffer.prototype.isPrototypeOf(body)) {
@@ -1115,8 +1066,6 @@ var Twitter = function () {
           this.headers.set('content-type', 'text/plain;charset=UTF-8');
         } else if (this._bodyBlob && this._bodyBlob.type) {
           this.headers.set('content-type', this._bodyBlob.type);
-        } else if (support.searchParams && URLSearchParams.prototype.isPrototypeOf(body)) {
-          this.headers.set('content-type', 'application/x-www-form-urlencoded;charset=UTF-8');
         }
       }
     };
@@ -1320,8 +1269,13 @@ var Twitter = function () {
       }
 
       xhr.onload = function () {
+        var status = xhr.status === 1223 ? 204 : xhr.status;
+        if (status < 100 || status > 599) {
+          reject(new TypeError('Network request failed'));
+          return;
+        }
         var options = {
-          status: xhr.status,
+          status: status,
           statusText: xhr.statusText,
           headers: headers(xhr),
           url: responseURL()
@@ -1442,7 +1396,7 @@ var gmap$1 = function (input, output, options, embeds) {
 			resolve([output, embeds]);
 		});
 	});
-}
+};
 
 var markdown = function (output, options) {
 	if (!options.plugins.marked) throw new ReferenceError('marked.js is not loaded.');
@@ -1478,7 +1432,7 @@ var markdown = function (output, options) {
 	options.markedOptions.renderer = renderer;
 	options.markedOptions.highlight = false;
 	return Marked(output, options.markedOptions);
-}
+};
 
 /**
  * Encodes the characters like <, > and space and replaces them with
@@ -1558,7 +1512,7 @@ var highlight = function (output, options) {
 
 		return addTemplate(highlightedCode, language);
 	});
-}
+};
 
 var Gist = function () {
 	function Gist(input, output, options, embeds) {
@@ -1682,7 +1636,7 @@ var youtube$1 = function (input, output, options, embeds) {
 			return resolve(data);
 		});
 	});
-}
+};
 
 function formatData$1(data, truncate$$1) {
 	return {
@@ -1746,7 +1700,7 @@ var vimeo$1 = function (input, output, options, embeds) {
 			return resolve(data);
 		});
 	});
-}
+};
 
 function fetchData(args, url) {
 	var api = 'http://www.slideshare.net/api/oembed/2?url=' + url + '&format=jsonp&maxwidth=' + args.options.videoWidth + '&maxheight=' + args.options.videoHeight;
@@ -1782,7 +1736,7 @@ var slideShare$1 = function (input, output, options, embeds) {
 			return resolve(data);
 		});
 	});
-}
+};
 
 function fetchData$1(url, _) {
 	url = encodeURIComponent(url);
@@ -1825,7 +1779,7 @@ var openGraph$1 = function (input, output, options, embeds) {
 			return resolve(data);
 		});
 	});
-}
+};
 
 function template$3(data, options) {
 	return options.template.github(data, options);
@@ -1871,7 +1825,7 @@ var github$1 = function (input, output, options, embeds) {
 			return resolve(data);
 		});
 	});
-}
+};
 
 var mentions = function (input, options) {
 	var mRegex = regex.mentions;
@@ -1879,7 +1833,7 @@ var mentions = function (input, options) {
 		var username = $2.split('@')[1];
 		return $1 + options.mentionsUrl(username);
 	});
-}
+};
 
 var hashtag = function (input, options) {
 	var hRegex = regex.hashtag;
@@ -1887,7 +1841,7 @@ var hashtag = function (input, options) {
 		var username = $2.split('#')[1];
 		return $1 + options.hashtagUrl(username);
 	});
-}
+};
 
 var globalOptions = {};
 
@@ -1939,6 +1893,10 @@ var defaultOptions = {
 	inlineEmbed: [],
 	inlineText: true,
 	codeEmbedHeight: 500,
+	imageOptions: {
+		maxWidth: 400,
+		maxHeight: 500
+	},
 	vineOptions: {
 		maxWidth: null,
 		type: 'postcard', //'postcard' or 'simple' embedding

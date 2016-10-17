@@ -78,6 +78,10 @@ const defaultOptions = {
 	inlineEmbed: [],
 	inlineText: true,
 	codeEmbedHeight: 500,
+	imageOptions: {
+		maxWidth: 400,
+		maxHeight: 500
+	},
 	vineOptions: {
 		maxWidth: null,
 		type: 'postcard', //'postcard' or 'simple' embedding

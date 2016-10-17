@@ -126,7 +126,7 @@ function cloneObject(obj) {
     if (obj === null || typeof obj !== 'object') return obj;
     var temp = obj.constructor(); // give temp the original obj's constructor
     for (var key in obj) {
-        temp[key] = cloneObject(obj[key])
+        temp[key] = cloneObject(obj[key]);
     }
     return temp
 }
@@ -139,7 +139,7 @@ function arrayLowercase(options, property){
 	if(typeof options[property] !== 'string'){
 		options[property] = options[property].map(function(elem){
 			return elem.toLowerCase();
-		})
+		});
 	}
 	return options;
 }
@@ -226,8 +226,9 @@ var renderer = {
 		return `<div class="ejs-embed ejs-plunker"><iframe class="ne-plunker" src="http://embed.plnkr.co/${id}" height="${options.codeEmbedHeight}"></iframe></div>`
 	},
 
-	image(match){
-		return `<div class="ejs-image ejs-embed"><div class="ne-image-wrapper"><img src="${match}"/></div></div>`
+	image(match, options){
+		const config = options.imageOptions;
+		return `<div class="ejs-image ejs-embed"><div class="ne-image-wrapper"><img style="max-width: ${config.maxWidth}px; max-height: ${config.maxHeight}px;" src="${match}"/></div></div>`
 	},
 
 	flickr(match, options){
@@ -311,7 +312,7 @@ var renderer = {
 			return `<div class="ejs-embed ejs-map"><iframe width="${options.videoWidth}" height="${options.videoHeight}" src="https://www.google.com/maps/embed/v1/view?key=${options.googleAuthKey}&center=${latitude},${longitude}&zoom=18&maptype=satellite"></iframe></div>`
 		}
 	}
-}
+};
 
 const regex = {
 	mentions     : /(^|\s)(@[a-z0-9_-]+)/gi,
@@ -357,7 +358,7 @@ var emoji = function (output, options) {
 		}
 		return match;
 	});
-}
+};
 
 const defaultIcons = [{
 	'text': ':)',
@@ -447,7 +448,7 @@ var smiley = function (input, options) {
 		let code  = icons[index].code;
 		return options.template.smiley(text, pre, code, options);
 	});
-}
+};
 
 var url = function (input, options) {
 	const config = options.linkOptions;
@@ -460,7 +461,7 @@ var url = function (input, options) {
 			return options.template.url(match, options);
 		return match;
 	});
-}
+};
 
 var fetchJsonp = __commonjs(function (module, exports, global) {
 (function (global, factory) {
@@ -610,7 +611,7 @@ var getDetailsTemplate = function (data, fullData, embedUrl, options) {
 	} else if (data.host === 'youtube') {
 		return options.template.detailsYoutube(data, fullData, embedUrl, options)
 	}
-}
+};
 
 /**
  * Applies video.js to all audio and video dynamically
@@ -623,7 +624,7 @@ var applyPlyr = function (options) {
 		let plyr = options.plugins.plyr;
 		plyr.setup('.ejs-plyr', options.plyrOptions);
 	}
-}
+};
 
 /**
  * Applies video.js to all audio and video dynamically
@@ -651,9 +652,9 @@ function applyVideoJS(options) {
 var destroyVideos = function (className) {
 	const classes = document.getElementsByClassName(className);
 	for (let i = 0; i < classes.length; i++) {
-		classes[i].onclick = null
+		classes[i].onclick = null;
 	}
-}
+};
 
 function inlineEmbed(_){
 	let regexInline = _.options.link ? new RegExp(`([^>]*${_.regex.source})<\/a>`, 'gm') : new RegExp(`([^\\s]*${_.regex.source})`, 'gm');
@@ -683,7 +684,7 @@ function normalEmbed(_){
 		_.embeds.push({
 			text : text,
 			index: match.index
-		})
+		});
 	}
 	return [_.output, _.embeds];
 }
@@ -706,7 +707,7 @@ var base = function (input, output, embeds, options, regex, service) {
 	};
 
 	return embed(args);
-}
+};
 
 function baseEmbed(input, output, embeds, options, regex, service, flag){
 	return ifEmbed(options, service) || (ifEmbed(options, service) && flag) ? base(input, output, embeds, options, regex, service) : [output, embeds]
@@ -729,7 +730,7 @@ function getInlineData(_, urlToText, match) {
 			if (!text) return resolve();
 			_.options.served.push(url);
 			resolve(text);
-		})
+		});
 	})
 }
 
@@ -756,10 +757,10 @@ function inlineAsyncEmbed(_, urlToText) {
 					else
 						return !_.options.inlineText ? data[i] : match + data[i++];
 				});
-				resolve(_.output)
+				resolve(_.output);
 			});
 		else
-			resolve(_.output)
+			resolve(_.output);
 	})
 }
 
@@ -776,8 +777,8 @@ function getNormalData(_, urlToText, match) {
 				text : text,
 				index: match.index
 			});
-			resolve()
-		})
+			resolve();
+		});
 	})
 }
 
@@ -793,7 +794,7 @@ function normalAsyncEmbed(_, urlToText) {
 		promises.push(getNormalData(_, urlToText, match));
 	return new Promise(function (resolve) {
 		Promise.all(promises).then(function () {
-			resolve(_.embeds)
+			resolve(_.embeds);
 		});
 	})
 }
@@ -803,7 +804,7 @@ function asyncEmbed(_, urlToText) {
 		if (ifInline(_.options, _.service))
 			inlineAsyncEmbed(_, urlToText).then((output) => resolve([output, _.embeds]));
 		else
-			normalAsyncEmbed(_, urlToText).then((embeds) => resolve([_.output, embeds]))
+			normalAsyncEmbed(_, urlToText).then((embeds) => resolve([_.output, embeds]));
 	})
 }
 
@@ -833,7 +834,7 @@ class Twitter {
 		return new Promise((resolve) => {
 			fetchJsonp$1(apiUrl, {credentials: 'include'})
 				.then((data)=>data.json())
-				.then((json)=>resolve(json))
+				.then((json)=>resolve(json));
 		})
 	}
 
@@ -865,24 +866,9 @@ class Twitter {
     return
   }
 
-  var support = {
-    searchParams: 'URLSearchParams' in self,
-    iterable: 'Symbol' in self && 'iterator' in Symbol,
-    blob: 'FileReader' in self && 'Blob' in self && (function() {
-      try {
-        new Blob()
-        return true
-      } catch(e) {
-        return false
-      }
-    })(),
-    formData: 'FormData' in self,
-    arrayBuffer: 'ArrayBuffer' in self
-  }
-
   function normalizeName(name) {
     if (typeof name !== 'string') {
-      name = String(name)
+      name = String(name);
     }
     if (/[^a-z0-9\-#$%&'*+.\^_`|~]/i.test(name)) {
       throw new TypeError('Invalid character in header field name')
@@ -892,151 +878,123 @@ class Twitter {
 
   function normalizeValue(value) {
     if (typeof value !== 'string') {
-      value = String(value)
+      value = String(value);
     }
     return value
   }
 
-  // Build a destructive iterator for the value list
-  function iteratorFor(items) {
-    var iterator = {
-      next: function() {
-        var value = items.shift()
-        return {done: value === undefined, value: value}
-      }
-    }
-
-    if (support.iterable) {
-      iterator[Symbol.iterator] = function() {
-        return iterator
-      }
-    }
-
-    return iterator
-  }
-
   function Headers(headers) {
-    this.map = {}
+    this.map = {};
 
     if (headers instanceof Headers) {
       headers.forEach(function(value, name) {
-        this.append(name, value)
-      }, this)
+        this.append(name, value);
+      }, this);
 
     } else if (headers) {
       Object.getOwnPropertyNames(headers).forEach(function(name) {
-        this.append(name, headers[name])
-      }, this)
+        this.append(name, headers[name]);
+      }, this);
     }
   }
 
   Headers.prototype.append = function(name, value) {
-    name = normalizeName(name)
-    value = normalizeValue(value)
-    var list = this.map[name]
+    name = normalizeName(name);
+    value = normalizeValue(value);
+    var list = this.map[name];
     if (!list) {
-      list = []
-      this.map[name] = list
+      list = [];
+      this.map[name] = list;
     }
-    list.push(value)
-  }
+    list.push(value);
+  };
 
   Headers.prototype['delete'] = function(name) {
-    delete this.map[normalizeName(name)]
-  }
+    delete this.map[normalizeName(name)];
+  };
 
   Headers.prototype.get = function(name) {
-    var values = this.map[normalizeName(name)]
+    var values = this.map[normalizeName(name)];
     return values ? values[0] : null
-  }
+  };
 
   Headers.prototype.getAll = function(name) {
     return this.map[normalizeName(name)] || []
-  }
+  };
 
   Headers.prototype.has = function(name) {
     return this.map.hasOwnProperty(normalizeName(name))
-  }
+  };
 
   Headers.prototype.set = function(name, value) {
-    this.map[normalizeName(name)] = [normalizeValue(value)]
-  }
+    this.map[normalizeName(name)] = [normalizeValue(value)];
+  };
 
   Headers.prototype.forEach = function(callback, thisArg) {
     Object.getOwnPropertyNames(this.map).forEach(function(name) {
       this.map[name].forEach(function(value) {
-        callback.call(thisArg, value, name, this)
-      }, this)
-    }, this)
-  }
-
-  Headers.prototype.keys = function() {
-    var items = []
-    this.forEach(function(value, name) { items.push(name) })
-    return iteratorFor(items)
-  }
-
-  Headers.prototype.values = function() {
-    var items = []
-    this.forEach(function(value) { items.push(value) })
-    return iteratorFor(items)
-  }
-
-  Headers.prototype.entries = function() {
-    var items = []
-    this.forEach(function(value, name) { items.push([name, value]) })
-    return iteratorFor(items)
-  }
-
-  if (support.iterable) {
-    Headers.prototype[Symbol.iterator] = Headers.prototype.entries
-  }
+        callback.call(thisArg, value, name, this);
+      }, this);
+    }, this);
+  };
 
   function consumed(body) {
     if (body.bodyUsed) {
       return Promise.reject(new TypeError('Already read'))
     }
-    body.bodyUsed = true
+    body.bodyUsed = true;
   }
 
   function fileReaderReady(reader) {
     return new Promise(function(resolve, reject) {
       reader.onload = function() {
-        resolve(reader.result)
-      }
+        resolve(reader.result);
+      };
       reader.onerror = function() {
-        reject(reader.error)
-      }
+        reject(reader.error);
+      };
     })
   }
 
   function readBlobAsArrayBuffer(blob) {
-    var reader = new FileReader()
-    reader.readAsArrayBuffer(blob)
+    var reader = new FileReader();
+    reader.readAsArrayBuffer(blob);
     return fileReaderReady(reader)
   }
 
   function readBlobAsText(blob) {
-    var reader = new FileReader()
-    reader.readAsText(blob)
+    var reader = new FileReader();
+    reader.readAsText(blob);
     return fileReaderReady(reader)
   }
 
+  var support = {
+    blob: 'FileReader' in self && 'Blob' in self && (function() {
+      try {
+        new Blob();
+        return true
+      } catch(e) {
+        return false
+      }
+    })(),
+    formData: 'FormData' in self,
+    arrayBuffer: 'ArrayBuffer' in self
+  };
+
   function Body() {
-    this.bodyUsed = false
+    this.bodyUsed = false;
+
 
     this._initBody = function(body) {
-      this._bodyInit = body
+      this._bodyInit = body;
       if (typeof body === 'string') {
-        this._bodyText = body
+        this._bodyText = body;
       } else if (support.blob && Blob.prototype.isPrototypeOf(body)) {
-        this._bodyBlob = body
+        this._bodyBlob = body;
       } else if (support.formData && FormData.prototype.isPrototypeOf(body)) {
-        this._bodyFormData = body
-      } else if (support.searchParams && URLSearchParams.prototype.isPrototypeOf(body)) {
-        this._bodyText = body.toString()
+        this._bodyFormData = body;
       } else if (!body) {
-        this._bodyText = ''
+        this._bodyText = '';
       } else if (support.arrayBuffer && ArrayBuffer.prototype.isPrototypeOf(body)) {
         // Only support ArrayBuffers for POST method.
         // Receiving ArrayBuffers happens via Blobs, instead.
@@ -1046,18 +1004,16 @@ class Twitter {
 
       if (!this.headers.get('content-type')) {
         if (typeof body === 'string') {
-          this.headers.set('content-type', 'text/plain;charset=UTF-8')
+          this.headers.set('content-type', 'text/plain;charset=UTF-8');
         } else if (this._bodyBlob && this._bodyBlob.type) {
-          this.headers.set('content-type', this._bodyBlob.type)
-        } else if (support.searchParams && URLSearchParams.prototype.isPrototypeOf(body)) {
-          this.headers.set('content-type', 'application/x-www-form-urlencoded;charset=UTF-8')
+          this.headers.set('content-type', this._bodyBlob.type);
         }
       }
-    }
+    };
 
     if (support.blob) {
       this.blob = function() {
-        var rejected = consumed(this)
+        var rejected = consumed(this);
         if (rejected) {
           return rejected
         }
@@ -1069,14 +1025,14 @@ class Twitter {
         } else {
           return Promise.resolve(new Blob([this._bodyText]))
         }
-      }
+      };
 
       this.arrayBuffer = function() {
         return this.blob().then(readBlobAsArrayBuffer)
-      }
+      };
 
       this.text = function() {
-        var rejected = consumed(this)
+        var rejected = consumed(this);
         if (rejected) {
           return rejected
         }
@@ -1088,117 +1044,117 @@ class Twitter {
         } else {
           return Promise.resolve(this._bodyText)
         }
-      }
+      };
     } else {
       this.text = function() {
-        var rejected = consumed(this)
+        var rejected = consumed(this);
         return rejected ? rejected : Promise.resolve(this._bodyText)
-      }
+      };
     }
 
     if (support.formData) {
       this.formData = function() {
         return this.text().then(decode)
-      }
+      };
     }
 
     this.json = function() {
       return this.text().then(JSON.parse)
-    }
+    };
 
     return this
   }
 
   // HTTP methods whose capitalization should be normalized
-  var methods = ['DELETE', 'GET', 'HEAD', 'OPTIONS', 'POST', 'PUT']
+  var methods = ['DELETE', 'GET', 'HEAD', 'OPTIONS', 'POST', 'PUT'];
 
   function normalizeMethod(method) {
-    var upcased = method.toUpperCase()
+    var upcased = method.toUpperCase();
     return (methods.indexOf(upcased) > -1) ? upcased : method
   }
 
   function Request(input, options) {
-    options = options || {}
-    var body = options.body
+    options = options || {};
+    var body = options.body;
     if (Request.prototype.isPrototypeOf(input)) {
       if (input.bodyUsed) {
         throw new TypeError('Already read')
       }
-      this.url = input.url
-      this.credentials = input.credentials
+      this.url = input.url;
+      this.credentials = input.credentials;
       if (!options.headers) {
-        this.headers = new Headers(input.headers)
+        this.headers = new Headers(input.headers);
       }
-      this.method = input.method
-      this.mode = input.mode
+      this.method = input.method;
+      this.mode = input.mode;
       if (!body) {
-        body = input._bodyInit
-        input.bodyUsed = true
+        body = input._bodyInit;
+        input.bodyUsed = true;
       }
     } else {
-      this.url = input
+      this.url = input;
     }
 
-    this.credentials = options.credentials || this.credentials || 'omit'
+    this.credentials = options.credentials || this.credentials || 'omit';
     if (options.headers || !this.headers) {
-      this.headers = new Headers(options.headers)
+      this.headers = new Headers(options.headers);
     }
-    this.method = normalizeMethod(options.method || this.method || 'GET')
-    this.mode = options.mode || this.mode || null
-    this.referrer = null
+    this.method = normalizeMethod(options.method || this.method || 'GET');
+    this.mode = options.mode || this.mode || null;
+    this.referrer = null;
 
     if ((this.method === 'GET' || this.method === 'HEAD') && body) {
       throw new TypeError('Body not allowed for GET or HEAD requests')
     }
-    this._initBody(body)
+    this._initBody(body);
   }
 
   Request.prototype.clone = function() {
     return new Request(this)
-  }
+  };
 
   function decode(body) {
-    var form = new FormData()
+    var form = new FormData();
     body.trim().split('&').forEach(function(bytes) {
       if (bytes) {
-        var split = bytes.split('=')
-        var name = split.shift().replace(/\+/g, ' ')
-        var value = split.join('=').replace(/\+/g, ' ')
-        form.append(decodeURIComponent(name), decodeURIComponent(value))
+        var split = bytes.split('=');
+        var name = split.shift().replace(/\+/g, ' ');
+        var value = split.join('=').replace(/\+/g, ' ');
+        form.append(decodeURIComponent(name), decodeURIComponent(value));
       }
-    })
+    });
     return form
   }
 
   function headers(xhr) {
-    var head = new Headers()
-    var pairs = (xhr.getAllResponseHeaders() || '').trim().split('\n')
+    var head = new Headers();
+    var pairs = (xhr.getAllResponseHeaders() || '').trim().split('\n');
     pairs.forEach(function(header) {
-      var split = header.trim().split(':')
-      var key = split.shift().trim()
-      var value = split.join(':').trim()
-      head.append(key, value)
-    })
+      var split = header.trim().split(':');
+      var key = split.shift().trim();
+      var value = split.join(':').trim();
+      head.append(key, value);
+    });
     return head
   }
 
-  Body.call(Request.prototype)
+  Body.call(Request.prototype);
 
   function Response(bodyInit, options) {
     if (!options) {
-      options = {}
+      options = {};
     }
 
-    this.type = 'default'
-    this.status = options.status
-    this.ok = this.status >= 200 && this.status < 300
-    this.statusText = options.statusText
-    this.headers = options.headers instanceof Headers ? options.headers : new Headers(options.headers)
-    this.url = options.url || ''
-    this._initBody(bodyInit)
+    this.type = 'default';
+    this.status = options.status;
+    this.ok = this.status >= 200 && this.status < 300;
+    this.statusText = options.statusText;
+    this.headers = options.headers instanceof Headers ? options.headers : new Headers(options.headers);
+    this.url = options.url || '';
+    this._initBody(bodyInit);
   }
 
-  Body.call(Response.prototype)
+  Body.call(Response.prototype);
 
   Response.prototype.clone = function() {
     return new Response(this._bodyInit, {
@@ -1207,15 +1163,15 @@ class Twitter {
       headers: new Headers(this.headers),
       url: this.url
     })
-  }
+  };
 
   Response.error = function() {
-    var response = new Response(null, {status: 0, statusText: ''})
-    response.type = 'error'
+    var response = new Response(null, {status: 0, statusText: ''});
+    response.type = 'error';
     return response
-  }
+  };
 
-  var redirectStatuses = [301, 302, 303, 307, 308]
+  var redirectStatuses = [301, 302, 303, 307, 308];
 
   Response.redirect = function(url, status) {
     if (redirectStatuses.indexOf(status) === -1) {
@@ -1223,22 +1179,22 @@ class Twitter {
     }
 
     return new Response(null, {status: status, headers: {location: url}})
-  }
+  };
 
-  self.Headers = Headers
-  self.Request = Request
-  self.Response = Response
+  self.Headers = Headers;
+  self.Request = Request;
+  self.Response = Response;
 
   self.fetch = function(input, init) {
     return new Promise(function(resolve, reject) {
-      var request
+      var request;
       if (Request.prototype.isPrototypeOf(input) && !init) {
-        request = input
+        request = input;
       } else {
-        request = new Request(input, init)
+        request = new Request(input, init);
       }
 
-      var xhr = new XMLHttpRequest()
+      var xhr = new XMLHttpRequest();
 
       function responseURL() {
         if ('responseURL' in xhr) {
@@ -1254,42 +1210,47 @@ class Twitter {
       }
 
       xhr.onload = function() {
+        var status = (xhr.status === 1223) ? 204 : xhr.status;
+        if (status < 100 || status > 599) {
+          reject(new TypeError('Network request failed'));
+          return
+        }
         var options = {
-          status: xhr.status,
+          status: status,
           statusText: xhr.statusText,
           headers: headers(xhr),
           url: responseURL()
-        }
-        var body = 'response' in xhr ? xhr.response : xhr.responseText
-        resolve(new Response(body, options))
-      }
+        };
+        var body = 'response' in xhr ? xhr.response : xhr.responseText;
+        resolve(new Response(body, options));
+      };
 
       xhr.onerror = function() {
-        reject(new TypeError('Network request failed'))
-      }
+        reject(new TypeError('Network request failed'));
+      };
 
       xhr.ontimeout = function() {
-        reject(new TypeError('Network request failed'))
-      }
+        reject(new TypeError('Network request failed'));
+      };
 
-      xhr.open(request.method, request.url, true)
+      xhr.open(request.method, request.url, true);
 
       if (request.credentials === 'include') {
-        xhr.withCredentials = true
+        xhr.withCredentials = true;
       }
 
       if ('responseType' in xhr && support.blob) {
-        xhr.responseType = 'blob'
+        xhr.responseType = 'blob';
       }
 
       request.headers.forEach(function(value, name) {
-        xhr.setRequestHeader(name, value)
-      })
+        xhr.setRequestHeader(name, value);
+      });
 
-      xhr.send(typeof request._bodyInit === 'undefined' ? null : request._bodyInit)
+      xhr.send(typeof request._bodyInit === 'undefined' ? null : request._bodyInit);
     })
-  }
-  self.fetch.polyfill = true
+  };
+  self.fetch.polyfill = true;
 })(typeof self !== 'undefined' ? self : undefined);
 
 /**
@@ -1303,7 +1264,7 @@ function getCoordinate(location) {
 	return new Promise((resolve) => {
 		fetch(url)
 			.then((data) => data.json())
-			.then((json) => resolve([json.results[0].geometry.location.lat, json.results[0].geometry.location.lng]))
+			.then((json) => resolve([json.results[0].geometry.location.lat, json.results[0].geometry.location.lng]));
 	})
 }
 
@@ -1339,7 +1300,7 @@ var gmap = function (input, output, options, embeds) {
 		options.served.push(match);
 		const promise = options.mapOptions.mode !== 'place' ? getCoordinate(match[0]) : Promise.resolve([null, null]);
 		promises.push(promise);
-		allMatches.push(match)
+		allMatches.push(match);
 	}
 
 	return new Promise((resolve) => {
@@ -1350,7 +1311,7 @@ var gmap = function (input, output, options, embeds) {
 				if (ifInline(options, service)) {
 					output = output.replace(regex.gmap, (regexMatch) => {
 						return `<span class="ejs-location">${locationText(regexMatch)}</span>${text}`
-					})
+					});
 				} else {
 					embeds.push({
 						text : text,
@@ -1361,10 +1322,10 @@ var gmap = function (input, output, options, embeds) {
 					});
 				}
 			}
-			resolve([output, embeds])
-		})
+			resolve([output, embeds]);
+		});
 	})
-}
+};
 
 var markdown = function (output, options) {
 	if (!options.plugins.marked) throw new ReferenceError(`marked.js is not loaded.`);
@@ -1398,7 +1359,7 @@ var markdown = function (output, options) {
 	options.markedOptions.renderer = renderer;
 	options.markedOptions.highlight = false;
 	return Marked(output, options.markedOptions)
-}
+};
 
 /**
  * Encodes the characters like <, > and space and replaces them with
@@ -1480,7 +1441,7 @@ var highlight = function (output, options) {
 
 		return addTemplate(highlightedCode, language);
 	});
-}
+};
 
 class Gist {
 	constructor(input, output, options, embeds) {
@@ -1493,8 +1454,8 @@ class Gist {
 
 		if(typeof this.options.input !== 'string'){
 			this.options.input.addEventListener('rendered', () => {
-				this.load()
-			})
+				this.load();
+			});
 		}
 	}
 
@@ -1557,7 +1518,7 @@ function data(id, options) {
 	return new Promise((resolve) => {
 		fetch(url)
 			.then((data) => data.json())
-			.then((json) => resolve(json.items[0]))
+			.then((json) => resolve(json.items[0]));
 	})
 }
 
@@ -1566,7 +1527,7 @@ function urlToText(args, match, url, normalEmbed) {
 	let embedUrl = `https://www.youtube.com/embed/${id}`;
 	if (args.options.videoDetails) {
 		return new Promise((resolve) => {
-			data(id, args.options).then((data) => resolve(getDetailsTemplate(formatData(data), data, embedUrl, args.options)))
+			data(id, args.options).then((data) => resolve(getDetailsTemplate(formatData(data), data, embedUrl, args.options)));
 		})
 	} else {
 		return new Promise((resolve) => resolve(template(embedUrl, args.options)))
@@ -1584,7 +1545,7 @@ var youtube = function (input, output, options, embeds) {
 	};
 
 	return new Promise((resolve) => asyncEmbed(args, urlToText).then((data) => resolve(data)))
-}
+};
 
 function formatData$1(data, truncate$$1) {
 	return {
@@ -1605,7 +1566,7 @@ function data$1(id) {
 	return new Promise((resolve) => {
 		fetch(url)
 			.then((data) => data.json())
-			.then((json) => resolve(json[0]))
+			.then((json) => resolve(json[0]));
 	})
 }
 
@@ -1614,13 +1575,13 @@ function urlToText$1(args, match, url, normalEmbed) {
 	if (!normalEmbed) {
 		id = args.options.link ? match[0].slice(0, -4).split('/').slice(-1).pop() : match[0].split('/').slice(-1).pop();
 	} else {
-		id = match[3]
+		id = match[3];
 	}
 	if (!id) return;
 	let embedUrl = `https://player.vimeo.com/video/${id}`;
 	if (args.options.videoDetails) {
 		return new Promise((resolve) => {
-			data$1(id).then((data) => resolve(getDetailsTemplate(formatData$1(data, truncate), data, embedUrl, args.options)))
+			data$1(id).then((data) => resolve(getDetailsTemplate(formatData$1(data, truncate), data, embedUrl, args.options)));
 		})
 	} else {
 		return new Promise((resolve) => resolve(template(embedUrl, args.options)))
@@ -1639,20 +1600,20 @@ var vimeo = function (input, output, options, embeds) {
 	};
 
 	return new Promise((resolve) => asyncEmbed(args, urlToText$1).then((data) => resolve(data)))
-}
+};
 
 function fetchData(args, url) {
 	let api = `http://www.slideshare.net/api/oembed/2?url=${url}&format=jsonp&maxwidth=${args.options.videoWidth}&maxheight=${args.options.videoHeight}`;
 	return new Promise((resolve) => {
 		fetchJsonp$1(api, {credentials: 'include'})
 			.then((data) => data.json())
-			.then((json) => resolve(json.html))
+			.then((json) => resolve(json.html));
 	})
 }
 
 function urlToText$2(args, match, url) {
 	return new Promise((resolve) => {
-		fetchData(args, url).then((html) => resolve(args.template(html)))
+		fetchData(args, url).then((html) => resolve(args.template(html)));
 	})
 }
 
@@ -1667,7 +1628,7 @@ var slideShare = function (input, output, options, embeds) {
 	};
 
 	return new Promise((resolve) => asyncEmbed(args, urlToText$2).then((data) => resolve(data)))
-}
+};
 
 function fetchData$1(url, _) {
 	url     = encodeURIComponent(url);
@@ -1675,7 +1636,7 @@ function fetchData$1(url, _) {
 	return new Promise((resolve) => {
 		fetch(api)
 			.then((res)=>res.json())
-			.then((json)=>resolve(_.options.onOpenGraphFetch(json) || json))
+			.then((json)=>resolve(_.options.onOpenGraphFetch(json) || json));
 	})
 }
 
@@ -1683,7 +1644,7 @@ function urlToText$3(_, match, url) {
 	if (url.match(_.excludeRegex)) return Promise.resolve();
 
 	return new Promise((resolve) => {
-		fetchData$1(url, _).then((data) => resolve(data && data.success ? _.template(data) : ''))
+		fetchData$1(url, _).then((data) => resolve(data && data.success ? _.template(data) : ''));
 	})
 }
 
@@ -1702,7 +1663,7 @@ var openGraph = function (input, output, options, embeds) {
 	};
 
 	return new Promise((resolve) => asyncEmbed(args, urlToText$3).then((data) => resolve(data)))
-}
+};
 
 function template$2(data, options) {
 	return options.template.github(data, options);
@@ -1717,7 +1678,7 @@ function fetchRepo(data) {
 			})
 			.then(function (json) {
 				return resolve(json)
-			})
+			});
 	})
 }
 
@@ -1735,7 +1696,7 @@ function urlToText$4(_this, match, url, normalEmbed) {
 		fetchRepo(data)
 			.then(function (response) {
 				return resolve(template$2(response, _this.options))
-			})
+			});
 	})
 }
 
@@ -1747,7 +1708,7 @@ var github = function (input, output, options, embeds) {
 	};
 
 	return new Promise((resolve) => asyncEmbed(args, urlToText$4).then((data) => resolve(data)))
-}
+};
 
 var mentions = function (input, options) {
 	const mRegex = regex.mentions;
@@ -1755,7 +1716,7 @@ var mentions = function (input, options) {
 		const username = $2.split('@')[1];
 		return $1 + options.mentionsUrl(username);
 	})
-}
+};
 
 var hashtag = function (input, options) {
 	const hRegex = regex.hashtag;
@@ -1763,7 +1724,7 @@ var hashtag = function (input, options) {
 		const username = $2.split('#')[1];
 		return $1 + options.hashtagUrl(username);
 	})
-}
+};
 
 let globalOptions = {};
 
@@ -1815,6 +1776,10 @@ const defaultOptions = {
 	inlineEmbed: [],
 	inlineText: true,
 	codeEmbedHeight: 500,
+	imageOptions: {
+		maxWidth: 400,
+		maxHeight: 500
+	},
 	vineOptions: {
 		maxWidth: null,
 		type: 'postcard', //'postcard' or 'simple' embedding
@@ -1901,7 +1866,7 @@ class EmbedJS {
 
 		if (!(typeof this.options.input === 'string' || typeof this.options.input === 'object')) throw ReferenceError("You need to pass an element or the string that needs to be processed");
 
-		this.input = (typeof this.options.input === 'object') ? this.options.input.innerHTML : this.options.input
+		this.input = (typeof this.options.input === 'object') ? this.options.input.innerHTML : this.options.input;
 
 	}
 
@@ -1929,16 +1894,16 @@ class EmbedJS {
 
 			openGraphPromise.then(function ([output, embeds]) {
 				if (options.highlightCode) {
-					output = highlight(output, options)
+					output = highlight(output, options);
 				}
 				if (options.marked) {
-					output = markdown(output, options)
+					output = markdown(output, options);
 				}
 				if (options.emoji) {
-					output = emoji(output, options)
+					output = emoji(output, options);
 				}
 				if (options.fontIcons) {
-					output = smiley(output, options)
+					output = smiley(output, options);
 				}
 				if (options.mentions) {
 					output = mentions(output, options);
@@ -1966,7 +1931,7 @@ class EmbedJS {
 				[output, embeds] = baseEmbed(input, output, embeds, options, regex.basicImage, 'image', options.imageEmbed);
 
 				if (ifEmbed(options, 'gist')) {
-					[output, embeds] = new Gist(input, output, options, embeds).process()
+					[output, embeds] = new Gist(input, output, options, embeds).process();
 				}
 
 				return ifEmbed(options, 'youtube') ? youtube(input, output, options, embeds) : Promise.resolve([output, embeds]);
@@ -1995,9 +1960,9 @@ class EmbedJS {
 					template: options.template
 				};
 
-				resolve(createText(output, embeds))
+				resolve(createText(output, embeds));
 
-			})
+			});
 		})
 	}
 
@@ -2020,7 +1985,7 @@ class EmbedJS {
 				this.options.input.innerHTML = data;
 				this.applyListeners();
 				resolve(this.data);
-			})
+			});
 		})
 	}
 
@@ -2057,7 +2022,7 @@ class EmbedJS {
 
 		if (!this.options.input || !(typeof this.options.input === 'string' || typeof this.options.input === 'object')) throw ReferenceError("You need to pass an element or the string that needs to be processed");
 
-		this.input = (typeof this.options.input === 'object') ? this.options.input.innerHTML : this.options.input
+		this.input = (typeof this.options.input === 'object') ? this.options.input.innerHTML : this.options.input;
 	}
 
 	/**
@@ -2065,7 +2030,7 @@ class EmbedJS {
 	 * @return Promise
 	 */
 	text(callback) {
-		this.process().then((data) => callback(data, this.input))
+		this.process().then((data) => callback(data, this.input));
 	}
 
 	/**
@@ -2078,7 +2043,7 @@ class EmbedJS {
 		destroyVideos('ejs-video-thumb');
 		if (this.options.tweetsEmbed)
 			this.options.input.removeEventListener('rendered', this.twitter.load(), false);
-		this.options.input.innerHTML = this.input
+		this.options.input.innerHTML = this.input;
 	}
 
 	/**
@@ -2086,7 +2051,7 @@ class EmbedJS {
 	 * @param {object} options
 	 */
 	static setOptions(options) {
-		globalOptions = deepExtend(defaultOptions, options)
+		globalOptions = deepExtend(defaultOptions, options);
 	}
 
 	/**
@@ -2101,12 +2066,12 @@ class EmbedJS {
 		for (let i = 0; i < elements.length; i++) {
 			options.input = elements[i];
 			instances[i] = new EmbedJS(options, template$$1);
-			promises[i] = instances[i].render()
+			promises[i] = instances[i].render();
 		}
 		return new Promise(function (resolve) {
 			Promise.all(promises).then(function (val) {
 				resolve(val);
-			})
+			});
 		})
 	}
 
@@ -2116,7 +2081,7 @@ class EmbedJS {
 	 */
 	static destroyEmbedJS() {
 		for (let i = 0; i < instances.length; i++) {
-			instances[i].destroy()
+			instances[i].destroy();
 		}
 	}
 
@@ -2126,7 +2091,7 @@ class EmbedJS {
 	 */
 	static destroyAll() {
 		for (let i = 0; i < allInstances.length; i++) {
-			allInstances[i].destroy()
+			allInstances[i].destroy();
 		}
 	}
 
