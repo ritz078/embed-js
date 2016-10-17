@@ -8,3 +8,6 @@ embed.js.sublime-project
 embed.js.sublime-workspace
 .sass-cache
 bower_components
+src/*.map
+src/*.css
+src/*.js
