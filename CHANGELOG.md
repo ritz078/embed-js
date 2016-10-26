@@ -1,3 +1,13 @@
+<a name="4.1.7"></a>
+## [4.1.7](https://github.com/ritz078/embed.js/compare/v4.1.6...v4.1.7) (2016-10-26)
+
+
+### Bug Fixes
+
+* **soundcloud:** wrong soundcloud URLs ([b9f566f](https://github.com/ritz078/embed.js/commit/b9f566f)), closes [#188](https://github.com/ritz078/embed.js/issues/188)
+
+
+
 <a name="4.1.6"></a>
 ## [4.1.6](https://github.com/ritz078/embed.js/compare/v4.1.4...v4.1.6) (2016-10-16)
 
