@@ -93,6 +93,16 @@ x.destroy()
 1. Pass the emoji name as the value to `customEmoji`. See the example [here](https://embedjs.readme.io/docs/options#customemoji)
 1. Run `grunt build-emoji && grunt build`
 
+## Development
+1. Fork the repo
+1. create a branch
+1. Create a PR
+
+### grunt tasks
+`grunt` : starts development server and watches files for changes. Run this for development purpose.
+`grunt dist` : create dist directory with all the different build files
+`grunt build-emoji` : create spritesheet from all the emojis. Only run if you have made some changes related to emojis
+
 ## License
 
 MIT &copy; [Ritesh Kumar](https://github.com/ritz078)

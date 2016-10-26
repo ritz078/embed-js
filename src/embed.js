@@ -262,7 +262,7 @@ var renderer = {
 	},
 	soundcloud: function soundcloud(match, options) {
 		var config = options.soundCloudOptions;
-		return '<div class="ejs-embed">\n\t\t<iframe height="160" scrolling="no" src="https://w.soundcloud.com/player/?url=' + match + '\n\t\t&auto_play     = ' + config.autoPlay + '\n\t\t&hide_related  = ' + config.hideRelated + '\n\t\t&show_comments = ' + config.showComments + '\n\t\t&show_user     = ' + config.showUser + '\n\t\t&show_reposts  = ' + config.showReposts + '\n\t\t&visual        = ' + config.visual + '\n\t\t&download      = ' + config.download + '\n\t\t&color         = ' + config.themeColor + '\n\t\t&theme_color   = ' + config.themeColor + '"></iframe>\n\t\t</div>';
+		return '<div class="ejs-embed">\n\t\t<iframe height="160" scrolling="no" src="https://w.soundcloud.com/player/?url=' + match + '&auto_play=' + config.autoPlay + '&hide_related=' + config.hideRelated + '&show_comments= ' + config.showComments + '&show_user=' + config.showUser + '&show_reposts=' + config.showReposts + '&visual=' + config.visual + '&download=' + config.download + '&color=' + config.themeColor + '&theme_color=' + config.themeColor + '"></iframe>\n\t\t</div>';
 	},
 	spotify: function spotify(match) {
 		var id = lastElement(match.split('/'));
@@ -1987,7 +1987,7 @@ var promises = [];
 
 var EmbedJS = function () {
 	/**
-  * The constructor takes two arguements. The first one is the options object and the second one is the
+  * The constructor takes two arguments. The first one is the options object and the second one is the
   * optional string . If the user wants to provide a string directly instead of the element, he can do that.
   * In case the user provides both the input element and the string, the input string will be taken from the element
   * and the provided string won't be processed.
