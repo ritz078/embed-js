@@ -21,16 +21,7 @@ export default {
 	soundcloud(match, options){
 		let config = options.soundCloudOptions;
 		return `<div class="ejs-embed">
-		<iframe height="160" scrolling="no" src="https://w.soundcloud.com/player/?url=${match}
-		&auto_play     = ${config.autoPlay}
-		&hide_related  = ${config.hideRelated}
-		&show_comments = ${config.showComments}
-		&show_user     = ${config.showUser}
-		&show_reposts  = ${config.showReposts}
-		&visual        = ${config.visual}
-		&download      = ${config.download}
-		&color         = ${config.themeColor}
-		&theme_color   = ${config.themeColor}"></iframe>
+		<iframe height="160" scrolling="no" src="https://w.soundcloud.com/player/?url=${match}&auto_play=${config.autoPlay}&hide_related=${config.hideRelated}&show_comments= ${config.showComments}&show_user=${config.showUser}&show_reposts=${config.showReposts}&visual=${config.visual}&download=${config.download}&color=${config.themeColor}&theme_color=${config.themeColor}"></iframe>
 		</div>`
 	},
 

@@ -136,7 +136,7 @@ let promises = [];
 
 export default class EmbedJS {
 	/**
-	 * The constructor takes two arguements. The first one is the options object and the second one is the
+	 * The constructor takes two arguments. The first one is the options object and the second one is the
 	 * optional string . If the user wants to provide a string directly instead of the element, he can do that.
 	 * In case the user provides both the input element and the string, the input string will be taken from the element
 	 * and the provided string won't be processed.

@@ -186,16 +186,7 @@ var renderer = {
 	soundcloud(match, options){
 		let config = options.soundCloudOptions;
 		return `<div class="ejs-embed">
-		<iframe height="160" scrolling="no" src="https://w.soundcloud.com/player/?url=${match}
-		&auto_play     = ${config.autoPlay}
-		&hide_related  = ${config.hideRelated}
-		&show_comments = ${config.showComments}
-		&show_user     = ${config.showUser}
-		&show_reposts  = ${config.showReposts}
-		&visual        = ${config.visual}
-		&download      = ${config.download}
-		&color         = ${config.themeColor}
-		&theme_color   = ${config.themeColor}"></iframe>
+		<iframe height="160" scrolling="no" src="https://w.soundcloud.com/player/?url=${match}&auto_play=${config.autoPlay}&hide_related=${config.hideRelated}&show_comments= ${config.showComments}&show_user=${config.showUser}&show_reposts=${config.showReposts}&visual=${config.visual}&download=${config.download}&color=${config.themeColor}&theme_color=${config.themeColor}"></iframe>
 		</div>`
 	},
 
@@ -1873,7 +1864,7 @@ let promises = [];
 
 class EmbedJS {
 	/**
-	 * The constructor takes two arguements. The first one is the options object and the second one is the
+	 * The constructor takes two arguments. The first one is the options object and the second one is the
 	 * optional string . If the user wants to provide a string directly instead of the element, he can do that.
 	 * In case the user provides both the input element and the string, the input string will be taken from the element
 	 * and the provided string won't be processed.
