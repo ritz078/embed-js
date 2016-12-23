@@ -11,10 +11,10 @@ branches:
     - master
     - es6
 node_js:
-  - iojs
+  - 6
 before_install:
   - npm i -g grunt-cli
-  - npm i -g npm@^2.0.0
+  - npm i -g npm@^3.0.0
   - npm i -g rollup
 before_script:
   - npm prune
