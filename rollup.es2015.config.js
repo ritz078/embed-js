@@ -1,5 +1,5 @@
 var commonjs = require('rollup-plugin-commonjs');
-var npm      = require('rollup-plugin-npm');
+var npm      = require('rollup-plugin-node-resolve');
 var pkg      = require('./package.json');
 
 var banner = "/*\n" +
