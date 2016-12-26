@@ -84,11 +84,14 @@
   },
   "scripts": {
     "commit": "git-cz",
-    "test": "ava test/**/*.test.js --require babel-register"
+    "test": "ava test/**/*.test.js"
   },
   "config": {
     "commitizen": {
-      "path": "node_modules/cz-conventional-changelog"
+      "path": "node_modules/cz-conventional-changelog",
+    },
+    "ava": {
+      "require": "babel-register"
     }
   }
 }
