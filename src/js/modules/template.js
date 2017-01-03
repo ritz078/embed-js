@@ -89,7 +89,10 @@ export default {
 
 	ustream(match, options){
 		let id = match.split('/');
-		id.splice(1, 0, 'embed');
+		// only add embed if it is not already in the link
+		if( match.indexOf('/embed/') < 0 ) {
+			id.splice(1, 0, 'embed');
+		}
 		return `<div class="ejs-embed ejs-ustream"><iframe src="//www.${id.join('/')}" height="${options.videoHeight}" width="${options.videoWidth}"></iframe></div>`
 	},
 
