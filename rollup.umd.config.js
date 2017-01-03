@@ -1,6 +1,6 @@
 var babel    = require('rollup-plugin-babel');
 var commonjs = require('rollup-plugin-commonjs');
-var npm      = require('rollup-plugin-npm');
+var npm      = require('rollup-plugin-node-resolve');
 var pkg      = require('./package.json');
 var filesize   = require('rollup-plugin-filesize');
 
