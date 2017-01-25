@@ -314,7 +314,10 @@ var renderer = {
 	},
 	ustream: function ustream(match, options) {
 		var id = match.split('/');
-		id.splice(1, 0, 'embed');
+		// only add embed if it is not already in the link
+		if (match.indexOf('/embed/') < 0) {
+			id.splice(1, 0, 'embed');
+		}
 		return '<div class="ejs-embed ejs-ustream"><iframe src="//www.' + id.join('/') + '" height="' + options.videoHeight + '" width="' + options.videoWidth + '"></iframe></div>';
 	},
 	detailsVimeo: function detailsVimeo(data, fullData, embedUrl) {
@@ -2013,7 +2016,7 @@ var EmbedJS = function () {
 		//object while creating a new instance of embed.js
 		this.options = deepExtend(globOptions, options);
 
-		this.options.template = template$$1 || renderer;
+		this.options.template = deepExtend(renderer, template$$1);
 
 		if (!(typeof this.options.input === 'string' || babelHelpers.typeof(this.options.input) === 'object')) throw ReferenceError("You need to pass an element or the string that needs to be processed");
 
