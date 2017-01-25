@@ -89,8 +89,7 @@
   },
   "scripts": {
     "commit": "git-cz",
-    "test": "ava test/**/*.test.js --require babel-register",
-    "prepublish": "grunt dist"
+    "test": "ava test/**/*.test.js --require babel-register"
   },
   "config": {
     "commitizen": {
