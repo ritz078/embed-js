@@ -98,6 +98,8 @@ x.destroy()
 1. create a branch
 1. Create a PR
 
+**Note**: This projects adheres to a [Code of Conduct](CODE_OF_CONDUCT.md).
+
 ### grunt tasks
 `grunt` : starts development server and watches files for changes. Run this for development purpose.
 `grunt dist` : create dist directory with all the different build files
