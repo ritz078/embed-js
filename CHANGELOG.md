@@ -1,3 +1,14 @@
+<a name="4.1.11"></a>
+## [4.1.11](https://github.com/ritz078/embed.js/compare/v4.1.10...v4.1.11) (2017-01-25)
+
+
+### Bug Fixes
+
+* **asyncEmbed:** fixes 194 ([7dbc1c4](https://github.com/ritz078/embed.js/commit/7dbc1c4))
+* **template:** extend template instead of replacing ([900c528](https://github.com/ritz078/embed.js/commit/900c528))
+
+
+
 <a name="4.1.10"></a>
 ## [4.1.10](https://github.com/ritz078/embed.js/compare/v4.1.7...v4.1.10) (2016-10-26)
 
