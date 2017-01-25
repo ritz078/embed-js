@@ -14,7 +14,7 @@ var banner = "/*\n" +
 
 var config = {
     entry         : 'src/js/main.js',
-    dest          : 'src/embed.es2015.js',
+    dest          : 'dist/embed.es2015.js',
     format        : 'es',
     banner        : banner,
     sourceMap     : true,
