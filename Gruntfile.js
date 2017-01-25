@@ -44,7 +44,7 @@ module.exports = function (grunt) {
 				]
 			},
 			dist   : {
-				src : '.tmp/embed.css',
+				src : 'dist/embed.css',
 				dest: 'dist/embed.min.css'
 			}
 		},
