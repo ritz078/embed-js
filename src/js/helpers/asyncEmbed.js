@@ -35,14 +35,14 @@ function inlineAsyncEmbed(_, urlToText) {
 		promises.push(getInlineData(_, urlToText, match));
 
 	return new Promise((resolve) => {
-		if (matches.length)
+		if (promises.length)
 			Promise.all(promises).then((data) => {
 				let i        = 0;
-				_.output = _.output.replace(regexInline, (match) => {
+				_.output = _.output.replace(regexInline, (matched) => {
 					if (_.options.link)
-						return !_.options.inlineText ? data[i] + '</a>' : match + data[i++];
+						return !_.options.inlineText ? data[i++] + '</a>' : matched + data[i++];
 					else
-						return !_.options.inlineText ? data[i] : match + data[i++];
+						return !_.options.inlineText ? data[i++] : matched + data[i++];
 				});
 				resolve(_.output)
 			});
