@@ -160,7 +160,7 @@ export default class EmbedJS {
 		//object while creating a new instance of embed.js
 		this.options = deepExtend(globOptions, options);
 
-		this.options.template = template || renderer;
+		this.options.template = deepExtend(renderer, template);
 
 		if (!(typeof this.options.input === 'string' || typeof this.options.input === 'object')) throw ReferenceError("You need to pass an element or the string that needs to be processed");
 
