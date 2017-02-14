@@ -27,7 +27,7 @@ const regex = {
 	youtube      : /https?:\/\/(?:[0-9A-Z-]+\.)?(?:youtu\.be\/|youtube\.com(?:\/embed\/|\/v\/|\/watch\?v=|\/ytscreeningroom\?v=|\/feeds\/api\/videos\/|\/user\S*[^\w\-\s]|\S*[^\w\-\s]))([\w\-]{11})[?=&+%\w-]*/gi,
 	gmap         : /@\((.+)\)/gi,
 	twitter      : /https:\/\/twitter\.com\/\w+\/\w+\/\d+/gi,
-	smileys      : /(\:[\+\-\w]+\:|\<[\/\\]?3|[\(\)\\\D|\*\$][\-\^]?[\:\;\=]|[\:\;\=B8][\-\^]?[3DOPp\@\$\*\\\)\(\/\|])(?=\s|[\!\.\?]|$)/gi
+	smileys      : /(\:\w+\:)/gi
 };
 
 export default regex;
