@@ -7,9 +7,13 @@ function getEmoji(match) {
 
 export default function (output, options) {
 	return output.replace(regex.smileys, function (match) {
-		const emoji = getEmoji(match);
-		if (emoji) {
-			return options.template.emoji(emoji, options)
+		if (typeof options.customEmoji === 'function') {
+			return options.customEmoji(match);
+		} else {
+			const emoji = getEmoji(match);
+			if (emoji) {
+				return options.template.emoji(emoji, options)
+			}
 		}
 		return match;
 	});
