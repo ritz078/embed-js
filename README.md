@@ -95,15 +95,19 @@ x.destroy()
 
 ## Development
 1. Fork the repo
-1. create a branch
+1. clone the repo then `cd embed.js`
+1. create a new branch
+1. `npm install`
+1. `npm i -g grunt-cli`
+1. `grunt` : this will start the grunt server and open a demo page.
 1. Create a PR
 
 **Note**: This projects adheres to a [Code of Conduct](CODE_OF_CONDUCT.md).
 
 ### grunt tasks
-`grunt` : starts development server and watches files for changes. Run this for development purpose.
-`grunt dist` : create dist directory with all the different build files
-`grunt build-emoji` : create spritesheet from all the emojis. Only run if you have made some changes related to emojis
+1. `grunt` : starts development server and watches files for changes. Run this for development purpose.
+1. `grunt dist` : create dist directory with all the different build files
+1. `grunt build-emoji` : create spritesheet from all the emojis. Only run if you have made some changes related to emojis
 
 ## License
 
