@@ -1,6 +1,6 @@
 import {asyncEmbed} from '../helpers'
 import regex from './regex'
-import 'whatwg-fetch'
+import fetch from 'unfetch'
 
 function template(data, options) {
 	return options.template.github(data, options);

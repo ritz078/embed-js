@@ -1,6 +1,6 @@
 import {ifInline, matches} from '../utils'
 import regex from '../regex'
-import 'whatwg-fetch'
+import fetch from 'unfetch'
 
 /**
  * Takes the location name and returns the coordinates of that location using the Google

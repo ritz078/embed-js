@@ -1,6 +1,6 @@
 import { urlRegex } from './utils'
 import { asyncEmbed } from '../helpers'
-import 'whatwg-fetch'
+import fetch from 'unfetch'
 
 function fetchData(url, _) {
 	url     = encodeURIComponent(url);
