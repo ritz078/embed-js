@@ -1,3 +1,13 @@
+<a name="4.1.14"></a>
+## [4.1.14](https://github.com/ritz078/embed.js/compare/v4.1.13...v4.1.14) (2017-02-22)
+
+
+### Bug Fixes
+
+* **unfetch:** replace fetch polyfill with unfetch ([da70f43](https://github.com/ritz078/embed.js/commit/da70f43))
+
+
+
 <a name="4.1.13"></a>
 ## [4.1.13](https://github.com/ritz078/embed.js/compare/v4.1.12...v4.1.13) (2017-02-17)
 
