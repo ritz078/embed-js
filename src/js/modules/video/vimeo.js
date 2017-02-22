@@ -1,6 +1,6 @@
 import {truncate} from '../utils'
 import {getDetailsTemplate, template, asyncEmbed} from '../../helpers'
-import 'whatwg-fetch'
+import fetch from 'unfetch'
 import regex from '../regex'
 
 
