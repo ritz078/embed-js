@@ -4,6 +4,6 @@
  * @param  {object} options Options object
  * @return {string}         compiled template with variables replaced
  */
-export default function template(url, options) {
-	return options.template.vimeo(url, options) || options.template.youtube(url, options)
+export default function template (url, options) {
+  return options.template.vimeo(url, options) || options.template.youtube(url, options)
 }
