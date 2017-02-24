@@ -24,11 +24,11 @@ module.exports = function (grunt) {
 			options: {
 				livereload: true
 			},
-			css    : {
+			css: {
 				files: ['src/css/**/*.scss'],
 				tasks: ['sass', 'postcss']
 			},
-			js     : {
+			js: {
 				files: ['src/js/**/*.js', 'build.json'],
 				tasks: ['eslint', 'shell:rollup', 'uglify']
 			}
@@ -36,15 +36,15 @@ module.exports = function (grunt) {
 
 		postcss: {
 			options: {
-				map       : false,
+				map: false,
 				processors: [
 					require('cssnano')({
 						convertValues: false
 					})
 				]
 			},
-			dist   : {
-				src : 'dist/embed.css',
+			dist: {
+				src: 'dist/embed.css',
 				dest: 'dist/embed.min.css'
 			}
 		},
@@ -53,13 +53,13 @@ module.exports = function (grunt) {
 
 		'sprite': {
 			all: {
-				src                 : './assets/images/ejs_emojis/*.png',
-				dest                : './assets/images/emojis.png',
-				retinaSrcFilter     : './assets/images/ejs_emojis/*@2x.png',
-				destCss             : 'src/css/_emojis.scss',
-				retinaDest          : './assets/images/emojis@2x.png',
-				cssFormat           : 'css',
-				cssTemplate         : 'sprite.handlebars',
+				src: './assets/images/ejs_emojis/*.png',
+				dest: './assets/images/emojis.png',
+				retinaSrcFilter: './assets/images/ejs_emojis/*@2x.png',
+				destCss: 'src/css/_emojis.scss',
+				retinaDest: './assets/images/emojis@2x.png',
+				cssFormat: 'css',
+				cssTemplate: 'sprite.handlebars',
 				cssHandlebarsHelpers: {
 					escape: function (name) {
 						var x = ['+', '-', '/', '*'];
@@ -81,11 +81,11 @@ module.exports = function (grunt) {
 					}
 				}
 			},
-			files  : {
+			files: {
 				expand: true,
-				cwd   : 'assets/images/emojis',
-				src   : ['*.png'],
-				dest  : 'assets/images/ejs_emojis/'
+				cwd: 'assets/images/emojis',
+				src: ['*.png'],
+				dest: 'assets/images/ejs_emojis/'
 			}
 		},
 
@@ -94,7 +94,7 @@ module.exports = function (grunt) {
 				options: {
 					style: 'expanded'
 				},
-				files  : {
+				files: {
 					'dist/embed.css': 'src/css/embed.scss'
 				}
 			}
@@ -102,36 +102,36 @@ module.exports = function (grunt) {
 
 		'uglify': {
 			options: {
-				banner  : "<%= meta.banner %>",
-				mangle  : true,
+				banner: "<%= meta.banner %>",
+				mangle: true,
 				compress: {
-					sequences   : true,
-					dead_code   : true,
+					sequences: true,
+					dead_code: true,
 					conditionals: true,
-					booleans    : true,
-					unused      : true,
-					if_return   : true,
-					join_vars   : true,
+					booleans: true,
+					unused: true,
+					if_return: true,
+					join_vars: true,
 					drop_console: true
 				}
 			},
-			build  : {
+			build: {
 				files: {
 					'dist/embed.min.js': 'dist/embed.js'
 				}
 			}
 		},
-		connect : {
+		connect: {
 			server: {
 				options: {
-					port      : 8000,
+					port: 8000,
 					livereload: true,
-					open      : true,
-					keepAlive : true,
-					base      : {
-						path   : './',
+					open: true,
+					keepAlive: true,
+					base: {
+						path: './',
 						options: {
-							index : 'demo/index.html',
+							index: 'demo/index.html',
 							maxAge: 300000
 						}
 					}
@@ -139,24 +139,20 @@ module.exports = function (grunt) {
 			}
 		},
 
-		eslint: {
-			target: ['src/js/**/*.js']
-		},
-
 		'string-replace': {
 			dist: {
-				files  : {
+				files: {
 					'.tmp/embed.css': 'dist/embed.css'
 				},
 				options: {
 					replacements: [{
-						pattern    : /..\/assets\/images\/loader.svg/g,
+						pattern: /..\/assets\/images\/loader.svg/g,
 						replacement: 'assets/images'
 					}, {
-						pattern    : /..\/.\/assets\/images\/emojis/g,
+						pattern: /..\/.\/assets\/images\/emojis/g,
 						replacement: 'assets/images/emojis'
 					}, {
-						pattern    : /..\/assets\/fonts/g,
+						pattern: /..\/assets\/fonts/g,
 						replacement: 'assets/fonts'
 					}]
 				}
@@ -167,12 +163,12 @@ module.exports = function (grunt) {
 			dist: {
 				files: [{
 					expand: true,
-					src   : 'assets/fonts/*',
-					dest  : 'dist/'
+					src: 'assets/fonts/*',
+					dest: 'dist/'
 				}, {
 					expand: true,
-					src   : 'assets/images/*',
-					dest  : 'dist/',
+					src: 'assets/images/*',
+					dest: 'dist/',
 					filter: 'isFile'
 				}]
 			}
@@ -180,9 +176,9 @@ module.exports = function (grunt) {
 
 		bump: {
 			options: {
-				files        : ['package.json'],
-				commitFiles  : ['-a'],
-				pushTo       : 'origin',
+				files: ['package.json'],
+				commitFiles: ['-a'],
+				pushTo: 'origin',
 				updateConfigs: ['pkg']
 			}
 		},
@@ -204,7 +200,7 @@ module.exports = function (grunt) {
 			publish: {
 				command: 'npm publish'
 			},
-			rollup : {
+			rollup: {
 				command: 'rollup -c rollup.umd.config.js && rollup -c rollup.es2015.config.js'
 			}
 		}
@@ -212,10 +208,10 @@ module.exports = function (grunt) {
 
 	require('load-grunt-tasks')(grunt);
 
-	grunt.registerTask("default", ["eslint", "shell:rollup", "sass", "connect", "watch"]);
-	grunt.registerTask("build", ["clean", "build-emoji", "eslint", "shell:rollup", "sass", "uglify", "string-replace", "postcss", "copy"]);
+	grunt.registerTask("default", ["shell:rollup", "sass", "connect", "watch"]);
+	grunt.registerTask("build", ["clean", "build-emoji", "shell:rollup", "sass", "uglify", "string-replace", "postcss", "copy"]);
 	grunt.registerTask("build-emoji", ["retinafy", "sprite", "sass"]);
-	grunt.registerTask("dist", ["clean", "eslint", "shell:rollup", "sass", "uglify", "string-replace", "postcss", "copy"]);
+	grunt.registerTask("dist", ["clean", "shell:rollup", "sass", "uglify", "string-replace", "postcss", "copy"]);
 
 	grunt.registerTask("release", function (option) {
 		grunt.task.run(["bump-only:" + option, "dist", "conventionalChangelog", "bump-commit", "shell:publish"]);
