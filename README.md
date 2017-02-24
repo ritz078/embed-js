@@ -94,8 +94,7 @@ x.destroy()
 1. Fork the repo
 1. clone the repo then `cd embed.js`
 1. create a new branch
-1. `npm install`
-1. `npm i -g grunt-cli`
+1. `npm install && npm i -g rollup && npm i -g grunt-cli`
 1. `grunt` : this will start the grunt server and open a demo page.
 1. Create a PR
 
