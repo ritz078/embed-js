@@ -1,8 +1,8 @@
-var babel    = require('rollup-plugin-babel');
 var commonjs = require('rollup-plugin-commonjs');
-var npm      = require('rollup-plugin-npm');
-var pkg      = require('./package.json');
-var filesize   = require('rollup-plugin-filesize');
+var nodeResolve = require('rollup-plugin-node-resolve');
+var pkg = require('./package.json');
+var filesize = require('rollup-plugin-filesize');
+var buble = require('rollup-plugin-buble')
 
 var banner = "/*\n" +
 	" * " + pkg.name + " - v" + pkg.version + "\n" +
@@ -14,24 +14,21 @@ var banner = "/*\n" +
 	" */\n";
 
 var config = {
-	entry        : 'src/js/main.js',
-	dest         : 'dist/embed.js',
-	format       : 'umd',
-	banner       : banner,
-	sourceMap    : true,
-	moduleName   : 'EmbedJS',
-	plugins      : [
-		npm({
+	entry: 'src/js/main.js',
+	dest: 'dist/embed.js',
+	format: 'umd',
+	banner: banner,
+	sourceMap: true,
+	moduleName: 'EmbedJS',
+	plugins: [
+		nodeResolve({
 			jsnext: true,
-			main  : true
+			main: true
 		}),
 		commonjs({
 			include: 'node_modules/**'
 		}),
-		babel({
-			babelrc:false,
-			presets:['es2015-rollup']
-		}),
+		buble(),
 		filesize()
 	]
 };
