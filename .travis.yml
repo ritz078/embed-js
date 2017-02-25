@@ -1,20 +1,20 @@
-sudo: false
 language: node_js
 cache:
   directories:
     - node_modules
 notifications:
   email: false
-# whitelist
-branches:
-  only:
-    - master
-    - es6
 node_js:
-  - iojs
-before_install:
-  - npm i -g grunt-cli
-  - npm i -g npm@^2.0.0
-  - npm i -g rollup
+  - '7'
+  - '6'
+  - '4'
 before_script:
   - npm prune
+before_install:
+  - npm i -g grunt-cli
+  - npm i -g rollup
+after_success:
+  - npm run semantic-release
+branches:
+  except:
+    - /^v\d+\.\d+\.\d+$/

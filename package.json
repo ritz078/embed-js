@@ -1,6 +1,6 @@
 {
   "name": "embed-js",
-  "version": "4.1.15",
+  "version": "0.0.0-development",
   "description": "A JavaScript plugin that analyses the string and embeds emojis, media, tweets, code and services.",
   "keywords": [
     "JavaScript-plugin",
@@ -85,14 +85,16 @@
     "rollup-plugin-commonjs": "^7.0.0",
     "rollup-plugin-filesize": "^1.0.1",
     "rollup-plugin-node-resolve": "^2.0.0",
-    "rollup-plugin-uglify": "^1.0.1"
+    "rollup-plugin-uglify": "^1.0.1",
+    "semantic-release": "^6.3.2"
   },
   "scripts": {
     "commit": "git-cz",
     "lint": "eslint src/js/**/*.js",
     "lintfix": "eslint --fix src/js/**/*.js",
     "test": "ava test/**/*.test.js --require babel-register",
-    "build": "rollup -c rollup.umd.config.js && rollup.es2015.config.js"
+    "build": "rollup -c rollup.umd.config.js && rollup.es2015.config.js",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "config": {
     "commitizen": {
