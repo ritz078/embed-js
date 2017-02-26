@@ -174,28 +174,6 @@ module.exports = function (grunt) {
 			}
 		},
 
-		bump: {
-			options: {
-				files: ['package.json'],
-				commitFiles: ['-a'],
-				pushTo: 'origin',
-				updateConfigs: ['pkg']
-			}
-		},
-
-		conventionalChangelog: {
-			options: {
-				changelogOpts: {
-					// conventional-changelog options go here
-					preset: 'angular',
-					releaseCount: 0
-				}
-			},
-			release: {
-				src: 'CHANGELOG.md'
-			}
-		},
-
 		shell: {
 			publish: {
 				command: 'npm publish'
@@ -212,8 +190,4 @@ module.exports = function (grunt) {
 	grunt.registerTask("build", ["clean", "build-emoji", "shell:rollup", "sass", "uglify", "string-replace", "postcss", "copy"]);
 	grunt.registerTask("build-emoji", ["retinafy", "sprite", "sass"]);
 	grunt.registerTask("dist", ["clean", "shell:rollup", "sass", "uglify", "string-replace", "postcss", "copy"]);
-
-	grunt.registerTask("release", function (option) {
-		grunt.task.run(["bump-only:" + option, "dist", "conventionalChangelog", "bump-commit", "shell:publish"]);
-	});
 };
