@@ -93,7 +93,7 @@ export default {
     if (match.indexOf('/embed/') < 0) {
       id.splice(1, 0, 'embed')
     }
-    return `<div class="ejs-embed ejs-ustream"><iframe src="//www.${id.join('/')}" height="${options.videoHeight}" width="${options.videoWidth}"></iframe></div>`
+    return `<div class="ejs-embed ejs-ustream"><iframe src="${id.join('/')}" height="${options.videoHeight}" width="${options.videoWidth}"></iframe></div>`
   },
 
   detailsVimeo (data, fullData, embedUrl) {
