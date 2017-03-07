@@ -17,7 +17,7 @@ test('trucate() method', t => {
 
     const actual2 = truncate('Est', 10);
     const expected2 = 'Est';
-    t.ok(actual2 === expected2)
+    t.ok(actual2 === expected2);
 	
     const actual3 = truncate('Hello', 5);
     const expected3= 'Hell';
