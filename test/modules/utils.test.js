@@ -24,7 +24,7 @@ test('trucate() method', t => {
 test('getUnique() method', t => {
     const actual = getUnique([1, 3, 'a', 'a', 1, 5]);
     const expected = [1, 3, 'a', 5];
-    t.same(actual, expected)
+    t.same(actual, expected);
 });
 
 test('deepExtend() method', t => {
