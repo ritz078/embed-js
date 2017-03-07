@@ -10,7 +10,7 @@ test('toUrl() method', t => {
     t.ok(actual2 === expected)
 });
 
-test('trucate() method', t => {
+test('truncate() method', t => {
     const actual = truncate('Est fidelis fuga', 10);
     const expected = 'Est fidel...';
     t.ok(actual === expected);
