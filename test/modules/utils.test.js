@@ -19,14 +19,6 @@ test('trucate() method', t => {
     const expected2 = 'Est';
     t.ok(actual2 === expected2);
 	
-    const actual3 = truncate('Hello', 5);
-    const expected3= 'Hell';
-    t.ok(actual3 === expected3);
-	
-    const actual4 = truncate('', 5);
-    const expected4 = '';
-    t.ok(actual4 === expected4);
-	
 });
 
 test('getUnique() method', t => {
