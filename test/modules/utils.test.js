@@ -29,17 +29,9 @@ test('getUnique() method', t => {
     const expected2 = ['b'];
     t.same(actual2 == expected2);
 	
-    const actual3 = getUnique([]);
-    const expected3 = [];
-    t.same(actual3 == expected3);
-	
-    const actual4 = getUnique(['abac', 'abab', 'aaaa', 'abab', 'a', 'ab', 'ba', 'aaa', 'aaaa', 'abac', 'ba', 'ba']);
-    const expected4 = ['abac', 'abab', 'aaaa', 'a', 'ab', 'ba', 'aaa'];
-    t.same(actual4 == expected4);
-	
     const actual5 = getUnique(['a', 'b', 'c', 'd', 1, 2, 3, 4]);
     const expected5 = ['a', 'b', 'c', 'd', 1, 2, 3, 4];
-    t.same(actual5 == expected5);
+    t.same(actual5 == expected5)
 });
 
 test('deepExtend() method', t => {
