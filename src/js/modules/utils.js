@@ -15,12 +15,12 @@ export function truncate (string, n) {
  */
 export function getUnique (array) {
  var n = {},r=[];
-	for(var i = 0; i < this.length; i++) 
+	for(var i = 0; i < array.length; i++) 
 	{
-		if (!n[this[i]]) 
+		if (!n[array[i]]) 
 		{
-			n[this[i]] = true; 
-			r.push(this[i]); 
+			n[array[i]] = true; 
+			r.push(array[i]); 
 		}
 	}
 	return r;
