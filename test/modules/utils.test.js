@@ -27,6 +27,12 @@ test('getUnique() method', t => {
     t.same(actual, expected);
 });
 
+test('getUnique() method', t => {
+    const actual2 = getUnique([ 'a', 'a']);
+    const expected2 = ['a'];
+    t.same(actual2, expected2);
+});
+
 test('deepExtend() method', t => {
     const defaults = {
         a: 1,
