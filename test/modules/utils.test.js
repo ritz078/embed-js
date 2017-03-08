@@ -10,7 +10,7 @@ test('toUrl() method', t => {
     t.ok(actual2 === expected)
 });
 
-test('trucate() method', t => {
+test('truncate() method', t => {
     const actual = truncate('Est fidelis fuga', 10);
     const expected = 'Est fidel...';
     t.ok(actual === expected);
@@ -22,9 +22,26 @@ test('trucate() method', t => {
 });
 
 test('getUnique() method', t => {
-    const actual = getUnique([1, 3, 'a', 'a', 1,'1', 5]);
-    const expected = [1, 3, 'a','1' 5];
-    t.same(actual, expected)
+    const actual = getUnique([1, 3, 'a', 'a', 1, 5]);
+    const expected = [1, 3, 'a', 5];
+    t.same(actual, expected);
+});
+
+test('getUnique() method', t => {
+    const actual2 = getUnique([ 'a', 'a']);
+    const expected2 = ['a'];
+    t.same(actual2, expected2);
+});
+
+test('getUnique() method', t => {
+    const actual3 = getUnique([]);
+    const expected3 = [];
+    t.same(actual3, expected3);
+});
+test('getUnique() method', t => {
+    const actual4 = getUnique(['ab', 'ab', 5, 4, 'aaaa', 'aa', 'aaa', 'aa', 'abab', 1, 4, 4, 1, 'abab']);
+    const expected4 = ['ab', 5, 4, 'aaaa', 'aa', 'aaa', 'abab', 1];
+    t.same(actual4, expected4);
 });
 
 test('deepExtend() method', t => {
