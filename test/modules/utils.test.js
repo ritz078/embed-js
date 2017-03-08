@@ -20,6 +20,11 @@ test('truncate() method', t => {
     t.ok(actual2 === expected2);
 	
 });
+test('truncate() method', t => {
+    const actual3 = truncate('fuga', 4);
+    const expected3 = 'fug...';
+    t.ok(actual3 === expected3);
+});
 
 test('getUnique() method', t => {
     const actual = getUnique([1, 3, 'a', 'a', 1, 5]);
