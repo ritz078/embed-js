@@ -110,11 +110,6 @@ test('createText() method',t => {
 		const expected3= 'Hello world';
 		t.same(actual3, expected3);
 	
-		const str4 = '';
-		const embeds4 = [ { index: 13, text: 'me' }, { index: 4, text: 'this' }, { index: 9, text: 'is'} ];
-		const actual4 = createText(str4, embeds4);
-		const expected4= 'this is me';
-		t.same(actual4, expected4);
 	
 		const str5 = '';
 		const embeds5 = [];
