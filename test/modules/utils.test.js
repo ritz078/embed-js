@@ -78,6 +78,12 @@ test('createText() method',t => {
 
 		const actual = createText(str, embeds);
 		const expected = 'This is embed.js bar john foo';
-
-		t.same(actual, expected)
+		t.same(actual, expected);
+	
+		const str2 = 'Hello world';
+		const embeds2 = [ { index: 13, text: 'me' }, { index: 4, text: 'this' }, { index: 9, text: 'is'} ];
+		const actual2 = createText(str2, embeds2);
+		const expected2= 'Hello world this is me';
+		t.same(actual2, expected2);
+		
 });
