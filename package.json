@@ -90,7 +90,7 @@
     "commit": "git-cz",
     "lint": "eslint src/js/**/*.js",
     "lintfix": "eslint --fix src/js/**/*.js",
-    "test": "ava test/**/*.test.js --require babel-register",
+    "test": "ava test/**/*.test.js --require babel-register && npm run lint",
     "build": "rollup -c rollup.umd.config.js && rollup.es2015.config.js",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
     "prepublish": "grunt dist"
