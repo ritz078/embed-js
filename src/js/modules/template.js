@@ -93,14 +93,14 @@ export default {
     if (match.indexOf('/embed/') < 0) {
       id.splice(1, 0, 'embed')
     }
-	console.log("ustream");
-	console.log(id);
+
     //check if '//www.' is there in the link
+    let prefix='';
     if(match.indexOf('/www\.ustream\.tv/') < 0){
-      return `<div class="ejs-embed ejs-ustream"><iframe src="//www.${id.join('/')}" height="${options.videoHeight}" width="${options.videoWidth}"></iframe></div>`
+      prefix=prefix+'//www.';
     }
     
-    return `<div class="ejs-embed ejs-ustream"><iframe src="${id.join('/')}" height="${options.videoHeight}" width="${options.videoWidth}"></iframe></div>`
+    return `<div class="ejs-embed ejs-ustream"><iframe src="${prefix}${id.join('/')}" height="${options.videoHeight}" width="${options.videoWidth}"></iframe></div>`
   },
 
   detailsVimeo (data, fullData, embedUrl) {
