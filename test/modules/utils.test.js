@@ -32,6 +32,12 @@ test('truncate() method', t => {
     t.ok(actual4 === expected4);
 });
 
+test('truncate() method', t => {
+    const actual5 = truncate('', 8);
+    const expected5 = '';
+    t.ok(actual5 === expected5);
+});
+
 test('getUnique() method', t => {
     const actual = getUnique([1, 3, 'a', 'a', 1, 5]);
     const expected = [1, 3, 'a', 5];
