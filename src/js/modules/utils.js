@@ -14,16 +14,16 @@ export function truncate (string, n) {
  * @returns {Array}     Array with unique values.
  */
 export function getUnique (array) {
- var n = {},r=[];
-	for(var i = 0; i < array.length; i++) 
-	{
-		if (!n[array[i]]) 
-		{
-			n[array[i]] = true; 
-			r.push(array[i]); 
-		}
-	}
-	return r;
+  var u = {},
+    a = []
+
+  array.forEach((value) => {
+    if (!u.hasOwnProperty(value)) {
+      a.push(value)
+      u[value] = 1
+    }
+  })
+  return a
 }
 
 /**
