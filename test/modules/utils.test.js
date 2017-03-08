@@ -27,6 +27,23 @@ test('getUnique() method', t => {
     t.same(actual, expected);
 });
 
+test('getUnique() method', t => {
+    const actual2 = getUnique([ 'a', 'a']);
+    const expected2 = ['a'];
+    t.same(actual2, expected2);
+});
+
+test('getUnique() method', t => {
+    const actual3 = getUnique([]);
+    const expected3 = [];
+    t.same(actual3, expected3);
+});
+test('getUnique() method', t => {
+    const actual4 = getUnique(['ab', 'ab', 5, 4, 'aaaa', 'aa', 'aaa', 'aa', 'abab', 1, 4, 4, 1, 'abab']);
+    const expected4 = ['ab', 5, 4, 'aaaa', 'aa', 'aaa', 'abab', 1];
+    t.same(actual4, expected4);
+});
+
 test('deepExtend() method', t => {
     const defaults = {
         a: 1,
