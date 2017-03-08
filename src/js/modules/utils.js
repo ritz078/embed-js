@@ -71,11 +71,24 @@ function sortObject (arr) {
  * @param  {object} embeds Sorted array of iframe html
  * @return {string}        String to be rendered
  */
-export function createText (str, embeds) {
-  let sortedEmbeds = sortObject(embeds)
-  for (let i = 0; i < sortedEmbeds.length; i++) {
-    str += ` ${sortedEmbeds[i].text}`
-  }
+export function createText (str, embeds) 
+{
+	let sortedEmbeds = sortObject(embeds)
+	if(str=='')
+	{
+		str += `${sortedEmbeds[0].text}`
+		for(let i = 1; i < sortedEmbeds.length; i++) 
+		{
+			str += ` ${sortedEmbeds[i].text}`
+		}
+	}
+	else
+	{
+  		for (let i = 0; i < sortedEmbeds.length; i++) 
+  		{
+    			str += ` ${sortedEmbeds[i].text}`
+  		}
+	}
   return str
 }
 
