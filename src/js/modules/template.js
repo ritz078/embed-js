@@ -94,12 +94,12 @@ export default {
       id.splice(1, 0, 'embed')
     }
 
-    //check if '//www.' is there in the link
-    let prefix='';
-    if(match.indexOf('/www\.ustream\.tv/') < 0){
-      prefix=prefix+'//www.';
+    // check if '//www.' is there in the link
+    let prefix = ''
+    if (match.indexOf('/www\.ustream\.tv/') < 0) {
+      prefix = prefix + '//www.'
     }
-    
+
     return `<div class="ejs-embed ejs-ustream"><iframe src="${prefix}${id.join('/')}" height="${options.videoHeight}" width="${options.videoWidth}"></iframe></div>`
   },
 
