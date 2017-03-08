@@ -20,6 +20,23 @@ test('truncate() method', t => {
     t.ok(actual2 === expected2);
 	
 });
+test('truncate() method', t => {
+    const actual3 = truncate('fuga', 4);
+    const expected3 = 'fug...';
+    t.ok(actual3 === expected3);
+});
+
+test('truncate() method', t => {
+    const actual4 = truncate('fidelis', 8);
+    const expected4 = 'fidelis';
+    t.ok(actual4 === expected4);
+});
+
+test('truncate() method', t => {
+    const actual5 = truncate('', 8);
+    const expected5 = '';
+    t.ok(actual5 === expected5);
+});
 
 test('getUnique() method', t => {
     const actual = getUnique([1, 3, 'a', 'a', 1, 5]);
