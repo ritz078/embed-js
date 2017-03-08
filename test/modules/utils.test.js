@@ -116,5 +116,11 @@ test('createText() method',t => {
 		const expected4= 'this is me';
 		t.same(actual4, expected4);
 	
+		const str5 = '';
+		const embeds5 = [];
+		const actual5 = createText(str5, embeds5);
+		const expected5= '';
+		t.same(actual5, expected5);
+	
 	
 });
