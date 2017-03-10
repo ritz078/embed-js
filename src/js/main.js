@@ -227,6 +227,7 @@ export default class EmbedJS {
 				[output, embeds] = baseEmbed(input, output, embeds, options, regex.flickr, 'flickr');
 				[output, embeds] = baseEmbed(input, output, embeds, options, regex.instagram, 'instagram');
 				[output, embeds] = baseEmbed(input, output, embeds, options, regex.basicImage, 'image', options.imageEmbed);
+				[output, embeds] = baseEmbed(input, output, embeds, options, regex.facebook, 'facebook');
 
 				if (ifEmbed(options, 'gist')) {
 					[output, embeds] = new Gist(input, output, options, embeds).process()

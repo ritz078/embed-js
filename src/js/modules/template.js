@@ -64,6 +64,14 @@ export default {
     return `<div class="ejs-embed ejs-instagram"><iframe src="${toUrl(match.split('/?')[0])}/embed/" height="${options.videoHeight}"></iframe></div>`
   },
 
+  facebook (match, options) {
+    //check  if it is a video or a post
+    let prefix = ''
+    match.indexOf('/videos/') < 0 ? prefix = prefix + 'post' : prefix = prefix + 'video'
+    
+    return `<div class="ejs-embed ejs-facebook"><iframe src="https://www.facebook.com/plugins/${prefix}.php?href=${toUrl(match.split('/?')[0])}" height="${options.videoHeight}" target="_top" ></iframe></div>`
+  },
+
   slideShare (html) {
     return `<div class="ejs-embed ejs-slideshare">${html}</div>`
   },
@@ -74,7 +82,7 @@ export default {
 
   dailymotion (match, options) {
     const id = lastElement(match.split('/'))
-    return `<div class="ejs-video ejs-embed"><iframe src="http://www.dailymotion.com/embed/video/${id}" height="${options.videoHeight}" width="${options.videoWidth}"></iframe></div>`
+    return `<div class="ejs-video ejs-embed"><iframe src="http://www.dailymotion.com/embed/video/${id}" height="${options.videoHeight}" width="${options.videoWidth}" ></iframe></div>`
   },
 
   liveleak (match, options) {
