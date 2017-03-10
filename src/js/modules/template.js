@@ -65,10 +65,9 @@ export default {
   },
 
   facebook (match, options) {
-    //check  if it is a video or a post
+    // check  if it is a video or a post
     let prefix = ''
-    match.indexOf('/videos/') < 0 ? prefix = prefix + 'post' : prefix = prefix + 'video'
-    
+    match.indexOf('/videos/') < 0 ? prefix = prefix + 'post' : prefix = prefix + 'video'    
     return `<div class="ejs-embed ejs-facebook"><iframe src="https://www.facebook.com/plugins/${prefix}.php?href=${toUrl(match.split('/?')[0])}" height="${options.videoHeight}" target="_top" ></iframe></div>`
   },
 
