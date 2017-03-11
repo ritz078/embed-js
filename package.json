@@ -100,7 +100,8 @@
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
     "prepublish": "grunt dist",
     "e2e": "node_modules/.bin/nightwatch",
-    "e2e:saucelabs": "npm run e2e -- --env saucelabs"
+    "e2e:saucelabs": "npm run e2e -- --env saucelabs",
+    "postinstall": "node nightwatch.conf.js"
   },
   "config": {
     "commitizen": {
