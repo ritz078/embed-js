@@ -74,22 +74,12 @@ function sortObject (arr) {
 export function createText (str, embeds) 
 {
 	let sortedEmbeds = sortObject(embeds)
-	if(str=='' && sortedEmbeds.length>0)
+	for (let i = 0; i < sortedEmbeds.length; i++)
 	{
-		str += `${sortedEmbeds[0].text}`
-		for(let i = 1; i < sortedEmbeds.length; i++) 
-		{
-			str += ` ${sortedEmbeds[i].text}`
-		}
+		const x = sortedEmbeds[i].text
+		str += (str=='' && i===0) ?  `${x}` : ` ${x}`
 	}
-	else
-	{
-  		for (let i = 0; i < sortedEmbeds.length; i++) 
-  		{
-    			str += ` ${sortedEmbeds[i].text}`
-  		}
-	}
-  return str
+	return str
 }
 
 /**
