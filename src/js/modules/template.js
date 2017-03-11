@@ -66,9 +66,8 @@ export default {
 
   facebook (match, options) {
     // check  if it is a video or a post
-    let prefix = ''
-    match.indexOf('/videos/') < 0 ? prefix = prefix + 'post' : prefix = prefix + 'video'
-    return `<div class="ejs-embed ejs-facebook"><iframe src="https://www.facebook.com/plugins/${prefix}.php?href=${toUrl(match.split('/?')[0])}" height="${options.videoHeight}" target="_top" ></iframe></div>`
+    const type = match.indexOf('/videos/') < 0 ? 'post' : 'video'
+    return `<div class="ejs-embed ejs-facebook"><iframe src="https://www.facebook.com/plugins/${type}.php?href=${toUrl(match.split('/?')[0])}" height="${options.videoHeight}" target="_top" ></iframe></div>`
   },
 
   slideShare (html) {
@@ -81,7 +80,7 @@ export default {
 
   dailymotion (match, options) {
     const id = lastElement(match.split('/'))
-    return `<div class="ejs-video ejs-embed"><iframe src="http://www.dailymotion.com/embed/video/${id}" height="${options.videoHeight}" width="${options.videoWidth}" ></iframe></div>`
+    return `<div class="ejs-video ejs-embed"><iframe src="http://www.dailymotion.com/embed/video/${id}" height="${options.videoHeight}" width="${options.videoWidth}"></iframe></div>`
   },
 
   liveleak (match, options) {
