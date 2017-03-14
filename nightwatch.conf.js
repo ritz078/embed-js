@@ -22,7 +22,7 @@ const config = { // we use a nightwatch.conf.js file so we can include comments 
   "test_settings": {
     "saucelabs": {
       "launch_url": "http://localhost", // we're testing a Public or "staging" site on Saucelabs
-      "selenium_port": 80,
+      "selenium_port": 4445,
       "selenium_host": "ondemand.saucelabs.com",
       "silent": true,
       "screenshots": {

@@ -87,6 +87,7 @@
     "rollup-plugin-filesize": "^1.0.1",
     "rollup-plugin-node-resolve": "^2.0.0",
     "rollup-plugin-uglify": "^1.0.1",
+    "saucelabs": "^1.4.0",
     "selenium-download": "^2.0.9",
     "semantic-release": "^6.3.2"
   },
