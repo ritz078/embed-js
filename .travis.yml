@@ -1,0 +1,21 @@
+language: node_js
+cache:
+  directories:
+    - node_modules
+notifications:
+  email: false
+node_js:
+  - '6'
+before_script:
+  - npm prune
+before_install:
+  - npm i -g grunt-cli
+  - npm i -g rollup
+  - gem install sass
+after_success:
+  - npm run semantic-release
+branches:
+  except:
+    - /^v\d+\.\d+\.\d+$/
+addons:
+  sauce_connect: true

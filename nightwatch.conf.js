@@ -1,7 +1,7 @@
 require('env2')('./.env'); // optionally store your environment variables in .env
 const PKG = require('./package.json'); // so we can get the version of the project
 const BINPATH = './node_modules/nightwatch/bin/'; // change if required.
-const SCREENSHOT_PATH = "./node_modules/nightwatch/screenshots/" + PKG.version + "/";
+const SCREENSHOT_PATH = "./screenshots/" + PKG.version + "/";
 
 const config = { // we use a nightwatch.conf.js file so we can include comments and helper functions
   "src_folders": [
@@ -31,6 +31,7 @@ const config = { // we use a nightwatch.conf.js file so we can include comments 
       },
       "username" : process.env.SAUCE_USERNAME,     // if you want to use Saucelabs remember to
       "access_key" : process.env.SAUCE_ACCESS_KEY, // export your environment variables (see readme)
+			"tunnel-identifier":process.env.TRAVIS_JOB_NUMBER,
       "globals": {
         "waitForConditionTimeout": 10000    // wait for content on the page before continuing
       }
