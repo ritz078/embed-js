@@ -101,8 +101,8 @@
     "build": "rollup -c rollup.umd.config.js && rollup.es2015.config.js",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
     "prepublish": "grunt dist",
-    "e2e": "grunt dist && node_modules/.bin/nightwatch",
-    "e2e:saucelabs": "npm run e2e -- --env saucelabs -e chrome,ie11,android_s4_emulator,iphone_6_simulator",
+    "e2e": "grunt dist && node_modules/.bin/nightwatch -e local",
+    "e2e:saucelabs": "npm run e2e -- -e chrome,ie11,android_s4_emulator,iphone_6_simulator",
     "postinstall": "node nightwatch.conf.js"
   },
   "config": {

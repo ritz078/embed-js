@@ -20,7 +20,7 @@ const config = { // we use a nightwatch.conf.js file so we can include comments 
 	},
 	"test_workers": { "enabled": true, "workers": "auto" }, // perform tests in parallel where possible
 	"test_settings": {
-		"saucelabs": {
+		"default": {
 			"launch_url": "http://ondemand.saucelabs.com:80", // we're testing a Public or "staging" site on Saucelabs
 			"selenium_port": 80,
 			"selenium_host": "ondemand.saucelabs.com",
@@ -39,7 +39,7 @@ const config = { // we use a nightwatch.conf.js file so we can include comments 
 				build: `build-${process.env.TRAVIS_JOB_NUMBER}`
 			}
 		},
-		"default": {
+		"local": {
 			"launch_url": "http://localhost",
 			"selenium_port": 4444,
 			"selenium_host": "127.0.0.1",
