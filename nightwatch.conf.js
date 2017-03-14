@@ -21,7 +21,7 @@ const config = { // we use a nightwatch.conf.js file so we can include comments 
 	"test_workers": { "enabled": true, "workers": "auto" }, // perform tests in parallel where possible
 	"test_settings": {
 		"default": {
-			"launch_url": "http://ondemand.saucelabs.com:80", // we're testing a Public or "staging" site on Saucelabs
+			"launch_url": "http://ondemand.saucelabs.com:80", // we're testing a local site
 			"selenium_port": 80,
 			"selenium_host": "ondemand.saucelabs.com",
 			"silent": true,
@@ -35,8 +35,8 @@ const config = { // we use a nightwatch.conf.js file so we can include comments 
 				"waitForConditionTimeout": 10000    // wait for content on the page before continuing
 			},
 			"desiredCapabilities": {
-				"tunnel-identifier": process.env.TRAVIS_JOB_NUMBER,
-				build: `build-${process.env.TRAVIS_JOB_NUMBER}`
+				"tunnel-identifier": process.env.TRAVIS_JOB_NUMBER, // needed for sauce-connect, i.e for testing localhost on saucelabs
+				build: `build-${process.env.TRAVIS_JOB_NUMBER}` // needed for sauce-connect
 			}
 		},
 		"local": {
