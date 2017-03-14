@@ -21,8 +21,8 @@ const config = { // we use a nightwatch.conf.js file so we can include comments 
   "test_workers" : {"enabled" : true, "workers" : "auto"}, // perform tests in parallel where possible
   "test_settings": {
     "saucelabs": {
-      "launch_url": "http://localhost", // we're testing a Public or "staging" site on Saucelabs
-      "selenium_port": 4445,
+      "launch_url": "http://ondemand.saucelabs.com:80", // we're testing a Public or "staging" site on Saucelabs
+      "selenium_port": 80,
       "selenium_host": "ondemand.saucelabs.com",
       "silent": true,
       "screenshots": {
@@ -31,10 +31,13 @@ const config = { // we use a nightwatch.conf.js file so we can include comments 
       },
       "username" : process.env.SAUCE_USERNAME,     // if you want to use Saucelabs remember to
       "access_key" : process.env.SAUCE_ACCESS_KEY, // export your environment variables (see readme)
-			"tunnel-identifier":process.env.TRAVIS_JOB_NUMBER,
       "globals": {
         "waitForConditionTimeout": 10000    // wait for content on the page before continuing
-      }
+      },
+			"desiredCapabilities": {
+				"tunnel-identifier":process.env.TRAVIS_JOB_NUMBER,
+				build: `build-${TRAVIS_JOB_NUMBER}`
+			}
     },
     "default": {
       "launch_url": "http://localhost",
