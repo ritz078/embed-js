@@ -281,6 +281,7 @@ export default class EmbedJS {
 		return new Promise((resolve) => {
 			this.process().then((data) => {
 				this.options.input.innerHTML = data;
+				this.options.input.className += ' embed-js-applied';
 				this.applyListeners();
 				resolve(this.data);
 			})

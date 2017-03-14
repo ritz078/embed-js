@@ -62,6 +62,7 @@
     "eslint-config-standard": "^6.2.1",
     "eslint-plugin-promise": "^3.4.2",
     "eslint-plugin-standard": "^2.0.1",
+    "express": "^4.15.2",
     "fetch-jsonp": "^1.0.0",
     "grunt": "^0.4.5",
     "grunt-cli": "^1.1.0",
@@ -99,7 +100,7 @@
     "build": "rollup -c rollup.umd.config.js && rollup.es2015.config.js",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
     "prepublish": "grunt dist",
-    "e2e": "node_modules/.bin/nightwatch",
+    "e2e": "grunt dist && node_modules/.bin/nightwatch",
     "e2e:saucelabs": "npm run e2e -- --env saucelabs",
     "postinstall": "node nightwatch.conf.js"
   },
@@ -111,7 +112,7 @@
   "dependencies": {
     "unfetch": "^2.0.0"
   },
-  "engines" : {
-    "node" : ">=6.0.0"
+  "engines": {
+    "node": ">=6.0.0"
   }
 }
