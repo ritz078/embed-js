@@ -1,18 +1,16 @@
-function makeServer(name, done) {
+function makeServer(port, done) {
 	var express = require('express');
 	var path = require('path');
 	var app = express();
 
-	app.use(express.static('dist'))
+	app.use('/test/static', express.static('dist'))
 
-	app.get('/', function (req, res) {
-		res.status(200).sendFile(`test/html/${name}.html`, {root: path.resolve()});
+	app.get('/test/:html', function (req, res) {
+		res.status(200).sendFile(`test/html/${req.params.html}.html`, {root: path.resolve()});
 	});
-	var server = app.listen(3000, function () {
-		var port = server.address().port;
+	var server = app.listen(port, function () {
 		done()
 	});
 	return server;
 }
 module.exports = makeServer;
-

@@ -39,6 +39,12 @@ $border-color: #eeeeee;
   border: 1px solid $border-color;
   height: 372px;
 }
+.ejs-facebook iframe {
+  border: 1px solid $border-color;
+  overflow: auto;
+  background: #fff;
+}
+
 
 .ejs-plunker iframe {
   background-color: #fff;
