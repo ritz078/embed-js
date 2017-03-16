@@ -1,19 +1,22 @@
 var conf = require('../../nightwatch.conf');
+var getPort = require('get-port')
 
-var server;
+var server, port;
 module.exports = {
 	before: function (browser, done) {
-		server = require('../server')(done)
+		getPort().then(function(availablePort) {
+			port = availablePort
+			server = require('../server')(port, done)
+		})
 	},
 
-	after: function (browser) {
-		browser.end()
+	after: function () {
 		server.close()
 	},
 
 	'Smiley': function (browser) {
 		browser
-			.url('localhost:3000/test/smiley')   // visit the url
+			.url(`localhost:${port}/test/smiley`)   // visit the url
 			.waitForElementVisible('.embed-js-applied'); // wait for the body to be rendered
 
 		browser
@@ -21,11 +24,12 @@ module.exports = {
 			'Lotus eleates vix attrahendams  luna est.Advenas mori!Fermiums prarere in cubiculum!Cum cacula cantare, omnes stellaes manifestum azureus, nobilis https://angularjs.org acipenseres.Cum orgia mori, omnes rationees '
 		) // assert contains
 			.saveScreenshot(conf.imgpath(browser) + 'embed.png')
+			.end()
 	},
 
 	'Facebook': function (browser) {
 		browser
-			.url('localhost:3000/test/facebook')   // visit the url
+			.url(`localhost:${port}/test/facebook`)   // visit the url
 			.waitForElementVisible('.embed-js-applied'); // wait for the body to be rendered
 
 		browser
@@ -33,5 +37,6 @@ module.exports = {
 			.frame(0)
 			.assert.elementPresent('#facebook') // assert contains
 			.saveScreenshot(conf.imgpath(browser) + 'embed.png')
+			.end()
 	}
 };

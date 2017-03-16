@@ -2704,6 +2704,10 @@ get-pixels@~3.3.0:
     request "^2.44.0"
     through "^2.3.4"
 
+get-port@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/get-port/-/get-port-3.0.0.tgz#03ac1c58f12b5f36667f4b705ecd29fb251df603"
+
 get-stdin@^4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/get-stdin/-/get-stdin-4.0.1.tgz#b968c6b0a04384324902e8bf1a5df32579a450fe"
