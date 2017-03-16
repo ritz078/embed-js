@@ -8,3 +8,7 @@ embed.js.sublime-workspace
 .sass-cache
 bower_components
 dist
+reports
+screenshots
+selenium-debug.log
+*.env
