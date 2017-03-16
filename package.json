@@ -103,7 +103,7 @@
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
     "prepublish": "grunt dist",
     "e2e": "grunt dist && node_modules/.bin/nightwatch -e local",
-    "e2e:saucelabs": "grunt dist && node_modules/.bin/nightwatch -e chromemac,ie11,android_s4_emulator,iphone_6_simulator",
+    "e2e:saucelabs": "grunt dist && node_modules/.bin/nightwatch -e chromemac,ie11,firefox",
     "postinstall": "node nightwatch.conf.js"
   },
   "config": {
