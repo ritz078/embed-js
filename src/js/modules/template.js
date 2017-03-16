@@ -64,6 +64,12 @@ export default {
     return `<div class="ejs-embed ejs-instagram"><iframe src="${toUrl(match.split('/?')[0])}/embed/" height="${options.videoHeight}"></iframe></div>`
   },
 
+  facebook (match, options) {
+    // check  if it is a video or a post
+    const type = match.indexOf('/videos/') < 0 ? 'post' : 'video'
+    return `<div class="ejs-embed ejs-facebook"><iframe src="https://www.facebook.com/plugins/${type}.php?href=${toUrl(match.split('/?')[0])}" height="${options.videoHeight}" target="_top" ></iframe></div>`
+  },
+
   slideShare (html) {
     return `<div class="ejs-embed ejs-slideshare">${html}</div>`
   },

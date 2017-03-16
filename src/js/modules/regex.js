@@ -15,6 +15,7 @@ const regex = {
   basicImage: /((?:https?):\/\/\S*\.(?:gif|jpg|jpeg|tiff|png|svg|webp))/gi,
   flickr: /flickr.com\/[a-z]+\/[a-zA-Z@_$!\d\-\]+\/[\d]+/gi,
   instagram: /instagram.com\/p\/[a-zA-Z0-9_\/\?\-\=]+/gi,
+  facebook: /((https?:\/\/)?www\.facebook\.com\/(?:(videos|posts)\.php\?v=\d+|.*?\/(videos|posts)\/\d+\/?))/gi,
   slideShare: /slideshare.net\/[a-zA-Z0-9_-]*\/[a-zA-Z0-9_-]*/gi,
   github: /[^\.]github.com\/([\w\.\-]+)\/([\w\.\-]+)/gi,
   basicVideo: /(?:https?):\/\/\S*\.(?:ogv|webm|mp4)/gi,
