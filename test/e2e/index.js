@@ -6,7 +6,8 @@ module.exports = {
 		server = require('../server')(done)
 	},
 
-	after: function () {
+	after: function (browser) {
+		browser.end()
 		server.close()
 	},
 
@@ -20,7 +21,6 @@ module.exports = {
 			'Lotus eleates vix attrahendams  luna est.Advenas mori!Fermiums prarere in cubiculum!Cum cacula cantare, omnes stellaes manifestum azureus, nobilis https://angularjs.org acipenseres.Cum orgia mori, omnes rationees '
 		) // assert contains
 			.saveScreenshot(conf.imgpath(browser) + 'embed.png')
-			.end()
 	},
 
 	'Facebook': function (browser) {
@@ -29,10 +29,9 @@ module.exports = {
 			.waitForElementVisible('.embed-js-applied'); // wait for the body to be rendered
 
 		browser
-			.pause(5000)
+			.pause(2000)
 			.frame(0)
 			.assert.elementPresent('#facebook') // assert contains
 			.saveScreenshot(conf.imgpath(browser) + 'embed.png')
-			.end()
 	}
 };
