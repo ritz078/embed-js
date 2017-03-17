@@ -102,9 +102,9 @@
     "build": "rollup -c rollup.umd.config.js && rollup.es2015.config.js",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
     "prepublish": "grunt dist",
-    "e2e": "grunt dist && node_modules/.bin/nightwatch -e local",
-    "e2e:saucelabs": "grunt dist && node_modules/.bin/nightwatch -e chromemac,firefox",
-    "postinstall": "node nightwatch.conf.js"
+    "e2e": "grunt dist && npm run install:selenium && node_modules/.bin/nightwatch -e local",
+    "e2e:saucelabs": "grunt dist && npm run install:selenium && node_modules/.bin/nightwatch -e chromemac,firefox",
+    "install:selenium": "node nightwatch.conf.js"
   },
   "config": {
     "commitizen": {
