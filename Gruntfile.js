@@ -44,7 +44,7 @@ module.exports = function (grunt) {
 				]
 			},
 			dist: {
-				src: '.tmp/embed.css',
+				src: 'dist/embed.css',
 				dest: 'dist/embed.min.css'
 			}
 		},
@@ -95,7 +95,7 @@ module.exports = function (grunt) {
 					style: 'expanded'
 				},
 				files: {
-					'dist/embed.css': 'src/css/embed.scss'
+					'.tmp/embed.css': 'src/css/embed.scss'
 				}
 			}
 		},
@@ -142,7 +142,7 @@ module.exports = function (grunt) {
 		'string-replace': {
 			dist: {
 				files: {
-					'dist/embed.css': 'dist/embed.css'
+					'dist/embed.css': '.tmp/embed.css'
 				},
 				options: {
 					replacements: [{
