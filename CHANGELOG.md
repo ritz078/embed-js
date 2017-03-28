@@ -1,3 +1,5 @@
+For the changelog of versions after 4.1.14 see the releases section.
+
 <a name="4.1.14"></a>
 ## [4.1.14](https://github.com/ritz078/embed.js/compare/v4.1.13...v4.1.14) (2017-02-22)
 
