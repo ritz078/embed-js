@@ -43,7 +43,7 @@ module.exports = {
                         .url(function(result){
                            var link = result.value
                            let id = link.split('/')
-                           this.verify.equal(id[6],'1402165223182741')  // id of the post must be same
+                           this.verify.equal(id.indexOf('/1402165223182741/') < 0, true)  // id of the post must be same
                         });
 
 		browser
