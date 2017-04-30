@@ -13,6 +13,10 @@
 <a href="https://www.producthunt.com/tech/embed-js">
 <img src="https://img.shields.io/badge/vote-producthunt-E45127.svg" alt="Producthunt" style="max-width:100%;">
 </a>
+<a href="https://www.paypal.me/ritz078/20usd" target="_blank">
+<img src="https://img.shields.io/badge/Donate-PayPal-green.svg" alt="paypal" style="max-width:100%;">
+</a>
+
 </p>
 
 > A JavaScript plugin that analyses the string and automatically embeds the supported emojis, media, maps, tweets, code and services.
