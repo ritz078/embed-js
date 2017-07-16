@@ -1,0 +1,17 @@
+sudo: false
+language: node_js
+cache:
+  directories:
+    - node_modules
+notifications:
+  email: false
+# whitelist
+branches:
+  only:
+    - master
+before_script:
+  - npm prune
+script:
+  - yarn lint && yarn test
+after_success:
+  - yarn semantic-release

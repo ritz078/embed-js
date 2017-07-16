@@ -1,0 +1,89 @@
+{
+  "name": "embed-js",
+  "version": "0.0.0-semantically-released",
+  "description": "A boilerplate to write plugins in pure JavaScript using ES2015",
+  "main": "dist/lunar.umd.js",
+  "module": "dist/lunar.es.js",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "commit": "git cz",
+    "test": "mocha --require ./tests/config/setup './tests/**/*.test.js'",
+    "test:watch": "mocha --require ./tests/config/setup './tests/**/*.test.js' --watch",
+    "test:cover": "istanbul cover -x *.test.js _mocha -- -R spec --require ./tests/config/setup './tests/**/*.test.js'",
+    "test:report": "cat ./coverage/lcov.info | codecov && rm -rf ./coverage",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post",
+    "build": "npm run build:umd && npm run build:es && npm run build:cjs && npm run build:umd:min",
+    "build:umd": "rollup -c rollup.umd.js",
+    "build:umd:min": "rollup -c rollup.umd.min.js",
+    "build:es": "rollup -c rollup.es.js",
+    "build:cjs": "rollup -c rollup.cjs.js",
+    "build:watch": "concurrently 'npm run build:umd -- -w' 'npm run build:es -- -w' 'npm run build:cjs -- -w' 'npm run build:umd:min -- -w'",
+    "lint": "eslint src/**/*.js *.js tests/**/*.js",
+    "lint:fix": "npm run lint -- -fix",
+    "format": "prettier --write src/**/*.js *.js tests/**/*.js",
+    "prepublish": "npm run build",
+    "precommit": "lint-staged"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "babel-core": "^6.25.0",
+    "babel-preset-env": "^1.6.0",
+    "chai": "^4.1.0",
+    "codecov.io": "^0.1.6",
+    "concurrently": "^3.5.0",
+    "cz-conventional-changelog": "^2.0.0",
+    "eslint": "^4.2.0",
+    "eslint-config-prettier": "^2.3.0",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-node": "^5.1.0",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "husky": "^0.14.3",
+    "istanbul": "^1.1.0-alpha.1",
+    "jsdom": "^9.12.0",
+    "lint-staged": "^4.0.1",
+    "mocha": "^3.4.2",
+    "pascal-case": "^2.0.1",
+    "prettier-eslint-cli": "^4.1.1",
+    "rollup": "^0.45.2",
+    "rollup-plugin-buble": "^0.15.0",
+    "rollup-plugin-commonjs": "^8.0.2",
+    "rollup-plugin-filesize": "^1.4.2",
+    "rollup-plugin-json": "^2.3.0",
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-plugin-uglify": "^2.0.1",
+    "rollup-watch": "^4.3.1",
+    "semantic-release": "^6.3.6",
+    "sinon": "^2.3.8"
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-conventional-changelog"
+    }
+  },
+  "author": {
+    "name": "Ritesh Kumar",
+    "email": "rkritesh078@gmail.com",
+    "url": "https://github.com/ritz078"
+  },
+  "lint-staged": {
+    "src/**/*.js": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "homepage": "https://github.com/ritz078/javascript-plugin-boilerplate",
+  "dependencies": {
+    "create-html-element": "^1.0.0",
+    "html-linkify": "^1.2.2",
+    "just-extend": "^1.1.22",
+    "node-emoji": "^1.7.0",
+    "p-is-promise": "^1.1.0",
+    "p-waterfall": "^1.0.0",
+    "regex-emoji": "^2.0.5"
+  }
+}
