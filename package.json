@@ -71,7 +71,7 @@
     "url": "https://github.com/ritz078"
   },
   "lint-staged": {
-    "src/**/*.js": [
+    "'{src, tests}/**/*.js'": [
       "prettier --write",
       "git add"
     ]
