@@ -43,8 +43,6 @@ describe('Util: dom', () => {
 			const expected = 'Nunquam perdere <img src="https://a.jpg"/> olla <img src="https://b.jpg"/>.'
 
 			expect(insert(regex, template, opts).input).to.equal(expected)
-
-
 		})
 
 		it('should replace url when replaceUrl is true and URLs are with anchor', () => {

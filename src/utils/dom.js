@@ -15,18 +15,11 @@ function isMatchPresent(regex, text, test = false) {
 
 /**
  * Tells wheteher the matching string is present inside an anchor tag
- * @param regex
  * @param text
  * @returns {*} Boolean
  */
-function isMatchInAnchor(regex, text) {
-  let isPresent = false;
-  text.replace(anchorRegex, (match, url) => {
-    const x = isMatchPresent(regex, url, true);
-    if (x) isPresent = true;
-    return match;
-  });
-  return isPresent;
+function isAnchorTagApplied(text) {
+  return anchorRegex.test(text);
 }
 
 /**
@@ -73,13 +66,14 @@ function pushEmbedContent(text, regex, options, template, index) {
  * Save the embed code into an array that can be added later to the end of original string
  * @param regex
  * @param template
- * @param options
+ * @param opts
  */
 function saveEmbedData(regex, template, opts) {
   let options = extend({}, opts);
 
-  if (isMatchInAnchor(regex, options.input)) {
+  if (isAnchorTagApplied(options.input)) {
     options.input.replace(anchorRegex, (match, url, index) => {
+      if (!isMatchPresent(regex, match, true)) return match;
       options = pushEmbedContent(url, regex, options, template, index);
       return match;
     });
@@ -109,19 +103,27 @@ export function insert(regex, template, options) {
     return saveEmbedData(regex, template, { input, _embeds });
   }
 
-  const output = !isMatchInAnchor(regex, input)
-    ? input.replace(
-        regex,
-        (...args) =>
-          replaceUrl ? template(args) : args[0] + " " + template(args)
-      )
-    : input.replace(anchorRegex, (match, url) => {
-        if (!replaceUrl) {
-          const args = url.match(regex);
-          return args ? match + template(normalizeArguments(url, args)) : match;
-        }
-        return url.replace(regex, (...args) => template(args));
-      });
+  let output;
+  if (isAnchorTagApplied(input)) {
+    output = input.replace(anchorRegex, (match, url) => {
+      if (!isMatchPresent(regex, url, true)) {
+        return match;
+      }
+
+      if (!replaceUrl) {
+        const args = url.match(regex);
+        return args ? match + template(normalizeArguments(url, args)) : match;
+      }
+
+      return url.replace(regex, (...args) => template(args));
+    });
+  } else {
+    output = input.replace(
+      regex,
+      (...args) =>
+        replaceUrl ? template(args) : args[0] + " " + template(args)
+    );
+  }
 
   return extend({}, options, {
     input: output
