@@ -11,10 +11,16 @@ const config = {
   moduleName: "EmbedJS",
   format: "umd",
   banner,
-	sourceMap: true,
-  plugins: [resolve({
-		extensions: [ '.js', '.json' ]
-	}), json(), commonjs(), buble(), fileSize()]
+  sourceMap: true,
+  plugins: [
+    resolve({
+      extensions: [".js", ".json"]
+    }),
+    json(),
+    commonjs(),
+    buble(),
+    fileSize()
+  ]
 };
 
 module.exports = config;

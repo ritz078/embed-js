@@ -6,13 +6,13 @@ const {describe, it} = global;
 
 describe('Plugin: emoji', () => {
 	it('should return a Promise when called', () => {
-		expect(isPromise(emoji()({
+		expect(isPromise(emoji().transform({
 			input: ':ok: hello :+1:'
 		}))).to.equal(true)
 	})
 
 	it('should convert URL into anchor', (done) => {
-		const x = emoji()({
+		const x = emoji().transform({
 			input: ':ok: hello :+1:'
 		})
 
@@ -23,7 +23,7 @@ describe('Plugin: emoji', () => {
 	})
 
 	it('should not parse the URL', (done) => {
-		const x = emoji()({
+		const x = emoji().transform({
 			input: ':ok: hello :+1: https://a.com:8071'
 		})
 

@@ -8,10 +8,13 @@ export default opts => {
   };
 
   const { attributes, escape } = extend({}, defaultOptions, opts);
-  return options =>
-    Promise.resolve(
-      extend({}, options, {
-        input: linkify(options.input, { attributes, escape })
-      })
-    );
+  return {
+    transform(options) {
+      return Promise.resolve(
+        extend({}, options, {
+          input: linkify(options.input, { attributes, escape })
+        })
+      );
+    }
+  };
 };

@@ -2,8 +2,9 @@
   "name": "embed-js",
   "version": "0.0.0-semantically-released",
   "description": "A boilerplate to write plugins in pure JavaScript using ES2015",
-  "main": "dist/lunar.umd.js",
-  "module": "dist/lunar.es.js",
+  "main": "dist/embed.umd.js",
+  "module": "dist/embed.es.js",
+  "browser": "dist/embed.umd.js",
   "files": [
     "dist",
     "src"
@@ -22,7 +23,7 @@
     "build:cjs": "rollup -c rollup.cjs.js",
     "build:watch": "concurrently 'npm run build:umd -- -w' 'npm run build:es -- -w' 'npm run build:cjs -- -w' 'npm run build:umd:min -- -w'",
     "lint": "eslint src/**/*.js *.js tests/**/*.js",
-    "lint:fix": "npm run lint -- -fix",
+    "lint:fix": "npm run lint -- --fix",
     "format": "prettier --write src/**/*.js *.js tests/**/*.js",
     "prepublish": "npm run build",
     "precommit": "lint-staged"
@@ -76,14 +77,12 @@
       "git add"
     ]
   },
-  "homepage": "https://github.com/ritz078/javascript-plugin-boilerplate",
+  "homepage": "https://github.com/ritz078/embed.js",
   "dependencies": {
-    "create-html-element": "^1.0.0",
     "html-linkify": "^1.2.2",
     "just-extend": "^1.1.22",
     "node-emoji": "^1.7.0",
     "p-is-promise": "^1.1.0",
-    "p-waterfall": "^1.0.0",
-    "regex-emoji": "^2.0.5"
+    "p-waterfall": "^1.0.0"
   }
 }

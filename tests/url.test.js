@@ -6,13 +6,13 @@ const {describe, it} = global;
 
 describe('Plugin: url', () => {
 	it('should return a function when called', () => {
-		expect(isPromise(url()({
+		expect(isPromise(url().transform({
 			input:'https://a.com'
 		}))).to.equal(true)
 	})
 
 	it('should convert URL into anchor', (done) => {
-		const x = url()({
+		const x = url().transform({
 			input:'https://a.com'
 		})
 
@@ -27,7 +27,7 @@ describe('Plugin: url', () => {
 			attributes: {
 				target: "_blank"
 			}
-		})({
+		}).transform({
 			input: 'hello https://world.com'
 		})
 

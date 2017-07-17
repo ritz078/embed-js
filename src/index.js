@@ -1,23 +1,35 @@
-import extend from "just-extend";
-import pWaterfall from "p-waterfall";
+import extend from 'just-extend'
+import pWaterfall from 'p-waterfall'
+import image from './plugins/image'
+import url from './plugins/url'
 
-class EmbedJS {
-  constructor(options) {
-    const defaultOptions = {
-      plugins: []
-    };
-
-    this.options = extend({}, defaultOptions, options);
-  }
-
-  process() {
-    const { plugins } = this.options;
-    return pWaterfall(plugins, this.options);
-  }
-
-  text(cb) {}
-
-  render() {}
+function transformArray (plugins) {
+	return plugins.map(p => p.transform)
 }
 
-export default EmbedJS;
+class EmbedJS {
+	constructor (options) {
+		const defaultOptions = {
+			plugins: [
+				url(),
+				image()
+			],
+			inlineEmbed: false,
+			replaceText: false,
+			_embeds: []
+		}
+
+		this.options = extend({}, defaultOptions, options)
+	}
+
+	process () {
+		const {plugins} = this.options
+		return pWaterfall(transformArray(plugins), this.options)
+	}
+
+	text (cb) {}
+
+	render () {}
+}
+
+export default EmbedJS
