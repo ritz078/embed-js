@@ -1,6 +1,6 @@
-import extend from "just-extend";
+import extend from "just-extend"
 
-const anchorRegex = /<a[^>]*>([^<]+)<\/a>/gi;
+const anchorRegex = /<a[^>]*>([^<]+)<\/a>/gi
 
 /**
  * Returns the matched regex data or whether the text has any matching string
@@ -10,7 +10,7 @@ const anchorRegex = /<a[^>]*>([^<]+)<\/a>/gi;
  * @returns {*} Boolean|Array
  */
 function isMatchPresent(regex, text, test = false) {
-  return test ? regex.test(text) : text.match(regex);
+	return test ? regex.test(text) : text.match(regex)
 }
 
 /**
@@ -19,7 +19,7 @@ function isMatchPresent(regex, text, test = false) {
  * @returns {*} Boolean
  */
 function isAnchorTagApplied(text) {
-  return anchorRegex.test(text);
+	return anchorRegex.test(text)
 }
 
 /**
@@ -28,7 +28,7 @@ function isAnchorTagApplied(text) {
  * @returns {Array.<T>}
  */
 function sortEmbeds(embeds) {
-  return embeds.sort((a, b) => a.index - b.index);
+	return embeds.sort((a, b) => a.index - b.index)
 }
 
 /**
@@ -37,9 +37,9 @@ function sortEmbeds(embeds) {
  * @returns {string}
  */
 function combineEmbedsText(embeds) {
-  const sortedEmbeds = sortEmbeds(embeds);
-  const contents = sortedEmbeds.map(({ content }) => content);
-  return contents.join(" ");
+	const sortedEmbeds = sortEmbeds(embeds)
+	const contents = sortedEmbeds.map(({ content }) => content)
+	return contents.join(" ")
 }
 
 /**
@@ -49,17 +49,17 @@ function combineEmbedsText(embeds) {
  * @returns {string}
  */
 export function appendEmbedsAtEnd({ input, _embeds }) {
-  return `${input} ${combineEmbedsText(_embeds)}`;
+	return `${input} ${combineEmbedsText(_embeds)}`
 }
 
 function pushEmbedContent(text, regex, options, template, index) {
-  text.replace(regex, (...args) => {
-    options._embeds.push({
-      content: template(args),
-      index: index || args.find(x => typeof x === "number")
-    });
-  });
-  return options;
+	text.replace(regex, (...args) => {
+		options._embeds.push({
+			content: template(args),
+			index: index || args.find(x => typeof x === "number")
+		})
+	})
+	return options
 }
 
 /**
@@ -69,24 +69,24 @@ function pushEmbedContent(text, regex, options, template, index) {
  * @param opts
  */
 function saveEmbedData(regex, template, opts) {
-  let options = extend({}, opts);
+	let options = extend({}, opts)
 
-  if (isAnchorTagApplied(options.input)) {
-    options.input.replace(anchorRegex, (match, url, index) => {
-      if (!isMatchPresent(regex, match, true)) return match;
-      options = pushEmbedContent(url, regex, options, template, index);
-      return match;
-    });
-  } else {
-    options = pushEmbedContent(options.input, regex, options, template);
-  }
+	if (isAnchorTagApplied(options.input)) {
+		options.input.replace(anchorRegex, (match, url, index) => {
+			if (!isMatchPresent(regex, match, true)) return match
+			options = pushEmbedContent(url, regex, options, template, index)
+			return match
+		})
+	} else {
+		options = pushEmbedContent(options.input, regex, options, template)
+	}
 
-  return options;
+	return options
 }
 
 function normalizeArguments(url, args) {
-  args.unshift(url);
-  return args;
+	args.unshift(url)
+	return args
 }
 
 /**
@@ -97,35 +97,34 @@ function normalizeArguments(url, args) {
  * @returns options
  */
 export function insert(regex, template, options) {
-  const { input, replaceUrl, inlineEmbed, _embeds } = options;
+	const { input, replaceUrl, inlineEmbed, _embeds } = options
 
-  if (!inlineEmbed) {
-    return saveEmbedData(regex, template, { input, _embeds });
-  }
+	if (!inlineEmbed) {
+		return saveEmbedData(regex, template, { input, _embeds })
+	}
 
-  let output;
-  if (isAnchorTagApplied(input)) {
-    output = input.replace(anchorRegex, (match, url) => {
-      if (!isMatchPresent(regex, url, true)) {
-        return match;
-      }
+	let output
+	if (isAnchorTagApplied(input)) {
+		output = input.replace(anchorRegex, (match, url) => {
+			if (!isMatchPresent(regex, url, true)) {
+				return match
+			}
 
-      if (!replaceUrl) {
-        const args = url.match(regex);
-        return args ? match + template(normalizeArguments(url, args)) : match;
-      }
+			if (!replaceUrl) {
+				const args = url.match(regex)
+				return args ? match + template(normalizeArguments(url, args)) : match
+			}
 
-      return url.replace(regex, (...args) => template(args));
-    });
-  } else {
-    output = input.replace(
-      regex,
-      (...args) =>
-        replaceUrl ? template(args) : args[0] + " " + template(args)
-    );
-  }
+			return url.replace(regex, (...args) => template(args))
+		})
+	} else {
+		output = input.replace(
+			regex,
+			(...args) => (replaceUrl ? template(args) : args[0] + " " + template(args))
+		)
+	}
 
-  return extend({}, options, {
-    input: output
-  });
+	return extend({}, options, {
+		input: output
+	})
 }

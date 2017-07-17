@@ -1,4 +1,4 @@
-const pkg = require("./package.json");
+const pkg = require("./package.json")
 
 const banner = `/*
  * ${pkg.name} - v${pkg.version}
@@ -8,6 +8,6 @@ const banner = `/*
  * Made by ${pkg.author.name}
  * Under ${pkg.license} License
  */
-`;
+`
 
-module.exports = banner;
+module.exports = banner

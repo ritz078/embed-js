@@ -24,7 +24,7 @@
     "build:watch": "concurrently 'npm run build:umd -- -w' 'npm run build:es -- -w' 'npm run build:cjs -- -w' 'npm run build:umd:min -- -w'",
     "lint": "eslint src/**/*.js *.js tests/**/*.js",
     "lint:fix": "npm run lint -- --fix",
-    "format": "prettier --write src/**/*.js *.js tests/**/*.js",
+    "format": "prettier --write --use-tabs --no-semi --tab-width 1 src/**/*.js *.js tests/**/*.js",
     "prepublish": "npm run build",
     "precommit": "lint-staged"
   },
