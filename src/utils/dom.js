@@ -52,10 +52,10 @@ export function appendEmbedsAtEnd({ input, _embeds }) {
 	return `${input} ${combineEmbedsText(_embeds)}`
 }
 
-function pushEmbedContent(text, regex, options, template, index) {
+function pushEmbedContent(text, regex, template, options, pluginOptions, index) {
 	text.replace(regex, (...args) => {
 		options._embeds.push({
-			content: template(args),
+			content: template(args, options, pluginOptions),
 			index: index || args.find(x => typeof x === "number")
 		})
 	})
@@ -68,17 +68,17 @@ function pushEmbedContent(text, regex, options, template, index) {
  * @param template
  * @param opts
  */
-function saveEmbedData(regex, template, opts) {
+function saveEmbedData(regex, template, opts, pluginOptions) {
 	let options = extend({}, opts)
 
 	if (isAnchorTagApplied(options.input)) {
 		options.input.replace(anchorRegex, (match, url, index) => {
 			if (!isMatchPresent(regex, match, true)) return match
-			options = pushEmbedContent(url, regex, options, template, index)
+			options = pushEmbedContent(url, regex, template, options, pluginOptions, index)
 			return match
 		})
 	} else {
-		options = pushEmbedContent(options.input, regex, options, template)
+		options = pushEmbedContent(options.input, regex, template, options, pluginOptions)
 	}
 
 	return options
@@ -94,13 +94,14 @@ function normalizeArguments(url, args) {
  * @param regex
  * @param template
  * @param options
+ * @param pluginOptions
  * @returns options
  */
-export function insert(regex, template, options) {
-	const { input, replaceUrl, inlineEmbed, _embeds } = options
+export function insert(regex, template, options, pluginOptions) {
+	const { input, replaceUrl, inlineEmbed } = options
 
 	if (!inlineEmbed) {
-		return saveEmbedData(regex, template, { input, _embeds })
+		return saveEmbedData(regex, template, options, pluginOptions)
 	}
 
 	let output
@@ -112,15 +113,15 @@ export function insert(regex, template, options) {
 
 			if (!replaceUrl) {
 				const args = url.match(regex)
-				return args ? match + template(normalizeArguments(url, args)) : match
+				return args ? match + template(normalizeArguments(url, args), options, pluginOptions) : match
 			}
 
-			return url.replace(regex, (...args) => template(args))
+			return url.replace(regex, (...args) => template(args, options, pluginOptions))
 		})
 	} else {
 		output = input.replace(
 			regex,
-			(...args) => (replaceUrl ? template(args) : `${args[0]} ${template(args)}`)
+			(...args) => (replaceUrl ? template(args, options, pluginOptions) : `${args[0]} ${template(args, options, pluginOptions)}`)
 		)
 	}
 
