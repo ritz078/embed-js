@@ -1,7 +1,13 @@
 import extend from 'just-extend'
 import {insert} from '../utils/dom'
 
-export default (pluginOptions) => {
+export default (opts) => {
+	const defaultOptions = {
+		replace: false
+	}
+
+	const pluginOptions = extend({}, defaultOptions, opts)
+
 	if(!pluginOptions.regex) {
 		throw new ReferenceError('regex is not passed in options.')
 	}

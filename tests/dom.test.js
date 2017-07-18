@@ -11,6 +11,10 @@ const options = {
 	_embeds: []
 }
 
+const pluginOptions = {
+	replace: false
+}
+
 const options2 = extend({}, options, {
 	input: 'Nunquam perdere <a href="https://a.jpg">https://a.jpg</a> olla <a href="https://b.jpg">https://b.jpg</a>.',
 })
@@ -26,14 +30,14 @@ describe('Util: dom', () => {
 		it('should append to url when replaceUrl is false and URLs are without anchor', () => {
 			const opts = extend({}, options)
 			const expected = 'Nunquam perdere https://a.jpg <img src="https://a.jpg"/> olla https://b.jpg <img src="https://b.jpg"/>.'
-			expect(insert(regex, template, opts).input).to.equal(expected)
+			expect(insert(regex, template, opts, pluginOptions).input).to.equal(expected)
 		})
 
 		it('should append to url when .inputreplaceUrl is false and URLs are with anchor', () => {
 			const expected = 'Nunquam perdere <a href="https://a.jpg">https://a.jpg</a><img src="https://a.jpg"/> olla <a href="https://b.jpg">https://b.jpg</a><img src="https://b.jpg"/>.'
 
 			const opts = extend({}, options2)
-			expect(insert(regex, template, opts).input).to.equal(expected)
+			expect(insert(regex, template, opts, pluginOptions).input).to.equal(expected)
 		})
 
 		it('should replace url when replaceUrl is true and URLs are without anchor', () => {
@@ -42,7 +46,7 @@ describe('Util: dom', () => {
 			})
 			const expected = 'Nunquam perdere <img src="https://a.jpg"/> olla <img src="https://b.jpg"/>.'
 
-			expect(insert(regex, template, opts).input).to.equal(expected)
+			expect(insert(regex, template, opts, pluginOptions).input).to.equal(expected)
 		})
 
 		it('should replace url when replaceUrl is true and URLs are with anchor', () => {
@@ -51,7 +55,7 @@ describe('Util: dom', () => {
 				replaceUrl: true
 			})
 
-			expect(insert(regex, template, opts).input).to.equal(expected)
+			expect(insert(regex, template, opts, pluginOptions).input).to.equal(expected)
 		})
 	})
 

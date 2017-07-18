@@ -111,7 +111,7 @@ export function insert(regex, template, options, pluginOptions) {
 				return match
 			}
 
-			if (!replaceUrl) {
+			if (!(replaceUrl || pluginOptions.replace)) {
 				const args = url.match(regex)
 				return args ? match + template(normalizeArguments(url, args), options, pluginOptions) : match
 			}
@@ -121,7 +121,7 @@ export function insert(regex, template, options, pluginOptions) {
 	} else {
 		output = input.replace(
 			regex,
-			(...args) => (replaceUrl ? template(args, options, pluginOptions) : `${args[0]} ${template(args, options, pluginOptions)}`)
+			(...args) => ((replaceUrl || pluginOptions.replace) ? template(args, options, pluginOptions) : `${args[0]} ${template(args, options, pluginOptions)}`)
 		)
 	}
 
