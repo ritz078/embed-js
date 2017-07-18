@@ -120,7 +120,7 @@ export function insert(regex, template, options) {
 	} else {
 		output = input.replace(
 			regex,
-			(...args) => (replaceUrl ? template(args) : args[0] + " " + template(args))
+			(...args) => (replaceUrl ? template(args) : `${args[0]} ${template(args)}`)
 		)
 	}
 

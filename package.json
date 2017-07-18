@@ -33,6 +33,7 @@
     "babel-core": "^6.25.0",
     "babel-preset-env": "^1.6.0",
     "chai": "^4.1.0",
+    "chai-html": "^1.1.4",
     "codecov.io": "^0.1.6",
     "concurrently": "^3.5.0",
     "cz-conventional-changelog": "^2.0.0",

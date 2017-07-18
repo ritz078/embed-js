@@ -1,5 +1,5 @@
 import extend from "just-extend"
-import { insert } from "../utils/dom"
+import basic from './basic'
 
 export default function(opts) {
 	const defaultOptions = {
@@ -8,11 +8,6 @@ export default function(opts) {
 			return `<img class="ejs-image" src="${args[1]}"/>`
 		}
 	}
-
-	const { regex, template } = extend({}, defaultOptions, opts)
-	return {
-		transform(options) {
-			return Promise.resolve(extend({}, options, insert(regex, template, options)))
-		}
-	}
+	const pluginOptions = extend({}, defaultOptions, opts)
+	return basic(pluginOptions)
 }

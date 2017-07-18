@@ -27,7 +27,9 @@ class EmbedJS {
 		return pWaterfall(transformArray(plugins), this.options)
 	}
 
-	text (cb) {}
+	text (cb) {
+		this.process().then(({input}) => cb(input))
+	}
 
 	render () {}
 }

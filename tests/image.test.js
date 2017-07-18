@@ -1,6 +1,9 @@
-import { expect } from 'chai'
+import chai, { expect } from 'chai'
 import isPromise from 'p-is-promise'
 import image from '../src/plugins/image'
+import chaiHtml from 'chai-html'
+
+chai.use(chaiHtml)
 
 const {describe, it} = global
 
@@ -21,7 +24,7 @@ describe('Plugin: image', () => {
 
 		x.then(({input}) => {
 			const expected = 'Nunquam perdere https://a.jpg <img class="ejs-image" src="https://a.jpg"/> olla https://b.jpg <img class="ejs-image" src="https://b.jpg"/>.'
-			expect(input).to.equal(expected)
+			expect(input).html.to.equal(expected)
 			done()
 		})
 	})
