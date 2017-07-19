@@ -1,7 +1,7 @@
-import extend from 'just-extend'
-import basic from './basic'
+import extend from "just-extend"
+import basic from "./basic"
 
-export default (opts) => {
+export default opts => {
 	const defaultOptions = {
 		regex: /https?:\/\/plnkr.co\/edit\/([a-zA-Z0-9\?=]+)/gi,
 		height: 300,

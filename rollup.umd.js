@@ -10,6 +10,7 @@ const config = {
 	entry: "src/index.js",
 	dest: "dist/embed.umd.js",
 	moduleName: "EmbedJS",
+	external: ["node-fetch"],
 	format: "umd",
 	banner,
 	sourceMap: true,

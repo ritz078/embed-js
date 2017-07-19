@@ -2,6 +2,7 @@ import extend from 'just-extend'
 import pWaterfall from 'p-waterfall'
 import image from './plugins/image'
 import url from './plugins/url'
+import youtube from './plugins/youtube'
 
 function transformArray (plugins) {
 	return plugins.map(p => p.transform)
@@ -12,7 +13,8 @@ class EmbedJS {
 		const defaultOptions = {
 			plugins: [
 				url(),
-				image()
+				image(),
+				youtube()
 			],
 			inlineEmbed: false,
 			replaceText: false,

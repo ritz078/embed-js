@@ -1,5 +1,5 @@
-import extend from 'just-extend'
-import linkify from 'html-linkify'
+import extend from "just-extend"
+import linkify from "html-linkify"
 
 export default opts => {
 	const defaultOptions = {
@@ -7,11 +7,11 @@ export default opts => {
 		escape: true
 	}
 
-	const {attributes, escape} = extend({}, defaultOptions, opts)
+	const { attributes, escape } = extend({}, defaultOptions, opts)
 	return {
-		async transform (options) {
+		async transform(options) {
 			return extend({}, options, {
-				input: linkify(options.input, {attributes, escape})
+				input: linkify(options.input, { attributes, escape })
 			})
 		}
 	}

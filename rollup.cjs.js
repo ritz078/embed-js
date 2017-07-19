@@ -7,7 +7,13 @@ const banner = require("./banner")
 const config = {
 	entry: "src/index.js",
 	dest: "dist/embed.cjs.js",
-	external: ["just-extend", "html-linkify", "regex-emoji", "node-emoji"],
+	external: [
+		"just-extend",
+		"html-linkify",
+		"regex-emoji",
+		"node-emoji",
+		"node-fetch"
+	],
 	format: "cjs",
 	banner,
 	plugins: [json(), nodent(), buble(), fileSize()]

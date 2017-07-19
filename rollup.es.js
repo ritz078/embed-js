@@ -8,6 +8,7 @@ const config = {
 	entry: "src/index.js",
 	dest: "dist/embed.es.js",
 	format: "es",
+	external: ["node-fetch"],
 	banner,
 	plugins: [json(), resolve(), commonjs(), fileSize()]
 }
