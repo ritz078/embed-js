@@ -85,7 +85,8 @@
     "node-emoji": "^1.7.0",
     "p-is-promise": "^1.1.0",
     "p-waterfall": "^1.0.0",
-    "regex-emoji": "^2.0.5"
+    "regex-emoji": "^2.0.5",
+    "snarkdown": "^1.2.2"
   },
   "ava": {
     "require": [

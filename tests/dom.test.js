@@ -17,8 +17,6 @@ const options2 = extend({}, options, {
 	input: 'Nunquam perdere <a href="https://a.jpg">https://a.jpg</a> olla <a href="https://b.jpg">https://b.jpg</a>.',
 })
 
-let wait = ms => new Promise(resolve => setTimeout(resolve, ms));
-
 const template = async (args) => {
 	return `<img src="${args[1]}"/>`
 }
