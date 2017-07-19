@@ -1,29 +1,24 @@
-import {expect} from 'chai'
+import test from 'ava'
 import url from '../src/plugins/url'
 import isPromise from 'p-is-promise'
 
-const {describe, it} = global;
 
-describe('Plugin: url', () => {
-	it('should return a function when called', () => {
-		expect(isPromise(url().transform({
+	test('Plugin: url - should return a function when called', (t) => {
+		t.truthy(isPromise(url().transform({
 			input:'https://a.com'
-		}))).to.equal(true)
+		})))
 	})
 
-	it('should convert URL into anchor', (done) => {
-		const x = url().transform({
+	test('Plugin: url - should convert URL into anchor', async (t) => {
+		const {input} = await url().transform({
 			input:'https://a.com'
 		})
 
-		x.then(({input}) => {
-			expect(input).to.equal('<a href="https://a.com">https://a.com</a>')
-			done()
-		});
+		t.is(input, '<a href="https://a.com">https://a.com</a>')
 	})
 
-	it('should include attributes in URL', (done) => {
-		const x = url({
+	test('Plugin: url - should include attributes in URL', async (t) => {
+		const {input} = await url({
 			attributes: {
 				target: "_blank"
 			}
@@ -31,9 +26,5 @@ describe('Plugin: url', () => {
 			input: 'hello https://world.com'
 		})
 
-		x.then(({input}) => {
-			expect(input).to.equal('hello <a href="https://world.com" target="_blank">https://world.com</a>')
-			done()
-		})
+		t.is(input, 'hello <a href="https://world.com" target="_blank">https://world.com</a>')
 	})
-})

@@ -1,35 +1,24 @@
-import {expect} from 'chai'
+import test from 'ava'
 import emoji from '../src/plugins/emoji'
 import isPromise from 'p-is-promise'
 
-const {describe, it} = global;
+test('Plugin: emoji - should return a Promise when called', (t) => {
+	t.truthy(isPromise(emoji().transform({
+		input: ':ok: hello :+1:'
+	})))
+})
 
-describe('Plugin: emoji', () => {
-	it('should return a Promise when called', () => {
-		expect(isPromise(emoji().transform({
-			input: ':ok: hello :+1:'
-		}))).to.equal(true)
+test('Plugin: emoji - should convert URL into anchor', async (t) => {
+	const {input} = await emoji().transform({
+		input: ':ok: hello :+1:'
+	})
+	t.is(input, '🆗 hello 👍')
+})
+
+test('Plugin: emoji - should not parse the URL', async (t) => {
+	const {input} = await emoji().transform({
+		input: ':ok: hello :+1: https://a.com:8071'
 	})
 
-	it('should convert URL into anchor', (done) => {
-		const x = emoji().transform({
-			input: ':ok: hello :+1:'
-		})
-
-		x.then(({input}) => {
-			expect(input).to.equal('🆗 hello 👍');
-			done()
-		})
-	})
-
-	it('should not parse the URL', (done) => {
-		const x = emoji().transform({
-			input: ':ok: hello :+1: https://a.com:8071'
-		})
-
-		x.then(({input}) => {
-			expect(input).to.equal('🆗 hello 👍 https://a.com:8071')
-			done()
-		})
-	})
+	t.is(input, '🆗 hello 👍 https://a.com:8071')
 })

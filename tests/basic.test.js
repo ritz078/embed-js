@@ -1,11 +1,6 @@
-import chai, { expect } from 'chai'
+import test from 'ava'
 import isPromise from 'p-is-promise'
 import basic from '../src/plugins/basic'
-import chaiHtml from 'chai-html'
-
-chai.use(chaiHtml)
-
-const {describe, it} = global
 
 const options = {
 	input: 'Nunquam perdere #helloWorld olla https://b.jpg.',
@@ -22,17 +17,12 @@ const pluginOptions = {
 	}
 }
 
-describe('Plugin: basic', () => {
-	it('should return a Promise when called', () => {
-		expect(isPromise(basic(pluginOptions).transform(options))).to.equal(true)
-	})
+test('Plugin: basic - should return a Promise when called', async (t) => {
+	t.truthy(isPromise(basic(pluginOptions).transform(options)))
+})
 
-	it('should return correct', (done) => {
-		const x = basic(pluginOptions).transform(options)
+test('Plugin: basic - should return correct', async (t) => {
+	const {input} = await basic(pluginOptions).transform(options)
 
-		x.then(({input}) => {
-			expect(input).html.to.equal('Nunquam perdere<a href="https://a.com/helloWorld"> #helloWorld</a> olla https://b.jpg.')
-			done()
-		})
-	})
+	t.is(input, 'Nunquam perdere<a href="https://a.com/helloWorld"> #helloWorld</a> olla https://b.jpg.')
 })

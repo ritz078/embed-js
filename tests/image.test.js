@@ -1,11 +1,6 @@
-import chai, { expect } from 'chai'
+import test from 'ava'
 import isPromise from 'p-is-promise'
 import image from '../src/plugins/image'
-import chaiHtml from 'chai-html'
-
-chai.use(chaiHtml)
-
-const {describe, it} = global
 
 const options = {
 	input: 'Nunquam perdere https://a.jpg olla https://b.jpg.',
@@ -14,18 +9,13 @@ const options = {
 	_embeds: []
 }
 
-describe('Plugin: image', () => {
-	it('should return a Promise when called', () => {
-		expect(isPromise(image().transform(options))).to.equal(true)
-	})
+test('Plugin: image - should return a Promise when called', (t) => {
+	t.truthy(isPromise(image().transform(options)))
+})
 
-	it('should return the correct result', (done) => {
-		const x = image().transform(options)
+test('Plugin: image - should return the correct result', async (t) => {
+	const {input} = await image().transform(options)
+	const expected = 'Nunquam perdere https://a.jpg <img class="ejs-image" src="https://a.jpg"/> olla https://b.jpg <img class="ejs-image" src="https://b.jpg"/>.'
 
-		x.then(({input}) => {
-			const expected = 'Nunquam perdere https://a.jpg <img class="ejs-image" src="https://a.jpg"/> olla https://b.jpg <img class="ejs-image" src="https://b.jpg"/>.'
-			expect(input).html.to.equal(expected)
-			done()
-		})
-	})
+	t.is(input, expected)
 })
