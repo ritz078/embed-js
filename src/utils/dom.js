@@ -1,4 +1,5 @@
 import extend from "just-extend"
+import stringReplaceAsync from '../utils/string-replace-async'
 
 const anchorRegex = /<a[^>]*>([^<]+)<\/a>/gi
 
@@ -52,10 +53,10 @@ export function appendEmbedsAtEnd({ input, _embeds }) {
 	return `${input} ${combineEmbedsText(_embeds)}`
 }
 
-function pushEmbedContent(text, regex, template, options, pluginOptions, index) {
-	text.replace(regex, (...args) => {
+async function pushEmbedContent(text, regex, template, options, pluginOptions, index) {
+	await stringReplaceAsync(text, regex, async (...args) => {
 		options._embeds.push({
-			content: template(args, options, pluginOptions),
+			content: await template(args, options, pluginOptions),
 			index: index || args.find(x => typeof x === "number")
 		})
 	})
@@ -67,14 +68,15 @@ function pushEmbedContent(text, regex, template, options, pluginOptions, index) 
  * @param regex
  * @param template
  * @param opts
+ * @param pluginOptions
  */
-function saveEmbedData(regex, template, opts, pluginOptions) {
+async function saveEmbedData(regex, template, opts, pluginOptions) {
 	let options = extend({}, opts)
 
 	if (isAnchorTagApplied(options.input)) {
-		options.input.replace(anchorRegex, (match, url, index) => {
+		await stringReplaceAsync(options.input, anchorRegex, async (match, url, index) => {
 			if (!isMatchPresent(regex, match, true)) return match
-			options = pushEmbedContent(url, regex, template, options, pluginOptions, index)
+			options = await pushEmbedContent(url, regex, template, options, pluginOptions, index)
 			return match
 		})
 	} else {
@@ -97,7 +99,8 @@ function normalizeArguments(url, args) {
  * @param pluginOptions
  * @returns options
  */
-export function insert(regex, template, options, pluginOptions) {
+export async function insert(regex, template, options, pluginOptions) {
+	debugger
 	const { input, replaceUrl, inlineEmbed } = options
 
 	if (!inlineEmbed) {
@@ -105,23 +108,25 @@ export function insert(regex, template, options, pluginOptions) {
 	}
 
 	let output
+
 	if (isAnchorTagApplied(input)) {
-		output = input.replace(anchorRegex, (match, url) => {
+		 output = await stringReplaceAsync(input, anchorRegex, async (match, url) => {
 			if (!isMatchPresent(regex, url, true)) {
 				return match
 			}
 
 			if (!(replaceUrl || pluginOptions.replace)) {
 				const args = url.match(regex)
-				return args ? match + template(normalizeArguments(url, args), options, pluginOptions) : match
+				const t = await template(normalizeArguments(url, args), options, pluginOptions)
+				return args ? match + t : match
 			}
-
-			return url.replace(regex, (...args) => template(args, options, pluginOptions))
+			return stringReplaceAsync(url, regex, async (...args) => template(args, options, pluginOptions))
 		})
 	} else {
-		output = input.replace(
+		output = await stringReplaceAsync(
+			input,
 			regex,
-			(...args) => ((replaceUrl || pluginOptions.replace) ? template(args, options, pluginOptions) : `${args[0]} ${template(args, options, pluginOptions)}`)
+			async (...args) => ((replaceUrl || pluginOptions.replace) ? template(args, options, pluginOptions) : `${args[0]} ${await template(args, options, pluginOptions)}`)
 		)
 	}
 

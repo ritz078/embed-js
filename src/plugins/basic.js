@@ -17,10 +17,8 @@ export default (opts) => {
 
 	const {regex, template} = pluginOptions
 	return {
-		transform(options) {
-			return Promise.resolve(
-				extend({}, options, insert(regex, template, options, pluginOptions))
-			)
+		async transform(options) {
+			return extend({}, options, await insert(regex, template, options, pluginOptions))
 		}
 	}
 }

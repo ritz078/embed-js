@@ -48,7 +48,6 @@
     "jsdom": "^9.12.0",
     "lint-staged": "^4.0.1",
     "nyc": "^11.0.3",
-    "pascal-case": "^2.0.1",
     "prettier-eslint-cli": "^4.1.1",
     "rollup": "^0.45.2",
     "rollup-plugin-buble": "^0.15.0",
@@ -80,17 +79,18 @@
   },
   "homepage": "https://github.com/ritz078/embed.js",
   "dependencies": {
+    "escape-string-regexp": "^1.0.5",
     "html-linkify": "^1.2.2",
     "just-extend": "^1.1.22",
     "node-emoji": "^1.7.0",
     "p-is-promise": "^1.1.0",
     "p-waterfall": "^1.0.0",
-    "regex-emoji": "^2.0.5",
-    "string-replace-async": "^1.2.0"
+    "regex-emoji": "^2.0.5"
   },
   "ava": {
     "require": [
-      "babel-register"
+      "babel-register",
+      "babel-polyfill"
     ]
   }
 }
