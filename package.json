@@ -31,6 +31,7 @@
   "license": "MIT",
   "devDependencies": {
     "babel-core": "^6.25.0",
+    "babel-polyfill": "^6.23.0",
     "babel-preset-env": "^1.6.0",
     "chai": "^4.1.0",
     "chai-html": "^1.1.4",
@@ -57,6 +58,7 @@
     "rollup-plugin-filesize": "^1.4.2",
     "rollup-plugin-json": "^2.3.0",
     "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-plugin-nodent": "^0.1.0",
     "rollup-plugin-uglify": "^2.0.1",
     "rollup-watch": "^4.3.1",
     "semantic-release": "^6.3.6",
@@ -85,6 +87,7 @@
     "node-emoji": "^1.7.0",
     "p-is-promise": "^1.1.0",
     "p-waterfall": "^1.0.0",
-    "regex-emoji": "^2.0.5"
+    "regex-emoji": "^2.0.5",
+    "string-replace-async": "^1.2.0"
   }
 }

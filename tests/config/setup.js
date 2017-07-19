@@ -1,4 +1,5 @@
 require("babel-core/register")
+require("babel-polyfill")
 
 const jsdom = require("jsdom").jsdom
 

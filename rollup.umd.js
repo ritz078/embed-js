@@ -4,6 +4,7 @@ const resolve = require("rollup-plugin-node-resolve")
 const fileSize = require("rollup-plugin-filesize")
 const commonjs = require("rollup-plugin-commonjs")
 const json = require("rollup-plugin-json")
+const nodent = require("rollup-plugin-nodent")
 
 const config = {
 	entry: "src/index.js",
@@ -18,6 +19,7 @@ const config = {
 		}),
 		json(),
 		commonjs(),
+		nodent(),
 		buble(),
 		fileSize()
 	]
