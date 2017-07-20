@@ -124,7 +124,6 @@ function normalizeArguments(url, args) {
  * @returns options
  */
 export async function insert(regex, template, options, pluginOptions) {
-	debugger
 	const { input, replaceUrl, inlineEmbed } = options
 
 	if (!inlineEmbed) {

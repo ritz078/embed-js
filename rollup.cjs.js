@@ -12,7 +12,7 @@ const config = {
 		"html-linkify",
 		"regex-emoji",
 		"node-emoji",
-		"node-fetch"
+		"isomorphic-unfetch"
 	],
 	format: "cjs",
 	banner,

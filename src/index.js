@@ -12,8 +12,8 @@ class EmbedJS {
 	constructor (options) {
 		const defaultOptions = {
 			plugins: [
-				url(),
-				image(),
+				// url(),
+				// image(),
 				youtube()
 			],
 			inlineEmbed: false,
@@ -31,6 +31,10 @@ class EmbedJS {
 
 	text (cb) {
 		this.process().then(({input}) => cb(input))
+	}
+
+	load () {
+		this.options.plugins.forEach(p => p.onLoad && p.onLoad(this.options))
 	}
 
 	render () {}

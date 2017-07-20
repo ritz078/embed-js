@@ -3,7 +3,8 @@ import { insert } from "../utils/dom"
 
 export default opts => {
 	const defaultOptions = {
-		replace: false
+		replace: false,
+		onLoad() {}
 	}
 
 	const pluginOptions = extend({}, defaultOptions, opts)
@@ -15,7 +16,7 @@ export default opts => {
 		throw new ReferenceError("template is not passed in options.")
 	}
 
-	const { regex, template } = pluginOptions
+	const { regex, template, onLoad } = pluginOptions
 	return {
 		async transform(options) {
 			return extend(
@@ -23,6 +24,10 @@ export default opts => {
 				options,
 				await insert(regex, template, options, pluginOptions)
 			)
+		},
+
+		onLoad(options) {
+			onLoad(options, pluginOptions)
 		}
 	}
 }
