@@ -2,7 +2,7 @@
   "name": "embed-js",
   "version": "0.0.0-semantically-released",
   "description": "A boilerplate to write plugins in pure JavaScript using ES2015",
-  "main": "dist/embed.umd.js",
+  "main": "dist/embed.cjs.js",
   "module": "dist/embed.es.js",
   "browser": "dist/embed.umd.js",
   "files": [
@@ -34,6 +34,7 @@
     "babel-core": "^6.25.0",
     "babel-polyfill": "^6.23.0",
     "babel-preset-env": "^1.6.0",
+    "babel-preset-stage-0": "^6.24.1",
     "codecov.io": "^0.1.6",
     "concurrently": "^3.5.0",
     "cz-conventional-changelog": "^2.0.0",
@@ -57,6 +58,7 @@
     "rollup-plugin-json": "^2.3.0",
     "rollup-plugin-node-resolve": "^3.0.0",
     "rollup-plugin-nodent": "^0.1.0",
+    "rollup-plugin-regenerator": "^0.3.0",
     "rollup-plugin-uglify": "^2.0.1",
     "rollup-watch": "^4.3.1",
     "semantic-release": "^6.3.6",
@@ -80,6 +82,7 @@
   },
   "homepage": "https://github.com/ritz078/embed.js",
   "dependencies": {
+    "babel-plugin-external-helpers": "^6.22.0",
     "escape-string-regexp": "^1.0.5",
     "html-linkify": "^1.2.2",
     "is-dom": "^1.0.9",
@@ -92,6 +95,7 @@
     "p-is-promise": "^1.1.0",
     "p-waterfall": "^1.0.0",
     "regex-emoji": "^2.0.5",
+    "rollup-plugin-babel": "^2.7.1",
     "snarkdown": "^1.2.2",
     "unfetch": "^3.0.0"
   },

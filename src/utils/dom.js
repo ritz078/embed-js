@@ -110,9 +110,11 @@ async function saveEmbedData(regex, template, opts, pluginOptions) {
 	return options
 }
 
-function normalizeArguments(url, args) {
-	args.unshift(url)
-	return args
+function getMatch(regex, string) {
+	regex.lastIndex = 0;
+	const matches = regex.exec(string)
+	regex.lastIndex = 0;
+	return matches
 }
 
 /**
@@ -139,17 +141,13 @@ export async function insert(regex, template, options, pluginOptions) {
 			}
 
 			if (!(replaceUrl || pluginOptions.replace)) {
-				const args = url.match(regex)
-				const t = await template(
-					normalizeArguments(url, args),
-					options,
-					pluginOptions
-				)
+				const args = getMatch(regex, url)
+				const t = await template(args, options, pluginOptions)
 				return args ? match + t : match
 			}
-			return stringReplaceAsync(url, regex, async (...args) =>
-				template(args, options, pluginOptions)
-			)
+			return stringReplaceAsync(url, regex, async (...args) => {
+				return template(args, options, pluginOptions)
+			})
 		})
 	} else {
 		output = await stringReplaceAsync(

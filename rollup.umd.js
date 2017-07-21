@@ -23,7 +23,7 @@ const config = {
 		}),
 		json(),
 		commonjs(),
-		nodent(),
+		nodent({ promises: true, noRuntime: true, es6target: true }),
 		buble(),
 		fileSize()
 	]
