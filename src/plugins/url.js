@@ -11,7 +11,7 @@ export default opts => {
 	return {
 		async transform(options) {
 			return extend({}, options, {
-				input: linkify(options.input, { attributes, escape })
+				result: linkify(options.result, { attributes, escape })
 			})
 		}
 	}

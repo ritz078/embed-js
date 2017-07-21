@@ -3,7 +3,7 @@ import isPromise from 'p-is-promise'
 import markdown from '../src/plugins/markdown'
 
 const options = {
-	input: 'Nunquam **perdere** #helloWorld olla https://b.jpg.',
+	result: 'Nunquam **perdere** #helloWorld olla https://b.jpg.',
 }
 
 test('Plugin: markdown - should return a promise', (t) => {
@@ -11,7 +11,7 @@ test('Plugin: markdown - should return a promise', (t) => {
 })
 
 test('Plugin: markdown - should return correct result', async (t) => {
-	const {input} = await markdown().transform(options)
+	const {result} = await markdown().transform(options)
 	const expected = 'Nunquam <strong>perdere</strong> #helloWorld olla https://b.jpg.'
-	t.is(input, expected)
+	t.is(result, expected)
 })

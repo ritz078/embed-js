@@ -7,7 +7,7 @@ export default () => {
 		transform(options) {
 			return Promise.resolve(
 				extend({}, options, {
-					input: options.input.replace(
+					result: options.result.replace(
 						emojiRegex(),
 						(match, emojiName) => emoji[emojiName]
 					)

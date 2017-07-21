@@ -4,7 +4,7 @@ import extend from 'just-extend'
 import plunker from '../src/plugins/plunker'
 
 const options = {
-	input: 'Nunquam perdere https://plnkr.co/edit/OiX7kC olla https://b.jpg.',
+	result: 'Nunquam perdere https://plnkr.co/edit/OiX7kC olla https://b.jpg.',
 	replaceUrl: false,
 	inlineEmbed: true,
 	_embeds: []
@@ -15,9 +15,9 @@ const options = {
 	})
 
 	test('Plugin: plunker - should return correct result when replaceUrl is false', async (t) => {
-		const {input} = await plunker().transform(options)
+		const {result} = await plunker().transform(options)
 
-		t.is(input, 'Nunquam perdere https://plnkr.co/edit/OiX7kC <div class="ejs-embed ejs-plunker"><iframe src="http://embed.plnkr.co/OiX7kC" height="300"></iframe></div> olla https://b.jpg.')
+		t.is(result, 'Nunquam perdere https://plnkr.co/edit/OiX7kC <div class="ejs-embed ejs-plunker"><iframe src="http://embed.plnkr.co/OiX7kC" height="300"></iframe></div> olla https://b.jpg.')
 	})
 
 	test('Plugin: plunker - should return correct result when replaceUrl is true', async (t) => {
@@ -25,6 +25,6 @@ const options = {
 			replaceUrl:true
 		})
 
-		const {input} = await plunker().transform(options2)
-		t.is(input, 'Nunquam perdere <div class="ejs-embed ejs-plunker"><iframe src="http://embed.plnkr.co/OiX7kC" height="300"></iframe></div> olla https://b.jpg.')
+		const {result} = await plunker().transform(options2)
+		t.is(result, 'Nunquam perdere <div class="ejs-embed ejs-plunker"><iframe src="http://embed.plnkr.co/OiX7kC" height="300"></iframe></div> olla https://b.jpg.')
 	})

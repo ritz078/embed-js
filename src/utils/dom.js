@@ -49,8 +49,8 @@ function combineEmbedsText(embeds) {
  * @param _embeds - Array of embed code
  * @returns {string}
  */
-export function appendEmbedsAtEnd({ input, _embeds }) {
-	return `${input} ${combineEmbedsText(_embeds)}`
+export function appendEmbedsAtEnd({ result, _embeds }) {
+	return `${result} ${combineEmbedsText(_embeds)}`
 }
 
 async function pushEmbedContent(
@@ -80,9 +80,9 @@ async function pushEmbedContent(
 async function saveEmbedData(regex, template, opts, pluginOptions) {
 	let options = extend({}, opts)
 
-	if (isAnchorTagApplied(options.input)) {
+	if (isAnchorTagApplied(options.result)) {
 		await stringReplaceAsync(
-			options.input,
+			options.result,
 			anchorRegex,
 			async (match, url, index) => {
 				if (!isMatchPresent(regex, match, true)) return match
@@ -99,7 +99,7 @@ async function saveEmbedData(regex, template, opts, pluginOptions) {
 		)
 	} else {
 		options = pushEmbedContent(
-			options.input,
+			options.result,
 			regex,
 			template,
 			options,
@@ -126,7 +126,7 @@ function getMatch(regex, string) {
  * @returns options
  */
 export async function insert(regex, template, options, pluginOptions) {
-	const { input, replaceUrl, inlineEmbed } = options
+	const { result, replaceUrl, inlineEmbed } = options
 
 	if (!inlineEmbed) {
 		return saveEmbedData(regex, template, options, pluginOptions)
@@ -134,8 +134,8 @@ export async function insert(regex, template, options, pluginOptions) {
 
 	let output
 
-	if (isAnchorTagApplied(input)) {
-		output = await stringReplaceAsync(input, anchorRegex, async (match, url) => {
+	if (isAnchorTagApplied(result)) {
+		output = await stringReplaceAsync(result, anchorRegex, async (match, url) => {
 			if (!isMatchPresent(regex, url, true)) {
 				return match
 			}
@@ -151,7 +151,7 @@ export async function insert(regex, template, options, pluginOptions) {
 		})
 	} else {
 		output = await stringReplaceAsync(
-			input,
+			result,
 			regex,
 			async (...args) =>
 				replaceUrl || pluginOptions.replace
@@ -161,6 +161,6 @@ export async function insert(regex, template, options, pluginOptions) {
 	}
 
 	return extend({}, options, {
-		input: output
+		result: output
 	})
 }

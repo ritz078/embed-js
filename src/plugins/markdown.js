@@ -5,7 +5,7 @@ export default () => ({
 	transform(options) {
 		return Promise.resolve(
 			extend({}, options, {
-				input: snarkdown(options.input)
+				result: snarkdown(options.result)
 			})
 		)
 	}

@@ -3,7 +3,7 @@ import isPromise from 'p-is-promise'
 import basic from '../src/plugins/basic'
 
 const options = {
-	input: 'Nunquam perdere #helloWorld olla https://b.jpg.',
+	result: 'Nunquam perdere #helloWorld olla https://b.jpg.',
 	replaceUrl: false,
 	inlineEmbed: true,
 	_embeds: []
@@ -22,7 +22,7 @@ test('Plugin: basic - should return a Promise when called', async (t) => {
 })
 
 test('Plugin: basic - should return correct', async (t) => {
-	const {input} = await basic(pluginOptions).transform(options)
+	const {result} = await basic(pluginOptions).transform(options)
 
-	t.is(input, 'Nunquam perdere<a href="https://a.com/helloWorld"> #helloWorld</a> olla https://b.jpg.')
+	t.is(result, 'Nunquam perdere<a href="https://a.com/helloWorld"> #helloWorld</a> olla https://b.jpg.')
 })

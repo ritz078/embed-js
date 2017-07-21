@@ -2,7 +2,6 @@ import extend from 'just-extend'
 import pWaterfall from 'p-waterfall'
 import isDom from 'is-dom'
 import image from './plugins/image'
-import emoji from './plugins/emoji'
 import url from './plugins/url'
 import youtube from './plugins/youtube'
 import { appendEmbedsAtEnd } from './utils/dom'
@@ -16,7 +15,6 @@ class EmbedJS {
 		const defaultOptions = {
 			plugins: [
 				url(),
-				emoji(),
 				image(),
 				youtube({
 					details: false
@@ -32,13 +30,13 @@ class EmbedJS {
 			throw new Error('You need to pass input element or string in the options object.')
 		}
 
+		this.inputString = options.input
 		if (isDom(options.input)) {
-			input = options.input.innerHTML
-			this.element = options.input
+			this.inputString = options.input.innerHTML
 		}
 
 		this.options = extend({}, defaultOptions, options, {
-			input
+			result: this.inputString
 		})
 	}
 
@@ -56,7 +54,7 @@ class EmbedJS {
 	}
 
 	async text () {
-		return this.resultText || this.process()
+		return this.process()
 	}
 
 	load () {
@@ -64,13 +62,14 @@ class EmbedJS {
 	}
 
 	async render () {
-		if (!this.element) {
+		if (!isDom(this.options.input)) {
 			throw new Error('You haven\'t passed the input as an element.')
 		}
-		const options = this.resultText || await this.process()
+		const options = await this.process()
 		const {inlineEmbed} = this.options
 
-		this.element.innerHTML = inlineEmbed ? options.input : appendEmbedsAtEnd(options)
+		this.options.input.innerHTML = inlineEmbed ? options.result : appendEmbedsAtEnd(options)
+		return options
 	}
 }
 
