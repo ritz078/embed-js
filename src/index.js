@@ -4,6 +4,7 @@ import isDom from 'is-dom'
 import image from './plugins/image'
 import url from './plugins/url'
 import youtube from './plugins/youtube'
+import twitter from './plugins/twitter'
 import { appendEmbedsAtEnd } from './utils/dom'
 
 function transformArray (plugins) {

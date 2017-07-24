@@ -16,7 +16,7 @@ export default opts => {
 		throw new ReferenceError("template is not passed in options.")
 	}
 
-	const { regex, template, onLoad } = pluginOptions
+	const { regex, template, _onLoadInternal, onLoad } = pluginOptions
 	return {
 		async transform(options) {
 			return extend(
@@ -27,6 +27,7 @@ export default opts => {
 		},
 
 		onLoad(options) {
+			_onLoadInternal(options, pluginOptions)
 			onLoad(options, pluginOptions)
 		}
 	}

@@ -95,9 +95,10 @@ export default opts => {
 		height: 300,
 		clickClass: "ejs-video-thumb",
 		onVideoShow() {},
-		onLoad(options, pluginOptions) {
+		_onLoadInternal(options, pluginOptions) {
 			onLoad(options, pluginOptions)
 		},
+		onLoad() {},
 		async template(args, options, { gAuthKey, details, height }) {
 			const id = args[1]
 			const embedUrl = `https://www.youtube.com/embed/${id}`
