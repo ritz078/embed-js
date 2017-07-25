@@ -1,44 +1,74 @@
-import extend from 'just-extend'
+import extend from "just-extend"
 // in umd build this resolves to unfetch
-import unfetch from 'isomorphic-unfetch'
-import isDom from 'is-dom'
-import isBrowser from 'is-in-browser'
-import basic from './basic'
-import getQuery from '../utils/getQuery'
+import unfetch from "isomorphic-unfetch"
+import isDom from "is-dom"
+import isBrowser from "is-in-browser"
+import basic from "./basic"
+import getQuery from "../utils/getQuery"
 
 /**
  * Fetch the html content from the API
  * @param url
+ * @param omitScript
+ * @param maxWidth
+ * @param hideMedia
+ * @param hideThread
+ * @param align
+ * @param lang
+ * @param theme
+ * @param linkColor
+ * @param widgetType
  * @returns {Promise.<*>}
  */
-async function fetchTweetData(url, {omitScript, maxWidth, hideMedia, hideThread, align, lang, theme, linkColor, widgetType}) {
+async function fetchTweetData(
+	url,
+	{
+		omitScript,
+		maxWidth,
+		hideMedia,
+		hideThread,
+		align,
+		lang,
+		theme,
+		linkColor,
+		widgetType
+	}
+) {
 	const params = {
 		url,
 		omitScript,
 		maxWidth,
-		hideMedia,hideThread,align, lang, theme, linkColor, widgetType
+		hideMedia,
+		hideThread,
+		align,
+		lang,
+		theme,
+		linkColor,
+		widgetType
 	}
 	try {
-		const apiUrl = `https://api.twitter.com/1/statuses/oembed.json?${getQuery(params)}`
+		const apiUrl = `https://api.twitter.com/1/statuses/oembed.json?${getQuery(
+			params
+		)}`
 		const res = await unfetch(apiUrl)
 		return await res.json()
 	} catch (e) {
 		return {
-			html: ''
+			html: ""
 		}
 	}
 }
 
-function renderTweet (options, {twttr, onLoad}) {
-	if(!isDom(options.input)){
-		throw new Error('input should be a DOM element to embed tweet.')
+function renderTweet(options, { twttr, onLoad }) {
+	if (!isDom(options.input)) {
+		throw new Error("input should be a DOM element to embed tweet.")
 	}
 	twttr.widgets.load(options.input)
-	twttr.events.bind('loaded', onLoad)
+	twttr.events.bind("loaded", onLoad)
 }
 
-export default (opts) => {
-	const defaultOptions= {
+export default opts => {
+	const defaultOptions = {
 		// Regex that matches the string and sends to the template method.
 		regex: /https:\/\/twitter\.com\/\w+\/\w+\/\d+/gi,
 
@@ -67,20 +97,20 @@ export default (opts) => {
 		// Specifies whether the embedded Tweet should be floated left,
 		// right, or center in the page relative to the parent element.
 		// Valid values are left, right, center, and none
-		align: 'none',
+		align: "none",
 
 		// Request returned HTML and a rendered Tweet in the specified Twitter
 		// language supported by embedded Tweets. https://dev.twitter.com/web/overview/languages
-		lang: 'en',
+		lang: "en",
 
 		// When set to dark, the Tweet is displayed with light text over a dark background
-		theme: 'light',
+		theme: "light",
 
 		// Adjust the color of Tweet text links with a hexadecimal color value
-		linkColor: '#355acee',
+		linkColor: "#355acee",
 
 		// Set to video to return a Twitter Video embed for the given Tweet
-		widgetType: '',
+		widgetType: "",
 
 		/**
 		 * It accepts the matching url and returns the html
@@ -113,7 +143,7 @@ export default (opts) => {
 
 		// executed when the tweet has been loaded
 		// and rendered on the client side
-		onLoad(){}
+		onLoad() {}
 	}
 
 	const pluginOptions = extend({}, defaultOptions, opts)

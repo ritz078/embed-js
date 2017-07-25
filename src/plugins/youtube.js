@@ -87,6 +87,18 @@ function onLoad({ input }, { clickClass, onVideoShow, height }) {
 	}
 }
 
+async function getTemplate(id, options, { gAuthKey, details, height }) {
+	const embedUrl = `https://www.youtube.com/embed/${id}`
+	let data
+	if (details) {
+		data = await fetchDetails(id, gAuthKey)
+	}
+
+	return details
+		? withDetailsTemplate(data, embedUrl)
+		: withoutDetailsTemplate(embedUrl, height)
+}
+
 export default opts => {
 	const defaultOptions = {
 		regex: /https?:\/\/(?:[0-9A-Z-]+\.)?(?:youtu\.be\/|youtube\.com(?:\/embed\/|\/v\/|\/watch\?v=|\/ytscreeningroom\?v=|\/feeds\/api\/videos\/|\/user\S*[^\w\-\s]|\S*[^\w\-\s]))([\w\-]{11})[?=&+%\w-]*/gi,
@@ -99,17 +111,9 @@ export default opts => {
 			onLoad(options, pluginOptions)
 		},
 		onLoad() {},
-		async template(args, options, { gAuthKey, details, height }) {
+		async template(args, options, pluginOptions) {
 			const id = args[1]
-			const embedUrl = `https://www.youtube.com/embed/${id}`
-			let data
-			if (details) {
-				data = await fetchDetails(id, gAuthKey)
-			}
-
-			return details
-				? withDetailsTemplate(data, embedUrl)
-				: withoutDetailsTemplate(embedUrl, height)
+			return getTemplate(id, options, pluginOptions)
 		}
 	}
 

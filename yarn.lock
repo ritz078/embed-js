@@ -3369,6 +3369,14 @@ just-extend@^1.1.22:
   version "1.1.22"
   resolved "https://registry.yarnpkg.com/just-extend/-/just-extend-1.1.22.tgz#3330af756cab6a542700c64b2e4e4aa062d52fff"
 
+just-flatten-it@^1.1.23:
+  version "1.1.23"
+  resolved "https://registry.yarnpkg.com/just-flatten-it/-/just-flatten-it-1.1.23.tgz#ad4d50982552978a5cf8c59510ca5378fdec0994"
+
+just-pluck-it@^1.1.21:
+  version "1.1.21"
+  resolved "https://registry.yarnpkg.com/just-pluck-it/-/just-pluck-it-1.1.21.tgz#8675fba91aabf68cb56f3131fae8ee7dc04cb0f3"
+
 just-truncate@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/just-truncate/-/just-truncate-1.0.1.tgz#b8961bab6e4a7b94d19e39a8a10318d07e0eb52a"

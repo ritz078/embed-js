@@ -111,9 +111,9 @@ async function saveEmbedData(regex, template, opts, pluginOptions) {
 }
 
 function getMatch(regex, string) {
-	regex.lastIndex = 0;
+	regex.lastIndex = 0
 	const matches = regex.exec(string)
-	regex.lastIndex = 0;
+	regex.lastIndex = 0
 	return matches
 }
 
