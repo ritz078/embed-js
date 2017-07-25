@@ -4,7 +4,15 @@ import getRegex from '../utils/noembed-regex'
 import getQuery from "../utils/getQuery"
 import basic from './basic'
 
-async function fetchData (url, {maxWidth, maxHeight, noWrap}) {
+/**
+ * Fetches the data from the noembed API
+ * @param url
+ * @param maxWidth
+ * @param maxHeight
+ * @param noWrap
+ * @returns {Promise.<*>}
+ */
+export async function fetchData (url, {maxWidth, maxHeight, noWrap}) {
 	try {
 		const params = {
 			url,
@@ -21,13 +29,21 @@ async function fetchData (url, {maxWidth, maxHeight, noWrap}) {
 	}
 }
 
-export default function (opts) {
+export default function (opts = {}) {
 	const defaultOptions = {
-		regex: getRegex(),
+		// Regex to be used to identify noembed supported services.
+		// By default it takes from noembed-regex.js
+		regex: null,
 
+		// max width of the embedded iframes.
 		maxWidth: 300,
 
+		// max height of the embedded iframes.
 		maxHeight: 400,
+
+		// In case you want to exclude a few services, you can do it here.
+		// It accepts an array of service names in lowercase.
+		excludeServices: [],
 
 		async template(args) {
 			const { html } = await fetchData(args[0], pluginOptions)
@@ -36,5 +52,10 @@ export default function (opts) {
 	}
 
 	const pluginOptions = extend({}, defaultOptions, opts)
+
+	if (!opts.regex) {
+		pluginOptions.regex = getRegex(pluginOptions.excludeServices)
+	}
+
 	return basic(pluginOptions)
 }
