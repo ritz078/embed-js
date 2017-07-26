@@ -16,14 +16,10 @@ export default opts => {
 		throw new ReferenceError("template is not passed in options.")
 	}
 
-	const { regex, template, _onLoadInternal, onLoad } = pluginOptions
+	const { _onLoadInternal, onLoad } = pluginOptions
 	return {
 		async transform(options) {
-			return extend(
-				{},
-				options,
-				await insert(regex, template, options, pluginOptions)
-			)
+			return extend({}, options, await insert(options, pluginOptions))
 		},
 
 		onLoad(options) {

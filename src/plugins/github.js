@@ -17,6 +17,7 @@ export default function(opts) {
 
 		async template(args) {
 			const [, user, repo] = args
+
 			const data = await fetchUserData(user, repo)
 			return `<div class="ejs-embed ejs-github"><div class="ejs-ogp-thumb" style="background-image:url(${data.owner &&
 				data.owner

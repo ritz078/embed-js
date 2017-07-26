@@ -118,7 +118,7 @@ export default opts => {
 	}
 
 	if (!opts.gAuthKey) {
-		throw new Error('You need to pass google auth key.')
+		throw new Error("You need to pass google auth key.")
 	}
 
 	const pluginOptions = extend({}, defaultOptions, opts)

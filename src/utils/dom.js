@@ -53,14 +53,8 @@ export function appendEmbedsAtEnd({ result, _embeds }) {
 	return `${result} ${combineEmbedsText(_embeds)}`
 }
 
-async function pushEmbedContent(
-	text,
-	regex,
-	template,
-	options,
-	pluginOptions,
-	index
-) {
+async function pushEmbedContent(text, options, pluginOptions, index) {
+	const { regex, template } = pluginOptions
 	await stringReplaceAsync(text, regex, async (...args) => {
 		options._embeds.push({
 			content: await template(args, options, pluginOptions),
@@ -72,12 +66,11 @@ async function pushEmbedContent(
 
 /**
  * Save the embed code into an array that can be added later to the end of original string
- * @param regex
- * @param template
  * @param opts
  * @param pluginOptions
  */
-async function saveEmbedData(regex, template, opts, pluginOptions) {
+async function saveEmbedData(opts, pluginOptions) {
+	const { regex } = pluginOptions
 	let options = extend({}, opts)
 
 	if (isAnchorTagApplied(options.result)) {
@@ -86,25 +79,12 @@ async function saveEmbedData(regex, template, opts, pluginOptions) {
 			anchorRegex,
 			async (match, url, index) => {
 				if (!isMatchPresent(regex, match, true)) return match
-				options = await pushEmbedContent(
-					url,
-					regex,
-					template,
-					options,
-					pluginOptions,
-					index
-				)
+				options = await pushEmbedContent(url, options, pluginOptions, index)
 				return match
 			}
 		)
 	} else {
-		options = pushEmbedContent(
-			options.result,
-			regex,
-			template,
-			options,
-			pluginOptions
-		)
+		options = pushEmbedContent(options.result, options, pluginOptions)
 	}
 
 	return options
@@ -119,17 +99,16 @@ function getMatch(regex, string) {
 
 /**
  * Insert the embed code in the original string.
- * @param regex
- * @param template
  * @param options
  * @param pluginOptions
  * @returns options
  */
-export async function insert(regex, template, options, pluginOptions) {
+export async function insert(options, pluginOptions) {
 	const { result, replaceUrl, inlineEmbed } = options
+	const { regex, template, replace } = pluginOptions
 
 	if (!inlineEmbed) {
-		return saveEmbedData(regex, template, options, pluginOptions)
+		return saveEmbedData(options, pluginOptions)
 	}
 
 	let output
@@ -154,7 +133,7 @@ export async function insert(regex, template, options, pluginOptions) {
 			result,
 			regex,
 			async (...args) =>
-				replaceUrl || pluginOptions.replace
+				replaceUrl || replace
 					? template(args, options, pluginOptions)
 					: `${args[0]} ${await template(args, options, pluginOptions)}`
 		)
