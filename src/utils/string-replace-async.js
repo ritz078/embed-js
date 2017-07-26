@@ -34,18 +34,6 @@ function assignReplacement(match, replacer) {
 	})
 }
 
-function sequence(matches, replacer) {
-	const initialResult = Promise.resolve([])
-
-	return matches.reduce(function(prev, match) {
-		return prev.then(function(ret) {
-			return assignReplacement(match, replacer).then(function(res) {
-				return ret.concat([res])
-			})
-		})
-	}, initialResult)
-}
-
 function concurrency(matches, replacer) {
 	const promises = matches.map(function(match) {
 		return assignReplacement(match, replacer)

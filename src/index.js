@@ -1,11 +1,9 @@
 import extend from 'just-extend'
 import pWaterfall from 'p-waterfall'
 import isDom from 'is-dom'
-import image from './plugins/image'
-import url from './plugins/url'
-import youtube from './plugins/youtube'
-import twitter from './plugins/twitter'
 import { appendEmbedsAtEnd } from './utils/dom'
+import emoji from './plugins/emoji'
+import gmap from './plugins/gmap'
 
 function transformArray (plugins) {
 	return plugins.map(p => p.transform)
@@ -15,10 +13,9 @@ class EmbedJS {
 	constructor (options) {
 		const defaultOptions = {
 			plugins: [
-				url(),
-				image(),
-				youtube({
-					details: false
+				emoji(),
+				gmap({
+					gAuthKey: 'AIzaSyCqFouT8h5DKAbxlrTZmjXEmNBjC69f0ts'
 				})
 			],
 			inlineEmbed: true,

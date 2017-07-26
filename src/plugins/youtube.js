@@ -102,7 +102,7 @@ async function getTemplate(id, options, { gAuthKey, details, height }) {
 export default opts => {
 	const defaultOptions = {
 		regex: /https?:\/\/(?:[0-9A-Z-]+\.)?(?:youtu\.be\/|youtube\.com(?:\/embed\/|\/v\/|\/watch\?v=|\/ytscreeningroom\?v=|\/feeds\/api\/videos\/|\/user\S*[^\w\-\s]|\S*[^\w\-\s]))([\w\-]{11})[?=&+%\w-]*/gi,
-		gAuthKey: "AIzaSyCqFouT8h5DKAbxlrTZmjXEmNBjC69f0ts",
+		gAuthKey: "",
 		details: true,
 		height: 300,
 		clickClass: "ejs-video-thumb",
@@ -115,6 +115,10 @@ export default opts => {
 			const id = args[1]
 			return getTemplate(id, options, pluginOptions)
 		}
+	}
+
+	if (!opts.gAuthKey) {
+		throw new Error('You need to pass google auth key.')
 	}
 
 	const pluginOptions = extend({}, defaultOptions, opts)

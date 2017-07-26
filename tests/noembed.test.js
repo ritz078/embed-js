@@ -2,8 +2,6 @@ import test from 'ava'
 import extend from 'just-extend'
 import noembed from '../src/plugins/noembed'
 
-
-
 const options = {
 	replaceUrl: false,
 	inlineEmbed: true,

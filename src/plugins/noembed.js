@@ -1,8 +1,8 @@
 import unfetch from "isomorphic-unfetch"
-import extend from 'just-extend'
-import getRegex from '../utils/noembed-regex'
+import extend from "just-extend"
+import getRegex from "../utils/noembed-regex"
 import getQuery from "../utils/getQuery"
-import basic from './basic'
+import basic from "./basic"
 
 /**
  * Fetches the data from the noembed API
@@ -12,24 +12,24 @@ import basic from './basic'
  * @param noWrap
  * @returns {Promise.<*>}
  */
-export async function fetchData (url, {maxWidth, maxHeight, noWrap}) {
+export async function fetchData(url, { maxWidth, maxHeight, noWrap }) {
 	try {
 		const params = {
 			url,
 			maxwidth: maxWidth,
 			maxheight: maxHeight,
-			nowrap: 'no'
+			nowrap: "no"
 		}
 		const res = await unfetch(`https://noembed.com/embed?${getQuery(params)}`)
 		return await res.json()
 	} catch (e) {
 		return {
-			html: ''
+			html: ""
 		}
 	}
 }
 
-export default function (opts = {}) {
+export default function(opts = {}) {
 	const defaultOptions = {
 		// Regex to be used to identify noembed supported services.
 		// By default it takes from noembed-regex.js

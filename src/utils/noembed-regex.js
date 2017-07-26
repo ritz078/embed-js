@@ -1,5 +1,5 @@
-import pluck from 'just-pluck-it'
-import flatten from 'just-flatten-it'
+import pluck from "just-pluck-it"
+import flatten from "just-flatten-it"
 
 const regexes = [
 	{
@@ -369,7 +369,9 @@ const regexes = [
 	},
 	{ patterns: ["http://bash\\.org/\\?(\\d+)"], name: "Bash.org" },
 	{
-		patterns: ["https?://www\\.globalgiving\\.org/((micro)?projects|funds)/.[^\\s]*"],
+		patterns: [
+			"https?://www\\.globalgiving\\.org/((micro)?projects|funds)/.[^\\s]*"
+		],
 		name: "GlobalGiving"
 	},
 	{
@@ -381,8 +383,10 @@ const regexes = [
 	}
 ]
 
-export default function getRegexes(excludeServices = []){
-	const includedRegexes = regexes.filter(r => (excludeServices.indexOf(r.name.toLowerCase() === -1)))
-	const patterns = flatten(pluck(includedRegexes, 'patterns'))
-	return new RegExp(patterns.join('|'), 'gi')
+export default function getRegexes(excludeServices = []) {
+	const includedRegexes = regexes.filter(r =>
+		excludeServices.indexOf(r.name.toLowerCase() === -1)
+	)
+	const patterns = flatten(pluck(includedRegexes, "patterns"))
+	return new RegExp(patterns.join("|"), "gi")
 }
