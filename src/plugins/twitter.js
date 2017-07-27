@@ -9,6 +9,7 @@ import getQuery from "../utils/getQuery"
 /**
  * Fetch the html content from the API
  * @param url
+ * @param args
  * @param omitScript
  * @param maxWidth
  * @param hideMedia
@@ -20,8 +21,8 @@ import getQuery from "../utils/getQuery"
  * @param widgetType
  * @returns {Promise.<*>}
  */
-async function fetchTweetData(
-	url,
+async function _process(
+	args,
 	{
 		omitScript,
 		maxWidth,
@@ -35,7 +36,7 @@ async function fetchTweetData(
 	}
 ) {
 	const params = {
-		url,
+		url: args[0],
 		omitScript,
 		maxWidth,
 		hideMedia,
@@ -119,10 +120,10 @@ export default opts => {
 		 * @param args
 		 * @param options
 		 * @param pluginOptions
+		 * @param html
 		 * @returns {Promise.<*>}
 		 */
-		async template(args, options, pluginOptions) {
-			const { html } = await fetchTweetData(args[0], pluginOptions)
+		async template(args, options, pluginOptions, { html }) {
 			return html
 		},
 
@@ -146,6 +147,8 @@ export default opts => {
 		onLoad() {}
 	}
 
-	const pluginOptions = extend({}, defaultOptions, opts)
+	const pluginOptions = extend({}, defaultOptions, opts, {
+		_process
+	})
 	return basic(pluginOptions)
 }

@@ -87,16 +87,15 @@ function onLoad({ input }, { clickClass, onVideoShow, height }) {
 	}
 }
 
-async function getTemplate(id, options, { gAuthKey, details, height }) {
+async function _process(args, options, { gAuthKey, details }) {
+	const id = args[1]
 	const embedUrl = `https://www.youtube.com/embed/${id}`
 	let data
 	if (details) {
 		data = await fetchDetails(id, gAuthKey)
 	}
 
-	return details
-		? withDetailsTemplate(data, embedUrl)
-		: withoutDetailsTemplate(embedUrl, height)
+	return { data, embedUrl }
 }
 
 export default opts => {
@@ -111,9 +110,10 @@ export default opts => {
 			onLoad(options, pluginOptions)
 		},
 		onLoad() {},
-		async template(args, options, pluginOptions) {
-			const id = args[1]
-			return getTemplate(id, options, pluginOptions)
+		async template(args, options, { details, height }, {data, embedUrl}) {
+			return details
+				? withDetailsTemplate(data, embedUrl)
+				: withoutDetailsTemplate(embedUrl, height)
 		}
 	}
 
@@ -121,6 +121,8 @@ export default opts => {
 		throw new Error("You need to pass google auth key.")
 	}
 
-	const pluginOptions = extend({}, defaultOptions, opts)
+	const pluginOptions = extend({}, defaultOptions, opts, {
+		_process
+	})
 	return basic(pluginOptions)
 }

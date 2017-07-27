@@ -10,6 +10,11 @@ export async function getCoordinate(location) {
 	return data.results[0].geometry.location
 }
 
+async function _process (args, options, pluginOptions) {
+	const location = args[1]
+	return getCoordinate(location)
+}
+
 export default function(opts) {
 	const defaultOptions = {
 		regex: /@\((.+)\)/gi,
@@ -17,10 +22,8 @@ export default function(opts) {
 		height: 300,
 		gAuthKey: "",
 
-		async template(args, options, { mode, gAuthKey, height }) {
+		async template(args, options, { mode, gAuthKey, height }, { lat, lng }) {
 			const location = args[1]
-			const { lat, lng } = await getCoordinate(location)
-
 			const base = `https://www.google.com/maps/embed/v1/${mode}?key=${gAuthKey}`
 
 			let src
@@ -36,6 +39,8 @@ export default function(opts) {
 		}
 	}
 
-	const pluginOptions = extend({}, defaultOptions, opts)
+	const pluginOptions = extend({}, defaultOptions, opts, {
+		_process
+	})
 	return basic(pluginOptions)
 }

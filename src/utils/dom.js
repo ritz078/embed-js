@@ -54,10 +54,10 @@ export function appendEmbedsAtEnd({ result, _embeds }) {
 }
 
 async function pushEmbedContent(text, options, pluginOptions, index) {
-	const { regex, template } = pluginOptions
+	const { regex } = pluginOptions
 	await stringReplaceAsync(text, regex, async (...args) => {
 		options._embeds.push({
-			content: await template(args, options, pluginOptions),
+			content: await getTemplate(args, options, pluginOptions),
 			index: index || args.find(x => typeof x === "number")
 		})
 	})
@@ -97,6 +97,15 @@ function getMatch(regex, string) {
 	return matches
 }
 
+async function getTemplate (args, options, pluginOptions) {
+	const { _process, template } = pluginOptions
+	let data
+	if (_process) {
+		data = await _process(args, options, pluginOptions)
+	}
+	return template(args, options, pluginOptions, data)
+}
+
 /**
  * Insert the embed code in the original string.
  * @param options
@@ -105,7 +114,7 @@ function getMatch(regex, string) {
  */
 export async function insert(options, pluginOptions) {
 	const { result, replaceUrl, inlineEmbed } = options
-	const { regex, template, replace } = pluginOptions
+	const { regex, replace } = pluginOptions
 
 	if (!inlineEmbed) {
 		return saveEmbedData(options, pluginOptions)
@@ -121,11 +130,11 @@ export async function insert(options, pluginOptions) {
 
 			if (!(replaceUrl || pluginOptions.replace)) {
 				const args = getMatch(regex, url)
-				const t = await template(args, options, pluginOptions)
+				const t = await getTemplate(args, options, pluginOptions)
 				return args ? match + t : match
 			}
 			return stringReplaceAsync(url, regex, async (...args) => {
-				return template(args, options, pluginOptions)
+				return getTemplate(args, options, pluginOptions)
 			})
 		})
 	} else {
@@ -134,8 +143,8 @@ export async function insert(options, pluginOptions) {
 			regex,
 			async (...args) =>
 				replaceUrl || replace
-					? template(args, options, pluginOptions)
-					: `${args[0]} ${await template(args, options, pluginOptions)}`
+					? getTemplate(args, options, pluginOptions)
+					: `${args[0]} ${await getTemplate(args, options, pluginOptions)}`
 		)
 	}
 
