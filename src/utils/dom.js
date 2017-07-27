@@ -119,6 +119,26 @@ async function basicReplace(options, pluginOptions) {
 	)
 }
 
+async function anchorReplace(options, pluginOptions) {
+	const { result, replaceUrl } = options
+	const { regex, _replaceAnyways } = pluginOptions
+
+	return stringReplaceAsync(result, anchorRegex, async (match, url) => {
+		if (!isMatchPresent(regex, url, true)) {
+			return match
+		}
+
+		if (!(replaceUrl || _replaceAnyways)) {
+			const args = getMatch(regex, url)
+			const t = await getTemplate(args, options, pluginOptions)
+			return args ? match + t : match
+		}
+		return stringReplaceAsync(url, regex, async (...args) => {
+			return getTemplate(args, options, pluginOptions)
+		})
+	})
+}
+
 /**
  * Insert the embed code in the original string.
  * @param options
@@ -126,31 +146,25 @@ async function basicReplace(options, pluginOptions) {
  * @returns options
  */
 export async function insert(options, pluginOptions) {
-	const { result, replaceUrl, inlineEmbed } = options
-	const { regex, _ignoreAnchorCheck, _ignoreInlineCheck } = pluginOptions
+	const { result, inlineEmbed } = options
+	const { _ignoreAnchorCheck, _ignoreInlineCheck } = pluginOptions
 
 	if (!inlineEmbed && !_ignoreInlineCheck) {
 		return saveEmbedData(options, pluginOptions)
 	}
 
-	let output = await basicReplace(options, pluginOptions)
+	let output
 
-	if (isAnchorTagApplied(result) && !_ignoreAnchorCheck) {
-		output = await stringReplaceAsync(result, anchorRegex, async (match, url) => {
-			if (!isMatchPresent(regex, url, true)) {
-				return match
-			}
-
-			if (!(replaceUrl || pluginOptions.replace)) {
-				const args = getMatch(regex, url)
-				const t = await getTemplate(args, options, pluginOptions)
-				return args ? match + t : match
-			}
-			return stringReplaceAsync(url, regex, async (...args) => {
-				return getTemplate(args, options, pluginOptions)
-			})
+	if (_ignoreAnchorCheck) {
+		output = await basicReplace(options, pluginOptions)
+		return extend({}, options, {
+			result: output
 		})
 	}
+
+	output = isAnchorTagApplied(result)
+		? await anchorReplace(options, pluginOptions)
+		: await basicReplace(options, pluginOptions)
 
 	return extend({}, options, {
 		result: output

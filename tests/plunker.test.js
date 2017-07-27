@@ -1,7 +1,7 @@
 import test from 'ava'
 import isPromise from 'p-is-promise'
 import extend from 'just-extend'
-import plunker from '../src/plugins/plunker'
+import plunker from '../src/plugins/code/plunker'
 
 const options = {
 	result: 'Nunquam perdere https://plnkr.co/edit/OiX7kC olla https://b.jpg.',

@@ -14,6 +14,8 @@ const options = {
 const pluginOptions = {
 	regex: /(^|\s)#([a-z\d-]+)/gi,
 	_replaceAnyways: true,
+	_ignoreAnchorCheck: false,
+	_ignoreInlineCheck: false,
 	template (args) {
 		return `<a href="https://a.com/${args[2]}">${args[0]}</a>`
 	}

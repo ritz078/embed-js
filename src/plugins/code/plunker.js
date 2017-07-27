@@ -1,5 +1,5 @@
 import extend from "just-extend"
-import basic from "./basic"
+import basic from "../basic"
 
 export default opts => {
 	const defaultOptions = {
