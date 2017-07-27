@@ -3380,6 +3380,10 @@ just-flatten-it@^1.1.23:
   version "1.1.23"
   resolved "https://registry.yarnpkg.com/just-flatten-it/-/just-flatten-it-1.1.23.tgz#ad4d50982552978a5cf8c59510ca5378fdec0994"
 
+just-kebab-case@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/just-kebab-case/-/just-kebab-case-1.0.0.tgz#b1cf0415ca20efddca120c2aa3773f4e16565a36"
+
 just-pluck-it@^1.1.21:
   version "1.1.21"
   resolved "https://registry.yarnpkg.com/just-pluck-it/-/just-pluck-it-1.1.21.tgz#8675fba91aabf68cb56f3131fae8ee7dc04cb0f3"
