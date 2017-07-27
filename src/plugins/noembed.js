@@ -1,4 +1,4 @@
-import unfetch from "isomorphic-unfetch"
+import unfetch from "../utils/fetch"
 import extend from "just-extend"
 import getRegex from "../utils/noembed-regex"
 import getQuery from "../utils/getQuery"

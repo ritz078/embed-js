@@ -1,5 +1,5 @@
 import extend from 'just-extend'
-import unfetch from 'isomorphic-unfetch'
+import unfetch from '../utils/fetch'
 import basic from './basic'
 
 async function _process (args) {

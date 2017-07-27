@@ -1,5 +1,5 @@
 import test from 'ava'
-import emoji from '../src/plugins/emoji'
+import emoji from '../src/plugins/emoji/emoji'
 import isPromise from 'p-is-promise'
 
 test('Plugin: emoji - should return a Promise when called', (t) => {

@@ -2,7 +2,7 @@ import extend from 'just-extend'
 import pWaterfall from 'p-waterfall'
 import isDom from 'is-dom'
 import { appendEmbedsAtEnd } from './utils/dom'
-import emoji from './plugins/emoji'
+import emoji from './plugins/emoji/emoji'
 import url from './plugins/url'
 import gmap from './plugins/gmap'
 import twitter from './plugins/twitter'
@@ -22,8 +22,7 @@ class EmbedJS {
 				gmap({
 					gAuthKey: 'AIzaSyCqFouT8h5DKAbxlrTZmjXEmNBjC69f0ts'
 				}),
-				// noEmbed()
-				twitter()
+				noEmbed()
 			],
 			inlineEmbed: true,
 			replaceText: false,

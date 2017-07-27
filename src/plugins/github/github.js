@@ -1,6 +1,6 @@
 import extend from "just-extend"
-import unfetch from "isomorphic-unfetch"
-import basic from "./basic"
+import unfetch from "../../utils/fetch"
+import basic from "../basic"
 
 async function _process(args) {
 	const [, user, repo] = args

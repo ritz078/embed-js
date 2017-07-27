@@ -1,6 +1,6 @@
 import test from 'ava'
 import isPromise from 'p-is-promise'
-import audio from '../src/plugins/audio'
+import audio from '../src/plugins/audio/audio'
 
 const options = {
 	result: 'Nunquam perdere https://a.mp3 olla https://b.mp3.',

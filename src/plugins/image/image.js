@@ -1,11 +1,11 @@
 import extend from "just-extend"
-import basic from "./basic"
+import basic from "../basic"
 
 export default function(opts) {
 	const defaultOptions = {
-		regex: /((?:https?):\/\/\S*\.(?:wav|mp3|ogg))/gi,
+		regex: /((?:https?):\/\/\S*\.(?:gif|jpg|jpeg|tiff|png|svg|webp))/gi,
 		template(args) {
-			return `<audio src="${args[1]}" controls class="video-js ejs-video-js"></audio>`
+			return `<img class="ejs-image" src="${args[1]}"/>`
 		}
 	}
 	const pluginOptions = extend({}, defaultOptions, opts)

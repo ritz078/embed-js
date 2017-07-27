@@ -1,6 +1,6 @@
 import test from 'ava'
 import isPromise from 'p-is-promise'
-import emojiImage from '../src/plugins/emojiImage'
+import emojiImage from '../src/plugins/emoji/emojiImage'
 
 const options = {
 	result: 'Parmas mori! Heu, :home: primus barcas!'

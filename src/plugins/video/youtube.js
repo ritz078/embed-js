@@ -1,9 +1,8 @@
 import extend from "just-extend"
 import truncate from "just-truncate"
 import isDom from "is-dom"
-// in umd build this resolves to unfetch
-import unfetch from "isomorphic-unfetch"
-import basic from "./basic"
+import unfetch from "../../utils/fetch"
+import basic from "../basic"
 
 /**
  * Decorate data into a simpler structure
