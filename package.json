@@ -97,6 +97,7 @@
     "node-fetch": "^1.7.1",
     "p-is-promise": "^1.1.0",
     "p-waterfall": "^1.0.0",
+    "prismjs": "^1.6.0",
     "regex-emoji": "^2.0.5",
     "rollup-plugin-babel": "^2.7.1",
     "snarkdown": "^1.2.2",

@@ -7,6 +7,7 @@ import url from './plugins/url'
 import gmap from './plugins/gmap'
 import twitter from './plugins/twitter'
 import slideShare from './plugins/slide-share'
+import highlight from './plugins/code/highlight'
 import noEmbed from './plugins/noembed'
 
 function transformArray (plugins) {
@@ -22,7 +23,8 @@ class EmbedJS {
 				gmap({
 					gAuthKey: 'AIzaSyCqFouT8h5DKAbxlrTZmjXEmNBjC69f0ts'
 				}),
-				noEmbed()
+				noEmbed(),
+				highlight()
 			],
 			inlineEmbed: true,
 			replaceText: false,

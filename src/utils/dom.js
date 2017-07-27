@@ -108,12 +108,12 @@ async function getTemplate(args, options, pluginOptions) {
 
 async function basicReplace(options, pluginOptions) {
 	const { result, replaceUrl } = options
-	const { regex, replace } = pluginOptions
+	const { regex, _replaceAnyways } = pluginOptions
 	return stringReplaceAsync(
 		result,
 		regex,
 		async (...args) =>
-			replaceUrl || replace
+			replaceUrl || _replaceAnyways
 				? getTemplate(args, options, pluginOptions)
 				: `${args[0]} ${await getTemplate(args, options, pluginOptions)}`
 	)
@@ -127,9 +127,9 @@ async function basicReplace(options, pluginOptions) {
  */
 export async function insert(options, pluginOptions) {
 	const { result, replaceUrl, inlineEmbed } = options
-	const { regex, _ignoreAnchorCheck } = pluginOptions
+	const { regex, _ignoreAnchorCheck, _ignoreInlineCheck } = pluginOptions
 
-	if (!inlineEmbed) {
+	if (!inlineEmbed && !_ignoreInlineCheck) {
 		return saveEmbedData(options, pluginOptions)
 	}
 

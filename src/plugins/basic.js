@@ -3,7 +3,7 @@ import { insert } from "../utils/dom"
 
 export default opts => {
 	const defaultOptions = {
-		replace: false,
+		_replaceAnyways: false,
 		onLoad() {}
 	}
 

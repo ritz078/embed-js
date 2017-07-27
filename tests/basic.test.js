@@ -13,7 +13,7 @@ const options = {
 
 const pluginOptions = {
 	regex: /(^|\s)#([a-z\d-]+)/gi,
-	replace: true,
+	_replaceAnyways: true,
 	template (args) {
 		return `<a href="https://a.com/${args[2]}">${args[0]}</a>`
 	}
