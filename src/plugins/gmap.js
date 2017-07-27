@@ -10,7 +10,7 @@ export async function getCoordinate(location) {
 	return data.results[0].geometry.location
 }
 
-async function _process (args, options, pluginOptions) {
+async function _process (args) {
 	const location = args[1]
 	return getCoordinate(location)
 }
@@ -40,7 +40,8 @@ export default function(opts) {
 	}
 
 	const pluginOptions = extend({}, defaultOptions, opts, {
-		_process
+		_process,
+		_ignoreAnchorCheck: true
 	})
 	return basic(pluginOptions)
 }

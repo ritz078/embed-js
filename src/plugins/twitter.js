@@ -1,6 +1,6 @@
 import extend from "just-extend"
 // in umd build this resolves to unfetch
-import unfetch from "isomorphic-unfetch"
+import unfetch from "../utils/jsonp"
 import isDom from "is-dom"
 import isBrowser from "is-in-browser"
 import basic from "./basic"
@@ -23,6 +23,7 @@ import getQuery from "../utils/getQuery"
  */
 async function _process(
 	args,
+	options,
 	{
 		omitScript,
 		maxWidth,

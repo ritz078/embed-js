@@ -7,12 +7,14 @@ import basic from "./basic"
 /**
  * Fetches the data from the noembed API
  * @param url
+ * @param args
+ * @param options
  * @param maxWidth
  * @param maxHeight
- * @param noWrap
  * @returns {Promise.<*>}
  */
-export async function fetchData(url, { maxWidth, maxHeight, noWrap }) {
+export async function _process(args, options, { maxWidth, maxHeight }) {
+	const url = args[0]
 	try {
 		const params = {
 			url,
@@ -45,13 +47,14 @@ export default function(opts = {}) {
 		// It accepts an array of service names in lowercase.
 		excludeServices: [],
 
-		async template(args) {
-			const { html } = await fetchData(args[0], pluginOptions)
-			return `<div class="ejs-embed">${html}</div>`
+		async template(args, options, pluginOptions, { html }) {
+			return `<div class="ejs-embed ejs-no-embed">${html}</div>`
 		}
 	}
 
-	const pluginOptions = extend({}, defaultOptions, opts)
+	const pluginOptions = extend({}, defaultOptions, opts, {
+		_process
+	})
 
 	if (!opts.regex) {
 		pluginOptions.regex = getRegex(pluginOptions.excludeServices)

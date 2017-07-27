@@ -3,7 +3,11 @@ import pWaterfall from 'p-waterfall'
 import isDom from 'is-dom'
 import { appendEmbedsAtEnd } from './utils/dom'
 import emoji from './plugins/emoji'
+import url from './plugins/url'
 import gmap from './plugins/gmap'
+import twitter from './plugins/twitter'
+import slideShare from './plugins/slide-share'
+import noEmbed from './plugins/noembed'
 
 function transformArray (plugins) {
 	return plugins.map(p => p.transform)
@@ -13,10 +17,13 @@ class EmbedJS {
 	constructor (options) {
 		const defaultOptions = {
 			plugins: [
-				emoji(),
+				url(),
+				// emoji(),
 				gmap({
 					gAuthKey: 'AIzaSyCqFouT8h5DKAbxlrTZmjXEmNBjC69f0ts'
-				})
+				}),
+				// noEmbed()
+				twitter()
 			],
 			inlineEmbed: true,
 			replaceText: false,
@@ -67,6 +74,7 @@ class EmbedJS {
 		const {inlineEmbed} = this.options
 
 		this.options.input.innerHTML = inlineEmbed ? options.result : appendEmbedsAtEnd(options)
+		this.load()
 		return options
 	}
 }

@@ -23,8 +23,12 @@ export default opts => {
 		},
 
 		onLoad(options) {
-			_onLoadInternal(options, pluginOptions)
-			onLoad(options, pluginOptions)
+			if (_onLoadInternal) {
+				_onLoadInternal(options, pluginOptions)
+			}
+			if (onLoad) {
+				onLoad(options, pluginOptions)
+			}
 		}
 	}
 }

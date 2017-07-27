@@ -2,5 +2,8 @@
 	width: 100%;
 	border: none;
 	margin: 10px 0;
-	background-color: cornflowerblue;
+}
+
+.ejs-embed iframe {
+	width: 100%;
 }

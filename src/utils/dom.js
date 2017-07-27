@@ -106,6 +106,19 @@ async function getTemplate (args, options, pluginOptions) {
 	return template(args, options, pluginOptions, data)
 }
 
+async function basicReplace (options, pluginOptions) {
+	const {result, replaceUrl} = options
+	const {regex, replace} = pluginOptions
+	return stringReplaceAsync(
+		result,
+		regex,
+		async (...args) =>
+			(replaceUrl || replace)
+				? getTemplate(args, options, pluginOptions)
+				: `${args[0]} ${await getTemplate(args, options, pluginOptions)}`
+	)
+}
+
 /**
  * Insert the embed code in the original string.
  * @param options
@@ -114,15 +127,15 @@ async function getTemplate (args, options, pluginOptions) {
  */
 export async function insert(options, pluginOptions) {
 	const { result, replaceUrl, inlineEmbed } = options
-	const { regex, replace } = pluginOptions
+	const { regex, _ignoreAnchorCheck } = pluginOptions
 
 	if (!inlineEmbed) {
 		return saveEmbedData(options, pluginOptions)
 	}
 
-	let output
+	let output = await basicReplace(options, pluginOptions)
 
-	if (isAnchorTagApplied(result)) {
+	if (isAnchorTagApplied(result) && !_ignoreAnchorCheck) {
 		output = await stringReplaceAsync(result, anchorRegex, async (match, url) => {
 			if (!isMatchPresent(regex, url, true)) {
 				return match
@@ -137,15 +150,6 @@ export async function insert(options, pluginOptions) {
 				return getTemplate(args, options, pluginOptions)
 			})
 		})
-	} else {
-		output = await stringReplaceAsync(
-			result,
-			regex,
-			async (...args) =>
-				replaceUrl || replace
-					? getTemplate(args, options, pluginOptions)
-					: `${args[0]} ${await getTemplate(args, options, pluginOptions)}`
-		)
 	}
 
 	return extend({}, options, {
