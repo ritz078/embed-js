@@ -311,7 +311,6 @@ const regexes = [
 			"https?://www\\.twitch\\.tv/.[^\\s]*",
 			"https?://twitch\\.tv/.[^\\s]*",
 			"https?://twitch\\.tv/.[^\\s]*",
-			"https?://twitter\\.com/.*/status/.[^\\s]*",
 			"https?://player\\.ubideo\\.com/.[^\\s]*",
 			"https?://.*\\.uol\\.com\\.br/view/.[^\\s]*",
 			"https?://.*\\.uol\\.com\\.br/video/.[^\\s]*",
@@ -385,7 +384,7 @@ const regexes = [
 
 export default function getRegexes(excludeServices = []) {
 	const includedRegexes = regexes.filter(r =>
-		excludeServices.indexOf(r.name.toLowerCase() === -1)
+		(excludeServices.indexOf(r.name.toLowerCase()) === -1)
 	)
 	const patterns = flatten(pluck(includedRegexes, "patterns"))
 	return new RegExp(patterns.join("|"), "gi")
