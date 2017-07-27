@@ -5,7 +5,7 @@ export default function(opts) {
 	const defaultOptions = {
 		regex: /((?:https?):\/\/\S*\.(?:wav|mp3|ogg))/gi,
 		template(args) {
-			return `<audio src="${args[1]}" controls class="video-js ejs-video-js"></audio>`
+			return `<audio src="${args[1]}" controls class="ejs-audio"></audio>`
 		}
 	}
 	const pluginOptions = extend({}, defaultOptions, opts)

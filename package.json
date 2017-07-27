@@ -75,7 +75,7 @@
   },
   "lint-staged": {
     "'{src, tests}/**/*.js'": [
-      "prettier --write",
+      "prettier --write --use-tabs --no-semi --tab-width 1",
       "git add"
     ]
   },

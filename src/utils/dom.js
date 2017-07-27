@@ -97,7 +97,7 @@ function getMatch(regex, string) {
 	return matches
 }
 
-async function getTemplate (args, options, pluginOptions) {
+async function getTemplate(args, options, pluginOptions) {
 	const { _process, template } = pluginOptions
 	let data
 	if (_process) {
@@ -106,14 +106,14 @@ async function getTemplate (args, options, pluginOptions) {
 	return template(args, options, pluginOptions, data)
 }
 
-async function basicReplace (options, pluginOptions) {
-	const {result, replaceUrl} = options
-	const {regex, replace} = pluginOptions
+async function basicReplace(options, pluginOptions) {
+	const { result, replaceUrl } = options
+	const { regex, replace } = pluginOptions
 	return stringReplaceAsync(
 		result,
 		regex,
 		async (...args) =>
-			(replaceUrl || replace)
+			replaceUrl || replace
 				? getTemplate(args, options, pluginOptions)
 				: `${args[0]} ${await getTemplate(args, options, pluginOptions)}`
 	)

@@ -1,8 +1,8 @@
-import extend from 'just-extend'
-import unfetch from '../utils/fetch'
-import basic from './basic'
+import extend from "just-extend"
+import unfetch from "../utils/fetch"
+import basic from "./basic"
 
-async function _process (args) {
+async function _process(args) {
 	const url = args[0]
 	try {
 		const res = await unfetch(`https://noembed.com/embed?url=${url}`)
@@ -14,7 +14,7 @@ async function _process (args) {
 	}
 }
 
-export default function (opts) {
+export default function(opts) {
 	const defaultOptions = {
 		regex: /https?:\/\/www\.slideshare\.net\/.*\/.[^\s]*/gi,
 

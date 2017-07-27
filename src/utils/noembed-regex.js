@@ -383,8 +383,8 @@ const regexes = [
 ]
 
 export default function getRegexes(excludeServices = []) {
-	const includedRegexes = regexes.filter(r =>
-		(excludeServices.indexOf(r.name.toLowerCase()) === -1)
+	const includedRegexes = regexes.filter(
+		r => excludeServices.indexOf(r.name.toLowerCase()) === -1
 	)
 	const patterns = flatten(pluck(includedRegexes, "patterns"))
 	return new RegExp(patterns.join("|"), "gi")

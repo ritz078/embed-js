@@ -1,9 +1,9 @@
-import fetchJsonp from 'fetch-jsonp'
-import isBrowser from 'is-in-browser'
+import fetchJsonp from "fetch-jsonp"
+import isBrowser from "is-in-browser"
 
 let unfetch
 if (!isBrowser) {
-	unfetch = require('isomorphic-unfetch')
+	unfetch = require("isomorphic-unfetch")
 }
 
-export default (unfetch || fetchJsonp)
+export default unfetch || fetchJsonp

@@ -10,7 +10,7 @@ export async function getCoordinate(location) {
 	return data.results[0].geometry.location
 }
 
-async function _process (args) {
+async function _process(args) {
 	const location = args[1]
 	return getCoordinate(location)
 }
