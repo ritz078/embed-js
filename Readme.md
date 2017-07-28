@@ -24,7 +24,7 @@
 #### [Live Demo](http://codepen.io/ritz078/full/WvvNGe/)
 
 
-[![screen](demo/demo.gif)](http://codepen.io/ritz078/full/WvvNGe/)
+[![screen](resources/demo.gif)](http://codepen.io/ritz078/full/WvvNGe/)
 
 ## Important links
 
