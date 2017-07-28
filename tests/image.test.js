@@ -1,6 +1,6 @@
 import test from 'ava'
 import isPromise from 'p-is-promise'
-import image from '../src/plugins/image/image'
+import image from '../src/plugins/image/basic-image'
 
 const options = {
 	result: 'Nunquam perdere https://a.jpg olla https://b.jpg.',

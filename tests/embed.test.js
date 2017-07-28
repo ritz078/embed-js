@@ -2,7 +2,7 @@ import EmbedJS from '../src'
 import test from 'ava'
 import url from '../src/plugins/url'
 import emoji from '../src/plugins/emoji/emoji'
-import image from '../src/plugins/image/image'
+import image from '../src/plugins/image/basic-image'
 
 test('EmbedJS - should ', async (t) => {
 	const ejs = new EmbedJS({

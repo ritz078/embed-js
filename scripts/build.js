@@ -6,8 +6,9 @@ const nodent = require('rollup-plugin-nodent')
 const {resolve} = require('app-root-path')
 const commonjs = require('rollup-plugin-commonjs')
 const uglify = require('rollup-plugin-uglify')
-const fileSize = require('rollup-plugin-filesize')
 const nodeResolve = require('rollup-plugin-node-resolve')
+const fileName = require('file-name')
+const camelCase = require('just-camel-case')
 const pkg = require('../package.json')
 
 const banner = `/*
@@ -25,8 +26,6 @@ const nodentConfig = {
 	noRuntime: true,
 	es6target: true
 }
-
-const sourceMap = true
 
 const external = Object.keys(pkg.dependencies)
 
@@ -47,44 +46,50 @@ globby(['src/**/*.js']).then(paths => {
 	})
 })
 
-rollup.rollup({
-	entry: 'src/index.js',
-	banner,
-	plugins: [
-		nodeResolve(),
-		json(),
-		commonjs(),
-		nodent(nodentConfig),
-		buble(),
-		uglify(),
-		fileSize()
-	]
-}).then(bundle => {
-	bundle.write({
-		format: 'umd',
-		moduleName: 'EmbedJS',
-		dest: 'dist/embed.min.js',
-		sourceMap
+globby(['src/**/*.js']).then(paths => {
+	const destRoot = resolve('dist/umd')
+	paths.forEach(path => {
+		rollup.rollup({
+			entry: path,
+			plugins: [
+				nodeResolve(),
+				json(),
+				commonjs(),
+				nodent(nodentConfig),
+				buble()
+			],
+			banner,
+		}).then(bundle => {
+			bundle.write({
+				format: 'umd',
+				moduleName: camelCase(fileName(path)),
+				dest: destRoot + path.replace('src', '')
+			})
+		})
 	})
 })
 
-rollup.rollup({
-	entry: 'src/index.js',
-	banner,
-	plugins: [
-		nodeResolve(),
-		json(),
-		commonjs(),
-		nodent(nodentConfig),
-		buble(),
-		fileSize()
-	]
-}).then(bundle => {
-	bundle.write({
-		format: 'umd',
-		moduleName: 'EmbedJS',
-		dest: 'dist/embed.js',
-		sourceMap
+globby(['src/**/*.js']).then(paths => {
+	const destRoot = resolve('dist/umd-min')
+	paths.forEach(path => {
+		rollup.rollup({
+			entry: path,
+			plugins: [
+				nodeResolve(),
+				json(),
+				commonjs(),
+				nodent(nodentConfig),
+				buble(),
+				uglify()
+			],
+			banner,
+		}).then(bundle => {
+			bundle.write({
+				format: 'umd',
+				moduleName: camelCase(fileName(path)),
+				dest: destRoot + path.replace('src', '')
+			})
+		})
 	})
 })
 
