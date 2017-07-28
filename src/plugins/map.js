@@ -15,7 +15,7 @@ async function _process(args) {
 	return getCoordinate(location)
 }
 
-const map = function(opts) {
+export default function(opts) {
 	const defaultOptions = {
 		regex: /@\((.+)\)/gi,
 		mode: "place",
@@ -46,5 +46,3 @@ const map = function(opts) {
 	return basic(pluginOptions)
 }
 
-map.pluginName = "map"
-export default map

@@ -7,7 +7,7 @@ import all from './presets/all'
 function transformArray (plugins) {
 	return plugins.map(p => p.transform)
 }
-class EmbedJS {
+export default class EmbedJS {
 	constructor (options) {
 		const defaultOptions = {
 			plugins: [
@@ -57,16 +57,17 @@ class EmbedJS {
 	}
 
 	async render () {
-		if (!isDom(this.options.input)) {
+		const { input, target } = this.options
+		if (!isDom(input) && !(target && isDom(target))) {
 			throw new Error('You haven\'t passed the input as an element.')
 		}
+
 		const options = await this.process()
 		const {inlineEmbed} = this.options
 
-		this.options.input.innerHTML = inlineEmbed ? options.result : appendEmbedsAtEnd(options)
+		const element = target || input
+		element.innerHTML = inlineEmbed ? options.result : appendEmbedsAtEnd(options)
 		this.load()
 		return options
 	}
 }
-
-export default EmbedJS
