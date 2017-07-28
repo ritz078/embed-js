@@ -29,7 +29,7 @@ function formatData({ snippet, statistics, id }) {
  * @param gAuthKey
  * @returns {Promise.<*>}
  */
-export async function fetchDetails(id, gAuthKey) {
+async function fetchDetails(id, gAuthKey) {
 	try {
 		const res = await unfetch(
 			`https://www.googleapis.com/youtube/v3/videos?id=${id}&key=${gAuthKey}&part=snippet,statistics`

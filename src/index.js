@@ -2,30 +2,14 @@ import extend from 'just-extend'
 import pWaterfall from 'p-waterfall'
 import isDom from 'is-dom'
 import { appendEmbedsAtEnd } from './utils/dom'
-import emoji from './plugins/emoji/emoji'
-import url from './plugins/url'
-import gmap from './plugins/gmap'
-import twitter from './plugins/twitter'
-import slideShare from './plugins/slide-share'
-import highlight from './plugins/code/highlight'
-import noEmbed from './plugins/noembed'
 
 function transformArray (plugins) {
 	return plugins.map(p => p.transform)
 }
-
 class EmbedJS {
 	constructor (options) {
 		const defaultOptions = {
-			plugins: [
-				url(),
-				// emoji(),
-				gmap({
-					gAuthKey: 'AIzaSyCqFouT8h5DKAbxlrTZmjXEmNBjC69f0ts'
-				}),
-				noEmbed(),
-				highlight()
-			],
+			plugins: [],
 			inlineEmbed: true,
 			replaceText: false,
 			_embeds: []

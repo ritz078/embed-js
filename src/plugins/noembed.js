@@ -8,7 +8,7 @@ import basic from "./basic"
  * @param args
  * @returns {Promise.<*>}
  */
-export async function _process(args) {
+async function _process(args) {
 	const url = args[0]
 	try {
 		const res = await unfetch(`https://noembed.com/embed?url=${url}`)

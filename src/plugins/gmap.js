@@ -2,7 +2,7 @@ import extend from "just-extend"
 import unfetch from "../utils/fetch"
 import basic from "./basic"
 
-export async function getCoordinate(location) {
+async function getCoordinate(location) {
 	const res = await unfetch(
 		`http://maps.googleapis.com/maps/api/geocode/json?address=${location}&sensor=false`
 	)
