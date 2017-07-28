@@ -1,4 +1,3 @@
-import escapeStringRegexp from "escape-string-regexp"
 import extend from "just-extend"
 
 function matchAll(str, re) {
@@ -43,14 +42,6 @@ function concurrency(matches, replacer) {
 }
 
 function processString(str, re, replacer) {
-	if (typeof replacer === "string") {
-		return str.replace(re, replacer)
-	}
-
-	if (typeof re === "string") {
-		re = new RegExp(escapeStringRegexp(re))
-	}
-
 	const matches = matchAll(str, re)
 	const processor = concurrency
 

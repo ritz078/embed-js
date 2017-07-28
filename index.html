@@ -24,14 +24,14 @@
 	</div>
 </body>
 <script src="https://platform.twitter.com/widgets.js"></script>
-<script src="./dist/umd/embed.umd.js"></script>
+<script src="./dist/embed.all.js"></script>
 
 <script>
 	const a = new EmbedJS({
 		input: document.getElementById('a'),
 		inlineEmbed: true
 	})
-	a.render()
+	a.render().then(({input}) => twttr.widgets.load(input))
 
 </script>
 

@@ -2,6 +2,7 @@ import extend from 'just-extend'
 import pWaterfall from 'p-waterfall'
 import isDom from 'is-dom'
 import { appendEmbedsAtEnd } from './utils/dom'
+import all from './presets/all'
 
 function transformArray (plugins) {
 	return plugins.map(p => p.transform)
@@ -9,7 +10,11 @@ function transformArray (plugins) {
 class EmbedJS {
 	constructor (options) {
 		const defaultOptions = {
-			plugins: [],
+			plugins: [
+				...all({
+					gAuthKey: "AIzaSyCqFouT8h5DKAbxlrTZmjXEmNBjC69f0ts"
+				})
+			],
 			inlineEmbed: true,
 			replaceText: false,
 			_embeds: []
