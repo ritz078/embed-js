@@ -35,8 +35,6 @@
     "babel-polyfill": "^6.23.0",
     "babel-preset-env": "^1.6.0",
     "babel-preset-stage-0": "^6.24.1",
-    "chai": "^4.1.0",
-    "chai-html": "^1.1.4",
     "codecov.io": "^0.1.6",
     "cz-conventional-changelog": "^2.0.0",
     "eslint": "^4.3.0",
