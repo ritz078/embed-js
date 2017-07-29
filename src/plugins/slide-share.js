@@ -2,6 +2,8 @@ import extend from "just-extend"
 import unfetch from "../utils/fetch"
 import basic from "./basic"
 
+const name = 'slideShare'
+
 async function _process(args) {
 	const url = args[0]
 	try {
@@ -14,9 +16,9 @@ async function _process(args) {
 	}
 }
 
-export default function(opts) {
+export default function slideShare(opts) {
 	const defaultOptions = {
-		name: 'slideShare',
+		name,
 		regex: /https?:\/\/www\.slideshare\.net\/.*\/.[^\s]*/gi,
 
 		template(args, options, pluginOptions, { html }) {
@@ -27,3 +29,5 @@ export default function(opts) {
 	const pluginOptions = extend({}, defaultOptions, opts, { _process })
 	return basic(pluginOptions)
 }
+
+slideShare.pluginName = name

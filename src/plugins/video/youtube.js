@@ -4,6 +4,8 @@ import isDom from "is-dom"
 import unfetch from "../../utils/fetch"
 import basic from "../basic"
 
+const name = 'youtube'
+
 /**
  * Decorate data into a simpler structure
  * @param data
@@ -108,9 +110,9 @@ async function _process(args, options, { gAuthKey, details }) {
 	return { data, embedUrl }
 }
 
-export default opts => {
+function youtube(opts) {
 	const defaultOptions = {
-		name: 'youtube',
+		name,
 		regex: /https?:\/\/(?:[0-9A-Z-]+\.)?(?:youtu\.be\/|youtube\.com(?:\/embed\/|\/v\/|\/watch\?v=|\/ytscreeningroom\?v=|\/feeds\/api\/videos\/|\/user\S*[^\w\-\s]|\S*[^\w\-\s]))([\w\-]{11})[?=&+%\w-]*/gi,
 		gAuthKey: "",
 		details: true,
@@ -137,3 +139,7 @@ export default opts => {
 	})
 	return basic(pluginOptions)
 }
+
+youtube.pluginName = name
+
+export default youtube

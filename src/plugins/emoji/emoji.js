@@ -4,7 +4,7 @@ import kebab from 'just-kebab-case'
 
 // You need emoji.css to run with this plugin. Else you need to pass the
 // template suitable to your needs.
-export default function (opts) {
+export default function emoji(opts) {
 	const defaultOptions = {
 		template(emojiName) {
 			return `<span class="ejs-emoji-image ec ec-${kebab(emojiName)}"></span>`
@@ -25,3 +25,5 @@ export default function (opts) {
 		}
 	}
 }
+
+emoji.pluginName = 'emoji'

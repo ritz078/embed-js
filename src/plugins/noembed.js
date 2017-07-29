@@ -3,6 +3,8 @@ import extend from "just-extend"
 import getRegex from "../utils/noembed-regex"
 import basic from "./basic"
 
+const name = 'noEmbed'
+
 /**
  * Fetches the data from the noembed API
  * @param args
@@ -20,9 +22,9 @@ async function _process(args) {
 	}
 }
 
-export default function(opts = {}) {
+function noEmbed(opts = {}) {
 	const defaultOptions = {
-		name: 'noembed',
+		name,
 		// Regex to be used to identify noembed supported services.
 		// By default it takes from noembed-regex.js
 		regex: null,
@@ -46,3 +48,7 @@ export default function(opts = {}) {
 
 	return basic(pluginOptions)
 }
+
+noEmbed.pluginName = name
+
+export default noEmbed

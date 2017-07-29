@@ -2,6 +2,8 @@ import extend from "just-extend"
 import unfetch from "../../utils/fetch"
 import basic from "../basic"
 
+const name = 'github'
+
 async function _process(args) {
 	const [, user, repo] = args
 
@@ -13,9 +15,9 @@ async function _process(args) {
 	}
 }
 
-export default function(opts) {
+export default function github(opts) {
 	const defaultOptions = {
-		name: 'github',
+		name,
 		regex: /[^\.]github.com\/([\w\.\-]+)\/([\w\.\-]+[^\.])/gi,
 
 		async template(args, options, pluginOptions, data) {
@@ -30,3 +32,5 @@ export default function(opts) {
 	})
 	return basic(pluginOptions)
 }
+
+github.pluginName = name

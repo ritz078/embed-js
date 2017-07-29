@@ -2,9 +2,11 @@ import extend from 'just-extend'
 import prism from 'prismjs'
 import basic from '../basic'
 
-export default function (opts) {
+const name = 'highlight'
+
+export default function highlight(opts) {
 	const defaultOptions = {
-		name: 'highlight',
+		name,
 		regex: /(`{3})(\s|[a-z]+)\s*([\s\S]*?[^`])\s*\1(?!`)/gm,
 		template(args) {
 			const [, ,language, code] = args
@@ -19,3 +21,5 @@ export default function (opts) {
 	})
 	return basic(pluginOptions)
 }
+
+highlight.pluginName = name

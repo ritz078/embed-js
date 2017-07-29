@@ -6,6 +6,8 @@ import isBrowser from "is-in-browser"
 import basic from "./basic"
 import getQuery from "../utils/getQuery"
 
+const name = 'twitter'
+
 /**
  * Fetch the html content from the API
  * @param url
@@ -71,9 +73,9 @@ function renderTweet({input, _services}, { twttr, onLoad }) {
 	}
 }
 
-export default opts => {
+export default function twitter(opts) {
 	const defaultOptions = {
-		name: 'twitter',
+		name,
 		// Regex that matches the string and sends to the template method.
 		regex: /https:\/\/twitter\.com\/\w+\/\w+\/\d+/gi,
 
@@ -156,3 +158,5 @@ export default opts => {
 	})
 	return basic(pluginOptions)
 }
+
+twitter.pluginName = name

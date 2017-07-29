@@ -1,9 +1,11 @@
 import extend from "just-extend"
 import basic from "../basic"
 
-export default opts => {
+const name = 'plunker'
+
+export default function plunker(opts) {
 	const defaultOptions = {
-		name: 'plunker',
+		name,
 		regex: /https?:\/\/plnkr.co\/edit\/([a-zA-Z0-9\?=]+)/gi,
 		height: 300,
 		template(args, options, pluginOptions) {
@@ -13,3 +15,5 @@ export default opts => {
 	const pluginOptions = extend({}, defaultOptions, opts)
 	return basic(pluginOptions)
 }
+
+plunker.pluginName = name

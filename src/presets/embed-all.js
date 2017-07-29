@@ -35,24 +35,24 @@ export default function(options) {
 		youtube
 	]
 	const plugins = pluginNames.map(plugin => {
-		if (presetOptions.exclude.indexOf(plugin.name) === -1) {
-			if (plugin.name === "youtube" || plugin.name === "map") {
+		if (presetOptions.exclude.indexOf(plugin.pluginName) === -1) {
+			if (plugin.pluginName === "youtube" || plugin.pluginName === "map") {
 				return plugin(
 					extend(
 						{},
 						{
 							gAuthKey: options.gAuthKey
 						},
-						presetOptions[plugin.name]
+						presetOptions[plugin.pluginName]
 					)
 				)
 			}
-			if(plugin.name === 'noEmbed') {
-				return plugin(extend({}, plugin.name, {
+			if (plugin.pluginName === 'noEmbed') {
+				return plugin(extend({}, plugin.pluginName, {
 					exclude: 'youtube'
 				}))
 			}
-			return plugin(presetOptions[plugin.name])
+			return plugin(presetOptions[plugin.pluginName])
 		}
 		return null
 	})

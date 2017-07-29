@@ -1,9 +1,11 @@
 import extend from 'just-extend'
 import basic from '../basic'
 
-export default function (opts) {
+const name = 'basicVideo'
+
+export default function basicVideo(opts) {
 	const defaultOptions = {
-		name: 'basicVideo',
+		name,
 		regex: /(?:https?):\/\/\S*\.(?:ogv|webm|mp4)/gi,
 		template(args) {
 			return `<video src="${args[0]}" controls class="ejs-video"></video>`
@@ -12,3 +14,5 @@ export default function (opts) {
 	const pluginOptions = extend({}, defaultOptions, opts)
 	return basic(pluginOptions)
 }
+
+basicVideo.pluginName = name

@@ -1,9 +1,11 @@
 import extend from "just-extend"
 import basic from "../basic"
 
-export default function(opts) {
+const name = 'basicImage'
+
+export default function basicImage(opts) {
 	const defaultOptions = {
-		name: 'basicImage',
+		name,
 		regex: /((?:https?):\/\/\S*\.(?:gif|jpg|jpeg|tiff|png|svg|webp))/gi,
 		template(args) {
 			return `<img class="ejs-image ejs-embed" src="${args[1]}"/>`
@@ -12,3 +14,5 @@ export default function(opts) {
 	const pluginOptions = extend({}, defaultOptions, opts)
 	return basic(pluginOptions)
 }
+
+basicImage.pluginName = name

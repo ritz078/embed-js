@@ -1,7 +1,9 @@
 import extend from "just-extend"
 import linkify from "html-linkify"
 
-export default opts => {
+const name = 'url'
+
+export default function url(opts) {
 	const defaultOptions = {
 		attributes: {},
 
@@ -18,3 +20,5 @@ export default opts => {
 		}
 	}
 }
+
+url.pluginName = name
