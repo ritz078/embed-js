@@ -3,6 +3,7 @@ import basic from "../basic"
 
 export default opts => {
 	const defaultOptions = {
+		name: 'plunker',
 		regex: /https?:\/\/plnkr.co\/edit\/([a-zA-Z0-9\?=]+)/gi,
 		height: 300,
 		template(args, options, pluginOptions) {

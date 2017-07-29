@@ -3,6 +3,7 @@ import basic from "../basic"
 
 export default function(opts) {
 	const defaultOptions = {
+		name: 'basicImage',
 		regex: /((?:https?):\/\/\S*\.(?:gif|jpg|jpeg|tiff|png|svg|webp))/gi,
 		template(args) {
 			return `<img class="ejs-image" src="${args[1]}"/>`

@@ -17,6 +17,7 @@ async function _process(args) {
 
 export default function(opts) {
 	const defaultOptions = {
+		name: 'map',
 		regex: /@\((.+)\)/gi,
 		mode: "place",
 		height: 300,

@@ -8,7 +8,8 @@ const options = {
 	result: 'Nunquam perdere #helloWorld olla https://b.jpg.',
 	replaceUrl: false,
 	inlineEmbed: true,
-	_embeds: []
+	_embeds: [],
+	_services:[]
 }
 
 const pluginOptions = {

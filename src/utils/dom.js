@@ -53,6 +53,12 @@ export function appendEmbedsAtEnd({ result, _embeds }) {
 	return `${result} ${combineEmbedsText(_embeds)}`
 }
 
+function saveServiceName ({_services}, {name}, match) {
+	if(!_services.filter(x => (x.match === match)).length) {
+		_services.push({name, match})
+	}
+}
+
 async function pushEmbedContent(text, options, pluginOptions, index) {
 	const { regex } = pluginOptions
 	await stringReplaceAsync(text, regex, async (...args) => {
@@ -60,6 +66,7 @@ async function pushEmbedContent(text, options, pluginOptions, index) {
 			content: await getTemplate(args, options, pluginOptions),
 			index: index || args.find(x => typeof x === "number")
 		})
+		saveServiceName(options, pluginOptions, args[0])
 	})
 	return options
 }
@@ -79,6 +86,7 @@ async function saveEmbedData(opts, pluginOptions) {
 			anchorRegex,
 			async (match, url, index) => {
 				if (!isMatchPresent(regex, match, true)) return match
+				saveServiceName(options, pluginOptions, match)
 				options = await pushEmbedContent(url, options, pluginOptions, index)
 				return match
 			}
@@ -112,10 +120,12 @@ async function basicReplace(options, pluginOptions) {
 	return stringReplaceAsync(
 		result,
 		regex,
-		async (...args) =>
-			replaceUrl || _replaceAnyways
+		async (...args) => {
+			saveServiceName(options, pluginOptions, args[0])
+			return replaceUrl || _replaceAnyways
 				? getTemplate(args, options, pluginOptions)
 				: `${args[0]} ${await getTemplate(args, options, pluginOptions)}`
+		}
 	)
 }
 
@@ -130,10 +140,12 @@ async function anchorReplace(options, pluginOptions) {
 
 		if (!(replaceUrl || _replaceAnyways)) {
 			const args = getMatch(regex, url)
+			saveServiceName(options, pluginOptions, args[0])
 			const t = await getTemplate(args, options, pluginOptions)
 			return args ? match + t : match
 		}
 		return stringReplaceAsync(url, regex, async (...args) => {
+			saveServiceName(options, pluginOptions, args[0])
 			return getTemplate(args, options, pluginOptions)
 		})
 	})

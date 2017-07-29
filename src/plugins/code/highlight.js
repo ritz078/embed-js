@@ -4,6 +4,7 @@ import basic from '../basic'
 
 export default function (opts) {
 	const defaultOptions = {
+		name: 'highlight',
 		regex: /(`{3})(\s|[a-z]+)\s*([\s\S]*?[^`])\s*\1(?!`)/gm,
 		template(args) {
 			const [, ,language, code] = args

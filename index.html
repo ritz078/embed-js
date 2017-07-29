@@ -31,7 +31,10 @@
 		input: document.getElementById('a'),
 		inlineEmbed: true
 	})
-	a.render().then(({input}) => twttr.widgets.load(input))
+	a.render().then(({input, _services}) => {
+		console.log(_services)
+		twttr.widgets.load(input)
+	})
 
 </script>
 

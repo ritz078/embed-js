@@ -61,16 +61,19 @@ async function _process(
 	}
 }
 
-function renderTweet(options, { twttr, onLoad }) {
-	if (!isDom(options.input)) {
+function renderTweet({input, _services}, { twttr, onLoad }) {
+	if (!isDom(input)) {
 		throw new Error("input should be a DOM element to embed tweet.")
 	}
-	twttr.widgets.load(options.input)
-	twttr.events.bind("loaded", onLoad)
+	if (_services.indexOf('twitter') >= 0) {
+		twttr.widgets.load(input)
+		twttr.events.bind("loaded", onLoad)
+	}
 }
 
 export default opts => {
 	const defaultOptions = {
+		name: 'twitter',
 		// Regex that matches the string and sends to the template method.
 		regex: /https:\/\/twitter\.com\/\w+\/\w+\/\d+/gi,
 

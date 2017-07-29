@@ -15,6 +15,7 @@ async function _process(args) {
 
 export default function(opts) {
 	const defaultOptions = {
+		name: 'github',
 		regex: /[^\.]github.com\/([\w\.\-]+)\/([\w\.\-]+[^\.])/gi,
 
 		async template(args, options, pluginOptions, data) {

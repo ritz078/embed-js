@@ -16,6 +16,6 @@ test('EmbedJS - should ', async (t) => {
 		replaceUrl: true
 	})
 
-	const { result } = await ejs.process()
+	const { result } = await ejs._process()
 	t.is(result, '<a href="https://a.com">https://a.com</a> Cum ionicis <img class="ejs-image" src="https://image.jpg"/> tormento experimentum, 🆗 omnes fortises captis nobilis, alter menses.')
 })

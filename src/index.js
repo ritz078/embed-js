@@ -17,7 +17,8 @@ export default class EmbedJS {
 			],
 			inlineEmbed: true,
 			replaceText: false,
-			_embeds: []
+			_embeds: [],
+			_services: []
 		}
 
 		let {input} = options
@@ -35,7 +36,7 @@ export default class EmbedJS {
 		})
 	}
 
-	async process () {
+	async _process () {
 		const options = this.resetOptions()
 		const {plugins} = options
 		this.resultText = await pWaterfall(transformArray(plugins), options)
@@ -49,7 +50,7 @@ export default class EmbedJS {
 	}
 
 	async text () {
-		return this.process()
+		return this._process()
 	}
 
 	load () {
@@ -57,16 +58,22 @@ export default class EmbedJS {
 	}
 
 	async render () {
-		const { input, target } = this.options
+		const { input, target, inlineEmbed } = this.options
 		if (!isDom(input) && !(target && isDom(target))) {
 			throw new Error('You haven\'t passed the input as an element.')
 		}
 
-		const options = await this.process()
-		const {inlineEmbed} = this.options
+		let options
+		if (isDom(input) && input.classList.contains('ejs-applied')) {
+			options = this.options
+		} else {
+			options = await this._process()
 
-		const element = target || input
-		element.innerHTML = inlineEmbed ? options.result : appendEmbedsAtEnd(options)
+			const element = target || input
+			element.innerHTML = inlineEmbed ? options.result : appendEmbedsAtEnd(options)
+			element.className += " ejs-applied"
+		}
+
 		this.load()
 		return options
 	}

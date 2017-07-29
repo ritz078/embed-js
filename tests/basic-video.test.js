@@ -6,7 +6,8 @@ const options = {
 	result: 'Nunquam perdere https://a.mp4 olla https://b.mp4.',
 	replaceUrl: false,
 	inlineEmbed: true,
-	_embeds: []
+	_embeds: [],
+	_services:[]
 }
 
 test('Plugin: video - should return a Promise when called', (t) => {

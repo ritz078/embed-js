@@ -16,6 +16,7 @@ async function _process(args) {
 
 export default function(opts) {
 	const defaultOptions = {
+		name: 'slideShare',
 		regex: /https?:\/\/www\.slideshare\.net\/.*\/.[^\s]*/gi,
 
 		template(args, options, pluginOptions, { html }) {

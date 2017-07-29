@@ -8,7 +8,8 @@ Vae, byssus!A falsis, urbs teres palus.
 const x = "hello"
 \`\`\`
 Demolitione, exsul, et homo.
-`
+`,
+	_services:[]
 }
 
 test("Plugin: Highlight - Embed code", async (t) => {

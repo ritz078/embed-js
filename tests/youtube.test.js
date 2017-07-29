@@ -6,7 +6,8 @@ const options = {
 	result: 'Nunquam perdere https://www.youtube.com/watch?v=QGZjVCHBXgs https://a.jpg olla https://b.jpg.',
 	replaceUrl: false,
 	inlineEmbed: true,
-	_embeds: []
+	_embeds: [],
+	_services:[]
 }
 
 const pluginOptions = {

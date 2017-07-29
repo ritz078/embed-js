@@ -5,7 +5,8 @@ import noembed from '../src/plugins/noembed'
 const options = {
 	replaceUrl: false,
 	inlineEmbed: true,
-	_embeds: []
+	_embeds: [],
+	_services:[]
 }
 
 test('Plugin: noembed - youtube', async (t) => {

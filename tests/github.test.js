@@ -7,7 +7,8 @@ const options = {
 	result: 'Nunquam perdere https://github.com/ritz078/embed.js https://a.jpg olla https://b.jpg.',
 	replaceUrl: false,
 	inlineEmbed: true,
-	_embeds: []
+	_embeds: [],
+	_services:[]
 }
 
 test('Plugin: github - return a promise', t => {

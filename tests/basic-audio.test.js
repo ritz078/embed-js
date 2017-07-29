@@ -6,7 +6,8 @@ const options = {
 	result: 'Nunquam perdere https://a.mp3 olla https://b.mp3.',
 	replaceUrl: false,
 	inlineEmbed: true,
-	_embeds: []
+	_embeds: [],
+	_services:[]
 }
 
 test('Plugin: image - should return a Promise when called', (t) => {

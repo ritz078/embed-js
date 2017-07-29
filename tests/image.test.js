@@ -6,7 +6,8 @@ const options = {
 	result: 'Nunquam perdere https://a.jpg olla https://b.jpg.',
 	replaceUrl: false,
 	inlineEmbed: true,
-	_embeds: []
+	_embeds: [],
+	_services:[]
 }
 
 test('Plugin: image - should return a Promise when called', (t) => {

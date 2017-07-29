@@ -22,6 +22,7 @@ async function _process(args) {
 
 export default function(opts = {}) {
 	const defaultOptions = {
+		name: 'noembed',
 		// Regex to be used to identify noembed supported services.
 		// By default it takes from noembed-regex.js
 		regex: null,
@@ -32,7 +33,7 @@ export default function(opts = {}) {
 
 		async template(args, options, pluginOptions, { html }) {
 			return `<div class="ejs-embed ejs-no-embed">${html}</div>`
-		}
+		},
 	}
 
 	const pluginOptions = extend({}, defaultOptions, opts, {
