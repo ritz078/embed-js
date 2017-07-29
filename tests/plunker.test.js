@@ -18,7 +18,7 @@ const options = {
 	test('Plugin: plunker - should return correct result when replaceUrl is false', async (t) => {
 		const {result} = await plunker().transform(options)
 
-		t.is(result, 'Nunquam perdere https://plnkr.co/edit/OiX7kC <div class="ejs-embed ejs-plunker"><iframe src="http://embed.plnkr.co/OiX7kC" height="300"></iframe></div> olla https://b.jpg.')
+		t.snapshot(result)
 	})
 
 	test('Plugin: plunker - should return correct result when replaceUrl is true', async (t) => {
@@ -27,5 +27,5 @@ const options = {
 		})
 
 		const {result} = await plunker().transform(options2)
-		t.is(result, 'Nunquam perdere <div class="ejs-embed ejs-plunker"><iframe src="http://embed.plnkr.co/OiX7kC" height="300"></iframe></div> olla https://b.jpg.')
+		t.snapshot(result)
 	})

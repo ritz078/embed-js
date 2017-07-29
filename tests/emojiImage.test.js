@@ -14,5 +14,5 @@ test('Plugin: emojiImage - returns a promise', t => {
 test('Plugin: emojiImage - returns a span element with emoji class name', async (t) => {
 	const {result} = await emojiImage().transform(options)
 
-	t.is(result, 'Parmas mori! Heu, <span class="ejs-emoji-image ec ec-home"></span> primus barcas!')
+	t.snapshot(result)
 })

@@ -16,7 +16,6 @@ test('Plugin: image - should return a Promise when called', (t) => {
 
 test('Plugin: image - should return the correct result', async (t) => {
 	const {result} = await image().transform(options)
-	const expected = 'Nunquam perdere https://a.jpg <img class="ejs-image" src="https://a.jpg"/> olla https://b.jpg <img class="ejs-image" src="https://b.jpg"/>.'
 
-	t.is(result, expected)
+	t.snapshot(result)
 })

@@ -20,9 +20,8 @@ test('Plugin: youtube - should return a Promise when called', (t) => {
 
 test('Plugin: youtube - details set to true', async (t) => {
 	const {result} = await youtube(pluginOptions).transform(options)
-	const expected = 'Nunquam perdere https://www.youtube.com/watch?v=QGZjVCHBXgs <div class="ejs-video ejs-embed"><div class="ejs-video-preview"><div class="ejs-video-thumb" data-ejs-url="https://www.youtube.com/embed/QGZjVCHBXgs"><div class="ejs-thumb" style="background-image:url(https://i.ytimg.com/vi/QGZjVCHBXgs/mqdefault.jpg)"></div><i class="fa fa-play-circle-o"></i></div><div class="ejs-video-detail"><div class="ejs-video-title"><a href="https://www.youtube.com/watch?v=QGZjVCHBXgs">Top 100 Ghazals | टॉप 100 ग़ज़ल्स | HD Songs | One Stop Jukebox</a></div><div class="ejs-video-desc">Enjoy Top 100 gazals like "Tumko Dekha", "Woh Kagaz Ki Kashti", "Chithi Na Koi Sandesh", "Aye Dil E Nadan", "Ek Pyaar Ka Nagma" and more from legen...</div></div></div></div> https://a.jpg olla https://b.jpg.'
 
-	t.is(result, expected)
+	t.snapshot(result)
 })
 
 test('Plugin: youtube - details set to false', async (t) => {
@@ -30,7 +29,6 @@ test('Plugin: youtube - details set to false', async (t) => {
 		details: false,
 		gAuthKey: pluginOptions.gAuthKey
 	}).transform(options)
-	const expected = 'Nunquam perdere https://www.youtube.com/watch?v=QGZjVCHBXgs <iframe src="https://www.youtube.com/embed/QGZjVCHBXgs" frameBorder="0" height="300"></iframe> https://a.jpg olla https://b.jpg.'
 
-	t.is(result, expected)
+	t.snapshot(result)
 })

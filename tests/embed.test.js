@@ -17,5 +17,5 @@ test('EmbedJS - should ', async (t) => {
 	})
 
 	const { result } = await ejs._process()
-	t.is(result, '<a href="https://a.com">https://a.com</a> Cum ionicis <img class="ejs-image" src="https://image.jpg"/> tormento experimentum, 🆗 omnes fortises captis nobilis, alter menses.')
+	t.snapshot(result)
 })

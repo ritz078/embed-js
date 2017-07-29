@@ -12,6 +12,5 @@ test('Plugin: markdown - should return a promise', (t) => {
 
 test('Plugin: markdown - should return correct result', async (t) => {
 	const {result} = await markdown().transform(options)
-	const expected = 'Nunquam <strong>perdere</strong> #helloWorld olla https://b.jpg.'
-	t.is(result, expected)
+	t.snapshot(result)
 })

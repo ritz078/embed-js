@@ -29,7 +29,7 @@ test('Plugin: basic - should return a Promise when called', async (t) => {
 test('Plugin: basic - should return correct', async (t) => {
 	const {result} = await basic(pluginOptions).transform(options)
 
-	t.is(result, 'Nunquam perdere<a href="https://a.com/helloWorld"> #helloWorld</a> olla https://b.jpg.')
+	t.snapshot(result)
 })
 
 test('Plugin: basic - execute onLoad when load is called', (t) => {

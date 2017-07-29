@@ -12,7 +12,7 @@ test('Plugin: emoji - should convert URL into anchor', async (t) => {
 	const {result} = await emoji().transform({
 		result: ':ok: hello :+1:'
 	})
-	t.is(result, '🆗 hello 👍')
+	t.snapshot(result)
 })
 
 test('Plugin: emoji - should not parse the URL', async (t) => {
@@ -20,5 +20,5 @@ test('Plugin: emoji - should not parse the URL', async (t) => {
 		result: ':ok: hello :+1: https://a.com:8071'
 	})
 
-	t.is(result, '🆗 hello 👍 https://a.com:8071')
+	t.snapshot(result)
 })

@@ -14,7 +14,7 @@ import isPromise from 'p-is-promise'
 			result:'https://a.com'
 		})
 
-		t.is(result, '<a href="https://a.com">https://a.com</a>')
+		t.snapshot(result)
 	})
 
 	test('Plugin: url - should include attributes in URL', async (t) => {
@@ -26,5 +26,5 @@ import isPromise from 'p-is-promise'
 			result: 'hello https://world.com'
 		})
 
-		t.is(result, 'hello <a href="https://world.com" target="_blank">https://world.com</a>')
+		t.snapshot(result)
 	})

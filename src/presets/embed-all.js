@@ -9,14 +9,14 @@ import {
 	noEmbed,
 	url,
 	basicVideo,
-	markdown
+	youtube
 } from "../plugins/index"
 import extend from "just-extend"
 import compact from "just-compact"
 
 export default function(options) {
 	const defaultOptions = {
-		exclude: ["markdown"]
+		exclude: []
 	}
 
 	const presetOptions = extend({}, defaultOptions, options)
@@ -32,7 +32,7 @@ export default function(options) {
 		map,
 		noEmbed,
 		highlight,
-		markdown
+		youtube
 	]
 	const plugins = pluginNames.map(plugin => {
 		if (presetOptions.exclude.indexOf(plugin.name) === -1) {
@@ -46,6 +46,11 @@ export default function(options) {
 						presetOptions[plugin.name]
 					)
 				)
+			}
+			if(plugin.name === 'noEmbed') {
+				return plugin(extend({}, plugin.name, {
+					exclude: 'youtube'
+				}))
 			}
 			return plugin(presetOptions[plugin.name])
 		}
