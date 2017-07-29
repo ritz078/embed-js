@@ -29,7 +29,7 @@ export default function(opts = {}) {
 
 		// In case you want to exclude a few services, you can do it here.
 		// It accepts an array of service names in lowercase.
-		excludeServices: [],
+		exclude: [],
 
 		async template(args, options, pluginOptions, { html }) {
 			return `<div class="ejs-embed ejs-no-embed">${html}</div>`
@@ -41,7 +41,7 @@ export default function(opts = {}) {
 	})
 
 	if (!opts.regex) {
-		pluginOptions.regex = getRegex(pluginOptions.excludeServices)
+		pluginOptions.regex = getRegex(pluginOptions.exclude)
 	}
 
 	return basic(pluginOptions)

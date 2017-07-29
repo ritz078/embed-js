@@ -8,7 +8,7 @@ export default function (opts) {
 		regex: /(`{3})(\s|[a-z]+)\s*([\s\S]*?[^`])\s*\1(?!`)/gm,
 		template(args) {
 			const [, ,language, code] = args
-			return `<pre><code class="language-${language || 'markup'}">${prism.highlight(code, prism.languages[language || 'markup'])}</code></pre>`
+			return `<pre class="language-${language || 'markup'}"><code class="language-${language || 'markup'}">${prism.highlight(code, prism.languages[language || 'markup'])}</code></pre>`
 		}
 	}
 

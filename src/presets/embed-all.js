@@ -2,7 +2,7 @@ import {
 	highlight,
 	basicAudio,
 	plunker,
-	emojiImage,
+	emoji,
 	github,
 	basicImage,
 	map,
@@ -23,7 +23,7 @@ export default function(options) {
 
 	const pluginNames = [
 		url,
-		emojiImage,
+		emoji,
 		basicAudio,
 		basicVideo,
 		plunker,

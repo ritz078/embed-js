@@ -19,9 +19,9 @@ export default function(opts) {
 		regex: /[^\.]github.com\/([\w\.\-]+)\/([\w\.\-]+[^\.])/gi,
 
 		async template(args, options, pluginOptions, data) {
-			return `<div class="ejs-embed ejs-github"><div class="ejs-ogp-thumb" style="background-image:url(${data.owner &&
+			return `<div class="ejs-embed ejs-preview"><div class="ejs-thumb" style="background-image:url(${data.owner &&
 				data.owner
-					.avatar_url})"></div><div class="ejs-ogp-details"><div class="ejs-ogp-title"><a href="${data.html_url}" target="_blank">${data.full_name}</a></div><div class="ejs-ogb-details">${data.description}</div></div></div>`
+					.avatar_url})"></div><div class="ejs-info"><div class="ejs-title"><a href="${data.html_url}" target="_blank">${data.full_name}</a></div><div class="ejs-desc">${data.description}</div></div></div>`
 		}
 	}
 

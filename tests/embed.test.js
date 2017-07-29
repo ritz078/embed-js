@@ -1,4 +1,4 @@
-import EmbedJS from '../src'
+import EmbedJS from '../src/embed'
 import test from 'ava'
 import url from '../src/plugins/url'
 import emoji from '../src/plugins/emoji/emoji'

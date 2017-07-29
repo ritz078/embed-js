@@ -6,30 +6,41 @@
 		  content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>Document</title>
+	<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+	<link rel="stylesheet" href="https://unpkg.com/emoji.css/dist/emoji.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/themes/prism-tomorrow.css">
 	<link rel="stylesheet" href="./src/embed.css">
+	<style>
+		body {
+			font-family: 'Lato', sans-serif;
+			line-height: 22px;
+			font-size: 14px;
+
+		}
+	</style>
 </head>
 <body>
 	<div id="a">
-		Impositio de :smile: emeritis exemplar @(IIT Roorkee) , examinare verpa!Ortum grauiter ducunt ad fatalis abnoba.
-		Canis de secundus eleates, transferre gemna https://www.slideshare.net/AatifAwan/how-linkedin-built-a-community-of-half-a-billion
-		!Hercle, itineris tramitem barbatus!.Audax, nobilis rationes virtualiter reperire de gratis, emeritis domina.
-		Est brevis diatria, cesaris.Fidess ridetis https://speakerdeck.com/dxtr026/how-we-built-housing-go-chrome-dev-summit-2016 in piscinam!A
-		falsis, quadra magnum elevatus.Barcas http://instagr.am/p/fA9uwTtkSN grandis elevatus est Abnoba, classis, et contencio.Nunquam manifestum hippotoxota.Calcaria camerarius victrix est.
-		Mineraliss sunt adelphiss de velox lixa.Lumen de velox exemplar, imitari absolutio!Victrix persuaderes, tanquam brevis luba.
-		Gabalium de peritus zeta, pugna absolutio!Domesticus tumultumque sapienter tractares tabes est. https://twitter.com/sindresorhus/status/890588820290375680 .
-
-	```js
-		const x = "hello"
-	```
+		Sunt eraes Cum habitio messis, omnes rectores resuscitabo brevis, bassus gabaliumes.Altus cliniass ducunt ad extum.Sunt habitioes imperium brevis, https://github.com/ritz078/embed.js bassus elogiumes.Pol, a bene fides.Calceus varius lacta est.Nunquam prensionem detrius.Verpa raptus abactus est.Eleates crederes, tanquam rusticus fuga.Cur classis cantare?Bassus musa rare attrahendams bursa est.Pol, mirabilis gallus!Accelerare sensim ducunt ad raptus onus.Bubos peregrinatione! imitari :smile: dexter, fatalis parses.Mineraliss sunt parss de pius finis.Hippotoxotas ire in quadrata!Ionicis tormentos congregabo in copinga!Fluctuis peregrinatione!Navis, pulchritudine, et devatio.Calceuss cadunt in dexter gandavum!Amor, solitudo, et
+```js
+.ejs-embed iframe {
+	width: 100%;
+}
+```
+	olla.Animaliss resistere!Stella, lacta, et genetrix.Pol, ferox exsul!Ubi est primus capio?Cur mortem peregrinationes?Exemplar https://www.youtube.com/watch?v=wXrqtC81ztA congregabos, tanquam mirabilis nix.Hercle, eleates neuter!.Camerarius, http://www.iitr.ac.in/Main/assets/images/topold.jpg teres exsuls diligenter convertam de pius, magnum luna.Sunt homoes talem primus, flavum fiscinaes.Clemens humani generis grauiter dignuss exemplar est.Finis, fermium, et acipenser.Acipenser neuter fraticinida est.A falsis, finis regius spatii.Ecce, https://vimeo.com/227437799 barbatus valebat!Est domesticus torus, cesaris.Nunquam amor lumen.A falsis, bulla salvus luna.Nunquam aperto luna.Zeta raptus agripeta est.
 	</div>
 </body>
 <script src="https://platform.twitter.com/widgets.js"></script>
+<script src="./dist/umd/presets/embed-all.js"></script>
 <script src="./dist/embed.all.js"></script>
 
 <script>
 	const a = new EmbedJS({
 		input: document.getElementById('a'),
-		inlineEmbed: true
+		inlineEmbed: true,
+		preset: embedAll({
+			gAuthKey: "AIzaSyCqFouT8h5DKAbxlrTZmjXEmNBjC69f0ts"
+		})
 	})
 	a.render().then(({input, _services}) => {
 		console.log(_services)

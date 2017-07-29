@@ -48,7 +48,18 @@ async function fetchDetails(id, gAuthKey) {
  * @returns {string}
  */
 function withDetailsTemplate(data, embedUrl) {
-	return `<div class="ejs-video ejs-embed"><div class="ejs-video-preview"><div class="ejs-video-thumb" data-ejs-url="${embedUrl}"><div class="ejs-thumb" style="background-image:url(${data.thumbnail})"></div><i class="fa fa-play-circle-o"></i></div><div class="ejs-video-detail"><div class="ejs-video-title"><a href="${data.url}">${data.title}</a></div><div class="ejs-video-desc">${data.description}</div></div></div></div>`
+	return `
+	<div class="ejs-preview ejs-embed">
+		<div class="ejs-thumb ejs-video-thumb" data-ejs-url="${embedUrl}" style="background-image:url(${data.thumbnail})">
+			<span class="ejs-play">&#9658;</span>
+		</div>
+		<div class="ejs-info">
+			<h4 class="ejs-title">
+				<a href="${data.url}">${data.title}</a>
+			</h4>
+			<div class="ejs-desc">${data.description}</div>
+		</div>
+	</div>`
 }
 
 /**
@@ -78,7 +89,7 @@ function onLoad({ input }, { clickClass, onVideoShow, height }) {
 			const url = this.getAttribute("data-ejs-url")
 			onVideoShow(url)
 			let autoPlayUrl = url + "?autoplay=true"
-			this.parentNode.parentNode.innerHTML = withoutDetailsTemplate(
+			this.parentNode.innerHTML = withoutDetailsTemplate(
 				autoPlayUrl,
 				height
 			)

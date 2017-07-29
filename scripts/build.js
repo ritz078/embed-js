@@ -111,6 +111,7 @@ rollup.rollup({
 	bundle.write({
 		format: 'umd',
 		moduleName: 'EmbedJS',
+		sourceMap: true,
 		dest: './dist/embed.all.js'
 	})
 })
@@ -131,6 +132,7 @@ rollup.rollup({
 	bundle.write({
 		format: 'umd',
 		moduleName: 'EmbedJS',
+		sourceMap: true,
 		dest: './dist/embed.all.min.js'
 	})
 })
