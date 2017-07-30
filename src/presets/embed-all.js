@@ -9,7 +9,8 @@ import {
 	noEmbed,
 	url,
 	basicVideo,
-	youtube
+	youtube,
+	facebook
 } from "../plugins/index"
 import extend from "just-extend"
 import compact from "just-compact"
@@ -32,7 +33,8 @@ export default function(options) {
 		map,
 		noEmbed,
 		highlight,
-		youtube
+		youtube,
+		facebook
 	]
 	const plugins = pluginNames.map(plugin => {
 		if (presetOptions.exclude.indexOf(plugin.pluginName) === -1) {

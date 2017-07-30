@@ -12,6 +12,7 @@ import slideShare from "./slide-share"
 import twitter from "./twitter"
 import url from "./url"
 import basicVideo from "./video/basic-video"
+import facebook from './facebook'
 
 export {
 	highlight,
@@ -27,5 +28,6 @@ export {
 	slideShare,
 	twitter,
 	url,
-	basicVideo
+	basicVideo,
+	facebook
 }
