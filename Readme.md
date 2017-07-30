@@ -13,7 +13,7 @@
 <a href="https://www.producthunt.com/tech/embed-js">
 <img src="https://img.shields.io/badge/vote-producthunt-E45127.svg" alt="Producthunt" style="max-width:100%;">
 </a>
-<a href="https://www.paypal.me/ritz078/20usd" target="_blank">
+<a href="https://www.paypal.me/ritz078/10usd" target="_blank">
 <img src="https://img.shields.io/badge/Donate-PayPal-green.svg" alt="paypal" style="max-width:100%;">
 </a>
 
@@ -22,9 +22,6 @@
 > A lightweight JavaScript plugin to embed emojis, media, maps, tweets, code and services.
 
 #### [Live Demo](http://codepen.io/ritz078/full/WvvNGe/)
-
-
-[![screen](resources/demo.gif)](http://codepen.io/ritz078/full/WvvNGe/)
 
 ## Important links
 
@@ -40,12 +37,6 @@ npm install --save embed-js
 ```
 
 
-
-## CDN
-
-* [jsDelivr](https://www.jsdelivr.com/projects/embed.js)
-* [cdnjs](https://cdnjs.com/libraries/embed-js)
-
 ## Simple Usage
 
 Let's assume that the HTML structure is as written below
@@ -59,9 +50,12 @@ Let's assume that the HTML structure is as written below
 Creating an instance of embed.js
 
 ``` javascript
+import EmbedJS from 'embed-js'
+import { url, emoji } from 'embed-js/src/plugins'
+
 var x = new EmbedJS({
   input: document.getElementById('element'),
-  googleAuthKey : 'xxxx'
+  plugins: [url, emoji]
 })
 ```
 
@@ -76,8 +70,8 @@ There may be cases where you just want the processed string to use it according 
 
 ``` javascript
 //Get the resulting string
-x.text(function(data){
-  console.log(data); //The resultant string
+x.text().then(({ result }) => {
+  console.log(result); //The resulting string
 })
 ```
 
