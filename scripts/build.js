@@ -72,7 +72,7 @@ if(process.env.BUILD !== 'umd') {
 	})
 
 	globby(['src/**/*.js']).then(paths => {
-		const destRoot = resolve('dist/umd-min')
+		const destRoot = resolve('dist/umd-minified')
 		paths.forEach(path => {
 			rollup.rollup({
 				entry: path,
@@ -112,7 +112,7 @@ rollup.rollup({
 		format: 'umd',
 		moduleName: 'EmbedJS',
 		sourceMap: true,
-		dest: './dist/embed.all.js'
+		dest: './dist/embed.core.js'
 	})
 })
 
@@ -133,7 +133,7 @@ rollup.rollup({
 		format: 'umd',
 		moduleName: 'EmbedJS',
 		sourceMap: true,
-		dest: './dist/embed.all.min.js'
+		dest: './dist/embed.core.min.js'
 	})
 })
 
