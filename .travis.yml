@@ -7,8 +7,6 @@ node_js:
   - "8"
 notifications:
   email: false
-before_script:
-  - npm prune
 script:
   - yarn lint && yarn test
 after_success:
