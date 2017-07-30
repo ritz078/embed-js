@@ -138,20 +138,20 @@ const x = new EmbedJS({
 
 ### emoji
 Convert texts like `:smile:` into 😄.
-```
+```js
 import EmbedJS from 'embed-js'
 import { url } from 'embed-js/src/plugins'
 
 const x = new EmbedJS({
   input: document.getElementById('element'),
   plugins: [
-	url({
-		regex: /emojiRegex/gi, // in case you want to define a custom regex
-		template(emojiName) {
-			// optional template
-		}
-	})
-  ]
+  url({
+    regex: /emojiRegex/gi, // in case you want to define a custom regex
+    template(emojiName) {
+      // optional template
+    }
+   })
+ ]
 })
 ```
 
