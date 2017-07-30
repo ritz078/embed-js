@@ -11,6 +11,14 @@ function getPlugins (plugins = [], preset) {
 	return preset ? plugins.concat(preset) : plugins
 }
 
+function getInputString (input) {
+	return isDom(input) ? input.innerHTML : input
+}
+
+function isElementPresent ({ input, target }) {
+	return isDom(input) || target && isDom(target)
+}
+
 export default class EmbedJS {
 	constructor (options) {
 		const defaultOptions = {
@@ -27,14 +35,10 @@ export default class EmbedJS {
 			throw new Error('You need to pass input element or string in the options object.')
 		}
 
-		this.inputString = input
-		if (isDom(input)) {
-			this.inputString = input.innerHTML
-		}
-
 		this.options = extend({}, defaultOptions, options, {
-			result: this.inputString,
-			plugins: getPlugins(plugins, preset)
+			result: getInputString(input),
+			plugins: getPlugins(plugins, preset),
+			inputString: getInputString(input)
 		})
 	}
 
@@ -61,7 +65,7 @@ export default class EmbedJS {
 
 	async render () {
 		const { input, target, inlineEmbed } = this.options
-		if (!isDom(input) && !(target && isDom(target))) {
+		if (!isElementPresent(this.options)) {
 			throw new Error('You haven\'t passed the input as an element.')
 		}
 
@@ -73,10 +77,21 @@ export default class EmbedJS {
 
 			const element = target || input
 			element.innerHTML = inlineEmbed ? options.result : appendEmbedsAtEnd(options)
-			element.className += " ejs-applied"
+			element.classList.add('ejs-applied')
 		}
 
 		this.load()
 		return options
+	}
+
+	destroy() {
+		const { inputString, input, target } = this.options
+		if (!isElementPresent(this.options)) {
+			throw new Error('You haven\'t passed the input as an element.')
+		}
+		const element = target || input
+		element.innerHTML = inputString
+		element.classList.remove('ejs-applied')
+		return this.options
 	}
 }

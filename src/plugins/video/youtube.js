@@ -18,7 +18,7 @@ function formatData({ snippet, statistics, id }) {
 		rawDescription: snippet.description,
 		views: statistics.viewCount,
 		likes: statistics.likeCount,
-		description: truncate(snippet.description, 150),
+		description: snippet.description,
 		url: `https://www.youtube.com/watch?v=${id}`,
 		id: id,
 		host: "youtube"
@@ -59,7 +59,7 @@ function withDetailsTemplate(data, embedUrl) {
 			<h4 class="ejs-title">
 				<a href="${data.url}">${data.title}</a>
 			</h4>
-			<div class="ejs-desc">${data.description}</div>
+			<div class="ejs-desc">${truncate(data.description, 150)}</div>
 		</div>
 	</div>`
 }

@@ -95,8 +95,6 @@ const regexes = [
 		name: "instagram",
 		patterns: [
 			"https?://instagram\\.com/p/.[^\\s]*",
-			"https?://instagr\\.am/p/.[^\\s]*",
-			"https?://instagram\\.com/p/.[^\\s]*",
 			"https?://instagr\\.am/p/.[^\\s]*"
 		]
 	},
