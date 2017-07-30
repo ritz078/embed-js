@@ -137,7 +137,13 @@ const x = new EmbedJS({
 ```
 
 ### emoji
-Convert texts like `:smile:` into 😄.
+Convert texts like `:smile:` into 😄. If you are using this plugin, you need to load
+```css
+@import url(https://unpkg.com/emoji.css/dist/emoji.min.css)
+```
+In case you want to use a custom CSS, you can change the template by
+passing a new template in the options.
+
 ```js
 import EmbedJS from 'embed-js'
 import { url } from 'embed-js/src/plugins'
@@ -155,8 +161,27 @@ const x = new EmbedJS({
 })
 ```
 
+## Basic Audio
+Embeds web supported videos in HTML video tags.
 
+```js
+import EmbedJS from 'embed-js'
+import { url } from 'embed-js/src/plugins'
 
+const x = new EmbedJS({
+  input: document.getElementById('element'),
+  plugins: [
+  url({
+    regex: /audiRegex/gi, // in case you want to define a custom regex
+    template(args) {
+      // optional template
+    },
+    onLoad(element) {} // in case you want to do something when the component has loaded on the client.
+   })
+ ]
+})
+```
+You can use video.js or plyr by applying it in the `onLoad()` method.
 
 ## Development
 1. Fork the repo
