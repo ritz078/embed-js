@@ -53,9 +53,9 @@ Creating an instance of embed.js
 import EmbedJS from 'embed-js'
 import { url, emoji } from 'embed-js/src/plugins'
 
-var x = new EmbedJS({
+const x = new EmbedJS({
   input: document.getElementById('element'),
-  plugins: [url, emoji]
+  plugins: [url(), emoji()]
 })
 ```
 
