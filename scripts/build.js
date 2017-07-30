@@ -32,7 +32,7 @@ const external = Object.keys(pkg.dependencies)
 
 if(process.env.BUILD !== 'umd') {
 	globby(['src/**/*.js']).then(paths => {
-		const destRoot = resolve('dist/cjs')
+		const destRoot = resolve('dist/commonjs')
 		paths.forEach(path => {
 			rollup.rollup({
 				entry: path,
@@ -82,7 +82,8 @@ if(process.env.BUILD !== 'umd') {
 					commonjs(),
 					nodent(nodentConfig),
 					buble(),
-					uglify()
+					uglify(),
+					fileSize()
 				],
 				banner,
 			}).then(bundle => {
@@ -96,44 +97,4 @@ if(process.env.BUILD !== 'umd') {
 	})
 }
 
-rollup.rollup({
-	entry: './src/index.js',
-	plugins: [
-		nodeResolve(),
-		json(),
-		commonjs(),
-		nodent(nodentConfig),
-		buble(),
-		fileSize()
-	],
-	banner,
-}).then(bundle => {
-	bundle.write({
-		format: 'umd',
-		moduleName: 'EmbedJS',
-		sourceMap: true,
-		dest: './dist/embed.core.js'
-	})
-})
-
-rollup.rollup({
-	entry: './src/index.js',
-	plugins: [
-		nodeResolve(),
-		json(),
-		commonjs(),
-		nodent(nodentConfig),
-		buble(),
-		uglify(),
-		fileSize()
-	],
-	banner,
-}).then(bundle => {
-	bundle.write({
-		format: 'umd',
-		moduleName: 'EmbedJS',
-		sourceMap: true,
-		dest: './dist/embed.core.min.js'
-	})
-})
 

@@ -23,11 +23,29 @@
 
 #### [Live Demo](http://codepen.io/ritz078/full/WvvNGe/)
 
-## Important links
-
-* **[Features](http://riteshkr.com/embed.js)**
-* **[Full Documentation](https://embedjs.readme.io)**
-* **[Examples](https://embedjs.readme.io/docs/basic-example)**
+## Contents
+- [Installation](#installation)
+- [Basic Usage](#basic-usage)
+- [Options](#options)
+- [Plugins](#plugins)
+	- [url](#url)
+	- [emoji](#emoji)
+	- [Basic Audio](#basic-audio)
+	- [highlight](#highlight)
+	- [plunker](#plunker)
+	- [github](#github)
+	- [Basic Image](#basic-image)
+	- [Basic Video](#basic-video)
+	- [youtube](#youtube)
+	- [facebook](#facebook)
+	- [map](#map)
+	- [markdown](#markdown)
+	- [noembed](#noembed)
+	- [Slide Share](#slide-share)
+	- [Twitter](#twitter)
+- [Presets](#presets)
+	- [all](#all)
+- [Create a custom plugin](#create-a-custom-plugin)
 
 ## Installation
 
@@ -37,7 +55,9 @@ npm install --save embed-js
 ```
 
 
-## Simple Usage
+## Basic Usage
+
+**You need to use plugins or presets to do anything. By defauly embed-js does nothing.**
 
 Let's assume that the HTML structure is as written below
 
@@ -55,7 +75,10 @@ import { url, emoji } from 'embed-js/src/plugins'
 
 const x = new EmbedJS({
   input: document.getElementById('element'),
-  plugins: [url(), emoji()]
+  plugins: [
+    url(),
+    emoji()
+  ]
 })
 ```
 
@@ -66,7 +89,9 @@ Next step is replacing the original text with the processed text.
 x.render();
 ```
 
-There may be cases where you just want the processed string to use it according to your need. You can get it by the following method.
+There may be cases where you just want the processed string to use it according to your need. You can get it by the following method. This can
+be used on the server side to get the string. Still if the plugin involves interactions, you will have to load it on
+the client side.
 
 ``` javascript
 //Get the resulting string
@@ -81,6 +106,57 @@ If you wan't to destroy the instance. It will also replace the processed string 
 //Destroy the instance
 x.destroy()
 ```
+
+## Options
+
+option|default|Description
+------|-------|-----------
+**plugins**|[]|Accepts an array of plugins.
+**preset**| null | Accepts a preset. Currently accpets only one preset. It can be combined with plugins.
+**inlineEmbed**| true | If case you want to to embed contents at the end of texts, turn this to false.
+**replaceText**| false | Useful when __inlineEmbed__ is set to true. Replace text with the embed.
+
+
+## Plugins
+
+### url
+Parsing urls into anchor tags.
+```js
+import EmbedJS from 'embed-js'
+import { url } from 'embed-js/src/plugins'
+
+const x = new EmbedJS({
+  input: document.getElementById('element'),
+  plugins: [
+    url({
+        attributes: {}, // a hash of attributes to be added in the url
+        escape: false   // whether on not to escape special characters in url
+    })
+  ]
+})
+```
+
+### emoji
+Convert texts like `:smile:` into 😄.
+```
+import EmbedJS from 'embed-js'
+import { url } from 'embed-js/src/plugins'
+
+const x = new EmbedJS({
+  input: document.getElementById('element'),
+  plugins: [
+	url({
+		regex: /emojiRegex/gi, // in case you want to define a custom regex
+		template(emojiName) {
+			// optional template
+		}
+	})
+  ]
+})
+```
+
+
+
 
 ## Development
 1. Fork the repo
