@@ -45,8 +45,8 @@ test('Plugin: basic - execute onLoad when load is called', (t) => {
 test('Plugin: basic - should throw if regex or template is not passed', t => {
 	t.throws(() => basic({
 		regex: /a/gi
-	}), ReferenceError)
+	}), Error)
 	t.throws(() => basic({
 		template() {}
-	}), ReferenceError)
+	}), Error)
 })

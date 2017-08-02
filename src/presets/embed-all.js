@@ -1,7 +1,6 @@
 import {
 	highlight,
 	basicAudio,
-	plunker,
 	emoji,
 	github,
 	basicImage,
@@ -27,7 +26,6 @@ export default function(options) {
 		emoji,
 		basicAudio,
 		basicVideo,
-		plunker,
 		github,
 		basicImage,
 		map,

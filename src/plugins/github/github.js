@@ -1,6 +1,7 @@
 import extend from "just-extend"
 import unfetch from "../../utils/fetch"
 import basic from "../basic"
+import detailsTemplate from '../../utils/withDetailTemplate'
 
 const name = 'github'
 
@@ -20,10 +21,13 @@ export default function github(opts) {
 		name,
 		regex: /[^\.]github.com\/([\w\.\-]+)\/([\w\.\-]+[^\.])/gi,
 
-		async template(args, options, pluginOptions, data) {
-			return `<div class="ejs-embed ejs-preview"><div class="ejs-thumb" style="background-image:url(${data.owner &&
-				data.owner
-					.avatar_url})"></div><div class="ejs-info"><div class="ejs-title"><a href="${data.html_url}" target="_blank">${data.full_name}</a></div><div class="ejs-desc">${data.description}</div></div></div>`
+		async template(args, options, pluginOptions, { owner, description, html_url, full_name }) {
+			return detailsTemplate({
+				thumbnail: owner.avatar_url,
+				url: html_url,
+				description,
+				title: full_name,
+			})
 		}
 	}
 

@@ -1,6 +1,5 @@
 import highlight from "./code/highlight"
 import basicAudio from "./audio/basic-audio"
-import plunker from "./code/plunker"
 import emoji from "./emoji/emoji"
 import github from "./github/github"
 import basicImage from "./image/basic-image"
@@ -17,7 +16,6 @@ import facebook from './facebook'
 export {
 	highlight,
 	basicAudio,
-	plunker,
 	emoji,
 	github,
 	basicImage,

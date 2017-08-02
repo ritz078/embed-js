@@ -22,7 +22,7 @@ export default function slideShare(opts) {
 		regex: /https?:\/\/www\.slideshare\.net\/.*\/.[^\s]*/gi,
 
 		template(args, options, pluginOptions, { html }) {
-			return `<div class="ejs-embed ejs-slideshare">${html}</div>`
+			return `<div class="ejs-embed">${html}</div>`
 		}
 	}
 

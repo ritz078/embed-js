@@ -34,7 +34,7 @@ function noEmbed(opts = {}) {
 		exclude: [],
 
 		async template(args, options, pluginOptions, { html }) {
-			return `<div class="ejs-embed ejs-no-embed">${html}</div>`
+			return `<div class="ejs-embed">${html}</div>`
 		},
 	}
 

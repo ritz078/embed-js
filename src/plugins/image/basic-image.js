@@ -8,7 +8,7 @@ export default function basicImage(opts) {
 		name,
 		regex: /((?:https?):\/\/\S*\.(?:gif|jpg|jpeg|tiff|png|svg|webp))/gi,
 		template(args) {
-			return `<img class="ejs-image ejs-embed" src="${args[1]}"/>`
+			return `<img class="ejs-embed" src="${args[1]}"/>`
 		}
 	}
 	const pluginOptions = extend({}, defaultOptions, opts)

@@ -1,9 +1,10 @@
 import extend from 'just-extend'
 import basic from './basic'
+import withoutDetailTemplate from '../utils/withoutDetailTemplate'
 
 const name = 'facebook'
 
-export default function (opts) {
+export default function facebook (opts) {
 	const defaultOptions = {
 		name,
 		regex: /(https?:\/\/)?www\.facebook\.com\/(?:(videos|posts)\.php\?v=\d+|.*?\/(videos|posts)\/\d+\/?)/gi,
@@ -11,10 +12,16 @@ export default function (opts) {
 		template(args, options, {height}) {
 			const url = args[0]
 			const type = url.indexOf('/videos/') < 0 ? 'post' : 'video'
-			return `<iframe class="ejs-embed ejs-facebook" src="https://www.facebook.com/plugins/${type}.php?href=${url}" height="${height}"></iframe>`
+			return withoutDetailTemplate(
+				`https://www.facebook.com/plugins/${type}.php?href=${url}`,
+				height,
+				name
+			)
 		}
 	}
 
 	const pluginOptions = extend({}, defaultOptions, opts)
 	return basic(pluginOptions)
 }
+
+facebook.pluginName = name

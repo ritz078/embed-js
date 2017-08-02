@@ -11,7 +11,7 @@ export default function emoji(opts) {
 		name,
 		regex: emojiRegex(),
 		template(emojiName) {
-			return `<span class="ejs-emoji-image ec ec-${kebab(emojiName)}"></span>`
+			return `<span class="ec ec-${kebab(emojiName)}"></span>`
 		}
 	}
 

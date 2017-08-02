@@ -1,27 +1,26 @@
 import extend from "just-extend"
-import truncate from "just-truncate"
 import isDom from "is-dom"
 import unfetch from "../../utils/fetch"
+import withDetailsTemplate from '../../utils/withDetailTemplate'
+import withoutDetailsTemplate from '../../utils/withoutDetailTemplate'
 import basic from "../basic"
 
 const name = 'youtube'
+const base = 'https://www.youtube.com/'
+
 
 /**
  * Decorate data into a simpler structure
  * @param data
  * @returns {{title, thumbnail, rawDescription, views: *, likes: *, description: *, url: string, id, host: string}}
  */
-function formatData({ snippet, statistics, id }) {
+function formatData({ snippet, id }) {
 	return {
 		title: snippet.title,
 		thumbnail: snippet.thumbnails.medium.url,
-		rawDescription: snippet.description,
-		views: statistics.viewCount,
-		likes: statistics.likeCount,
 		description: snippet.description,
-		url: `https://www.youtube.com/watch?v=${id}`,
-		id: id,
-		host: "youtube"
+		url: `${base}watch?v=${id}`,
+		embedUrl: `${base}embed/${id}`
 	}
 }
 
@@ -37,41 +36,10 @@ async function fetchDetails(id, gAuthKey) {
 			`https://www.googleapis.com/youtube/v3/videos?id=${id}&key=${gAuthKey}&part=snippet,statistics`
 		)
 		const data = await res.json()
-		return formatData(data.items[0])
+		return data.items[0]
 	} catch (e) {
 		return {}
 	}
-}
-
-/**
- * Template with description and other details fetched from the API
- * @param data
- * @param embedUrl
- * @returns {string}
- */
-function withDetailsTemplate(data, embedUrl) {
-	return `
-	<div class="ejs-preview ejs-embed">
-		<div class="ejs-thumb ejs-video-thumb" data-ejs-url="${embedUrl}" style="background-image:url(${data.thumbnail})">
-			<span class="ejs-play">&#9658;</span>
-		</div>
-		<div class="ejs-info">
-			<h4 class="ejs-title">
-				<a href="${data.url}">${data.title}</a>
-			</h4>
-			<div class="ejs-desc">${truncate(data.description, 150)}</div>
-		</div>
-	</div>`
-}
-
-/**
- * Template which directly emebeds the youtube video in an iframe
- * @param embedUrl
- * @param height
- * @returns {string}
- */
-function withoutDetailsTemplate(embedUrl, height) {
-	return `<iframe src="${embedUrl}" frameBorder="0" height="${height}"></iframe>`
 }
 
 /**
@@ -85,7 +53,7 @@ function onLoad({ input }, { clickClass, onVideoShow, height }) {
 	if (!isDom(input)) {
 		throw new Error("input should be a DOM Element.")
 	}
-	let classes = document.getElementsByClassName("ejs-video-thumb")
+	let classes = document.getElementsByClassName(clickClass)
 	for (let i = 0; i < classes.length; i++) {
 		classes[i].onclick = function() {
 			const url = this.getAttribute("data-ejs-url")
@@ -93,7 +61,8 @@ function onLoad({ input }, { clickClass, onVideoShow, height }) {
 			let autoPlayUrl = url + "?autoplay=true"
 			this.parentNode.innerHTML = withoutDetailsTemplate(
 				autoPlayUrl,
-				height
+				height,
+				name
 			)
 		}
 	}
@@ -101,13 +70,12 @@ function onLoad({ input }, { clickClass, onVideoShow, height }) {
 
 async function _process(args, options, { gAuthKey, details }) {
 	const id = args[1]
-	const embedUrl = `https://www.youtube.com/embed/${id}`
 	let data
 	if (details) {
 		data = await fetchDetails(id, gAuthKey)
 	}
 
-	return { data, embedUrl }
+	return data
 }
 
 function youtube(opts) {
@@ -123,10 +91,11 @@ function youtube(opts) {
 			onLoad(options, pluginOptions)
 		},
 		onLoad() {},
-		async template(args, options, { details, height }, {data, embedUrl}) {
+		async template(args, options, { details, height, clickClass }, data) {
+			const embedUrl = `${base}embed/${args[1]}`
 			return details
-				? withDetailsTemplate(data, embedUrl)
-				: withoutDetailsTemplate(embedUrl, height)
+				? withDetailsTemplate(formatData(data), clickClass)
+				: withoutDetailsTemplate(embedUrl, height, name)
 		}
 	}
 

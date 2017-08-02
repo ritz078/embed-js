@@ -1,5 +1,6 @@
 import extend from "just-extend"
 import unfetch from "../utils/fetch"
+import withoutDetailTemplate from '../utils/withoutDetailTemplate'
 import basic from "./basic"
 
 const name = "map"
@@ -38,7 +39,7 @@ function map(opts) {
 				src = `${base}&center=${lat},${lng}&zoom=18&maptype=satellite`
 			}
 
-			return `<iframe class="ejs-embed ejs-map" height="${height}" src="${src}"></iframe>`
+			return withoutDetailTemplate(src, height, name)
 		}
 	}
 

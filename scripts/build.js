@@ -64,7 +64,7 @@ if(process.env.BUILD !== 'umd') {
 			}).then(bundle => {
 				bundle.write({
 					format: 'umd',
-					moduleName: camelCase(fileName(path)),
+					moduleName: fileName(path) === 'embed' ? 'EmbedJS' : camelCase(fileName(path)),
 					dest: destRoot + path.replace('src', '')
 				})
 			})
@@ -89,7 +89,7 @@ if(process.env.BUILD !== 'umd') {
 			}).then(bundle => {
 				bundle.write({
 					format: 'umd',
-					moduleName: camelCase(fileName(path)),
+					moduleName: fileName(path) === 'embed' ? 'EmbedJS' : camelCase(fileName(path)),
 					dest: destRoot + path.replace('src', '')
 				})
 			})
