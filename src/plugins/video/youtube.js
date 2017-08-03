@@ -1,5 +1,6 @@
 import extend from "just-extend"
 import isDom from "is-dom"
+import ytRegex from 'youtube-regex'
 import unfetch from "../../utils/fetch"
 import withDetailsTemplate from '../../utils/withDetailTemplate'
 import withoutDetailsTemplate from '../../utils/withoutDetailTemplate'
@@ -56,11 +57,11 @@ function onLoad({ input }, { clickClass, onVideoShow, height }) {
 	let classes = document.getElementsByClassName(clickClass)
 	for (let i = 0; i < classes.length; i++) {
 		classes[i].onclick = function() {
-			const url = this.getAttribute("data-ejs-url")
+			let url = this.getAttribute("data-url")
 			onVideoShow(url)
-			let autoPlayUrl = url + "?autoplay=true"
+			url += "?autoplay=1"
 			this.parentNode.innerHTML = withoutDetailsTemplate(
-				autoPlayUrl,
+				url,
 				height,
 				name
 			)
@@ -68,20 +69,14 @@ function onLoad({ input }, { clickClass, onVideoShow, height }) {
 	}
 }
 
-async function _process(args, options, { gAuthKey, details }) {
-	const id = args[1]
-	let data
-	if (details) {
-		data = await fetchDetails(id, gAuthKey)
-	}
-
-	return data
+function _process(args, options, { gAuthKey, details }) {
+	return details && fetchDetails(args[1], gAuthKey)
 }
 
 function youtube(opts) {
 	const defaultOptions = {
 		name,
-		regex: /https?:\/\/(?:[0-9A-Z-]+\.)?(?:youtu\.be\/|youtube\.com(?:\/embed\/|\/v\/|\/watch\?v=|\/ytscreeningroom\?v=|\/feeds\/api\/videos\/|\/user\S*[^\w\-\s]|\S*[^\w\-\s]))([\w\-]{11})[?=&+%\w-]*/gi,
+		regex: ytRegex(),
 		gAuthKey: "",
 		details: true,
 		height: 300,

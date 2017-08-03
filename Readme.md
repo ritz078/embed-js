@@ -135,23 +135,24 @@ const x = new EmbedJS({
   ]
 })
 ```
+**Note :** Avoid using `escape: true` when using with **highlight** plugin.
 
 ### emoji
-Convert texts like `:smile:` into 😄. If you are using this plugin, you need to load
+Convert texts like `:smile:` into 😄. It supports all the emojis supported by [emoji.css](https://github.com/IonicaBizau/emoji.css). If you are using this plugin, you need to load
 ```css
-@import url(https://unpkg.com/emoji.css/dist/emoji.min.css)
+@import url("https://unpkg.com/emoji.css/dist/emoji.min.css")
 ```
 In case you want to use a custom CSS, you can change the template by
 passing a new template in the options.
 
 ```js
 import EmbedJS from 'embed-js'
-import { url } from 'embed-js/src/plugins'
+import { emoji } from 'embed-js/src/plugins'
 
 const x = new EmbedJS({
   input: document.getElementById('element'),
   plugins: [
-  url({
+  emoji({
     regex: /emojiRegex/gi, // in case you want to define a custom regex
     template(emojiName) {
       // optional template
@@ -160,19 +161,22 @@ const x = new EmbedJS({
  ]
 })
 ```
+**Known issue** : It doesn't check if a particular name is a valid emoji name. So if you use a test like `:not_valid_emoji_name:`, it will still convert it to
+a span element with that class name.
 
-## Basic Audio
+
+### Basic Audio
 Embeds web supported videos in HTML video tags.
 
 ```js
 import EmbedJS from 'embed-js'
-import { url } from 'embed-js/src/plugins'
+import { basicAudio } from 'embed-js/src/plugins'
 
 const x = new EmbedJS({
   input: document.getElementById('element'),
   plugins: [
-  url({
-    regex: /audiRegex/gi, // in case you want to define a custom regex
+  basicAudio({
+    regex: /audioRegex/gi, // in case you want to define a custom regex
     template(args) {
       // optional template
     },
@@ -182,6 +186,49 @@ const x = new EmbedJS({
 })
 ```
 You can use video.js or plyr by applying it in the `onLoad()` method.
+
+### Highlight
+Uses prismjs to highlight code. For that it supports markdown syntax.
+
+```js
+import EmbedJS from 'embed-js'
+import { highlight } from 'embed-js/src/plugins'
+
+const x = new EmbedJS({
+  input: document.getElementById('element'),
+  plugins: [
+  basicAudio({
+    regex: /audiRegex/gi, // in case you want to define a custom regex
+    template(args) {
+      // optional template
+    },
+    onLoad(element) {} // in case you want to do something when the component has loaded on the client.
+   })
+ ]
+})
+```
+This will convert
+```md
+\`\`\`js
+ const x = "hello world"
+\`\`\`
+```
+
+into
+
+```html
+<pre class="language-js">
+  <code class="language-js">
+    const x = "hello world"
+  </code>
+</pre>
+```
+**Note** : Don't use highlight with **markdown** plugin. It supports highlight feature on its own.
+
+### GitHub
+Embeds repository data in the website. q
+
+
 
 ## Development
 1. Fork the repo

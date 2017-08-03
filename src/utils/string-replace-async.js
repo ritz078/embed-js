@@ -50,17 +50,13 @@ function processString(str, re, replacer) {
 	})
 }
 
-function fn(str, re, replacer) {
+function stringReplaceAsync(str, re, replacer) {
 	re.lastIndex = 0
 	try {
 		return Promise.resolve(processString(str, re, replacer))
 	} catch (e) {
 		return Promise.reject(e)
 	}
-}
-
-function stringReplaceAsync(str, re, replacer) {
-	return fn(str, re, replacer, false)
 }
 
 export default stringReplaceAsync

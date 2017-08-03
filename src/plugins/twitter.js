@@ -2,7 +2,7 @@ import extend from "just-extend"
 // in umd build this resolves to unfetch
 import unfetch from "../utils/jsonp"
 import isDom from "is-dom"
-import isBrowser from "is-in-browser"
+import isServer from "is-server"
 import basic from "./basic"
 import getQuery from "../utils/getQuery"
 
@@ -129,7 +129,7 @@ export default function twitter(opts) {
 		 * @param html
 		 * @returns {Promise.<*>}
 		 */
-		async template(args, options, pluginOptions, { html }) {
+		template(args, options, pluginOptions, { html }) {
 			return html
 		},
 
@@ -139,7 +139,7 @@ export default function twitter(opts) {
 
 		// The twitter object loaded from widgets.js. By default it takes twttr
 		// from window object.
-		twttr: isBrowser ? window.twttr : null,
+		twttr: !isServer() ? window.twttr : null,
 
 		// This is for internal use only. Executes when
 		// the tweet has been loaded

@@ -5,7 +5,6 @@ import github from "./github/github"
 import basicImage from "./image/basic-image"
 import youtube from "./video/youtube"
 import map from "./map"
-import markdown from "./markdown"
 import noEmbed from "./noembed"
 import twitter from "./twitter"
 import url from "./url"
@@ -20,7 +19,6 @@ export {
 	basicImage,
 	youtube,
 	map,
-	markdown,
 	noEmbed,
 	twitter,
 	url,

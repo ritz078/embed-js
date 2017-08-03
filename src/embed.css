@@ -22,7 +22,7 @@
 	display: flex;
 }
 
-.ejs-thumb .ejs-play {
+.ejs-thumb span {
 	justify-content: center;
 	align-items: center;
 	flex: 1;
@@ -37,10 +37,6 @@
 
 .ejs-title {
 	margin: 0 0 5px;
-}
-
-pre[class*=language-] {
-	border-radius: 2px;
 }
 
 @media screen and (min-width: 520px) {

@@ -22,6 +22,6 @@ test('EmbedJS - should ', async (t) => {
 		replaceUrl: true
 	})
 
-	const { result } = await ejs._process()
+	const { result } = await ejs.text()
 	t.snapshot(result)
 })

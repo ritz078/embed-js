@@ -14,10 +14,10 @@ export default opts => {
 	const { _onLoadInternal, onLoad, regex, template } = pluginOptions
 
 	if (!regex) {
-		throw new Error("regex is not passed in options.")
+		throw new Error("regex not passed.")
 	}
 	if (!template) {
-		throw new Error("template is not passed in options.")
+		throw new Error("template not passed.")
 	}
 
 	return {

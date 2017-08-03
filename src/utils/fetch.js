@@ -1,9 +1,3 @@
-import unfetch from "unfetch"
-import isBrowser from "is-in-browser"
+import isServer from "is-server"
 
-let serverFetch
-if (!isBrowser) {
-	serverFetch = require("isomorphic-unfetch")
-}
-
-export default serverFetch || unfetch
+export default isServer() ? require("node-fetch") : (window.fetch || window.unfetch)
