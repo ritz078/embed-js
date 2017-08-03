@@ -15,4 +15,4 @@ export default function markdown() {
 	}
 }
 
-markdown.pluginName = name
+markdown.id = name

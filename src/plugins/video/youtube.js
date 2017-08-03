@@ -109,6 +109,6 @@ function youtube(opts) {
 	return basic(pluginOptions)
 }
 
-youtube.pluginName = name
+youtube.id = name
 
 export default youtube

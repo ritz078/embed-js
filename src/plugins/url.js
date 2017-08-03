@@ -21,4 +21,4 @@ export default function url(opts) {
 	}
 }
 
-url.pluginName = name
+url.id = name

@@ -37,4 +37,4 @@ export default function github(opts) {
 	return basic(pluginOptions)
 }
 
-github.pluginName = name
+github.id = name

@@ -7,7 +7,6 @@ import youtube from "./video/youtube"
 import map from "./map"
 import markdown from "./markdown"
 import noEmbed from "./noembed"
-import slideShare from "./slide-share"
 import twitter from "./twitter"
 import url from "./url"
 import basicVideo from "./video/basic-video"
@@ -23,7 +22,6 @@ export {
 	map,
 	markdown,
 	noEmbed,
-	slideShare,
 	twitter,
 	url,
 	basicVideo,

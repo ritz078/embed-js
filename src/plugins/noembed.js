@@ -1,4 +1,4 @@
-import unfetch from "../utils/fetch"
+import unfetch from '../utils/fetch'
 import extend from "just-extend"
 import getRegex from "../utils/noembed-regex"
 import basic from "./basic"
@@ -17,7 +17,7 @@ async function _process(args) {
 		return await res.json()
 	} catch (e) {
 		return {
-			html: ""
+			html: url
 		}
 	}
 }
@@ -49,6 +49,6 @@ function noEmbed(opts = {}) {
 	return basic(pluginOptions)
 }
 
-noEmbed.pluginName = name
+noEmbed.id = name
 
 export default noEmbed

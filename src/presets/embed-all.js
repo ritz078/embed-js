@@ -9,7 +9,8 @@ import {
 	url,
 	basicVideo,
 	youtube,
-	facebook
+	facebook,
+	twitter
 } from "../plugins/index"
 import extend from "just-extend"
 import compact from "just-compact"
@@ -32,27 +33,28 @@ export default function(options) {
 		noEmbed,
 		highlight,
 		youtube,
-		facebook
+		facebook,
+		twitter
 	]
 	const plugins = pluginNames.map(plugin => {
-		if (presetOptions.exclude.indexOf(plugin.pluginName) === -1) {
-			if (plugin.pluginName === "youtube" || plugin.pluginName === "map") {
+		if (presetOptions.exclude.indexOf(plugin.id) === -1) {
+			if (plugin.id === "youtube" || plugin.id === "map") {
 				return plugin(
 					extend(
 						{},
 						{
 							gAuthKey: options.gAuthKey
 						},
-						presetOptions[plugin.pluginName]
+						presetOptions[plugin.id]
 					)
 				)
 			}
-			if (plugin.pluginName === 'noEmbed') {
-				return plugin(extend({}, plugin.pluginName, {
+			if (plugin.id === 'noEmbed') {
+				return plugin(extend({}, plugin.id, {
 					exclude: 'youtube'
 				}))
 			}
-			return plugin(presetOptions[plugin.pluginName])
+			return plugin(presetOptions[plugin.id])
 		}
 		return null
 	})

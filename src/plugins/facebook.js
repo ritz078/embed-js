@@ -24,4 +24,4 @@ export default function facebook (opts) {
 	return basic(pluginOptions)
 }
 
-facebook.pluginName = name
+facebook.id = name

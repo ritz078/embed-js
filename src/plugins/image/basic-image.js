@@ -15,4 +15,4 @@ export default function basicImage(opts) {
 	return basic(pluginOptions)
 }
 
-basicImage.pluginName = name
+basicImage.id = name

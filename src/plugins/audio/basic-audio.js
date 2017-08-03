@@ -15,5 +15,5 @@ function basicAudio (opts) {
 	return basic(pluginOptions)
 }
 
-basicAudio.pluginName = name
+basicAudio.id = name
 export default basicAudio

@@ -5,17 +5,13 @@ import basic from "./basic"
 
 const name = "map"
 
-async function getCoordinate(location) {
+async function _process(args) {
+	const location = args[1]
 	const res = await unfetch(
 		`http://maps.googleapis.com/maps/api/geocode/json?address=${location}&sensor=false`
 	)
 	const data = await res.json()
 	return data.results[0].geometry.location
-}
-
-async function _process(args) {
-	const location = args[1]
-	return getCoordinate(location)
 }
 
 function map(opts) {
@@ -50,6 +46,6 @@ function map(opts) {
 	return basic(pluginOptions)
 }
 
-map.pluginName = 'map'
+map.id = 'map'
 
 export default map

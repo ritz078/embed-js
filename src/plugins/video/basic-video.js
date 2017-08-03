@@ -15,4 +15,4 @@ export default function basicVideo(opts) {
 	return basic(pluginOptions)
 }
 
-basicVideo.pluginName = name
+basicVideo.id = name

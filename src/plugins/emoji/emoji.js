@@ -33,4 +33,4 @@ export default function emoji(opts) {
 	}
 }
 
-emoji.pluginName = name
+emoji.id = name

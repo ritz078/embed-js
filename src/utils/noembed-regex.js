@@ -7,34 +7,6 @@ const regexes = [
 		name: "SoundCloud"
 	},
 	{
-		patterns: [
-			"https?://(?:www|mobile\\.)?twitter\\.com/(?:#!/)?([^/]+)/status(?:es)?/(\\d+)"
-		],
-		name: "Twitter"
-	},
-	{
-		name: "Urban Dictionary",
-		patterns: ["http://www\\.urbandictionary\\.com/define\\.php\\?term=.[^\\s]+"]
-	},
-	{
-		name: "iTunes Movie Trailers",
-		patterns: ["http://trailers\\.apple\\.com/trailers/[^/]+/[^/]+"]
-	},
-	{
-		name: "The Verge",
-		patterns: [
-			"http://(?:www\\.)?theverge\\.com/\\d{4}/\\d{1,2}/\\d{1,2}/\\d+/[^/]+/?$"
-		]
-	},
-	{
-		patterns: ["http://www.traileraddict.com/trailer/[^/]+/trailer"],
-		name: "TrailerAddict"
-	},
-	{
-		name: "Wired",
-		patterns: ["https?://(?:www\\.)?wired\\.com/([^/]+/)?\\d+/\\d+/[^/]+/?$"]
-	},
-	{
 		name: "instagram",
 		patterns: [
 			"https?://instagram\\.com/p/.[^\\s]*",
@@ -72,9 +44,6 @@ const regexes = [
 			"https?://.*\\.deviantart\\.com/art/.[^\\s]*",
 			"https?://.*\\.deviantart\\.com/.*#/d.[^\\s]*",
 			"https?://dotsub\\.com/view/.[^\\s]*",
-			"https?://edocr\\.com/docs/.[^\\s]*",
-			"https?://www\\.facebook\\.com/.*/videos/.[^\\s]*",
-			"https?://www\\.facebook\\.com/video\\.php",
 			"https?://.*\\.flickr\\.com/photos/.[^\\s]*",
 			"https?://flic\\.kr/p/.[^\\s]*",
 			"https?://.*\\.wikimedia\\.org/.*_geograph\\.org\\.uk_.[^\\s]*",
@@ -126,13 +95,6 @@ const regexes = [
 			"https?://db\\.tt/[a-zA-Z0-9][^\\s]+"
 		],
 		name: "Dropbox"
-	},
-	{
-		patterns: [
-			"http://www\\.amazon\\.com/(?:.+/)?[gd]p/(?:product/)?(?:tags-on-product/)?([a-zA-Z0-9]+)",
-			"http://amzn\\.com/([^/]+)"
-		],
-		name: "Amazon"
 	},
 	{
 		patterns: [

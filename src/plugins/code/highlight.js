@@ -23,4 +23,4 @@ export default function highlight(opts) {
 	return basic(pluginOptions)
 }
 
-highlight.pluginName = name
+highlight.id = name

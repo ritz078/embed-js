@@ -159,4 +159,4 @@ export default function twitter(opts) {
 	return basic(pluginOptions)
 }
 
-twitter.pluginName = name
+twitter.id = name
