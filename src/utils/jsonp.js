@@ -2,10 +2,10 @@ import isServer from "is-server"
 
 let count = 0
 
-function jsonP(url, opts = {}) {
+function jsonP(url) {
 	return new Promise(resolve => {
 		const cb = `__c${count++}`
-		const param = opts.param || "callback"
+		const param = "callback"
 		const query = `${param}=${cb}`
 		const script = document.createElement("script")
 
