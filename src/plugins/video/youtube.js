@@ -4,10 +4,10 @@ import ytRegex from 'youtube-regex'
 import unfetch from "../../utils/fetch"
 import withDetailsTemplate from '../../utils/withDetailTemplate'
 import withoutDetailsTemplate from '../../utils/withoutDetailTemplate'
-import basic from "../basic"
+import base from "../base"
 
 const name = 'youtube'
-const base = 'https://www.youtube.com/'
+const baseUrl = 'https://www.youtube.com/'
 
 
 /**
@@ -20,8 +20,8 @@ function formatData({ snippet, id }) {
 		title: snippet.title,
 		thumbnail: snippet.thumbnails.medium.url,
 		description: snippet.description,
-		url: `${base}watch?v=${id}`,
-		embedUrl: `${base}embed/${id}`
+		url: `${baseUrl}watch?v=${id}`,
+		embedUrl: `${baseUrl}embed/${id}`
 	}
 }
 
@@ -87,7 +87,7 @@ function youtube(opts) {
 		},
 		onLoad() {},
 		async template(args, options, { details, height, clickClass }, data) {
-			const embedUrl = `${base}embed/${args[1]}`
+			const embedUrl = `${baseUrl}embed/${args[1]}`
 			return details
 				? withDetailsTemplate(formatData(data), clickClass)
 				: withoutDetailsTemplate(embedUrl, height, name)
@@ -101,7 +101,7 @@ function youtube(opts) {
 	const pluginOptions = extend({}, defaultOptions, opts, {
 		_process
 	})
-	return basic(pluginOptions)
+	return base(pluginOptions)
 }
 
 youtube.id = name

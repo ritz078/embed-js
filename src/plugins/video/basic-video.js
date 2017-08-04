@@ -1,5 +1,5 @@
 import extend from 'just-extend'
-import basic from '../basic'
+import base from '../base'
 
 const name = 'basicVideo'
 
@@ -12,7 +12,7 @@ export default function basicVideo(opts) {
 		}
 	}
 	const pluginOptions = extend({}, defaultOptions, opts)
-	return basic(pluginOptions)
+	return base(pluginOptions)
 }
 
 basicVideo.id = name

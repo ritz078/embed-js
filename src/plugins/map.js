@@ -1,7 +1,7 @@
 import extend from "just-extend"
 import unfetch from "../utils/fetch"
 import withoutDetailTemplate from "../utils/withoutDetailTemplate"
-import basic from "./basic"
+import base from "./base"
 
 const name = "map"
 
@@ -43,7 +43,7 @@ function map(opts) {
 		_process,
 		_ignoreAnchorCheck: true
 	})
-	return basic(pluginOptions)
+	return base(pluginOptions)
 }
 
 map.id = "map"

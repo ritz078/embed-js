@@ -10,6 +10,7 @@ import twitter from "./twitter"
 import url from "./url"
 import basicVideo from "./video/basic-video"
 import facebook from "./facebook"
+import base from './base'
 
 export {
 	highlight,
@@ -23,5 +24,6 @@ export {
 	twitter,
 	url,
 	basicVideo,
-	facebook
+	facebook,
+	base
 }

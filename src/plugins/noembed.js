@@ -1,7 +1,7 @@
 import unfetch from "../utils/fetch"
 import extend from "just-extend"
 import getRegex from "../utils/noembed-regex"
-import basic from "./basic"
+import base from "./base"
 
 const name = "noEmbed"
 
@@ -46,7 +46,7 @@ function noEmbed(opts = {}) {
 		pluginOptions.regex = getRegex(pluginOptions.exclude)
 	}
 
-	return basic(pluginOptions)
+	return base(pluginOptions)
 }
 
 noEmbed.id = name

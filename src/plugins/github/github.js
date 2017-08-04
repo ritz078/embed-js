@@ -1,6 +1,6 @@
 import extend from "just-extend"
 import unfetch from "../../utils/fetch"
-import basic from "../basic"
+import base from "../base"
 import detailsTemplate from '../../utils/withDetailTemplate'
 
 const name = 'github'
@@ -34,7 +34,7 @@ export default function github(opts) {
 	const pluginOptions = extend({}, defaultOptions, opts, {
 		_process
 	})
-	return basic(pluginOptions)
+	return base(pluginOptions)
 }
 
 github.id = name

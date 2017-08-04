@@ -3,7 +3,7 @@ import extend from "just-extend"
 import unfetch from "../utils/jsonp"
 import isDom from "is-dom"
 import isServer from "is-server"
-import basic from "./basic"
+import base from "./base"
 import getQuery from "../utils/getQuery"
 
 const name = "twitter"
@@ -156,7 +156,7 @@ export default function twitter(opts) {
 	const pluginOptions = extend({}, defaultOptions, opts, {
 		_process
 	})
-	return basic(pluginOptions)
+	return base(pluginOptions)
 }
 
 twitter.id = name

@@ -1,6 +1,6 @@
 import extend from 'just-extend'
 import isServer from 'is-server'
-import basic from '../basic'
+import base from '../base'
 
 const name = 'highlight'
 
@@ -22,7 +22,7 @@ export default function highlight(opts) {
 		_ignoreAnchorCheck: true,
 		_ignoreInlineCheck: true
 	})
-	return basic(pluginOptions)
+	return base(pluginOptions)
 }
 
 highlight.id = name

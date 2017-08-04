@@ -2,7 +2,7 @@ import test from 'ava'
 import isPromise from 'p-is-promise'
 import extend from 'just-extend'
 import { spy } from 'sinon'
-import basic from '../src/plugins/basic'
+import base from '../src/plugins/base'
 
 const options = {
 	result: 'Nunquam perdere #helloWorld olla https://b.jpg.',
@@ -23,11 +23,11 @@ const pluginOptions = {
 }
 
 test('Plugin: basic - should return a Promise when called', async (t) => {
-	t.truthy(isPromise(basic(pluginOptions).transform(options)))
+	t.truthy(isPromise(base(pluginOptions).transform(options)))
 })
 
 test('Plugin: basic - should return correct', async (t) => {
-	const {result} = await basic(pluginOptions).transform(options)
+	const {result} = await base(pluginOptions).transform(options)
 
 	t.snapshot(result)
 })
@@ -37,16 +37,16 @@ test('Plugin: basic - execute onLoad when load is called', (t) => {
 	const _onLoadInternal = spy()
 	const pluginOpts = extend({}, pluginOptions, {onLoad, _onLoadInternal})
 
-	basic(pluginOpts).onLoad(options)
+	base(pluginOpts).onLoad(options)
 	t.true(onLoad.calledWithExactly(options, pluginOpts))
 	t.true(_onLoadInternal.calledWithExactly(options, pluginOpts))
 })
 
 test('Plugin: basic - should throw if regex or template is not passed', t => {
-	t.throws(() => basic({
+	t.throws(() => base({
 		regex: /a/gi
 	}), Error)
-	t.throws(() => basic({
+	t.throws(() => base({
 		template() {}
 	}), Error)
 })

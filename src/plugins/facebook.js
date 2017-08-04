@@ -1,5 +1,5 @@
 import extend from "just-extend"
-import basic from "./basic"
+import base from "./base"
 import withoutDetailTemplate from "../utils/withoutDetailTemplate"
 
 const name = "facebook"
@@ -21,7 +21,7 @@ export default function facebook(opts) {
 	}
 
 	const pluginOptions = extend({}, defaultOptions, opts)
-	return basic(pluginOptions)
+	return base(pluginOptions)
 }
 
 facebook.id = name
