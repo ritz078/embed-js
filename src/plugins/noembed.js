@@ -1,9 +1,9 @@
-import unfetch from '../utils/fetch'
+import unfetch from "../utils/fetch"
 import extend from "just-extend"
 import getRegex from "../utils/noembed-regex"
 import basic from "./basic"
 
-const name = 'noEmbed'
+const name = "noEmbed"
 
 /**
  * Fetches the data from the noembed API
@@ -35,7 +35,7 @@ function noEmbed(opts = {}) {
 
 		async template(args, options, pluginOptions, { html }) {
 			return `<div class="ejs-embed">${html}</div>`
-		},
+		}
 	}
 
 	const pluginOptions = extend({}, defaultOptions, opts, {

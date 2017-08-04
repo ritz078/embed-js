@@ -81,7 +81,7 @@ const regexes = [
 			"https?://www\\.vevo\\.com/.[^\\s]*",
 			"https?://player\\.vimeo\\.com/video/.[^\\s]*",
 			"https?://vine\\.co/v/.[^\\s]*",
-			"https?://vine\\.co/v/.[^\\s]*",
+			"https?://vine\\.co/v/.[^\\s]*"
 		],
 		name: "oEmbed"
 	},
@@ -96,6 +96,7 @@ const regexes = [
 		],
 		name: "Dropbox"
 	},
+	// #if IS_CJS
 	{
 		patterns: [
 			"https?:\\/\\/(?:[^\\.]+\\.)?youtube\\.com\\/watch\\/?\\?(?:.+&)?v=([^&][^\\s]+)",
@@ -103,6 +104,7 @@ const regexes = [
 		],
 		name: "YouTube"
 	}
+	// #endif
 ]
 
 export default function getRegexes(excludeServices = []) {

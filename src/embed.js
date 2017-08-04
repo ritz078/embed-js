@@ -2,6 +2,8 @@ import extend from 'just-extend'
 import pWaterfall from 'p-waterfall'
 import isDom from 'is-dom'
 import { appendEmbedsAtEnd } from './utils/dom'
+// import * as presets from './presets'
+// import * as plugins from './plugins'
 
 function isElementPresent ({ input, target }) {
 	return isDom(input) || target && isDom(target)
@@ -80,3 +82,8 @@ export default class EmbedJS {
 		return this.options
 	}
 }
+
+// EmbedJS.plugins = plugins
+// EmbedJS.presets = presets
+
+

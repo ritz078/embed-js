@@ -6,3 +6,4 @@ coverage
 dist
 .nyc_output
 index.html
+stats.html

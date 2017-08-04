@@ -1,7 +1,7 @@
 import extend from "just-extend"
 import linkify from "html-linkify"
 
-const name = 'url'
+const name = "url"
 
 export default function url(opts) {
 	const defaultOptions = {

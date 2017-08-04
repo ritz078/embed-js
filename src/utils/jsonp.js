@@ -1,16 +1,16 @@
 import isServer from "is-server"
 
-let count = 0;
+let count = 0
 
 function jsonP(url, opts = {}) {
 	return new Promise(resolve => {
 		const cb = `__c${count++}`
-		const param = opts.param || 'callback'
+		const param = opts.param || "callback"
 		const query = `${param}=${cb}`
-		const script = document.createElement('script')
+		const script = document.createElement("script")
 
 		const cleanup = () => {
-			document.head.removeChild(script);
+			document.head.removeChild(script)
 			window[cb] = () => {}
 		}
 
@@ -26,7 +26,7 @@ function jsonP(url, opts = {}) {
 
 let unfetch
 if (isServer()) {
-	unfetch = require("isomorphic-unfetch")
+	unfetch = require("node-fetch")
 }
 
 export default unfetch || jsonP

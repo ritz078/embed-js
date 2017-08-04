@@ -38,9 +38,9 @@ function sortEmbeds(embeds) {
  * @returns {string}
  */
 function combineEmbedsText(embeds) {
-	const sortedEmbeds = sortEmbeds(embeds)
-	const contents = sortedEmbeds.map(({ content }) => content)
-	return contents.join(" ")
+	return sortEmbeds(embeds)
+		.map(({ content }) => content)
+		.join(" ")
 }
 
 /**
@@ -53,9 +53,9 @@ export function appendEmbedsAtEnd({ result, _embeds }) {
 	return `${result} ${combineEmbedsText(_embeds)}`
 }
 
-function saveServiceName ({_services}, {name}, match) {
-	if(!_services.filter(x => (x.match === match)).length) {
-		_services.push({name, match})
+function saveServiceName({ _services }, { name }, match) {
+	if (!_services.filter(x => x.match === match).length) {
+		_services.push({ name, match })
 	}
 }
 
@@ -117,16 +117,12 @@ async function getTemplate(args, options, pluginOptions) {
 async function basicReplace(options, pluginOptions) {
 	const { result, replaceUrl } = options
 	const { regex, _replaceAnyways } = pluginOptions
-	return stringReplaceAsync(
-		result,
-		regex,
-		async (...args) => {
-			saveServiceName(options, pluginOptions, args[0])
-			return replaceUrl || _replaceAnyways
-				? getTemplate(args, options, pluginOptions)
-				: `${args[0]} ${await getTemplate(args, options, pluginOptions)}`
-		}
-	)
+	return stringReplaceAsync(result, regex, async (...args) => {
+		saveServiceName(options, pluginOptions, args[0])
+		return replaceUrl || _replaceAnyways
+			? getTemplate(args, options, pluginOptions)
+			: `${args[0]} ${await getTemplate(args, options, pluginOptions)}`
+	})
 }
 
 async function anchorReplace(options, pluginOptions) {
@@ -167,14 +163,7 @@ export async function insert(options, pluginOptions) {
 
 	let output
 
-	if (_ignoreAnchorCheck) {
-		output = await basicReplace(options, pluginOptions)
-		return extend({}, options, {
-			result: output
-		})
-	}
-
-	output = isAnchorTagApplied(result)
+	output = isAnchorTagApplied(result) && !_ignoreAnchorCheck
 		? await anchorReplace(options, pluginOptions)
 		: await basicReplace(options, pluginOptions)
 

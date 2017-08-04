@@ -1,6 +1,6 @@
 import extend from "just-extend"
 import unfetch from "../utils/fetch"
-import withoutDetailTemplate from '../utils/withoutDetailTemplate'
+import withoutDetailTemplate from "../utils/withoutDetailTemplate"
 import basic from "./basic"
 
 const name = "map"
@@ -46,6 +46,6 @@ function map(opts) {
 	return basic(pluginOptions)
 }
 
-map.id = 'map'
+map.id = "map"
 
 export default map

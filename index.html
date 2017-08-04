@@ -42,15 +42,14 @@ olla.Animaliss resistere!Stella, lacta, et genetrix.Pol, ferox exsul!Ubi est pri
 	</div>
 </body>
 <script src="https://platform.twitter.com/widgets.js"></script>
-<script src="./dist/umd/presets/embed-all.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/prism.min.js"></script>
-<script src="./dist/umd/embed.js"></script>
+<script src="./dist/embed.umd.js"></script>
 
 <script>
 	const a = new EmbedJS({
 		input: document.getElementById('a'),
 		inlineEmbed: true,
-		preset: embedAll({
+		preset: EmbedJS.presets.all({
 			gAuthKey: "AIzaSyCqFouT8h5DKAbxlrTZmjXEmNBjC69f0ts"
 		})
 	})

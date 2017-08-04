@@ -10,9 +10,9 @@ import {
 	basicVideo,
 	youtube,
 	facebook,
-	twitter,
-} from '../plugins/index'
-import extend from 'just-extend'
+	twitter
+} from "../plugins"
+import extend from "just-extend"
 
 export default function (options) {
 	const defaultOptions = {
@@ -36,21 +36,28 @@ export default function (options) {
 		highlight
 	]
 	const plugins = pluginNames.map(plugin => {
+		const { id } = plugin
+		const pluginOptions = presetOptions[id]
+
 		if (presetOptions.exclude.indexOf(plugin.id) === -1) {
-			if (plugin.id === 'youtube' || plugin.id === 'map') {
+			if (id === "youtube" || id === "map") {
 				return plugin(
-					extend({}, {
+					extend(
+						{},
+						{
 							gAuthKey: options.gAuthKey
-						}, presetOptions[plugin.id]
+						},
+						pluginOptions
 					)
 				)
+			} else if (id === "noEmbed") {
+				return plugin(
+					extend({}, pluginOptions, {
+						exclude: ["youtube"]
+					})
+				)
 			}
-			if (plugin.id === 'noEmbed') {
-				return plugin(extend({}, presetOptions[plugin.id], {
-					exclude: ['youtube']
-				}))
-			}
-			return plugin(presetOptions[plugin.id])
+			return plugin(pluginOptions)
 		}
 		return null
 	})
