@@ -1,6 +1,6 @@
 import extend from "just-extend"
 import unfetch from "../utils/fetch"
-import withoutDetailTemplate from "../utils/withoutDetailTemplate"
+import withoutDetailTemplate from "../utils/without-detail-template"
 import base from "./base"
 
 const name = "map"

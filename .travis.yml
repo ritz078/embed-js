@@ -8,6 +8,7 @@ node_js:
 notifications:
   email: false
 script:
-  - yarn lint && yarn test
+  - yarn lint && yarn test:cover
 after_success:
+  - yarn test:report
   - yarn semantic-release

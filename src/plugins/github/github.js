@@ -1,7 +1,7 @@
 import extend from "just-extend"
 import unfetch from "../../utils/fetch"
 import base from "../base"
-import detailsTemplate from '../../utils/withDetailTemplate'
+import detailsTemplate from '../../utils/with-details-template'
 
 const name = 'github'
 

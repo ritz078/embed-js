@@ -2,8 +2,8 @@ import extend from "just-extend"
 import isDom from "is-dom"
 import ytRegex from 'youtube-regex'
 import unfetch from "../../utils/fetch"
-import withDetailsTemplate from '../../utils/withDetailTemplate'
-import withoutDetailsTemplate from '../../utils/withoutDetailTemplate'
+import withDetailsTemplate from '../../utils/with-details-template'
+import withoutDetailsTemplate from '../../utils/without-detail-template'
 import base from "../base"
 
 const name = 'youtube'

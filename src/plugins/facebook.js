@@ -1,6 +1,6 @@
 import extend from "just-extend"
 import base from "./base"
-import withoutDetailTemplate from "../utils/withoutDetailTemplate"
+import withoutDetailTemplate from "../utils/without-detail-template"
 
 const name = "facebook"
 
