@@ -1,5 +1,5 @@
 import test from 'ava'
-import highlight from '../src/plugins/code/highlight'
+import highlight from '../src/plugins/highlight'
 
 const options = {
 	result: `

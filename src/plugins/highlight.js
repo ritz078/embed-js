@@ -1,6 +1,6 @@
 import extend from 'just-extend'
 import isServer from 'is-server'
-import base from '../base'
+import base from './base'
 
 const name = 'highlight'
 

@@ -1,6 +1,6 @@
 import test from 'ava'
 import isPromise from 'p-is-promise'
-import youtube from '../src/plugins/video/youtube'
+import youtube from '../src/plugins/youtube'
 
 const options = {
 	result: 'Nunquam perdere https://www.youtube.com/watch?v=QGZjVCHBXgs https://a.jpg olla https://b.jpg.',
