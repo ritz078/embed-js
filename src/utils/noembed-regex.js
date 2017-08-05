@@ -7,13 +7,6 @@ const regexes = [
 		name: "SoundCloud"
 	},
 	{
-		name: "instagram",
-		patterns: [
-			"https?://instagram\\.com/p/.[^\\s]*",
-			"https?://instagr\\.am/p/.[^\\s]*"
-		]
-	},
-	{
 		name: "slideshare",
 		patterns: [
 			"https?://www\\.slideshare\\.net/.*/.[^\\s]*",
@@ -103,8 +96,14 @@ const regexes = [
 			"https?://(?:[^\\.]+\\.)?(?:youtu\\.be|youtube\\.com/embed)/([a-zA-Z0-9_-][^\\s]+)"
 		],
 		name: "YouTube"
-	}
+	},
 	// #endif
+	{
+		patterns: [
+			"https?://(?:www|mobile\\.)?twitter\\.com/(?:#!/)?([^/]+)/status(?:es)?/(\\d+)"
+		],
+		name: "Twitter"
+	}
 ]
 
 export default function getRegexes(excludeServices = []) {
@@ -113,4 +112,11 @@ export default function getRegexes(excludeServices = []) {
 	)
 	const patterns = flatten(pluck(includedRegexes, "patterns"))
 	return new RegExp(patterns.join("|"), "gi")
+}
+
+
+export function isServicePresent (serviceName, text) {
+	const service = regexes.filter(r => r.name.toLowerCase() === serviceName)[0]
+	const regex = new RegExp(service.patterns.join('|'), 'gi')
+	return regex.test(text)
 }

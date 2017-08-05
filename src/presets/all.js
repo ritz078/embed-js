@@ -2,13 +2,12 @@ import {
 	highlight,
 	emoji,
 	github,
-	map,
 	noEmbed,
 	url,
 	youtube,
 	facebook,
-	twitter,
-	media
+	media,
+	instagram
 } from "../plugins"
 import extend from "just-extend"
 
@@ -23,13 +22,12 @@ export default function (options) {
 		url,
 		emoji,
 		github,
-		map,
 		noEmbed,
 		youtube,
 		facebook,
-		twitter,
 		highlight,
-		media
+		media,
+		instagram
 	]
 	const plugins = pluginNames.map(plugin => {
 		const { id } = plugin

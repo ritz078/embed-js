@@ -8,6 +8,16 @@
 	width: 100%;
 }
 
+.ejs-instagram {
+	width: auto;
+	border: 1px solid #eee;
+	display: table;
+}
+
+.ejs-instagram iframe{
+	width: auto;
+}
+
 .ejs-preview {
 	border: 1px solid #e4e4e4;
 	border-radius: 2px;

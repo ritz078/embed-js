@@ -33,7 +33,8 @@ const replaces = {
 }
 
 const defines = {
-	IS_CJS: false
+	IS_CJS: false,
+	IS_UMD: true
 }
 
 module.exports = [{

@@ -1,6 +1,8 @@
 import unfetch from "../utils/fetch"
 import extend from "just-extend"
-import getRegex from "../utils/noembed-regex"
+import isServer from 'is-server'
+import isDom from 'is-dom'
+import getRegex, { isServicePresent } from "../utils/noembed-regex"
 import base from "./base"
 
 const name = "noEmbed"
@@ -33,8 +35,19 @@ function noEmbed(opts = {}) {
 		// It accepts an array of service names in lowercase.
 		exclude: [],
 
+		twttr: !isServer() ? window.twttr : null,
+
+		onLoad() {},
+
 		async template(args, options, pluginOptions, { html }) {
 			return `<div class="ejs-embed">${html}</div>`
+		},
+
+		_onLoadInternal({ input, result }, { twttr, onLoad }) {
+			if (isServicePresent('twitter', result) && twttr && isDom(input)) {
+				twttr.widgets.load(input)
+				twttr.events.bind("loaded", onLoad)
+			}
 		}
 	}
 

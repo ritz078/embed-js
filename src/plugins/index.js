@@ -9,6 +9,7 @@ import twitter from "./twitter"
 import url from "./url"
 import facebook from "./facebook"
 import base from './base'
+import instagram from './instagram'
 
 export {
 	highlight,
@@ -16,10 +17,14 @@ export {
 	emoji,
 	github,
 	youtube,
-	map,
 	noEmbed,
-	twitter,
 	url,
 	facebook,
-	base
+	base,
+	instagram,
+
+	// #if IS_CJS
+	map,
+	twitter,
+	// #endif
 }
