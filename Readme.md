@@ -30,19 +30,15 @@
 - [Plugins](#plugins)
 	- [url](#url)
 	- [emoji](#emoji)
-	- [Basic Audio](#basic-audio)
+	- [Media](#media)
 	- [highlight](#highlight)
-	- [plunker](#plunker)
 	- [github](#github)
-	- [Basic Image](#basic-image)
-	- [Basic Video](#basic-video)
 	- [youtube](#youtube)
 	- [facebook](#facebook)
 	- [map](#map)
-	- [markdown](#markdown)
 	- [noembed](#noembed)
-	- [Slide Share](#slide-share)
 	- [Twitter](#twitter)
+	- [Instagram](#instagram)
 - [Presets](#presets)
 	- [all](#all)
 - [Create a custom plugin](#create-a-custom-plugin)
@@ -164,9 +160,8 @@ const x = new EmbedJS({
 **Known issue** : It doesn't check if a particular name is a valid emoji name. So if you use a test like `:not_valid_emoji_name:`, it will still convert it to
 a span element with that class name.
 
-
-### Basic Audio
-Embeds web supported videos in HTML video tags.
+### Media
+Embeds video, audio or image those are supported by the browser.
 
 ```js
 import EmbedJS from 'embed-js'
@@ -176,7 +171,7 @@ const x = new EmbedJS({
   input: document.getElementById('element'),
   plugins: [
   basicAudio({
-    regex: /audioRegex/gi, // in case you want to define a custom regex
+    regex: /regex/gi, // in case you want to define a custom regex
     template(args) {
       // optional template
     },
@@ -186,6 +181,7 @@ const x = new EmbedJS({
 })
 ```
 You can use video.js or plyr by applying it in the `onLoad()` method.
+- [Usage with plyr.io](https://codepen.io/ritz078/pen/BdpoxQ)
 
 ### Highlight
 Uses prismjs to highlight code. For that it supports markdown syntax.
@@ -223,10 +219,12 @@ into
   </code>
 </pre>
 ```
-**Note** : Don't use highlight with **markdown** plugin. It supports highlight feature on its own.
+**[Example on CodePen](https://codepen.io/ritz078/pen/ZJLWGb)**
+
 
 ### GitHub
-Embeds repository data in the website. q
+Embeds repository data in the website.
+
 
 
 
@@ -234,7 +232,6 @@ Embeds repository data in the website. q
 1. Fork the repo
 1. clone the repo then `cd embed.js`
 1. create a new branch
-1. Make sure ruby and sass are installed on your system.
 1. Then `npm install && yarn build:watch`
 1. Create a PR
 
