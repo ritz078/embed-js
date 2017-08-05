@@ -10,10 +10,11 @@ export default function highlight(opts) {
 		regex: /(`{3})(\s|[a-z]+)\s*([\s\S]*?[^`])\s*\1(?!`)/gm,
 		prismjs: isServer() ? require('prismjs') : window.Prism,
 		template(args, options, { prismjs }) {
-			const language = args[2]
+			const language = args[2] === '\n' || !args[2] ? "markup" : args[2]
 			const code = args[3]
-			const className = `language-${language || 'markup'}`
-			return `<pre class="${className}"><code class="${className}">${prismjs.highlight(code, prismjs.languages[language || 'markup'])}</code></pre>`
+
+			const className = `language-${language}`
+			return `<pre class="${className}"><code class="${className}">${prismjs.highlight(code, prismjs.languages[language])}</code></pre>`
 		}
 	}
 
