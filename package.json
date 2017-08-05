@@ -1,6 +1,6 @@
 {
   "name": "embed-js",
-  "version": "0.0.0-semantically-released",
+  "version": "1.4.0-beta.0",
   "description": "A boilerplate to write plugins in pure JavaScript using ES2015",
   "main": "dist/cjs/embed.js",
   "module": "src/embed.js",
