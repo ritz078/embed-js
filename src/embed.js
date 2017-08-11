@@ -1,7 +1,7 @@
 import extend from 'just-extend'
 import pWaterfall from 'p-waterfall'
 import isDom from 'is-dom'
-import { appendEmbedsAtEnd } from './utils/dom'
+import appendEmbedsAtEnd from './utils/appendEmbedsAtEnd'
 // import * as presets from './presets'
 // import * as plugins from './plugins'
 

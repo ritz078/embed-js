@@ -10,12 +10,6 @@
 <a href="https://twitter.com/intent/tweet?text=embed.js+%7C+A+JS+plugin+to+embed+emojis%2C+media%2C+maps%2C+tweets%2C+code%2C+services+and+parse+markdown+http%3A%2F%2Fbit.ly%2F1NIvT8A&amp;url='http%3A%2F%2Fbit.ly%2F1NIvT8A'&amp;hashtags=JavaScript">
 <img src="https://img.shields.io/twitter/url/https/github.com/ritz078/embed.js.svg?style=social" alt="Twitter" style="max-width:100%;">
 </a>
-<a href="https://www.producthunt.com/tech/embed-js">
-<img src="https://img.shields.io/badge/vote-producthunt-E45127.svg" alt="Producthunt" style="max-width:100%;">
-</a>
-<a href="https://www.paypal.me/ritz078/10usd" target="_blank">
-<img src="https://img.shields.io/badge/Donate-PayPal-green.svg" alt="paypal" style="max-width:100%;">
-</a>
 
 </p>
 
@@ -184,7 +178,15 @@ You can use video.js or plyr by applying it in the `onLoad()` method.
 - [Usage with plyr.io](https://codepen.io/ritz078/pen/BdpoxQ)
 
 ### Highlight
-Uses prismjs to highlight code. For that it supports markdown syntax.
+You need [Prism.js ](http://prismjs.com/) to use this plugins. So import the necessary libraries to support it.
+```html
+<!-- import the theme of your choice -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/themes/prism-dark.css" />
+
+<!-- import the umd build of prism.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/prism.min.js">  
+```
+**Note** : On the server, the plugin automatically imports prism.js from `node_modules`. But it doesn't bundle the PrismJS library with the umd build to keep the size to minimal. Technically `prismjs = isServer ? require('prismjs') : window.Prism`. 
 
 ```js
 import EmbedJS from 'embed-js'
@@ -223,9 +225,67 @@ into
 
 
 ### GitHub
-Embeds repository data in the website.
+Embeds repository data in the website. Supports repo URLs. Usage is simple.
 
+```js
+import EmbedJS from 'embed-js'
+import { github } from 'embed-js/src/plugins'
 
+const x = new EmbedJS({
+  input: document.getElementById('element'),
+  plugins: [
+  github({
+    regex: /githubRepoRegex/gi, // in case you want to define a custom regex
+    template(args) {
+      // optional template
+    }
+   })
+ ]
+})
+```
+When you click on the link URL, it redirects you to the repo URL.
+
+### YouTube
+This embeds youtube videos in the page. This plugin supports two mode controlled by the option `details`. 
+- [Example with Details](https://codepen.io/ritz078/pen/JyyPjq)
+- [Example without Details](https://codepen.io/ritz078/pen/qXXWde)
+
+```js
+import EmbedJS from 'embed-js'
+import { youtube } from 'embed-js/src/plugins'
+
+const x = new EmbedJS({
+  input: document.getElementById('element'),
+  plugins: [
+  youtube({
+    regex: /youtubeVideoRegex/gi, // in case you want to define a custom regex,
+
+    // If set to false, it doesn't make API calls to Youtube for video details. Instead it just embeds the video.
+    details: true,
+
+    // This is a mandatory field. 
+    gAuthKey: '' 
+
+     // height of video iframe 
+    height: 300,
+
+    // This is the class on clicking which the details view changes to embedded video.
+    // This is only required if you providing a custom template for the details view.
+    clickClass: "ejs-video-thumb",
+
+    template(args, options, pluginOptions, dataFromApi) {
+      // dataFromApi is undefined if details is set to false
+    },
+
+    // executes when element is rendered
+    onLoad(options, pluginOptions) {}
+   })
+ ]
+})
+```
+
+### Facebook
+This plugin supports embedding of facebook posts and videos. 
 
 
 ## Development
