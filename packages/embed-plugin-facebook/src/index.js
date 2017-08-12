@@ -2,8 +2,6 @@ import extend from "just-extend"
 import { withoutDetailsTemplate } from "embed-plugin-utilities"
 import base from "embed-plugin-base"
 
-console.log(withoutDetailsTemplate)
-
 const name = "facebook"
 
 export default function facebook(opts) {

@@ -67,7 +67,7 @@ function onLoad({ input }, { clickClass, onVideoShow, height }) {
 }
 
 function _process(args, options, { gAuthKey, details }) {
-	return details && fetchDetails(args[1], gAuthKey)
+	return details ? fetchDetails(args[1], gAuthKey) : Promise.resolve()
 }
 
 function youtube(opts) {
