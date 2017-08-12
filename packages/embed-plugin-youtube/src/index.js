@@ -40,6 +40,7 @@ async function fetchDetails(id, gAuthKey) {
 		const data = await res.json()
 		return data.items[0]
 	} catch (e) {
+		console.log(e)
 		return {}
 	}
 }

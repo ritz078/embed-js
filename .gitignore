@@ -10,3 +10,4 @@ stats.html
 .vscode
 **/umd
 **/.DS_Store
+lerna-debug.log
