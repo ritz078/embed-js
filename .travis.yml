@@ -11,4 +11,3 @@ script:
   - yarn lint && yarn test:cover
 after_success:
   - yarn test:report
-  - yarn semantic-release

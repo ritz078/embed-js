@@ -1,0 +1,38 @@
+{
+  "name": "embed-preset-basic",
+  "version": "5.0.0-beta.0",
+  "description": "A preset containing collection of plugins.",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ritz078/embed.js.git"
+  },
+  "files": [
+    "dist",
+    "src",
+    "umd"
+  ],
+  "author": "Ritesh Kumar",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ritz078/embed.js/issues"
+  },
+  "homepage": "https://github.com/ritz078/embed.js#readme",
+  "dependencies": {
+    "just-extend": "^1.1.22",
+    "embed-plugin-emoji": "5.0.0-beta.0",
+    "embed-plugin-facebook": "5.0.0-beta.0",
+    "embed-plugin-github": "5.0.0-beta.0",
+    "embed-plugin-highlight": "5.0.0-beta.0",
+    "embed-plugin-instagram": "5.0.0-beta.0",
+    "embed-plugin-map": "5.0.0-beta.0",
+    "embed-plugin-media": "5.0.0-beta.0",
+    "embed-plugin-noembed": "5.0.0-beta.0",
+    "embed-plugin-twitter": "5.0.0-beta.0",
+    "embed-plugin-url": "5.0.0-beta.0",
+    "embed-plugin-youtube": "5.0.0-beta.0"
+  }
+}

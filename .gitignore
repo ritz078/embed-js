@@ -1,10 +1,12 @@
-node_modules
+**/node_modules
 .idea
 .sass-cache
 bower_components
 coverage
-dist
+**/dist
 .nyc_output
 index.html
 stats.html
 .vscode
+**/umd
+**/.DS_Store

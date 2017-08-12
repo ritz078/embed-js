@@ -1,0 +1,30 @@
+{
+  "name": "embed-plugin-twitter",
+  "version": "5.0.0-beta.0",
+  "description": "An embed-js plugin to embed tweets.",
+  "main": "dist/index.js",
+  "module": "src/index.js",
+  "browser": "umd/embed-plugin-twitter.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ritz078/embed.js.git"
+  },
+  "files": [
+    "dist",
+    "src",
+    "umd"
+  ],
+  "author": "Ritesh Kumar",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ritz078/embed.js/issues"
+  },
+  "homepage": "https://github.com/ritz078/embed.js#readme",
+  "dependencies": {
+    "just-extend": "^1.1.22",
+    "embed-plugin-base": "5.0.0-beta.0",
+    "embed-plugin-utilities": "5.0.0-beta.0",
+    "is-dom": "1.0.9",
+    "is-server": "0.0.2"
+  }
+}

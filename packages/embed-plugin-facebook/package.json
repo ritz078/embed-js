@@ -1,0 +1,30 @@
+{
+  "name": "embed-plugin-facebook",
+  "version": "5.0.0-beta.0",
+  "description": "An embed-js plugin to embed facebook posts and videos.",
+  "main": "dist/index.js",
+  "module": "src/index.js",
+  "browser": "umd/embed-plugin-facebook.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ritz078/embed.js.git"
+  },
+  "files": [
+    "dist",
+    "src",
+    "umd"
+  ],
+  "author": "Ritesh Kumar",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ritz078/embed.js/issues"
+  },
+  "homepage": "https://github.com/ritz078/embed.js#readme",
+  "dependencies": {
+    "just-extend": "^1.1.22",
+    "just-kebab-case": "^1.0.0",
+    "regex-emoji": "^2.0.5",
+    "embed-plugin-base": "5.0.0-beta.0",
+    "embed-plugin-utilities": "5.0.0-beta.0"
+  }
+}

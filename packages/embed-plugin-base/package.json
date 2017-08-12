@@ -1,0 +1,22 @@
+{
+  "name": "embed-plugin-base",
+  "version": "5.0.0-beta.0",
+  "description": "The base plugin that can be used to create custom plugins.",
+  "main": "dist/index.js",
+  "module": "src/index.js",
+  "browser": "umd/embed-plugin-base.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ritz078/embed.js.git"
+  },
+  "author": "Ritesh Kumar",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ritz078/embed.js/issues"
+  },
+  "homepage": "https://github.com/ritz078/embed.js#readme",
+  "dependencies": {
+    "just-extend": "^1.1.22",
+    "embed-plugin-utilities": "5.0.0-beta.0"
+  }
+}
