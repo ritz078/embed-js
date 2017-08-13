@@ -4,7 +4,8 @@
   "description": "An embed-js plugin to embed GitHub repo description.",
   "main": "dist/index.js",
   "module": "src/index.js",
-  "browser": "umd/embed-plugin-github.js",
+  "jsnext:main": "src/index.js",
+  "unpkg": "umd/embed-plugin-github.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ritz078/embed.js.git"

@@ -7,7 +7,8 @@ const options = {
 	replaceUrl: false,
 	inlineEmbed: true,
 	_embeds: [],
-	_services: []
+	_services: [],
+	plugins: []
 }
 
 const pluginOptions = {

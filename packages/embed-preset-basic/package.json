@@ -3,6 +3,9 @@
   "version": "5.0.0-beta.0",
   "description": "A preset containing collection of plugins.",
   "main": "dist/index.js",
+  "module": "src/index.js",
+  "jsnext:main": "src/index.js",
+  "unpkg": "umd/embed-plugin-basic.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

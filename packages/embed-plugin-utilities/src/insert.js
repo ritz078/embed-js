@@ -19,8 +19,8 @@ function isMatchPresent(regex, text, test = false) {
  * @param text
  * @returns {*} Boolean
  */
-function isAnchorTagApplied(text) {
-	return anchorRegex.test(text)
+function isAnchorTagApplied({ result, plugins }) {
+	return anchorRegex.test(result) && plugins.filter(plugin => plugin.id === 'url').length
 }
 
 function saveServiceName({ _services }, { name }, match) {
@@ -50,7 +50,7 @@ async function saveEmbedData(opts, pluginOptions) {
 	const { regex } = pluginOptions
 	let options = extend({}, opts)
 
-	if (isAnchorTagApplied(options.result)) {
+	if (isAnchorTagApplied(options)) {
 		await stringReplaceAsync(
 			options.result,
 			anchorRegex,
@@ -124,7 +124,7 @@ async function anchorReplace(options, pluginOptions) {
  * @returns options
  */
 export default async function(options, pluginOptions) {
-	const { result, inlineEmbed } = options
+	const { inlineEmbed } = options
 	const { _ignoreAnchorCheck, _ignoreInlineCheck } = pluginOptions
 
 	if (!inlineEmbed && !_ignoreInlineCheck) {
@@ -134,7 +134,7 @@ export default async function(options, pluginOptions) {
 	let output
 
 	output =
-		isAnchorTagApplied(result) && !_ignoreAnchorCheck
+		isAnchorTagApplied(options) && !_ignoreAnchorCheck
 			? await anchorReplace(options, pluginOptions)
 			: await basicReplace(options, pluginOptions)
 

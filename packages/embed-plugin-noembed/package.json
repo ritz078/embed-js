@@ -4,7 +4,8 @@
   "description": "An embed-js plugin to embed selected noembed supported services.",
   "main": "dist/index.js",
   "module": "src/index.js",
-  "browser": "umd/embed-plugin-noembed.js",
+  "jsnext:main": "src/index.js",
+  "unpkg": "umd/embed-plugin-noembed.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ritz078/embed.js.git"

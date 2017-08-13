@@ -4,7 +4,8 @@
   "description": "An embed-js plugin to coverts URLs to anchor tags.",
   "main": "dist/index.js",
   "module": "src/index.js",
-  "browser": "umd/embed-plugin-url.js",
+  "jsnext:main": "src/index.js",
+  "unpkg": "umd/embed-plugin-url.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ritz078/embed.js.git"

@@ -12,5 +12,5 @@ const options = {
 
 test("Plugin: twitter", async t => {
 	const { result } = await twitter().transform(options)
-	t.regex(result, /are you looking for speakers/)
+	t.snapshot(result)
 })

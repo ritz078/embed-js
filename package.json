@@ -5,6 +5,7 @@
   "scripts": {
     "commit": "git cz",
     "test": "ava",
+    "test:browser": "IS_BROWSER=true ava packages/**/*.browser.js",
     "test:watch": "ava --watch",
     "test:cover": "nyc ava",
     "test:report": "cat ./coverage/lcov.info | codecov && rm -rf ./coverage",
@@ -24,6 +25,7 @@
     "babel-polyfill": "^6.23.0",
     "babel-preset-env": "^1.6.0",
     "babel-preset-stage-0": "^6.24.1",
+    "browser-env": "^3.1.2",
     "codecov.io": "^0.1.6",
     "cssnano": "^3.10.0",
     "cz-conventional-changelog": "^2.0.0",
@@ -75,7 +77,8 @@
   "ava": {
     "require": [
       "babel-register",
-      "babel-polyfill"
+      "babel-polyfill",
+      "./test/helpers/setup-browser-env.js"
     ]
   },
   "repository": {

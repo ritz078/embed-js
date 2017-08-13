@@ -4,7 +4,8 @@
   "description": "Utility functions to create embed-js plugins.",
   "main": "dist/index.js",
   "module": "src/index.js",
-  "browser": "umd/embed-plugin-utilities.js",
+  "jsnext:main": "src/index.js",
+  "unpkg": "umd/embed-plugin-utilities.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ritz078/embed.js.git"
@@ -16,6 +17,7 @@
   },
   "homepage": "https://github.com/ritz078/embed.js#readme",
   "dependencies": {
+    "fetch-jsonp": "^1.1.1",
     "just-extend": "^1.1.22"
   },
   "devDependencies": {

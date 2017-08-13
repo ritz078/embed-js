@@ -4,7 +4,8 @@
   "description": "The base plugin that can be used to create custom plugins.",
   "main": "dist/index.js",
   "module": "src/index.js",
-  "browser": "umd/embed-plugin-base.js",
+  "jsnext:main": "src/index.js",
+  "unpkg": "umd/embed-plugin-base.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ritz078/embed.js.git"

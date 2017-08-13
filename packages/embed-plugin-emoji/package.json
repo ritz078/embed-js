@@ -3,8 +3,9 @@
   "version": "5.0.0-beta.0",
   "description": "An embed-js plugin to embed emojis supported by emoji.css.",
   "main": "dist/index.js",
-  "module": "dist/index.js",
-  "browser": "umd/embed-plugin-emoji.js",
+  "module": "src/index.js",
+  "jsnext:main": "src/index.js",
+  "unpkg": "umd/embed-plugin-emoji.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ritz078/embed.js.git"

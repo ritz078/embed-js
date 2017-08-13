@@ -4,7 +4,8 @@
   "description": "An embed-js plugin to embed audio, video or images.",
   "main": "dist/index.js",
   "module": "src/index.js",
-  "browser": "umd/embed-plugin-media.js",
+  "jsnext:main": "src/index.js",
+  "unpkg": "umd/embed-plugin-media.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ritz078/embed.js.git"
