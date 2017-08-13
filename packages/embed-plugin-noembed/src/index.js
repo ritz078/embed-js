@@ -1,5 +1,5 @@
 import extend from "just-extend"
-import isServer from "is-server"
+import isBrowser from "is-in-browser"
 import isDom from "is-dom"
 import getRegex, { isServicePresent } from "./noembed-regex"
 import base from "embed-plugin-base"
@@ -35,7 +35,7 @@ function noEmbed(opts = {}) {
 		// It accepts an array of service names in lowercase.
 		exclude: [],
 
-		twttr: !isServer() ? window.twttr : null,
+		twttr: isBrowser ? window.twttr : null,
 
 		onLoad() {},
 

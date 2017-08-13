@@ -1,6 +1,6 @@
 import extend from "just-extend"
 import isDom from "is-dom"
-import isServer from "is-server"
+import isBrowser from "is-in-browser"
 import base from "embed-plugin-base"
 import { getQuery, unfetch } from "embed-plugin-utilities"
 
@@ -137,7 +137,7 @@ export default function twitter(opts) {
 
 		// The twitter object loaded from widgets.js. By default it takes twttr
 		// from window object.
-		twttr: !isServer() ? window.twttr : null,
+		twttr: isBrowser ? window.twttr : null,
 
 		// This is for internal use only. Executes when
 		// the tweet has been loaded

@@ -1,5 +1,5 @@
-import isServer from "is-server"
+import isBrowser from "is-in-browser"
 
-export default (isServer()
+export default (!isBrowser
 	? require("node-fetch")
 	: window.fetch || window.unfetch)

@@ -1,4 +1,4 @@
-import isServer from "is-server"
+import isBrowser from "is-in-browser"
 
 let count = 0
 
@@ -25,7 +25,7 @@ function jsonP(url) {
 }
 
 let unfetch
-if (isServer()) {
+if (!isBrowser) {
 	unfetch = require("node-fetch")
 }
 

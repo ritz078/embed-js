@@ -19,8 +19,8 @@
     "just-extend": "^1.1.22"
   },
   "devDependencies": {
-    "is-server": "^0.0.2",
     "node-fetch": "^1.7.2",
-    "just-truncate": "1.0.1"
+    "just-truncate": "1.0.1",
+    "is-in-browser": "1.1.3"
   }
 }

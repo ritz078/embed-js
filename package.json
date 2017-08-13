@@ -9,7 +9,7 @@
     "test:cover": "nyc ava",
     "test:report": "cat ./coverage/lcov.info | codecov && rm -rf ./coverage",
     "build": "node ./scripts/build",
-    "lint": "eslint src/**/*.js *.js tests/**/*.js packages/**/*.js",
+    "lint": "eslint packages/**/*.js",
     "lint:fix": "npm run lint -- --fix",
     "format": "prettier --write --use-tabs --no-semi --tab-width 1 packages/**/*.js packages/**/*.css",
     "prepublish": "npm run build",

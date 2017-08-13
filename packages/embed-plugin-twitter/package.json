@@ -25,6 +25,6 @@
     "embed-plugin-base": "5.0.0-beta.0",
     "embed-plugin-utilities": "5.0.0-beta.0",
     "is-dom": "1.0.9",
-    "is-server": "0.0.2"
+    "is-in-browser": "1.1.3"
   }
 }
