@@ -72,11 +72,6 @@
     ]
   },
   "homepage": "https://github.com/ritz078/embed.js",
-  "dependencies": {
-    "is-dom": "^1.0.9",
-    "just-extend": "^1.1.22",
-    "p-waterfall": "^1.0.0"
-  },
   "ava": {
     "require": [
       "babel-register",

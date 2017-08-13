@@ -15,7 +15,9 @@ function jsonP(url) {
 		}
 
 		window[cb] = data => {
-			resolve(data)
+			resolve({
+				json: () => Promise.resolve(data)
+			})
 			cleanup()
 		}
 
