@@ -1,4 +1,4 @@
-const fs = require("fs");
+const fs = require("fs-extra");
 const path = require("path");
 
 const rollup = require("rollup");
@@ -124,6 +124,10 @@ function buildUmdMin(file, silent) {
     );
 }
 
+function writeCss (dest, css) {
+	fs.outputFileSync(dest, css)
+}
+
 function buildCss(file) {
   const css = fs.readFileSync(file, {
     encoding: "utf8"
@@ -135,12 +139,12 @@ function buildCss(file) {
   const fileName = path.basename(umdDestPath, ".css");
   const fileNameWithExt = `${fileName}.min.css`;
 
-  fs.writeFileSync(cjsDestPath, css);
-  fs.writeFileSync(umdDestPath, css);
+  writeCss(cjsDestPath, css);
+  writeCss(umdDestPath, css);
 
   cssnano.process(css).then(result => {
-    fs.writeFileSync(path.resolve(cjsDestPath, "../", fileNameWithExt), result);
-    fs.writeFileSync(path.resolve(umdDestPath, "../", fileNameWithExt), result);
+    writeCss(path.resolve(cjsDestPath, "../", fileNameWithExt), result);
+    writeCss(path.resolve(umdDestPath, "../", fileNameWithExt), result);
   });
 }
 
@@ -155,9 +159,9 @@ function buildPackage(p) {
     if (path.extname(file) === ".css") {
       buildCss(file);
     } else {
-      buildCjs(file);
       if (path.basename(file, ".js") === "index") {
-        buildUmd(file);
+				buildCjs(file);
+				buildUmd(file);
         buildUmdMin(file);
       }
     }
