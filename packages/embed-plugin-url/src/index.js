@@ -13,6 +13,7 @@ export default function url(opts) {
 
 	const { attributes, escape } = extend({}, defaultOptions, opts)
 	return {
+		id: name,
 		async transform(options) {
 			return extend({}, options, {
 				result: linkify(options.result, { attributes, escape })

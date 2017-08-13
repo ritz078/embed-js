@@ -3,6 +3,10 @@ import stringReplaceAsync from "./string-replace-async"
 
 const anchorRegex = /<a[^>]*>([^<]+)<\/a>/gi
 
+function getAnchorRegex (regex) {
+	return new RegExp(`<a[^>]*>(${regex.source})<\\/a>`, 'gi')
+}
+
 /**
  * Returns the matched regex data or whether the text has any matching string
  * @param regex Regex of the matching pattern
@@ -18,9 +22,10 @@ function isMatchPresent(regex, text, test = false) {
  * Tells wheteher the matching string is present inside an anchor tag
  * @param text
  * @returns {*} Boolean
+ * @param regex
  */
-function isAnchorTagApplied({ result, plugins }) {
-	return anchorRegex.test(result) && plugins.filter(plugin => plugin.id === 'url').length
+function isAnchorTagApplied({ result, plugins = [] }, { regex }) {
+	return getAnchorRegex(regex).test(result) || plugins.filter(plugin => plugin.id === 'url').length
 }
 
 function saveServiceName({ _services }, { name }, match) {
@@ -50,7 +55,7 @@ async function saveEmbedData(opts, pluginOptions) {
 	const { regex } = pluginOptions
 	let options = extend({}, opts)
 
-	if (isAnchorTagApplied(options)) {
+	if (isAnchorTagApplied(options, { regex })) {
 		await stringReplaceAsync(
 			options.result,
 			anchorRegex,
@@ -125,7 +130,7 @@ async function anchorReplace(options, pluginOptions) {
  */
 export default async function(options, pluginOptions) {
 	const { inlineEmbed } = options
-	const { _ignoreAnchorCheck, _ignoreInlineCheck } = pluginOptions
+	const { _ignoreAnchorCheck, _ignoreInlineCheck, regex } = pluginOptions
 
 	if (!inlineEmbed && !_ignoreInlineCheck) {
 		return saveEmbedData(options, pluginOptions)
@@ -134,7 +139,7 @@ export default async function(options, pluginOptions) {
 	let output
 
 	output =
-		isAnchorTagApplied(options) && !_ignoreAnchorCheck
+		isAnchorTagApplied(options, { regex }) && !_ignoreAnchorCheck
 			? await anchorReplace(options, pluginOptions)
 			: await basicReplace(options, pluginOptions)
 

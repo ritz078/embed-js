@@ -17,8 +17,5 @@ test("Plugin: noembed - youtube", async t => {
 
 	const { result } = await noembed().transform(opts)
 
-	t.regex(
-		result,
-		/https:\/\/www.youtube.com\/embed\/DYsOIjw8Emg\?feature=oembed/
-	)
+	t.snapshot(result)
 })

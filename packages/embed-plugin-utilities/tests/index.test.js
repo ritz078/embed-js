@@ -26,39 +26,30 @@ const options2 = extend({}, options, {
 
 test("Util: dom - inlineEmbed: true ,should append to url when replaceUrl is false and URLs are without anchor", async t => {
 	const opts = extend({}, options)
-	const expected =
-		'Nunquam perdere https://a.jpg <img src="https://a.jpg"/> olla https://b.jpg <img src="https://b.jpg"/>.'
 	const { result } = await insert(opts, pluginOptions)
-	t.is(result, expected)
+	t.snapshot(result)
 })
 
 test("Util: dom - inlineEmbed: true, should append to url when replaceUrl is false and URLs are with anchor", async t => {
-	const expected =
-		'Nunquam perdere <a href="https://a.jpg">https://a.jpg</a><img src="https://a.jpg"/> olla <a href="https://b.jpg">https://b.jpg</a><img src="https://b.jpg"/>.'
-
 	const opts = extend({}, options2)
 
 	const { result } = await insert(opts, pluginOptions)
-	t.is(result, expected)
+	t.snapshot(result)
 })
 
 test("Util: dom - inlineEmbed: true, should replace url when replaceUrl is true and URLs are without anchor", async t => {
 	const opts = extend({}, options, {
 		replaceUrl: true
 	})
-	const expected =
-		'Nunquam perdere <img src="https://a.jpg"/> olla <img src="https://b.jpg"/>.'
 	const { result } = await insert(opts, pluginOptions)
-	t.is(result, expected)
+	t.snapshot(result)
 })
 
 test("Util: dom - inlineEmbed: true, should replace url when replaceUrl is true and URLs are with anchor", async t => {
-	const expected =
-		'Nunquam perdere <img src="https://a.jpg"/> olla <img src="https://b.jpg"/>.'
 	const opts = extend({}, options2, {
 		replaceUrl: true
 	})
 
 	const { result } = await insert(opts, pluginOptions)
-	t.is(result, expected)
+	t.snapshot(result)
 })
