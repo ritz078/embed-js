@@ -11,7 +11,7 @@ export default opts => {
 
 	const pluginOptions = extend({}, defaultOptions, opts)
 
-	const { _onLoadInternal, onLoad, regex, template, name } = pluginOptions
+	const { _onLoadInternal, onLoad, regex, template, id } = pluginOptions
 
 	if (!regex) {
 		throw new Error("regex not passed.")
@@ -21,7 +21,7 @@ export default opts => {
 	}
 
 	return {
-		id: name,
+		id,
 
 		async transform(options) {
 			return extend({}, options, await insert(options, pluginOptions))

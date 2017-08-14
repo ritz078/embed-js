@@ -65,7 +65,7 @@ function renderTweet({ input, _services }, { twttr, onLoad }) {
 	if (!isDom(input)) {
 		throw new Error("input should be a DOM element to embed tweet.")
 	}
-	if (_services.filter(service => service.name === 'twitter').length) {
+	if (_services.filter(service => service.id === 'twitter').length) {
 		twttr.widgets.load(input)
 		twttr.events.bind("loaded", onLoad)
 	}
