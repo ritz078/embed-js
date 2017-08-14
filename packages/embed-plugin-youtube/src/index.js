@@ -3,9 +3,9 @@ import isDom from "is-dom"
 import ytRegex from "youtube-regex"
 import base from "embed-plugin-base"
 import {
-	withDetailsTemplate,
-	withoutDetailsTemplate,
-	unfetch
+  withDetailsTemplate,
+  withoutDetailsTemplate,
+  unfetch
 } from "embed-plugin-utilities"
 
 const id = "youtube"
@@ -17,13 +17,13 @@ const baseUrl = "https://www.youtube.com/"
  * @returns {{title, thumbnail, rawDescription, views: *, likes: *, description: *, url: string, id, host: string}}
  */
 function formatData({ snippet, id }) {
-	return {
-		title: snippet.title,
-		thumbnail: snippet.thumbnails.medium.url,
-		description: snippet.description,
-		url: `${baseUrl}watch?v=${id}`,
-		embedUrl: `${baseUrl}embed/${id}`
-	}
+  return {
+    title: snippet.title,
+    thumbnail: snippet.thumbnails.medium.url,
+    description: snippet.description,
+    url: `${baseUrl}watch?v=${id}`,
+    embedUrl: `${baseUrl}embed/${id}`
+  }
 }
 
 /**
@@ -33,16 +33,16 @@ function formatData({ snippet, id }) {
  * @returns {Promise.<*>}
  */
 async function fetchDetails(id, gAuthKey) {
-	try {
-		const res = await unfetch(
-			`https://www.googleapis.com/youtube/v3/videos?id=${id}&key=${gAuthKey}&part=snippet,statistics`
-		)
-		const data = await res.json()
-		return data.items[0]
-	} catch (e) {
-		console.log(e)
-		return {}
-	}
+  try {
+    const res = await unfetch(
+      `https://www.googleapis.com/youtube/v3/videos?id=${id}&key=${gAuthKey}&part=snippet,statistics`
+    )
+    const data = await res.json()
+    return data.items[0]
+  } catch (e) {
+    console.log(e)
+    return {}
+  }
 }
 
 /**
@@ -53,53 +53,53 @@ async function fetchDetails(id, gAuthKey) {
  * @param height
  */
 function onLoad({ input }, { clickClass, onVideoShow, height }) {
-	if (!isDom(input)) {
-		throw new Error("input should be a DOM Element.")
-	}
-	let classes = document.getElementsByClassName(clickClass)
-	for (let i = 0; i < classes.length; i++) {
-		classes[i].onclick = function() {
-			let url = this.getAttribute("data-url")
-			onVideoShow(url)
-			url += "?autoplay=1"
-			this.parentNode.innerHTML = withoutDetailsTemplate(url, height, id)
-		}
-	}
+  if (!isDom(input)) {
+    throw new Error("input should be a DOM Element.")
+  }
+  let classes = document.getElementsByClassName(clickClass)
+  for (let i = 0; i < classes.length; i++) {
+    classes[i].onclick = function() {
+      let url = this.getAttribute("data-url")
+      onVideoShow(url)
+      url += "?autoplay=1"
+      this.parentNode.innerHTML = withoutDetailsTemplate(url, height, id)
+    }
+  }
 }
 
 function _process(args, options, { gAuthKey, details }) {
-	return details ? fetchDetails(args[1], gAuthKey) : Promise.resolve()
+  return details ? fetchDetails(args[1], gAuthKey) : Promise.resolve()
 }
 
 function youtube(opts) {
-	const defaultOptions = {
-		id,
-		regex: ytRegex(),
-		gAuthKey: "",
-		details: true,
-		height: 300,
-		clickClass: "ejs-video-thumb",
-		onVideoShow() {},
-		_onLoadInternal(options, pluginOptions) {
-			onLoad(options, pluginOptions)
-		},
-		onLoad() {},
-		async template(args, options, { details, height, clickClass }, data) {
-			const embedUrl = `${baseUrl}embed/${args[1]}`
-			return details
-				? withDetailsTemplate(formatData(data), clickClass)
-				: withoutDetailsTemplate(embedUrl, height, id)
-		}
-	}
+  const defaultOptions = {
+    id,
+    regex: ytRegex(),
+    gAuthKey: "",
+    details: true,
+    height: 300,
+    clickClass: "ejs-video-thumb",
+    onVideoShow() {},
+    _onLoadInternal(options, pluginOptions) {
+      onLoad(options, pluginOptions)
+    },
+    onLoad() {},
+    async template(args, options, { details, height, clickClass }, data) {
+      const embedUrl = `${baseUrl}embed/${args[1]}`
+      return details
+        ? withDetailsTemplate(formatData(data), clickClass)
+        : withoutDetailsTemplate(embedUrl, height, id)
+    }
+  }
 
-	if (!opts.gAuthKey) {
-		throw new Error("You need to pass google auth key.")
-	}
+  if (!opts.gAuthKey) {
+    throw new Error("You need to pass google auth key.")
+  }
 
-	const pluginOptions = extend({}, defaultOptions, opts, {
-		_process
-	})
-	return base(pluginOptions)
+  const pluginOptions = extend({}, defaultOptions, opts, {
+    _process
+  })
+  return base(pluginOptions)
 }
 
 youtube.id = id

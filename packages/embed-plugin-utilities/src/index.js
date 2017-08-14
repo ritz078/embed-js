@@ -6,10 +6,10 @@ import getQuery from "./get-query"
 import jsonp from "./jsonp"
 
 export {
-	insert,
-	withDetailsTemplate,
-	withoutDetailsTemplate,
-	unfetch,
-	getQuery,
-	jsonp
+  insert,
+  withDetailsTemplate,
+  withoutDetailsTemplate,
+  unfetch,
+  getQuery,
+  jsonp
 }

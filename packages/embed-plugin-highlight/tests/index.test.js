@@ -2,18 +2,18 @@ import test from "ava"
 import highlight from "../src"
 
 const options = {
-	result: `
+  result: `
 Vae, byssus!A falsis, urbs teres palus.
 \`\`\`javascript
 const x = "hello"
 \`\`\`
 Demolitione, exsul, et homo.
 `,
-	_services: []
+  _services: []
 }
 
 test("Plugin: Highlight - Embed code", async t => {
-	const { result } = await highlight().transform(options)
+  const { result } = await highlight().transform(options)
 
-	t.snapshot(result)
+  t.snapshot(result)
 })

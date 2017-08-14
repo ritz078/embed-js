@@ -13,7 +13,7 @@
     "build": "npm run clean && node ./scripts/build",
     "lint": "eslint packages/**/*.js",
     "lint:fix": "npm run lint -- --fix",
-    "format": "prettier --write --use-tabs --no-semi --tab-width 1 packages/**/*.js packages/**/*.css",
+    "format": "prettier --write --no-semi packages/**/*.js packages/**/*.css scripts/**/*.js",
     "prepublish": "npm run build",
     "precommit": "lint-staged"
   },
@@ -70,8 +70,8 @@
     "url": "https://github.com/ritz078"
   },
   "lint-staged": {
-    "'{packages}/**/*.{js, css}'": [
-      "prettier --write --use-tabs --no-semi --tab-width 1",
+    "'{packages, scripts}/**/*.{js, css}'": [
+      "prettier --write --no-semi",
       "git add"
     ]
   },

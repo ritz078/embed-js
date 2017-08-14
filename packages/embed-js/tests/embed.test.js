@@ -13,15 +13,15 @@ Sunt eraes Cum habitio messis, omnes rectores resuscitabo brevis, bassus gabaliu
 `
 
 test("EmbedJS - should return correct result", async t => {
-	const ejs = new EmbedJS({
-		input,
-		preset: embedAll({
-			gAuthKey: "AIzaSyCqFouT8h5DKAbxlrTZmjXEmNBjC69f0ts"
-		}),
-		inlineEmbed: true,
-		replaceUrl: true
-	})
+  const ejs = new EmbedJS({
+    input,
+    preset: embedAll({
+      gAuthKey: "AIzaSyCqFouT8h5DKAbxlrTZmjXEmNBjC69f0ts"
+    }),
+    inlineEmbed: true,
+    replaceUrl: true
+  })
 
-	const { result } = await ejs.text()
-	t.snapshot(result)
+  const { result } = await ejs.text()
+  t.snapshot(result)
 })

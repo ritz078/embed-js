@@ -13,53 +13,53 @@ const id = "noEmbed"
  * @returns {Promise.<*>}
  */
 async function _process(args) {
-	const url = args[0]
-	try {
-		const res = await unfetch(`https://noembed.com/embed?url=${url}`)
-		return await res.json()
-	} catch (e) {
-		return {
-			html: url
-		}
-	}
+  const url = args[0]
+  try {
+    const res = await unfetch(`https://noembed.com/embed?url=${url}`)
+    return await res.json()
+  } catch (e) {
+    return {
+      html: url
+    }
+  }
 }
 
 function noEmbed(opts = {}) {
-	const defaultOptions = {
-		id,
-		// Regex to be used to identify noembed supported services.
-		// By default it takes from noembed-regex.js
-		regex: null,
+  const defaultOptions = {
+    id,
+    // Regex to be used to identify noembed supported services.
+    // By default it takes from noembed-regex.js
+    regex: null,
 
-		// In case you want to exclude a few services, you can do it here.
-		// It accepts an array of service names in lowercase.
-		exclude: [],
+    // In case you want to exclude a few services, you can do it here.
+    // It accepts an array of service names in lowercase.
+    exclude: [],
 
-		twttr: isBrowser ? window.twttr : null,
+    twttr: isBrowser ? window.twttr : null,
 
-		onLoad() {},
+    onLoad() {},
 
-		async template(args, options, pluginOptions, { html }) {
-			return `<div class="ejs-embed">${html}</div>`
-		},
+    async template(args, options, pluginOptions, { html }) {
+      return `<div class="ejs-embed">${html}</div>`
+    },
 
-		_onLoadInternal({ input, result }, { twttr, onLoad }) {
-			if (isServicePresent("twitter", result) && twttr && isDom(input)) {
-				twttr.widgets.load(input)
-				twttr.events.bind("loaded", onLoad)
-			}
-		}
-	}
+    _onLoadInternal({ input, result }, { twttr, onLoad }) {
+      if (isServicePresent("twitter", result) && twttr && isDom(input)) {
+        twttr.widgets.load(input)
+        twttr.events.bind("loaded", onLoad)
+      }
+    }
+  }
 
-	const pluginOptions = extend({}, defaultOptions, opts, {
-		_process
-	})
+  const pluginOptions = extend({}, defaultOptions, opts, {
+    _process
+  })
 
-	if (!opts.regex) {
-		pluginOptions.regex = getRegex(pluginOptions.exclude)
-	}
+  if (!opts.regex) {
+    pluginOptions.regex = getRegex(pluginOptions.exclude)
+  }
 
-	return base(pluginOptions)
+  return base(pluginOptions)
 }
 
 noEmbed.id = id
