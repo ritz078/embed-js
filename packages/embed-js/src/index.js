@@ -45,7 +45,6 @@ export default class EmbedJS {
       // on both client and server side, you need to pass a custom isomorphic
       // implementation of fetch.
       // Eg: fetch: require('isomorphic-unfetch')
-      // or fetch: isBrowser ? (window.fetch || window.unfetch) : require('node-fetch')
 
       // This hasn't been included as part of the plugin so that the browser build is small.
       fetch: isBrowser && (window.fetch || window.unfetch),

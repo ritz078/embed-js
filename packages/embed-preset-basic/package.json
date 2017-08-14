@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "module": "src/index.js",
   "jsnext:main": "src/index.js",
-  "unpkg": "umd/embed-plugin-basic.js",
+  "unpkg": "umd/embed-preset-basic.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

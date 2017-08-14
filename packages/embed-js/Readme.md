@@ -19,7 +19,7 @@ https://unpkg.com/embed-js
 
 ## Basic Usage
 
-**You need to use plugins or presets to do anything. By defauly embed-js does nothing.**
+**You need to use plugins or presets to do anything. By default embed-js does nothing.**
 
 Let's assume that the HTML structure is as written below
 

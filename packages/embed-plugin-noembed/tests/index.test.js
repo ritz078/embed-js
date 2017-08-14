@@ -1,7 +1,7 @@
 import test from "ava"
 import extend from "just-extend"
 import noembed from "../src"
-import fetch from "node-fetch"
+import fetch from "isomorphic-unfetch"
 import { isServicePresent } from "../src/noembed-regex"
 
 const options = {
