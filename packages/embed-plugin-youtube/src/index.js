@@ -5,7 +5,7 @@ import base from "embed-plugin-base"
 import {
   withDetailsTemplate,
   withoutDetailsTemplate,
-  unfetch
+  fetch
 } from "embed-plugin-utilities"
 
 const id = "youtube"
@@ -34,7 +34,7 @@ function formatData({ snippet, id }) {
  */
 async function fetchDetails(id, gAuthKey) {
   try {
-    const res = await unfetch(
+    const res = await fetch(
       `https://www.googleapis.com/youtube/v3/videos?id=${id}&key=${gAuthKey}&part=snippet,statistics`
     )
     const data = await res.json()

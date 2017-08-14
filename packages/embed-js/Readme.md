@@ -1,5 +1,5 @@
 # embed-js
-> A lightweight JavaScript plugin to embed emojis, media, maps, tweets, code and services.
+A lightweight JavaScript plugin to embed emojis, media, maps, tweets, code and services.
 
 ## Installation
 
@@ -26,7 +26,8 @@ Creating an instance of embed.js
 
 ``` javascript
 import EmbedJS from 'embed-js'
-import { url, emoji } from 'embed-js/src/plugins'
+import url from 'embed-plugin-url'
+import emoji from 'embed-plugin-emoji'
 
 const x = new EmbedJS({
   input: document.getElementById('element'),

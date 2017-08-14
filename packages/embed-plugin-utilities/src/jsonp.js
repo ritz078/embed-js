@@ -1,9 +1,9 @@
 import isBrowser from "is-in-browser"
 import jsonP from "fetch-jsonp"
 
-let unfetch
+let serverFetch
 if (!isBrowser) {
-  unfetch = require("node-fetch")
+  serverFetch = require("node-fetch")
 }
 
-export default unfetch || jsonP
+export default serverFetch || jsonP

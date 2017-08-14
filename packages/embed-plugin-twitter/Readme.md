@@ -1,79 +1,27 @@
-import extend from "just-extend"
-import isDom from "is-dom"
-import isBrowser from "is-in-browser"
-import base from "embed-plugin-base"
-import { getQuery, jsonp } from "embed-plugin-utilities"
+# embed-plugin-twitter
 
-const id = "twitter"
+A plugin that can be used to embed tweets.
 
-/**
- * Fetch the html content from the API
- * @param url
- * @param args
- * @param omitScript
- * @param maxWidth
- * @param hideMedia
- * @param hideThread
- * @param align
- * @param lang
- * @param theme
- * @param linkColor
- * @param widgetType
- * @returns {Promise.<*>}
- */
-async function _process(
-  args,
-  options,
-  {
-    _omitScript,
-    maxWidth,
-    hideMedia,
-    hideThread,
-    align,
-    lang,
-    theme,
-    linkColor,
-    widgetType
-  }
-) {
-  const params = {
-    url: args[0],
-    omitScript: _omitScript,
-    maxWidth,
-    hideMedia,
-    hideThread,
-    align,
-    lang,
-    theme,
-    linkColor,
-    widgetType
-  }
-  try {
-    const apiUrl = `https://api.twitter.com/1/statuses/oembed.json?${getQuery(
-      params
-    )}`
-    const res = await jsonp(apiUrl)
-    return await res.json()
-  } catch (e) {
-    return {
-      html: ""
-    }
-  }
-}
+## Installation
+```
+npm i -S embed-js embed-plugin-twitter
+```
 
-function renderTweet({ input, _services }, { twttr, onLoad }) {
-  if (!isDom(input)) {
-    throw new Error("input should be a DOM element to embed tweet.")
-  }
-  if (_services.filter(service => service.id === "twitter").length) {
-    twttr.widgets.load(input)
-    twttr.events.bind("loaded", onLoad)
-  }
-}
+### CDN
 
-export default function twitter(opts) {
-  const defaultOptions = {
-    id,
+https://unpkg.com/embed-plugin-twitter
+
+## Usage
+Embeds Tweets in the website. You need to load https://platform.twitter.com/widgets.js in advance to get this working.
+
+```js
+import EmbedJS from 'embed-js'
+import twitter from 'embed-plugin-twitter'
+
+const x = new EmbedJS({
+  input: document.getElementById('element'),
+  plugins: [
+  twitter({
     // Regex that matches the string and sends to the template method.
     regex: /https:\/\/twitter\.com\/\w+\/\w+\/\d+/gi,
 
@@ -121,40 +69,24 @@ export default function twitter(opts) {
 		 * It accepts the matching url and returns the html
 		 * content that replaces or appends to the URL based
 		 * on options. This can return a asynchronous response.
-		 * @param args
-		 * @param options
-		 * @param pluginOptions
-		 * @param html
-		 * @returns {Promise.<*>}
 		 */
     template(args, options, pluginOptions, { html }) {
       return html
     },
 
-    // If you want to load the twitter widget script with the tweet itself
-    // turn this option to false. Else you have to load it externally.
-    _omitScript: true,
-
     // The twitter object loaded from widgets.js. By default it takes twttr
     // from window object.
     twttr: isBrowser ? window.twttr : null,
 
-    // This is for internal use only. Executes when
-    // the tweet has been loaded
-    // and rendered on the client side
-    _onLoadInternal(options, pluginOptions) {
-      renderTweet(options, pluginOptions)
-    },
-
     // executed when the tweet has been loaded
     // and rendered on the client side
     onLoad() {}
-  }
+   })
+ ]
+})
+```
 
-  const pluginOptions = extend({}, defaultOptions, opts, {
-    _process
-  })
-  return base(pluginOptions)
-}
+**Note** : The twitter embed functionality provided by **embed-plugin-noembed** doesn't provide this much customization. So if you willing to use this plugin for tweet embedding along with noembed plugin, make sure you disable twitter embedding in the latter by passing `exclude: ['twitter']` in it.
 
-twitter.id = id
+### License
+MIT @ Ritesh Kumar

@@ -3,7 +3,7 @@ import isBrowser from "is-in-browser"
 import isDom from "is-dom"
 import getRegex, { isServicePresent } from "./noembed-regex"
 import base from "embed-plugin-base"
-import { unfetch } from "embed-plugin-utilities"
+import { fetch } from "embed-plugin-utilities"
 
 const id = "noEmbed"
 
@@ -15,7 +15,7 @@ const id = "noEmbed"
 async function _process(args) {
   const url = args[0]
   try {
-    const res = await unfetch(`https://noembed.com/embed?url=${url}`)
+    const res = await fetch(`https://noembed.com/embed?url=${url}`)
     return await res.json()
   } catch (e) {
     return {

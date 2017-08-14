@@ -1,6 +1,6 @@
 import extend from "just-extend"
 import base from "embed-plugin-base"
-import { withDetailsTemplate, unfetch } from "embed-plugin-utilities"
+import { withDetailsTemplate, fetch } from "embed-plugin-utilities"
 
 const id = "github"
 
@@ -8,7 +8,7 @@ async function _process(args) {
   const [, user, repo] = args
 
   try {
-    const res = await unfetch(`https://api.github.com/repos/${user}/${repo}`)
+    const res = await fetch(`https://api.github.com/repos/${user}/${repo}`)
     return res.json()
   } catch (e) {
     return {}
