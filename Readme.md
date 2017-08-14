@@ -116,7 +116,7 @@ option|default|Description
 **preset**| null | Accepts a preset. Currently accpets only one preset. It can be combined with plugins.
 **inlineEmbed**| true | If case you want to to embed contents at the end of texts, turn this to false.
 **replaceText**| false | Useful when __inlineEmbed__ is set to true. Replace text with the embed.
-**fetch**| `window.fetch || window.unfetch` | If you are willing to use the library on both server and client side you need to pass an isomorphic fetch library like [isomorphic-unfetch](https://github.com/developit/unfetch/tree/master/packages/isomorphic-unfetch) or [isomorphic-fetch](https://github.com/matthew-andrews/isomorphic-fetch). This is only needed if you are using a plugin that has to make a HTTP request.
+**fetch**| `window.fetch` or `window.unfetch` | If you are willing to use the library on both server and client side you need to pass an isomorphic fetch library like [isomorphic-unfetch](https://github.com/developit/unfetch/tree/master/packages/isomorphic-unfetch) or [isomorphic-fetch](https://github.com/matthew-andrews/isomorphic-fetch). This is only needed if you are using a plugin that has to make a HTTP request.
 
 
 ## Development
