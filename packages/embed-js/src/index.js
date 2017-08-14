@@ -1,6 +1,7 @@
 import extend from "just-extend"
 import pWaterfall from "p-waterfall"
 import isDom from "is-dom"
+import isBrowser from "is-in-browser"
 
 /**
  * Sort all the saved embeds by the position index they are present in the string.
@@ -39,6 +40,16 @@ export default class EmbedJS {
     const defaultOptions = {
       plugins: [],
       preset: null,
+
+      // By default this plugin supports client side. If you want to use this
+      // on both client and server side, you need to pass a custom isomorphic
+      // implementation of fetch.
+      // Eg: fetch: require('isomorphic-unfetch')
+      // or fetch: isBrowser ? (window.fetch || window.unfetch) : require('node-fetch')
+
+      // This hasn't been included as part of the plugin so that the browser build is small.
+      fetch: isBrowser && (window.fetch || window.unfetch),
+
       inlineEmbed: true,
       replaceText: false,
       _embeds: [],

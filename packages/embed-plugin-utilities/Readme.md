@@ -20,8 +20,6 @@ withDetailsTemplate| **({url, title, embedUrl, description, thumbnail}, thumbCla
 withoutDetailsTemplate | **(embedUrl, height, name)** | Returns a simple embeddable iframe.
 jsonp | (url) | Makes a JSONP request on client side and normal get request on the server side.
 getQuery| (paramObject) | Converts an object of query params into `&` separated string.
-fetch|(url)| Uses `window.fetch` or `window.unfetch` on client side and `node-fetch` on the server side.
-
 
 ### License
 MIT @ Ritesh Kumar

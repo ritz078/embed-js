@@ -18,6 +18,7 @@ test("EmbedJS - should return correct result", async t => {
     preset: embedAll({
       gAuthKey: "AIzaSyCqFouT8h5DKAbxlrTZmjXEmNBjC69f0ts"
     }),
+    fetch: require("isomorphic-unfetch"),
     inlineEmbed: true,
     replaceUrl: true
   })

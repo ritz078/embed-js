@@ -1,10 +1,10 @@
 import extend from "just-extend"
 import base from "embed-plugin-base"
-import { withDetailsTemplate, fetch } from "embed-plugin-utilities"
+import { withDetailsTemplate } from "embed-plugin-utilities"
 
 const id = "github"
 
-async function _process(args) {
+async function _process(args, { fetch }) {
   const [, user, repo] = args
 
   try {

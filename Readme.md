@@ -17,6 +17,13 @@
 
 #### [Live Demo](http://codepen.io/ritz078/full/WvvNGe/)
 
+## Features
+-   **Supported:** supports IE8+ _(assuming `Promise` is polyfilled)
+-   **Plugin Based:** only load what you want.
+-   **Isomorphic**: Can be used both on server and client side.
+-   **Customizable**: So much that creating a custom plugin is also few lines of code.
+-   **Modern:** written in ES2015
+
 ## Contents
 - [Installation](#installation)
 - [Basic Usage](#basic-usage)

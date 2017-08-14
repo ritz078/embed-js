@@ -2,7 +2,8 @@ import extend from "just-extend"
 import isDom from "is-dom"
 import isBrowser from "is-in-browser"
 import base from "embed-plugin-base"
-import { getQuery, jsonp } from "embed-plugin-utilities"
+import { getQuery } from "embed-plugin-utilities"
+import jsonp from "fetch-jsonp"
 
 const id = "twitter"
 
@@ -23,7 +24,7 @@ const id = "twitter"
  */
 async function _process(
   args,
-  options,
+  {fetch},
   {
     _omitScript,
     maxWidth,
@@ -52,7 +53,7 @@ async function _process(
     const apiUrl = `https://api.twitter.com/1/statuses/oembed.json?${getQuery(
       params
     )}`
-    const res = await jsonp(apiUrl)
+    const res = await (isBrowser ? jsonp : fetch)(apiUrl)
     return await res.json()
   } catch (e) {
     return {

@@ -19,7 +19,8 @@
   "dependencies": {
     "is-dom": "^1.0.9",
     "just-extend": "^1.1.22",
-    "p-waterfall": "^1.0.0"
+    "p-waterfall": "^1.0.0",
+    "is-in-browser": "1.1.3"
   },
   "devDependencies": {
     "embed-preset-basic": "5.0.0-beta.0"

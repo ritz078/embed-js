@@ -40,6 +40,7 @@
     "fs-extra": "^4.0.1",
     "globby": "^6.1.0",
     "husky": "^0.14.3",
+    "isomorphic-unfetch": "^2.0.0",
     "lerna": "^2.0.0",
     "lint-staged": "^4.0.3",
     "nodemon": "^1.11.0",

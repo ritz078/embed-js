@@ -8,7 +8,7 @@ export default function highlight(opts) {
   const defaultOptions = {
     id,
     regex: /(`{3})(\s|[a-z]+)\s*([\s\S]*?[^`])\s*\1(?!`)/gm,
-    prismjs: !isBrowser ? require("prismjs") : window.Prism,
+    prismjs: !isBrowser ? global.Prism : window.Prism,
     template(args, options, { prismjs }) {
       const language = args[2] === "\n" || !args[2] ? "markup" : args[2]
       const code = args[3]

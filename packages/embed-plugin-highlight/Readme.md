@@ -24,13 +24,15 @@ You need [Prism.js ](http://prismjs.com/) to use this plugins. So import the nec
 
 ```js
 import EmbedJS from 'embed-js'
-import { highlight } from 'embed-js/src/plugins'
+import highlight from 'embed-plugin-highlight'
+import prismjs from 'prismjs'
 
 const x = new EmbedJS({
   input: document.getElementById('element'),
   plugins: [
   basicAudio({
     regex: /audiRegex/gi, // in case you want to define a custom regex
+    prismjs: prismjs, // By default it takes window.Prism on client side and global.Prism on server side.
     template(args) {
       // optional template
     },

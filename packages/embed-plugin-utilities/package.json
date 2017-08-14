@@ -17,11 +17,9 @@
   },
   "homepage": "https://github.com/ritz078/embed.js#readme",
   "dependencies": {
-    "fetch-jsonp": "^1.1.1",
     "just-extend": "^1.1.22"
   },
   "devDependencies": {
-    "node-fetch": "^1.7.2",
     "just-truncate": "1.0.1",
     "is-in-browser": "1.1.3"
   }

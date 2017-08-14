@@ -1,10 +1,10 @@
 import extend from "just-extend"
 import base from "embed-plugin-base"
-import { withoutDetailsTemplate, fetch } from "embed-plugin-utilities"
+import { withoutDetailsTemplate } from "embed-plugin-utilities"
 
 const id = "map"
 
-async function _process(args) {
+async function _process(args, { fetch }) {
   const location = args[1]
   const res = await fetch(
     `http://maps.googleapis.com/maps/api/geocode/json?address=${location}&sensor=false`

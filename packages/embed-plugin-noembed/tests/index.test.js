@@ -1,11 +1,13 @@
 import test from "ava"
 import extend from "just-extend"
 import noembed from "../src"
+import fetch from "node-fetch"
 import { isServicePresent } from "../src/noembed-regex"
 
 const options = {
   replaceUrl: false,
   inlineEmbed: true,
+  fetch,
   _embeds: [],
   _services: []
 }

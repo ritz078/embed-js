@@ -1,5 +1,6 @@
 import test from "ava"
 import isPromise from "p-is-promise"
+import fetch from "isomorphic-unfetch"
 import youtube from "../src"
 
 const options = {
@@ -7,6 +8,7 @@ const options = {
     "Nunquam perdere https://www.youtube.com/watch?v=QGZjVCHBXgs https://a.jpg olla https://b.jpg.",
   replaceUrl: false,
   inlineEmbed: true,
+  fetch,
   _embeds: [],
   _services: []
 }

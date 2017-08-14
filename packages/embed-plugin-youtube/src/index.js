@@ -4,8 +4,7 @@ import ytRegex from "youtube-regex"
 import base from "embed-plugin-base"
 import {
   withDetailsTemplate,
-  withoutDetailsTemplate,
-  fetch
+  withoutDetailsTemplate
 } from "embed-plugin-utilities"
 
 const id = "youtube"
@@ -32,7 +31,7 @@ function formatData({ snippet, id }) {
  * @param gAuthKey
  * @returns {Promise.<*>}
  */
-async function fetchDetails(id, gAuthKey) {
+async function fetchDetails(id, fetch, gAuthKey) {
   try {
     const res = await fetch(
       `https://www.googleapis.com/youtube/v3/videos?id=${id}&key=${gAuthKey}&part=snippet,statistics`
@@ -67,8 +66,8 @@ function onLoad({ input }, { clickClass, onVideoShow, height }) {
   }
 }
 
-function _process(args, options, { gAuthKey, details }) {
-  return details ? fetchDetails(args[1], gAuthKey) : Promise.resolve()
+function _process(args, { fetch }, { gAuthKey, details }) {
+  return details ? fetchDetails(args[1], fetch, gAuthKey) : Promise.resolve()
 }
 
 function youtube(opts) {
