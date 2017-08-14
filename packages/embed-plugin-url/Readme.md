@@ -12,6 +12,9 @@ npm i -S embed-js embed-plugin-url
 https://unpkg.com/embed-plugin-url
 
 ## Usage
+
+[![Edit embed.js - url](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/kR3rvmYY6)
+
 Parsing urls into anchor tags.
 ```js
 import EmbedJS from 'embed-js'

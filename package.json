@@ -30,7 +30,7 @@
     "codecov.io": "^0.1.6",
     "cssnano": "^3.10.0",
     "cz-conventional-changelog": "^2.0.0",
-    "eslint": "^4.3.0",
+    "eslint": "^4.4.1",
     "eslint-config-prettier": "^2.3.0",
     "eslint-config-standard": "^10.2.1",
     "eslint-plugin-import": "^2.7.0",
@@ -41,12 +41,12 @@
     "globby": "^6.1.0",
     "husky": "^0.14.3",
     "lerna": "^2.0.0",
-    "lint-staged": "^4.0.2",
+    "lint-staged": "^4.0.3",
     "nodemon": "^1.11.0",
     "nyc": "^11.1.0",
     "p-is-promise": "^1.1.0",
     "prettier-eslint-cli": "^4.1.1",
-    "rollup": "^0.45.2",
+    "rollup": "^0.47.4",
     "rollup-plugin-buble": "^0.15.0",
     "rollup-plugin-commonjs": "^8.1.0",
     "rollup-plugin-json": "^2.3.0",
@@ -57,7 +57,7 @@
     "rollup-plugin-replace": "^1.1.1",
     "rollup-plugin-uglify": "^2.0.1",
     "rollup-watch": "^4.3.1",
-    "sinon": "^3.0.0"
+    "sinon": "^3.2.0"
   },
   "config": {
     "commitizen": {
