@@ -4,7 +4,7 @@ import isBrowser from "is-in-browser"
 import base from "embed-plugin-base"
 import { getQuery, jsonp } from "embed-plugin-utilities"
 
-const name = "twitter"
+const id = "twitter"
 
 /**
  * Fetch the html content from the API
@@ -73,7 +73,7 @@ function renderTweet({ input, _services }, { twttr, onLoad }) {
 
 export default function twitter(opts) {
 	const defaultOptions = {
-		name,
+		id,
 		// Regex that matches the string and sends to the template method.
 		regex: /https:\/\/twitter\.com\/\w+\/\w+\/\d+/gi,
 
@@ -157,4 +157,4 @@ export default function twitter(opts) {
 	return base(pluginOptions)
 }
 
-twitter.id = name
+twitter.id = id

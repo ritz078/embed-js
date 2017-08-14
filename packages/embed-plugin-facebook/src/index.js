@@ -2,11 +2,11 @@ import extend from "just-extend"
 import { withoutDetailsTemplate } from "embed-plugin-utilities"
 import base from "embed-plugin-base"
 
-const name = "facebook"
+const id = "facebook"
 
 export default function facebook(opts) {
 	const defaultOptions = {
-		name,
+		id,
 		regex: /(https?:\/\/)?www\.facebook\.com\/(?:(videos|posts)\.php\?v=\d+|.*?\/(videos|posts)\/\d+\/?)/gi,
 		height: 225,
 		template(args, options, { height }) {
@@ -15,7 +15,7 @@ export default function facebook(opts) {
 			return withoutDetailsTemplate(
 				`https://www.facebook.com/plugins/${type}.php?href=${url}`,
 				height,
-				name
+				id
 			)
 		}
 	}
@@ -24,4 +24,4 @@ export default function facebook(opts) {
 	return base(pluginOptions)
 }
 
-facebook.id = name
+facebook.id = id

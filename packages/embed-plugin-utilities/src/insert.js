@@ -28,9 +28,9 @@ function isAnchorTagApplied({ result, plugins = [] }, { regex }) {
 	return getAnchorRegex(regex).test(result) || plugins.filter(plugin => plugin.id === 'url').length
 }
 
-function saveServiceName({ _services }, { name }, match) {
+function saveServiceName({ _services }, { id }, match) {
 	if (!_services.filter(x => x.match === match).length) {
-		_services.push({ name, match })
+		_services.push({ id, match })
 	}
 }
 

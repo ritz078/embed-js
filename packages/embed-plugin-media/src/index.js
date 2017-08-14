@@ -1,7 +1,7 @@
 import extend from "just-extend"
 import base from "embed-plugin-base"
 
-const name = "media"
+const id = "media"
 
 const image = ["gif", "jpg", "jpeg", "tiff", "png", "svg", "webp"]
 const video = ["ogv", "webm", "mp4"]
@@ -9,7 +9,7 @@ const audio = ["wav", "mp3", "ogg"]
 
 export default function basicImage(opts) {
 	const defaultOptions = {
-		name,
+		id,
 		regex: new RegExp(
 			`(?:https?)://\\S*\\.(?:${image.concat(video, audio).join("|")})`,
 			"gi"
@@ -30,4 +30,4 @@ export default function basicImage(opts) {
 	return base(pluginOptions)
 }
 
-basicImage.id = name
+basicImage.id = id

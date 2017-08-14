@@ -1,11 +1,11 @@
 import extend from "just-extend"
 import base from "embed-plugin-base"
 
-const name = "instagram"
+const id = "instagram"
 
 export default function instagram(opts) {
 	const defaultOptions = {
-		name,
+		id,
 		height: 440,
 		regex: /((https?:\/\/)(www\.)?instagram.com\/p\/[a-zA-Z0-9_\-\=]+)(\/\?[a-zA-Z0-9_\-\=]+)?/gi,
 		template(args, options, { width, height }) {
@@ -17,4 +17,4 @@ export default function instagram(opts) {
 	return base(pluginOptions)
 }
 
-instagram.id = name
+instagram.id = id

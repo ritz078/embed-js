@@ -2,13 +2,13 @@ import extend from "just-extend"
 import emojiRegex from "regex-emoji"
 import kebab from "just-kebab-case"
 
-const name = "emoji"
+const id = "emoji"
 
 // You need emoji.css to run with this plugin. Else you need to pass the
 // template suitable to your needs.
 export default function emoji(opts) {
 	const defaultOptions = {
-		name,
+		id,
 		regex: emojiRegex(),
 		template(emojiName) {
 			return `<span class="ec ec-${kebab(emojiName)}"></span>`
@@ -21,7 +21,7 @@ export default function emoji(opts) {
 			return Promise.resolve(
 				extend({}, options, {
 					result: options.result.replace(pluginOptions.regex, (match, emojiName) => {
-						options._services.push({ name, match })
+						options._services.push({ id, match })
 						return pluginOptions.template(emojiName, options, pluginOptions)
 					})
 				})
@@ -30,4 +30,4 @@ export default function emoji(opts) {
 	}
 }
 
-emoji.id = name
+emoji.id = id

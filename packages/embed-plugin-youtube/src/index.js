@@ -8,7 +8,7 @@ import {
 	unfetch
 } from "embed-plugin-utilities"
 
-const name = "youtube"
+const id = "youtube"
 const baseUrl = "https://www.youtube.com/"
 
 /**
@@ -62,7 +62,7 @@ function onLoad({ input }, { clickClass, onVideoShow, height }) {
 			let url = this.getAttribute("data-url")
 			onVideoShow(url)
 			url += "?autoplay=1"
-			this.parentNode.innerHTML = withoutDetailsTemplate(url, height, name)
+			this.parentNode.innerHTML = withoutDetailsTemplate(url, height, id)
 		}
 	}
 }
@@ -73,7 +73,7 @@ function _process(args, options, { gAuthKey, details }) {
 
 function youtube(opts) {
 	const defaultOptions = {
-		name,
+		id,
 		regex: ytRegex(),
 		gAuthKey: "",
 		details: true,
@@ -88,7 +88,7 @@ function youtube(opts) {
 			const embedUrl = `${baseUrl}embed/${args[1]}`
 			return details
 				? withDetailsTemplate(formatData(data), clickClass)
-				: withoutDetailsTemplate(embedUrl, height, name)
+				: withoutDetailsTemplate(embedUrl, height, id)
 		}
 	}
 
@@ -102,6 +102,6 @@ function youtube(opts) {
 	return base(pluginOptions)
 }
 
-youtube.id = name
+youtube.id = id
 
 export default youtube

@@ -1,7 +1,7 @@
 import extend from "just-extend"
 import linkify from "html-linkify"
 
-const name = "url"
+const id = "url"
 
 export default function url(opts) {
 	const defaultOptions = {
@@ -13,7 +13,7 @@ export default function url(opts) {
 
 	const { attributes, escape } = extend({}, defaultOptions, opts)
 	return {
-		id: name,
+		id,
 		async transform(options) {
 			return extend({}, options, {
 				result: linkify(options.result, { attributes, escape })
@@ -22,4 +22,4 @@ export default function url(opts) {
 	}
 }
 
-url.id = name
+url.id = id

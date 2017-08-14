@@ -2,11 +2,11 @@ import extend from "just-extend"
 import isBrowser from "is-in-browser"
 import base from "embed-plugin-base"
 
-const name = "highlight"
+const id = "highlight"
 
 export default function highlight(opts) {
 	const defaultOptions = {
-		name,
+		id,
 		regex: /(`{3})(\s|[a-z]+)\s*([\s\S]*?[^`])\s*\1(?!`)/gm,
 		prismjs: !isBrowser ? require("prismjs") : window.Prism,
 		template(args, options, { prismjs }) {
@@ -29,4 +29,4 @@ export default function highlight(opts) {
 	return base(pluginOptions)
 }
 
-highlight.id = name
+highlight.id = id

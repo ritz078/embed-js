@@ -2,7 +2,7 @@ import extend from "just-extend"
 import base from "embed-plugin-base"
 import { withoutDetailsTemplate, unfetch } from "embed-plugin-utilities"
 
-const name = "map"
+const id = "map"
 
 async function _process(args) {
 	const location = args[1]
@@ -15,7 +15,7 @@ async function _process(args) {
 
 function map(opts) {
 	const defaultOptions = {
-		name,
+		id,
 		regex: /@\((.+)\)/gi,
 		mode: "place",
 		height: 300,
@@ -34,7 +34,7 @@ function map(opts) {
 				src = `${base}&center=${lat},${lng}&zoom=18&maptype=satellite`
 			}
 
-			return withoutDetailsTemplate(src, height, name)
+			return withoutDetailsTemplate(src, height, id)
 		}
 	}
 

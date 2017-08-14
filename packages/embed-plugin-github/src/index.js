@@ -2,7 +2,7 @@ import extend from "just-extend"
 import base from "embed-plugin-base"
 import { withDetailsTemplate, unfetch } from "embed-plugin-utilities"
 
-const name = "github"
+const id = "github"
 
 async function _process(args) {
 	const [, user, repo] = args
@@ -17,7 +17,7 @@ async function _process(args) {
 
 export default function github(opts) {
 	const defaultOptions = {
-		name,
+		id,
 		regex: /[^\.]github.com\/([\w\.\-]+)\/([\w\.\-]+[^\.])/gi,
 
 		async template(
@@ -41,4 +41,4 @@ export default function github(opts) {
 	return base(pluginOptions)
 }
 
-github.id = name
+github.id = id

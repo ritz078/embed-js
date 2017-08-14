@@ -5,7 +5,7 @@ import getRegex, { isServicePresent } from "./noembed-regex"
 import base from "embed-plugin-base"
 import { unfetch } from "embed-plugin-utilities"
 
-const name = "noEmbed"
+const id = "noEmbed"
 
 /**
  * Fetches the data from the noembed API
@@ -26,7 +26,7 @@ async function _process(args) {
 
 function noEmbed(opts = {}) {
 	const defaultOptions = {
-		name,
+		id,
 		// Regex to be used to identify noembed supported services.
 		// By default it takes from noembed-regex.js
 		regex: null,
@@ -62,6 +62,6 @@ function noEmbed(opts = {}) {
 	return base(pluginOptions)
 }
 
-noEmbed.id = name
+noEmbed.id = id
 
 export default noEmbed
