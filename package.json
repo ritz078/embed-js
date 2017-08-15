@@ -1,6 +1,5 @@
 {
-  "name": "embed",
-  "version": "5.0.0-beta.0",
+  "name": "embed-js",
   "description": "A boilerplate to write plugins in pure JavaScript using ES2015",
   "scripts": {
     "commit": "git cz",
@@ -11,7 +10,7 @@
     "test:report": "cat ./coverage/lcov.info | codecov && rm -rf ./coverage",
     "clean": "rm -rf packages/*/dist packages/*/umd",
     "build": "npm run clean && node ./scripts/build",
-    "lint": "eslint packages/**/*.js",
+    "lint": "eslint 'packages/*/{src, tests}/*.js'",
     "lint:fix": "npm run lint -- --fix",
     "format": "prettier --write --no-semi packages/**/*.js packages/**/*.css scripts/**/*.js",
     "prepublish": "npm run build",
@@ -22,6 +21,7 @@
     "ava": "^0.21.0",
     "babel-cli": "^6.24.1",
     "babel-core": "^6.25.0",
+    "babel-eslint": "^7.2.3",
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-polyfill": "^6.23.0",
     "babel-preset-env": "^1.6.0",

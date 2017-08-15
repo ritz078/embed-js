@@ -1,3 +1,6 @@
 {
-  "extends": ["standard", "prettier"]
+  "extends": ["standard", "prettier"],
+  "rules": {
+	"no-useless-escape": 0
+  }
 }
