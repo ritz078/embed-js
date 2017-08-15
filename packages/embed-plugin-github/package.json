@@ -1,6 +1,6 @@
 {
   "name": "embed-plugin-github",
-  "version": "5.0.0-beta.0",
+  "version": "5.0.0-beta.1",
   "description": "An embed-js plugin to embed GitHub repo description.",
   "main": "dist/index.js",
   "module": "src/index.js",
@@ -22,8 +22,8 @@
   },
   "homepage": "https://github.com/ritz078/embed.js#readme",
   "dependencies": {
-    "just-extend": "^1.1.22",
-    "embed-plugin-base": "5.0.0-beta.0",
-    "embed-plugin-utilities": "5.0.0-beta.0"
+    "embed-plugin-base": "^5.0.0-beta.1",
+    "embed-plugin-utilities": "^5.0.0-beta.1",
+    "just-extend": "^1.1.22"
   }
 }

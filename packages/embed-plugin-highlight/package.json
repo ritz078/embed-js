@@ -1,6 +1,6 @@
 {
   "name": "embed-plugin-highlight",
-  "version": "5.0.0-beta.0",
+  "version": "5.0.0-beta.1",
   "description": "An embed-js plugin to syntax highlight code.",
   "main": "dist/index.js",
   "module": "src/index.js",
@@ -22,9 +22,9 @@
   },
   "homepage": "https://github.com/ritz078/embed.js#readme",
   "dependencies": {
+    "embed-plugin-base": "^5.0.0-beta.1",
+    "is-in-browser": "1.1.3",
     "just-extend": "^1.1.22",
-    "embed-plugin-base": "5.0.0-beta.0",
-    "prismjs": "1.6.0",
-    "is-in-browser": "1.1.3"
+    "prismjs": "1.6.0"
   }
 }
