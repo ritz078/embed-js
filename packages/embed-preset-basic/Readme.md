@@ -23,6 +23,9 @@ https://unpkg.com/embed-preset-basic
 - [embed-plugin-instagram]('../embed-plugin-instagram/)
 
 ## Usage
+
+[![Edit embed.js - demo](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/Wp5OlNMn)
+
 Embeds repository data in the website. Supports repo URLs. Usage is simple.
 
 ```js
