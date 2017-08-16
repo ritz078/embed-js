@@ -1,4 +1,5 @@
 import test from "ava"
+import prismjs from "prismjs"
 import highlight from "../src"
 
 const options = {
@@ -13,7 +14,9 @@ Demolitione, exsul, et homo.
 }
 
 test("Plugin: Highlight - Embed code", async t => {
-  const { result } = await highlight().transform(options)
+  const { result } = await highlight({
+		prismjs
+	}).transform(options)
 
   t.snapshot(result)
 })

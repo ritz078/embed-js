@@ -26,6 +26,11 @@ export default function highlight(opts) {
     _ignoreAnchorCheck: true,
     _ignoreInlineCheck: true
   })
+
+	if (!pluginOptions.prismjs) {
+  	throw new Error('You need to load prismjs as a global variable or pass it in options.')
+	}
+
   return base(pluginOptions)
 }
 

@@ -1,5 +1,6 @@
 import EmbedJS from "../src"
 import test from "ava"
+import prismjs from "prismjs"
 import embedAll from "embed-preset-basic"
 
 const input = `
@@ -16,7 +17,10 @@ test("EmbedJS - should return correct result", async t => {
   const ejs = new EmbedJS({
     input,
     preset: embedAll({
-      gAuthKey: "AIzaSyCqFouT8h5DKAbxlrTZmjXEmNBjC69f0ts"
+      gAuthKey: "AIzaSyCqFouT8h5DKAbxlrTZmjXEmNBjC69f0ts",
+			highlight: {
+				prismjs
+			}
     }),
     fetch: require("isomorphic-unfetch"),
     inlineEmbed: true,

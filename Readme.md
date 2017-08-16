@@ -21,7 +21,7 @@
 [![Edit embed.js - demo](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/Wp5OlNMn)
 
 ## Features
--   **Supported:** supports IE8+ _(assuming `Promise` is polyfilled)
+-   **Supported:** supports IE8+ (assuming `Promise` is polyfilled)
 -   **Plugin Based:** only load what you want.
 -   **Isomorphic**: Can be used both on server and client side.
 -   **Customizable**: So much that creating a custom plugin is also few lines of code.
