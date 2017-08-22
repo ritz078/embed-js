@@ -12,6 +12,9 @@ npm i -S embed-js embed-plugin-github
 https://unpkg.com/embed-plugin-github
 
 ## Usage
+
+[![Edit embed.js - GitHub](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/7jx90or24x)
+
 Embeds repository data in the website. Supports repo URLs. Usage is simple.
 
 ```js
