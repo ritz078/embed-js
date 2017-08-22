@@ -1,6 +1,6 @@
 {
   "name": "embed-plugin-url",
-  "version": "5.0.0-beta.0",
+  "version": "5.0.0",
   "description": "An embed-js plugin to coverts URLs to anchor tags.",
   "main": "dist/index.js",
   "module": "src/index.js",
@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/ritz078/embed.js#readme",
   "dependencies": {
-    "just-extend": "^1.1.22",
-    "html-linkify": "1.2.2"
+    "html-linkify": "1.2.2",
+    "just-extend": "^1.1.22"
   }
 }

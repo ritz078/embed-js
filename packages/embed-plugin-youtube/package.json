@@ -1,6 +1,6 @@
 {
   "name": "embed-plugin-youtube",
-  "version": "5.0.0-beta.1",
+  "version": "5.0.0",
   "description": "An embed-js plugin to embed youtube videos.",
   "main": "dist/index.js",
   "module": "src/index.js",
@@ -22,8 +22,8 @@
   },
   "homepage": "https://github.com/ritz078/embed.js#readme",
   "dependencies": {
-    "embed-plugin-base": "^5.0.0-beta.1",
-    "embed-plugin-utilities": "^5.0.0-beta.1",
+    "embed-plugin-base": "5.0.0",
+    "embed-plugin-utilities": "5.0.0",
     "is-dom": "1.0.9",
     "just-extend": "^1.1.22",
     "youtube-regex": "1.0.5"
