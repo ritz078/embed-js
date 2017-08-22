@@ -13,6 +13,7 @@ https://unpkg.com/embed-plugin-emoji
 
 ## Usage
 [![Edit embed.js - emoji](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/1zzvxym817)
+
 It supports all the emojis supported by [emoji.css](https://github.com/IonicaBizau/emoji.css). If you are using this plugin, you need to load
 ```css
 @import url("https://unpkg.com/emoji.css/dist/emoji.min.css")
