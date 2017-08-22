@@ -9,9 +9,12 @@ npm i -S embed-plugin-base
 
 ### CDN
 
-https://unpkg.com/embed-plugin-base"
+https://unpkg.com/embed-plugin-base
 
 ## Usage
+
+[![Edit embed.js - custom plugin vimeo](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/wm8lgyq1X)
+
 This is just a helper plugin that handles text transformation. You may not always need this.
 
 ```js
