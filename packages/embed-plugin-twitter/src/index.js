@@ -24,7 +24,7 @@ const id = "twitter"
  */
 async function _process(
   args,
-  {fetch},
+  { fetch },
   {
     _omitScript,
     maxWidth,

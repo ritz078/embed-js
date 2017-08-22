@@ -17,7 +17,6 @@
 
 **This is the documentation for v5 that is still in beta. If you are looking for docs of v4 you can get them** [here](https://embedjs.readme.io/docs).
 
-#### [Live Demo](https://codesandbox.io/s/Wp5OlNMn)
 [![Edit embed.js - demo](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/Wp5OlNMn)
 
 ## Features
@@ -45,7 +44,6 @@
 	- [Instagram](./packages/embed-plugin-instagram)
 - [Presets](#presets)
 	- [basic](./packages/embed-preset-basic)
-- [Create a custom plugin](#create-a-custom-plugin)
 
 ## Installation
 

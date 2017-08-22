@@ -3,9 +3,4 @@ import withDetailsTemplate from "./with-details-template"
 import withoutDetailsTemplate from "./without-details-template"
 import getQuery from "./get-query"
 
-export {
-  insert,
-  withDetailsTemplate,
-  withoutDetailsTemplate,
-  getQuery
-}
+export { insert, withDetailsTemplate, withoutDetailsTemplate, getQuery }

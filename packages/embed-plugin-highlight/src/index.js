@@ -27,9 +27,11 @@ export default function highlight(opts) {
     _ignoreInlineCheck: true
   })
 
-	if (!pluginOptions.prismjs) {
-  	throw new Error('You need to load prismjs as a global variable or pass it in options.')
-	}
+  if (!pluginOptions.prismjs) {
+    throw new Error(
+      "You need to load prismjs as a global variable or pass it in options."
+    )
+  }
 
   return base(pluginOptions)
 }

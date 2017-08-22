@@ -15,8 +15,8 @@ Demolitione, exsul, et homo.
 
 test("Plugin: Highlight - Embed code", async t => {
   const { result } = await highlight({
-		prismjs
-	}).transform(options)
+    prismjs
+  }).transform(options)
 
   t.snapshot(result)
 })

@@ -18,9 +18,9 @@ test("EmbedJS - should return correct result", async t => {
     input,
     preset: embedAll({
       gAuthKey: "AIzaSyCqFouT8h5DKAbxlrTZmjXEmNBjC69f0ts",
-			highlight: {
-				prismjs
-			}
+      highlight: {
+        prismjs
+      }
     }),
     fetch: require("isomorphic-unfetch"),
     inlineEmbed: true,
