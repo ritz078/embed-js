@@ -12,6 +12,8 @@ npm i -S embed-js embed-plugin-youtube
 https://unpkg.com/embed-plugin-youtube
 
 ## Usage
+[![Edit embed.js - youtube](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/38xmnwpw8m)
+
 This embeds youtube videos in the page. This plugin supports two mode controlled by the option `details`. 
 - [Example with Details](https://codepen.io/ritz078/pen/JyyPjq)
 - [Example without Details](https://codepen.io/ritz078/pen/qXXWde)
