@@ -12,6 +12,9 @@ npm i -S embed-js embed-plugin-highlight
 https://unpkg.com/embed-plugin-highlight
 
 ## Usage
+
+[![Edit embed.js - highlight](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/7jx90or24x)
+
 You need [Prism.js ](http://prismjs.com/) to use this plugins. So import the necessary libraries to support it.
 ```html
 <!-- import the theme of your choice -->
