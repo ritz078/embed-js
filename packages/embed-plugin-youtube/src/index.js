@@ -86,7 +86,7 @@ function youtube(opts) {
     async template(args, options, { details, height, clickClass }, data) {
       const embedUrl = `${baseUrl}embed/${args[1]}`
       return details
-        ? withDetailsTemplate(formatData(data), clickClass)
+        ? withDetailsTemplate(formatData(data), clickClass, true)
         : withoutDetailsTemplate(embedUrl, height, id)
     }
   }
