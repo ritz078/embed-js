@@ -1,6 +1,6 @@
 {
   "name": "embed-js",
-  "version": "5.0.1",
+  "version": "5.0.2",
   "description": "The base plugin that can be used to create custom plugins.",
   "main": "dist/index.js",
   "module": "src/index.js",
@@ -23,6 +23,6 @@
     "p-waterfall": "^1.0.0"
   },
   "devDependencies": {
-    "embed-preset-basic": "^5.0.1"
+    "embed-preset-basic": "^5.0.2"
   }
 }

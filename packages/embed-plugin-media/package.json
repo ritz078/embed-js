@@ -1,6 +1,6 @@
 {
   "name": "embed-plugin-media",
-  "version": "5.0.1",
+  "version": "5.0.2",
   "description": "An embed-js plugin to embed audio, video or images.",
   "main": "dist/index.js",
   "module": "src/index.js",
@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/ritz078/embed.js#readme",
   "dependencies": {
-    "embed-plugin-base": "^5.0.1",
+    "embed-plugin-base": "^5.0.2",
     "just-extend": "^1.1.22"
   }
 }

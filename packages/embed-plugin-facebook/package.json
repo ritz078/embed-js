@@ -1,6 +1,6 @@
 {
   "name": "embed-plugin-facebook",
-  "version": "5.0.1",
+  "version": "5.0.2",
   "description": "An embed-js plugin to embed facebook posts and videos.",
   "main": "dist/index.js",
   "module": "src/index.js",
@@ -22,8 +22,8 @@
   },
   "homepage": "https://github.com/ritz078/embed.js#readme",
   "dependencies": {
-    "embed-plugin-base": "^5.0.1",
-    "embed-plugin-utilities": "^5.0.1",
+    "embed-plugin-base": "^5.0.2",
+    "embed-plugin-utilities": "^5.0.2",
     "just-extend": "^1.1.22",
     "just-kebab-case": "^1.0.0",
     "regex-emoji": "^2.0.5"
