@@ -44,7 +44,7 @@ export default class EmbedJS {
       fetch: isBrowser && (window.fetch || window.unfetch),
 
       inlineEmbed: true,
-      replaceText: false,
+      replaceUrl: false,
       _embeds: [],
       _services: []
     }
