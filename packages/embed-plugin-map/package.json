@@ -1,6 +1,6 @@
 {
   "name": "embed-plugin-map",
-  "version": "5.0.0",
+  "version": "5.0.1",
   "description": "An embed-js plugin to embed google maps.",
   "main": "dist/index.js",
   "module": "src/index.js",
@@ -22,8 +22,8 @@
   },
   "homepage": "https://github.com/ritz078/embed.js#readme",
   "dependencies": {
-    "embed-plugin-base": "5.0.0",
-    "embed-plugin-utilities": "5.0.0",
+    "embed-plugin-base": "^5.0.1",
+    "embed-plugin-utilities": "^5.0.1",
     "just-extend": "^1.1.22"
   }
 }
