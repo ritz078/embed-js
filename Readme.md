@@ -15,7 +15,7 @@
 
 > A lightweight JavaScript plugin to embed emojis, media, maps, tweets, code and services.
 
-**This is the documentation for v5 that is still in beta. If you are looking for docs of v4 you can get them** [here](https://embedjs.readme.io/docs).
+**This is the documentation for v5. If you are looking for docs of v4 you can get them** [here](https://embedjs.readme.io/docs).
 
 [![Edit embed.js - demo](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/Wp5OlNMn)
 
