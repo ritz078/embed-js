@@ -26,7 +26,7 @@
     "embed-plugin-utilities": "^5.0.2",
     "is-dom": "1.0.9",
     "is-in-browser": "1.1.3",
-    "just-extend": "^1.1.22",
+    "just-extend": "1.1.27",
     "just-flatten-it": "1.1.23",
     "just-pluck-it": "1.1.21"
   }

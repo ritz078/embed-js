@@ -1,7 +1,7 @@
 import EmbedJS from "../src"
 import test from "ava"
 import prismjs from "prismjs"
-import embedAll from "embed-preset-basic"
+import basic from "embed-preset-basic"
 
 const input = `
 Sunt eraes Cum habitio messis, omnes rectores resuscitabo brevis, bassus gabaliumes.Altus cliniass ducunt ad extum.Sunt habitioes imperium brevis, https://github.com/ritz078/embed.js bassus elogiumes.Pol, a bene fides.Calceus varius lacta est.Nunquam prensionem detrius.Verpa raptus abactus est.Eleates crederes, tanquam rusticus fuga.Cur classis cantare?Bassus musa rare attrahendams bursa est.Pol, mirabilis gallus!Accelerare sensim ducunt ad raptus onus.Bubos peregrinatione! imitari :smile: dexter, https://soundcloud.com/traphousemusic1/despacito-luis-fonsi-daddy-yankee fatalis parses.Mineraliss sunt parss de pius finis.Hippotoxotas ire in quadrata!Ionicis tormentos congregabo in copinga!Fluctuis peregrinatione!Navis, pulchritudine, et devatio.Calceuss cadunt in dexter gandavum!Amor, solitudo, et
@@ -16,7 +16,7 @@ Sunt eraes Cum habitio messis, omnes rectores resuscitabo brevis, bassus gabaliu
 test("EmbedJS - should return correct result", async t => {
   const ejs = new EmbedJS({
     input,
-    preset: embedAll({
+    preset: basic({
       gAuthKey: "AIzaSyCqFouT8h5DKAbxlrTZmjXEmNBjC69f0ts",
       highlight: {
         prismjs

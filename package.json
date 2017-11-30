@@ -91,5 +91,6 @@
   },
   "bugs": {
     "url": "https://github.com/ritz078/embed.js/issues"
-  }
+  },
+  "dependencies": {}
 }

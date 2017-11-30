@@ -18,6 +18,6 @@
   "homepage": "https://github.com/ritz078/embed.js#readme",
   "dependencies": {
     "embed-plugin-utilities": "^5.0.2",
-    "just-extend": "^1.1.22"
+    "just-extend": "1.1.27"
   }
 }
