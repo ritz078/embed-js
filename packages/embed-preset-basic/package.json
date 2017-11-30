@@ -1,6 +1,6 @@
 {
   "name": "embed-preset-basic",
-  "version": "5.0.2",
+  "version": "5.0.3-0",
   "description": "A preset containing collection of plugins.",
   "main": "dist/index.js",
   "module": "src/index.js",
@@ -25,17 +25,17 @@
   },
   "homepage": "https://github.com/ritz078/embed.js#readme",
   "dependencies": {
-    "embed-plugin-emoji": "^5.0.2",
-    "embed-plugin-facebook": "^5.0.2",
-    "embed-plugin-github": "^5.0.2",
-    "embed-plugin-highlight": "^5.0.2",
-    "embed-plugin-instagram": "^5.0.2",
-    "embed-plugin-map": "^5.0.2",
-    "embed-plugin-media": "^5.0.2",
-    "embed-plugin-noembed": "^5.0.2",
-    "embed-plugin-twitter": "^5.0.2",
-    "embed-plugin-url": "^5.0.2",
-    "embed-plugin-youtube": "^5.0.2",
+    "embed-plugin-emoji": "^5.0.3-0",
+    "embed-plugin-facebook": "^5.0.3-0",
+    "embed-plugin-github": "^5.0.3-0",
+    "embed-plugin-highlight": "^5.0.3-0",
+    "embed-plugin-instagram": "^5.0.3-0",
+    "embed-plugin-map": "^5.0.3-0",
+    "embed-plugin-media": "^5.0.3-0",
+    "embed-plugin-noembed": "^5.0.3-0",
+    "embed-plugin-twitter": "^5.0.3-0",
+    "embed-plugin-url": "^5.0.3-0",
+    "embed-plugin-youtube": "^5.0.3-0",
     "just-extend": "1.1.27"
   }
 }
