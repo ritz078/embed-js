@@ -1,6 +1,6 @@
 {
   "name": "embed-plugin-emoji",
-  "version": "5.0.2",
+  "version": "5.0.3-0",
   "description": "An embed-js plugin to embed emojis supported by emoji.css.",
   "main": "dist/index.js",
   "module": "src/index.js",
@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/ritz078/embed.js#readme",
   "dependencies": {
-    "just-extend": "^1.1.22",
+    "just-extend": "1.1.27",
     "just-kebab-case": "^1.0.0",
     "regex-emoji": "^2.0.5"
   }

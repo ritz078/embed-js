@@ -57,14 +57,14 @@ function buildCjs(file) {
 
   rollup
     .rollup({
-      entry: file,
+      input: file,
       external: Object.keys(dependencies),
       plugins: [nodeResolve(), json(), commonjs(), nodent(nodentConfig)]
     })
     .then(bundle => {
       bundle.write({
         format: "cjs",
-        dest: destPath
+        file: destPath
       })
 
       return bundle.generate({
@@ -79,7 +79,7 @@ function buildUmd(file) {
 
   rollup
     .rollup({
-      entry: file,
+      input: file,
       plugins: [
         nodeResolve(),
         json(),
@@ -91,9 +91,9 @@ function buildUmd(file) {
     .then(bundle =>
       bundle.write({
         format: "umd",
-        moduleName: camelCase(pkgName),
-        dest: path.resolve(destPath, "../", `${pkgName}.js`),
-        sourceMap: true
+        name: camelCase(pkgName),
+        file: path.resolve(destPath, "../", `${pkgName}.js`),
+        sourcemap: true
       })
     )
 }
@@ -104,7 +104,7 @@ function buildUmdMin(file, silent) {
 
   rollup
     .rollup({
-      entry: file,
+      input: file,
       plugins: [
         nodeResolve(),
         json(),
@@ -117,9 +117,9 @@ function buildUmdMin(file, silent) {
     .then(bundle =>
       bundle.write({
         format: "umd",
-        moduleName: camelCase(pkgName),
-        dest: path.resolve(destPath, "../", `${pkgName}.min.js`),
-        sourceMap: true
+        name: camelCase(pkgName),
+        file: path.resolve(destPath, "../", `${pkgName}.min.js`),
+        sourcemap: true
       })
     )
 }

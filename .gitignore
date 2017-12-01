@@ -11,3 +11,4 @@ stats.html
 **/umd
 **/.DS_Store
 lerna-debug.log
+**/package-lock.json
