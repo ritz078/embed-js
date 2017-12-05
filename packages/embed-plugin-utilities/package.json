@@ -1,6 +1,6 @@
 {
   "name": "embed-plugin-utilities",
-  "version": "5.0.3-0",
+  "version": "5.0.3",
   "description": "Utility functions to create embed-js plugins.",
   "main": "dist/index.js",
   "module": "src/index.js",

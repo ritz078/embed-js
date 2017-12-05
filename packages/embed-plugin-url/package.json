@@ -1,6 +1,6 @@
 {
   "name": "embed-plugin-url",
-  "version": "5.0.3-0",
+  "version": "5.0.3",
   "description": "An embed-js plugin to coverts URLs to anchor tags.",
   "main": "dist/index.js",
   "module": "src/index.js",
