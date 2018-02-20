@@ -22,9 +22,9 @@ test("Plugin: url - should convert URL into anchor", async t => {
 
 test("Plugin: url - should include attributes in URL", async t => {
   const { result } = await url({
-    attributes: {
-      target: "_blank"
-    }
+		attributes: {
+			rel: 'nofollow'
+		}
   }).transform({
     result: "hello https://world.com"
   })
