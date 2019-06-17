@@ -36,6 +36,6 @@
     "embed-plugin-twitter": "^5.0.3",
     "embed-plugin-url": "^5.0.3",
     "embed-plugin-youtube": "^5.0.3",
-    "just-extend": "1.1.27"
+    "just-extend": "4.0.2"
   }
 }

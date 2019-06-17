@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/ritz078/embed.js#readme",
   "dependencies": {
-    "just-extend": "1.1.27",
+    "just-extend": "4.0.2",
     "just-kebab-case": "^1.0.0",
     "regex-emoji": "^2.0.5"
   }

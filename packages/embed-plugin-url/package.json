@@ -23,6 +23,6 @@
   "homepage": "https://github.com/ritz078/embed.js#readme",
   "dependencies": {
     "html-linkify": "1.2.2",
-    "just-extend": "1.1.27"
+    "just-extend": "4.0.2"
   }
 }

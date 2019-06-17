@@ -24,7 +24,7 @@
   "dependencies": {
     "embed-plugin-base": "^5.0.3",
     "embed-plugin-utilities": "^5.0.3",
-    "just-extend": "1.1.27",
+    "just-extend": "4.0.2",
     "just-kebab-case": "^1.0.0",
     "regex-emoji": "^2.0.5"
   }
